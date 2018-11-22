@@ -45,15 +45,15 @@ func New(v *viper.Viper) error {
 		}
 
 		exercise := &models.Exercise{}
-		db.First(exercise, id)
+		db.Where("id = ?", id).First(exercise)
 
 		if exercise.Type == "weighted" {
 			weightedExercise := &models.WeightedExercise{}
-			db.First(weightedExercise, exercise.WeightedExerciseID)
+			db.Where("id = ?", exercise.WeightedExerciseID).First(weightedExercise)
 			exercise.WeightedExercise = weightedExercise
 		} else if exercise.Type == "distance" {
 			distanceExercise := &models.DistanceExercise{}
-			db.First(distanceExercise, exercise.DistanceExerciseID)
+			db.Where("id = ?", exercise.DistanceExerciseID).First(distanceExercise)
 			exercise.DistanceExercise = distanceExercise
 		} else {
 			return c.JSON(http.StatusNotFound, newErrorMessage("request resource not found"))
