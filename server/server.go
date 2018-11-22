@@ -68,11 +68,6 @@ func New(v *viper.Viper) error {
 		exercise.Type = res.Type
 		exercise.Name = res.Captures["Exercise"]
 
-		s := models.NewExerciseStore(db)
-		if _, err := s.Save(exercise); err != nil {
-			e.Logger.Error(err)
-		}
-
 		if res.Type == "weighted" {
 			sets, err := strconv.Atoi(res.Captures["Sets"])
 			if err != nil {
@@ -85,18 +80,11 @@ func New(v *viper.Viper) error {
 			}
 
 			weightedExercise := &models.WeightedExercise{
-				Sets:     sets,
-				Reps:     reps,
-				Exercise: *exercise,
+				Sets: sets,
+				Reps: reps,
 			}
 
-			s := models.NewWeightedExerciseStore(db)
-
-			if err := s.Insert(weightedExercise); err != nil {
-				return c.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-			}
-
-			return c.JSON(http.StatusOK, weightedExercise)
+			exercise.WeightedExercise = weightedExercise
 		} else if res.Type == "distance" {
 			time := res.Captures["Time"]
 			units := res.Captures["Units"]
@@ -110,16 +98,18 @@ func New(v *viper.Viper) error {
 				Time:     time,
 				Distance: float32(distance),
 				Units:    units,
-				Exercise: *exercise,
 			}
 
-			s := models.NewDistanceExerciseStore(db)
-			if err := s.Insert(distanceExercise); err != nil {
-				return c.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-			}
+			exercise.DistanceExercise = distanceExercise
 		}
 
-		return c.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		s := models.NewExerciseStore(db)
+		if err := s.Insert(exercise); err != nil {
+			e.Logger.Error(err)
+			return c.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+
+		return c.JSON(http.StatusOK, exercise)
 	})
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port"))))
