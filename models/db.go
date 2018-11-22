@@ -1,28 +1,35 @@
 package models
 
 import (
-	"database/sql"
 	"fmt"
 
+	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
 )
 
 // NewDatabase creates a new sql.DB instance
-func NewDatabase(v *viper.Viper) (*sql.DB, error) {
+func NewDatabase(v *viper.Viper) (*gorm.DB, error) {
 	host := v.GetString("psql.host")
 	port := v.GetString("psql.port")
-	sslmode := v.GetString("psql.sslmode")
 	user := v.GetString("psql.user")
 	password := v.GetString("psql.password")
 	database := v.GetString("psql.database")
+	sslmode := v.GetString("psql.sslmode")
 
-	return sql.Open("postgres", fmt.Sprintf(
-		"postgres://%s:%s?sslmode=%s&dbname=%s&user=%s&password=%s",
+	return gorm.Open("postgres", fmt.Sprintf(
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		host,
 		port,
-		sslmode,
-		database,
 		user,
 		password,
+		database,
+		sslmode,
 	))
+}
+
+// Migrate will auto migrate
+func Migrate(db *gorm.DB) {
+	db.AutoMigrate(&Exercise{})
+	db.AutoMigrate(&WeightedExercise{})
+	db.AutoMigrate(&DistanceExercise{})
 }

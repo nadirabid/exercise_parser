@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"gopkg.in/src-d/go-kallax.v1"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 
 	"github.com/spf13/viper"
 
@@ -16,12 +16,14 @@ import (
 
 // New returns Echo server
 func New(v *viper.Viper) error {
-	// init databaste
+	// init database
 
 	db, err := models.NewDatabase(v)
 	if err != nil {
 		return err
 	}
+
+	models.Migrate(db)
 
 	// init server
 
@@ -39,16 +41,8 @@ func New(v *viper.Viper) error {
 			return c.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 		}
 
-		s := models.NewExerciseStore(db)
-		q := models.
-			NewExerciseQuery().
-			WithWeightedExercise().
-			Where(kallax.Eq(models.Schema.Exercise.ID, id))
-
-		exercise, err := s.FindOne(q)
-		if err != nil {
-			return c.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
-		}
+		exercise := &models.Exercise{}
+		db.First(exercise, id)
 
 		return c.JSON(http.StatusOK, exercise)
 	})
@@ -85,6 +79,9 @@ func New(v *viper.Viper) error {
 			}
 
 			exercise.WeightedExercise = weightedExercise
+
+			db.Create(exercise)
+			db.Create(exercise.WeightedExercise)
 		} else if res.Type == "distance" {
 			time := res.Captures["Time"]
 			units := res.Captures["Units"]
@@ -101,12 +98,9 @@ func New(v *viper.Viper) error {
 			}
 
 			exercise.DistanceExercise = distanceExercise
-		}
 
-		s := models.NewExerciseStore(db)
-		if err := s.Insert(exercise); err != nil {
-			e.Logger.Error(err)
-			return c.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+			db.Create(exercise)
+			db.Create(exercise.DistanceExercise)
 		}
 
 		return c.JSON(http.StatusOK, exercise)
