@@ -1,9 +1,15 @@
 package server
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 )
+
+type Result struct {
+	Type     string
+	Captures map[string]string
+}
 
 type parsedExercise struct {
 	Raw      string
@@ -53,7 +59,7 @@ func distanceExerciseExpressions() []string {
 	return expressions
 }
 
-func resolve(exercise string, regexpSet []string) *parsedExercise {
+func resolveExpressions(exercise string, regexpSet []string) *parsedExercise {
 	exercise = strings.Trim(strings.ToLower(exercise), " ") // basic sanitization
 
 	// TODO: reduce raw string to lemma
@@ -94,4 +100,30 @@ func resolve(exercise string, regexpSet []string) *parsedExercise {
 	return &parsedExercise{
 		Raw: exercise,
 	}
+}
+
+// Resolve returns the captures
+func Resolve(exercise string) (*Result, error) {
+	weightedExercise := resolveExpressions(exercise, weightedExerciseExpressions())
+	distanceExercise := resolveExpressions(exercise, distanceExerciseExpressions())
+
+	if weightedExercise.Captures != nil && distanceExercise.Captures != nil {
+		return nil, fmt.Errorf(
+			"multiple matches: %v, %v",
+			weightedExercise,
+			distanceExercise,
+		)
+	} else if weightedExercise.Captures != nil {
+		return &Result{
+			Type:     "weighted",
+			Captures: weightedExercise.Captures,
+		}, nil
+	} else if distanceExercise.Captures != nil {
+		return &Result{
+			Type:     "distance",
+			Captures: distanceExercise.Captures,
+		}, nil
+	}
+
+	return nil, fmt.Errorf("no match found")
 }

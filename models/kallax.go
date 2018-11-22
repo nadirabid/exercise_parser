@@ -32,14 +32,14 @@ func (r *DistanceExercise) ColumnAddress(col string) (interface{}, error) {
 	switch col {
 	case "id":
 		return (*kallax.NumericID)(&r.ID), nil
-	case "exercise":
-		return &r.Exercise, nil
 	case "time":
 		return &r.Time, nil
 	case "distance":
 		return &r.Distance, nil
 	case "units":
 		return &r.Units, nil
+	case "exercise_id":
+		return types.Nullable(kallax.VirtualColumn("exercise_id", r, new(kallax.NumericID))), nil
 
 	default:
 		return nil, fmt.Errorf("kallax: invalid column in DistanceExercise: %s", col)
@@ -51,14 +51,18 @@ func (r *DistanceExercise) Value(col string) (interface{}, error) {
 	switch col {
 	case "id":
 		return r.ID, nil
-	case "exercise":
-		return r.Exercise, nil
 	case "time":
 		return r.Time, nil
 	case "distance":
 		return r.Distance, nil
 	case "units":
 		return r.Units, nil
+	case "exercise_id":
+		v := r.Model.VirtualColumn(col)
+		if v == nil {
+			return nil, kallax.ErrEmptyVirtualColumn
+		}
+		return v, nil
 
 	default:
 		return nil, fmt.Errorf("kallax: invalid column in DistanceExercise: %s", col)
@@ -68,12 +72,27 @@ func (r *DistanceExercise) Value(col string) (interface{}, error) {
 // NewRelationshipRecord returns a new record for the relatiobship in the given
 // field.
 func (r *DistanceExercise) NewRelationshipRecord(field string) (kallax.Record, error) {
-	return nil, fmt.Errorf("kallax: model DistanceExercise has no relationships")
+	switch field {
+	case "Exercise":
+		return new(Exercise), nil
+
+	}
+	return nil, fmt.Errorf("kallax: model DistanceExercise has no relationship %s", field)
 }
 
 // SetRelationship sets the given relationship in the given field.
 func (r *DistanceExercise) SetRelationship(field string, rel interface{}) error {
-	return fmt.Errorf("kallax: model DistanceExercise has no relationships")
+	switch field {
+	case "Exercise":
+		val, ok := rel.(*Exercise)
+		if !ok {
+			return fmt.Errorf("kallax: record of type %t can't be assigned to relationship Exercise", rel)
+		}
+		r.Exercise = *val
+		return nil
+
+	}
+	return fmt.Errorf("kallax: model DistanceExercise has no relationship %s", field)
 }
 
 // DistanceExerciseStore is the entity to access the records of the type DistanceExercise
@@ -115,11 +134,43 @@ func (s *DistanceExerciseStore) DisableCacher() *DistanceExerciseStore {
 	return &DistanceExerciseStore{s.Store.DisableCacher()}
 }
 
+func (s *DistanceExerciseStore) inverseRecords(record *DistanceExercise) []modelSaveFunc {
+	var result []modelSaveFunc
+
+	if !record.Exercise.GetID().IsEmpty() && !record.Exercise.IsSaving() {
+		record.AddVirtualColumn("exercise_id", record.Exercise.GetID())
+		result = append(result, func(store *kallax.Store) error {
+			_, err := (&ExerciseStore{store}).Save(&record.Exercise)
+			return err
+		})
+	}
+
+	return result
+}
+
 // Insert inserts a DistanceExercise in the database. A non-persisted object is
 // required for this operation.
 func (s *DistanceExerciseStore) Insert(record *DistanceExercise) error {
 	record.SetSaving(true)
 	defer record.SetSaving(false)
+
+	inverseRecords := s.inverseRecords(record)
+
+	if len(inverseRecords) > 0 {
+		return s.Store.Transaction(func(s *kallax.Store) error {
+			for _, r := range inverseRecords {
+				if err := r(s); err != nil {
+					return err
+				}
+			}
+
+			if err := s.Insert(Schema.DistanceExercise.BaseSchema, record); err != nil {
+				return err
+			}
+
+			return nil
+		})
+	}
 
 	return s.Store.Insert(Schema.DistanceExercise.BaseSchema, record)
 }
@@ -133,6 +184,30 @@ func (s *DistanceExerciseStore) Insert(record *DistanceExercise) error {
 func (s *DistanceExerciseStore) Update(record *DistanceExercise, cols ...kallax.SchemaField) (updated int64, err error) {
 	record.SetSaving(true)
 	defer record.SetSaving(false)
+
+	inverseRecords := s.inverseRecords(record)
+
+	if len(inverseRecords) > 0 {
+		err = s.Store.Transaction(func(s *kallax.Store) error {
+			for _, r := range inverseRecords {
+				if err := r(s); err != nil {
+					return err
+				}
+			}
+
+			updated, err = s.Update(Schema.DistanceExercise.BaseSchema, record, cols...)
+			if err != nil {
+				return err
+			}
+
+			return nil
+		})
+		if err != nil {
+			return 0, err
+		}
+
+		return updated, nil
+	}
 
 	return s.Store.Update(Schema.DistanceExercise.BaseSchema, record, cols...)
 }
@@ -319,6 +394,11 @@ func (q *DistanceExerciseQuery) Where(cond kallax.Condition) *DistanceExerciseQu
 	return q
 }
 
+func (q *DistanceExerciseQuery) WithExercise() *DistanceExerciseQuery {
+	q.AddRelation(Schema.Exercise.BaseSchema, "Exercise", kallax.OneToOne, nil)
+	return q
+}
+
 // FindByID adds a new filter to the query that will require that
 // the ID property is equal to one of the passed values; if no passed values,
 // it will do nothing.
@@ -331,12 +411,6 @@ func (q *DistanceExerciseQuery) FindByID(v ...int64) *DistanceExerciseQuery {
 		values[i] = val
 	}
 	return q.Where(kallax.In(Schema.DistanceExercise.ID, values...))
-}
-
-// FindByExercise adds a new filter to the query that will require that
-// the Exercise property is equal to the passed value.
-func (q *DistanceExerciseQuery) FindByExercise(v string) *DistanceExerciseQuery {
-	return q.Where(kallax.Eq(Schema.DistanceExercise.Exercise, v))
 }
 
 // FindByTime adds a new filter to the query that will require that
@@ -353,8 +427,14 @@ func (q *DistanceExerciseQuery) FindByDistance(cond kallax.ScalarCond, v float32
 
 // FindByUnits adds a new filter to the query that will require that
 // the Units property is equal to the passed value.
-func (q *DistanceExerciseQuery) FindByUnits(cond kallax.ScalarCond, v float32) *DistanceExerciseQuery {
-	return q.Where(cond(Schema.DistanceExercise.Units, v))
+func (q *DistanceExerciseQuery) FindByUnits(v string) *DistanceExerciseQuery {
+	return q.Where(kallax.Eq(Schema.DistanceExercise.Units, v))
+}
+
+// FindByExercise adds a new filter to the query that will require that
+// the foreign key of Exercise is equal to the passed value.
+func (q *DistanceExerciseQuery) FindByExercise(v int64) *DistanceExerciseQuery {
+	return q.Where(kallax.Eq(Schema.DistanceExercise.ExerciseFK, v))
 }
 
 // DistanceExerciseResultSet is the set of results returned by a query to the
@@ -482,6 +562,10 @@ func (r *Exercise) ColumnAddress(col string) (interface{}, error) {
 		return (*kallax.NumericID)(&r.ID), nil
 	case "raw":
 		return &r.Raw, nil
+	case "type":
+		return &r.Type, nil
+	case "name":
+		return &r.Name, nil
 
 	default:
 		return nil, fmt.Errorf("kallax: invalid column in Exercise: %s", col)
@@ -495,6 +579,10 @@ func (r *Exercise) Value(col string) (interface{}, error) {
 		return r.ID, nil
 	case "raw":
 		return r.Raw, nil
+	case "type":
+		return r.Type, nil
+	case "name":
+		return r.Name, nil
 
 	default:
 		return nil, fmt.Errorf("kallax: invalid column in Exercise: %s", col)
@@ -775,6 +863,18 @@ func (q *ExerciseQuery) FindByRaw(v string) *ExerciseQuery {
 	return q.Where(kallax.Eq(Schema.Exercise.Raw, v))
 }
 
+// FindByType adds a new filter to the query that will require that
+// the Type property is equal to the passed value.
+func (q *ExerciseQuery) FindByType(v string) *ExerciseQuery {
+	return q.Where(kallax.Eq(Schema.Exercise.Type, v))
+}
+
+// FindByName adds a new filter to the query that will require that
+// the Name property is equal to the passed value.
+func (q *ExerciseQuery) FindByName(v string) *ExerciseQuery {
+	return q.Where(kallax.Eq(Schema.Exercise.Name, v))
+}
+
 // ExerciseResultSet is the set of results returned by a query to the
 // database.
 type ExerciseResultSet struct {
@@ -898,12 +998,12 @@ func (r *WeightedExercise) ColumnAddress(col string) (interface{}, error) {
 	switch col {
 	case "id":
 		return (*kallax.NumericID)(&r.ID), nil
-	case "exercise":
-		return &r.Exercise, nil
 	case "sets":
 		return &r.Sets, nil
 	case "reps":
 		return &r.Reps, nil
+	case "exercise_id":
+		return types.Nullable(kallax.VirtualColumn("exercise_id", r, new(kallax.NumericID))), nil
 
 	default:
 		return nil, fmt.Errorf("kallax: invalid column in WeightedExercise: %s", col)
@@ -915,12 +1015,16 @@ func (r *WeightedExercise) Value(col string) (interface{}, error) {
 	switch col {
 	case "id":
 		return r.ID, nil
-	case "exercise":
-		return r.Exercise, nil
 	case "sets":
 		return r.Sets, nil
 	case "reps":
 		return r.Reps, nil
+	case "exercise_id":
+		v := r.Model.VirtualColumn(col)
+		if v == nil {
+			return nil, kallax.ErrEmptyVirtualColumn
+		}
+		return v, nil
 
 	default:
 		return nil, fmt.Errorf("kallax: invalid column in WeightedExercise: %s", col)
@@ -930,12 +1034,27 @@ func (r *WeightedExercise) Value(col string) (interface{}, error) {
 // NewRelationshipRecord returns a new record for the relatiobship in the given
 // field.
 func (r *WeightedExercise) NewRelationshipRecord(field string) (kallax.Record, error) {
-	return nil, fmt.Errorf("kallax: model WeightedExercise has no relationships")
+	switch field {
+	case "Exercise":
+		return new(Exercise), nil
+
+	}
+	return nil, fmt.Errorf("kallax: model WeightedExercise has no relationship %s", field)
 }
 
 // SetRelationship sets the given relationship in the given field.
 func (r *WeightedExercise) SetRelationship(field string, rel interface{}) error {
-	return fmt.Errorf("kallax: model WeightedExercise has no relationships")
+	switch field {
+	case "Exercise":
+		val, ok := rel.(*Exercise)
+		if !ok {
+			return fmt.Errorf("kallax: record of type %t can't be assigned to relationship Exercise", rel)
+		}
+		r.Exercise = *val
+		return nil
+
+	}
+	return fmt.Errorf("kallax: model WeightedExercise has no relationship %s", field)
 }
 
 // WeightedExerciseStore is the entity to access the records of the type WeightedExercise
@@ -977,11 +1096,43 @@ func (s *WeightedExerciseStore) DisableCacher() *WeightedExerciseStore {
 	return &WeightedExerciseStore{s.Store.DisableCacher()}
 }
 
+func (s *WeightedExerciseStore) inverseRecords(record *WeightedExercise) []modelSaveFunc {
+	var result []modelSaveFunc
+
+	if !record.Exercise.GetID().IsEmpty() && !record.Exercise.IsSaving() {
+		record.AddVirtualColumn("exercise_id", record.Exercise.GetID())
+		result = append(result, func(store *kallax.Store) error {
+			_, err := (&ExerciseStore{store}).Save(&record.Exercise)
+			return err
+		})
+	}
+
+	return result
+}
+
 // Insert inserts a WeightedExercise in the database. A non-persisted object is
 // required for this operation.
 func (s *WeightedExerciseStore) Insert(record *WeightedExercise) error {
 	record.SetSaving(true)
 	defer record.SetSaving(false)
+
+	inverseRecords := s.inverseRecords(record)
+
+	if len(inverseRecords) > 0 {
+		return s.Store.Transaction(func(s *kallax.Store) error {
+			for _, r := range inverseRecords {
+				if err := r(s); err != nil {
+					return err
+				}
+			}
+
+			if err := s.Insert(Schema.WeightedExercise.BaseSchema, record); err != nil {
+				return err
+			}
+
+			return nil
+		})
+	}
 
 	return s.Store.Insert(Schema.WeightedExercise.BaseSchema, record)
 }
@@ -995,6 +1146,30 @@ func (s *WeightedExerciseStore) Insert(record *WeightedExercise) error {
 func (s *WeightedExerciseStore) Update(record *WeightedExercise, cols ...kallax.SchemaField) (updated int64, err error) {
 	record.SetSaving(true)
 	defer record.SetSaving(false)
+
+	inverseRecords := s.inverseRecords(record)
+
+	if len(inverseRecords) > 0 {
+		err = s.Store.Transaction(func(s *kallax.Store) error {
+			for _, r := range inverseRecords {
+				if err := r(s); err != nil {
+					return err
+				}
+			}
+
+			updated, err = s.Update(Schema.WeightedExercise.BaseSchema, record, cols...)
+			if err != nil {
+				return err
+			}
+
+			return nil
+		})
+		if err != nil {
+			return 0, err
+		}
+
+		return updated, nil
+	}
 
 	return s.Store.Update(Schema.WeightedExercise.BaseSchema, record, cols...)
 }
@@ -1181,6 +1356,11 @@ func (q *WeightedExerciseQuery) Where(cond kallax.Condition) *WeightedExerciseQu
 	return q
 }
 
+func (q *WeightedExerciseQuery) WithExercise() *WeightedExerciseQuery {
+	q.AddRelation(Schema.Exercise.BaseSchema, "Exercise", kallax.OneToOne, nil)
+	return q
+}
+
 // FindByID adds a new filter to the query that will require that
 // the ID property is equal to one of the passed values; if no passed values,
 // it will do nothing.
@@ -1195,12 +1375,6 @@ func (q *WeightedExerciseQuery) FindByID(v ...int64) *WeightedExerciseQuery {
 	return q.Where(kallax.In(Schema.WeightedExercise.ID, values...))
 }
 
-// FindByExercise adds a new filter to the query that will require that
-// the Exercise property is equal to the passed value.
-func (q *WeightedExerciseQuery) FindByExercise(v string) *WeightedExerciseQuery {
-	return q.Where(kallax.Eq(Schema.WeightedExercise.Exercise, v))
-}
-
 // FindBySets adds a new filter to the query that will require that
 // the Sets property is equal to the passed value.
 func (q *WeightedExerciseQuery) FindBySets(cond kallax.ScalarCond, v int) *WeightedExerciseQuery {
@@ -1211,6 +1385,12 @@ func (q *WeightedExerciseQuery) FindBySets(cond kallax.ScalarCond, v int) *Weigh
 // the Reps property is equal to the passed value.
 func (q *WeightedExerciseQuery) FindByReps(cond kallax.ScalarCond, v int) *WeightedExerciseQuery {
 	return q.Where(cond(Schema.WeightedExercise.Reps, v))
+}
+
+// FindByExercise adds a new filter to the query that will require that
+// the foreign key of Exercise is equal to the passed value.
+func (q *WeightedExerciseQuery) FindByExercise(v int64) *WeightedExerciseQuery {
+	return q.Where(kallax.Eq(Schema.WeightedExercise.ExerciseFK, v))
 }
 
 // WeightedExerciseResultSet is the set of results returned by a query to the
@@ -1329,25 +1509,27 @@ type schema struct {
 
 type schemaDistanceExercise struct {
 	*kallax.BaseSchema
-	ID       kallax.SchemaField
-	Exercise kallax.SchemaField
-	Time     kallax.SchemaField
-	Distance kallax.SchemaField
-	Units    kallax.SchemaField
+	ID         kallax.SchemaField
+	Time       kallax.SchemaField
+	Distance   kallax.SchemaField
+	Units      kallax.SchemaField
+	ExerciseFK kallax.SchemaField
 }
 
 type schemaExercise struct {
 	*kallax.BaseSchema
-	ID  kallax.SchemaField
-	Raw kallax.SchemaField
+	ID   kallax.SchemaField
+	Raw  kallax.SchemaField
+	Type kallax.SchemaField
+	Name kallax.SchemaField
 }
 
 type schemaWeightedExercise struct {
 	*kallax.BaseSchema
-	ID       kallax.SchemaField
-	Exercise kallax.SchemaField
-	Sets     kallax.SchemaField
-	Reps     kallax.SchemaField
+	ID         kallax.SchemaField
+	Sets       kallax.SchemaField
+	Reps       kallax.SchemaField
+	ExerciseFK kallax.SchemaField
 }
 
 var Schema = &schema{
@@ -1356,22 +1538,24 @@ var Schema = &schema{
 			"distance_exercise",
 			"__distanceexercise",
 			kallax.NewSchemaField("id"),
-			kallax.ForeignKeys{},
+			kallax.ForeignKeys{
+				"Exercise": kallax.NewForeignKey("exercise_id", true),
+			},
 			func() kallax.Record {
 				return new(DistanceExercise)
 			},
-			false,
+			true,
 			kallax.NewSchemaField("id"),
-			kallax.NewSchemaField("exercise"),
 			kallax.NewSchemaField("time"),
 			kallax.NewSchemaField("distance"),
 			kallax.NewSchemaField("units"),
+			kallax.NewSchemaField("exercise_id"),
 		),
-		ID:       kallax.NewSchemaField("id"),
-		Exercise: kallax.NewSchemaField("exercise"),
-		Time:     kallax.NewSchemaField("time"),
-		Distance: kallax.NewSchemaField("distance"),
-		Units:    kallax.NewSchemaField("units"),
+		ID:         kallax.NewSchemaField("id"),
+		Time:       kallax.NewSchemaField("time"),
+		Distance:   kallax.NewSchemaField("distance"),
+		Units:      kallax.NewSchemaField("units"),
+		ExerciseFK: kallax.NewSchemaField("exercise_id"),
 	},
 	Exercise: &schemaExercise{
 		BaseSchema: kallax.NewBaseSchema(
@@ -1385,28 +1569,34 @@ var Schema = &schema{
 			true,
 			kallax.NewSchemaField("id"),
 			kallax.NewSchemaField("raw"),
+			kallax.NewSchemaField("type"),
+			kallax.NewSchemaField("name"),
 		),
-		ID:  kallax.NewSchemaField("id"),
-		Raw: kallax.NewSchemaField("raw"),
+		ID:   kallax.NewSchemaField("id"),
+		Raw:  kallax.NewSchemaField("raw"),
+		Type: kallax.NewSchemaField("type"),
+		Name: kallax.NewSchemaField("name"),
 	},
 	WeightedExercise: &schemaWeightedExercise{
 		BaseSchema: kallax.NewBaseSchema(
 			"weighted_exercises",
 			"__weightedexercise",
 			kallax.NewSchemaField("id"),
-			kallax.ForeignKeys{},
+			kallax.ForeignKeys{
+				"Exercise": kallax.NewForeignKey("exercise_id", true),
+			},
 			func() kallax.Record {
 				return new(WeightedExercise)
 			},
-			false,
+			true,
 			kallax.NewSchemaField("id"),
-			kallax.NewSchemaField("exercise"),
 			kallax.NewSchemaField("sets"),
 			kallax.NewSchemaField("reps"),
+			kallax.NewSchemaField("exercise_id"),
 		),
-		ID:       kallax.NewSchemaField("id"),
-		Exercise: kallax.NewSchemaField("exercise"),
-		Sets:     kallax.NewSchemaField("sets"),
-		Reps:     kallax.NewSchemaField("reps"),
+		ID:         kallax.NewSchemaField("id"),
+		Sets:       kallax.NewSchemaField("sets"),
+		Reps:       kallax.NewSchemaField("reps"),
+		ExerciseFK: kallax.NewSchemaField("exercise_id"),
 	},
 }

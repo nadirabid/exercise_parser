@@ -12,14 +12,6 @@
           "Unique": false
         },
         {
-          "Name": "exercise",
-          "Type": "text",
-          "PrimaryKey": false,
-          "Reference": null,
-          "NotNull": true,
-          "Unique": false
-        },
-        {
           "Name": "time",
           "Type": "text",
           "PrimaryKey": false,
@@ -37,9 +29,20 @@
         },
         {
           "Name": "units",
-          "Type": "real",
+          "Type": "text",
           "PrimaryKey": false,
           "Reference": null,
+          "NotNull": true,
+          "Unique": false
+        },
+        {
+          "Name": "exercise_id",
+          "Type": "bigint",
+          "PrimaryKey": false,
+          "Reference": {
+            "Table": "exercises",
+            "Column": "id"
+          },
           "NotNull": true,
           "Unique": false
         }
@@ -63,6 +66,22 @@
           "Reference": null,
           "NotNull": true,
           "Unique": false
+        },
+        {
+          "Name": "type",
+          "Type": "text",
+          "PrimaryKey": false,
+          "Reference": null,
+          "NotNull": true,
+          "Unique": false
+        },
+        {
+          "Name": "name",
+          "Type": "text",
+          "PrimaryKey": false,
+          "Reference": null,
+          "NotNull": true,
+          "Unique": false
         }
       ]
     },
@@ -73,14 +92,6 @@
           "Name": "id",
           "Type": "serial",
           "PrimaryKey": true,
-          "Reference": null,
-          "NotNull": true,
-          "Unique": false
-        },
-        {
-          "Name": "exercise",
-          "Type": "text",
-          "PrimaryKey": false,
           "Reference": null,
           "NotNull": true,
           "Unique": false
@@ -98,6 +109,17 @@
           "Type": "bigint",
           "PrimaryKey": false,
           "Reference": null,
+          "NotNull": true,
+          "Unique": false
+        },
+        {
+          "Name": "exercise_id",
+          "Type": "bigint",
+          "PrimaryKey": false,
+          "Reference": {
+            "Table": "exercises",
+            "Column": "id"
+          },
           "NotNull": true,
           "Unique": false
         }
