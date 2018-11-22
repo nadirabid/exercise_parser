@@ -11,6 +11,16 @@ import (
 	languagepb "google.golang.org/genproto/googleapis/cloud/language/v1"
 )
 
+type errorMessage struct {
+	Error string
+}
+
+func newErrorMessage(m string) *errorMessage {
+	return &errorMessage{
+		Error: m,
+	}
+}
+
 func prettyPrint(v interface{}) (err error) {
 	b, err := json.MarshalIndent(v, "", "  ")
 	if err == nil {
