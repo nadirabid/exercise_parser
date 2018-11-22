@@ -1,0 +1,13 @@
+[server]
+port=1323
+
+[psql]
+sslmode="disable"
+database="exercise_parser"
+user="exercise"
+password="parser"
+host="localhost"
+port=5432
+
+[migrations]
+dir="migrations"
