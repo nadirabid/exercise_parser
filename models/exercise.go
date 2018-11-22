@@ -17,11 +17,13 @@ import (
 // Exercise model
 type Exercise struct {
 	gorm.Model
-	Raw              string            `json:"raw"`
-	Type             string            `json:"type"`
-	Name             string            `json:"name"`
-	WeightedExercise *WeightedExercise `json:"weighted_exercise"`
-	DistanceExercise *DistanceExercise `json:"distance_exercise"`
+	Raw                string            `json:"raw"`
+	Type               string            `json:"type"`
+	Name               string            `json:"name"`
+	WeightedExercise   *WeightedExercise `json:"weighted_exercise" gorm:"foreignkey:WeightedExerciseID"`
+	DistanceExercise   *DistanceExercise `json:"distance_exercise" gorm:"foreignkey:DistanceExerciseID"`
+	WeightedExerciseID *int              `json:"weighted_exercise_id"`
+	DistanceExerciseID *int              `json:"distance_exercise_id"`
 }
 
 // WeightedExercise model
@@ -29,7 +31,6 @@ type WeightedExercise struct {
 	gorm.Model
 	Sets int `json:"sets"`
 	Reps int `json:"reps"`
-	//Exercise     Exercise `json:"exercise" fk:",inverse"`
 }
 
 // DistanceExercise model
@@ -38,5 +39,4 @@ type DistanceExercise struct {
 	Time     string  `json:"time"`
 	Distance float32 `json:"distannce"`
 	Units    string  `json:"units"`
-	//Exercise     Exercise `json:"exercise" fk:",inverse"`
 }

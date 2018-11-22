@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/jinzhu/gorm/dialects/postgres" // dialect automatically used by gorm
 
 	"github.com/spf13/viper"
 
@@ -29,6 +29,9 @@ func New(v *viper.Viper) error {
 
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "method=${method}, uri=${uri}, status=${status}\n",
+	}))
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
@@ -38,11 +41,23 @@ func New(v *viper.Viper) error {
 		id, err := strconv.Atoi(c.Param("id"))
 
 		if err != nil {
-			return c.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+			return c.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 		}
 
 		exercise := &models.Exercise{}
 		db.First(exercise, id)
+
+		if exercise.Type == "weighted" {
+			weightedExercise := &models.WeightedExercise{}
+			db.First(weightedExercise, exercise.WeightedExerciseID)
+			exercise.WeightedExercise = weightedExercise
+		} else if exercise.Type == "distance" {
+			distanceExercise := &models.DistanceExercise{}
+			db.First(distanceExercise, exercise.DistanceExerciseID)
+			exercise.DistanceExercise = distanceExercise
+		} else {
+			return c.JSON(http.StatusNotFound, newErrorMessage("request resource not found"))
+		}
 
 		return c.JSON(http.StatusOK, exercise)
 	})
@@ -51,7 +66,7 @@ func New(v *viper.Viper) error {
 		exercise := &models.Exercise{}
 
 		if err := c.Bind(exercise); err != nil {
-			e.Logger.Error(err)
+			return c.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 		}
 
 		res, err := Resolve(exercise.Raw)
@@ -79,9 +94,6 @@ func New(v *viper.Viper) error {
 			}
 
 			exercise.WeightedExercise = weightedExercise
-
-			db.Create(exercise)
-			db.Create(exercise.WeightedExercise)
 		} else if res.Type == "distance" {
 			time := res.Captures["Time"]
 			units := res.Captures["Units"]
@@ -98,10 +110,9 @@ func New(v *viper.Viper) error {
 			}
 
 			exercise.DistanceExercise = distanceExercise
-
-			db.Create(exercise)
-			db.Create(exercise.DistanceExercise)
 		}
+
+		db.Create(exercise)
 
 		return c.JSON(http.StatusOK, exercise)
 	})

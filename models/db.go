@@ -29,7 +29,7 @@ func NewDatabase(v *viper.Viper) (*gorm.DB, error) {
 
 // Migrate will auto migrate
 func Migrate(db *gorm.DB) {
-	db.AutoMigrate(&Exercise{})
 	db.AutoMigrate(&WeightedExercise{})
 	db.AutoMigrate(&DistanceExercise{})
+	db.AutoMigrate(&Exercise{})
 }
