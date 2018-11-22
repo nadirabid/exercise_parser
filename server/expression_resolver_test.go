@@ -49,6 +49,11 @@ func TestWeightedExercise(t *testing.T) {
 		assert.Equal(t, tricepCurls1, parsed.Captures)
 	})
 
+	t.Run("{Sets:Number} by {Reps:Number} sets of {Exercise:String}", func(t *testing.T) {
+		parsed := resolveExpressions("3 by 3 sets of tricep curls", weightedExerciseExpressions())
+		assert.Equal(t, tricepCurls1, parsed.Captures)
+	})
+
 	t.Run("{Sets:Number} sets of {Reps:Number} {Exercise:String}", func(t *testing.T) {
 		parsed := resolveExpressions("3 sets of 3 tricep curls", weightedExerciseExpressions())
 		assert.Equal(t, tricepCurls1, parsed.Captures)

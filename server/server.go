@@ -40,7 +40,10 @@ func New(v *viper.Viper) error {
 		}
 
 		s := models.NewExerciseStore(db)
-		q := models.NewExerciseQuery().Where(kallax.Eq(models.Schema.Exercise.ID, id))
+		q := models.
+			NewExerciseQuery().
+			WithWeightedExercise().
+			Where(kallax.Eq(models.Schema.Exercise.ID, id))
 
 		exercise, err := s.FindOne(q)
 		if err != nil {

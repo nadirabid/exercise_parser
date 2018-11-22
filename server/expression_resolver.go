@@ -26,6 +26,7 @@ func weightedExerciseExpressions() []string {
 		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,                      // {Sets:Number}x{Reps:Number} of {Exercise:String}
 		`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,                              // {Sets:Number} by {Reps:Number} {Exercise:String}
 		`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,                     // {Sets:Number} by {Reps:Number} of {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s*(?:sets)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,          // {Sets:Number} by {Reps:Number} sets of {Exercise:String}
 		`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,                   // {Sets:Number} sets of {Reps:Number} {Exercise:String}
 		`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,          // {Sets:Number} sets of {Reps:Number} of {Exercise:String}
 		`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(reps)\s*(?P<Exercise>[a-zA-Z\s]+)`,          // {Sets:Number} sets of {Reps:Number} reps {Exercise:String}
