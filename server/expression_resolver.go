@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// Result holds the parsed captures from resolve
 type Result struct {
 	Type     string
 	Captures map[string]string

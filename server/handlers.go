@@ -86,7 +86,9 @@ func handlePostExercise(c echo.Context) error {
 		exercise.DistanceExercise = distanceExercise
 	}
 
-	db.Create(exercise)
+	if err := db.Create(exercise).Error; err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
 
 	return ctx.JSON(http.StatusOK, exercise)
 }
