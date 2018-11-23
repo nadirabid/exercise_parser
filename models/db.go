@@ -32,4 +32,5 @@ func Migrate(db *gorm.DB) {
 	db.AutoMigrate(&WeightedExercise{})
 	db.AutoMigrate(&DistanceExercise{})
 	db.AutoMigrate(&Exercise{})
+	db.AutoMigrate(&Workout{})
 }

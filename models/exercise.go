@@ -1,18 +1,18 @@
 package models
 
 import (
+	"time"
+
 	"github.com/jinzhu/gorm"
 )
 
-//go:generate kallax gen
-
-// // Workout model
-// type Workout struct {
-// 	kallax.Model `table:"workouts" pk:"id,autoincr"`
-// 	ID           int64       `json:"id"`
-// 	Name string `json:"name"`
-// 	Exercises    []*Exercise `json:"exercises"`
-// }
+// Workout model
+type Workout struct {
+	gorm.Model
+	Name      string      `json:"name"`
+	Date      time.Time   `json:"date"`
+	Exercises []*Exercise `json:"exercises"`
+}
 
 // Exercise model
 type Exercise struct {
