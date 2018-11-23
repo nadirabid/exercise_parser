@@ -17,7 +17,12 @@ import (
 // Context is an extention of echo.Context
 type Context struct {
 	echo.Context
-	DB *gorm.DB
+	db *gorm.DB
+}
+
+// DB returns the database object used in handlers
+func (c *Context) DB() *gorm.DB {
+	return c.db
 }
 
 func newContext(c echo.Context, db *gorm.DB) *Context {
@@ -56,6 +61,9 @@ func New(v *viper.Viper) error {
 
 	e.GET("/exercise/:id", handleGetExercise)
 	e.POST("/exercise", handlePostExercise)
+
+	e.GET("/workout/:id", handleGetWorkout)
+	e.POST("/workout", handlePostWorkout)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port"))))
 	return nil

@@ -8,12 +8,60 @@ import (
 	"github.com/labstack/echo"
 )
 
-func handleGetExercise(c echo.Context) error {
+func handleGetWorkout(c echo.Context) error {
 	ctx := c.(*Context)
-	db := ctx.DB
+	db := ctx.DB()
 
 	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
 
+	workout := &models.Workout{}
+	err = db.
+		Preload("Exercises").
+		Preload("Exercises.WeightedExercise").
+		Preload("Exercises.DistanceExercise").
+		Where("id = ?", id).
+		First(workout).
+		Error
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, workout)
+}
+
+func handlePostWorkout(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	workout := &models.Workout{}
+
+	if err := ctx.Bind(workout); err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	for i, e := range workout.Exercises {
+		if err := (&e).Resolve(); err != nil {
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+		workout.Exercises[i] = e
+	}
+
+	if err := db.Create(workout).Error; err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, workout)
+}
+
+func handleGetExercise(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
@@ -35,7 +83,7 @@ func handleGetExercise(c echo.Context) error {
 
 func handlePostExercise(c echo.Context) error {
 	ctx := c.(*Context)
-	db := ctx.DB
+	db := ctx.DB()
 
 	exercise := &models.Exercise{}
 
@@ -43,47 +91,8 @@ func handlePostExercise(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	res, err := Resolve(exercise.Raw)
-	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-
-	exercise.Type = res.Type
-	exercise.Name = res.Captures["Exercise"]
-
-	if res.Type == "weighted" {
-		sets, err := strconv.Atoi(res.Captures["Sets"])
-		if err != nil {
-			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-		}
-
-		reps, err := strconv.Atoi(res.Captures["Reps"])
-		if err != nil {
-			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-		}
-
-		weightedExercise := &models.WeightedExercise{
-			Sets: sets,
-			Reps: reps,
-		}
-
-		exercise.WeightedExercise = weightedExercise
-	} else if res.Type == "distance" {
-		time := res.Captures["Time"]
-		units := res.Captures["Units"]
-
-		distance, err := strconv.ParseFloat(res.Captures["Distance"], 32)
-		if err != nil {
-			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-		}
-
-		distanceExercise := &models.DistanceExercise{
-			Time:     time,
-			Distance: float32(distance),
-			Units:    units,
-		}
-
-		exercise.DistanceExercise = distanceExercise
+	if err := exercise.Resolve(); err != nil {
+		return ctx.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	if err := db.Create(exercise).Error; err != nil {
