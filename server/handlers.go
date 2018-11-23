@@ -19,29 +19,15 @@ func handleGetExercise(c echo.Context) error {
 	}
 
 	exercise := &models.Exercise{}
+	err = db.
+		Preload("WeightedExercise").
+		Preload("DistanceExercise").
+		Where("id = ?", id).
+		First(exercise).
+		Error
 
-	if err := db.Where("id = ?", id).First(exercise).Error; err != nil {
+	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
-	}
-
-	if exercise.Type == "weighted" {
-		weightedExercise := &models.WeightedExercise{}
-
-		if err := db.Where("id = ?", exercise.WeightedExerciseID).First(weightedExercise).Error; err != nil {
-			return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
-		}
-
-		exercise.WeightedExercise = weightedExercise
-	} else if exercise.Type == "distance" {
-		distanceExercise := &models.DistanceExercise{}
-
-		if err := db.Where("id = ?", exercise.DistanceExerciseID).First(distanceExercise).Error; err != nil {
-			return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
-		}
-
-		exercise.DistanceExercise = distanceExercise
-	} else {
-		return ctx.JSON(http.StatusNotFound, newErrorMessage("request resource not found"))
 	}
 
 	return ctx.JSON(http.StatusOK, exercise)

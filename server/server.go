@@ -22,7 +22,8 @@ type Context struct {
 
 func newContext(c echo.Context, db *gorm.DB) *Context {
 	return &Context{
-		DB: db,
+		c,
+		db,
 	}
 }
 
