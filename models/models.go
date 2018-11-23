@@ -5,21 +5,38 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-
-	"github.com/jinzhu/gorm"
 )
+
+// Model contains the common properties between all models
+type Model struct {
+	ID        uint       `json:"id" gorm:"primary_key"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	DeletedAt *time.Time `json:"deleted_at" sql:"index"`
+}
 
 // Workout model
 type Workout struct {
-	gorm.Model
+	Model
 	Name      string     `json:"name"`
 	Date      time.Time  `json:"date"`
 	Exercises []Exercise `json:"exercises"`
 }
 
+// HasExercise returns true if Exercise exists with id, otherwise false
+func (w *Workout) HasExercise(id uint) bool {
+	for _, e := range w.Exercises {
+		if e.ID == id {
+			return true
+		}
+	}
+
+	return false
+}
+
 // Exercise model
 type Exercise struct {
-	gorm.Model
+	Model
 	Raw              string            `json:"raw"`
 	Type             string            `json:"type"`
 	Name             string            `json:"name"`
@@ -49,12 +66,12 @@ func (e *Exercise) Resolve() error {
 			return err
 		}
 
-		weightedExercise := &WeightedExercise{
-			Sets: sets,
-			Reps: reps,
+		if e.WeightedExercise == nil {
+			e.WeightedExercise = &WeightedExercise{}
 		}
 
-		e.WeightedExercise = weightedExercise
+		e.WeightedExercise.Sets = sets
+		e.WeightedExercise.Reps = reps
 	} else if res.Type == "distance" {
 		time := res.Captures["Time"]
 		units := res.Captures["Units"]
@@ -64,13 +81,13 @@ func (e *Exercise) Resolve() error {
 			return err
 		}
 
-		distanceExercise := &DistanceExercise{
-			Time:     time,
-			Distance: float32(distance),
-			Units:    units,
+		if e.DistanceExercise == nil {
+			e.DistanceExercise = &DistanceExercise{}
 		}
 
-		e.DistanceExercise = distanceExercise
+		e.DistanceExercise.Time = time
+		e.DistanceExercise.Distance = float32(distance)
+		e.DistanceExercise.Units = units
 	} else {
 		return fmt.Errorf("unable to resolve raw expression: %v", e)
 	}
@@ -80,7 +97,7 @@ func (e *Exercise) Resolve() error {
 
 // WeightedExercise model
 type WeightedExercise struct {
-	gorm.Model
+	Model
 	Sets       int `json:"sets"`
 	Reps       int `json:"reps"`
 	ExerciseID int `json:"exercise_id"`
@@ -88,7 +105,7 @@ type WeightedExercise struct {
 
 // DistanceExercise model
 type DistanceExercise struct {
-	gorm.Model
+	Model
 	Time       string  `json:"time"`
 	Distance   float32 `json:"distance"`
 	Units      string  `json:"units"`

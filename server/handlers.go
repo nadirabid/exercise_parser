@@ -44,13 +44,80 @@ func handlePostWorkout(c echo.Context) error {
 	}
 
 	for i, e := range workout.Exercises {
-		if err := (&e).Resolve(); err != nil {
+		if err := e.Resolve(); err != nil {
 			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 		}
 		workout.Exercises[i] = e
 	}
 
 	if err := db.Create(workout).Error; err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, workout)
+}
+
+func handlePutWorkout(c echo.Context) error {
+	ctx := c.(*Context)
+
+	tx := ctx.DB().Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	if err := tx.Error; err != nil {
+		tx.Rollback()
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	workout := &models.Workout{}
+
+	if err := ctx.Bind(workout); err != nil {
+		tx.Rollback()
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	for i, e := range workout.Exercises {
+		if err := e.Resolve(); err != nil {
+			tx.Rollback()
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+
+		workout.Exercises[i] = e
+	}
+
+	existingWorkout := &models.Workout{}
+	err := tx.
+		Preload("Exercises").
+		Preload("Exercises.WeightedExercise").
+		Preload("Exercises.DistanceExercise").
+		Where("id = ?", workout.ID).
+		First(existingWorkout).
+		Error
+
+	if err != nil {
+		tx.Rollback()
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	for _, e := range existingWorkout.Exercises {
+		if !workout.HasExercise(e.ID) {
+			if err := tx.Delete(&e).Error; err != nil {
+				tx.Rollback()
+				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+			}
+		}
+	}
+
+	if err := tx.Model(workout).Update(workout).Error; err != nil {
+		tx.Rollback()
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 

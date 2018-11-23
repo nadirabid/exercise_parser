@@ -64,6 +64,7 @@ func New(v *viper.Viper) error {
 
 	e.GET("/workout/:id", handleGetWorkout)
 	e.POST("/workout", handlePostWorkout)
+	e.PUT("/workout", handlePutWorkout)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port"))))
 	return nil
