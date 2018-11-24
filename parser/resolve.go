@@ -155,15 +155,18 @@ var parser *Parser
 var onceParser sync.Once
 
 // Init will initialize global parser object
-func Init(v *viper.Viper) {
+func Init(v *viper.Viper) error {
+	var err error
 	onceParser.Do(func() {
 		lemma := newLemma()
-		lemma.readLemmas(v.GetString("lemma.dir"))
+		err = lemma.readLemmas(v.GetString("lemma.dir"))
 
 		parser = &Parser{
 			lemma: lemma,
 		}
 	})
+
+	return err
 }
 
 // Get returns global parser object

@@ -37,7 +37,9 @@ func newContext(c echo.Context, db *gorm.DB) *Context {
 func New(v *viper.Viper) error {
 	// init parser
 
-	parser.Init(v)
+	if err := parser.Init(v); err != nil {
+		return err
+	}
 
 	// init database
 
