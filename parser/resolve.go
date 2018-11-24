@@ -64,56 +64,7 @@ func distanceExerciseExpressions() []string {
 	return expressions
 }
 
-// Parser allows you to resolve raw exercise strings
-type Parser struct {
-	lemma *lemma
-}
-
-// Resolve returns the captures
-func (p *Parser) Resolve(exercise string) (*Result, error) {
-	// sanitize
-	// TODO: convert words to numbers
-
-	exercise = strings.Trim(strings.ToLower(exercise), " ")
-	exercise = p.lemmatize(exercise)
-
-	// resolve expression
-
-	weightedExercise := p.resolveExpressions(exercise, weightedExerciseExpressions())
-	distanceExercise := p.resolveExpressions(exercise, distanceExerciseExpressions())
-
-	if weightedExercise.Captures != nil && distanceExercise.Captures != nil {
-		return nil, fmt.Errorf(
-			"multiple matches: %v, %v",
-			weightedExercise,
-			distanceExercise,
-		)
-	} else if weightedExercise.Captures != nil {
-		return &Result{
-			Type:     "weighted",
-			Captures: weightedExercise.Captures,
-		}, nil
-	} else if distanceExercise.Captures != nil {
-		return &Result{
-			Type:     "distance",
-			Captures: distanceExercise.Captures,
-		}, nil
-	}
-
-	return nil, fmt.Errorf("no match found")
-}
-
-func (p *Parser) lemmatize(s string) string {
-	tokens := strings.Split(s, " ")
-	lemmas := make([]string, len(tokens), len(tokens))
-	for i, t := range tokens {
-		lemmas[i] = p.lemma.get(t)
-	}
-
-	return strings.Join(lemmas, " ")
-}
-
-func (p *Parser) resolveExpressions(exercise string, regexpSet []string) *parsedExercise {
+func resolveExpressions(exercise string, regexpSet []string) *parsedExercise {
 	regexps := make([]*regexp.Regexp, len(regexpSet), len(regexpSet))
 
 	for i := len(regexpSet) - 1; i >= 0; i-- {
@@ -149,6 +100,55 @@ func (p *Parser) resolveExpressions(exercise string, regexpSet []string) *parsed
 	return &parsedExercise{
 		Raw: exercise,
 	}
+}
+
+// Parser allows you to resolve raw exercise strings
+type Parser struct {
+	lemma *lemma
+}
+
+// Resolve returns the captures
+func (p *Parser) Resolve(exercise string) (*Result, error) {
+	// sanitize
+	// TODO: convert words to numbers
+
+	exercise = strings.Trim(strings.ToLower(exercise), " ")
+	exercise = p.lemmatize(exercise)
+
+	// resolve expression
+
+	weightedExercise := resolveExpressions(exercise, weightedExerciseExpressions())
+	distanceExercise := resolveExpressions(exercise, distanceExerciseExpressions())
+
+	if weightedExercise.Captures != nil && distanceExercise.Captures != nil {
+		return nil, fmt.Errorf(
+			"multiple matches: %v, %v",
+			weightedExercise,
+			distanceExercise,
+		)
+	} else if weightedExercise.Captures != nil {
+		return &Result{
+			Type:     "weighted",
+			Captures: weightedExercise.Captures,
+		}, nil
+	} else if distanceExercise.Captures != nil {
+		return &Result{
+			Type:     "distance",
+			Captures: distanceExercise.Captures,
+		}, nil
+	}
+
+	return nil, fmt.Errorf("no match found")
+}
+
+func (p *Parser) lemmatize(s string) string {
+	tokens := strings.Split(s, " ")
+	lemmas := make([]string, len(tokens), len(tokens))
+	for i, t := range tokens {
+		lemmas[i] = p.lemma.get(t)
+	}
+
+	return strings.Join(lemmas, " ")
 }
 
 var parser *Parser
