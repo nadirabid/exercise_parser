@@ -55,7 +55,7 @@ type Exercise struct {
 
 // Resolve will take the Raw exercise string and parse out the various fields
 func (e *Exercise) Resolve() error {
-	res, err := parser.Resolve(e.Raw)
+	res, err := parser.Get().Resolve(e.Raw)
 	if err != nil {
 		return err
 	}

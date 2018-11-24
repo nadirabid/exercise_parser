@@ -13,11 +13,14 @@
   version = "v0.33.1"
 
 [[projects]]
-  digest = "1:3ca2109e48660e527509b433c4efb5b910e5b9010d5149a6f44137d47b7970ca"
-  name = "github.com/Masterminds/squirrel"
-  packages = ["."]
+  digest = "1:4cba718816d8dd069ebf9d673ee951a37dca10d55468c00f29669abb258ec371"
+  name = "github.com/aaaton/golem"
+  packages = [
+    ".",
+    "dicts",
+  ]
   pruneopts = "UT"
-  revision = "a6b93000bd219143c56c16e6cb1c4b91da3f224b"
+  revision = "c91a42585b413e2acc06f967ea10846140c4707b"
   version = "v1.0"
 
 [[projects]]
@@ -160,22 +163,6 @@
   version = "v0.2.8"
 
 [[projects]]
-  branch = "master"
-  digest = "1:a7fc52742a5d011497b6a24024c857d260f809083424cd84110c9e40c34f64fc"
-  name = "github.com/lann/builder"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "47ae307949d02aa1f1069fdafc00ca08e1dbabac"
-
-[[projects]]
-  branch = "master"
-  digest = "1:225499d25a9f1486f3b77cdc4f7d6590c506c3839bb9d8497113f6d19676d54a"
-  name = "github.com/lann/ps"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "62de8c46ede02a7675c4c79c84883eb164cb71e3"
-
-[[projects]]
   digest = "1:b18ffc558326ebaed3b4a175617f1e12ed4e3f53d6ebfe5ba372a3de16d22278"
   name = "github.com/lib/pq"
   packages = [
@@ -220,14 +207,6 @@
   version = "v1.1.2"
 
 [[projects]]
-  digest = "1:4f5513cb656b73fb4c4f77ccd482c8366d6290278564d2b1d3285f45e45f4a1e"
-  name = "github.com/oklog/ulid"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "02a8604050d8466dd915307496174adb9be4593a"
-  version = "v1.3.1"
-
-[[projects]]
   digest = "1:95741de3af260a92cc5c7f3f3061e85273f5a81b5db20d4bd68da74bd521675e"
   name = "github.com/pelletier/go-toml"
   packages = ["."]
@@ -242,14 +221,6 @@
   pruneopts = "UT"
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
   version = "v1.0.0"
-
-[[projects]]
-  digest = "1:274f67cb6fed9588ea2521ecdac05a6d62a8c51c074c1fccc6a49a40ba80e925"
-  name = "github.com/satori/go.uuid"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
-  version = "v1.2.0"
 
 [[projects]]
   digest = "1:6a4a11ba764a56d2758899ec6f3848d24698d48442ebce85ee7a3f63284526cd"
@@ -509,17 +480,6 @@
   version = "v1.16.0"
 
 [[projects]]
-  digest = "1:2ae66c4d95d3d40a012ebd9fcc384c90fbd383f8ae5fe8c98c505611e7052063"
-  name = "gopkg.in/src-d/go-kallax.v1"
-  packages = [
-    ".",
-    "types",
-  ]
-  pruneopts = "UT"
-  revision = "54324d6a2cb11186536d8f30e409742fa0c26272"
-  version = "v1.3.5"
-
-[[projects]]
   digest = "1:342378ac4dcb378a5448dd723f0784ae519383532f5e70ade24132c4c8693202"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
@@ -532,6 +492,7 @@
   analyzer-version = 1
   input-imports = [
     "cloud.google.com/go/language/apiv1",
+    "github.com/aaaton/golem",
     "github.com/disiqueira/gotree",
     "github.com/golang-migrate/migrate",
     "github.com/golang-migrate/migrate/database/postgres",
@@ -544,8 +505,6 @@
     "github.com/spf13/viper",
     "github.com/stretchr/testify/assert",
     "google.golang.org/genproto/googleapis/cloud/language/v1",
-    "gopkg.in/src-d/go-kallax.v1",
-    "gopkg.in/src-d/go-kallax.v1/types",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

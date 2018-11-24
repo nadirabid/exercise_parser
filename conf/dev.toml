@@ -11,3 +11,6 @@ port=5432
 
 [migrations]
 dir="migrations"
+
+[lemma]
+dir="resources/lemmas"

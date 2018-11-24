@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"sync"
+
+	"github.com/spf13/viper"
 )
 
 // Result holds the parsed captures from resolve
@@ -61,12 +64,56 @@ func distanceExerciseExpressions() []string {
 	return expressions
 }
 
-func resolveExpressions(exercise string, regexpSet []string) *parsedExercise {
-	exercise = strings.Trim(strings.ToLower(exercise), " ") // basic sanitization
+// Parser allows you to resolve raw exercise strings
+type Parser struct {
+	lemma *lemma
+}
 
-	// TODO: reduce raw string to lemma
+// Resolve returns the captures
+func (p *Parser) Resolve(exercise string) (*Result, error) {
+	// sanitize
 	// TODO: convert words to numbers
 
+	exercise = strings.Trim(strings.ToLower(exercise), " ")
+	exercise = p.lemmatize(exercise)
+
+	// resolve expression
+
+	weightedExercise := p.resolveExpressions(exercise, weightedExerciseExpressions())
+	distanceExercise := p.resolveExpressions(exercise, distanceExerciseExpressions())
+
+	if weightedExercise.Captures != nil && distanceExercise.Captures != nil {
+		return nil, fmt.Errorf(
+			"multiple matches: %v, %v",
+			weightedExercise,
+			distanceExercise,
+		)
+	} else if weightedExercise.Captures != nil {
+		return &Result{
+			Type:     "weighted",
+			Captures: weightedExercise.Captures,
+		}, nil
+	} else if distanceExercise.Captures != nil {
+		return &Result{
+			Type:     "distance",
+			Captures: distanceExercise.Captures,
+		}, nil
+	}
+
+	return nil, fmt.Errorf("no match found")
+}
+
+func (p *Parser) lemmatize(s string) string {
+	tokens := strings.Split(s, " ")
+	lemmas := make([]string, len(tokens), len(tokens))
+	for i, t := range tokens {
+		lemmas[i] = p.lemma.get(t)
+	}
+
+	return strings.Join(lemmas, " ")
+}
+
+func (p *Parser) resolveExpressions(exercise string, regexpSet []string) *parsedExercise {
 	regexps := make([]*regexp.Regexp, len(regexpSet), len(regexpSet))
 
 	for i := len(regexpSet) - 1; i >= 0; i-- {
@@ -104,28 +151,22 @@ func resolveExpressions(exercise string, regexpSet []string) *parsedExercise {
 	}
 }
 
-// Resolve returns the captures
-func Resolve(exercise string) (*Result, error) {
-	weightedExercise := resolveExpressions(exercise, weightedExerciseExpressions())
-	distanceExercise := resolveExpressions(exercise, distanceExerciseExpressions())
+var parser *Parser
+var onceParser sync.Once
 
-	if weightedExercise.Captures != nil && distanceExercise.Captures != nil {
-		return nil, fmt.Errorf(
-			"multiple matches: %v, %v",
-			weightedExercise,
-			distanceExercise,
-		)
-	} else if weightedExercise.Captures != nil {
-		return &Result{
-			Type:     "weighted",
-			Captures: weightedExercise.Captures,
-		}, nil
-	} else if distanceExercise.Captures != nil {
-		return &Result{
-			Type:     "distance",
-			Captures: distanceExercise.Captures,
-		}, nil
-	}
+// Init will initialize global parser object
+func Init(v *viper.Viper) {
+	onceParser.Do(func() {
+		lemma := newLemma()
+		lemma.readLemmas(v.GetString("lemma.dir"))
 
-	return nil, fmt.Errorf("no match found")
+		parser = &Parser{
+			lemma: lemma,
+		}
+	})
+}
+
+// Get returns global parser object
+func Get() *Parser {
+	return parser
 }

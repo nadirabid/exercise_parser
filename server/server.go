@@ -2,6 +2,7 @@ package server
 
 import (
 	"exercise_parser/models"
+	"exercise_parser/parser"
 	"fmt"
 
 	"github.com/jinzhu/gorm"
@@ -34,6 +35,10 @@ func newContext(c echo.Context, db *gorm.DB) *Context {
 
 // New returns Echo server
 func New(v *viper.Viper) error {
+	// init parser
+
+	parser.Init(v)
+
 	// init database
 
 	db, err := models.NewDatabase(v)
