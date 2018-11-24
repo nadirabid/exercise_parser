@@ -2,3 +2,4 @@ vendor
 exercise_parser
 google_credentials.json
 .bat
+.cache

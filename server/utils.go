@@ -23,10 +23,12 @@ func newErrorMessage(m string) *errorMessage {
 
 func prettyPrint(v interface{}) (err error) {
 	b, err := json.MarshalIndent(v, "", "  ")
-	if err == nil {
-		fmt.Println(string(b))
+	if err != nil {
+		fmt.Printf("prettyPrint: %v\n", err)
 	}
-	fmt.Printf("prettyPrint: %v\n", err)
+
+	fmt.Println(string(b))
+
 	return
 }
 

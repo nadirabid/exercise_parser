@@ -13,15 +13,44 @@
   version = "v0.33.1"
 
 [[projects]]
-  digest = "1:4cba718816d8dd069ebf9d673ee951a37dca10d55468c00f29669abb258ec371"
-  name = "github.com/aaaton/golem"
-  packages = [
-    ".",
-    "dicts",
-  ]
+  digest = "1:573fa46f8d413d4bc3f7cc5e86b2c43cb21559f4fb0a19d9874d228e28fdc07c"
+  name = "github.com/PuerkitoBio/goquery"
+  packages = ["."]
   pruneopts = "UT"
-  revision = "c91a42585b413e2acc06f967ea10846140c4707b"
-  version = "v1.0"
+  revision = "2d2796f41742ece03e8086188fa4db16a3a0b458"
+  version = "v1.5.0"
+
+[[projects]]
+  digest = "1:66b3310cf22cdc96c35ef84ede4f7b9b370971c4025f394c89a2638729653b11"
+  name = "github.com/andybalholm/cascadia"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "901648c87902174f774fac311d7f176f8647bdaa"
+  version = "v1.0.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:1a724b1bfbc0ce29deb803032c862a931c48c725e0f18fe953b427368d43096c"
+  name = "github.com/antchfx/htmlquery"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "98389addba3d9d3155171e4135bcbb67ca1740c0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:2dfcaf778bafe573f6b89b7a0118eff5c47cf64d3c46f2c661d825644ba00b91"
+  name = "github.com/antchfx/xmlquery"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "98cdbc3221ed492316cca5a4711e48ee0ca0dc9a"
+
+[[projects]]
+  branch = "master"
+  digest = "1:1e4efe6386fcff2650c621bad7e94febdf0b3db1c3a7c5907d125c4f8e92a3ad"
+  name = "github.com/antchfx/xpath"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "a762252498f5e50d8f368dd0a8748073e4b92f93"
 
 [[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
@@ -54,6 +83,35 @@
   pruneopts = "UT"
   revision = "c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9"
   version = "v1.4.7"
+
+[[projects]]
+  digest = "1:9ae31ce33b4bab257668963e844d98765b44160be4ee98cafc44637a213e530d"
+  name = "github.com/gobwas/glob"
+  packages = [
+    ".",
+    "compiler",
+    "match",
+    "syntax",
+    "syntax/ast",
+    "syntax/lexer",
+    "util/runes",
+    "util/strings",
+  ]
+  pruneopts = "UT"
+  revision = "5ccd90ef52e1e632236f7326478d4faa74f99438"
+  version = "v0.2.3"
+
+[[projects]]
+  digest = "1:e306731a4078396dbd19c20ae3b33444baf44d1a707ce6aa59b7c9a06a94d16d"
+  name = "github.com/gocolly/colly"
+  packages = [
+    ".",
+    "debug",
+    "storage",
+  ]
+  pruneopts = "UT"
+  revision = "a3a4941b2de28593f1ccbec83222c29103dfad5e"
+  version = "v1.1.0"
 
 [[projects]]
   digest = "1:692b29784ba0a25c33a77cb4c2594e2ffc1e72fc66e17e87503e03a29cb227c5"
@@ -137,6 +195,14 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "04140366298a54a039076d798123ffa108fff46c"
+
+[[projects]]
+  digest = "1:e30ac47ee84d7d354e0a284cf742e3015400667e90aa3d6ae99c7a55da67c645"
+  name = "github.com/kennygrant/sanitize"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "06ec0d0dbcd497d01e5189b16f5263f712e61a8e"
+  version = "v1.2.4"
 
 [[projects]]
   digest = "1:0c2ca8699f9332007af8f9ee882cb2e93c7acfe6e67df4e8529aade9c548bc88"
@@ -223,6 +289,14 @@
   version = "v1.0.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:374ce4704830a7b9729d8798bcb4ac796f9c7bbb6903950ec55b71332caffe31"
+  name = "github.com/saintfish/chardet"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "3af4cd4741ca4f3eb0c407c034571a6fb0ea529c"
+
+[[projects]]
   digest = "1:6a4a11ba764a56d2758899ec6f3848d24698d48442ebce85ee7a3f63284526cd"
   name = "github.com/spf13/afero"
   packages = [
@@ -282,6 +356,14 @@
   version = "v1.2.2"
 
 [[projects]]
+  branch = "master"
+  digest = "1:11cdcddc4e9072d0698be2a2b58b183654e1399d9c475987427ed0cb4f6f0039"
+  name = "github.com/temoto/robotstxt"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "97ee4a9ee6ea01ed0bbf0325dd789f74cac6cb94"
+
+[[projects]]
   digest = "1:c468422f334a6b46a19448ad59aaffdfc0a36b08fdcc1c749a0b29b6453d7e59"
   name = "github.com/valyala/bytebufferpool"
   packages = ["."]
@@ -334,11 +416,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:5ad570851feb57bcc5c147ee81a54cdd023a8c66a5c716d57faed25a7b6c1dff"
+  digest = "1:3b26c934d4b1b601aa272456290a18144b072259c44e92040a1925fec6ed7013"
   name = "golang.org/x/net"
   packages = [
     "context",
     "context/ctxhttp",
+    "html",
+    "html/atom",
+    "html/charset",
     "http/httpguts",
     "http2",
     "http2/hpack",
@@ -372,17 +457,29 @@
   revision = "93218def8b18e66adbdab3eca8ec334700329f1f"
 
 [[projects]]
-  digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
+  digest = "1:436b24586f8fee329e0dd65fd67c817681420cda1d7f934345c13fe78c212a73"
   name = "golang.org/x/text"
   packages = [
     "collate",
     "collate/build",
+    "encoding",
+    "encoding/charmap",
+    "encoding/htmlindex",
+    "encoding/internal",
+    "encoding/internal/identifier",
+    "encoding/japanese",
+    "encoding/korean",
+    "encoding/simplifiedchinese",
+    "encoding/traditionalchinese",
+    "encoding/unicode",
     "internal/colltab",
     "internal/gen",
     "internal/tag",
     "internal/triegen",
     "internal/ucd",
+    "internal/utf8internal",
     "language",
+    "runes",
     "secure/bidirule",
     "transform",
     "unicode/bidi",
@@ -492,8 +589,8 @@
   analyzer-version = 1
   input-imports = [
     "cloud.google.com/go/language/apiv1",
-    "github.com/aaaton/golem",
     "github.com/disiqueira/gotree",
+    "github.com/gocolly/colly",
     "github.com/golang-migrate/migrate",
     "github.com/golang-migrate/migrate/database/postgres",
     "github.com/golang-migrate/migrate/source/file",
