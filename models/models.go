@@ -12,7 +12,15 @@ type Model struct {
 	ID        uint       `json:"id" gorm:"primary_key"`
 	CreatedAt time.Time  `json:"created_at"`
 	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `json:"deleted_at" sql:"index"`
+	DeletedAt *time.Time `json:"-" sql:"index"`
+}
+
+// HiddenModel contains common properties with hidden json properties
+type HiddenModel struct {
+	ID        uint       `json:"-" gorm:"primary_key"`
+	CreatedAt time.Time  `json:"-"`
+	UpdatedAt time.Time  `json:"-"`
+	DeletedAt *time.Time `json:"-" sql:"index"`
 }
 
 // Workout model
@@ -97,7 +105,7 @@ func (e *Exercise) Resolve() error {
 
 // WeightedExercise model
 type WeightedExercise struct {
-	Model
+	HiddenModel
 	Sets       int `json:"sets"`
 	Reps       int `json:"reps"`
 	ExerciseID int `json:"exercise_id"`
@@ -105,7 +113,7 @@ type WeightedExercise struct {
 
 // DistanceExercise model
 type DistanceExercise struct {
-	Model
+	HiddenModel
 	Time       string  `json:"time"`
 	Distance   float32 `json:"distance"`
 	Units      string  `json:"units"`

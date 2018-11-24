@@ -61,10 +61,12 @@ func New(v *viper.Viper) error {
 
 	e.GET("/exercise/:id", handleGetExercise)
 	e.POST("/exercise", handlePostExercise)
+	e.DELETE("/exercise/:id", handleDeleteExercise)
 
 	e.GET("/workout/:id", handleGetWorkout)
 	e.POST("/workout", handlePostWorkout)
 	e.PUT("/workout", handlePutWorkout)
+	e.DELETE("/workout/:id", handleDeleteWorkout)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port"))))
 	return nil

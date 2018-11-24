@@ -67,11 +67,6 @@ func handlePutWorkout(c echo.Context) error {
 		}
 	}()
 
-	if err := tx.Error; err != nil {
-		tx.Rollback()
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-
 	workout := &models.Workout{}
 
 	if err := ctx.Bind(workout); err != nil {
@@ -104,21 +99,50 @@ func handlePutWorkout(c echo.Context) error {
 
 	for _, e := range existingWorkout.Exercises {
 		if !workout.HasExercise(e.ID) {
-			if err := tx.Delete(&e).Error; err != nil {
-				tx.Rollback()
-				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-			}
+			tx.Delete(&e)
 		}
 	}
 
-	if err := tx.Model(workout).Update(workout).Error; err != nil {
-		tx.Rollback()
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
+	tx.Model(workout).Update(workout)
 
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, workout)
+}
+
+func handleDeleteWorkout(c echo.Context) error {
+	ctx := c.(*Context)
+	tx := ctx.DB().Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		tx.Rollback()
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	workout := &models.Workout{}
+	tx.
+		Preload("Exercises").
+		Preload("Exercises.WeightedExercise").
+		Preload("Exercises.DistanceExercise").
+		Where("id = ?", id).
+		First(workout).
+		Delete(workout)
+
+	for _, e := range workout.Exercises {
+		tx.Where("id = ?", e.ID).Delete(&e)
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
 
 	return ctx.JSON(http.StatusOK, workout)
@@ -164,6 +188,32 @@ func handlePostExercise(c echo.Context) error {
 
 	if err := db.Create(exercise).Error; err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, exercise)
+}
+
+func handleDeleteExercise(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	exercise := &models.Exercise{}
+
+	err = db.
+		Preload("WeightedExercise").
+		Preload("DistanceExercise").
+		Where("id = ?", id).
+		First(exercise).
+		Delete(exercise).
+		Error
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
 
 	return ctx.JSON(http.StatusOK, exercise)
