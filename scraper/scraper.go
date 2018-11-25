@@ -16,6 +16,17 @@ import (
 	"github.com/gocolly/colly"
 )
 
+// Classification
+type Classification struct {
+	Utility   string
+	Mechanics string
+	Force     string
+	Intensity string
+	Function  string
+	Bearing   string
+	Impact    string
+}
+
 // Muscles are the areas that a given exercise affects
 type Muscles struct {
 	Target                []string
@@ -26,33 +37,34 @@ type Muscles struct {
 	ROMCriteria           []string
 }
 
+// Articulation is Plyometric as far as I can tell
+type Articulation struct {
+	Dynamic map[string][]string
+	Static  map[string][]string
+}
+
 // Exercise is a single exercise
 type Exercise struct {
-	URL       string
-	Name      string
-	Utility   string
-	Mechanics string
-	Force     string
-	Muscles   Muscles
-	CrawledAt time.Time
+	URL            string
+	Name           string
+	Classification Classification
+	Muscles        Muscles
+	Articulation   Articulation
+	CrawledAt      time.Time
 }
 
 // Scraper returns object that scrapes exrx.net
 type Scraper struct {
-	visitedURL     map[string]bool
-	visitedLock    *sync.RWMutex
-	exercises      map[string]*Exercise
-	exercisesLock  *sync.Mutex
-	outputDirector string
+	visitedURL       map[string]bool
+	visitedLock      sync.RWMutex
+	scraperWaitGroup sync.WaitGroup
+	outputDirector   string
 }
 
 // New returns a scraper object
 func New(v *viper.Viper) *Scraper {
 	return &Scraper{
 		visitedURL:     make(map[string]bool),
-		visitedLock:    &sync.RWMutex{},
-		exercises:      make(map[string]*Exercise),
-		exercisesLock:  &sync.Mutex{},
 		outputDirector: v.GetString("resources.exercises_dir"),
 	}
 }
@@ -61,7 +73,10 @@ func New(v *viper.Viper) *Scraper {
 func (s *Scraper) Start(url string) {
 	c := colly.NewCollector(
 		colly.CacheDir("./scraper/.cache"),
+		colly.AllowedDomains("exrx.net"),
 	)
+
+	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 100})
 
 	c.OnHTML("main article", func(e *colly.HTMLElement) {
 		e.ForEach("a", func(_ int, el *colly.HTMLElement) {
@@ -70,32 +85,41 @@ func (s *Scraper) Start(url string) {
 				fmt.Println("Error: ", err.Error())
 			}
 
-			if strings.Contains(link, "ExList/") {
-				e.Request.Visit(link)
-			} else if strings.Contains(link, "/WeightExercises/") || strings.Contains(link, "/Aerobic/") {
-				s.scrapeExercisePage(link)
+			s.visitedLock.Lock()
+			if _, ok := s.visitedURL[link]; ok {
+				//fmt.Println("Alredy visited: ", link)
+				s.visitedLock.Unlock()
+				return
 			} else {
-				fmt.Println("Unknown link: ", link)
+				s.visitedURL[link] = true
+				s.visitedLock.Unlock()
+			}
+
+			if strings.Contains(link, "/WeightExercises/") ||
+				strings.Contains(link, "/Aerobic/") ||
+				strings.Contains(link, "/Plyometrics/") {
+				s.scraperWaitGroup.Add(1)
+				go s.ScrapeExercisePage(link)
+			} else if !strings.Contains(link, "download_file") ||
+				!strings.Contains(link, "Questions") {
+				e.Request.Visit(link)
 			}
 		})
 	})
 
-	c.OnRequest(func(r *colly.Request) {
-		s.visitedLock.Lock()
-		defer s.visitedLock.Unlock()
-
-		if _, ok := s.visitedURL[r.URL.String()]; ok {
-			fmt.Println("Abort visiting url: ", r.URL.String())
-			r.Abort()
-		} else {
-			s.visitedURL[r.URL.String()] = true
-		}
-	})
-
 	c.Visit(url)
+	s.scraperWaitGroup.Wait()
 }
 
-func (s *Scraper) scrapeExercisePage(url string) {
+// ScrapeExercisePage will take the url and parse out the data
+func (s *Scraper) ScrapeExercisePage(url string) {
+	defer s.scraperWaitGroup.Done()
+
+	if strings.Contains(url, "Stills") {
+		fmt.Println("Ignoring: ", url)
+		return
+	}
+
 	exercise := &Exercise{
 		CrawledAt: time.Now(),
 		URL:       url,
@@ -114,18 +138,57 @@ func (s *Scraper) scrapeExercisePage(url string) {
 			title := strings.Trim(el.ChildText("td:first-child"), " ")
 			switch title {
 			case "Utility:":
-				exercise.Utility = el.ChildText("td:nth-child(2)")
+				exercise.Classification.Utility = el.ChildText("td:nth-child(2)")
 			case "Mechanics:":
-				exercise.Mechanics = el.ChildText("td:nth-child(2)")
+				exercise.Classification.Mechanics = el.ChildText("td:nth-child(2)")
 			case "Force:":
-				exercise.Force = el.ChildText("td:nth-child(2)")
+				exercise.Classification.Force = el.ChildText("td:nth-child(2)")
+			case "Intensity:":
+				exercise.Classification.Intensity = el.ChildText("td:nth-child(2)")
+			case "Function:":
+				exercise.Classification.Function = el.ChildText("td:nth-child(2)")
+			case "Bearing:":
+				exercise.Classification.Bearing = el.ChildText("td:nth-child(2)")
+			case "Impact:":
+				exercise.Classification.Impact = el.ChildText("td:nth-child(2)")
 			default:
-				fmt.Println("Unknown section: ", title)
+				fmt.Printf("Unknown section %s at %s \n", title, url)
+			}
+		})
+	})
+
+	// Seems redundant but apparenlty sometimes the Classification table is in the right column
+	// See: https://exrx.net/WeightExercises/DeltoidPosterior/DBLyingRearDeltRow
+	c.OnHTML("main.col-sm-9.Add-Margin-Bottom .row .col-sm-6:nth-child(2)", func(e *colly.HTMLElement) {
+		e.ForEach("table tr", func(_ int, el *colly.HTMLElement) {
+			title := strings.Trim(el.ChildText("td:first-child"), " ")
+			fmt.Println("URL with strange pattern", url)
+			switch title {
+			case "Utility:":
+				exercise.Classification.Utility = el.ChildText("td:nth-child(2)")
+			case "Mechanics:":
+				exercise.Classification.Mechanics = el.ChildText("td:nth-child(2)")
+			case "Force:":
+				exercise.Classification.Force = el.ChildText("td:nth-child(2)")
+			case "Intensity:":
+				exercise.Classification.Intensity = el.ChildText("td:nth-child(2)")
+			case "Function:":
+				exercise.Classification.Function = el.ChildText("td:nth-child(2)")
+			case "Bearing:":
+				exercise.Classification.Bearing = el.ChildText("td:nth-child(2)")
+			case "Impact:":
+				exercise.Classification.Impact = el.ChildText("td:nth-child(2)")
+			default:
+				fmt.Printf("Unknown section %s at %s \n", title, url)
 			}
 		})
 	})
 
 	c.OnHTML("main.col-sm-9.Add-Margin-Bottom .row .col-sm-6:nth-child(2)", func(e *colly.HTMLElement) {
+		if !strings.Contains(e.DOM.Find("h2").Text(), "Muscles") {
+			return
+		}
+
 		e.ForEach("p a", func(i int, el *colly.HTMLElement) {
 			muscles := e.DOM.
 				Find(fmt.Sprintf("ul:nth-of-type(%d) li a", i+1)).
@@ -149,14 +212,58 @@ func (s *Scraper) scrapeExercisePage(url string) {
 			case "ROMCriteria":
 				exercise.Muscles.ROMCriteria = muscles
 			default:
-				fmt.Println("Unknown muscle section: ", title)
+				fmt.Printf("Unknow muscle section %s at %s\n", title, url)
 			}
 		})
 	})
 
-	s.visitedLock.Lock()
-	s.exercises[exercise.Name] = exercise
-	s.visitedLock.Unlock()
+	c.OnHTML("main.col-sm-9.Add-Margin-Bottom .row .col-sm-6:nth-child(2)", func(e *colly.HTMLElement) {
+		if !strings.Contains(e.DOM.Find("h2").First().Text(), "Force") {
+			return
+		}
+
+		e.ForEach("p strong", func(i int, el *colly.HTMLElement) {
+			articulations := make(map[string][]string)
+			e.DOM.
+				Find(fmt.Sprintf("p + ul:nth-of-type(%d) > li", i+1)).
+				Each(func(_ int, s *goquery.Selection) {
+					name := s.Contents().
+						FilterFunction(func(_ int, s *goquery.Selection) bool {
+							if goquery.NodeName(s) == "#text" {
+								return true
+							}
+
+							return false
+						}).
+						Text()
+
+					replacer := strings.NewReplacer(" ", "", "\t", "", "\n", "")
+					name = replacer.Replace(name)
+
+					joints := s.
+						Find("ul li").
+						Map(func(_ int, s *goquery.Selection) string {
+							return s.Text()
+						})
+
+					articulations[name] = joints
+				})
+
+			section := el.Text
+			switch section {
+			case "Dynamic":
+				exercise.Articulation.Dynamic = articulations
+			case "Static":
+				exercise.Articulation.Static = articulations
+			default:
+				fmt.Printf("Unknow articulation section %s at %s\n", section, url)
+			}
+		})
+	})
+
+	c.OnError(func(r *colly.Response, err error) {
+		fmt.Printf("Error loading %s: %s\n", url, err.Error())
+	})
 
 	c.Visit(url)
 
@@ -198,4 +305,15 @@ func getURL(current string, path string) (string, error) {
 	}
 
 	return currentURL.ResolveReference(u).String(), nil
+}
+
+func prettyPrint(v interface{}) (err error) {
+	b, err := json.MarshalIndent(v, "", "  ")
+	if err != nil {
+		fmt.Printf("prettyPrint: %v\n", err)
+	}
+
+	fmt.Println(string(b))
+
+	return
 }
