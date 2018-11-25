@@ -1,0 +1,29 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/CBSideBend",
+  "Name": "Cable Side Bend",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Quadratus lumborum",
+      "Psoas major",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae",
+      "Gluteus Medius",
+      "Gluteus Minimus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.500414-08:00"
+}

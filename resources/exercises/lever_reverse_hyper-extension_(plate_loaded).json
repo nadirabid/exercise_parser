@@ -1,0 +1,25 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/LVReverseHyperextension",
+  "Name": "Lever Reverse Hyper-extension (plate loaded)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Hamstrings"
+    ],
+    "Stabilizers": [
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.806147-08:00"
+}

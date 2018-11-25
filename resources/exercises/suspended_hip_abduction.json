@@ -1,0 +1,24 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipAbductor/STHipAbduction",
+  "Name": "Suspended Hip Abduction",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Tensor Fasciae Latae",
+      "Gluteus Medius",
+      "Gluteus Minimus"
+    ],
+    "Stabilizers": [
+      "Gluteus Maximus",
+      "Hamstrings",
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.928592-08:00"
+}

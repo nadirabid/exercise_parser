@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Infraspinatus/CBUprightExternalRotation",
+  "Name": "Cable Upright Shoulder External Rotation",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Teres Minor"
+    ],
+    "Synergists": [
+      "Infraspinatus",
+      "Deltoid, Posterior",
+      "Supraspinatus"
+    ],
+    "Stabilizers": [
+      "Rhomboids",
+      "Trapezius, Lower",
+      "Trapezius, Middle",
+      "Serratus Anterior",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.159603-08:00"
+}

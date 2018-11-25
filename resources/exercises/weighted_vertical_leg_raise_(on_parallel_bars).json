@@ -1,0 +1,36 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipFlexors/WtVerticalLegRaisePB",
+  "Name": "Weighted Vertical Leg Raise (on parallel bars)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Iliopsoas"
+    ],
+    "Synergists": [
+      "Tensor Fasciae Latae",
+      "Pectineus",
+      "Sartorius",
+      "Adductor Longus",
+      "Adductor Brevis"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Latissimus Dorsi",
+      "Deltoid, Posterior",
+      "Pectoralis Minor",
+      "Pectoralis Major, Sternal",
+      "Deltoid, Anterior",
+      "Trapezius, Lower",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": [
+      "Rectus Femoris"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.964538-08:00"
+}

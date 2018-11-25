@@ -1,0 +1,34 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipFlexors/WtInclineStraightLegRaise",
+  "Name": "Weighted Incline Straight Leg Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Iliopsoas"
+    ],
+    "Synergists": [
+      "Tensor Fasciae Latae",
+      "Sartorius",
+      "Pectineus",
+      "Rectus Femoris",
+      "Adductor Longus",
+      "Adductor Brevis"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Quadriceps",
+      "Pectoralis Major, Sternal",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Triceps, Long Head"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.956021-08:00"
+}

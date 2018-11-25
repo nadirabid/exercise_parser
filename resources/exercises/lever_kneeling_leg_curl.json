@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/LVKneelingLegCurl",
+  "Name": "Lever Kneeling Leg Curl",
+  "Utility": "Basic",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": [
+      "Gastrocnemius",
+      "Gracilis",
+      "Sartorius",
+      "Popliteus"
+    ],
+    "Stabilizers": [
+      "Gluteus Medius",
+      "Gluteus Maximus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Tibialis Anterior"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.197071-08:00"
+}

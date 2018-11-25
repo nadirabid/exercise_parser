@@ -1,0 +1,35 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/CBSideCrunch",
+  "Name": "Cable Side Crunch",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Quadratus lumborum",
+      "Psoas major",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis"
+    ],
+    "Stabilizers": [
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor",
+      "Rhomboids",
+      "Levator Scapulae",
+      "Trapezius, Lower",
+      "Triceps, Long Head",
+      "Brachialis",
+      "Brachioradialis",
+      "Biceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.501848-08:00"
+}

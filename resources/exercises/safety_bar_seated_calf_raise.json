@@ -1,0 +1,20 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Soleus/SBSeatedCalfRaise",
+  "Name": "Safety Bar Seated Calf Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Soleus"
+    ],
+    "Synergists": [
+      "Gastrocnemius"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.302191-08:00"
+}

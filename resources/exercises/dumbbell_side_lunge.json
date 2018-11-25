@@ -1,0 +1,36 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/DBSideLunge",
+  "Name": "Dumbbell Side Lunge",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Adductors",
+      "Soleus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae",
+      "Tibialis Anterior",
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Quadratus Lumborum",
+      "Obliques"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.05969-08:00"
+}

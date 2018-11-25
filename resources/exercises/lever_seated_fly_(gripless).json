@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralSternal/LVSeatedFlyGripless",
+  "Name": "Lever Seated Fly (gripless)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Sternal"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Pectoralis Minor",
+      "Deltoid, Anterior",
+      "Serratus Anterior"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.251319-08:00"
+}

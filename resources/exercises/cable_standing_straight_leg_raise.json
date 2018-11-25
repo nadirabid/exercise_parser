@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipFlexors/CBStandingStraightLegRaise",
+  "Name": "Cable Standing Straight Leg Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Iliopsoas"
+    ],
+    "Synergists": [
+      "Tensor Fasciae Latae",
+      "Rectus Femoris",
+      "Sartorius",
+      "Pectineus",
+      "Adductor Longus",
+      "Adductor Brevis"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Quadratus lumborum",
+      "Gluteus Medius",
+      "Gluteus Minimus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.945479-08:00"
+}

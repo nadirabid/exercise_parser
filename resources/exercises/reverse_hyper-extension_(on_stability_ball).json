@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/BWReverseHyperextensionBall",
+  "Name": "Reverse Hyper-extension (on stability ball)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.88206-08:00"
+}

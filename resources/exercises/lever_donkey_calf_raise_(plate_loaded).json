@@ -1,0 +1,25 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Gastrocnemius/LVDonkeyCalfRaisePL",
+  "Name": "Lever Donkey Calf Raise (plate loaded)",
+  "Utility": "Basic",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gastrocnemius"
+    ],
+    "Synergists": [
+      "Soleus"
+    ],
+    "Stabilizers": [
+      "Serratus Anterior",
+      "Pectoralis Minor",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.258202-08:00"
+}

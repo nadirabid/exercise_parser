@@ -1,0 +1,35 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/DBStepDown",
+  "Name": "Dumbbell Step Down",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Soleus",
+      "Gastrocnemius"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Quadratus Lumborum",
+      "Obliques"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.069876-08:00"
+}

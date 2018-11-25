@@ -1,0 +1,18 @@
+{
+  "URL": "https://exrx.net/WeightExercises/TibialisAnterior/CBReverseCalfRaise",
+  "Name": "Cable Reverse Calf Raise",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Tibialis Anterior"
+    ],
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.31063-08:00"
+}

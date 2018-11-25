@@ -1,0 +1,29 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipFlexors/BWHangingLegRaise",
+  "Name": "Hanging Leg Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Iliopsoas"
+    ],
+    "Synergists": [
+      "Tensor Fasciae Latae",
+      "Pectineus",
+      "Sartorius",
+      "Adductor Longus",
+      "Adductor Brevis"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "DynamicStabilizers": [
+      "Rectus Femoris"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.968572-08:00"
+}

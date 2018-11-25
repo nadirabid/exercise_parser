@@ -1,0 +1,18 @@
+{
+  "URL": "https://exrx.net/WeightExercises/TibialisAnterior/LVSeatedReverseCalfExtHammer",
+  "Name": "Lever Seated Reverse Calf Extension (plate loaded)",
+  "Utility": "",
+  "Mechanics": "",
+  "Force": "",
+  "Muscles": {
+    "Target": [
+      "Tibialis Anterior"
+    ],
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.321706-08:00"
+}

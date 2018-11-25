@@ -1,0 +1,34 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/LVLyingLegHipRaise",
+  "Name": "Lever Lying Leg-Hip Raise (plate loaded)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Pectineus",
+      "Sartorius",
+      "Adductor Longus",
+      "Adductor Brevis",
+      "Obliques",
+      "Rectus Femoris"
+    ],
+    "Stabilizers": [
+      "Quadriceps",
+      "Pectoralis Major, Sternal",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Triceps, Long Head"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.381829-08:00"
+}

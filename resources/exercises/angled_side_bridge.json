@@ -1,0 +1,40 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/BWAngledSideBridge",
+  "Name": "Angled Side Bridge",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Tensor Fasciae Latae",
+      "Quadratus lumborum",
+      "Psoas major",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis",
+      "Adductors, Hip",
+      "Pectineus",
+      "Gracilis",
+      "Gluteus Maximus, Lower Fibers",
+      "Deltoid, Lateral",
+      "Supraspinatus",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior, Inferior Digitations",
+      "Levator Scapulae"
+    ],
+    "Stabilizers": [
+      "Latissimus dorsi",
+      "Pectoralis major",
+      "Pectoralis minor"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.237251-08:00"
+}

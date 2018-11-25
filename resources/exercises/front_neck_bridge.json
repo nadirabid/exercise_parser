@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Sternocleidomastoid/BWFrontNeckBridge",
+  "Name": "Front Neck Bridge",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push \u0026 Pull",
+  "Muscles": {
+    "Target": [
+      "Sternocleidomastoid"
+    ],
+    "Synergists": [
+      "Splenius",
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Erector Spinae, Cervicis \u0026 Capitis Fibers "
+    ],
+    "Stabilizers": [
+      "Quadriceps",
+      "Erector Spinae",
+      "Rectus Abdominis",
+      "Obliques",
+      "Iliopsoas",
+      "Tensor Fasciae Latae ",
+      "Sartorius",
+      "Gastrocnemius",
+      "Soleus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.552445-08:00"
+}

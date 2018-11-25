@@ -1,0 +1,24 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipAdductors/CBHipAdduction",
+  "Name": "Cable Hip Adduction",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Adductors, Hip"
+    ],
+    "Synergists": [
+      "Pectineus",
+      "Gracilis",
+      "Gluteus Maximus, Lower Fibers"
+    ],
+    "Stabilizers": [
+      "Adductors, Hip"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.228607-08:00"
+}

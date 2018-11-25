@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/CBBentoverTriExtRope",
+  "Name": "Cable Bent-over Triceps Extension (with rope attachment)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Deltoid, Anterior",
+      "Pectoralis Major, Clavicular",
+      "Extensor Carpi Ulnaris",
+      "Flexor Carpi Ulnaris",
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.758223-08:00"
+}

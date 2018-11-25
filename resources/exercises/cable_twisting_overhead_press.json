@@ -1,0 +1,46 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidAnterior/CBTwistingOverheadPress",
+  "Name": "Cable Twisting Overhead Press",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Anterior"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Deltoid, Lateral",
+      "Supraspinatus",
+      "Triceps Brachii",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior, Inferior Digitations",
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Quadriceps",
+      "Soleus",
+      "Obliques",
+      "Psoas major",
+      "Quadratus lumborum",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis",
+      "Tensor Fasciae Latae",
+      "Gluteus Medius"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Erector Spinae",
+      "Obliques"
+    ],
+    "DynamicStabilizers": [
+      "Triceps, Long Head",
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.596868-08:00"
+}

@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Sternocleidomastoid/LVNeckFlexionH",
+  "Name": "Lever Neck Flexion (plate loaded)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Sternocleidomastoid"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Latissimus Dorsi",
+      "Deltoid, Posterior",
+      "Rhomboids",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Triceps Brachii",
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.545453-08:00"
+}

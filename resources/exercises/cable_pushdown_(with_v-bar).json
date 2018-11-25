@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/CBPushdownVBar",
+  "Name": "Cable Pushdown (with V-bar)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor",
+      "Trapezius, Lower",
+      "Rectus Abdominis",
+      "Obliques",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.776479-08:00"
+}

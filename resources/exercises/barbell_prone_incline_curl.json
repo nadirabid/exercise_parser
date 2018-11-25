@@ -1,0 +1,25 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Brachialis/BBProneInclineCurl",
+  "Name": "Barbell Prone Incline Curl",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Brachialis"
+    ],
+    "Synergists": [
+      "Biceps Brachii",
+      "Brachioradialis"
+    ],
+    "Stabilizers": [
+      "Wrist Flexors",
+      "Trapezius, Middle",
+      "Rhomboids"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.856114-08:00"
+}

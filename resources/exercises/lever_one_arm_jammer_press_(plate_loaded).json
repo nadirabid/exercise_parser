@@ -1,0 +1,16 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Power/LVOneArmJam",
+  "Name": "Lever One Arm Jammer Press (plate loaded)",
+  "Utility": "Power",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.574917-08:00"
+}

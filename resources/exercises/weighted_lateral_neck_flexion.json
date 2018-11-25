@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Sternocleidomastoid/WtNeckLateralFlex",
+  "Name": "Weighted Lateral Neck Flexion",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Sternocleidomastoid"
+    ],
+    "Synergists": [
+      "Splenius",
+      "Erector Spinae",
+      "Levator Scapulae",
+      "Trapezius, Upper"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.551139-08:00"
+}

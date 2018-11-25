@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralSternal/WtPushupHandles",
+  "Name": "Weighted Push-up (on handles)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Sternal"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Deltoid, Anterior",
+      "Triceps Brachii"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Quadriceps",
+      "Pectoralis Minor",
+      "Serratus Anterior"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii, Short Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.270472-08:00"
+}

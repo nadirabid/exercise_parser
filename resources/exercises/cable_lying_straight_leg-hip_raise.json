@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/CBLyingStraightLegHipRaise",
+  "Name": "Cable Lying Straight Leg-Hip Raise",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Iliopsoas",
+      "Tensor Fasciae  Latae",
+      "Sartorius",
+      "Pectineus",
+      "Adductor Longus",
+      "Adductor Brevis",
+      "Rectus Femoris",
+      "Obliques"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.362921-08:00"
+}

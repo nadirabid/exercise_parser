@@ -1,0 +1,25 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralSternal/CBBarStandingChestPress",
+  "Name": "Cable Bar Standing Chest Press",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Sternal"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Deltoid, Anterior",
+      "Triceps Brachii",
+      "Pectoralis Minor"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": [
+      "Biceps Brachii, Short Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.212065-08:00"
+}

@@ -1,0 +1,38 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/BWExerciseBallPlankTwist",
+  "Name": "Plank Twist (on stability ball)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Psoas major",
+      "Quadratus lumborum",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis"
+    ],
+    "Stabilizers": [
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Serratus Anterior",
+      "Deltoid, Anterior",
+      "Triceps Brachii",
+      "Quadriceps",
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Sartorius",
+      "Pectineus",
+      "Adductor Longus",
+      "Adductor Brevis",
+      "Rectus Femoris",
+      "Rectus Abdominis"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.583411-08:00"
+}

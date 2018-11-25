@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Biceps/CBAlternatingCurl",
+  "Name": "Cable Alternating Curl",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Biceps Brachii"
+    ],
+    "Synergists": [
+      "Brachialis",
+      "Brachioradialis"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.835369-08:00"
+}

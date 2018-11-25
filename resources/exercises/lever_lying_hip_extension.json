@@ -1,0 +1,24 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/LVLyingHipExtension",
+  "Name": "Lever Lying Hip Extension",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Adductor Magnus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.823882-08:00"
+}

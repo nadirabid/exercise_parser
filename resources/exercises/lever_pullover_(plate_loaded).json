@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/WeightExercises/LatissimusDorsi/LVPulloverH",
+  "Name": "Lever Pullover (plate loaded)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Latissimus Dorsi"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor",
+      "Triceps, Long Head",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Rhomboids",
+      "Levator Scapulae"
+    ],
+    "Stabilizers": [
+      "Trapezius, Lower"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.083606-08:00"
+}

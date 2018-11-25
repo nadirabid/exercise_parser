@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/LVInclineTricepsExtension",
+  "Name": "Lever Incline Triceps Extension",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Pectoralis Major, Clavicular",
+      "Wrist Flexors",
+      "Extensor Carpi Ulnaris",
+      "Flexor Carpi Ulnaris"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.79664-08:00"
+}

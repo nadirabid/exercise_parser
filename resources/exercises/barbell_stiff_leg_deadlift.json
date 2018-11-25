@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/BBStiffLegDeadlift",
+  "Name": "Barbell Stiff Leg Deadlift",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Erector Spinae",
+      "Adductor Magnus",
+      "Hamstrings"
+    ],
+    "Stabilizers": [
+      "Quadriceps",
+      "Trapezius, Middle",
+      "Rhomboids",
+      "Latissimus Dorsi",
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Trapezius, Lower"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.721187-08:00"
+}

@@ -1,0 +1,22 @@
+{
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/BBBackExtension",
+  "Name": "Barbell Back Extension (on hyperextension apparatus)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Erector Spinae"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Gluteus Maximus",
+      "Hamstrings",
+      "Adductor Magnus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.618731-08:00"
+}

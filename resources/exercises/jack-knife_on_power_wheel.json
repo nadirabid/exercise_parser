@@ -1,0 +1,38 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipFlexors/BWJackKnifeWheel",
+  "Name": "Jack-knife on Power Wheel",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Iliopsoas"
+    ],
+    "Synergists": [
+      "Tensor Fasciae Latae",
+      "Sartorius",
+      "Pectineus",
+      "Adductor Longus",
+      "Adductor Brevis",
+      "Gluteus Maximus",
+      "Adductor Magnus"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Serratus Anterior",
+      "Deltoid, Anterior",
+      "Triceps Brachii",
+      "Quadriceps"
+    ],
+    "DynamicStabilizers": [
+      "Rectus Femoris",
+      "Hamstrings"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.992812-08:00"
+}

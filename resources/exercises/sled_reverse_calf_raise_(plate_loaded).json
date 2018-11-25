@@ -1,0 +1,22 @@
+{
+  "URL": "https://exrx.net/WeightExercises/TibialisAnterior/SLReverseCalfRaisePL",
+  "Name": "Sled Reverse Calf Raise (plate loaded)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Tibialis Anterior"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.339691-08:00"
+}

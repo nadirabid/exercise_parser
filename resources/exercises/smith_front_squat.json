@@ -1,0 +1,38 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/SMFrontSquat",
+  "Name": "Smith Front Squat",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Soleus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Deltoid, Anterior",
+      "Deltoid, Lateral",
+      "Pectoralis Major, Clavicular",
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.127836-08:00"
+}

@@ -1,0 +1,18 @@
+{
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/BWHyperextensionHips",
+  "Name": "Hyperextension (hands behind hips)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Erector Spinae"
+    ],
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.692941-08:00"
+}

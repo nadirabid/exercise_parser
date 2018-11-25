@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Soleus/LVBentKneeSeatedCalfExtension",
+  "Name": "Lever Bent Knee Seated Calf Extension",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Soleus"
+    ],
+    "Synergists": [
+      "Gastrocnemius"
+    ],
+    "Stabilizers": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.305181-08:00"
+}

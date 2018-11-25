@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/LVFrontSquatPL",
+  "Name": "Lever Front Squat",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Quadriceps",
+      "Adductor Magnus",
+      "Soleus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.816243-08:00"
+}

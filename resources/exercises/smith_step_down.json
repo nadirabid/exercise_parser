@@ -1,0 +1,34 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/SMStepDown",
+  "Name": "Smith Step Down",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Soleus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Quadratus\nLumborum\n",
+      "Obliques"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.131782-08:00"
+}

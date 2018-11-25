@@ -1,0 +1,38 @@
+{
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/BWBirdDog",
+  "Name": "Bird Dog",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Erector Spinae"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Trapezius, Lower",
+      "Trapezius, Middle",
+      "Deltoid, Anterior",
+      "Deltoid, Lateral"
+    ],
+    "Stabilizers": [
+      "Gluteus medius",
+      "Gluteus minimus",
+      "Piriformis",
+      "Obturator externus",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Serratus Anterior",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings"
+    ],
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.683005-08:00"
+}

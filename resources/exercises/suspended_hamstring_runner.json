@@ -1,0 +1,32 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/STHamstringRunner",
+  "Name": "Suspended Hamstring Runner",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": [
+      "Gastrocnemius",
+      "Sartorius",
+      "Gracilis",
+      "Popliteus"
+    ],
+    "Stabilizers": [
+      "Gluteus Maximus",
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": [
+      "Rectus Femoris"
+    ],
+    "AntagonistStabilizers": [
+      "Tibialis Anterior",
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.225956-08:00"
+}

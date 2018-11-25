@@ -1,0 +1,32 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidLateral/CBUprightRowDualPulley",
+  "Name": "Cable Upright Row (dual pulley)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Lateral"
+    ],
+    "Synergists": [
+      "Deltoid, Anterior",
+      "Supraspinatus",
+      "Brachialis",
+      "Brachioradialis",
+      "Biceps Brachii",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior, Inferior Digitations",
+      "Infraspinatus",
+      "Teres Minor"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Levator Scapulae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.637994-08:00"
+}

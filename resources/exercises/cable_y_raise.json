@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidLateral/CBYRaise",
+  "Name": "Cable Y Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Lateral"
+    ],
+    "Synergists": [
+      "Supraspinatus",
+      "Teres Minor",
+      "Infraspinatus",
+      "Trapezius, Lower",
+      "Trapezius, Middle",
+      "Serratus Anterior, Inferior Digitations",
+      "Deltoid, Anterior",
+      "Deltoid, Posterior"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.644544-08:00"
+}

@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Splenius/WtNeckHarnessExt",
+  "Name": "Weighted Neck Harness Extension",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Splenius"
+    ],
+    "Synergists": [
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Erector Spinae, Cervicis \u0026 Capitis Fibers",
+      "Sternocleidomastoid, Posterior Fibers"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.562756-08:00"
+}

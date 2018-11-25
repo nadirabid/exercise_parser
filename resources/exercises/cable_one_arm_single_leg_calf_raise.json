@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Gastrocnemius/CBOneArmSingleLegCalfRaise",
+  "Name": "Cable One Arm Single Leg Calf Raise",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gastrocnemius"
+    ],
+    "Synergists": [
+      "Soleus"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae",
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Quadratus Lumborum",
+      "Obliques"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.251347-08:00"
+}

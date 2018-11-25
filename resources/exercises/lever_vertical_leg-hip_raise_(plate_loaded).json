@@ -1,0 +1,32 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/LVVerticalLegHipRaise",
+  "Name": "Lever Vertical Leg-Hip Raise (plate loaded)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Pectineus",
+      "Sartorius",
+      "Rectus Femoris",
+      "Adductor Longus",
+      "Adductor Brevis",
+      "Obliques"
+    ],
+    "Stabilizers": [
+      "Pectoralis Minor",
+      "Pectoralis Major, Sternal",
+      "Deltoid, Anterior",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.385332-08:00"
+}

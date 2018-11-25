@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/DBLyingRearDeltRaise",
+  "Name": "Dumbbell Lying Rear Delt Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Posterior"
+    ],
+    "Synergists": [
+      "Infraspinatus",
+      "Teres Minor",
+      "Deltoid, Lateral",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids"
+    ],
+    "Stabilizers": [
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.694922-08:00"
+}

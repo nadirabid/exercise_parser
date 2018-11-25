@@ -1,0 +1,36 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/BWVerticalLegHipRaisePB",
+  "Name": "Vertical Leg-Hip Raise (parallel bars)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Pectineus",
+      "Sartorius",
+      "Adductor Longus",
+      "Adductor Brevis",
+      "Obliques"
+    ],
+    "Stabilizers": [
+      "Latissimus Dorsi",
+      "Deltoid, Posterior",
+      "Pectoralis Minor",
+      "Pectoralis Major, Sternal",
+      "Deltoid, Anterior",
+      "Trapezius, Lower",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": [
+      "Rectus Femoris"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.470998-08:00"
+}

@@ -1,0 +1,32 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/LVStandingLegCurlMultiHip",
+  "Name": "Lever Standing Leg Curl (on multi-hip machine)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": [
+      "Gastrocnemius",
+      "Gracilis",
+      "Sartorius",
+      "Popliteus"
+    ],
+    "Stabilizers": [
+      "Adductor Magnus",
+      "Gluteus Maximus",
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Gastrocnemius",
+      "Soleus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Tibialis Anterior"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.204244-08:00"
+}

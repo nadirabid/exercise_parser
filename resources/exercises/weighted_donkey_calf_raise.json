@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Gastrocnemius/WTDonkeyCalfRaise",
+  "Name": "Weighted Donkey Calf Raise",
+  "Utility": "Basic",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gastrocnemius"
+    ],
+    "Synergists": [
+      "Soleus"
+    ],
+    "Stabilizers": [
+      "Serratus Anterior",
+      "Pectoralis Minor",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Triceps brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.293672-08:00"
+}

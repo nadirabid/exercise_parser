@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/BWBentKneeLyingTwist",
+  "Name": "Bent-knee Lying Twist",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Psoas major",
+      "Quadratus lumborum",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis"
+    ],
+    "Stabilizers": [
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Deltoid, Posterior",
+      "Triceps",
+      "Adductors, Hip"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.582077-08:00"
+}

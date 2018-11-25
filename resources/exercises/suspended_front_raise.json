@@ -1,0 +1,34 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidAnterior/STFrontRaise",
+  "Name": "Suspended Front Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Anterior"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Deltoid, Lateral",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior, Inferior Digitations"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Gluteus Maximus",
+      "Hamstrings",
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.628726-08:00"
+}

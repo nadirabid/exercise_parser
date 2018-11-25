@@ -1,0 +1,35 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/SBSquatSelfSpot",
+  "Name": "Safety Barbell Squat (self-spotting)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Soleus"
+    ],
+    "Stabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "DynamicStabilizers": [
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Pectoralis Major, Clavicular",
+      "Deltoid, Posterior",
+      "Triceps, Long Head",
+      "Levator Scapulae",
+      "Rhomboids"
+    ],
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.030378-08:00"
+}

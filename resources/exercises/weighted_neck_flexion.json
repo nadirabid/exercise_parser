@@ -1,0 +1,21 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Sternocleidomastoid/WtNeckFlx",
+  "Name": "Weighted Neck Flexion",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Sternocleidomastoid"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.550193-08:00"
+}

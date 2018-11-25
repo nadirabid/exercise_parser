@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/LVTricepsExtensionNoSeatPL",
+  "Name": "Lever Triceps Extension (no seat, plate loaded)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Pectoralis Major, Sternal",
+      "Deltoid, Posterior",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Pectoralis Minor",
+      "Trapezius, Lower",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.794059-08:00"
+}

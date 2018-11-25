@@ -1,0 +1,29 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/DBOneArmRearLateralRaise",
+  "Name": "Dumbbell Lying One Arm Rear Lateral Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Posterior"
+    ],
+    "Synergists": [
+      "Infraspinatus",
+      "Teres Minor",
+      "Supraspinatus",
+      "Deltoid, Lateral",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids"
+    ],
+    "Stabilizers": [
+      "Flexor Carpi Radialis",
+      "Extensor Carpi Radialis"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.738796-08:00"
+}

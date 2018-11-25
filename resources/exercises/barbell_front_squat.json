@@ -1,0 +1,39 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/BBFrontSquat",
+  "Name": "Barbell Front Squat",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Soleus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Deltoid, Anterior",
+      "Deltoid, Lateral",
+      "Supraspinatus",
+      "Pectoralis Major, Clavicular",
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae",
+      "Trapezius, Lower",
+      "Serratus Anterior"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.022245-08:00"
+}

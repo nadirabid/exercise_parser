@@ -1,0 +1,20 @@
+{
+  "URL": "https://exrx.net/WeightExercises/WristExtensors/LVRollerWristExtention",
+  "Name": "Lever Roller Wrist Extension",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Wrist Extensors"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Wrist/Finger Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.930224-08:00"
+}

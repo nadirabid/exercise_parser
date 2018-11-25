@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Brachialis/CBProneInclineCurl",
+  "Name": "Cable Prone Incline Curl",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Biceps Brachii",
+      "Brachioradialis"
+    ],
+    "Synergists": [
+      "Wrist Flexors",
+      "Trapezius, Middle",
+      "Rhomboids"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.865331-08:00"
+}

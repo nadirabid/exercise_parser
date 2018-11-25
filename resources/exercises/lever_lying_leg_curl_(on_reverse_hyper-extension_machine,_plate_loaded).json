@@ -1,0 +1,25 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/LVLyingLegCurlRevHyperMachPL",
+  "Name": "Lever Lying Leg Curl (on reverse hyper-extension machine, plate loaded)",
+  "Utility": "Basic",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": [
+      "Gastrocnemius",
+      "Sartorius",
+      "Gracilis",
+      "Popliteus"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Tibialis Anterior"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.189039-08:00"
+}

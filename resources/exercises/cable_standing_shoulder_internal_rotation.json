@@ -1,0 +1,29 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Subscapularis/CBStandingInternalRotation",
+  "Name": "Cable Standing Shoulder Internal Rotation",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Subscapularis"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Anterior"
+    ],
+    "Stabilizers": [
+      "Pectoralis Minor",
+      "Rhomboids",
+      "Levator Scapulae",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.175993-08:00"
+}

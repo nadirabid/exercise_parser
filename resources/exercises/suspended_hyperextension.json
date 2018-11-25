@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/STHyperextension",
+  "Name": "Suspended Hyperextension",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Erector Spinae",
+      "Gluteus Maximus",
+      "Adductor Magnus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Deltoid, Anterior",
+      "Deltoid, Lateral",
+      "Supraspinatus",
+      "Trapezius, Lower",
+      "Trapezius, Middle",
+      "Serratus Anterior",
+      "Triceps Brachii"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.226983-08:00"
+}

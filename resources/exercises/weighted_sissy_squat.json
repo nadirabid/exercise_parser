@@ -1,0 +1,24 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/WTSissySquat",
+  "Name": "Weighted Sissy Squat",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Gluteus Maximus",
+      "Soleus",
+      "Gastrocnemius",
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.134613-08:00"
+}

@@ -1,0 +1,29 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/SLStandingHipExtension",
+  "Name": "Sled Standing Rear Kick",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Quadriceps",
+      "Adductor Magnus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Obliques",
+      "Gluteus Medius",
+      "Gluteus Minimus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Hamstrings",
+      "Rectus Abdominis"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.853433-08:00"
+}

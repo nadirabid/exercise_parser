@@ -1,0 +1,39 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/CBUpDownTwist",
+  "Name": "Cable Twist (up down)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Tensor fasciae latae",
+      "Gluteus medius",
+      "Gluteus minimus, anterior fibers",
+      "Adductors, Hip",
+      "Psoas major",
+      "Quadratus lumborum",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis"
+    ],
+    "Stabilizers": [
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Deltoid, Posterior",
+      "Triceps, Long Head",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Rectus Abdominis",
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.513177-08:00"
+}

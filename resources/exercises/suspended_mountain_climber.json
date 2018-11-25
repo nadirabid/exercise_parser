@@ -1,0 +1,38 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipFlexors/STMountainClimber",
+  "Name": "Suspended Mountain Climber",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Iliopsoas"
+    ],
+    "Synergists": [
+      "Tensor Fasciae Latae",
+      "Pectineus",
+      "Sartorius",
+      "Adductor Longus",
+      "Adductor Brevis"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Quadriceps",
+      "Pectoralis Major",
+      "Serratus Anterior",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": [
+      "Rectus Femoris"
+    ],
+    "AntagonistStabilizers": [
+      "Erector Spinae",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.999113-08:00"
+}

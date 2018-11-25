@@ -1,0 +1,35 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/LVTBarRearDeltRow",
+  "Name": "Lever T-Bar Rear Delt Row (plate loaded)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Posterior"
+    ],
+    "Synergists": [
+      "Infraspinatus",
+      "Teres Minor",
+      "Deltoid, Lateral",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Brachialis",
+      "Brachioradialis",
+      "Rhomboids"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Hamstrings",
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Quadriceps"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.710796-08:00"
+}

@@ -1,0 +1,34 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/CBPushdownHeavy",
+  "Name": "Cable Pushdown (forward leaning)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor",
+      "Trapezius, Lower",
+      "Rectus Abdominis",
+      "Obliques",
+      "Wrist Flexors"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.770305-08:00"
+}

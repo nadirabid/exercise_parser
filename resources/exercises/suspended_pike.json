@@ -1,0 +1,41 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipFlexors/STPike",
+  "Name": "Suspended Pike",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Iliopsoas"
+    ],
+    "Synergists": [
+      "Tensor Fasciae Latae",
+      "Pectineus",
+      "Sartorius",
+      "Adductor Longus",
+      "Adductor Brevis",
+      "Rectus Femoris"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Quadriceps",
+      "Pectoralis major",
+      "Deltoid, Anterior",
+      "Serratus Anterior",
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Erector Spinae",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.000878-08:00"
+}

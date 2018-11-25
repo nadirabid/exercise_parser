@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/LVInclineRearDeltRowPL",
+  "Name": "Lever Incline Rear Delt Row (plate loaded)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Posterior"
+    ],
+    "Synergists": [
+      "Infraspinatus",
+      "Teres Minor",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Brachialis",
+      "Brachioradialis",
+      "Latissimus Dorsi"
+    ],
+    "Stabilizers": [
+      "Deltoid, Lateral"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.704013-08:00"
+}

@@ -1,0 +1,25 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/SLLyingLegPressPL",
+  "Name": "Sled Lying Leg Press (plate loaded)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Soleus"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.112399-08:00"
+}

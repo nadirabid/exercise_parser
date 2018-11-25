@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/CBOneArmPushdown",
+  "Name": "Cable One Arm Pushdown",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor",
+      "Trapezius, Lower",
+      "Obliques",
+      "Rectus Abdominis",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.772803-08:00"
+}

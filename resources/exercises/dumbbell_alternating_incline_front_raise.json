@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidAnterior/DBAlternInclineFrontRaise",
+  "Name": "Dumbbell Alternating Incline Front Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Anterior"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Deltoid, Lateral",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior, Inferior Digitations"
+    ],
+    "Stabilizers": [
+      "Serratus Anterior",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.602197-08:00"
+}

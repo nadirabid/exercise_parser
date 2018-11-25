@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/RearInclinePlank",
+  "Name": "Rear Incline Bridge",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Erector Spinae"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Gluteus Maximus",
+      "Hamstrings",
+      "Triceps Brachii",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Levator Scapulae",
+      "Latissimus Dorsi"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.702972-08:00"
+}

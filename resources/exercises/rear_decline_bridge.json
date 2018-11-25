@@ -1,0 +1,24 @@
+{
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/RearDeclinePlank",
+  "Name": "Rear Decline Bridge",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Erector Spinae"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Gluteus Maximus",
+      "Quadriceps"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.701745-08:00"
+}

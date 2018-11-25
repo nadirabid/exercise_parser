@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/LVAltTriExt",
+  "Name": "Lever Alternating Triceps Extension",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Pectoralis Major, Sternal",
+      "Deltoid, Posterior",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Pectoralis Minor",
+      "Trapezius, Lower",
+      "Extensor Carpi Ulnaris",
+      "Flexor Carpi Ulnaris"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.807563-08:00"
+}

@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralClavicular/BWDeclinePushupOnBall",
+  "Name": "Decline Push-up (on stability ball)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Clavicular"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Sternal",
+      "Deltoid, Anterior",
+      "Triceps Brachii"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": [
+      "Biceps Brachii, Short Head"
+    ],
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.330998-08:00"
+}

@@ -1,0 +1,36 @@
+{
+  "URL": "https://exrx.net/WeightExercises/BackGeneral/CBWideGripSeatedRow",
+  "Name": "Cable Wide Grip Seated Row",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Infraspinatus",
+      "Teres Minor",
+      "Brachialis",
+      "Brachioradialis",
+      "Pectoralis Major, Sternal",
+      "Erector Spinae"
+    ],
+    "Stabilizers": [
+      "Hamstrings",
+      "Gluteus Maximus",
+      "Adductor Magnus"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii",
+      "Triceps, Long Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.678539-08:00"
+}

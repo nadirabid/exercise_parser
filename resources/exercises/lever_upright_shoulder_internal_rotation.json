@@ -1,0 +1,25 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Subscapularis/LVUprightInternalRotation",
+  "Name": "Lever Upright Shoulder Internal Rotation",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Subscapularis"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Sternal",
+      "Latissimus Dorsi",
+      "Teres Major"
+    ],
+    "Stabilizers": [
+      "Serratus Anterior",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.183603-08:00"
+}

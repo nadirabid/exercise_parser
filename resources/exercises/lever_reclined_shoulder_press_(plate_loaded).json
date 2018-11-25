@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidAnterior/LVReclinedShoulderPressPL",
+  "Name": "Lever Reclined Shoulder Press (plate loaded)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Anterior"
+    ],
+    "Synergists": [
+      "Deltoid, Lateral",
+      "Supraspinatus",
+      "Triceps Brachii",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior, Inferior Digitations"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Levator Scapulae"
+    ],
+    "DynamicStabilizers": [
+      "Triceps, Long Head",
+      "Biceps Brachii"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.610086-08:00"
+}

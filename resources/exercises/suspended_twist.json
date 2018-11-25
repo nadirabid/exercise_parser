@@ -1,0 +1,38 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/STTwist",
+  "Name": "Suspended Twist",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Tensor Fasciae Latae"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Gluteus Maximus",
+      "Hamstrings",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Pectoralis Minor",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Deltoid, Lateral",
+      "Deltoid, Posterior",
+      "Triceps"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.008498-08:00"
+}

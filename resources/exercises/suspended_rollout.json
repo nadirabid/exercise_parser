@@ -1,0 +1,40 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/STRollout",
+  "Name": "Suspended Rollout",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor",
+      "Deltoid, Posterior",
+      "Rhomboids"
+    ],
+    "Stabilizers": [
+      "Obliques",
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Sartorius",
+      "Pectineus",
+      "Adductor Longus",
+      "Adductor Brevis",
+      "Triceps Brachii",
+      "Pectoralis Major, Clavicular",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": [
+      "Rectus Femoris"
+    ],
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.494067-08:00"
+}

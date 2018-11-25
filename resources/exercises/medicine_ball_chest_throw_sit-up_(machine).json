@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/MBSitUpChest",
+  "Name": "Medicine Ball Chest Throw Sit-up (machine)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Iliopsoas",
+      "Tensor Fasciae\nLatae\n",
+      "Rectus Femoris",
+      "Sartorius",
+      "Pectineus",
+      "Adductor Longus",
+      "Aductor Brevis",
+      "Obliques",
+      "Pectoralis\nMajor, Sternal\n",
+      "Pectoralis\nMajor, Clavicular\n",
+      "Deltoid, Anterior",
+      "Triceps Brachii"
+    ],
+    "Stabilizers": [
+      "Tibialis Anterior"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.414833-08:00"
+}

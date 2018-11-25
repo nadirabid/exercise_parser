@@ -1,0 +1,25 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/LVSeatedLegCurlH",
+  "Name": "Lever Seated Leg Curl (plate loaded)",
+  "Utility": "Basic",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": [
+      "Gastrocnemius",
+      "Gracilis",
+      "Sartorius",
+      "Popliteus"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Tibialis Anterior"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.190537-08:00"
+}

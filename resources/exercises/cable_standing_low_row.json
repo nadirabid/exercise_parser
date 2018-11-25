@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/BackGeneral/CBOneArmStandingLowRow",
+  "Name": "Cable Standing Low Row",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Infraspinatus",
+      "Teres Minor",
+      "Brachialis",
+      "Brachioradialis",
+      "Pectoralis Major, Sternal"
+    ],
+    "Stabilizers": [
+      "Triceps"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii",
+      "Triceps, Long Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.97897-08:00"
+}

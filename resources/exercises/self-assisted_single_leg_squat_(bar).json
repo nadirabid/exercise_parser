@@ -1,0 +1,32 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/ASSingleLegSquatSelf",
+  "Name": "Self-assisted Single Leg Squat (bar)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Soleus",
+      "Erector Spinae"
+    ],
+    "Stabilizers": [
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Pectineus",
+      "Sartorius",
+      "Quadriceps"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.156763-08:00"
+}

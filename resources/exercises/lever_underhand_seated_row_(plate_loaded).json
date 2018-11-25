@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/BackGeneral/LVSeatedUnderhandRowH",
+  "Name": "Lever Underhand Seated Row (plate loaded)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Infraspinatus",
+      "Teres Minor",
+      "Brachialis",
+      "Brachioradialis",
+      "Pectoralis Major, Sternal "
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": [
+      "Biceps Brachii",
+      "Triceps, Long Head "
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.007893-08:00"
+}

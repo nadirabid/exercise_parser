@@ -1,0 +1,22 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/Wt45Hyperextension",
+  "Name": "Weighted 45-degree Hyperextension",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Erector Spinae",
+      "Gluteus Maximus",
+      "Adductor Magnus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.213921-08:00"
+}

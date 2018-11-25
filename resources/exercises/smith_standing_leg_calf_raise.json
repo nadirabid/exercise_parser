@@ -1,0 +1,20 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Gastrocnemius/SMStandingCalfRaise",
+  "Name": "Smith Standing Leg Calf Raise",
+  "Utility": "Basic",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gastrocnemius"
+    ],
+    "Synergists": [
+      "Soleus"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.292573-08:00"
+}

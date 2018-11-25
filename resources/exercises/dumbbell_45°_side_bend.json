@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/DB45SideBend",
+  "Name": "Dumbbell 45° Side Bend",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Quadratus lumborum",
+      "Psoas major",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis"
+    ],
+    "Stabilizers": [
+      "Gluteus Medius",
+      "Gluteus Minimus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.514585-08:00"
+}

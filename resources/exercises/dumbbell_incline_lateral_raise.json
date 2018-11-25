@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidLateral/DBInclineLateralRaise",
+  "Name": "Dumbbell Incline Lateral Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Lateral"
+    ],
+    "Synergists": [
+      "Deltoid, Posterior",
+      "Supraspinatus",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior, Inferior Digitations"
+    ],
+    "Stabilizers": [
+      "Wrist Extensors",
+      "Trapezius, Upper",
+      "Levator Scapulae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.64948-08:00"
+}

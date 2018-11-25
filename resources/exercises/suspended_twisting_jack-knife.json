@@ -1,0 +1,42 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/STTwistingJackknife",
+  "Name": "Suspended Twisting Jack-knife",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Sartorius",
+      "Pectineus",
+      "Adductor Longus",
+      "Adductor Brevis",
+      "Quadratus lumborum",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Pectoralis Major",
+      "Serratus Anterior",
+      "Deltoid, Anterior",
+      "Triceps Brachii",
+      "Quadriceps"
+    ],
+    "DynamicStabilizers": [
+      "Rectus Femoris"
+    ],
+    "AntagonistStabilizers": [
+      "Erector Spinae",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.613324-08:00"
+}

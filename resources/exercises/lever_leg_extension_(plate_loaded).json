@@ -1,0 +1,22 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/LVLegExtensionH",
+  "Name": "Lever Leg Extension (plate loaded)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.070777-08:00"
+}

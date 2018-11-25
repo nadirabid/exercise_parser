@@ -1,0 +1,24 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Sternocleidomastoid/LVLateralNeckFlexionH",
+  "Name": "Lever Lateral Neck Flexion (plate loaded)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Sternocleidomastoid"
+    ],
+    "Synergists": [
+      "Obliques",
+      "Quadratus lumborum",
+      "Psoas major",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.546434-08:00"
+}

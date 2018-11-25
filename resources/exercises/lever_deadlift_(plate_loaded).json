@@ -1,0 +1,34 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/LVDeadlift",
+  "Name": "Lever Deadlift (plate loaded)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Quadriceps",
+      "Adductor Magnus",
+      "Soleus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Trapezius, Middle",
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Rhomboids"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.788576-08:00"
+}

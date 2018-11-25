@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/CBRearLateralRaise",
+  "Name": "Cable Rear Lateral Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Posterior"
+    ],
+    "Synergists": [
+      "Deltoid, Lateral",
+      "Infraspinatus",
+      "Teres Minor",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids"
+    ],
+    "Stabilizers": [
+      "Triceps Brachii",
+      "Wrist Extensors",
+      "Erector Spinae",
+      "Hamstrings",
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Quadriceps"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.68963-08:00"
+}

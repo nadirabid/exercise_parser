@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/BBHipThrust",
+  "Name": "Barbell Hip Thrust",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Quadriceps"
+    ],
+    "Stabilizers": [
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings"
+    ],
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.725877-08:00"
+}

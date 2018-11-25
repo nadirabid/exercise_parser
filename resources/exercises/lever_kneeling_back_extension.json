@@ -1,0 +1,21 @@
+{
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/LVKneelingBackExtension",
+  "Name": "Lever Kneeling Back Extension",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Erector Spinae"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Gluteus Maximus",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.663292-08:00"
+}

@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Brachialis/BBStandingPreacherCurl",
+  "Name": "Barbell Standing Preacher Curl",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Brachialis"
+    ],
+    "Synergists": [
+      "Biceps Brachii",
+      "Brachioradialis"
+    ],
+    "Stabilizers": [
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.854514-08:00"
+}

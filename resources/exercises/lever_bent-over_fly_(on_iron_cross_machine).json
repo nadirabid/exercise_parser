@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralSternal/LVBentoverFlyIronCross",
+  "Name": "Lever Bent-over Fly (on iron cross machine)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Sternal"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Pectoralis Minor",
+      "Biceps Brachii, Short Head"
+    ],
+    "Stabilizers": [
+      "Biceps Brachii",
+      "Brachialis",
+      "Triceps Brachii",
+      "Wrist Flexors",
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.242273-08:00"
+}

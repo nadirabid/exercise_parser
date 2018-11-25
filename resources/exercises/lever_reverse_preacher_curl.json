@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Brachioradialis/LVReversePreacherCurl",
+  "Name": "Lever Reverse Preacher Curl",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Brachioradialis"
+    ],
+    "Synergists": [
+      "Brachialis",
+      "Biceps Brachii"
+    ],
+    "Stabilizers": [
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.898138-08:00"
+}

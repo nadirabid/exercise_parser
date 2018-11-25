@@ -1,0 +1,36 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralSternal/STFly",
+  "Name": "Suspended Fly",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Sternal"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Deltoid, Anterior",
+      "Biceps Brachii, Short Head"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Pectoralis Minor",
+      "Serratus Anterior",
+      "Quadriceps",
+      "Gastrocnemius",
+      "Soleus",
+      "Biceps Brachii",
+      "Brachialis",
+      "Triceps Brachii",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.28804-08:00"
+}

@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/WtTwistingSitUp",
+  "Name": "Weighted Twisting Situp",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Rectus Femoris",
+      "Sartorius",
+      "Rectus Abdominis"
+    ],
+    "Stabilizers": [
+      "Tibialis Anterior"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.564804-08:00"
+}

@@ -1,0 +1,32 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/CBPushdownRope",
+  "Name": "Cable Pushdown (with rope attachment)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor",
+      "Trapezius, Lower",
+      "Rectus Abdominis",
+      "Obliques",
+      "Wrist Flexors",
+      "Flexor Carpi Ulnaris",
+      "Extensor Carpi Ulnaris"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.775287-08:00"
+}

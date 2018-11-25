@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/Superman",
+  "Name": "Superman",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Erector Spinae"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Hamstrings"
+    ],
+    "Stabilizers": [
+      "Deltoid, Anterior",
+      "Deltoid, Lateral",
+      "Trapezius, Lower",
+      "Trapezius, Middle",
+      "Splenius"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.694553-08:00"
+}

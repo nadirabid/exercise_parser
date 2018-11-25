@@ -1,0 +1,36 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidAnterior/LVOneArmShoulderPress",
+  "Name": "Lever One Arm Shoulder Press (plate loaded)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Anterior"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Supraspinatus",
+      "Triceps Brachii",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior, Inferior Digitations",
+      "Pectoralis Major, Clavicular"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Obliques",
+      "Psoas major",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis"
+    ],
+    "DynamicStabilizers": [
+      "Triceps, Long Head",
+      "Biceps Brachii"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.613462-08:00"
+}

@@ -1,0 +1,16 @@
+{
+  "URL": "https://exrx.net/WeightExercises/TransverseAbdominus/AbdominalVacuum",
+  "Name": "Abdominal Vacuum",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.496137-08:00"
+}

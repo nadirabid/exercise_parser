@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/BBPushSitUp",
+  "Name": "Barbell Push Sit-up",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Rectus Femoris",
+      "Sartorius",
+      "Obliques"
+    ],
+    "Stabilizers": [
+      "Tibialis Anterior",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Deltoid, Anterior",
+      "Deltoid, Lateral",
+      "Pectoralis Minor",
+      "Serratus Anterior",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.356735-08:00"
+}

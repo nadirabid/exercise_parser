@@ -1,0 +1,35 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Splenius/CBNeckExtBelt",
+  "Name": "Cable Neck Extension (with belt)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Splenius"
+    ],
+    "Synergists": [
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Erector Spinae, Cervicis \u0026 Capitis Fibers",
+      "Sternocleidomastoid, Posterior Fibers"
+    ],
+    "Stabilizers": [
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Pectoralis Minor",
+      "Latissimus Dorsi",
+      "Rhomboids",
+      "Triceps Brachii",
+      "Erector Spinae",
+      "Gluteus Maximus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.556016-08:00"
+}

@@ -1,0 +1,36 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/STSideBend",
+  "Name": "Suspended Side Bend",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Quadratus lumborum",
+      "Psoas major",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis",
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Tensor Fasciae Latae",
+      "Adductors, Hip",
+      "Pectineus",
+      "Gracilis",
+      "Gluteus Maximus, Lower Fibers"
+    ],
+    "Stabilizers": [
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Rhomboids",
+      "Levator Scapulae",
+      "Triceps, Long Head"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.241152-08:00"
+}

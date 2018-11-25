@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/CBBentOverHipExtension",
+  "Name": "Cable Bent-over Hip Extension",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Hamstrings"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Obliques",
+      "Quadratus Lumborum",
+      "Gluteus Medius",
+      "Gluteus Minimus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.76923-08:00"
+}

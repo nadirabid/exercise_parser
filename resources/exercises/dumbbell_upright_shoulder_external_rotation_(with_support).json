@@ -1,0 +1,25 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Infraspinatus/DBUprightExternalRotationSupport",
+  "Name": "Dumbbell Upright Shoulder External Rotation (with support)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Teres Minor"
+    ],
+    "Synergists": [
+      "Infraspinatus",
+      "Deltoid, Posterior",
+      "Supraspinatus"
+    ],
+    "Stabilizers": [
+      "Serratus Anterior",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.16672-08:00"
+}

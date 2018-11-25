@@ -1,0 +1,40 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipFlexors/BWKneelingWheelRollout",
+  "Name": "Wheel Rollout",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Iliopsoas"
+    ],
+    "Synergists": [
+      "Tensor Fasciae Latae",
+      "Sartorius",
+      "Pectineus",
+      "Adductor Longus",
+      "Adductor Brevis",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor",
+      "Deltoid, Posterior",
+      "Rhomboids"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Triceps Brachii",
+      "Pectoralis Major, Clavicular",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": [
+      "Rectus Femoris"
+    ],
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.994088-08:00"
+}

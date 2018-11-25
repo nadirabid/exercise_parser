@@ -1,0 +1,43 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/STJackknifePike",
+  "Name": "Suspended Jack-knife Pike",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Obliques",
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Pectineus",
+      "Sartorius",
+      "Adductor Longus",
+      "Adductor Brevis"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Quadriceps",
+      "Pectoralis Major",
+      "Deltoid, Anterior",
+      "Serratus Anterior",
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": [
+      "Rectus Femoris"
+    ],
+    "AntagonistStabilizers": [
+      "Erector Spinae",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.487414-08:00"
+}

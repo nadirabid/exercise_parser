@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/STStraightHipLegCurl",
+  "Name": "Suspended Straight Hip Leg Curl",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": [
+      "Gastrocnemius",
+      "Sartorius",
+      "Gracilis",
+      "Popliteus"
+    ],
+    "Stabilizers": [
+      "Gluteus Maximus",
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Tibialis Anterior",
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.22503-08:00"
+}

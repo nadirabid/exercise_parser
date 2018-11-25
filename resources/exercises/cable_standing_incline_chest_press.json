@@ -1,0 +1,29 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralClavicular/CBStandingInclineChestPress",
+  "Name": "Cable Standing Incline Chest Press",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Clavicular"
+    ],
+    "Synergists": [
+      "Deltoid, Anterior",
+      "Triceps Brachii",
+      "Serratus Anterior"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii, Short Head"
+    ],
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.296317-08:00"
+}

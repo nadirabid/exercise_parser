@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Biceps/CBOneArmCurl",
+  "Name": "Cable One Arm Curl",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Biceps Brachii"
+    ],
+    "Synergists": [
+      "Brachialis",
+      "Brachioradialis"
+    ],
+    "Stabilizers": [
+      "Deltoid, Anterior",
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.841536-08:00"
+}

@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/BWAlternatingBirdDogExBall",
+  "Name": "Alternating Bird Dog (on exercise ball)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Erector Spinae"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Trapezius, Lower",
+      "Trapezius, Middle",
+      "Deltoid, Anterior",
+      "Deltoid, Lateral",
+      "Hamstrings"
+    ],
+    "Stabilizers": [
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Serratus Anterior",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.688116-08:00"
+}

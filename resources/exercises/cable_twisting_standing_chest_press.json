@@ -1,0 +1,38 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralSternal/CBTwistingStandingChestPress",
+  "Name": "Cable Twisting Standing Chest Press",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Sternal"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Deltoid, Anterior",
+      "Triceps Brachii",
+      "Serratus Anterior",
+      "Obliques",
+      "Quadratus Lumborum",
+      "Psoas major",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis",
+      "Tensor fasciae latae",
+      "Gluteus medius",
+      "Gluteus minimus, anterior fibers",
+      "Adductors, Hip"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii, Short Head"
+    ],
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.218147-08:00"
+}

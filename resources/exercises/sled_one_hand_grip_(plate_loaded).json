@@ -1,0 +1,18 @@
+{
+  "URL": "https://exrx.net/WeightExercises/WristFlexors/SLOneHandGripPlateLoaded",
+  "Name": "Sled One Hand Grip (plate loaded)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Wrist Flexors"
+    ],
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.916636-08:00"
+}

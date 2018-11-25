@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/LVStrBackStrLegDeadlift",
+  "Name": "Lever Straight-back Straight-leg Deadlift (plate loaded)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Trapezius, Middle",
+      "Rhomboids",
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Trapezius, Lower"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.193502-08:00"
+}

@@ -1,0 +1,21 @@
+{
+  "URL": "https://exrx.net/WeightExercises/TrapeziusUpper/CBSeatShrug",
+  "Name": "Cambered Barbell Seated Shrug",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Trapezius, Upper"
+    ],
+    "Synergists": [
+      "Trapezius, Middle",
+      "Levator Scapulae"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.126924-08:00"
+}

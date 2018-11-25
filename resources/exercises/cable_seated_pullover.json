@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/LatissimusDorsi/CBSeatedStraightArmPullover",
+  "Name": "Cable Seated Pullover",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Latissimus Dorsi"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Sternal",
+      "Triceps, Long Head",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Rhomboids",
+      "Levator Scapulae",
+      "Pectoralis Minor"
+    ],
+    "Stabilizers": [
+      "Triceps Brachii",
+      "Pectoralis Major, Clavicular",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.068576-08:00"
+}

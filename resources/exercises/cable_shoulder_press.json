@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidAnterior/CBShoulderPress",
+  "Name": "Cable Shoulder Press",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Anterior"
+    ],
+    "Synergists": [
+      "Deltoid, Lateral",
+      "Supraspinatus",
+      "Triceps Brachii",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior, Inferior Digitations"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Levator Scapulae"
+    ],
+    "DynamicStabilizers": [
+      "Triceps, Long Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.595767-08:00"
+}

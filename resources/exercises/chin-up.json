@@ -1,0 +1,32 @@
+{
+  "URL": "https://exrx.net/WeightExercises/LatissimusDorsi/BWUnderhandChinup",
+  "Name": "Chin-up",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Latissimus Dorsi"
+    ],
+    "Synergists": [
+      "Brachialis",
+      "Brachioradialis",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Rhomboids",
+      "Levator Scapulae",
+      "Trapezius, Lower",
+      "Trapezius, Middle",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": [
+      "Biceps Brachii",
+      "Triceps, Long Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.1056-08:00"
+}

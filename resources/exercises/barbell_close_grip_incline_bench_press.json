@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/BBCloseGripInclineBenchPress",
+  "Name": "Barbell Close Grip Incline Bench Press",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": [
+      "Deltoid, Anterior",
+      "Pectoralis Major, Clavicular"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": [
+      "Biceps Brachii"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.747603-08:00"
+}

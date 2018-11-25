@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/SLLegHipRaise",
+  "Name": "Sled Leg Hip Raise (ab coaster)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Sartorius",
+      "Rectus Femoris",
+      "Obliques"
+    ],
+    "Stabilizers": [
+      "Pectoralis Major, Sternal",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Triceps, Long Head"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.400339-08:00"
+}

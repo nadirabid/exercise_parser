@@ -1,0 +1,16 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Other/BBTurkishGetUp",
+  "Name": "Barbell Turkish Get-up",
+  "Utility": "Specialized",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.442526-08:00"
+}

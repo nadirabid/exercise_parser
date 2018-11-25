@@ -1,0 +1,35 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/CBStandingOverheadCrunch",
+  "Name": "Cable Standing Overhead Crunch",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Obliques"
+    ],
+    "Stabilizers": [
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Rectus Femoris",
+      "Sartorius",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Triceps, Long Head",
+      "Rhomboids",
+      "Trapezius, Lower",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Pectoralis Minor",
+      "Serratus Anterior"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.371717-08:00"
+}

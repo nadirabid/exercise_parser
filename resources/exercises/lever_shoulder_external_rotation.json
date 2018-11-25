@@ -1,0 +1,24 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Infraspinatus/LVExternalRotation",
+  "Name": "Lever Shoulder External Rotation",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Infraspinatus"
+    ],
+    "Synergists": [
+      "Teres Minor",
+      "Deltoid, Posterior"
+    ],
+    "Stabilizers": [
+      "Trapezius, Lower",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.170116-08:00"
+}

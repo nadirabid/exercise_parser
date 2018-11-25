@@ -1,0 +1,34 @@
+{
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/STPullThrough",
+  "Name": "Suspended Pull Through",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Erector Spinae"
+    ],
+    "Synergists": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Sartorius"
+    ],
+    "Stabilizers": [
+      "Pectoralis Minor",
+      "Pectoralis Major",
+      "Latissimus Dorsi",
+      "Deltoid, Anterior",
+      "Trapezius, Lower",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.699922-08:00"
+}

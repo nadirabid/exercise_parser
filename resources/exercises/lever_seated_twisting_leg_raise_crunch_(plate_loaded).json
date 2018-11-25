@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/LVSeatedTwistingLegRaiseCrunch",
+  "Name": "Lever Seated Twisting Leg Raise Crunch (plate loaded)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Rectus Abdominis"
+    ],
+    "Stabilizers": [
+      "Tensor Fasciae Latae",
+      "Rectus Femoris",
+      "Pectineus",
+      "Sartorius",
+      "Pectoralis  Major, Sternal",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Triceps, Long Head"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.520455-08:00"
+}

@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/CBOverheadSeatedCrunch",
+  "Name": "Cable Overhead Seated Crunch",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Obliques"
+    ],
+    "Stabilizers": [
+      "Latissimus Dorsi",
+      "Deltoid, Posterior",
+      "Rhomboids",
+      "Teres Major",
+      "Pectoralis Minor"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.367985-08:00"
+}

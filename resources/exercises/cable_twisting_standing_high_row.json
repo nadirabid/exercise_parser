@@ -1,0 +1,46 @@
+{
+  "URL": "https://exrx.net/WeightExercises/BackGeneral/CBStandingTwistingHighRow",
+  "Name": "Cable Twisting Standing High Row",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Infraspinatus",
+      "Teres Minor",
+      "Brachialis",
+      "Brachioradialis",
+      "Pectoralis Major, Sternal",
+      "Obliques",
+      "Quadratus Lumborum",
+      "Psoas major",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis"
+    ],
+    "Stabilizers": [
+      "Hip External Rotators",
+      "Gluteus maximus",
+      "Gluteus medius",
+      "Gluteus minimus"
+    ],
+    "DynamicStabilizers": [
+      "Tensor fasciae latae",
+      "Gluteus medius",
+      "Gluteus minimus, anterior fibers",
+      "Adductors, Hip"
+    ],
+    "AntagonistStabilizers": [
+      "Biceps Brachii",
+      "Triceps, Long Head"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.980651-08:00"
+}

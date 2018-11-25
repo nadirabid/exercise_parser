@@ -1,0 +1,22 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/BWCrunchUp",
+  "Name": "Crunch Up",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Obliques"
+    ],
+    "Stabilizers": [
+      "Hip Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.449876-08:00"
+}

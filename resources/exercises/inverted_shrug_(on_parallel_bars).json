@@ -1,0 +1,21 @@
+{
+  "URL": "https://exrx.net/WeightExercises/TrapeziusUpper/BWInvertedShrugPB",
+  "Name": "Inverted Shrug (on parallel bars)",
+  "Utility": "",
+  "Mechanics": "",
+  "Force": "",
+  "Muscles": {
+    "Target": [
+      "Trapezius, Upper"
+    ],
+    "Synergists": [
+      "Trapezius, Middle",
+      "Levator Scapulae"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.153001-08:00"
+}

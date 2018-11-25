@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/DBPushCrunch",
+  "Name": "Dumbbell Push Crunch",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Obliques"
+    ],
+    "Stabilizers": [
+      "Pectoralis  Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Pectoralis Minor",
+      "Serratus Anterior",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.375032-08:00"
+}

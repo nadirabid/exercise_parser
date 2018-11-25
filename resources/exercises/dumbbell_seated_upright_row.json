@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidLateral/DBSeatedUprightRow",
+  "Name": "Dumbbell Seated Upright Row",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Lateral"
+    ],
+    "Synergists": [
+      "Deltoid, Anterior",
+      "Supraspinatus",
+      "Brachialis",
+      "Brachioradialis",
+      "Biceps Brachii",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior, Inferior Digitations",
+      "Infraspinatus",
+      "Teres Minor"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.659523-08:00"
+}

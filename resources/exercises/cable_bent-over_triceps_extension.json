@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/CBBentoverTriExt",
+  "Name": "Cable Bent-over Triceps Extension",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Deltoid, Anterior",
+      "Pectoralis Major, Clavicular",
+      "Wrist Flexors",
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.757173-08:00"
+}

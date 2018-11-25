@@ -1,0 +1,24 @@
+{
+  "URL": "https://exrx.net/WeightExercises/TibialisAnterior/DBSingleLegRevCalfRaise",
+  "Name": "Dumbbell Single Leg Reverse Calf Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Tibialis Anterior"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Gluteus Medius",
+      "Gluteus Maximus",
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.313915-08:00"
+}

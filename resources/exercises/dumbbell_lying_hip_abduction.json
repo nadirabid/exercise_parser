@@ -1,0 +1,20 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipAbductor/DBLyingHipAbduction",
+  "Name": "Dumbbell Lying Hip Abduction",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Tensor Fasciae Latae",
+      "Gluteus Medius",
+      "Gluteus Minimus"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.916969-08:00"
+}

@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Gastrocnemius/ASSingleLegCalfRaiseSelfFoot",
+  "Name": "Self-assisted Single Leg Calf Raise (with opposite leg)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gastrocnemius"
+    ],
+    "Synergists": [
+      "Soleus",
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "Stabilizers": [
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Quadratus Lumborum",
+      "Obliques"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.30116-08:00"
+}

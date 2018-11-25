@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipExternalRotator/CBSeatedHipExternalRotation",
+  "Name": "Cable Seated Hip External Rotation",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Gemellus superior",
+      "Gemellus inferior",
+      "Obturator internus",
+      "Obturator externus",
+      "Quadratus femoris"
+    ],
+    "Stabilizers": [
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Gluteus Maximus",
+      "Piriformis",
+      "Gluteus Maximus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.003321-08:00"
+}

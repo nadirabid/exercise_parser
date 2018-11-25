@@ -1,0 +1,32 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/BWSuspendedTricepsExtension",
+  "Name": "Suspended Triceps Extension (with rope)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Latissimus Dorsi",
+      "Teres Minor",
+      "Deltoid, Posterior",
+      "Pectoralis Minor",
+      "Serratus Anterior",
+      "Rectus Abdominis",
+      "Obliques",
+      "Quadriceps",
+      "Gastrocnemius",
+      "Extensor Carpi Ulnaris",
+      "Flexor Carpi Ulnaris"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.831565-08:00"
+}

@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Biceps/BBDragCurl",
+  "Name": "Barbell Drag Curl",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Biceps Brachii"
+    ],
+    "Synergists": [
+      "Brachialis",
+      "Brachioradialis",
+      "Deltoid, Posterior",
+      "Deltoid, Anterior"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.834375-08:00"
+}

@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Brachioradialis/LVHammerPreacherCurl",
+  "Name": "Lever Hammer Preacher Curl",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Brachioradialis"
+    ],
+    "Synergists": [
+      "Brachialis",
+      "Biceps Brachii"
+    ],
+    "Stabilizers": [
+      "Deltoid, Anterior",
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae",
+      "Flexor Carpi Radialis",
+      "Extensor Carpi Radialis"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.895892-08:00"
+}

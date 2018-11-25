@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipAdductors/CBLyingHipAdduction",
+  "Name": "Cable Lying Hip Adduction",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Adductors, Hip"
+    ],
+    "Synergists": [
+      "Pectineus",
+      "Gracilis"
+    ],
+    "Stabilizers": [
+      "Iliopsoas",
+      "Rectus Femoris",
+      "Tensor Fasciae Latae",
+      "Sartorius",
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.230071-08:00"
+}

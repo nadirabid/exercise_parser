@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/DBInclineTricepsExt",
+  "Name": "Dumbbell Incline Triceps Extension",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Deltoid, Anterior",
+      "Pectoralis Major, Clavicular",
+      "Pectoralis Major, Sternal",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Extensor Carpi Ulnaris",
+      "Flexor Carpi Ulnaris"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.787076-08:00"
+}

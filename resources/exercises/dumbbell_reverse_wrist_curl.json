@@ -1,0 +1,18 @@
+{
+  "URL": "https://exrx.net/WeightExercises/WristExtensors/DBReverseWristCurl",
+  "Name": "Dumbbell Reverse Wrist Curl",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Wrist Extensors"
+    ],
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.924194-08:00"
+}

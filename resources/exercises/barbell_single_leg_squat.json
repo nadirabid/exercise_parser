@@ -1,0 +1,36 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/BBSingleLegSquat",
+  "Name": "Barbell Single Leg Squat",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Soleus",
+      "Erector Spinae"
+    ],
+    "Stabilizers": [
+      "Deltoid, Anterior",
+      "Pectoralis Major, Clavicular ",
+      "Deltoid, Lateral",
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior, Inferior Digitations ",
+      "Levator Scapulae",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.018888-08:00"
+}

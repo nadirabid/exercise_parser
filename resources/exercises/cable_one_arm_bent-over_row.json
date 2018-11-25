@@ -1,0 +1,36 @@
+{
+  "URL": "https://exrx.net/WeightExercises/BackGeneral/CBOneArmBentoverRow",
+  "Name": "Cable One Arm Bent-over Row",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Infraspinatus",
+      "Teres Minor",
+      "Brachialis",
+      "Brachioradialis",
+      "Pectoralis Major, Sternal"
+    ],
+    "Stabilizers": [
+      "Obliques",
+      "Hamstrings",
+      "Gluteus Maximus",
+      "Triceps"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii",
+      "Triceps, Long Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.960736-08:00"
+}

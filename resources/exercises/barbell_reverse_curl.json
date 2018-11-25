@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Brachioradialis/BBReverseCurl",
+  "Name": "Barbell Reverse Curl",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Brachioradialis"
+    ],
+    "Synergists": [
+      "Brachialis",
+      "Biceps Brachii"
+    ],
+    "Stabilizers": [
+      "Deltoid, Anterior",
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.886329-08:00"
+}

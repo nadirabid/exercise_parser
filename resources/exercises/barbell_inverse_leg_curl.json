@@ -1,0 +1,32 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/BBHamstringRaise",
+  "Name": "Barbell Inverse Leg Curl",
+  "Utility": "Basic",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": [
+      "Gastrocnemius",
+      "Gracilis",
+      "Sartorius",
+      "Popliteus"
+    ],
+    "Stabilizers": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Rectus Femoris",
+      "Tibialis Anterior"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.16752-08:00"
+}

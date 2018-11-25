@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralSternal/LVSeatedFly2",
+  "Name": "Lever Seated Fly",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Sternal"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Pectoralis Minor",
+      "Deltoid, Anterior",
+      "Biceps Brachii, Short Head",
+      "Serratus Anterior"
+    ],
+    "Stabilizers": [
+      "Biceps Brachii",
+      "Brachialis",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.249887-08:00"
+}

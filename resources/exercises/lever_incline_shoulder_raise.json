@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/SerratusAnterior/LVInclineShoulderRaise",
+  "Name": "Lever Incline Shoulder Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Serratus Anterior"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular"
+    ],
+    "Stabilizers": [
+      "Deltoid, Anterior",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.34718-08:00"
+}

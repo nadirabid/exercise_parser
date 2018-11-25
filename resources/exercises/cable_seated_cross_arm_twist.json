@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/CBCrossArmTwist",
+  "Name": "Cable Seated Cross Arm Twist",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Psoas major",
+      "Quadratus lumborum",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis"
+    ],
+    "Stabilizers": [
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Serratus Anterior",
+      "Deltoid, Posterior",
+      "Pectoralis minor",
+      "",
+      "Pectoralis major (sternal head)",
+      "Adductors, Hip"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.504071-08:00"
+}

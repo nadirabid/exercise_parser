@@ -1,0 +1,36 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/WT45HipExtension",
+  "Name": "Weighted 45-degree Back Raise (on hyperextension apparatus)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Triceps, Long Head",
+      "Brachialis",
+      "Brachioradialis",
+      "Biceps Brachii",
+      "Trapezius, Lower",
+      "Trapezius, Middle",
+      "Rhomboids"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.214919-08:00"
+}

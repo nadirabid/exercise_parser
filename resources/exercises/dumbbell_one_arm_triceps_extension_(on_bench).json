@@ -1,0 +1,21 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/DBOneArmTriExtBench",
+  "Name": "Dumbbell One Arm Triceps Extension (on bench)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Wrist Extensors",
+      "Flexor Carpi Ulnaris"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.788883-08:00"
+}

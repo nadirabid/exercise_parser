@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralClavicular/CBBarInclineBenchPress",
+  "Name": "Cable Bar Incline Bench Press",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Clavicular"
+    ],
+    "Synergists": [
+      "Deltoid, Anterior",
+      "Triceps Brachii"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": [
+      "Biceps Brachii, Short Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.292953-08:00"
+}

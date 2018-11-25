@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/BBSeatedGoodMorning",
+  "Name": "Barbell Seated Good-morning",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Adductor Magnus",
+      "Hamstrings"
+    ],
+    "Stabilizers": [
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.708572-08:00"
+}

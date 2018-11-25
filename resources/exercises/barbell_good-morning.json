@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/BBGoodMorning",
+  "Name": "Barbell Good-morning",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.165599-08:00"
+}

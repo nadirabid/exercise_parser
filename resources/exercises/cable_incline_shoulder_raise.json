@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/SerratusAnterior/CBInclineShoulderRaise",
+  "Name": "Cable Incline Shoulder Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Serratus Anterior"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular"
+    ],
+    "Stabilizers": [
+      "Deltoid, Anterior",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.341373-08:00"
+}

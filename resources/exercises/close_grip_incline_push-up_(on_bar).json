@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/BWCloseGripInclinePushupBar",
+  "Name": "Close Grip Incline Push-up (on bar)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Deltoid, Anterior"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Quadriceps",
+      "Gastrocnemius",
+      "Soleus"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii, Short Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.821811-08:00"
+}

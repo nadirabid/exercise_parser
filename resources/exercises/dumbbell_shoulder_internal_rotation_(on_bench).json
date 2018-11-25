@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Subscapularis/DBInternalRotation",
+  "Name": "Dumbbell Shoulder Internal Rotation (on bench)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Subscapularis"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Anterior"
+    ],
+    "Stabilizers": [
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.177115-08:00"
+}

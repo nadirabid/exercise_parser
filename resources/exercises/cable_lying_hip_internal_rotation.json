@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipAbductor/CBLyingHipInternalRotation",
+  "Name": "Cable Lying Hip Internal Rotation",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Tensor Fasciae Latae"
+    ],
+    "Stabilizers": [
+      "Obliques",
+      "Hip Abductors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.91506-08:00"
+}

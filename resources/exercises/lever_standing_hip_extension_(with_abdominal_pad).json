@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/LVStandingHipExtensionTech",
+  "Name": "Lever Standing Hip Extension (with abdominal pad)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Adductor Magnus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Obliques",
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings"
+    ],
+    "AntagonistStabilizers": [
+      "Rectus Abdominis"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.82652-08:00"
+}

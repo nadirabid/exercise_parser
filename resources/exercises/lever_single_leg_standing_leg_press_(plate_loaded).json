@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/LVSingleLegStandingLegPress",
+  "Name": "Lever Single Leg Standing Leg Press (plate loaded)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Obliques",
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Quadratus Lumborum"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Hamstrings",
+      "Rectus Abdominis"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.082028-08:00"
+}

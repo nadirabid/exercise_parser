@@ -1,0 +1,25 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Brachialis/LVPreacherCurl",
+  "Name": "Lever Preacher Curl",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Brachialis"
+    ],
+    "Synergists": [
+      "Biceps Brachii",
+      "Brachioradialis"
+    ],
+    "Stabilizers": [
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Triceps Brachii, Long Head"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.877513-08:00"
+}

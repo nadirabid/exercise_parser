@@ -1,0 +1,38 @@
+{
+  "URL": "https://exrx.net/WeightExercises/BackGeneral/STInvertedRow",
+  "Name": "Suspended Inverted Row",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Infraspinatus",
+      "Teres Minor",
+      "Brachialis",
+      "Brachioradialis",
+      "Pectoralis Major, Sternal "
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Gluteus Maximus",
+      "Hamstrings"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii",
+      "Triceps, Long Head "
+    ],
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.040464-08:00"
+}

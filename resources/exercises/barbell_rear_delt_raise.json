@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/BBRearDeltRaise",
+  "Name": "Barbell Rear Delt Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Posterior"
+    ],
+    "Synergists": [
+      "Deltoid, Lateral",
+      "Trapezius, Upper (part II)",
+      "Levator Scapulae",
+      "Brachialis",
+      "Brachioradialis",
+      "Biceps Brachii",
+      "Wrist Flexors"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper (part I)",
+      "Pectoralis Minor"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii, Short Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.672546-08:00"
+}

@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/CBSupineRearLateralRaise",
+  "Name": "Cable Supine Reverse Fly",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Posterior"
+    ],
+    "Synergists": [
+      "Deltoid, Lateral",
+      "Infraspinatus",
+      "Teres Minor",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids"
+    ],
+    "Stabilizers": [
+      "Triceps Brachii",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.679228-08:00"
+}

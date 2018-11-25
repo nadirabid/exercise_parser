@@ -1,0 +1,25 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/BBDeclineTriExt",
+  "Name": "Barbell Decline Triceps Extension",
+  "Utility": "Basic",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Deltoid, Anterior",
+      "Pectoralis Major, Sternal",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.752183-08:00"
+}

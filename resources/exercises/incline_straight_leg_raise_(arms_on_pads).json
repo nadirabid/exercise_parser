@@ -1,0 +1,34 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipFlexors/BWInclineStraightLegRaiseArmPads",
+  "Name": "Incline Straight Leg Raise (arms on pads)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Iliopsoas"
+    ],
+    "Synergists": [
+      "Tensor Fasciae Latae",
+      "Sartorius",
+      "Pectineus",
+      "Rectus Femoris",
+      "Adductor Longus",
+      "Adductor Brevis"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Quadriceps",
+      "Pectoralis Major, Sternal",
+      "Latissimus Dorsi",
+      "Pectoralis Minor",
+      "Pectoralis Major, Sternal",
+      "Trapezius, Lower"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.977057-08:00"
+}

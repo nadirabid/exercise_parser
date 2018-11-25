@@ -1,0 +1,22 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipAdductors/LVLyingHipAdduction",
+  "Name": "Lever Lying Hip Adduction",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Adductors, Hip"
+    ],
+    "Synergists": [
+      "Pectineus",
+      "Gracilis",
+      "Gluteus Maximus, Lower Fibers"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.232741-08:00"
+}

@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/LVRearLateralRaiseOnExtArmLatRsMch",
+  "Name": "Lever Rear Lateral Raise (on extended arm kneeling lateral raise machine)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Posterior"
+    ],
+    "Synergists": [
+      "Infraspinatus",
+      "Teres Minor",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Hamstrings",
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Triceps Brachii",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.713778-08:00"
+}

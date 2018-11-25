@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Supraspinatus/DBFrontLateralRaiseSeated",
+  "Name": "Dumbbell Seated Front Lateral Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Supraspinatus"
+    ],
+    "Synergists": [
+      "Deltoid, Lateral",
+      "Deltoid, Anterior",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Serratus Anterior"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.734713-08:00"
+}

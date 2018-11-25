@@ -1,0 +1,24 @@
+{
+  "URL": "https://exrx.net/WeightExercises/TibialisAnterior/LVDonkeyReverseCalfRaise",
+  "Name": "Lever Donkey Reverse Calf Raise",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Tibialis Anterior"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Serratus Anterior",
+      "Pectoralis Minor",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Triceps Brachii"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.326579-08:00"
+}

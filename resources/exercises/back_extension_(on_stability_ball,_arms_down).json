@@ -1,0 +1,18 @@
+{
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/BWHyperextensionBall",
+  "Name": "Back Extension (on stability ball, arms down)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Erector Spinae"
+    ],
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.679813-08:00"
+}

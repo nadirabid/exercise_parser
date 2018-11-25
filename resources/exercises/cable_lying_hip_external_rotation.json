@@ -1,0 +1,25 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipExternalRotator/CBLyingHipExternalRotation",
+  "Name": "Cable Lying Hip External Rotation",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Gemellus superior",
+      "Gemellus inferior",
+      "Obturator internus",
+      "Obturator externus",
+      "Quadratus femoris"
+    ],
+    "Stabilizers": [
+      "Obliques",
+      "Adductors, Hip"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.002313-08:00"
+}

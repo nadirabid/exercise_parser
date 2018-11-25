@@ -1,0 +1,29 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralSternal/LVChestDipH",
+  "Name": "Lever Chest Dip (plate loaded)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Sternal"
+    ],
+    "Synergists": [
+      "Deltoid, Anterior",
+      "Triceps Brachii",
+      "Pectoralis Major, Clavicular",
+      "Pectoralis Minor",
+      "Rhomboids",
+      "Levator Scapulae",
+      "Latissimus Dorsi",
+      "Teres Major"
+    ],
+    "Stabilizers": [
+      "Trapezius, Lower"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.232234-08:00"
+}

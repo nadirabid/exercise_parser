@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/LVPushCrunch",
+  "Name": "Lever Push Crunch",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Obliques"
+    ],
+    "Stabilizers": [
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor",
+      "Deltoid, Anterior",
+      "Triceps",
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.387928-08:00"
+}

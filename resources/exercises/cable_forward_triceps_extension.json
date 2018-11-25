@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/CBForwardTricepsExt",
+  "Name": "Cable Forward Triceps Extension",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Serratus Anterior",
+      "Deltoid, Posterior",
+      "Pectoralis Major, Clavicular",
+      "Pectoralis Minor",
+      "Obliques",
+      "Rectus Abdominis",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.761253-08:00"
+}

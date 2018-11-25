@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Brachialis/STArmCurl",
+  "Name": "Suspension Arm Curl",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Brachialis"
+    ],
+    "Synergists": [
+      "Biceps Brachii",
+      "Brachioradialis"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Gluteus Maximus",
+      "Hamstrings",
+      "Wrist Flexors",
+      "Trapezius, Middle",
+      "Rhomboids"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.884022-08:00"
+}

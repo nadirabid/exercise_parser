@@ -1,0 +1,24 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/LVCloseGripBenchPressH",
+  "Name": "Lever Close Grip Bench Press (plate loaded)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": [
+      "Deltoid, Anterior",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": [
+      "Biceps Brachii"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.79105-08:00"
+}

@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/LVBackExtensionMedEx",
+  "Name": "Lever Back Extension",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Erector Spinae"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Quadriceps",
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Hamstrings"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.66103-08:00"
+}

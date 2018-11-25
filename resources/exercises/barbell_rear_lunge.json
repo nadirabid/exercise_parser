@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Quadriceps/BBRearLunge",
+  "Name": "Barbell Rear Lunge",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Quadriceps"
+    ],
+    "Synergists": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Soleus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Quadratus Lumborum"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.013251-08:00"
+}

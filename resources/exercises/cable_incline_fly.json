@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralClavicular/CBInclineFly",
+  "Name": "Cable Incline Fly",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Clavicular"
+    ],
+    "Synergists": [
+      "Deltoid, Anterior",
+      "Biceps Brachii, Short Head"
+    ],
+    "Stabilizers": [
+      "Biceps Brachii",
+      "Brachialis",
+      "Triceps Brachii",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.300875-08:00"
+}

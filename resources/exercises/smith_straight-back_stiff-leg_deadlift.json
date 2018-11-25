@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/SMStrBackStiffLegDeadlift",
+  "Name": "Smith Straight-back Stiff-leg Deadlift",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Adductor Magnus",
+      "Hamstrings"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Quadriceps",
+      "Trapezius, Middle",
+      "Rhomboids",
+      "Latissimus Dorsi",
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Trapezius, Lower"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.863028-08:00"
+}

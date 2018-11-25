@@ -1,0 +1,24 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralSternal/BBGuillotineBenchPress",
+  "Name": "Barbell Guillotine Bench Press",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Sternal"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Triceps Brachii",
+      "Deltoid, Anterior"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": [
+      "Biceps Brachii, Short Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.19477-08:00"
+}

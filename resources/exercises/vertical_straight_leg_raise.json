@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipFlexors/BWVerticalStraightLegRaise",
+  "Name": "Vertical Straight Leg Raise",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Iliopsoas"
+    ],
+    "Synergists": [
+      "Tensor Fasciae Latae",
+      "Sartorius",
+      "Pectineus",
+      "Rectus Femoris",
+      "Adductor Longus",
+      "Adductor Brevis"
+    ],
+    "Stabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Quadriceps",
+      "Latissimus Dorsi",
+      "Pectoralis Minor",
+      "Pectoralis Major, Sternal",
+      "Trapezius, Lower"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.988738-08:00"
+}

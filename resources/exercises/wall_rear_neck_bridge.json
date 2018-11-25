@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Splenius/BWWallRearNeckBridge",
+  "Name": "Wall Rear Neck Bridge",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Splenius"
+    ],
+    "Synergists": [
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Sternocleidomastoid, Posterior Fibers",
+      "Erector Spinae",
+      "Quadriceps"
+    ],
+    "Stabilizers": [
+      "Gluteus Maximus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.566453-08:00"
+}

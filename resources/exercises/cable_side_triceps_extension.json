@@ -1,0 +1,29 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/CBSideTricepsExt",
+  "Name": "Cable Side Triceps Extension",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Pectoralis Major, Clavicular",
+      "Pectoralis Minor",
+      "Obliques",
+      "Quadratus lumborum",
+      "Psoas major",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.777439-08:00"
+}

@@ -1,0 +1,37 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/BWBentKneeSidePlank",
+  "Name": "Bent Knee Side Plank",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Tensor Fasciae Latae",
+      "Quadratus lumborum",
+      "Psoas major",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis",
+      "Adductors, Hip",
+      "Pectineus",
+      "Gluteus Maximus, Lower Fibers",
+      "Latissimus dorsi",
+      "Pectoralis major",
+      "Pectoralis minor",
+      "Levator Scapulae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Obliques",
+      "Iliocastalis lumborum",
+      "Iliocastalis thoracis"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.616097-08:00"
+}

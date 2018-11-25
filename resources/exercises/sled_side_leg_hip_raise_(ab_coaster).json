@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/SLSideHipRaiseAbCoaster",
+  "Name": "Sled Side Leg Hip Raise (ab coaster)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Rectus Abdominis",
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Sartorius",
+      "Rectus Femoris"
+    ],
+    "Stabilizers": [
+      "Pectoralis Major, Sternal",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Triceps, Long Head"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.541399-08:00"
+}

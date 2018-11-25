@@ -1,0 +1,37 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/ASHamstringRaiseSelf",
+  "Name": "Self-assisted Inverse Leg Curl",
+  "Utility": "Basic",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": [
+      "Gastrocnemius",
+      "Gracilis",
+      "Sartorius",
+      "Popliteus",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Major, Clavicular",
+      "Deltoid, Anterior",
+      "Triceps Brachii",
+      "Wrist Flexors"
+    ],
+    "Stabilizers": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques",
+      "Rectus Femoris",
+      "Tibialis Anterior"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.221635-08:00"
+}

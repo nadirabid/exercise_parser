@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/LVLyingLegCurl",
+  "Name": "Lever Lying Leg Curl",
+  "Utility": "Basic",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Hamstrings"
+    ],
+    "Synergists": [
+      "Gastrocnemius",
+      "Sartorius",
+      "Gracilis",
+      "Popliteus"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Tibialis Anterior",
+      "Rectus Femoris"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.19853-08:00"
+}

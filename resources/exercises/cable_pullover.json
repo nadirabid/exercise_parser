@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/LatissimusDorsi/CBPullover",
+  "Name": "Cable Pullover",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Latissimus Dorsi"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Sternal",
+      "Triceps Long Head",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Rhomboids",
+      "Levator Scapulae",
+      "Pectoralis Minor"
+    ],
+    "Stabilizers": [
+      "Triceps Brachii",
+      "Deltoid, Anterior",
+      "Pectoralis Major, Clavicular",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.0659-08:00"
+}

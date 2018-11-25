@@ -1,0 +1,21 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Triceps/LVTricepsExtensionOH",
+  "Name": "Lever Overhead Triceps Extension",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Triceps Brachii"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Deltoid, Anterior",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.797558-08:00"
+}

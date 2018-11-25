@@ -1,0 +1,22 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/WtInclineCrunchX",
+  "Name": "Weighted Incline Crunch (arms crossed)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Obliques"
+    ],
+    "Stabilizers": [
+      "Tibialis Anterior"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.409683-08:00"
+}

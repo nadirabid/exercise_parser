@@ -1,0 +1,22 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipAbductor/LVSeatedHipAbduction",
+  "Name": "Lever Seated Hip Abduction",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Gluteus Maximus",
+      "Piriformis",
+      "Obturator externus"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.005634-08:00"
+}

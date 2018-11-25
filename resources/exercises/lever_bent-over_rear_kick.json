@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/LVBentOverRearKick",
+  "Name": "Lever Bent-over Rear Kick",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Adductor Magnus"
+    ],
+    "Stabilizers": [
+      "Obliques",
+      "Gluteus Medius",
+      "Gluteus Minimus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Hamstrings",
+      "Rectus Abdominis"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.83184-08:00"
+}

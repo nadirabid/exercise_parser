@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralSternal/CBOneArmChestPress",
+  "Name": "Cable One Arm Chest Press",
+  "Utility": "Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Sternal"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Deltoid, Anterior",
+      "Triceps Brachii"
+    ],
+    "Stabilizers": [
+      "Pectoralis Minor",
+      "Serratus Anterior"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii, Short Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.209273-08:00"
+}

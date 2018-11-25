@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/WristExtensors/CBRollerWristExtention",
+  "Name": "Cable Roller Wrist Extension",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Wrist Extensors"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Brachioradialis",
+      "Biceps Brachii",
+      "Brachialis",
+      "Deltoid, Anterior",
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.921943-08:00"
+}

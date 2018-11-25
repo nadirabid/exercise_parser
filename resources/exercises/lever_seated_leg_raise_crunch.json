@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/LVSeatedLegRaiseCrunch",
+  "Name": "Lever Seated Leg Raise Crunch",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Obliques"
+    ],
+    "Stabilizers": [
+      "Tensor Fasciae Latae",
+      "Rectus Femoris",
+      "Pectineus",
+      "Sartorius",
+      "Pectoralis Major, Sternal",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Triceps, Long Head"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.396967-08:00"
+}

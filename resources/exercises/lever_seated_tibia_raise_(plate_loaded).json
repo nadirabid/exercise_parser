@@ -1,0 +1,18 @@
+{
+  "URL": "https://exrx.net/WeightExercises/TibialisAnterior/LVSeatedTibiaRaisePL",
+  "Name": "Lever Seated Tibia Raise (plate loaded)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Tibialis Anterior"
+    ],
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.323011-08:00"
+}

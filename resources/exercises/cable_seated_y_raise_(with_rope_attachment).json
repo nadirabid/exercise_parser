@@ -1,0 +1,34 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidLateral/CBSeatedYRaiseRope",
+  "Name": "Cable Seated Y Raise (with rope attachment)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Lateral"
+    ],
+    "Synergists": [
+      "Supraspinatus",
+      "Teres Minor",
+      "Infraspinatus",
+      "Trapezius, Lower",
+      "Trapezius, Middle",
+      "Serratus Anterior, Inferior Digitations",
+      "Deltoid, Anterior",
+      "Deltoid, Posterior"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Wrist Extensors",
+      "Hamstrings",
+      "Gluteus Maximus",
+      "Adductor Magnus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.64812-08:00"
+}

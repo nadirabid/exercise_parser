@@ -1,0 +1,32 @@
+{
+  "URL": "https://exrx.net/WeightExercises/LatissimusDorsi/CBBentoverPullover",
+  "Name": "Cable Bent-over Pullover",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Latissimus Dorsi"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Sternal",
+      "Triceps, Long Head",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Rhomboids",
+      "Levator Scapulae",
+      "Pectoralis Minor"
+    ],
+    "Stabilizers": [
+      "Triceps Brachii",
+      "Pectoralis Major, Clavicular",
+      "Rectus Abdominis",
+      "Obliques",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.067222-08:00"
+}

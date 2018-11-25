@@ -1,0 +1,37 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/MBSitUp",
+  "Name": "Medicine Ball Overhead Throw Sit-up (machine)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Rectus Femoris",
+      "Sartorius",
+      "Pectineus",
+      "Adductor Longus",
+      "Aductor Brevis",
+      "Obliques",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Rhomboids",
+      "Levator Scapulae",
+      "Pectoralis Major, Sternal",
+      "Pectoralis Minor",
+      "Triceps, Long Head"
+    ],
+    "Stabilizers": [
+      "Tibialis Anterior"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.413449-08:00"
+}

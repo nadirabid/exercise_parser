@@ -1,0 +1,23 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Sternocleidomastoid/BWWallFrontNeckBridge",
+  "Name": "Wall Front Neck Bridge",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push \u0026 Pull",
+  "Muscles": {
+    "Target": [
+      "Sternocleidomastoid"
+    ],
+    "Synergists": [
+      "Splenius",
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Erector Spinae, Cervicis \u0026 Capitis Fibers "
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.553299-08:00"
+}

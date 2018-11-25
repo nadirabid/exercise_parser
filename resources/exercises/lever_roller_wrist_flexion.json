@@ -1,0 +1,16 @@
+{
+  "URL": "https://exrx.net/WeightExercises/WristFlexors/LVRollerWristFlexion",
+  "Name": "Lever Roller Wrist Flexion",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.910477-08:00"
+}

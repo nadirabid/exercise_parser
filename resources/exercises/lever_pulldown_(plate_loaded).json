@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/LatissimusDorsi/LVPulldownH",
+  "Name": "Lever Pulldown (plate loaded)",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Latissimus Dorsi"
+    ],
+    "Synergists": [
+      "Brachialis",
+      "Brachioradialis",
+      "Biceps Brachii",
+      "Teres Major",
+      "Rhomboids",
+      "Levator Scapulae",
+      "Pectoralis Minor",
+      "Trapezius, Lower",
+      "Pectoralis Major, Sternal"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": [
+      "Triceps, Long Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.082643-08:00"
+}

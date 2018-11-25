@@ -1,0 +1,26 @@
+{
+  "URL": "https://exrx.net/WeightExercises/HipAbductor/CBSeatedHipInternalRotation",
+  "Name": "Cable Seated Hip Internal Rotation",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Gluteus Medius",
+      "Gluteus Minimus",
+      "Tensor Fasciae Latae",
+      "Piriformis"
+    ],
+    "Stabilizers": [
+      "Adductors, Hip",
+      "Pectineus",
+      "Gracilis",
+      "Gluteus Maximus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.916004-08:00"
+}

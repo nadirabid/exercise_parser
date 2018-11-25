@@ -1,0 +1,30 @@
+{
+  "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/LVRearDeltRaise",
+  "Name": "Lever Rear Delt Raise (plate loaded)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Deltoid, Posterior"
+    ],
+    "Synergists": [
+      "Deltoid, Lateral",
+      "Trapezius, Upper (part II)",
+      "Levator Scapulae",
+      "Brachialis",
+      "Brachioradialis",
+      "Biceps Brachii"
+    ],
+    "Stabilizers": [
+      "Trapezius, Upper (part I)",
+      "Pectoralis Minor"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii, Short Head"
+    ],
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.705962-08:00"
+}

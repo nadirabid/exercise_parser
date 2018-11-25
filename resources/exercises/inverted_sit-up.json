@@ -1,0 +1,27 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/BWInvertedSitup",
+  "Name": "Inverted Sit-up",
+  "Utility": "Basic",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": [
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Pectineus",
+      "Sartorius",
+      "Rectus Femoris",
+      "Adductor Longus",
+      "Adductor Brevis",
+      "Obliques"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.47939-08:00"
+}

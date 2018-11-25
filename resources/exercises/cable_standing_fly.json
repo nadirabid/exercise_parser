@@ -1,0 +1,33 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralSternal/CBStandingFly",
+  "Name": "Cable Standing Fly",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Sternal"
+    ],
+    "Synergists": [
+      "Pectoralis Major, Clavicular",
+      "Pectoralis Minor",
+      "Rhomboids",
+      "Levator Scapulae",
+      "Latissimus Dorsi"
+    ],
+    "Stabilizers": [
+      "Biceps Brachii",
+      "Brachialis",
+      "Triceps Brachii",
+      "Wrist Flexors",
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Erector Spinae"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.33618-08:00"
+}

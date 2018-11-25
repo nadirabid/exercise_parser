@@ -1,0 +1,18 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Supinators/DBLyingSupinationUp",
+  "Name": "Dumbbell Lying Supination",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": null,
+    "Synergists": [
+      "Biceps Brachii"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:16.938989-08:00"
+}

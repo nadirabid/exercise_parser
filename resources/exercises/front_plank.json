@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/RectusAbdominis/BWFrontPlank",
+  "Name": "Front Plank",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Rectus Abdominis"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Obliques",
+      "Iliopsoas",
+      "Tensor Fasciae Latae",
+      "Quadriceps",
+      "Sartorius",
+      "Pectoralis major",
+      "Serratus Anterior"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Erector Spinae",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.491682-08:00"
+}

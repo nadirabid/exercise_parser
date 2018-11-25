@@ -1,0 +1,20 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Gastrocnemius/SLVerticalCalfPress",
+  "Name": "Sled Vertical Calf Press",
+  "Utility": "Basic",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Gastrocnemius"
+    ],
+    "Synergists": [
+      "Soleus"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:18.290371-08:00"
+}

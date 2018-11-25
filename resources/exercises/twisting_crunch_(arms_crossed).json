@@ -1,0 +1,21 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Obliques/BWTwistingCrunchX",
+  "Name": "Twisting Crunch (arms crossed)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Obliques"
+    ],
+    "Synergists": [
+      "Rectus Abdominis",
+      "Psoas Major"
+    ],
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.605567-08:00"
+}

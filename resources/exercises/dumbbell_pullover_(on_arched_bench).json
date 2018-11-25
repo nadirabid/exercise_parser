@@ -1,0 +1,31 @@
+{
+  "URL": "https://exrx.net/WeightExercises/PectoralSternal/DBPulloverArchedBench",
+  "Name": "Dumbbell Pullover (on arched bench)",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Push",
+  "Muscles": {
+    "Target": [
+      "Pectoralis Major, Sternal"
+    ],
+    "Synergists": [
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Triceps, Long Head",
+      "Deltoid, Posterior",
+      "Pectoralis Minor",
+      "Rhomboids",
+      "Levator Scapulae"
+    ],
+    "Stabilizers": [
+      "Triceps Brachii",
+      "Deltoid, Anterior",
+      "Pectoralis Major, Clavicular",
+      "Wrist Flexors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.228031-08:00"
+}

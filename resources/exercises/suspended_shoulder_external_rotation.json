@@ -1,0 +1,35 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Infraspinatus/STShoulderExternalRotation",
+  "Name": "Suspended Shoulder External Rotation",
+  "Utility": "Auxiliary",
+  "Mechanics": "Isolated",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Infraspinatus"
+    ],
+    "Synergists": [
+      "Teres Minor",
+      "Deltoid, Posterior",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Gluteus Maximus",
+      "Hamstrings",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Rhomboids",
+      "Wrist Extensors"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.173098-08:00"
+}

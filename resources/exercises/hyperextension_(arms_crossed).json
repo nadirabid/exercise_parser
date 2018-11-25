@@ -1,0 +1,22 @@
+{
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/BWHyperextensionX",
+  "Name": "Hyperextension (arms crossed)",
+  "Utility": "Basic or Auxiliary",
+  "Mechanics": "Compound",
+  "Force": "Pull",
+  "Muscles": {
+    "Target": [
+      "Erector Spinae"
+    ],
+    "Synergists": null,
+    "Stabilizers": [
+      "Gluteus Maximus",
+      "Hamstrings",
+      "Adductor Magnus"
+    ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "CrawledAt": "2018-11-24T20:45:17.691148-08:00"
+}
