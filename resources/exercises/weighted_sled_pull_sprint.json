@@ -1,0 +1,44 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Power/WTPullSprint",
+  "Name": "Weighted Sled Pull Sprint",
+  "Classification": {
+    "Utility": "Power",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Hips": [
+        "Abduction"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion",
+        "Lateral Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.961698-08:00"
+}

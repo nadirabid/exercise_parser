@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/BackGeneral/LVWideGripSeatedRowH",
   "Name": "Lever Wide Grip Seated Row (high bar, plate loaded)",
-  "Utility": "Basic",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": null,
     "Synergists": [
@@ -27,5 +33,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.734002-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.470486-08:00"
 }

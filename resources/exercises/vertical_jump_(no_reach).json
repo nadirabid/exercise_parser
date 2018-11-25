@@ -1,0 +1,56 @@
+{
+  "URL": "https://exrx.net/Plyometrics/VerticalJumpNoReach",
+  "Name": "Vertical Jump (no reach)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium High",
+    "Function": "Leg Ext (Vertical)",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Foot": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula": [
+        "Upward Rotation",
+        "Downward Rotation",
+        "Retraction",
+        "Protraction"
+      ],
+      "Shoulder": [
+        "Flexion",
+        "Extension",
+        "Transverse Abduction",
+        "Transverse Extension",
+        "Adduction"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.918274-08:00"
+}

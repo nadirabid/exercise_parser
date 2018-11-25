@@ -1,0 +1,46 @@
+{
+  "URL": "https://exrx.net/Plyometrics/OneArmPlyoPushUpMB",
+  "Name": "Self-assisted Plyo Push-up (on medicine ball)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Low Medium",
+    "Function": "Forward Push",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction"
+      ],
+      "Shoulder": [
+        "Transverse Flexion / Flexion"
+      ],
+      "Wrist": [
+        "Flexion"
+      ]
+    },
+    "Static": {
+      "Knee": [
+        "Extension"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935669-08:00"
+}

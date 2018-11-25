@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/WristFlexors/DBUlnarFlexion",
   "Name": "Dumbbell Ulnar Deviation",
-  "Utility": "Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Flexor Carpi Ulnaris",
@@ -15,5 +21,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.633144-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.174781-08:00"
 }

@@ -1,0 +1,49 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBSingleLegChop",
+  "Name": "Medicine Ball Single Leg Chop",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "Low",
+    "Function": "Trunk Extension",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Flexion"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension (see notes) "
+      ]
+    },
+    "Static": {
+      "Hip": [
+        "Abduction"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Lateral Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935846-08:00"
+}

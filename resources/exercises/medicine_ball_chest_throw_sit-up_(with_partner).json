@@ -1,0 +1,45 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBChestThrowSitupPartner",
+  "Name": "Medicine Ball Chest Throw Sit-up (with partner)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium High",
+    "Function": "Trunk Flexion",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Hips": [
+        "Flexion"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction"
+      ],
+      "Shoulder": [
+        "Flexion / Transverse Flexion"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion"
+      ],
+      "Wrist": [
+        "Flexion"
+      ]
+    },
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.93547-08:00"
+}

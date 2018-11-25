@@ -1,0 +1,54 @@
+{
+  "URL": "https://exrx.net/Plyometrics/SingleLegVerticalPowerJump",
+  "Name": "Single-leg Vertical Power Jump",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "High",
+    "Function": "Leg Ext (Vertical)",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Foot": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula": [
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Flexion"
+      ]
+    },
+    "Static": {
+      "Hip": [
+        "Abduction"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension",
+        "Lateral Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.924303-08:00"
+}

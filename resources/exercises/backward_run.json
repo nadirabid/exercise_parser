@@ -1,0 +1,49 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/BackwardRun",
+  "Name": "Backward Run",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "High"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion",
+        "Dorsal Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension",
+        "Flexion"
+      ],
+      "Spine": [
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Hip": [
+        "Abduction"
+      ],
+      "Spine": [
+        "Lateral Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935811-08:00"
+}

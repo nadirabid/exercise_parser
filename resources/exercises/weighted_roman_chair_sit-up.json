@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/HipFlexors/WtRomanChairSitup",
   "Name": "Weighted Roman Chair Sit-up",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Iliopsoas"
@@ -24,5 +30,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.650163-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.813258-08:00"
 }

@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/STReverseFly",
   "Name": "Suspended Reverse Fly",
-  "Utility": "Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Deltoid, Posterior"
@@ -28,5 +34,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.448839-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.09037-08:00"
 }

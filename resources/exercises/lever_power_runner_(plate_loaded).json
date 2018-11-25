@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/GluteusMaximus/LVPowerRunnerPL",
   "Name": "Lever Power Runner (plate loaded)",
-  "Utility": "Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Gluteus Maximus"
@@ -21,5 +27,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.488314-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.764177-08:00"
 }

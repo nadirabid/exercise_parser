@@ -1,32 +1,26 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Quadriceps/CBSingleLegSplitSquat",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/CBSingleLegSplitSquat",
   "Name": "Cable Single Leg Split Squat",
-  "Utility": "Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
-    "Target": [
-      "Quadriceps"
-    ],
-    "Synergists": [
-      "Gluteus Maximus",
-      "Adductor Magnus",
-      "Soleus"
-    ],
-    "Stabilizers": [
-      "Erector Spinae",
-      "Trapezius, Upper",
-      "Trapezius, Lower",
-      "Levator Scapulae",
-      "Gluteus Medius",
-      "Gluteus Minimus"
-    ],
-    "DynamicStabilizers": [
-      "Hamstrings",
-      "Gastrocnemius"
-    ],
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.720811-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.764183-08:00"
 }

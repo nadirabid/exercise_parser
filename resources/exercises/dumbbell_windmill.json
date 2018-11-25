@@ -1,0 +1,46 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Other/DBWindmill",
+  "Name": "Dumbbell Windmill",
+  "Classification": {
+    "Utility": "Specialized",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Hip": [
+        "Extension"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Scapula\u0026Clavicle": [
+        "Upward Rotation (upper position) ",
+        "Protraction (lower position) "
+      ],
+      "Shoulder": [
+        "Flexion (upper position) ",
+        "Abduction (mid position) ",
+        "Transverse Extension (lower position) "
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.961677-08:00"
+}

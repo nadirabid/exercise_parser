@@ -1,0 +1,54 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Power/STMuscleUpKip",
+  "Name": "Suspended Muscle-up (with kip)",
+  "Classification": {
+    "Utility": "Power",
+    "Mechanics": "Compound",
+    "Force": "Pull \u0026 Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Flexion",
+        "Extension"
+      ],
+      "Hip": [
+        "Flexion",
+        "Extension"
+      ],
+      "Shoulder": [
+        "Extension",
+        "Adduction",
+        "Internal Rotation",
+        "Flexion",
+        "Transverse Extension"
+      ],
+      "ShoulderGirdle": [
+        "Downward Rotation",
+        "Retraction"
+      ],
+      "Spine": [
+        "Flexion",
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Wrists": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.961718-08:00"
+}

@@ -1,0 +1,56 @@
+{
+  "URL": "https://exrx.net/Plyometrics/SingleLegSpeedHops",
+  "Name": "Single-leg Speed Hops",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "High",
+    "Function": "Leg Ext (Horizontal)",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Foot": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula": [
+        "Upward Rotation",
+        "Downward Rotation"
+      ],
+      "Shoulder": [
+        "Flexion",
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Hip": [
+        "Abduction"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension",
+        "Lateral Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935826-08:00"
+}

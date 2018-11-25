@@ -1,27 +1,34 @@
 {
-  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/SMBentKneeGoodMorning",
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/SMBentKneeGoodMorning",
   "Name": "Smith Bent Knee Good-morning",
-  "Utility": "",
-  "Mechanics": "",
-  "Force": "",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
-    "Target": [
-      "Gluteus Maximus"
-    ],
+    "Target": null,
     "Synergists": [
-      "Adductor Magnus",
-      "Hamstrings"
+      "Erector Spinae"
     ],
     "Stabilizers": [
-      "Erector Spinae",
-      "Quadriceps"
+      "Gluteus Maximus",
+      "Hamstrings",
+      "Adductor Magnus"
     ],
     "DynamicStabilizers": null,
     "AntagonistStabilizers": [
-      "Rectus Abdominis",
-      "Obliques"
+      "Quadriceps"
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.546158-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.219515-08:00"
 }

@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Power/LVPushPull",
   "Name": "Lever Push Pull (plate loaded)",
-  "Utility": "Power",
-  "Mechanics": "Compound",
-  "Force": "Push \u0026 Pull",
+  "Classification": {
+    "Utility": "Power",
+    "Mechanics": "Compound",
+    "Force": "Push \u0026 Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": null,
     "Synergists": null,
@@ -12,5 +18,22 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.287886-08:00"
+  "Articulation": {
+    "Dynamic": {
+      "": [
+        "Shoulder\n\nExtension\nTransverse Extension\n",
+        "Extension",
+        "Transverse Extension",
+        "Scapula \u0026 Clavicle\n\nRetraction\n",
+        "Retraction",
+        "Elbow\n\nFlexion\n",
+        "Flexion"
+      ],
+      "Spine": [
+        "Rotation"
+      ]
+    },
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.29521-08:00"
 }

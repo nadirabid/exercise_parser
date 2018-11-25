@@ -1,22 +1,32 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Hamstrings/BBHyperextension",
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/BBHyperextension",
   "Name": "Barbell Hyperextension",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Hamstrings"
+      "Erector Spinae"
     ],
     "Synergists": null,
     "Stabilizers": [
-      "Erector Spinae",
       "Gluteus Maximus",
+      "Hamstrings",
       "Adductor Magnus"
     ],
     "DynamicStabilizers": null,
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.847987-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.212039-08:00"
 }

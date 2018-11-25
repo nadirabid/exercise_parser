@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/PectoralSternal/LVDeclineChestPressPL",
   "Name": "Lever Decline Chest Press (plate loaded)",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Pectoralis Major, Sternal"
@@ -20,5 +26,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.025065-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.473827-08:00"
 }

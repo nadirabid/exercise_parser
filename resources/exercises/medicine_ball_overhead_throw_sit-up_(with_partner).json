@@ -1,0 +1,45 @@
+{
+  "URL": "http://exrx.net/Plyometrics/MBSitUp",
+  "Name": "Medicine Ball Overhead Throw Sit-up (with partner)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium High",
+    "Function": "Trunk Flexion",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Hips": [
+        "Flexion"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Downward Rotation"
+      ],
+      "Shoulder": [
+        "Extension"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion"
+      ],
+      "Wrist": [
+        "Flexion"
+      ]
+    },
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.176383-08:00"
+}

@@ -1,0 +1,57 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MultipleBoxDepthJumps",
+  "Name": "Multiple Box Depth Jumps",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "High",
+    "Function": "Leg Ext (Vertical)",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Foot": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension",
+        "Flexion"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Elevation",
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Flexion",
+        "Abduction"
+      ],
+      "Spine": [
+        "Flexion",
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.918284-08:00"
+}

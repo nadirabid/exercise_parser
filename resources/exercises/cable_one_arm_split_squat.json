@@ -1,19 +1,28 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Quadriceps/CBLungeOneArm",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/CBLungeOneArm",
   "Name": "Cable One Arm Split Squat",
-  "Utility": "Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Quadriceps"
+      "Gluteus Maximus"
     ],
     "Synergists": [
-      "Gluteus Maximus",
+      "Quadriceps",
       "Adductor Magnus",
       "Soleus"
     ],
     "Stabilizers": [
+      "Trapezius, Upper",
+      "Trapezius, Middle",
+      "Levator Scapulae",
       "Erector Spinae",
       "Obliques"
     ],
@@ -24,5 +33,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.724991-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.764275-08:00"
 }

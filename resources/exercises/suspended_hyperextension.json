@@ -1,21 +1,25 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Hamstrings/STHyperextension",
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/STHyperextension",
   "Name": "Suspended Hyperextension",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Hamstrings"
+      "Erector Spinae"
     ],
-    "Synergists": null,
-    "Stabilizers": [
-      "Erector Spinae",
+    "Synergists": [
+      "Hamstrings",
       "Gluteus Maximus",
       "Adductor Magnus"
     ],
-    "DynamicStabilizers": null,
-    "AntagonistStabilizers": [
+    "Stabilizers": [
       "Deltoid, Anterior",
       "Deltoid, Lateral",
       "Supraspinatus",
@@ -24,7 +28,16 @@
       "Serratus Anterior",
       "Triceps Brachii"
     ],
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.905085-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.17654-08:00"
 }

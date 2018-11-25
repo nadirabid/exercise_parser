@@ -1,0 +1,65 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/BearCrawl",
+  "Name": "Bear Crawl",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "High"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Upward Rotation",
+        "Downward Rotation"
+      ],
+      "Shoulder": [
+        "Flexion",
+        "Extension"
+      ],
+      "Spine": [
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Hip": [
+        "Transverse Abduction"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction"
+      ],
+      "Shoulder": [
+        "Transverse Adduction / Flexion",
+        "Transverse Abduction / Extension"
+      ],
+      "Spine": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935806-08:00"
+}

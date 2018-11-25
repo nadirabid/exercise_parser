@@ -1,15 +1,21 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Quadriceps/BWSingleLegSquatLegBack",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/BWSingleLegSquatLegBack",
   "Name": "Single Leg Squat (with leg back)",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Quadriceps"
+      "Gluteus Maximus"
     ],
     "Synergists": [
-      "Gluteus Maximus",
+      "Quadriceps",
       "Adductor Magnus",
       "Soleus"
     ],
@@ -28,5 +34,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.822264-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.793395-08:00"
 }

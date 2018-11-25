@@ -1,22 +1,28 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Quadriceps/SLSingleLyingLegPressPL",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/SLSingleLegLyingLegPressPL",
   "Name": "Sled Single Leg Lying Leg Press (plate loaded)",
-  "Utility": "Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Quadriceps"
+      "Gluteus Maximus"
     ],
     "Synergists": [
-      "Gluteus Maximus",
+      "Quadriceps",
       "Adductor Magnus",
       "Soleus"
     ],
     "Stabilizers": [
       "Gluteus Medius",
       "Gluteus Minimus",
-      "Quadratus Lumborum ",
+      "Quadratus Lumborum",
       "Obliques"
     ],
     "DynamicStabilizers": [
@@ -26,5 +32,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.79541-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.786894-08:00"
 }

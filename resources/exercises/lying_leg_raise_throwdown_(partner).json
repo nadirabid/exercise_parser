@@ -1,0 +1,46 @@
+{
+  "URL": "https://exrx.net/Plyometrics/LyingLegRaiseThrowdownPartner",
+  "Name": "Lying Leg Raise Throwdown (partner)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium High",
+    "Function": "Trunk Flexion",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Hip": [
+        "Flexion"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula": [
+        "Downward Rotation"
+      ],
+      "Shoulder": [
+        "Extension"
+      ],
+      "Spine": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935875-08:00"
+}

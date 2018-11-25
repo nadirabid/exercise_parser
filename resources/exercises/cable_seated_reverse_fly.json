@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/CBSeatedRearDeltPull",
   "Name": "Cable Seated Reverse Fly",
-  "Utility": "Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Deltoid, Posterior"
@@ -25,5 +31,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.396555-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.096007-08:00"
 }

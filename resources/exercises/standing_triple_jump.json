@@ -1,0 +1,59 @@
+{
+  "URL": "https://exrx.net/Plyometrics/StandingTripleJump",
+  "Name": "Standing Triple Jump",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium High",
+    "Function": "Leg Ext (Horizontal)",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Foot": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Upward Rotation / Protraction",
+        "Downward Rotation / Retraction",
+        "Retraction"
+      ],
+      "Shoulder": [
+        "Flexion",
+        "Extension",
+        "Transverse Abduction"
+      ]
+    },
+    "Static": {
+      "Hip": [
+        "Abduction"
+      ],
+      "Spine": [
+        "Rotation",
+        "Lateral Flexion",
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935824-08:00"
+}

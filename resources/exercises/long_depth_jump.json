@@ -1,0 +1,52 @@
+{
+  "URL": "http://exrx.net/Plyometrics/LongDepthJump",
+  "Name": "Long Depth Jump",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "High",
+    "Function": "Leg Ext (Horizontal)",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction",
+        "Elevation",
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Flexion"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:54.173297-08:00"
+}

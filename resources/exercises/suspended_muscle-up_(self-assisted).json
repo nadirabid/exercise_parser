@@ -1,0 +1,56 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Power/ASMuscleUpSelf",
+  "Name": "Suspended Muscle-up (self-assisted)",
+  "Classification": {
+    "Utility": "Power",
+    "Mechanics": "Compound",
+    "Force": "Pull \u0026 Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Elbow": [
+        "Flexion",
+        "Extension"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Shoulder": [
+        "Extension",
+        "Adduction",
+        "Internal Rotation",
+        "Transverse Adduction",
+        "Flexion"
+      ],
+      "ShoulderGirdle": [
+        "Downward Rotation",
+        "Retraction"
+      ]
+    },
+    "Static": {
+      "Wrists": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.961717-08:00"
+}

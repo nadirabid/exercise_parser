@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/BWRearDeltInvertedRow",
   "Name": "Rear Delt Inverted Row",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Deltoid, Posterior"
@@ -32,5 +38,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.443106-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.089135-08:00"
 }

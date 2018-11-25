@@ -1,21 +1,29 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Quadriceps/SLSingleLegHackSquat",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/SLSingleLegHackSquat",
   "Name": "Sled Single Leg Hack Squat",
-  "Utility": "Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Quadriceps"
+      "Gluteus Maximus"
     ],
     "Synergists": [
-      "Gluteus Maximus",
+      "Quadriceps",
       "Adductor Magnus",
       "Soleus"
     ],
     "Stabilizers": [
       "Gluteus Medius",
-      "Gluteus Minimus"
+      "Gluteus Minimus",
+      "Quadratus Lumborum",
+      "Obliques"
     ],
     "DynamicStabilizers": [
       "Hamstrings",
@@ -24,5 +32,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.802789-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.783321-08:00"
 }

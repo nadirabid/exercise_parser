@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Obliques/LVStandingSideBend",
   "Name": "Lever Standing Side Bend",
-  "Utility": "Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Obliques"
@@ -25,5 +31,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.258352-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.201771-08:00"
 }

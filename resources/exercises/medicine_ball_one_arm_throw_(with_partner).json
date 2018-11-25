@@ -1,0 +1,48 @@
+{
+  "URL": "http://exrx.net/Plyometrics/MBOneArmThrow",
+  "Name": "Medicine Ball One Arm Throw (with partner)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Low Medium",
+    "Function": "Forward Push",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction"
+      ],
+      "Shoulder": [
+        "Transverse Flexion / Flexion",
+        "Internal Rotation"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Rotation",
+        "Lateral Flexion"
+      ],
+      "Wrist": [
+        "Flexion"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:54.175379-08:00"
+}

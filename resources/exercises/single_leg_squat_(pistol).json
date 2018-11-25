@@ -1,21 +1,27 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Quadriceps/BWSingleLegSquat",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/BWSingleLegSquat",
   "Name": "Single Leg Squat (pistol)",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Quadriceps"
+      "Gluteus Maximus"
     ],
     "Synergists": [
-      "Gluteus Maximus",
+      "Quadriceps",
       "Adductor Magnus",
       "Soleus"
     ],
     "Stabilizers": [
       "Iliopsoas",
-      "Tensor Fasciae Latae",
+      "Tensor Fasciae Latae ",
       "Pectineus",
       "Sartorius",
       "Quadriceps"
@@ -27,5 +33,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.821224-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.789985-08:00"
 }

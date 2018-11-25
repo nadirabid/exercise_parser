@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Triceps/CBLyingTriExt",
   "Name": "Cable Lying Triceps Extension",
-  "Utility": "Basic",
-  "Mechanics": "Isolated",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Basic",
+    "Mechanics": "Isolated",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Triceps Brachii"
@@ -22,5 +28,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.48026-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.21331-08:00"
 }

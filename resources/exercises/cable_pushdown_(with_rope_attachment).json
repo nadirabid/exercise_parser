@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Triceps/CBPushdownRope",
   "Name": "Cable Pushdown (with rope attachment)",
-  "Utility": "Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Triceps Brachii"
@@ -28,5 +34,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.488941-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.220651-08:00"
 }

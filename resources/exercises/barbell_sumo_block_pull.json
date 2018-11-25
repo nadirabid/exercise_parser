@@ -1,34 +1,41 @@
 {
-  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/BBSumoBlockPull",
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/BBSumoBlockPull",
   "Name": "Barbell Sumo Block Pull",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
-    "Target": [
-      "Gluteus Maximus"
-    ],
+    "Target": null,
     "Synergists": [
-      "Quadriceps",
-      "Adductor Magnus",
-      "Soleus"
+      "Erector Spinae"
     ],
     "Stabilizers": [
-      "Erector Spinae",
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "DynamicStabilizers": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Quadriceps",
+      "Soleus"
+    ],
+    "AntagonistStabilizers": [
       "Trapezius, Middle",
       "Trapezius, Upper",
       "Levator Scapulae",
       "Rhomboids"
     ],
-    "DynamicStabilizers": [
-      "Hamstrings",
-      "Gastrocnemius"
-    ],
-    "AntagonistStabilizers": [
-      "Rectus Abdominis",
-      "Obliques"
-    ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.39945-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.009125-08:00"
 }

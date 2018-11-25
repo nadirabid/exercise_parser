@@ -1,0 +1,68 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/BurpeeAdvanced",
+  "Name": "Burpee (advanced)",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "High"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion (1st buck)"
+      ],
+      "Elbow": [
+        "Extension (push-up)"
+      ],
+      "Hip": [
+        "Flexion (2nd buck \u0026 pull in)",
+        "Extension (1st buck \u0026 kickback)"
+      ],
+      "Knee": [
+        "Flexion (pull in)",
+        "Extension (1st buck)"
+      ],
+      "ScapulaandClavicle": [
+        "Protraction (push-up)"
+      ],
+      "Shoulder": [
+        "Transverse Flexion / Flexion (push-up)"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion (pull in)",
+        "Extension (kick back)"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Extension (kick back \u0026 pull in)"
+      ],
+      "Knee": [
+        "Extension (plank)"
+      ],
+      "ScapulaandClavicle": [
+        "Protraction (kick back \u0026 pull in)"
+      ],
+      "Shoulder": [
+        "Transverse Flexion / Flexion (kick back \u0026 pull in)"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion (plank)",
+        "Extension (squat stand)"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935803-08:00"
+}

@@ -1,0 +1,47 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Power/BWButterflyPullup",
+  "Name": "Butterfly Pull-up",
+  "Classification": {
+    "Utility": "Power",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Flexion"
+      ],
+      "Hip": [
+        "Flexion",
+        "Extension"
+      ],
+      "Shoulder": [
+        "Extension",
+        "Adduction",
+        "Transverse Extension"
+      ],
+      "ShoulderGirdle": [
+        "Downward Rotation",
+        "Retraction"
+      ],
+      "Spine": [
+        "Extension",
+        "Flexion"
+      ]
+    },
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.961711-08:00"
+}

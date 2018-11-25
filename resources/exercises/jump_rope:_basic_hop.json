@@ -1,0 +1,36 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/JumpRopeSingleHop",
+  "Name": "Jump Rope: Basic Hop",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "High"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ]
+    },
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935818-08:00"
+}

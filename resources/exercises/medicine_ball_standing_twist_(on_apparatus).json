@@ -1,0 +1,51 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBStandingTwistMach",
+  "Name": "Medicine Ball Standing Twist (on apparatus)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "Low",
+    "Function": "Trunk Rotation",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Hip": [
+        "Internal Rotation / Adduction",
+        "External Rotation / Abduction"
+      ],
+      "Knee": [
+        "Internal Rotation",
+        "External Rotation"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction",
+        "Retraction"
+      ],
+      "Shoulder": [
+        "Transverse Flexion",
+        "Flexion",
+        "Adduction"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935846-08:00"
+}

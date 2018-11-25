@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/TibialisAnterior/LV45ReverseCalfRaise",
   "Name": "Lever 45° Reverse Calf Raise (plate loaded)",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Tibialis Anterior"
@@ -14,5 +20,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.977327-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.411197-08:00"
 }

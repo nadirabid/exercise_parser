@@ -1,0 +1,45 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Power/RMSeatedPull",
+  "Name": "Rope Machine Seated Pull",
+  "Classification": {
+    "Utility": "Specialized",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Flexion"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Retraction",
+        "Downward Rotation"
+      ],
+      "Shoulder": [
+        "Extension",
+        "Transverse Extension"
+      ],
+      "Spine": [
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.961695-08:00"
+}

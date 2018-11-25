@@ -1,0 +1,39 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBLyingChestThrow",
+  "Name": "Medicine Ball Lying Chest Throw",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium",
+    "Function": "Forward Push",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction"
+      ],
+      "Shoulder": [
+        "Transverse Flexion / Flexion"
+      ],
+      "Wrist": [
+        "Flexion"
+      ]
+    },
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935673-08:00"
+}

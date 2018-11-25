@@ -1,0 +1,70 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBTwistThrow",
+  "Name": "Medicine Ball Side Twist Throw (with partner)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "Medium",
+    "Function": "Trunk Rotation",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Hip": [
+        "Internal Rotation / Adduction",
+        "External Rotation / Abduction"
+      ],
+      "Knee": [
+        "Internal Rotation",
+        "External Rotation"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction",
+        "Retraction"
+      ],
+      "Shoulder": [
+        "Transverse Flexion / Flexion",
+        "Transverse Extension / Extension",
+        "External Rotation",
+        "Internal Rotation"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Flexion"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Downward Rotation"
+      ],
+      "Shoulder": [
+        "Transverse Flexion / Flexion"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935487-08:00"
+}

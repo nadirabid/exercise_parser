@@ -1,0 +1,50 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBKneelingSideTwistThrowWall",
+  "Name": "Medicine Ball Kneeling Side Twist Throw (against wall)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium",
+    "Function": "Trunk Rotation",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Hips": [
+        "External Rotation (kneeling leg)",
+        "Transverse Adduction (higher leg)"
+      ],
+      "Knee": [
+        "Internal Rotation (kneeling leg)"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction",
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Transverse Flexion",
+        "Transverse Adduction",
+        "Flexion"
+      ],
+      "Spine": [
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935483-08:00"
+}

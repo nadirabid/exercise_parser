@@ -1,0 +1,52 @@
+{
+  "URL": "https://exrx.net/Plyometrics/180JumpTurns",
+  "Name": "180° Jump Turns",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Low Medium",
+    "Function": "Leg Ext (Vertical)",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Foot": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion",
+        "Internal Rotation",
+        "External Rotation"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Shoulder": [
+        "Flexion"
+      ],
+      "Spine": [
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.918434-08:00"
+}

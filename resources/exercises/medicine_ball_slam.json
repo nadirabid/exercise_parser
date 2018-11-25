@@ -1,0 +1,50 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBSlam",
+  "Name": "Medicine Ball Slam",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium",
+    "Function": "Pulldown",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension",
+        "Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula": [
+        "Downward Rotation",
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Extension / Adduction",
+        "Flexion / Abduction"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion",
+        "Extension"
+      ]
+    },
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935873-08:00"
+}

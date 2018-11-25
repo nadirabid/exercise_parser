@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Triceps/BWCloseGripPushupKnees",
   "Name": "Close Grip Push-up (on knees)",
-  "Utility": "Basic",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Basic",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Triceps Brachii"
@@ -23,5 +29,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.540718-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.220631-08:00"
 }

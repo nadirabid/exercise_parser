@@ -1,15 +1,21 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Quadriceps/DBStepUp",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/DBStepUp",
   "Name": "Dumbbell Step-up",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Quadriceps"
+      "Gluteus Maximus"
     ],
     "Synergists": [
-      "Gluteus Maximus",
+      "Quadriceps",
       "Adductor Magnus",
       "Soleus",
       "Gastrocnemius"
@@ -34,5 +40,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.745365-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.774267-08:00"
 }

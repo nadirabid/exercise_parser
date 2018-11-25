@@ -1,0 +1,36 @@
+{
+  "URL": "https://exrx.net/Plyometrics/AnkleHops",
+  "Name": "Ankle Hops",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Low",
+    "Function": "Leg Ext (Vertical)",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ]
+    },
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.918213-08:00"
+}

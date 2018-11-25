@@ -1,0 +1,55 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Power/WTPushSprint",
+  "Name": "Weighted Drive Sled Sprint",
+  "Classification": {
+    "Utility": "Power",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Hips": [
+        "Abduction"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Upward Rotation",
+        "Elevation"
+      ],
+      "Shoulder": [
+        "Flexion",
+        "Abduction"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion",
+        "Lateral Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.961702-08:00"
+}

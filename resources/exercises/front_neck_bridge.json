@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Sternocleidomastoid/BWFrontNeckBridge",
   "Name": "Front Neck Bridge",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Push \u0026 Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Push \u0026 Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Sternocleidomastoid"
@@ -29,5 +35,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.276761-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.246067-08:00"
 }

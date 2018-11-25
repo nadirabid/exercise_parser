@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Kettlebell/KBFrontSquat",
   "Name": "Kettlebell Front Squat",
-  "Utility": "Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": null,
     "Synergists": null,
@@ -12,5 +18,32 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.817295-08:00"
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Scapula\u0026Clavicle": [
+        "Elevation"
+      ],
+      "Shoulder": [
+        "Flexion"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ],
+      "Wrist": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.446389-08:00"
 }

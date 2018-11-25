@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/OlympicLifts/HangClean",
   "Name": "Hang Clean",
-  "Utility": "Power",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Power",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": null,
     "Synergists": null,
@@ -12,5 +18,35 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.905153-08:00"
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Elbow": [
+        "Flexion"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Elevation",
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Abduction",
+        "Flexion",
+        "External Rotation"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935856-08:00"
 }

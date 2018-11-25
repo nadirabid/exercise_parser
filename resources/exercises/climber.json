@@ -1,0 +1,56 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/VersaClimber",
+  "Name": "Climber",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "Low"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Elbow": [
+        "Extension",
+        "Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Upward Rotation",
+        "Downward Rotation"
+      ],
+      "Shoulder": [
+        "Flexion",
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Hip": [
+        "Abduction"
+      ],
+      "Spine": [
+        "Lateral Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.924217-08:00"
+}

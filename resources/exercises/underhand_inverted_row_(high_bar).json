@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/BackGeneral/BWUnderhandSupineRowHigh",
   "Name": "Underhand Inverted Row (high bar)",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": null,
     "Synergists": [
@@ -34,5 +40,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.776155-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.471939-08:00"
 }

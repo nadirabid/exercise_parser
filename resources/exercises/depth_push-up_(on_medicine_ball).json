@@ -1,0 +1,48 @@
+{
+  "URL": "https://exrx.net/Plyometrics/DepthPushupMB",
+  "Name": "Depth Push-up (on medicine ball)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "High",
+    "Function": "Forward Push",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction"
+      ],
+      "Shoulder": [
+        "Transverse Flexion / Flexion"
+      ],
+      "Wrist": [
+        "Flexion"
+      ]
+    },
+    "Static": {
+      "Scapula\u0026Clavicle": [
+        "Protraction",
+        "Retraction"
+      ],
+      "Shoulder": [
+        "Transverse Flexion / Flexion",
+        "Transverse Extension / Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935679-08:00"
+}

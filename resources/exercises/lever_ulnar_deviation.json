@@ -1,19 +1,26 @@
 {
   "URL": "https://exrx.net/WeightExercises/WristFlexors/LVUlnarFlexion",
   "Name": "Lever Ulnar Deviation",
-  "Utility": "Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
-    "Target": [
-      "Flexor Carpi Ulnaris",
-      "Extensor Carpi Ulnaris "
-    ],
+    "Target": null,
     "Synergists": null,
     "Stabilizers": null,
     "DynamicStabilizers": null,
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.638688-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.173261-08:00"
 }

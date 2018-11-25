@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/DBLyingRearDeltRow",
   "Name": "Dumbbell Lying Rear Delt Row",
-  "Utility": "",
-  "Mechanics": "",
-  "Force": "",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Deltoid, Posterior"
@@ -25,5 +31,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.416244-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:39:21.768517-08:00"
 }

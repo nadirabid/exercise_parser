@@ -1,0 +1,58 @@
+{
+  "URL": "https://exrx.net/WeightExercises/OlympicLifts/PressUnder",
+  "Name": "Press Under",
+  "Classification": {
+    "Utility": "Power",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Elbow": [
+        "Extension"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Elevation",
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Abduction"
+      ]
+    },
+    "Static": {
+      "Scapula\u0026Clavicle": [
+        "Elevation",
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Abduction"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935874-08:00"
+}

@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/CBStandingCrossRow",
   "Name": "Cable Standing Cross Row",
-  "Utility": "Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Deltoid, Posterior"
@@ -25,5 +31,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.411361-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.096374-08:00"
 }

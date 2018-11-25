@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Hamstrings/SMStrBackStrLegDeadlift",
   "Name": "Smith Straight-back Straight-leg Deadlift",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Hamstrings"
@@ -27,5 +33,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.88736-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.472656-08:00"
 }

@@ -1,0 +1,47 @@
+{
+  "URL": "http://exrx.net/Plyometrics/MBSideThrowWall",
+  "Name": "Medicine Ball Side Throw",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Low Medium",
+    "Function": "Forward Push",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction"
+      ],
+      "Shoulder": [
+        "Flexion / Transverse Flexion"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Rotation"
+      ],
+      "Wrist": [
+        "Flexion"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion",
+        "Lateral Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:54.170793-08:00"
+}

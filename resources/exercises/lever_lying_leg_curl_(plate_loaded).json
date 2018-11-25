@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Hamstrings/LVLyingLegCurlH",
   "Name": "Lever Lying Leg Curl (plate loaded)",
-  "Utility": "Basic",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Hamstrings"
@@ -22,5 +28,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.867315-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.462736-08:00"
 }

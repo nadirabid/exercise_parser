@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Pronators/DBLyingPronationDown",
   "Name": "Dumbbell Lying Pronation (arm down)",
-  "Utility": "Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Pronators"
@@ -14,5 +20,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.666271-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.179235-08:00"
 }

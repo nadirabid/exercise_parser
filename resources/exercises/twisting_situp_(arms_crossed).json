@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Obliques/BWTwistingSitUpX",
   "Name": "Twisting Situp (arms crossed)",
-  "Utility": "Basic",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Obliques"
@@ -22,5 +28,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.299948-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.212044-08:00"
 }

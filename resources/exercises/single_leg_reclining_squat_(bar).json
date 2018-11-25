@@ -1,9 +1,15 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Quadriceps/BWSingleLegRecliningSquat",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/BWSingleLegRecliningSquat",
   "Name": "Single Leg Reclining Squat (bar)",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Quadriceps"
@@ -31,5 +37,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.823297-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.796643-08:00"
 }

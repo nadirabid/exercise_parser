@@ -1,0 +1,46 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Kettlebell/KBPress",
+  "Name": "Kettlebell Press",
+  "Classification": {
+    "Utility": "Basic",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Abduction",
+        "Flexion"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Extension",
+        "Flexion",
+        "Lateral Flexion"
+      ],
+      "Wrist": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935859-08:00"
+}

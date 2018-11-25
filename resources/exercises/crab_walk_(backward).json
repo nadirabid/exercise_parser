@@ -1,0 +1,66 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/CrabWalkBackward",
+  "Name": "Crab Walk (backward)",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "High"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Dorsal Flexion"
+      ],
+      "Hip": [
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension",
+        "Flexion"
+      ],
+      "Shoulder": [
+        "Hyperextension",
+        "Flexion"
+      ]
+    },
+    "Static": {
+      "Ankle": [
+        "Plantar Flexion (eccentric) "
+      ],
+      "Elbow": [
+        "Extension"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Retraction",
+        "Downward Rotation"
+      ],
+      "Shoulder": [
+        "Transverse Abduction"
+      ],
+      "Spine": [
+        "Extension",
+        "Rotation"
+      ],
+      "Wrist": [
+        "Flexion",
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935812-08:00"
+}

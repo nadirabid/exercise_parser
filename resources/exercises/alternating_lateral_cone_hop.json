@@ -1,0 +1,52 @@
+{
+  "URL": "https://exrx.net/Plyometrics/AlternatingLateralConeHop",
+  "Name": "Alternating Lateral Cone Hop",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Low Medium",
+    "Function": "Leg Ext (Lateral)",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Foot": [
+        "Plantar Flexion",
+        "Inversion",
+        "Eversion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion",
+        "Adduction",
+        "Abduction"
+      ],
+      "Knee": [
+        "Extension",
+        "Flexion"
+      ],
+      "Spine": [
+        "Lateral Flexion"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.920649-08:00"
+}

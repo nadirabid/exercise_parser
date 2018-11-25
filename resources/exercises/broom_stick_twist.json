@@ -1,0 +1,28 @@
+{
+  "URL": "https://exrx.net/Plyometrics/BroomstickTwist",
+  "Name": "Broom Stick Twist",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Low",
+    "Function": "Trunk Rotation",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "": null
+    },
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935843-08:00"
+}

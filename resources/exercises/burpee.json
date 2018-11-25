@@ -1,0 +1,55 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/Burpee",
+  "Name": "Burpee",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "Low"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion (1st buck)"
+      ],
+      "Hip": [
+        "Flexion (2nd buck \u0026 pull in)",
+        "Extension (1st buck \u0026 kick back)"
+      ],
+      "Knee": [
+        "Flexion (pull in)",
+        "Extension (1st buck)"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion (pull in)",
+        "Extension (kick back)"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction"
+      ],
+      "Shoulder": [
+        "Transverse Flexion"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion (plank)"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935802-08:00"
+}

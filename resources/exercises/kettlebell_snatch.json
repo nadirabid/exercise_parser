@@ -1,0 +1,60 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Kettlebell/KBSnatch",
+  "Name": "Kettlebell Snatch",
+  "Classification": {
+    "Utility": "Power",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Elbow": [
+        "Flexion\n\n\n",
+        "Extension"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Elevation",
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Flexion",
+        "Abduction"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Rotation",
+        "Lateral Flexion"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ],
+      "Wrist": [
+        "Flexion",
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935869-08:00"
+}

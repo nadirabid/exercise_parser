@@ -1,0 +1,44 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/Shuffle",
+  "Name": "Lateral Shuffle",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "High"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Abduction",
+        "Adduction",
+        "Extension",
+        "External Rotation"
+      ],
+      "Knee": [
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Spine": [
+        "Lateral Flexion",
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935814-08:00"
+}

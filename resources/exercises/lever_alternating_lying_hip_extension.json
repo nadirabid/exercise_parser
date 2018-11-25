@@ -1,21 +1,26 @@
 {
   "URL": "https://exrx.net/WeightExercises/GluteusMaximus/LVAlternatingLyingHipExtension",
   "Name": "Lever Alternating Lying Hip Extension",
-  "Utility": "Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
-    "Target": [
-      "Erector Spinae",
-      "Obliques"
-    ],
-    "Synergists": [
-      "Rectus Abdominis"
-    ],
+    "Target": null,
+    "Synergists": null,
     "Stabilizers": null,
     "DynamicStabilizers": null,
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.511813-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.777849-08:00"
 }

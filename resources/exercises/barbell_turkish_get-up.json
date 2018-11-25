@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Other/BBTurkishGetUp",
   "Name": "Barbell Turkish Get-up",
-  "Utility": "Specialized",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Specialized",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": null,
     "Synergists": null,
@@ -12,5 +18,43 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.180689-08:00"
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion",
+        "Internal Rotation"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Spine": [
+        "Flexion"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Hip": [
+        "Abduction",
+        "Adduction"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction (sit-up) ",
+        "Upward Rotation (upright) "
+      ],
+      "Shoulder": [
+        "Flexion (upright)  ",
+        "Transverse Flexion (lying) "
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.360608-08:00"
 }

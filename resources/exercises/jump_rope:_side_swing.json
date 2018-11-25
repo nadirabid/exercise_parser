@@ -1,0 +1,56 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/JumpSideSwing",
+  "Name": "Jump Rope: Side Swing",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "Low"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbows": [
+        "Flexion",
+        "Extension"
+      ],
+      "Forearm": [
+        "Pronation",
+        "Supination"
+      ],
+      "Shoulder": [
+        "Flexion",
+        "Extension",
+        "Internal Rotation",
+        "External Rotation"
+      ],
+      "ShoulderGirdle": [
+        "Protraction",
+        "Retraction",
+        "Upward Rotation",
+        "Downward Rotation"
+      ],
+      "Spine": [
+        "Rotation"
+      ],
+      "Wrist": [
+        "Flexion",
+        "Extension",
+        "Ulna Deviation",
+        "Radial Deviation"
+      ]
+    },
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935853-08:00"
+}

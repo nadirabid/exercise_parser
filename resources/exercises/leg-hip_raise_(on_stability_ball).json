@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/RectusAbdominis/BWLegHipRaiseExBall",
   "Name": "Leg-Hip Raise (on stability ball)",
-  "Utility": "Basic",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Rectus Abdominis"
@@ -31,5 +37,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.199736-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.359778-08:00"
 }

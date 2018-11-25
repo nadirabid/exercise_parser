@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/RectusAbdominis/LVLyingLegHipRaise",
   "Name": "Lever Lying Leg-Hip Raise (plate loaded)",
-  "Utility": "Basic",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Rectus Abdominis"
@@ -30,5 +36,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.134164-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.342497-08:00"
 }

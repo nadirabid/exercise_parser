@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/ErectorSpinae/DBOneArmStraightLegDeadlift",
   "Name": "Dumbbell One Arm Straight Leg Deadlift",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Erector Spinae"
@@ -29,5 +35,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.34514-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.015955-08:00"
 }

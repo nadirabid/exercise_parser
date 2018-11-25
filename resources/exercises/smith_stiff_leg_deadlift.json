@@ -1,17 +1,23 @@
 {
-  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/SMStiffLegDeadlift",
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/SMStiffLegDeadlift",
   "Name": "Smith Stiff Leg Deadlift",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Gluteus Maximus"
+      "Erector Spinae"
     ],
     "Synergists": [
-      "Erector Spinae",
-      "Adductor Magnus",
-      "Hamstrings"
+      "Gluteus Maximus",
+      "Hamstrings",
+      "Adductor Magnus"
     ],
     "Stabilizers": [
       "Quadriceps",
@@ -29,5 +35,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.548043-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.219506-08:00"
 }

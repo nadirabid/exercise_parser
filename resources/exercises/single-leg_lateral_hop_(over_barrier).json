@@ -1,0 +1,54 @@
+{
+  "URL": "https://exrx.net/Plyometrics/SingleLegLateralHopBarrier",
+  "Name": "Single-leg Lateral Hop (over barrier)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium High",
+    "Function": "Leg Ext (Lateral)",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Foot": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Flexion",
+        "Extension",
+        "Adduction",
+        "Abduction"
+      ],
+      "Knee": [
+        "Extension",
+        "Flexion"
+      ],
+      "Shoulder": [
+        "Extension",
+        "Flexion"
+      ],
+      "Spine": [
+        "Lateral Flexion"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.92538-08:00"
+}

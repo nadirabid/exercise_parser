@@ -1,0 +1,46 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/JumpRopeSingleLegCrissCross",
+  "Name": "Jump Rope: Single Leg Criss Cross",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "High"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Shoulder": [
+        "Internal Rotation",
+        "External Rotation"
+      ]
+    },
+    "Static": {
+      "Hip": [
+        "Abduction",
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935499-08:00"
+}

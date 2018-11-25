@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Hamstrings/ASHamstringRaiseSelf",
   "Name": "Self-assisted Inverse Leg Curl",
-  "Utility": "Basic",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Hamstrings"
@@ -33,5 +39,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.900113-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.472682-08:00"
 }

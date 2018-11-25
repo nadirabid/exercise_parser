@@ -1,0 +1,42 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/WaveMachine",
+  "Name": "Wave Machine",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "Low"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Hip": [
+        "Abduction",
+        "Adduction",
+        "External Rotation"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935799-08:00"
+}

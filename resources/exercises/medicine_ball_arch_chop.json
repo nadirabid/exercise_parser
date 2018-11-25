@@ -1,0 +1,47 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBArchChop",
+  "Name": "Medicine Ball Arch Chop",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Low",
+    "Function": "Trunk Extension",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Hip": [
+        "Internal Rotation / Adduction",
+        "External Rotation / Abduction"
+      ],
+      "Knee": [
+        "Internal Rotation",
+        "External Rotation",
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Flexion"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Lateral Flexion",
+        "Rotation",
+        "Extension"
+      ]
+    },
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.931991-08:00"
+}

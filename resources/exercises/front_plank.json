@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/RectusAbdominis/BWFrontPlank",
   "Name": "Front Plank",
-  "Utility": "Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Rectus Abdominis"
@@ -27,5 +33,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.21976-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.360596-08:00"
 }

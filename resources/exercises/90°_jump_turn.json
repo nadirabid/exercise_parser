@@ -1,0 +1,39 @@
+{
+  "URL": "https://exrx.net/Plyometrics/90JumpTurn",
+  "Name": "90° Jump Turn",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Low",
+    "Function": "Leg Ext (Vertical)",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion",
+        "Internal Rotation",
+        "External Rotation"
+      ],
+      "Knee": [
+        "Extension"
+      ]
+    },
+    "Static": {}
+  },
+  "CrawledAt": "2018-11-25T15:06:53.918135-08:00"
+}

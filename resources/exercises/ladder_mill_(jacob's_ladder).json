@@ -1,0 +1,58 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/LadderMill",
+  "Name": "Ladder Mill (Jacob's Ladder)",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "Low"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Upward Rotation",
+        "Downward Rotation"
+      ],
+      "Shoulder": [
+        "Flexion",
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Hip": [
+        "Transverse Abduction"
+      ],
+      "Shoulder": [
+        "Transverse Flexion"
+      ],
+      "Spine": [
+        "Lateral Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.927475-08:00"
+}

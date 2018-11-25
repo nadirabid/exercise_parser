@@ -1,16 +1,22 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Triceps/LVTriExt2",
+  "URL": "https://exrx.net/WeightExercises/Triceps/LVTriExt",
   "Name": "Lever Triceps Extension",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Triceps Brachii"
     ],
     "Synergists": null,
     "Stabilizers": [
-      "Pectoralis Major, Sternal",
+      "Pectoralis  Major, Sternal",
       "Deltoid, Posterior",
       "Latissimus Dorsi",
       "Teres Major",
@@ -23,5 +29,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.527906-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.220592-08:00"
 }

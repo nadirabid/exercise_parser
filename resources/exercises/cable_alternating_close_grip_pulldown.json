@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/LatissimusDorsi/CBAlternatingCloseGripPulldown",
   "Name": "Cable Alternating Close Grip Pulldown",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Latissimus Dorsi"
@@ -28,5 +34,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.796189-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.116626-08:00"
 }

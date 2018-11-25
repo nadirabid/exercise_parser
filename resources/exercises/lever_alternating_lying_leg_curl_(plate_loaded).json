@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Hamstrings/LVAlternatingLyingLegCurlH",
   "Name": "Lever Alternating Lying Leg Curl (plate loaded)",
-  "Utility": "Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Hamstrings"
@@ -22,5 +28,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.868775-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.466974-08:00"
 }

@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/RectusAbdominis/LVSideLyingLegHipRaise",
   "Name": "Lever Side Lying Leg Hip Raise",
-  "Utility": "Auxiliary or Basic",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Auxiliary or Basic",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Rectus Abdominis"
@@ -28,5 +34,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.14626-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.348263-08:00"
 }

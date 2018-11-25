@@ -1,23 +1,26 @@
 {
   "URL": "https://exrx.net/WeightExercises/TrapeziusUpper/LVShrugH",
   "Name": "Lever Shrug (plate loaded)",
-  "Utility": "",
-  "Mechanics": "",
-  "Force": "",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
-    "Target": [
-      "Trapezius, Upper"
-    ],
-    "Synergists": [
-      "Trapezius, Middle",
-      "Levator Scapulae"
-    ],
-    "Stabilizers": [
-      "Erector Spinae"
-    ],
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
     "DynamicStabilizers": null,
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.891646-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.124267-08:00"
 }

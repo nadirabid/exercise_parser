@@ -1,0 +1,65 @@
+{
+  "URL": "https://exrx.net/Plyometrics/BurpeePushup",
+  "Name": "Burpee Push-up",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Low",
+    "Function": "Forward Push",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion (2nd buck)"
+      ],
+      "Elbow": [
+        "Extension"
+      ],
+      "Hip": [
+        "Flexion (1st buck \u0026 pull in)",
+        "Extension (2nd buck \u0026 dive)"
+      ],
+      "Knee": [
+        "Flexion (pull in)",
+        "Extension (2nd buck)"
+      ],
+      "ScapulaandClavicle": [
+        "Protraction"
+      ],
+      "Shoulder": [
+        "Transverse Flexion / Flexion"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion (pull in)",
+        "Extension (dive)"
+      ]
+    },
+    "Static": {
+      "Ankle": [
+        "Plantar Flexion (squat stand)"
+      ],
+      "Hip": [
+        "Extension (squat stand)"
+      ],
+      "Knee": [
+        "Extension (plank \u0026 squat stand)"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion (plank)",
+        "Extension (squat stand)"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:54.169761-08:00"
+}

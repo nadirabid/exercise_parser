@@ -1,0 +1,60 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBRussianTwistThrowPartner",
+  "Name": "Medicine Ball Russian Twist Throw (with partner)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium",
+    "Function": "Trunk Rotation",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension (throw)"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction",
+        "Retraction"
+      ],
+      "Shoulder": [
+        "Internal Rotation (twist)",
+        "External Rotation (twist)",
+        "Transverse Flexion (throw)",
+        "Transverse Adduction (throw)",
+        "Flexion (throw)"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Flexion"
+      ],
+      "Hip": [
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Shoulder": [
+        "Flexion (twist)"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935484-08:00"
+}

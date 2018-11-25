@@ -1,0 +1,67 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBRotationScoopThrow",
+  "Name": "Medicine Ball Rotation Scoop Throw",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium High",
+    "Function": "Trunk Rotation",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Foot": [
+        "Plantar Flexion",
+        "Inversion",
+        "Eversion"
+      ],
+      "Hip": [
+        "Extension",
+        "Internal Rotation",
+        "External Rotation"
+      ],
+      "Knees": [
+        "Extension",
+        "Internal Rotation",
+        "External Rotation"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction",
+        "Upward Rotation",
+        "Elevation"
+      ],
+      "Shoulder": [
+        "Transverse Flexion",
+        "Flexion",
+        "Internal Rotation",
+        "Abduction",
+        "External Rotation"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Flexion"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935489-08:00"
+}

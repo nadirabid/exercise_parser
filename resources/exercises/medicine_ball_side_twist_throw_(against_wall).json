@@ -1,0 +1,57 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBSideTwistThrowWall",
+  "Name": "Medicine Ball Side Twist Throw (against wall)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium",
+    "Function": "Trunk Rotation",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Hips": [
+        "Extension",
+        "Internal Rotation"
+      ],
+      "Knee": [
+        "Extension",
+        "Internal Rotation"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction",
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Transverse Flexion",
+        "Transverse Adduction",
+        "Flexion"
+      ],
+      "Spine": [
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Flexion"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935488-08:00"
+}

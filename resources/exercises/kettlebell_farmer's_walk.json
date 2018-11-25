@@ -1,0 +1,50 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Kettlebell/KBFarmersWalk",
+  "Name": "Kettlebell Farmer's Walk",
+  "Classification": {
+    "Utility": "Specialized",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Fingers": [
+        "Flexion"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Elevation"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ],
+      "Thumb": [
+        "Opposition",
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935861-08:00"
+}

@@ -1,0 +1,50 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBPulloverThrowWall",
+  "Name": "Medicine Ball Pullover Throw (against wall)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Isolated",
+    "Force": "Push",
+    "Intensity": "Low Medium",
+    "Function": "Pulldown",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Scapula\u0026Clavicle": [
+        "Downward Rotation"
+      ],
+      "Shoulder": [
+        "Extension"
+      ],
+      "Wrist": [
+        "Flexion"
+      ]
+    },
+    "Static": {
+      "Elbow": [
+        "Extension"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935493-08:00"
+}

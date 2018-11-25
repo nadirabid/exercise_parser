@@ -1,0 +1,54 @@
+{
+  "URL": "https://exrx.net/Plyometrics/PikeJump",
+  "Name": "Pike Jump",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium High",
+    "Function": "Trunk Flexion",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Foot": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Flexion",
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula": [
+        "Upward Rotation",
+        "Protraction"
+      ],
+      "Shoulder": [
+        "Flexion"
+      ],
+      "Spine": [
+        "Flexion"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.91826-08:00"
+}

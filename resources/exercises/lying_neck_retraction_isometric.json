@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/Splenius/LyingIsometricNeckRetr",
   "Name": "Lying Neck Retraction Isometric",
-  "Utility": "",
-  "Mechanics": "",
-  "Force": "",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Splenius"
@@ -18,5 +24,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.290364-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.221228-08:00"
 }

@@ -1,33 +1,26 @@
 {
   "URL": "https://exrx.net/WeightExercises/DeltoidPosterior/BWRearDeltInvertedRowHips",
   "Name": "Rear Delt Inverted Row (on hips)",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
-    "Target": [
-      "Deltoid, Posterior"
-    ],
-    "Synergists": [
-      "Infraspinatus",
-      "Teres Minor",
-      "Trapezius, Middle",
-      "Trapezius, Lower",
-      "Rhomboids",
-      "Brachialis",
-      "Brachioradialis"
-    ],
-    "Stabilizers": [
-      "Erector Spinae"
-    ],
-    "DynamicStabilizers": [
-      "Biceps Brachii"
-    ],
-    "AntagonistStabilizers": [
-      "Rectus Abdominis",
-      "Obliques"
-    ],
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.446218-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.090746-08:00"
 }

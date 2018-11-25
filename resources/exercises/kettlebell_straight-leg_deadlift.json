@@ -1,0 +1,39 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Kettlebell/KBStraightLegDeadlift",
+  "Name": "Kettlebell Straight-leg Deadlift",
+  "Classification": {
+    "Utility": "Basic",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Hip": [
+        "Extension"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Rotation",
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Scapula\u0026Clavicle": [
+        "Elevation (upper position) ",
+        "Protraction (lower position) "
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935871-08:00"
+}

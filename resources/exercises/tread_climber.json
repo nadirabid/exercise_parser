@@ -1,0 +1,47 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/TreadClimber",
+  "Name": "Tread Climber",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Weight",
+    "Impact": "Medium"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Extension",
+        "Flexion"
+      ],
+      "Knee": [
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Ankle(eccentric)": [
+        "Dorsal Flexion"
+      ],
+      "Hip": [
+        "Abduction"
+      ],
+      "Spine": [
+        "Lateral  Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935792-08:00"
+}

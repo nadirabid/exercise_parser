@@ -1,15 +1,21 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Quadriceps/LVBBRearLunge",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/LVBBRearLunge",
   "Name": "Lever Barbell Rear Lunge (plate loaded)",
-  "Utility": "Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Quadriceps"
+      "Gluteus Maximus"
     ],
     "Synergists": [
-      "Gluteus Maximus",
+      "Quadriceps",
       "Adductor Magnus",
       "Soleus"
     ],
@@ -17,7 +23,7 @@
       "Erector Spinae",
       "Gluteus Medius",
       "Gluteus Minimus",
-      "Quadratus Lumborum",
+      "Quadratus Lumborum ",
       "Obliques"
     ],
     "DynamicStabilizers": [
@@ -27,5 +33,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.765312-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.764428-08:00"
 }

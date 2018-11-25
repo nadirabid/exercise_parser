@@ -1,21 +1,26 @@
 {
   "URL": "https://exrx.net/WeightExercises/TrapeziusUpper/LVSeatXGripShrug",
   "Name": "Lever Seated Gripless Shrug",
-  "Utility": "Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
-    "Target": [
-      "Trapezius, Middle",
-      "Levator Scapulae"
-    ],
+    "Target": null,
     "Synergists": null,
     "Stabilizers": null,
     "DynamicStabilizers": null,
     "AntagonistStabilizers": null,
-    "ROMCriteria": [
-      "Trapezius, Upper"
-    ]
+    "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:35.897724-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:57.124285-08:00"
 }

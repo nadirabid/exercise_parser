@@ -1,19 +1,29 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Quadriceps/DBSingleLegSplitSquat",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/DBSingleLegSplitSquat",
   "Name": "Dumbbell Single Leg Split Squat",
-  "Utility": "Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Quadriceps"
+      "Gluteus Maximus"
     ],
     "Synergists": [
-      "Gluteus Maximus",
+      "Quadriceps",
       "Adductor Magnus",
       "Soleus"
     ],
     "Stabilizers": [
+      "Erector Spinae",
+      "Trapezius, Upper",
+      "Trapezius, Lower",
+      "Levator Scapulae",
       "Gluteus Medius",
       "Gluteus Minimus"
     ],
@@ -24,5 +34,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.738227-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.788319-08:00"
 }

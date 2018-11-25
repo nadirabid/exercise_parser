@@ -1,0 +1,58 @@
+{
+  "URL": "https://exrx.net/WeightExercises/Kettlebell/KBBentKneeWindmill",
+  "Name": "Kettlebell Bent-knee Windmill",
+  "Classification": {
+    "Utility": "Specialized",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion (bent leg) "
+      ],
+      "Hip": [
+        "Extension",
+        "Adduction (bent leg) ",
+        "Internal Rotation (bent leg) "
+      ],
+      "Knee": [
+        "Extension (bent leg) "
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Lateral Flexion",
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Scapula\u0026Clavicle": [
+        "Upward Rotation (upper position) ",
+        "Protraction (lower position) "
+      ],
+      "Shoulder": [
+        "Flexion (upper position) ",
+        "Abduction (mid position) ",
+        "Transverse Extension (lower position) "
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ],
+      "Wrist": [
+        "Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935858-08:00"
+}

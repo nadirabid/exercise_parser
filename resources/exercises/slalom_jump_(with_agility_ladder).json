@@ -1,0 +1,47 @@
+{
+  "URL": "https://exrx.net/Plyometrics/SlalomJumpAgilityLadder",
+  "Name": "Slalom Jump (with agility ladder)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Low",
+    "Function": "Leg Ext (Lateral)",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Ankle": [
+        "Plantar Flexion"
+      ],
+      "Hip": [
+        "Adduction",
+        "Abduction",
+        "Medial Rotation"
+      ],
+      "Knee": [
+        "Flexion",
+        "Medial Rotation"
+      ]
+    },
+    "Static": {
+      "Shoulder": [
+        "Abduction",
+        "Flexion"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.927482-08:00"
+}

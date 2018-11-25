@@ -1,0 +1,52 @@
+{
+  "URL": "https://exrx.net/Plyometrics/MBAlternatingSideRotationThrowWall",
+  "Name": "Medicine Ball Alternating Side Rotation Throw (against wall)",
+  "Classification": {
+    "Utility": "Plyometric",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "Medium",
+    "Function": "Trunk Rotation",
+    "Bearing": "",
+    "Impact": ""
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Hip": [
+        "Extension",
+        "Internal Rotation"
+      ],
+      "Knee": [
+        "Extension",
+        "Internal Rotation",
+        "External Rotation"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction",
+        "Upward Rotation"
+      ],
+      "Shoulder": [
+        "Flexion",
+        "Transverse Flexion",
+        "Adduction"
+      ],
+      "Spine(Thoracic,Lumbar)": [
+        "Rotation"
+      ]
+    },
+    "Static": {
+      "Spine(Thoracic,Lumbar)": [
+        "Extension"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935481-08:00"
+}

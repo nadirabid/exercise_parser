@@ -1,22 +1,32 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Hamstrings/WtHyperextension",
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/WtHyperextension",
   "Name": "Weighted Hyperextension",
-  "Utility": "Basic or Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Hamstrings"
+      "Erector Spinae"
     ],
     "Synergists": null,
     "Stabilizers": [
-      "Erector Spinae",
       "Gluteus Maximus",
+      "Hamstrings",
       "Adductor Magnus"
     ],
     "DynamicStabilizers": null,
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.89009-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:54.255105-08:00"
 }

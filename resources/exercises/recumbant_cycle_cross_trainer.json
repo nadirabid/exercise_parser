@@ -1,0 +1,49 @@
+{
+  "URL": "https://exrx.net/Aerobic/Exercises/RecumbantCycleCrossTrainer",
+  "Name": "Recumbant Cycle Cross Trainer",
+  "Classification": {
+    "Utility": "",
+    "Mechanics": "",
+    "Force": "",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "Non-weight",
+    "Impact": "Low"
+  },
+  "Muscles": {
+    "Target": null,
+    "Synergists": null,
+    "Stabilizers": null,
+    "DynamicStabilizers": null,
+    "AntagonistStabilizers": null,
+    "ROMCriteria": null
+  },
+  "Articulation": {
+    "Dynamic": {
+      "Elbow": [
+        "Extension",
+        "Flexion"
+      ],
+      "Hip": [
+        "Extension"
+      ],
+      "Knee": [
+        "Extension"
+      ],
+      "Scapula\u0026Clavicle": [
+        "Protraction",
+        "Retraction"
+      ],
+      "Shoulder": [
+        "Flexion",
+        "Extension"
+      ]
+    },
+    "Static": {
+      "Ankle": [
+        "Plantar Flexion"
+      ]
+    }
+  },
+  "CrawledAt": "2018-11-25T15:06:53.935769-08:00"
+}

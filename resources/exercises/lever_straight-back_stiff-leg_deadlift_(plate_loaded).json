@@ -1,9 +1,15 @@
 {
   "URL": "https://exrx.net/WeightExercises/GluteusMaximus/LVStrBackStiffLegDeadlift",
   "Name": "Lever Straight-back Stiff-leg Deadlift (plate loaded)",
-  "Utility": "Auxiliary",
-  "Mechanics": "Isolated",
-  "Force": "Pull",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
       "Gluteus Maximus"
@@ -29,5 +35,9 @@
     ],
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.475567-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.784199-08:00"
 }

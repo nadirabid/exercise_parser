@@ -1,22 +1,28 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Quadriceps/DBLunge",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/DBLunge",
   "Name": "Dumbbell Lunge",
-  "Utility": "Auxiliary",
-  "Mechanics": "Compound",
-  "Force": "Push",
+  "Classification": {
+    "Utility": "Auxiliary",
+    "Mechanics": "Compound",
+    "Force": "Push",
+    "Intensity": "",
+    "Function": "",
+    "Bearing": "",
+    "Impact": ""
+  },
   "Muscles": {
     "Target": [
-      "Quadriceps"
+      "Gluteus Maximus"
     ],
     "Synergists": [
-      "Gluteus Maximus",
+      "Quadriceps",
       "Adductor Magnus",
       "Soleus"
     ],
     "Stabilizers": [
       "Erector Spinae",
       "Trapezius, Upper",
-      "Trapezius, Lower",
+      "Trapezius, Middle",
       "Levator Scapulae",
       "Tibialis Anterior",
       "Gluteus Medius",
@@ -31,5 +37,9 @@
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
-  "CrawledAt": "2018-11-25T09:23:36.733854-08:00"
+  "Articulation": {
+    "Dynamic": null,
+    "Static": null
+  },
+  "CrawledAt": "2018-11-25T15:06:53.77879-08:00"
 }
