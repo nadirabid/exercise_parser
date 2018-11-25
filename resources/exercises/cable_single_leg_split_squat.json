@@ -11,10 +11,26 @@
     "Impact": ""
   },
   "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
-    "DynamicStabilizers": null,
+    "Target": [
+      "Gluteus Maximus"
+    ],
+    "Synergists": [
+      "Quadriceps",
+      "Adductor Magnus",
+      "Soleus"
+    ],
+    "Stabilizers": [
+      "Erector Spinae",
+      "Trapezius, Upper",
+      "Trapezius, Lower",
+      "Levator Scapulae",
+      "Gluteus Medius",
+      "Gluteus Minimus"
+    ],
+    "DynamicStabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
@@ -22,5 +38,5 @@
     "Dynamic": null,
     "Static": null
   },
-  "CrawledAt": "2018-11-25T15:06:53.764183-08:00"
+  "CrawledAt": "2018-11-25T15:55:21.049743-08:00"
 }

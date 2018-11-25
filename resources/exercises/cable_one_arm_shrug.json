@@ -2,18 +2,27 @@
   "URL": "https://exrx.net/WeightExercises/TrapeziusUpper/CBOneArmShrug",
   "Name": "Cable One Arm Shrug",
   "Classification": {
-    "Utility": "",
-    "Mechanics": "",
-    "Force": "",
+    "Utility": "Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
     "Intensity": "",
     "Function": "",
     "Bearing": "",
     "Impact": ""
   },
   "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
+    "Target": [
+      "Trapezius, Upper"
+    ],
+    "Synergists": [
+      "Trapezius, Middle",
+      "Levator Scapulae"
+    ],
+    "Stabilizers": [
+      "Obliques",
+      "Quadratus lumborum",
+      "Erector Spinae"
+    ],
     "DynamicStabilizers": null,
     "AntagonistStabilizers": null,
     "ROMCriteria": null
@@ -22,5 +31,5 @@
     "Dynamic": null,
     "Static": null
   },
-  "CrawledAt": "2018-11-25T15:06:57.124264-08:00"
+  "CrawledAt": "2018-11-25T15:55:24.386513-08:00"
 }

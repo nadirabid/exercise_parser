@@ -2,9 +2,9 @@
   "URL": "https://exrx.net/WeightExercises/BackGeneral/LVCloseGripInclineRow",
   "Name": "Lever Close Grip Incline Row (plate loaded)",
   "Classification": {
-    "Utility": "",
-    "Mechanics": "",
-    "Force": "",
+    "Utility": "Basic",
+    "Mechanics": "Compound",
+    "Force": "Pull",
     "Intensity": "",
     "Function": "",
     "Bearing": "",
@@ -12,9 +12,24 @@
   },
   "Muscles": {
     "Target": null,
-    "Synergists": null,
+    "Synergists": [
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Latissimus Dorsi",
+      "Teres Major",
+      "Deltoid, Posterior",
+      "Infraspinatus",
+      "Teres Minor",
+      "Brachialis",
+      "Brachioradialis",
+      "Pectoralis Major, Sternal "
+    ],
     "Stabilizers": null,
-    "DynamicStabilizers": null,
+    "DynamicStabilizers": [
+      "Biceps Brachii",
+      "Triceps, Long Head "
+    ],
     "AntagonistStabilizers": null,
     "ROMCriteria": null
   },
@@ -22,5 +37,5 @@
     "Dynamic": null,
     "Static": null
   },
-  "CrawledAt": "2018-11-25T15:06:53.470479-08:00"
+  "CrawledAt": "2018-11-25T15:55:20.749367-08:00"
 }

@@ -11,16 +11,21 @@
     "Impact": ""
   },
   "Muscles": {
-    "Target": null,
+    "Target": [
+      "Trapezius, Middle",
+      "Levator Scapulae"
+    ],
     "Synergists": null,
     "Stabilizers": null,
     "DynamicStabilizers": null,
     "AntagonistStabilizers": null,
-    "ROMCriteria": null
+    "ROMCriteria": [
+      "Trapezius, Upper"
+    ]
   },
   "Articulation": {
     "Dynamic": null,
     "Static": null
   },
-  "CrawledAt": "2018-11-25T15:06:57.124285-08:00"
+  "CrawledAt": "2018-11-25T15:55:24.391364-08:00"
 }

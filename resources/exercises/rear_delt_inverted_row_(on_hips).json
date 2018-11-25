@@ -11,16 +11,33 @@
     "Impact": ""
   },
   "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
-    "DynamicStabilizers": null,
-    "AntagonistStabilizers": null,
+    "Target": [
+      "Deltoid, Posterior"
+    ],
+    "Synergists": [
+      "Infraspinatus",
+      "Teres Minor",
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Brachialis",
+      "Brachioradialis"
+    ],
+    "Stabilizers": [
+      "Erector Spinae"
+    ],
+    "DynamicStabilizers": [
+      "Biceps Brachii"
+    ],
+    "AntagonistStabilizers": [
+      "Rectus Abdominis",
+      "Obliques"
+    ],
     "ROMCriteria": null
   },
   "Articulation": {
     "Dynamic": null,
     "Static": null
   },
-  "CrawledAt": "2018-11-25T15:06:54.090746-08:00"
+  "CrawledAt": "2018-11-25T15:55:21.391924-08:00"
 }

@@ -11,8 +11,13 @@
     "Impact": ""
   },
   "Muscles": {
-    "Target": null,
-    "Synergists": null,
+    "Target": [
+      "Erector Spinae",
+      "Obliques"
+    ],
+    "Synergists": [
+      "Rectus Abdominis"
+    ],
     "Stabilizers": null,
     "DynamicStabilizers": null,
     "AntagonistStabilizers": null,
@@ -22,5 +27,5 @@
     "Dynamic": null,
     "Static": null
   },
-  "CrawledAt": "2018-11-25T15:06:53.777849-08:00"
+  "CrawledAt": "2018-11-25T15:55:21.062294-08:00"
 }

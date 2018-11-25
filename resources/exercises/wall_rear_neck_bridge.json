@@ -11,9 +11,19 @@
     "Impact": ""
   },
   "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
+    "Target": [
+      "Splenius"
+    ],
+    "Synergists": [
+      "Trapezius, Upper",
+      "Levator Scapulae",
+      "Sternocleidomastoid, Posterior Fibers",
+      "Erector Spinae",
+      "Quadriceps"
+    ],
+    "Stabilizers": [
+      "Gluteus Maximus"
+    ],
     "DynamicStabilizers": null,
     "AntagonistStabilizers": null,
     "ROMCriteria": null
@@ -22,5 +32,5 @@
     "Dynamic": null,
     "Static": null
   },
-  "CrawledAt": "2018-11-25T15:06:57.238436-08:00"
+  "CrawledAt": "2018-11-25T15:55:24.500983-08:00"
 }
