@@ -70,14 +70,7 @@ func (s *Scraper) Start(url string) {
 				fmt.Println("Error: ", err.Error())
 			}
 
-			s.visitedLock.RLock()
-			_, ok := s.visitedURL[link]
-			s.visitedLock.RUnlock()
-
-			if ok {
-				// ok means its in the visitedURL dictionary, SO I've visited it before
-				return
-			} else if strings.Contains(link, "ExList/") {
+			if strings.Contains(link, "ExList/") {
 				e.Request.Visit(link)
 			} else if strings.Contains(link, "/WeightExercises/") || strings.Contains(link, "/Aerobic/") {
 				s.scrapeExercisePage(link)
