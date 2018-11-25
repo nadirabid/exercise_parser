@@ -206,14 +206,3 @@ func getURL(current string, path string) (string, error) {
 
 	return currentURL.ResolveReference(u).String(), nil
 }
-
-func prettyPrint(v interface{}) (err error) {
-	b, err := json.MarshalIndent(v, "", "  ")
-	if err != nil {
-		fmt.Printf("prettyPrint: %v\n", err)
-	}
-
-	fmt.Println(string(b))
-
-	return
-}
