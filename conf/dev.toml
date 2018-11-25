@@ -14,3 +14,6 @@ dir="migrations"
 
 [lemma]
 dir="resources/lemmas"
+
+[exercises]
+dir="resources/exercises"

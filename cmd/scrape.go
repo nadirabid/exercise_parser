@@ -7,7 +7,11 @@ import (
 )
 
 func scrape(cmd *cobra.Command, args []string) error {
-	scraper.ScrapeExercisePage(args[0])
+	s := scraper.New()
+
+	s.Crawl("https://exrx.net/Lists/Directory")
+	s.WriteToDir("resources/exercises")
+
 	return nil
 }
 
