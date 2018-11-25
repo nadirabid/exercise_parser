@@ -7,10 +7,13 @@ import (
 )
 
 func scrape(cmd *cobra.Command, args []string) error {
-	s := scraper.New()
+	v, err := configureViperFromCmd(cmd)
+	if err != nil {
+		return err
+	}
 
-	s.Crawl("https://exrx.net/Lists/Directory")
-	s.WriteToDir("resources/exercises")
+	s := scraper.New(v)
+	s.Start("https://exrx.net/Lists/Directory")
 
 	return nil
 }
@@ -23,4 +26,5 @@ var scrapeCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(scrapeCmd)
+	scrapeCmd.Flags().String("conf", "dev", "The conf file name to use.")
 }

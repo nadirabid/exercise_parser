@@ -159,7 +159,7 @@ func Init(v *viper.Viper) error {
 	var err error
 	onceParser.Do(func() {
 		lemma := newLemma()
-		err = lemma.readLemmas(v.GetString("lemma.dir"))
+		err = lemma.readLemmas(v.GetString("resources.lemmas_dir"))
 
 		parser = &Parser{
 			lemma: lemma,

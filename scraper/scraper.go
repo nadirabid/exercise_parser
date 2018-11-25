@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/url"
+	"os"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/spf13/viper"
 
 	"github.com/gocolly/colly"
 )
@@ -37,23 +39,70 @@ type Exercise struct {
 
 // Scraper returns object that scrapes exrx.net
 type Scraper struct {
-	visitedURL    map[string]bool
-	visitedLock   *sync.RWMutex
-	exercises     map[string]*Exercise
-	exercisesLock *sync.Mutex
+	visitedURL     map[string]bool
+	visitedLock    *sync.RWMutex
+	exercises      map[string]*Exercise
+	exercisesLock  *sync.Mutex
+	outputDirector string
 }
 
 // New returns a scraper object
-func New() *Scraper {
+func New(v *viper.Viper) *Scraper {
 	return &Scraper{
-		visitedURL:    make(map[string]bool),
-		visitedLock:   &sync.RWMutex{},
-		exercises:     make(map[string]*Exercise),
-		exercisesLock: &sync.Mutex{},
+		visitedURL:     make(map[string]bool),
+		visitedLock:    &sync.RWMutex{},
+		exercises:      make(map[string]*Exercise),
+		exercisesLock:  &sync.Mutex{},
+		outputDirector: v.GetString("resources.exercises_dir"),
 	}
 }
 
-func (s *Scraper) ScrapeExercisePage(url string) {
+// Start gets the URLs we're interested in, and then traverses them
+func (s *Scraper) Start(url string) {
+	c := colly.NewCollector(
+		colly.CacheDir("./scraper/.cache"),
+	)
+
+	c.OnHTML("main article", func(e *colly.HTMLElement) {
+		e.ForEach("a", func(_ int, el *colly.HTMLElement) {
+			link, err := getURL(url, el.Attr("href"))
+			if err != nil {
+				fmt.Println("Error: ", err.Error())
+			}
+
+			s.visitedLock.RLock()
+			_, ok := s.visitedURL[link]
+			s.visitedLock.RUnlock()
+
+			if ok {
+				// ok means its in the visitedURL dictionary, SO I've visited it before
+				return
+			} else if strings.Contains(link, "ExList/") {
+				e.Request.Visit(link)
+			} else if strings.Contains(link, "/WeightExercises/") || strings.Contains(link, "/Aerobic/") {
+				s.scrapeExercisePage(link)
+			} else {
+				fmt.Println("Unknown link: ", link)
+			}
+		})
+	})
+
+	c.OnRequest(func(r *colly.Request) {
+		s.visitedLock.Lock()
+		defer s.visitedLock.Unlock()
+
+		if _, ok := s.visitedURL[r.URL.String()]; ok {
+			fmt.Println("Abort visiting url: ", r.URL.String())
+			r.Abort()
+		} else {
+			s.visitedURL[r.URL.String()] = true
+		}
+	})
+
+	c.Visit(url)
+}
+
+func (s *Scraper) scrapeExercisePage(url string) {
 	exercise := &Exercise{
 		CrawledAt: time.Now(),
 		URL:       url,
@@ -118,70 +167,27 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 
 	c.Visit(url)
 
-	json, _ := json.MarshalIndent(exercise, "", "  ")
-	filename := fmt.Sprintf("%s/%s.json", "resources/exercises", strings.ToLower(strings.Join(strings.Split(exercise.Name, " "), "_")))
-	err := ioutil.WriteFile(filename, json, 0644)
-
-	if err != nil {
+	if err := writeToDir(exercise, s.outputDirector); err != nil {
 		fmt.Println(err)
 	}
 }
 
-// Crawl gets the URLs we're interested in, and then traverses them
-func (s *Scraper) Crawl(url string) {
-	c := colly.NewCollector(
-		colly.CacheDir("./scraper/.cache"),
-	)
-
-	c.OnHTML("main article", func(e *colly.HTMLElement) {
-		e.ForEach("a", func(_ int, el *colly.HTMLElement) {
-			link, err := getURL(url, el.Attr("href"))
-			if err != nil {
-				fmt.Println("Error: ", err.Error())
-			}
-
-			s.visitedLock.RLock()
-			_, ok := s.visitedURL[link]
-			s.visitedLock.RUnlock()
-
-			if ok {
-				// ok means its in the visitedURL dictionary, SO I've visited it before
-				return
-			} else if strings.Contains(link, "ExList/") {
-				e.Request.Visit(link)
-			} else if strings.Contains(link, "/WeightExercises/") || strings.Contains(link, "/Aerobic/") {
-				s.ScrapeExercisePage(link)
-			} else {
-				fmt.Println("Unknown link: ", link)
-			}
-		})
-	})
-
-	c.OnRequest(func(r *colly.Request) {
-		s.visitedLock.Lock()
-		defer s.visitedLock.Unlock()
-
-		if _, ok := s.visitedURL[r.URL.String()]; ok {
-			fmt.Println("Abort visiting url: ", r.URL.String())
-			r.Abort()
-		} else {
-			s.visitedURL[r.URL.String()] = true
-		}
-	})
-
-	c.Visit(url)
-}
-
 // WriteToDir saves exerices to specified folers as JSON files
-func (s *Scraper) WriteToDir(dir string) error {
-	for k, v := range s.exercises {
-		json, _ := json.Marshal(v)
-		filename := fmt.Sprintf("%s/%s", dir, strings.ToLower(strings.Join(strings.Split(k, " "), "_")))
-		err := ioutil.WriteFile(filename, json, 0644)
+func writeToDir(e *Exercise, dir string) error {
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		os.Mkdir(dir, os.ModePerm)
+	}
 
-		if err != nil {
-			return err
-		}
+	filename := fmt.Sprintf("%s/%s.json", dir, strings.ToLower(strings.Join(strings.Split(e.Name, " "), "_")))
+
+	json, err := json.MarshalIndent(e, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	err = ioutil.WriteFile(filename, json, 0644)
+	if err != nil {
+		return err
 	}
 
 	return nil
