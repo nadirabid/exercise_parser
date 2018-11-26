@@ -16,7 +16,7 @@ import (
 	"github.com/gocolly/colly"
 )
 
-// Classification
+// Classification of exercise
 type Classification struct {
 	Utility   string
 	Mechanics string
