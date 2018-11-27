@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/SMDeadlift",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/SMDeadlift",
   "Name": "Smith Deadlift",
   "Classification": {
     "Utility": "Basic",
@@ -12,16 +12,16 @@
   },
   "Muscles": {
     "Target": [
-      "Erector Spinae"
+      "Gluteus Maximus"
     ],
     "Synergists": [
-      "Gluteus Maximus",
       "Quadriceps",
       "Adductor Magnus",
       "Hamstrings",
       "Soleus"
     ],
     "Stabilizers": [
+      "Erector Spinae",
       "Trapezius, Middle",
       "Trapezius, Upper",
       "Levator Scapulae",
@@ -41,5 +41,5 @@
     "Dynamic": null,
     "Static": null
   },
-  "CrawledAt": "2018-11-25T15:55:24.213729-08:00"
+  "CrawledAt": "2018-11-26T12:39:53.302279-08:00"
 }

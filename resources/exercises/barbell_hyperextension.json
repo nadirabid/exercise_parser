@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/BBHyperextension",
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/BBHyperextension",
   "Name": "Barbell Hyperextension",
   "Classification": {
     "Utility": "Basic or Auxiliary",
@@ -12,12 +12,12 @@
   },
   "Muscles": {
     "Target": [
-      "Erector Spinae"
+      "Hamstrings"
     ],
     "Synergists": null,
     "Stabilizers": [
+      "Erector Spinae",
       "Gluteus Maximus",
-      "Hamstrings",
       "Adductor Magnus"
     ],
     "DynamicStabilizers": null,
@@ -28,5 +28,5 @@
     "Dynamic": null,
     "Static": null
   },
-  "CrawledAt": "2018-11-25T15:55:24.484279-08:00"
+  "CrawledAt": "2018-11-26T12:39:52.688441-08:00"
 }

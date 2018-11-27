@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/BB45Hyperextension",
+  "URL": "https://exrx.net/WeightExercises/Hamstrings/BB45Hyperextension",
   "Name": "Barbell 45-degree Hyperextension",
   "Classification": {
     "Utility": "Basic or Auxiliary",
@@ -12,12 +12,12 @@
   },
   "Muscles": {
     "Target": [
-      "Erector Spinae"
+      "Hamstrings"
     ],
     "Synergists": null,
     "Stabilizers": [
+      "Erector Spinae",
       "Gluteus Maximus",
-      "Hamstrings",
       "Adductor Magnus"
     ],
     "DynamicStabilizers": null,
@@ -28,5 +28,5 @@
     "Dynamic": null,
     "Static": null
   },
-  "CrawledAt": "2018-11-25T15:55:24.48139-08:00"
+  "CrawledAt": "2018-11-26T12:39:52.700161-08:00"
 }

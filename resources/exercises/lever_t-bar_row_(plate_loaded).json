@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/BackGeneral/LVTBarRowLM",
+  "URL": "https://exrx.net/WeightExercises/BackGeneral/LVTBarRow",
   "Name": "Lever T-bar Row (plate loaded)",
   "Classification": {
     "Utility": "Basic",
@@ -46,5 +46,5 @@
     "Dynamic": null,
     "Static": null
   },
-  "CrawledAt": "2018-11-25T15:55:20.748812-08:00"
+  "CrawledAt": "2018-11-26T12:39:52.703731-08:00"
 }

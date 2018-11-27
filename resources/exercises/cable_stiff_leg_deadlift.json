@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/CBStiffLegDeadlift",
+  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/CBStiffLegDeadlift",
   "Name": "Cable Stiff Leg Deadlift",
   "Classification": {
     "Utility": "Basic or Auxiliary",
@@ -12,10 +12,10 @@
   },
   "Muscles": {
     "Target": [
-      "Erector Spinae"
+      "Gluteus Maximus"
     ],
     "Synergists": [
-      "Gluteus Maximus",
+      "Erector Spinae",
       "Adductor Magnus",
       "Hamstrings"
     ],
@@ -39,5 +39,5 @@
     "Dynamic": null,
     "Static": null
   },
-  "CrawledAt": "2018-11-25T15:55:24.480711-08:00"
+  "CrawledAt": "2018-11-26T12:39:53.302305-08:00"
 }
