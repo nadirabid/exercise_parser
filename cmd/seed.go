@@ -46,7 +46,7 @@ func seed(cmd *cobra.Command, args []string) error {
 		json.Unmarshal(byteValue, &exerciseType)
 
 		if err := db.Create(exerciseType).Error; err != nil {
-			return fmt.Errorf("unable to save exercise type: %v", err)
+			return fmt.Errorf("unable to save exercise type: %s", err.Error())
 		}
 	}
 
