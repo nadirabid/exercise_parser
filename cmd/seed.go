@@ -50,6 +50,8 @@ func seed(cmd *cobra.Command, args []string) error {
 		}
 	}
 
+	fmt.Printf("seeded %d exercise types!\n", len(files))
+
 	return nil
 }
 
