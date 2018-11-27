@@ -2,74 +2,19 @@ package scraper
 
 import (
 	"encoding/json"
+	"exercise_parser/models"
 	"fmt"
 	"io/ioutil"
 	"net/url"
 	"os"
 	"strings"
 	"sync"
-	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/spf13/viper"
 
 	"github.com/gocolly/colly"
 )
-
-// Classification of exercise
-type Classification struct {
-	Utility   string
-	Mechanics string
-	Force     string
-	Intensity string
-	Function  string
-	Bearing   string
-	Impact    string
-}
-
-// Muscles are the areas that a given exercise affects
-type Muscles struct {
-	Target                []string
-	Synergists            []string
-	Stabilizers           []string
-	DynamicStabilizers    []string
-	AntagonistStabilizers []string
-	ROMCriteria           []string
-}
-
-// Articulation is Plyometric as far as I can tell
-type Articulation struct {
-	Dynamic Joints
-	Static  Joints
-}
-
-// Joints for dynamic/static articulation
-type Joints struct {
-	Ankle          []string
-	Elbow          []string
-	Finger         []string
-	Foot           []string
-	Forearms       []string
-	Hip            []string
-	Scapula        []string
-	Clavicle       []string
-	Shoulder       []string
-	ShoulderGirdle []string
-	Spine          []string
-	Thumb          []string
-	Wrist          []string
-	Knee           []string
-}
-
-// Exercise is a single exercise
-type Exercise struct {
-	URL            string
-	Name           string
-	Classification Classification
-	Muscles        Muscles
-	Articulation   Articulation
-	CrawledAt      time.Time
-}
 
 // Scraper returns object that scrapes exrx.net
 type Scraper struct {
@@ -147,9 +92,8 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 		return
 	}
 
-	exercise := &Exercise{
-		CrawledAt: time.Now(),
-		URL:       url,
+	exercise := &models.ExerciseType{
+		URL: url,
 	}
 
 	c := colly.NewCollector(
@@ -250,7 +194,7 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 		}
 
 		e.ForEach("p strong", func(i int, el *colly.HTMLElement) {
-			jointTypes := Joints{}
+			jointTypes := models.Joints{}
 			e.DOM.
 				Find(fmt.Sprintf("p + ul:nth-of-type(%d) > li", i+1)).
 				Each(func(_ int, s *goquery.Selection) {
@@ -341,7 +285,7 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 }
 
 // WriteToDir saves exerices to specified folers as JSON files
-func writeToDir(e *Exercise, dir string) error {
+func writeToDir(e *models.ExerciseType, dir string) error {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		os.Mkdir(dir, os.ModePerm)
 	}

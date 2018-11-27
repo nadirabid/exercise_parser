@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 
@@ -19,17 +18,6 @@ func newErrorMessage(m string) *errorMessage {
 	return &errorMessage{
 		Error: m,
 	}
-}
-
-func prettyPrint(v interface{}) (err error) {
-	b, err := json.MarshalIndent(v, "", "  ")
-	if err != nil {
-		fmt.Printf("prettyPrint: %v\n", err)
-	}
-
-	fmt.Println(string(b))
-
-	return
 }
 
 func treePrint(tokens []*languagepb.Token) {
