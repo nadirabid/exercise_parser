@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/LVBackExtensionMedEx",
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/LVBackExtension",
   "Name": "Lever Back Extension",
   "Classification": {
     "Utility": "Auxiliary",
@@ -16,7 +16,6 @@
     ],
     "Synergists": null,
     "Stabilizers": [
-      "Quadriceps",
       "Gluteus Maximus",
       "Adductor Magnus",
       "Hamstrings"
@@ -26,8 +25,38 @@
     "ROMCriteria": null
   },
   "Articulation": {
-    "Dynamic": null,
-    "Static": null
+    "Dynamic": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    },
+    "Static": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    }
   },
-  "CrawledAt": "2018-11-26T12:39:53.964212-08:00"
+  "CrawledAt": "2018-11-26T21:06:25.039976-08:00"
 }

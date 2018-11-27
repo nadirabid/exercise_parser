@@ -23,8 +23,38 @@
     "ROMCriteria": null
   },
   "Articulation": {
-    "Dynamic": null,
-    "Static": null
+    "Dynamic": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    },
+    "Static": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    }
   },
-  "CrawledAt": "2018-11-26T12:39:52.525901-08:00"
+  "CrawledAt": "2018-11-26T21:06:20.07963-08:00"
 }

@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/BBSumoDeadlift",
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/BBSumoDeadlift",
   "Name": "Barbell Sumo Deadlift",
   "Classification": {
     "Utility": "Basic",
@@ -11,34 +11,61 @@
     "Impact": ""
   },
   "Muscles": {
-    "Target": [
-      "Gluteus Maximus"
-    ],
+    "Target": null,
     "Synergists": [
-      "Quadriceps",
-      "Adductor Magnus",
-      "Soleus"
+      "Erector Spinae"
     ],
     "Stabilizers": [
-      "Erector Spinae",
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "DynamicStabilizers": [
+      "Gluteus Maximus",
+      "Adductor Magnus",
+      "Quadriceps",
+      "Soleus"
+    ],
+    "AntagonistStabilizers": [
       "Trapezius, Middle",
       "Trapezius, Upper",
       "Levator Scapulae",
       "Rhomboids"
     ],
-    "DynamicStabilizers": [
-      "Hamstrings",
-      "Gastrocnemius"
-    ],
-    "AntagonistStabilizers": [
-      "Rectus Abdominis",
-      "Obliques"
-    ],
     "ROMCriteria": null
   },
   "Articulation": {
-    "Dynamic": null,
-    "Static": null
+    "Dynamic": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    },
+    "Static": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    }
   },
-  "CrawledAt": "2018-11-26T12:39:53.297319-08:00"
+  "CrawledAt": "2018-11-26T21:06:25.039842-08:00"
 }

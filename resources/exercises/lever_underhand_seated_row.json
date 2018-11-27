@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/BackGeneral/LVSeatedUnderhandRowS",
+  "URL": "https://exrx.net/WeightExercises/BackGeneral/LVSeatedUnderhandRow",
   "Name": "Lever Underhand Seated Row",
   "Classification": {
     "Utility": "Basic",
@@ -34,8 +34,38 @@
     "ROMCriteria": null
   },
   "Articulation": {
-    "Dynamic": null,
-    "Static": null
+    "Dynamic": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    },
+    "Static": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    }
   },
-  "CrawledAt": "2018-11-26T12:39:52.704012-08:00"
+  "CrawledAt": "2018-11-26T21:06:20.271492-08:00"
 }

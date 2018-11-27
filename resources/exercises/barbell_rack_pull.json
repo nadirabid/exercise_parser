@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/BBRackPull",
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/BBRackPull",
   "Name": "Barbell Rack Pull",
   "Classification": {
     "Utility": "Basic or Auxiliary",
@@ -11,35 +11,62 @@
     "Impact": ""
   },
   "Muscles": {
-    "Target": [
-      "Gluteus Maximus"
-    ],
+    "Target": null,
     "Synergists": [
-      "Quadriceps",
+      "Erector Spinae"
+    ],
+    "Stabilizers": [
+      "Hamstrings",
+      "Gastrocnemius"
+    ],
+    "DynamicStabilizers": [
+      "Gluteus Maximus",
       "Adductor Magnus",
+      "Quadriceps",
       "Hamstrings",
       "Soleus"
     ],
-    "Stabilizers": [
-      "Erector Spinae",
+    "AntagonistStabilizers": [
       "Trapezius, Middle",
       "Trapezius, Upper",
       "Levator Scapulae",
       "Rhomboids"
     ],
-    "DynamicStabilizers": [
-      "Hamstrings",
-      "Gastrocnemius"
-    ],
-    "AntagonistStabilizers": [
-      "Rectus Abdominis",
-      "Obliques"
-    ],
     "ROMCriteria": null
   },
   "Articulation": {
-    "Dynamic": null,
-    "Static": null
+    "Dynamic": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    },
+    "Static": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    }
   },
-  "CrawledAt": "2018-11-26T12:39:53.294849-08:00"
+  "CrawledAt": "2018-11-26T21:06:25.039839-08:00"
 }

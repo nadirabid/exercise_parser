@@ -26,43 +26,59 @@
       "Elbow": [
         "Extension (push-up)"
       ],
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
       "Hip": [
         "Flexion (2nd buck \u0026 pull in)",
         "Extension (1st buck \u0026 kickback)"
       ],
-      "Knee": [
-        "Flexion (pull in)",
-        "Extension (1st buck)"
-      ],
-      "ScapulaandClavicle": [
+      "Scapula": [
         "Protraction (push-up)"
       ],
+      "Clavicle": null,
       "Shoulder": [
         "Transverse Flexion / Flexion (push-up)"
       ],
-      "Spine(Thoracic,Lumbar)": [
+      "ShoulderGirdle": null,
+      "Spine": [
         "Flexion (pull in)",
         "Extension (kick back)"
+      ],
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": [
+        "Flexion (pull in)",
+        "Extension (1st buck)"
       ]
     },
     "Static": {
+      "Ankle": null,
       "Elbow": [
         "Extension (kick back \u0026 pull in)"
       ],
-      "Knee": [
-        "Extension (plank)"
-      ],
-      "ScapulaandClavicle": [
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": [
         "Protraction (kick back \u0026 pull in)"
       ],
+      "Clavicle": null,
       "Shoulder": [
         "Transverse Flexion / Flexion (kick back \u0026 pull in)"
       ],
-      "Spine(Thoracic,Lumbar)": [
+      "ShoulderGirdle": null,
+      "Spine": [
         "Flexion (plank)",
         "Extension (squat stand)"
+      ],
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": [
+        "Extension (plank)"
       ]
     }
   },
-  "CrawledAt": "2018-11-26T12:39:53.577343-08:00"
+  "CrawledAt": "2018-11-26T21:06:21.016516-08:00"
 }

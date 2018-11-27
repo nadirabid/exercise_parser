@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/OlympicLifts/PowerClean",
+  "URL": "https://exrx.net/WeightExercises/OlympicLifts/PowerCleanSide",
   "Name": "Power Clean",
   "Classification": {
     "Utility": "Power",
@@ -26,27 +26,48 @@
       "Elbow": [
         "Flexion"
       ],
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
       "Hip": [
         "Extension"
       ],
-      "Knee": [
-        "Extension"
-      ],
-      "Scapula\u0026Clavicle": [
+      "Scapula": [
         "Elevation",
         "Upward Rotation"
       ],
+      "Clavicle": null,
       "Shoulder": [
         "Abduction",
         "Flexion",
         "External Rotation"
+      ],
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": [
+        "Extension"
       ]
     },
     "Static": {
-      "Spine(Thoracic,Lumbar)": [
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": [
         "Extension"
-      ]
+      ],
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
     }
   },
-  "CrawledAt": "2018-11-26T12:39:53.591419-08:00"
+  "CrawledAt": "2018-11-26T21:06:24.621709-08:00"
 }

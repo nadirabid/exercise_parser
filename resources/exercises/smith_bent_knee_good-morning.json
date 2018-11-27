@@ -1,37 +1,64 @@
 {
-  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/SMBentKneeGoodMorning",
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/SMBentKneeGoodMorning",
   "Name": "Smith Bent Knee Good-morning",
   "Classification": {
-    "Utility": "",
-    "Mechanics": "",
-    "Force": "",
+    "Utility": "Basic or Auxiliary",
+    "Mechanics": "Isolated",
+    "Force": "Pull",
     "Intensity": "",
     "Function": "",
     "Bearing": "",
     "Impact": ""
   },
   "Muscles": {
-    "Target": [
-      "Gluteus Maximus"
-    ],
+    "Target": null,
     "Synergists": [
-      "Adductor Magnus",
-      "Hamstrings"
+      "Erector Spinae"
     ],
     "Stabilizers": [
-      "Erector Spinae",
-      "Quadriceps"
+      "Gluteus Maximus",
+      "Hamstrings",
+      "Adductor Magnus"
     ],
     "DynamicStabilizers": null,
     "AntagonistStabilizers": [
-      "Rectus Abdominis",
-      "Obliques"
+      "Quadriceps"
     ],
     "ROMCriteria": null
   },
   "Articulation": {
-    "Dynamic": null,
-    "Static": null
+    "Dynamic": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    },
+    "Static": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    }
   },
-  "CrawledAt": "2018-11-26T12:39:53.302277-08:00"
+  "CrawledAt": "2018-11-26T21:06:25.040098-08:00"
 }

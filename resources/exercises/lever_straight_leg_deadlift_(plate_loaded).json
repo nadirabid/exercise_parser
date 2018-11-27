@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Hamstrings/LVStraightLegDeadlift",
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/LVStraightLegDeadlift",
   "Name": "Lever Straight Leg Deadlift (plate loaded)",
   "Classification": {
     "Utility": "Basic",
@@ -12,10 +12,10 @@
   },
   "Muscles": {
     "Target": [
-      "Hamstrings"
+      "Erector Spinae"
     ],
     "Synergists": [
-      "Erector Spinae",
+      "Hamstrings",
       "Gluteus Maximus",
       "Adductor Magnus"
     ],
@@ -35,8 +35,38 @@
     "ROMCriteria": null
   },
   "Articulation": {
-    "Dynamic": null,
-    "Static": null
+    "Dynamic": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    },
+    "Static": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    }
   },
-  "CrawledAt": "2018-11-26T12:39:52.713782-08:00"
+  "CrawledAt": "2018-11-26T21:06:25.039953-08:00"
 }

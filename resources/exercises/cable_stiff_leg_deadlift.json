@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/GluteusMaximus/CBStiffLegDeadlift",
+  "URL": "https://exrx.net/WeightExercises/ErectorSpinae/CBStiffLegDeadlift",
   "Name": "Cable Stiff Leg Deadlift",
   "Classification": {
     "Utility": "Basic or Auxiliary",
@@ -12,10 +12,10 @@
   },
   "Muscles": {
     "Target": [
-      "Gluteus Maximus"
+      "Erector Spinae"
     ],
     "Synergists": [
-      "Erector Spinae",
+      "Gluteus Maximus",
       "Adductor Magnus",
       "Hamstrings"
     ],
@@ -36,8 +36,38 @@
     "ROMCriteria": null
   },
   "Articulation": {
-    "Dynamic": null,
-    "Static": null
+    "Dynamic": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    },
+    "Static": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    }
   },
-  "CrawledAt": "2018-11-26T12:39:53.302305-08:00"
+  "CrawledAt": "2018-11-26T21:06:25.039933-08:00"
 }

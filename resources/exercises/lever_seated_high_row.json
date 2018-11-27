@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/WeightExercises/BackGeneral/LVSeatedHighRowC",
+  "URL": "https://exrx.net/WeightExercises/BackGeneral/LVSeatedHighRowB",
   "Name": "Lever Seated High Row",
   "Classification": {
     "Utility": "Basic",
@@ -23,7 +23,8 @@
       "Teres Minor",
       "Brachialis",
       "Brachioradialis",
-      "Pectoralis Major, Sternal "
+      "Pectoralis Major, Sternal ",
+      "Erector Spinae"
     ],
     "Stabilizers": null,
     "DynamicStabilizers": [
@@ -34,8 +35,38 @@
     "ROMCriteria": null
   },
   "Articulation": {
-    "Dynamic": null,
-    "Static": null
+    "Dynamic": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    },
+    "Static": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    }
   },
-  "CrawledAt": "2018-11-26T12:39:52.703929-08:00"
+  "CrawledAt": "2018-11-26T21:06:20.270937-08:00"
 }

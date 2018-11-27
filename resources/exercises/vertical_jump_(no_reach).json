@@ -23,13 +23,13 @@
       "Ankle": [
         "Plantar Flexion"
       ],
+      "Elbow": null,
+      "Finger": null,
       "Foot": [
         "Plantar Flexion"
       ],
+      "Forearms": null,
       "Hip": [
-        "Extension"
-      ],
-      "Knee": [
         "Extension"
       ],
       "Scapula": [
@@ -38,19 +38,40 @@
         "Retraction",
         "Protraction"
       ],
+      "Clavicle": null,
       "Shoulder": [
         "Flexion",
         "Extension",
         "Transverse Abduction",
         "Transverse Extension",
         "Adduction"
+      ],
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": [
+        "Extension"
       ]
     },
     "Static": {
-      "Spine(Thoracic,Lumbar)": [
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": [
         "Extension"
-      ]
+      ],
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
     }
   },
-  "CrawledAt": "2018-11-26T12:39:53.565684-08:00"
+  "CrawledAt": "2018-11-26T21:06:20.994376-08:00"
 }

@@ -24,34 +24,54 @@
         "Plantar Flexion",
         "Dorsal Flexion"
       ],
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
       "Hip": [
         "Extension",
         "Flexion"
       ],
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
       "Knee": [
         "Extension",
         "Flexion"
       ]
     },
     "Static": {
+      "Ankle": null,
       "Elbow": [
         "Extension"
       ],
-      "Hips": [
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": [
         "Abduction"
       ],
-      "Scapula\u0026Clavicle": [
+      "Scapula": [
         "Protraction"
       ],
+      "Clavicle": null,
       "Shoulder": [
         "Flexion",
         "Transverse Flexion"
       ],
-      "Spine(Thoracic,Lumbar)": [
+      "ShoulderGirdle": null,
+      "Spine": [
         "Flexion",
         "Lateral Flexion"
-      ]
+      ],
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
     }
   },
-  "CrawledAt": "2018-11-26T12:39:53.594462-08:00"
+  "CrawledAt": "2018-11-26T21:06:21.028547-08:00"
 }

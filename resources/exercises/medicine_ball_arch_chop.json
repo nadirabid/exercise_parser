@@ -20,28 +20,52 @@
   },
   "Articulation": {
     "Dynamic": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
       "Hip": [
         "Internal Rotation / Adduction",
         "External Rotation / Abduction"
       ],
+      "Scapula": [
+        "Upward Rotation"
+      ],
+      "Clavicle": null,
+      "Shoulder": [
+        "Flexion"
+      ],
+      "ShoulderGirdle": null,
+      "Spine": [
+        "Lateral Flexion",
+        "Rotation",
+        "Extension"
+      ],
+      "Thumb": null,
+      "Wrist": null,
       "Knee": [
         "Internal Rotation",
         "External Rotation",
         "Extension"
-      ],
-      "Scapula\u0026Clavicle": [
-        "Upward Rotation"
-      ],
-      "Shoulder": [
-        "Flexion"
-      ],
-      "Spine(Thoracic,Lumbar)": [
-        "Lateral Flexion",
-        "Rotation",
-        "Extension"
       ]
     },
-    "Static": null
+    "Static": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    }
   },
-  "CrawledAt": "2018-11-26T12:39:53.565665-08:00"
+  "CrawledAt": "2018-11-26T21:06:21.028673-08:00"
 }

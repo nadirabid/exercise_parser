@@ -1,5 +1,5 @@
 {
-  "URL": "https://exrx.net/Lists/Aerobic/Exercises/TreadmillWalk",
+  "URL": "https://exrx.net/Lists/Aerobic/Exercises/RecumbantCycle",
   "Name": "",
   "Classification": {
     "Utility": "",
@@ -19,8 +19,38 @@
     "ROMCriteria": null
   },
   "Articulation": {
-    "Dynamic": null,
-    "Static": null
+    "Dynamic": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    },
+    "Static": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
+      "Hip": null,
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": null
+    }
   },
-  "CrawledAt": "2018-11-26T12:39:53.882908-08:00"
-}}
+  "CrawledAt": "2018-11-26T21:06:21.400356-08:00"
+}

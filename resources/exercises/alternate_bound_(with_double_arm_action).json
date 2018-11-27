@@ -24,37 +24,56 @@
         "Plantar Flexion",
         "Dorsi Flexion (Eccentric)"
       ],
+      "Elbow": null,
+      "Finger": null,
       "Foot": [
         "Plantar Flexion"
       ],
+      "Forearms": null,
       "Hip": [
         "Extension",
         "Flexion"
       ],
-      "Knee": [
-        "Flexion"
-      ],
-      "Scapula\u0026Clavicle": [
+      "Scapula": [
         "Upward Rotation / Protraction",
         "Downward Rotation / Retraction"
       ],
+      "Clavicle": null,
       "Shoulder": [
         "Flexion",
         "Extension"
+      ],
+      "ShoulderGirdle": null,
+      "Spine": null,
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": [
+        "Flexion"
       ]
     },
     "Static": {
+      "Ankle": null,
+      "Elbow": null,
+      "Finger": null,
+      "Foot": null,
+      "Forearms": null,
       "Hip": [
         "Abduction"
       ],
-      "Knee": [
-        "Extension"
-      ],
+      "Scapula": null,
+      "Clavicle": null,
+      "Shoulder": null,
+      "ShoulderGirdle": null,
       "Spine": [
         "Rotation",
         "Lateral Flexion"
+      ],
+      "Thumb": null,
+      "Wrist": null,
+      "Knee": [
+        "Extension"
       ]
     }
   },
-  "CrawledAt": "2018-11-26T12:39:53.565658-08:00"
+  "CrawledAt": "2018-11-26T21:06:21.006215-08:00"
 }
