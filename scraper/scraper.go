@@ -111,6 +111,8 @@ func (s *Scraper) Start(url string) {
 	s.scraperWaitGroup.Wait()
 }
 
+// TODO(Nadir): ScrapeMusclePage
+
 // ScrapeExercisePage will take the url and parse out the data
 func (s *Scraper) ScrapeExercisePage(url string) {
 	defer s.scraperWaitGroup.Done()
