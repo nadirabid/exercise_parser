@@ -39,8 +39,26 @@ type Muscles struct {
 
 // Articulation is Plyometric as far as I can tell
 type Articulation struct {
-	Dynamic map[string][]string
-	Static  map[string][]string
+	Dynamic Joints
+	Static  Joints
+}
+
+// Joints for dynamic/static articulation
+type Joints struct {
+	Ankle          []string
+	Elbow          []string
+	Finger         []string
+	Foot           []string
+	Forearms       []string
+	Hip            []string
+	Scapula        []string
+	Clavicle       []string
+	Shoulder       []string
+	ShoulderGirdle []string
+	Spine          []string
+	Thumb          []string
+	Wrist          []string
+	Knee           []string
 }
 
 // Exercise is a single exercise
@@ -55,6 +73,8 @@ type Exercise struct {
 
 // Scraper returns object that scrapes exrx.net
 type Scraper struct {
+	dynamic          map[string]bool
+	static           map[string]bool
 	visitedURL       map[string]bool
 	visitedLock      sync.RWMutex
 	scraperWaitGroup sync.WaitGroup
@@ -64,6 +84,8 @@ type Scraper struct {
 // New returns a scraper object
 func New(v *viper.Viper) *Scraper {
 	return &Scraper{
+		dynamic:        make(map[string]bool),
+		static:         make(map[string]bool),
 		visitedURL:     make(map[string]bool),
 		outputDirector: v.GetString("resources.exercises_dir"),
 	}
@@ -109,9 +131,12 @@ func (s *Scraper) Start(url string) {
 
 	c.Visit(url)
 	s.scraperWaitGroup.Wait()
+
+	prettyPrint(s.dynamic)
+	prettyPrint(s.static)
 }
 
-// TODO(Nadir): ScrapeMusclePage
+// TODO: ScrapeMusclePage
 
 // ScrapeExercisePage will take the url and parse out the data
 func (s *Scraper) ScrapeExercisePage(url string) {
@@ -225,7 +250,7 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 		}
 
 		e.ForEach("p strong", func(i int, el *colly.HTMLElement) {
-			articulations := make(map[string][]string)
+			jointTypes := Joints{}
 			e.DOM.
 				Find(fmt.Sprintf("p + ul:nth-of-type(%d) > li", i+1)).
 				Each(func(_ int, s *goquery.Selection) {
@@ -248,15 +273,56 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 							return s.Text()
 						})
 
-					articulations[name] = joints
+					if strings.Contains(name, "Ankle") {
+						jointTypes.Ankle = []string{}
+						jointTypes.Ankle = append(jointTypes.Ankle, joints...)
+					} else if strings.Contains(name, "Elbow") {
+						jointTypes.Elbow = []string{}
+						jointTypes.Elbow = append(jointTypes.Elbow, joints...)
+					} else if strings.Contains(name, "Finger") {
+						jointTypes.Finger = []string{}
+						jointTypes.Finger = append(jointTypes.Finger, joints...)
+					} else if strings.Contains(name, "Foot") {
+						jointTypes.Foot = []string{}
+						jointTypes.Foot = append(jointTypes.Foot, joints...)
+					} else if strings.Contains(name, "Forearm") {
+						jointTypes.Forearms = []string{}
+						jointTypes.Forearms = append(jointTypes.Forearms, joints...)
+					} else if strings.Contains(name, "Hip") {
+						jointTypes.Hip = []string{}
+						jointTypes.Hip = append(jointTypes.Hip, joints...)
+					} else if strings.Contains(name, "Scapula") {
+						jointTypes.Scapula = []string{}
+						jointTypes.Scapula = append(jointTypes.Scapula, joints...)
+					} else if strings.Contains(name, "ShoulderGridle") {
+						jointTypes.ShoulderGirdle = []string{}
+						jointTypes.ShoulderGirdle = append(jointTypes.ShoulderGirdle, joints...)
+					} else if strings.Contains(name, "Shoulder") {
+						jointTypes.Shoulder = []string{}
+						jointTypes.Shoulder = append(jointTypes.Shoulder, joints...)
+					} else if strings.Contains(name, "Spine") {
+						jointTypes.Spine = []string{}
+						jointTypes.Spine = append(jointTypes.Spine, joints...)
+					} else if strings.Contains(name, "Thumb") {
+						jointTypes.Thumb = []string{}
+						jointTypes.Thumb = append(jointTypes.Thumb, joints...)
+					} else if strings.Contains(name, "Wrist") {
+						jointTypes.Wrist = []string{}
+						jointTypes.Wrist = append(jointTypes.Wrist, joints...)
+					} else if strings.Contains(name, "Knee") {
+						jointTypes.Knee = []string{}
+						jointTypes.Knee = append(jointTypes.Knee, joints...)
+					} else {
+						fmt.Println("Unknown joint type: ", name)
+					}
 				})
 
 			section := el.Text
 			switch section {
 			case "Dynamic":
-				exercise.Articulation.Dynamic = articulations
+				exercise.Articulation.Dynamic = jointTypes
 			case "Static":
-				exercise.Articulation.Static = articulations
+				exercise.Articulation.Static = jointTypes
 			default:
 				fmt.Printf("Unknow articulation section %s at %s\n", section, url)
 			}
