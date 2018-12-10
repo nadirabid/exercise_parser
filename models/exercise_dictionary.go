@@ -4,7 +4,7 @@ import "github.com/lib/pq"
 
 // Classification of exercise
 type Classification struct {
-	Model
+	HiddenModel
 	Utility              string `json:"utility"`
 	Mechanics            string `json:"mechanics"`
 	Force                string `json:"force"`
@@ -17,7 +17,7 @@ type Classification struct {
 
 // Muscles are the areas that a given exercise affects
 type Muscles struct {
-	Model
+	HiddenModel
 	Target                pq.StringArray `json:"target" gorm:"type:varchar(250)[]"`
 	Synergists            pq.StringArray `json:"synergists" gorm:"type:varchar(250)[]"`
 	Stabilizers           pq.StringArray `json:"stabilizers" gorm:"type:varchar(250)[]"`
@@ -29,7 +29,7 @@ type Muscles struct {
 
 // Articulation is Plyometric as far as I can tell
 type Articulation struct {
-	Model
+	HiddenModel
 	Dynamic              Joints `json:"dynamic"`
 	Static               Joints `json:"static"`
 	ExerciseDictionaryID int    `json:"exercise_type_id"`
@@ -37,7 +37,7 @@ type Articulation struct {
 
 // Joints for dynamic/static articulation
 type Joints struct {
-	Model
+	HiddenModel
 	Ankle          pq.StringArray `json:"ankle" gorm:"type:varchar(250)[]"`
 	Elbow          pq.StringArray `json:"elbow" gorm:"type:varchar(250)[]"`
 	Finger         pq.StringArray `json:"finger" gorm:"type:varchar(250)[]"`
@@ -57,7 +57,7 @@ type Joints struct {
 
 // ExerciseDictionary is a single exercise type
 type ExerciseDictionary struct {
-	Model
+	HiddenModel
 	URL            string         `json:"url"`
 	Name           string         `json:"name; unique"`
 	Classification Classification `json:"classification"`
