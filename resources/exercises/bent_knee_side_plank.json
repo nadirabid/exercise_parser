@@ -1,13 +1,7 @@
 {
-  "id": 0,
-  "created_at": "0001-01-01T00:00:00Z",
-  "updated_at": "0001-01-01T00:00:00Z",
   "url": "https://exrx.net/WeightExercises/Obliques/BWBentKneeSidePlank",
-  "name": "Bent Knee Side Plank",
+  "Name": "Bent Knee Side Plank",
   "classification": {
-    "id": 0,
-    "created_at": "0001-01-01T00:00:00Z",
-    "updated_at": "0001-01-01T00:00:00Z",
     "utility": "Auxiliary",
     "mechanics": "Isolated",
     "force": "Push",
@@ -18,9 +12,6 @@
     "exercise_type_id": 0
   },
   "muscles": {
-    "id": 0,
-    "created_at": "0001-01-01T00:00:00Z",
-    "updated_at": "0001-01-01T00:00:00Z",
     "target": [
       "Obliques"
     ],
@@ -51,13 +42,7 @@
     "exercise_type_id": 0
   },
   "articulation": {
-    "id": 0,
-    "created_at": "0001-01-01T00:00:00Z",
-    "updated_at": "0001-01-01T00:00:00Z",
     "dynamic": {
-      "id": 0,
-      "created_at": "0001-01-01T00:00:00Z",
-      "updated_at": "0001-01-01T00:00:00Z",
       "ankle": null,
       "elbow": null,
       "finger": null,
@@ -75,9 +60,6 @@
       "articulation_id": 0
     },
     "static": {
-      "id": 0,
-      "created_at": "0001-01-01T00:00:00Z",
-      "updated_at": "0001-01-01T00:00:00Z",
       "ankle": null,
       "elbow": null,
       "finger": null,
