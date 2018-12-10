@@ -5,34 +5,34 @@ import "github.com/lib/pq"
 // Classification of exercise
 type Classification struct {
 	Model
-	Utility        string
-	Mechanics      string
-	Force          string
-	Intensity      string
-	Function       string
-	Bearing        string
-	Impact         string
-	ExerciseTypeID int `json:"exercise_type_id"`
+	Utility              string `json:"utility"`
+	Mechanics            string `json:"mechanics"`
+	Force                string `json:"force"`
+	Intensity            string `json:"intensity"`
+	Function             string `json:"function"`
+	Bearing              string `json:"bearing"`
+	Impact               string `json:"impact"`
+	ExerciseDictionaryID int    `json:"exercise_type_id"`
 }
 
 // Muscles are the areas that a given exercise affects
 type Muscles struct {
 	Model
-	Target                pq.StringArray `gorm:"type:varchar(250)[]"`
-	Synergists            pq.StringArray `gorm:"type:varchar(250)[]"`
-	Stabilizers           pq.StringArray `gorm:"type:varchar(250)[]"`
-	DynamicStabilizers    pq.StringArray `gorm:"type:varchar(250)[]"`
-	AntagonistStabilizers pq.StringArray `gorm:"type:varchar(250)[]"`
-	ROMCriteria           pq.StringArray `gorm:"type:varchar(250)[]"`
-	ExerciseTypeID        int            `json:"exercise_type_id"`
+	Target                pq.StringArray `json:"target" gorm:"type:varchar(250)[]"`
+	Synergists            pq.StringArray `json:"synergists" gorm:"type:varchar(250)[]"`
+	Stabilizers           pq.StringArray `json:"stabilizers" gorm:"type:varchar(250)[]"`
+	DynamicStabilizers    pq.StringArray `json:"dynamic_stabilizers" gorm:"type:varchar(250)[]"`
+	AntagonistStabilizers pq.StringArray `json:"antagonist_stabilizers" gorm:"type:varchar(250)[]"`
+	ROMCriteria           pq.StringArray `json:"rom_criteria" gorm:"type:varchar(250)[]"`
+	ExerciseDictionaryID  int            `json:"exercise_type_id"`
 }
 
 // Articulation is Plyometric as far as I can tell
 type Articulation struct {
 	Model
-	Dynamic        Joints
-	Static         Joints
-	ExerciseTypeID int `json:"exercise_type_id"`
+	Dynamic              Joints `json:"dynamic"`
+	Static               Joints `json:"static"`
+	ExerciseDictionaryID int    `json:"exercise_type_id"`
 }
 
 // Joints for dynamic/static articulation
@@ -55,12 +55,13 @@ type Joints struct {
 	ArticulationID int            `json:"articulation_id"`
 }
 
-// ExerciseType is a single exercise type
-type ExerciseType struct {
+// ExerciseDictionary is a single exercise type
+type ExerciseDictionary struct {
 	Model
-	URL            string
-	Name           string
-	Classification Classification
-	Muscles        Muscles
-	Articulation   Articulation
+	URL            string         `json:"url"`
+	Name           string         `json:"name; unique"`
+	Classification Classification `json:"classification"`
+	Muscles        Muscles        `json:"muscles"`
+	Articulation   Articulation   `json:"articulation"`
+	TSV            string         `json:"-" gorm:"type:tsvector"`
 }

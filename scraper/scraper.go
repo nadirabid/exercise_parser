@@ -26,7 +26,7 @@ type Scraper struct {
 	outputDirector   string
 }
 
-// New returns a scraper object
+// New returns a scraper object\
 func New(v *viper.Viper) *Scraper {
 	return &Scraper{
 		dynamic:        make(map[string]bool),
@@ -76,9 +76,6 @@ func (s *Scraper) Start(url string) {
 
 	c.Visit(url)
 	s.scraperWaitGroup.Wait()
-
-	prettyPrint(s.dynamic)
-	prettyPrint(s.static)
 }
 
 // TODO: ScrapeMusclePage
@@ -87,12 +84,14 @@ func (s *Scraper) Start(url string) {
 func (s *Scraper) ScrapeExercisePage(url string) {
 	defer s.scraperWaitGroup.Done()
 
+	// TODO: if the page say's "Page Not Found", abort the damn thing!
+
 	if strings.Contains(url, "Stills") {
 		fmt.Println("Ignoring: ", url)
 		return
 	}
 
-	exercise := &models.ExerciseType{
+	exercise := &models.ExerciseDictionary{
 		URL: url,
 	}
 
@@ -285,7 +284,7 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 }
 
 // WriteToDir saves exerices to specified folers as JSON files
-func writeToDir(e *models.ExerciseType, dir string) error {
+func writeToDir(e *models.ExerciseDictionary, dir string) error {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		os.Mkdir(dir, os.ModePerm)
 	}
@@ -317,15 +316,4 @@ func getURL(current string, path string) (string, error) {
 	}
 
 	return currentURL.ResolveReference(u).String(), nil
-}
-
-func prettyPrint(v interface{}) (err error) {
-	b, err := json.MarshalIndent(v, "", "  ")
-	if err != nil {
-		fmt.Printf("prettyPrint: %v\n", err)
-	}
-
-	fmt.Println(string(b))
-
-	return
 }
