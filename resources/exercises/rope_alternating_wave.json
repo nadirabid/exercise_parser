@@ -1,76 +1,98 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Power/RopeAlternatingWave",
-  "Name": "Rope Alternating Wave",
-  "Classification": {
-    "Utility": "Power",
-    "Mechanics": "Compound",
-    "Force": "Push \u0026 Pull",
-    "Intensity": "",
-    "Function": "",
-    "Bearing": "",
-    "Impact": ""
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/WeightExercises/Power/RopeAlternatingWave",
+  "name": "Rope Alternating Wave",
+  "classification": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "utility": "Power",
+    "mechanics": "Compound",
+    "force": "Push \u0026 Pull",
+    "intensity": "",
+    "function": "",
+    "bearing": "",
+    "impact": "",
+    "exercise_type_id": 0
   },
-  "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
-    "DynamicStabilizers": null,
-    "AntagonistStabilizers": null,
-    "ROMCriteria": null
+  "muscles": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "exercise_type_id": 0
   },
-  "Articulation": {
-    "Dynamic": {
-      "Ankle": null,
-      "Elbow": [
+  "articulation": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "dynamic": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": [
         "Extension",
         "Flexion"
       ],
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": null,
-      "Scapula": [
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": [
         "Depression / Protraction",
         "Elevation / Retraction",
         "Downward Rotation",
         "Upward Rotation"
       ],
-      "Clavicle": null,
-      "Shoulder": [
+      "clavicle": null,
+      "shoulder": [
         "Extension",
         "Flexion"
       ],
-      "ShoulderGirdle": null,
-      "Spine": null,
-      "Thumb": null,
-      "Wrist": [
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": [
         "Flexion / Adduction",
         "Extension / Abduction"
       ],
-      "Knee": null
+      "knee": null,
+      "articulation_id": 0
     },
-    "Static": {
-      "Ankle": null,
-      "Elbow": null,
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": [
+    "static": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": [
         "Extension"
       ],
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": null,
-      "ShoulderGirdle": null,
-      "Spine": [
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": [
         "Extension",
         "Rotation",
         "Lateral Flexion"
       ],
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": null
-    }
-  },
-  "CrawledAt": "2018-11-26T21:06:21.028551-08:00"
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_type_id": 0
+  }
 }

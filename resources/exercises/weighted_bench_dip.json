@@ -1,20 +1,30 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Triceps/WtBenchDip",
-  "Name": "Weighted Bench Dip",
-  "Classification": {
-    "Utility": "Basic",
-    "Mechanics": "Compound",
-    "Force": "Push",
-    "Intensity": "",
-    "Function": "",
-    "Bearing": "",
-    "Impact": ""
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/WeightExercises/Triceps/WtBenchDip",
+  "name": "Weighted Bench Dip",
+  "classification": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "utility": "Basic",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "",
+    "function": "",
+    "bearing": "",
+    "impact": "",
+    "exercise_type_id": 0
   },
-  "Muscles": {
-    "Target": [
+  "muscles": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "target": [
       "Triceps Brachii"
     ],
-    "Synergists": [
+    "synergists": [
       "Deltoid, Anterior",
       "Pectoralis Major, Sternal",
       "Pectoralis Major, Clavicular",
@@ -23,48 +33,60 @@
       "Levator Scapulae",
       "Latissimus Dorsi"
     ],
-    "Stabilizers": [
+    "stabilizers": [
       "Trapezius, Lower"
     ],
-    "DynamicStabilizers": [
+    "dynamic_stabilizers": [
       "Biceps Brachii"
     ],
-    "AntagonistStabilizers": null,
-    "ROMCriteria": null
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "exercise_type_id": 0
   },
-  "Articulation": {
-    "Dynamic": {
-      "Ankle": null,
-      "Elbow": null,
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": null,
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": null,
-      "ShoulderGirdle": null,
-      "Spine": null,
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": null
+  "articulation": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "dynamic": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
     },
-    "Static": {
-      "Ankle": null,
-      "Elbow": null,
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": null,
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": null,
-      "ShoulderGirdle": null,
-      "Spine": null,
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": null
-    }
-  },
-  "CrawledAt": "2018-11-26T21:06:21.393388-08:00"
+    "static": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_type_id": 0
+  }
 }

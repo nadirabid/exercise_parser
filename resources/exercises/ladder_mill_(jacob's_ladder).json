@@ -1,77 +1,99 @@
 {
-  "URL": "https://exrx.net/Aerobic/Exercises/LadderMill",
-  "Name": "Ladder Mill (Jacob's Ladder)",
-  "Classification": {
-    "Utility": "",
-    "Mechanics": "",
-    "Force": "",
-    "Intensity": "",
-    "Function": "",
-    "Bearing": "Weight",
-    "Impact": "Low"
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Aerobic/Exercises/LadderMill",
+  "name": "Ladder Mill (Jacob's Ladder)",
+  "classification": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "utility": "",
+    "mechanics": "",
+    "force": "",
+    "intensity": "",
+    "function": "",
+    "bearing": "Weight",
+    "impact": "Low",
+    "exercise_type_id": 0
   },
-  "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
-    "DynamicStabilizers": null,
-    "AntagonistStabilizers": null,
-    "ROMCriteria": null
+  "muscles": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "exercise_type_id": 0
   },
-  "Articulation": {
-    "Dynamic": {
-      "Ankle": [
+  "articulation": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "dynamic": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": [
         "Plantar Flexion"
       ],
-      "Elbow": null,
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": [
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": [
         "Extension",
         "Flexion"
       ],
-      "Scapula": [
+      "scapula": [
         "Upward Rotation",
         "Downward Rotation"
       ],
-      "Clavicle": null,
-      "Shoulder": [
+      "clavicle": null,
+      "shoulder": [
         "Flexion",
         "Extension"
       ],
-      "ShoulderGirdle": null,
-      "Spine": null,
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": [
-        "Extension"
-      ]
-    },
-    "Static": {
-      "Ankle": null,
-      "Elbow": [
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": [
         "Extension"
       ],
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": [
+      "articulation_id": 0
+    },
+    "static": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": [
+        "Extension"
+      ],
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": [
         "Transverse Abduction"
       ],
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": [
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": [
         "Transverse Flexion"
       ],
-      "ShoulderGirdle": null,
-      "Spine": [
+      "shoulder_girdle": null,
+      "spine": [
         "Lateral Flexion"
       ],
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": null
-    }
-  },
-  "CrawledAt": "2018-11-26T21:06:21.028541-08:00"
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_type_id": 0
+  }
 }

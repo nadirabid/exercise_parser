@@ -1,73 +1,95 @@
 {
-  "URL": "https://exrx.net/Plyometrics/MBDiagonalChop",
-  "Name": "Medicine Ball Diagonal Chop",
-  "Classification": {
-    "Utility": "Plyometric",
-    "Mechanics": "Compound",
-    "Force": "Push",
-    "Intensity": "Low",
-    "Function": "Trunk Rotation",
-    "Bearing": "",
-    "Impact": ""
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Plyometrics/MBDiagonalChop",
+  "name": "Medicine Ball Diagonal Chop",
+  "classification": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "utility": "Plyometric",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "Low",
+    "function": "Trunk Rotation",
+    "bearing": "",
+    "impact": "",
+    "exercise_type_id": 0
   },
-  "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
-    "DynamicStabilizers": null,
-    "AntagonistStabilizers": null,
-    "ROMCriteria": null
+  "muscles": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "exercise_type_id": 0
   },
-  "Articulation": {
-    "Dynamic": {
-      "Ankle": null,
-      "Elbow": null,
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": [
+  "articulation": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "dynamic": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": [
         "Internal Rotation / Adduction ",
         "External Rotation / Abduction ",
         "Extension "
       ],
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": null,
-      "ShoulderGirdle": null,
-      "Spine": [
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": [
         "Rotation "
       ],
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": null
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
     },
-    "Static": {
-      "Ankle": null,
-      "Elbow": [
+    "static": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": [
         "Flexion "
       ],
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": null,
-      "Scapula": [
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": [
         "Protraction "
       ],
-      "Clavicle": null,
-      "Shoulder": [
+      "clavicle": null,
+      "shoulder": [
         "Transverse Flexion ",
         "Internal Rotation (upper arm) "
       ],
-      "ShoulderGirdle": null,
-      "Spine": [
+      "shoulder_girdle": null,
+      "spine": [
         "Extension "
       ],
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": [
+      "thumb": null,
+      "wrist": null,
+      "knee": [
         "Extension (see comments) "
-      ]
-    }
-  },
-  "CrawledAt": "2018-11-26T21:06:21.028465-08:00"
+      ],
+      "articulation_id": 0
+    },
+    "exercise_type_id": 0
+  }
 }

@@ -1,75 +1,97 @@
 {
-  "URL": "https://exrx.net/Aerobic/Exercises/Burpee",
-  "Name": "Burpee",
-  "Classification": {
-    "Utility": "",
-    "Mechanics": "",
-    "Force": "",
-    "Intensity": "",
-    "Function": "",
-    "Bearing": "Weight",
-    "Impact": "Low"
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Aerobic/Exercises/Burpee",
+  "name": "Burpee",
+  "classification": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "utility": "",
+    "mechanics": "",
+    "force": "",
+    "intensity": "",
+    "function": "",
+    "bearing": "Weight",
+    "impact": "Low",
+    "exercise_type_id": 0
   },
-  "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
-    "DynamicStabilizers": null,
-    "AntagonistStabilizers": null,
-    "ROMCriteria": null
+  "muscles": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "exercise_type_id": 0
   },
-  "Articulation": {
-    "Dynamic": {
-      "Ankle": [
+  "articulation": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "dynamic": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": [
         "Plantar Flexion (1st buck)"
       ],
-      "Elbow": null,
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": [
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": [
         "Flexion (2nd buck \u0026 pull in)",
         "Extension (1st buck \u0026 kick back)"
       ],
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": null,
-      "ShoulderGirdle": null,
-      "Spine": [
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": [
         "Flexion (pull in)",
         "Extension (kick back)"
       ],
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": [
+      "thumb": null,
+      "wrist": null,
+      "knee": [
         "Flexion (pull in)",
         "Extension (1st buck)"
-      ]
+      ],
+      "articulation_id": 0
     },
-    "Static": {
-      "Ankle": null,
-      "Elbow": [
+    "static": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": [
         "Extension"
       ],
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": null,
-      "Scapula": [
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": [
         "Protraction"
       ],
-      "Clavicle": null,
-      "Shoulder": [
+      "clavicle": null,
+      "shoulder": [
         "Transverse Flexion"
       ],
-      "ShoulderGirdle": null,
-      "Spine": [
+      "shoulder_girdle": null,
+      "spine": [
         "Flexion (plank)"
       ],
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": null
-    }
-  },
-  "CrawledAt": "2018-11-26T21:06:21.006218-08:00"
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_type_id": 0
+  }
 }

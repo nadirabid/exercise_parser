@@ -1,82 +1,104 @@
 {
-  "URL": "https://exrx.net/Aerobic/Exercises/CrabWalk",
-  "Name": "Crab Walk",
-  "Classification": {
-    "Utility": "",
-    "Mechanics": "",
-    "Force": "",
-    "Intensity": "",
-    "Function": "",
-    "Bearing": "Weight",
-    "Impact": "High"
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Aerobic/Exercises/CrabWalk",
+  "name": "Crab Walk",
+  "classification": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "utility": "",
+    "mechanics": "",
+    "force": "",
+    "intensity": "",
+    "function": "",
+    "bearing": "Weight",
+    "impact": "High",
+    "exercise_type_id": 0
   },
-  "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
-    "DynamicStabilizers": null,
-    "AntagonistStabilizers": null,
-    "ROMCriteria": null
+  "muscles": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "exercise_type_id": 0
   },
-  "Articulation": {
-    "Dynamic": {
-      "Ankle": null,
-      "Elbow": null,
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": [
+  "articulation": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "dynamic": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": [
         "Flexion"
       ],
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": [
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": [
         "Hyperextension",
         "Flexion"
       ],
-      "ShoulderGirdle": null,
-      "Spine": null,
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": [
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": [
         "Extension",
         "Flexion"
-      ]
+      ],
+      "articulation_id": 0
     },
-    "Static": {
-      "Ankle": [
+    "static": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": [
         "Plantar Flexion",
         "Dorsal Flexion (eccentric) "
       ],
-      "Elbow": [
+      "elbow": [
         "Extension"
       ],
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": [
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": [
         "Extension"
       ],
-      "Scapula": [
+      "scapula": [
         "Retraction",
         "Downward Rotation"
       ],
-      "Clavicle": null,
-      "Shoulder": [
+      "clavicle": null,
+      "shoulder": [
         "Transverse Abduction"
       ],
-      "ShoulderGirdle": null,
-      "Spine": [
+      "shoulder_girdle": null,
+      "spine": [
         "Extension",
         "Rotation"
       ],
-      "Thumb": null,
-      "Wrist": [
+      "thumb": null,
+      "wrist": [
         "Flexion",
         "Extension"
       ],
-      "Knee": null
-    }
-  },
-  "CrawledAt": "2018-11-26T21:06:21.002713-08:00"
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_type_id": 0
+  }
 }

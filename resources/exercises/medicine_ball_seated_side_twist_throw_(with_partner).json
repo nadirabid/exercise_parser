@@ -1,70 +1,92 @@
 {
-  "URL": "https://exrx.net/Plyometrics/MBSeatedTwistThrow",
-  "Name": "Medicine Ball Seated Side Twist Throw (with partner)",
-  "Classification": {
-    "Utility": "Plyometric",
-    "Mechanics": "Isolated",
-    "Force": "Pull",
-    "Intensity": "Medium",
-    "Function": "Trunk Rotation",
-    "Bearing": "",
-    "Impact": ""
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Plyometrics/MBSeatedTwistThrow",
+  "name": "Medicine Ball Seated Side Twist Throw (with partner)",
+  "classification": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "utility": "Plyometric",
+    "mechanics": "Isolated",
+    "force": "Pull",
+    "intensity": "Medium",
+    "function": "Trunk Rotation",
+    "bearing": "",
+    "impact": "",
+    "exercise_type_id": 0
   },
-  "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
-    "DynamicStabilizers": null,
-    "AntagonistStabilizers": null,
-    "ROMCriteria": null
+  "muscles": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "exercise_type_id": 0
   },
-  "Articulation": {
-    "Dynamic": {
-      "Ankle": null,
-      "Elbow": [
+  "articulation": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "dynamic": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": [
         "Extension"
       ],
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": null,
-      "Scapula": [
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": [
         "Protraction",
         "Retraction"
       ],
-      "Clavicle": null,
-      "Shoulder": [
+      "clavicle": null,
+      "shoulder": [
         "Transverse Flexion / Flexion",
         "Transverse Extension / Extension",
         "External Rotation",
         "Internal Rotation"
       ],
-      "ShoulderGirdle": null,
-      "Spine": [
+      "shoulder_girdle": null,
+      "spine": [
         "Rotation"
       ],
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": null
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
     },
-    "Static": {
-      "Ankle": null,
-      "Elbow": [
+    "static": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": [
         "Flexion"
       ],
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": null,
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": null,
-      "ShoulderGirdle": null,
-      "Spine": null,
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": null
-    }
-  },
-  "CrawledAt": "2018-11-26T21:06:21.028526-08:00"
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_type_id": 0
+  }
 }

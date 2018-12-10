@@ -1,18 +1,28 @@
 {
-  "URL": "https://exrx.net/WeightExercises/BackGeneral/LVBBBentOverRow",
-  "Name": "Lever Barbell Bent-over Row (plate loaded)",
-  "Classification": {
-    "Utility": "Basic or Auxiliary",
-    "Mechanics": "Compound",
-    "Force": "Pull",
-    "Intensity": "",
-    "Function": "",
-    "Bearing": "",
-    "Impact": ""
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/WeightExercises/BackGeneral/LVBBBentOverRow",
+  "name": "Lever Barbell Bent-over Row (plate loaded)",
+  "classification": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "utility": "Basic or Auxiliary",
+    "mechanics": "Compound",
+    "force": "Pull",
+    "intensity": "",
+    "function": "",
+    "bearing": "",
+    "impact": "",
+    "exercise_type_id": 0
   },
-  "Muscles": {
-    "Target": null,
-    "Synergists": [
+  "muscles": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "target": null,
+    "synergists": [
       "Trapezius, Middle",
       "Trapezius, Lower",
       "Rhomboids",
@@ -25,56 +35,68 @@
       "Brachioradialis",
       "Pectoralis Major, Sternal "
     ],
-    "Stabilizers": [
+    "stabilizers": [
       "Erector Spinae",
       "Hamstrings",
       "Gluteus Maximus",
       "Adductor Magnus",
       "Quadriceps"
     ],
-    "DynamicStabilizers": [
+    "dynamic_stabilizers": [
       "Biceps Brachii",
       "Triceps, Long Head "
     ],
-    "AntagonistStabilizers": [
+    "antagonist_stabilizers": [
       "Rectus Abdominis",
       "Obliques"
     ],
-    "ROMCriteria": null
+    "rom_criteria": null,
+    "exercise_type_id": 0
   },
-  "Articulation": {
-    "Dynamic": {
-      "Ankle": null,
-      "Elbow": null,
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": null,
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": null,
-      "ShoulderGirdle": null,
-      "Spine": null,
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": null
+  "articulation": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "dynamic": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
     },
-    "Static": {
-      "Ankle": null,
-      "Elbow": null,
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": null,
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": null,
-      "ShoulderGirdle": null,
-      "Spine": null,
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": null
-    }
-  },
-  "CrawledAt": "2018-11-26T21:06:20.272318-08:00"
+    "static": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_type_id": 0
+  }
 }

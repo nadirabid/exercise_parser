@@ -1,77 +1,99 @@
 {
-  "URL": "https://exrx.net/WeightExercises/Kettlebell/KBClean",
-  "Name": "Kettlebell Clean",
-  "Classification": {
-    "Utility": "Power",
-    "Mechanics": "Compound",
-    "Force": "Pull",
-    "Intensity": "",
-    "Function": "",
-    "Bearing": "",
-    "Impact": ""
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/WeightExercises/Kettlebell/KBClean",
+  "name": "Kettlebell Clean",
+  "classification": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "utility": "Power",
+    "mechanics": "Compound",
+    "force": "Pull",
+    "intensity": "",
+    "function": "",
+    "bearing": "",
+    "impact": "",
+    "exercise_type_id": 0
   },
-  "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
-    "DynamicStabilizers": null,
-    "AntagonistStabilizers": null,
-    "ROMCriteria": null
+  "muscles": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "exercise_type_id": 0
   },
-  "Articulation": {
-    "Dynamic": {
-      "Ankle": [
+  "articulation": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "dynamic": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": [
         "Plantar Flexion"
       ],
-      "Elbow": [
+      "elbow": [
         "Flexion"
       ],
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": [
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": [
         "Extension"
       ],
-      "Scapula": [
+      "scapula": [
         "Elevation",
         "Upward Rotation"
       ],
-      "Clavicle": null,
-      "Shoulder": [
+      "clavicle": null,
+      "shoulder": [
         "Abduction",
         "Flexion",
         "External Rotation"
       ],
-      "ShoulderGirdle": null,
-      "Spine": null,
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": [
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": [
         "Extension"
-      ]
+      ],
+      "articulation_id": 0
     },
-    "Static": {
-      "Ankle": null,
-      "Elbow": null,
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": null,
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": null,
-      "ShoulderGirdle": null,
-      "Spine": [
+    "static": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": [
         "Extension",
         "Rotation",
         "Lateral Flexion"
       ],
-      "Thumb": null,
-      "Wrist": [
+      "thumb": null,
+      "wrist": [
         "Flexion"
       ],
-      "Knee": null
-    }
-  },
-  "CrawledAt": "2018-11-26T21:06:21.028574-08:00"
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_type_id": 0
+  }
 }

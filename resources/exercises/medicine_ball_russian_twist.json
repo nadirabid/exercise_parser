@@ -1,74 +1,96 @@
 {
-  "URL": "https://exrx.net/Plyometrics/MBRussianTwist",
-  "Name": "Medicine Ball Russian Twist",
-  "Classification": {
-    "Utility": "Plyometric",
-    "Mechanics": "Compound",
-    "Force": "Push",
-    "Intensity": "Low Medium",
-    "Function": "Trunk Rotation",
-    "Bearing": "",
-    "Impact": ""
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Plyometrics/MBRussianTwist",
+  "name": "Medicine Ball Russian Twist",
+  "classification": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "utility": "Plyometric",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "Low Medium",
+    "function": "Trunk Rotation",
+    "bearing": "",
+    "impact": "",
+    "exercise_type_id": 0
   },
-  "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
-    "DynamicStabilizers": null,
-    "AntagonistStabilizers": null,
-    "ROMCriteria": null
+  "muscles": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "exercise_type_id": 0
   },
-  "Articulation": {
-    "Dynamic": {
-      "Ankle": null,
-      "Elbow": null,
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": null,
-      "Scapula": [
+  "articulation": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "dynamic": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": [
         "Protraction",
         "Retraction"
       ],
-      "Clavicle": null,
-      "Shoulder": [
+      "clavicle": null,
+      "shoulder": [
         "Internal Rotation",
         "External Rotation"
       ],
-      "ShoulderGirdle": null,
-      "Spine": [
+      "shoulder_girdle": null,
+      "spine": [
         "Rotation"
       ],
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": null
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
     },
-    "Static": {
-      "Ankle": null,
-      "Elbow": [
+    "static": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": [
         "Flexion"
       ],
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": [
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": [
         "Flexion"
       ],
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": [
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": [
         "Flexion"
       ],
-      "ShoulderGirdle": null,
-      "Spine": [
+      "shoulder_girdle": null,
+      "spine": [
         "Flexion"
       ],
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": [
+      "thumb": null,
+      "wrist": null,
+      "knee": [
         "Extension"
-      ]
-    }
-  },
-  "CrawledAt": "2018-11-26T21:06:21.028514-08:00"
+      ],
+      "articulation_id": 0
+    },
+    "exercise_type_id": 0
+  }
 }

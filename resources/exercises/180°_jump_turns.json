@@ -1,73 +1,95 @@
 {
-  "URL": "https://exrx.net/Plyometrics/180JumpTurns",
-  "Name": "180° Jump Turns",
-  "Classification": {
-    "Utility": "Plyometric",
-    "Mechanics": "Compound",
-    "Force": "Push",
-    "Intensity": "Low Medium",
-    "Function": "Leg Ext (Vertical)",
-    "Bearing": "",
-    "Impact": ""
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Plyometrics/180JumpTurns",
+  "name": "180° Jump Turns",
+  "classification": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "utility": "Plyometric",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "Low Medium",
+    "function": "Leg Ext (Vertical)",
+    "bearing": "",
+    "impact": "",
+    "exercise_type_id": 0
   },
-  "Muscles": {
-    "Target": null,
-    "Synergists": null,
-    "Stabilizers": null,
-    "DynamicStabilizers": null,
-    "AntagonistStabilizers": null,
-    "ROMCriteria": null
+  "muscles": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "exercise_type_id": 0
   },
-  "Articulation": {
-    "Dynamic": {
-      "Ankle": [
+  "articulation": {
+    "id": 0,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
+    "dynamic": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": [
         "Plantar Flexion"
       ],
-      "Elbow": null,
-      "Finger": null,
-      "Foot": [
+      "elbow": null,
+      "finger": null,
+      "foot": [
         "Plantar Flexion"
       ],
-      "Forearms": null,
-      "Hip": [
+      "forearms": null,
+      "hip": [
         "Extension",
         "Flexion",
         "Internal Rotation",
         "External Rotation"
       ],
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": [
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": [
         "Flexion"
       ],
-      "ShoulderGirdle": null,
-      "Spine": [
+      "shoulder_girdle": null,
+      "spine": [
         "Rotation"
       ],
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": [
-        "Extension"
-      ]
-    },
-    "Static": {
-      "Ankle": null,
-      "Elbow": null,
-      "Finger": null,
-      "Foot": null,
-      "Forearms": null,
-      "Hip": null,
-      "Scapula": null,
-      "Clavicle": null,
-      "Shoulder": null,
-      "ShoulderGirdle": null,
-      "Spine": [
+      "thumb": null,
+      "wrist": null,
+      "knee": [
         "Extension"
       ],
-      "Thumb": null,
-      "Wrist": null,
-      "Knee": null
-    }
-  },
-  "CrawledAt": "2018-11-26T21:06:20.973621-08:00"
+      "articulation_id": 0
+    },
+    "static": {
+      "id": 0,
+      "created_at": "0001-01-01T00:00:00Z",
+      "updated_at": "0001-01-01T00:00:00Z",
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": [
+        "Extension"
+      ],
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_type_id": 0
+  }
 }
