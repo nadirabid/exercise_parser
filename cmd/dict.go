@@ -11,6 +11,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// http://shisaa.jp/postset/postgresql-full-text-search-part-3.html
+
 // NOTE: i'm seeding from locally stored files, because we're going to be seeding more
 // than we should be hitting (by means of scrapping). allows for rapid nuking of the database
 // without compromising on speed
