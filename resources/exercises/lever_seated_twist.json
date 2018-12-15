@@ -1,5 +1,5 @@
 {
-  "url": "https://exrx.net/WeightExercises/Obliques/LVTwistAltMach",
+  "url": "https://exrx.net/WeightExercises/Obliques/LVTwistLower",
   "name": "Lever Seated Twist",
   "classification": {
     "utility": "Auxiliary",
@@ -24,12 +24,15 @@
     "stabilizers": [
       "Pectoralis Major, Sternal",
       "Pectoralis Major, Clavicular",
+      "Pectoralis Minor",
       "Deltoid, Anterior",
-      "Gluteus Medius",
-      "Gluteus Minimus",
-      "Gluteus Maximus",
-      "Piriformis",
-      "Obturator externus"
+      "Trapezius, Middle",
+      "Trapezius, Lower",
+      "Rhomboids",
+      "Deltoid, Posterior",
+      "Latissimus Dorsi",
+      "Triceps, Long Head",
+      "Adductors, Hip"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,

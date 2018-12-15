@@ -1,5 +1,5 @@
 {
-  "url": "https://exrx.net/WeightExercises/BackGeneral/LVSeatedHighRowB",
+  "url": "https://exrx.net/WeightExercises/BackGeneral/LVSeatedHighRowC",
   "name": "Lever Seated High Row",
   "classification": {
     "utility": "Basic",
@@ -24,8 +24,7 @@
       "Teres Minor",
       "Brachialis",
       "Brachioradialis",
-      "Pectoralis Major, Sternal ",
-      "Erector Spinae"
+      "Pectoralis Major, Sternal "
     ],
     "stabilizers": null,
     "dynamic_stabilizers": [

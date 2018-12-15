@@ -1,5 +1,5 @@
 {
-  "url": "https://exrx.net/WeightExercises/Triceps/LVTriExt2",
+  "url": "https://exrx.net/WeightExercises/Triceps/LVTriExt",
   "name": "Lever Triceps Extension",
   "classification": {
     "utility": "Basic or Auxiliary",
@@ -17,7 +17,7 @@
     ],
     "synergists": null,
     "stabilizers": [
-      "Pectoralis Major, Sternal",
+      "Pectoralis  Major, Sternal",
       "Deltoid, Posterior",
       "Latissimus Dorsi",
       "Teres Major",
