@@ -84,12 +84,8 @@ func drop(cmd *cobra.Command, args []string) error {
 
 	// drop it all
 
-	if err := db.DropTableIfExists(
+	if err := db.Set("gorm:table_options", "CASCADE").DropTableIfExists(
 		&models.ExerciseDictionary{},
-		&models.Muscles{},
-		&models.Articulation{},
-		&models.Classification{},
-		&models.Joints{},
 	).Error; err != nil {
 		return fmt.Errorf("couldn't drop table: %s", err.Error())
 	}

@@ -34,7 +34,7 @@ type Exercise struct {
 	Name             string            `json:"name"`
 	WeightedExercise *WeightedExercise `json:"weighted_exercise"`
 	DistanceExercise *DistanceExercise `json:"distance_exercise"`
-	WorkoutID        int               `json:"workout_id"`
+	WorkoutID        int               `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
 }
 
 // Resolve will take the Raw exercise string and parse out the various fields
@@ -92,7 +92,7 @@ type WeightedExercise struct {
 	HiddenModel
 	Sets       int `json:"sets"`
 	Reps       int `json:"reps"`
-	ExerciseID int `json:"exercise_id"`
+	ExerciseID int `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }
 
 // DistanceExercise model
@@ -101,5 +101,5 @@ type DistanceExercise struct {
 	Time       string  `json:"time"`
 	Distance   float32 `json:"distance"`
 	Units      string  `json:"units"`
-	ExerciseID int     `json:"exercise_id"`
+	ExerciseID int     `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }

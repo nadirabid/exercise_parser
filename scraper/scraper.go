@@ -86,7 +86,7 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 
 	// TODO: if the page say's "Page Not Found", abort the damn thing!
 
-	if strings.Contains(url, "Stills") {
+	if strings.Contains(url, "Stills") || strings.Contains(url, "Lists") {
 		fmt.Println("Ignoring: ", url)
 		return
 	}

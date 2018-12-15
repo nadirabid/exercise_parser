@@ -12,7 +12,7 @@ type Classification struct {
 	Function             string `json:"function"`
 	Bearing              string `json:"bearing"`
 	Impact               string `json:"impact"`
-	ExerciseDictionaryID int    `json:"exercise_type_id"`
+	ExerciseDictionaryID int    `json:"exercise_type_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
 }
 
 // Muscles are the areas that a given exercise affects
@@ -24,7 +24,7 @@ type Muscles struct {
 	DynamicStabilizers    pq.StringArray `json:"dynamic_stabilizers" gorm:"type:varchar(250)[]"`
 	AntagonistStabilizers pq.StringArray `json:"antagonist_stabilizers" gorm:"type:varchar(250)[]"`
 	ROMCriteria           pq.StringArray `json:"rom_criteria" gorm:"type:varchar(250)[]"`
-	ExerciseDictionaryID  int            `json:"exercise_type_id"`
+	ExerciseDictionaryID  int            `json:"exercise_type_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
 }
 
 // Articulation is Plyometric as far as I can tell
@@ -32,7 +32,7 @@ type Articulation struct {
 	HiddenModel
 	Dynamic              Joints `json:"dynamic"`
 	Static               Joints `json:"static"`
-	ExerciseDictionaryID int    `json:"exercise_type_id"`
+	ExerciseDictionaryID int    `json:"exercise_type_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
 }
 
 // Joints for dynamic/static articulation
@@ -52,16 +52,33 @@ type Joints struct {
 	Thumb          pq.StringArray `json:"thumb" gorm:"type:varchar(250)[]"`
 	Wrist          pq.StringArray `json:"wrist" gorm:"type:varchar(250)[]"`
 	Knee           pq.StringArray `json:"knee" gorm:"type:varchar(250)[]"`
-	ArticulationID int            `json:"articulation_id"`
+	ArticulationID int            `json:"articulation_id" gorm:"type:int REFERENCES articulations(id) ON DELETE CASCADE"`
 }
 
 // ExerciseDictionary is a single exercise type
 type ExerciseDictionary struct {
 	HiddenModel
 	URL            string         `json:"url"`
-	Name           string         `json:"name; unique"`
+	Name           string         `json:"name" gorm:"unique"`
 	Classification Classification `json:"classification"`
 	Muscles        Muscles        `json:"muscles"`
 	Articulation   Articulation   `json:"articulation"`
 	TSV            string         `json:"-" gorm:"type:tsvector"`
+}
+
+type ExerciseDictionarySearchResult struct {
+	ExerciseDictionary
+	Rank int `json:"rank"`
+}
+
+// Search searches
+func (e *ExerciseDictionary) Search(exercise string) (*ExerciseDictionary, error) {
+	// q := `
+	// 	SELECT *, ts_rank(tsv, keywords, 1) as rank
+	// 	FROM exercise_dictionaries, to_tsquery('?') keywords
+	// 	WHERE tsv @@ keywords
+	// 	ORDER BY ts_rank DESC
+	// `
+
+	return nil, nil
 }
