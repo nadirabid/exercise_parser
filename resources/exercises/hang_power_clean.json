@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/OlympicLifts/HangPowerClean",
-  "Name": "Hang Power Clean",
+  "name": "Hang Power Clean",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

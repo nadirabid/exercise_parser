@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/BoxMarchLow",
-  "Name": "Box March (low)",
+  "name": "Box March (low)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

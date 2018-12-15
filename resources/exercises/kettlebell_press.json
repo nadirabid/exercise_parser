@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Kettlebell/KBPress",
-  "Name": "Kettlebell Press",
+  "name": "Kettlebell Press",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

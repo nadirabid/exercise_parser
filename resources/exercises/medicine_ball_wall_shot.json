@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/MBWallShot",
-  "Name": "Medicine Ball Wall Shot",
+  "name": "Medicine Ball Wall Shot",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/HipAbductor/STHipAbduction",
-  "Name": "Suspended Hip Abduction",
+  "name": "Suspended Hip Abduction",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

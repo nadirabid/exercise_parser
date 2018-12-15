@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/LVOneArmPress",
-  "Name": "Lever One Arm Press (plate loaded)",
+  "name": "Lever One Arm Press (plate loaded)",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

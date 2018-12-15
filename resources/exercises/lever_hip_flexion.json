@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/HipFlexors/LVHipFlexion",
-  "Name": "Lever Hip Flexion",
+  "name": "Lever Hip Flexion",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

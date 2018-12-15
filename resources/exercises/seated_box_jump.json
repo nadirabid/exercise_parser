@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/SeatedBoxJump",
-  "Name": "Seated Box Jump",
+  "name": "Seated Box Jump",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

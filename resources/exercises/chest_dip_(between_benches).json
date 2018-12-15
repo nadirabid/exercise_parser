@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/PectoralSternal/BWChestDipBenches",
-  "Name": "Chest Dip (between benches)",
+  "name": "Chest Dip (between benches)",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

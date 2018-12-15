@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/GluteusMaximus/CBStandingHipExtension",
-  "Name": "Cable Standing Hip Extension",
+  "name": "Cable Standing Hip Extension",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/HipFlexors/STMountainClimber",
-  "Name": "Suspended Mountain Climber",
+  "name": "Suspended Mountain Climber",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Compound",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Triceps/CBStandingTricepsExtensionRope",
-  "Name": "Cable Triceps Extension (with rope)",
+  "name": "Cable Triceps Extension (with rope)",
   "classification": {
     "utility": "Basic\nor Auxiliary",
     "mechanics": "Isolated",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/TireFlip",
-  "Name": "Tire Flip",
+  "name": "Tire Flip",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

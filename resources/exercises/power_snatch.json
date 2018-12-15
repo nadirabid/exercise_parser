@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/OlympicLifts/PowerSnatch",
-  "Name": "Power Snatch",
+  "name": "Power Snatch",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

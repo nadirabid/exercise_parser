@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/ErectorSpinae/LVDeadlift",
-  "Name": "Lever Deadlift (plate loaded)",
+  "name": "Lever Deadlift (plate loaded)",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

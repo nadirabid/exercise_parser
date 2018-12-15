@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Hamstrings/LVStandingLegCurlLegExt",
-  "Name": "Lever Standing Leg Curl (on leg extension)",
+  "name": "Lever Standing Leg Curl (on leg extension)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/BackGeneral/STPowerPull",
-  "Name": "Suspended Power Pull",
+  "name": "Suspended Power Pull",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Compound",

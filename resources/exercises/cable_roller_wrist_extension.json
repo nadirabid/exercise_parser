@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/WristExtensors/CBRollerWristExtention",
-  "Name": "Cable Roller Wrist Extension",
+  "name": "Cable Roller Wrist Extension",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

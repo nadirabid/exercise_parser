@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/GluteusMaximus/SMFrontSquat",
-  "Name": "Smith Front Squat",
+  "name": "Smith Front Squat",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Compound",

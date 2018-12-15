@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Sternocleidomastoid/CBNeckRotationBelt",
-  "Name": "Cable Neck Rotation (with belt)",
+  "name": "Cable Neck Rotation (with belt)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

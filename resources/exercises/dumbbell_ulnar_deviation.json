@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/WristFlexors/DBUlnarFlexion",
-  "Name": "Dumbbell Ulnar Deviation",
+  "name": "Dumbbell Ulnar Deviation",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

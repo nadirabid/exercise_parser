@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/LatissimusDorsi/BBPullover",
-  "Name": "Barbell Pullover",
+  "name": "Barbell Pullover",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

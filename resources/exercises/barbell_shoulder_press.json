@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/DeltoidAnterior/BBShoulderPress",
-  "Name": "Barbell Shoulder Press",
+  "name": "Barbell Shoulder Press",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/Plyometrics/SquatJump",
-  "Name": "Squat Jump",
+  "name": "Squat Jump",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

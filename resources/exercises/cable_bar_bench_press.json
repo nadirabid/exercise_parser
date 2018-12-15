@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/PectoralSternal/CBBarBenchPress",
-  "Name": "Cable Bar Bench Press",
+  "name": "Cable Bar Bench Press",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

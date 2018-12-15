@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/DeltoidAnterior/DBFrontRaise",
-  "Name": "Dumbbell Front Raise",
+  "name": "Dumbbell Front Raise",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

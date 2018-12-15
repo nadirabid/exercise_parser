@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Infraspinatus/STShoulderExternalRotation",
-  "Name": "Suspended Shoulder External Rotation",
+  "name": "Suspended Shoulder External Rotation",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

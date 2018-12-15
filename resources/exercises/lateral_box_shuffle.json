@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/BoxLateralShuffle",
-  "Name": "Lateral Box Shuffle",
+  "name": "Lateral Box Shuffle",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

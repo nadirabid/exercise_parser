@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/GluteusMaximus/LVStandingHipExtension",
-  "Name": "Lever Standing Hip Extension",
+  "name": "Lever Standing Hip Extension",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

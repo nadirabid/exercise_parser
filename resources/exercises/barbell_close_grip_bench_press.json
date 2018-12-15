@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Triceps/BBCloseGripBenchPress",
-  "Name": "Barbell Close Grip Bench Press",
+  "name": "Barbell Close Grip Bench Press",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

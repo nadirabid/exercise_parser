@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/DeltoidAnterior/STFrontRaise",
-  "Name": "Suspended Front Raise",
+  "name": "Suspended Front Raise",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

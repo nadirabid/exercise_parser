@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/LatissimusDorsi/CBFrontPulldown",
-  "Name": "Cable Pulldown",
+  "name": "Cable Pulldown",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

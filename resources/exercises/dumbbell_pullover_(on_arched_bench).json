@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/PectoralSternal/DBPulloverArchedBench",
-  "Name": "Dumbbell Pullover (on arched bench)",
+  "name": "Dumbbell Pullover (on arched bench)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/PectoralSternal/LVChestPressH",
-  "Name": "Lever Chest Press (plate loaded)",
+  "name": "Lever Chest Press (plate loaded)",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

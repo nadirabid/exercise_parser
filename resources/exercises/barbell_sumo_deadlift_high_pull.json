@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/BBSumoDeadliftHighPull",
-  "Name": "Barbell Sumo Deadlift High Pull",
+  "name": "Barbell Sumo Deadlift High Pull",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

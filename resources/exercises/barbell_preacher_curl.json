@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Brachialis/BBPreacherCurl",
-  "Name": "Barbell Preacher Curl",
+  "name": "Barbell Preacher Curl",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

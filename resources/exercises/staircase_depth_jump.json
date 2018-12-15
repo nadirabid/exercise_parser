@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/StairCaseDepthJump",
-  "Name": "Staircase Depth Jump",
+  "name": "Staircase Depth Jump",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

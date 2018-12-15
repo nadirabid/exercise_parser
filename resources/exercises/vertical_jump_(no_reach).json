@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/Plyometrics/VerticalJumpNoReach",
-  "Name": "Vertical Jump (no reach)",
+  "name": "Vertical Jump (no reach)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

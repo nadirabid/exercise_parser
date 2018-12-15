@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/Plyometrics/MBChestThrowRebounder",
-  "Name": "Medicine Ball Chest Throw (on rebounder)",
+  "name": "Medicine Ball Chest Throw (on rebounder)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

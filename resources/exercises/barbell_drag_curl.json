@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Biceps/BBDragCurl",
-  "Name": "Barbell Drag Curl",
+  "name": "Barbell Drag Curl",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

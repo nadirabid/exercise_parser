@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Hamstrings/LVStandingLegCurlMultiHip",
-  "Name": "Lever Standing Leg Curl (on multi-hip machine)",
+  "name": "Lever Standing Leg Curl (on multi-hip machine)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

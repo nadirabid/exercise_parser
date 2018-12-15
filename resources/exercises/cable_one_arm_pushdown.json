@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Triceps/CBOneArmPushdown",
-  "Name": "Cable One Arm Pushdown",
+  "name": "Cable One Arm Pushdown",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

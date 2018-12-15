@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/WristFlexors/LVUlnarFlexion",
-  "Name": "Lever Ulnar Deviation",
+  "name": "Lever Ulnar Deviation",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

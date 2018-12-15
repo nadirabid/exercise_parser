@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/MBSitUpWall",
-  "Name": "Medicine Ball Overhead Throw Sit-up",
+  "name": "Medicine Ball Overhead Throw Sit-up",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Isolated",

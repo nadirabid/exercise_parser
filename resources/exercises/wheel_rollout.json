@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/HipFlexors/BWKneelingWheelRollout",
-  "Name": "Wheel Rollout",
+  "name": "Wheel Rollout",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

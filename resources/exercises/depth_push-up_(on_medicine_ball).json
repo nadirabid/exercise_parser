@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/Plyometrics/DepthPushupMB",
-  "Name": "Depth Push-up (on medicine ball)",
+  "name": "Depth Push-up (on medicine ball)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

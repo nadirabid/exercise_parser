@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/CBPushPull",
-  "Name": "Cable Push Pull",
+  "name": "Cable Push Pull",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

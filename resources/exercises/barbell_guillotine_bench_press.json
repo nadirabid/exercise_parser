@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/PectoralSternal/BBGuillotineBenchPress",
-  "Name": "Barbell Guillotine Bench Press",
+  "name": "Barbell Guillotine Bench Press",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Compound",

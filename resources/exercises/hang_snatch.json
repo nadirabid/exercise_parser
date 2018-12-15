@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/OlympicLifts/HangSnatch",
-  "Name": "Hang Snatch",
+  "name": "Hang Snatch",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

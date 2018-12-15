@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Quadriceps/LVLegExtension",
-  "Name": "Lever Leg Extension",
+  "name": "Lever Leg Extension",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/WTPushSprint",
-  "Name": "Weighted Drive Sled Sprint",
+  "name": "Weighted Drive Sled Sprint",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

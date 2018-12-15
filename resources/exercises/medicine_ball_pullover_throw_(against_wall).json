@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/Plyometrics/MBPulloverThrowWall",
-  "Name": "Medicine Ball Pullover Throw (against wall)",
+  "name": "Medicine Ball Pullover Throw (against wall)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Isolated",

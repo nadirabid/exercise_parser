@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/LatissimusDorsi/LVPulldown",
-  "Name": "Lever Pulldown",
+  "name": "Lever Pulldown",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

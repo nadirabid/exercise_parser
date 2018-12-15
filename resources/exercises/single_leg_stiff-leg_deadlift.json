@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/GluteusMaximus/BWSingleLegStiffLegDeadlift",
-  "Name": "Single Leg Stiff-leg Deadlift",
+  "name": "Single Leg Stiff-leg Deadlift",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/LateralBound",
-  "Name": "Lateral Bound",
+  "name": "Lateral Bound",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

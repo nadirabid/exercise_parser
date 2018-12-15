@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Hamstrings/STHamstringRunner",
-  "Name": "Suspended Hamstring Runner",
+  "name": "Suspended Hamstring Runner",
   "classification": {
     "utility": "Basic or Auxiliary",
     "mechanics": "Isolated",

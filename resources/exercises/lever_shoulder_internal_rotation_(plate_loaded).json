@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Subscapularis/LVShoulderInternalRotationPL",
-  "Name": "Lever Shoulder Internal Rotation (plate loaded)",
+  "name": "Lever Shoulder Internal Rotation (plate loaded)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

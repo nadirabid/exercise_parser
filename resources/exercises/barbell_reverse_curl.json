@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Brachioradialis/BBReverseCurl",
-  "Name": "Barbell Reverse Curl",
+  "name": "Barbell Reverse Curl",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

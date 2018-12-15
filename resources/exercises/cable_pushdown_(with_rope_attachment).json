@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Triceps/CBPushdownRope",
-  "Name": "Cable Pushdown (with rope attachment)",
+  "name": "Cable Pushdown (with rope attachment)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Triceps/DBOneArmTriExtBench",
-  "Name": "Dumbbell One Arm Triceps Extension (on bench)",
+  "name": "Dumbbell One Arm Triceps Extension (on bench)",
   "classification": {
     "utility": "Basic or Auxiliary",
     "mechanics": "Isolated",

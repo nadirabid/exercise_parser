@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Infraspinatus/LVExternalRotation",
-  "Name": "Lever Shoulder External Rotation",
+  "name": "Lever Shoulder External Rotation",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

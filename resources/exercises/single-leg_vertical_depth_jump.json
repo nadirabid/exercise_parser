@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/Plyometrics/SingleLegVerticalDepthJump",
-  "Name": "Single-leg Vertical Depth Jump",
+  "name": "Single-leg Vertical Depth Jump",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

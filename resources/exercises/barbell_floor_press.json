@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/PectoralSternal/BBFloorPress",
-  "Name": "Barbell Floor Press",
+  "name": "Barbell Floor Press",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Compound",

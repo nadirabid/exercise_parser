@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/Plyometrics/MBSingleLegChop",
-  "Name": "Medicine Ball Single Leg Chop",
+  "name": "Medicine Ball Single Leg Chop",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

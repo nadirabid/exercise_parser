@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/OlympicLifts/HighPull",
-  "Name": "High Pull",
+  "name": "High Pull",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

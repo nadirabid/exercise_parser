@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Hamstrings/BBHipExtension",
-  "Name": "Barbell Back Raise (on hyperextension apparatus)",
+  "name": "Barbell Back Raise (on hyperextension apparatus)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

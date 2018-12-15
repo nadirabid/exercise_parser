@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Brachialis/DBProneInclineCurl",
-  "Name": "Dumbbell Prone Incline Curl",
+  "name": "Dumbbell Prone Incline Curl",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

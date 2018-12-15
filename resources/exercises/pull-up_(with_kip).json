@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/BWPullupKip",
-  "Name": "Pull-up (with kip)",
+  "name": "Pull-up (with kip)",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

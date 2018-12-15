@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/VerticalDepthJump",
-  "Name": "Vertical Depth Jump",
+  "name": "Vertical Depth Jump",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

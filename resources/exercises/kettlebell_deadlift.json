@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Kettlebell/KBDeadlift",
-  "Name": "Kettlebell Deadlift",
+  "name": "Kettlebell Deadlift",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/HipAbductor/LVSeatedHipAbduction",
-  "Name": "Lever Seated Hip Abduction",
+  "name": "Lever Seated Hip Abduction",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

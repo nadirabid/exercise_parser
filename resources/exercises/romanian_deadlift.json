@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/OlympicLifts/RomanianDeadlift",
-  "Name": "Romanian Deadlift",
+  "name": "Romanian Deadlift",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

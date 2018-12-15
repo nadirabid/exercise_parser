@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/MBOneArmThrow",
-  "Name": "Medicine Ball One Arm Throw (with partner)",
+  "name": "Medicine Ball One Arm Throw (with partner)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

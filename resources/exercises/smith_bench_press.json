@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/PectoralSternal/SMBenchPress",
-  "Name": "Smith Bench Press",
+  "name": "Smith Bench Press",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

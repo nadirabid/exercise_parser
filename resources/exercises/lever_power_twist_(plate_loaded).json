@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/LVPowerTwist",
-  "Name": "Lever Power Twist (plate loaded)",
+  "name": "Lever Power Twist (plate loaded)",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

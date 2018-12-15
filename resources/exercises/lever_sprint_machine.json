@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/LVSprintMachine",
-  "Name": "Lever Sprint Machine",
+  "name": "Lever Sprint Machine",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

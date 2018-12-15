@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/BoxSquatJump",
-  "Name": "Box Squat Box Jump",
+  "name": "Box Squat Box Jump",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

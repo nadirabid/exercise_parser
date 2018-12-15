@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/DeltoidAnterior/LVBBShoulderPress",
-  "Name": "Lever Barbell Shoulder Press (plate loaded)",
+  "name": "Lever Barbell Shoulder Press (plate loaded)",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/PectoralSternal/CBBarStandingChestPress",
-  "Name": "Cable Bar Standing Chest Press",
+  "name": "Cable Bar Standing Chest Press",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Compound",

@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/BoxLateralJump",
-  "Name": "Lateral Box Jumps",
+  "name": "Lateral Box Jumps",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

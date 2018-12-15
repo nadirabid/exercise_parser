@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Quadriceps/BBSquat",
-  "Name": "Barbell Squat",
+  "name": "Barbell Squat",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

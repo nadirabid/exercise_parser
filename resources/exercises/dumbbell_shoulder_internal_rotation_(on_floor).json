@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Subscapularis/DBInternalRotationFloor",
-  "Name": "Dumbbell Shoulder Internal Rotation (on floor)",
+  "name": "Dumbbell Shoulder Internal Rotation (on floor)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

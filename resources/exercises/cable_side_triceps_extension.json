@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Triceps/CBSideTricepsExt",
-  "Name": "Cable Side Triceps Extension",
+  "name": "Cable Side Triceps Extension",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

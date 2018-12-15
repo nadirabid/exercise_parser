@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/Plyometrics/SlalomJumpAgilityLadder",
-  "Name": "Slalom Jump (with agility ladder)",
+  "name": "Slalom Jump (with agility ladder)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

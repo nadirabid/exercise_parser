@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/TibialisAnterior/LVStandingTibiaRaisePL",
-  "Name": "Lever Standing Tibia Raise (plate loaded)",
+  "name": "Lever Standing Tibia Raise (plate loaded)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

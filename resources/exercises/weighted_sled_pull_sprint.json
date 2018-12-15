@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/WTPullSprint",
-  "Name": "Weighted Sled Pull Sprint",
+  "name": "Weighted Sled Pull Sprint",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Biceps/CBBarCurl",
-  "Name": "Cable Bar Curl",
+  "name": "Cable Bar Curl",
   "classification": {
     "utility": "Basic",
     "mechanics": "Isolated",

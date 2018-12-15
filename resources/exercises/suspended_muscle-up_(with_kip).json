@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/STMuscleUpKip",
-  "Name": "Suspended Muscle-up (with kip)",
+  "name": "Suspended Muscle-up (with kip)",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

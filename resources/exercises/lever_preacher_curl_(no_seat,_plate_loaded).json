@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Brachialis/LVPreacherCurlNoSeatPL",
-  "Name": "Lever Preacher Curl (no seat, plate loaded)",
+  "name": "Lever Preacher Curl (no seat, plate loaded)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

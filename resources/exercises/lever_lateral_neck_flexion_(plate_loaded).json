@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Sternocleidomastoid/LVLateralNeckFlexionH",
-  "Name": "Lever Lateral Neck Flexion (plate loaded)",
+  "name": "Lever Lateral Neck Flexion (plate loaded)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/BackGeneral/LVTBarRowLM",
-  "Name": "Lever T-bar Row (plate loaded)",
+  "name": "Lever T-bar Row (plate loaded)",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

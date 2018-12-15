@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Subscapularis/DBInternalRotation",
-  "Name": "Dumbbell Shoulder Internal Rotation (on bench)",
+  "name": "Dumbbell Shoulder Internal Rotation (on bench)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/DeltoidAnterior/BWHandstandPressBench",
-  "Name": "Handstand Shoulder Press (between benches)",
+  "name": "Handstand Shoulder Press (between benches)",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

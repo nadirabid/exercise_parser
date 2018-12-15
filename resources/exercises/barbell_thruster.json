@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/BBThruster",
-  "Name": "Barbell Thruster",
+  "name": "Barbell Thruster",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

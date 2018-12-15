@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/LongDepthJump",
-  "Name": "Long Depth Jump",
+  "name": "Long Depth Jump",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

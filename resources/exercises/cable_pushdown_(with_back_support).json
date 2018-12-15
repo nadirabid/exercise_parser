@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Triceps/CBPushdownSupport",
-  "Name": "Cable Pushdown (with back support)",
+  "name": "Cable Pushdown (with back support)",
   "classification": {
     "utility": "Basic or Auxiliary",
     "mechanics": "Isolated",

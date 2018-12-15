@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/RectusAbdominis/BWBallRollout",
-  "Name": "Stability Ball Rollout",
+  "name": "Stability Ball Rollout",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

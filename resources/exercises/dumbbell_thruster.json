@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/DBThruster",
-  "Name": "Dumbbell Thruster",
+  "name": "Dumbbell Thruster",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

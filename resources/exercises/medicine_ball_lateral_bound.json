@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/MBLateralBound",
-  "Name": "Medicine Ball Lateral Bound",
+  "name": "Medicine Ball Lateral Bound",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

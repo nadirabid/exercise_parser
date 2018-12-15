@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/MBSplitJump",
-  "Name": "Medicine Ball Split Jump",
+  "name": "Medicine Ball Split Jump",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

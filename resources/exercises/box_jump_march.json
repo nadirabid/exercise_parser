@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/BoxJumpMarch",
-  "Name": "Box Jump March",
+  "name": "Box Jump March",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

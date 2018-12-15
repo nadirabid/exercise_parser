@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Biceps/CBOneArmCurl",
-  "Name": "Cable One Arm Curl",
+  "name": "Cable One Arm Curl",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

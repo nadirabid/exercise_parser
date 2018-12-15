@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Power/LVPushPull",
-  "Name": "Lever Push Pull (plate loaded)",
+  "name": "Lever Push Pull (plate loaded)",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

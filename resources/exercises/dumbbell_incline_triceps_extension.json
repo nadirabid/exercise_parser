@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Triceps/DBInclineTricepsExt",
-  "Name": "Dumbbell Incline Triceps Extension",
+  "name": "Dumbbell Incline Triceps Extension",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

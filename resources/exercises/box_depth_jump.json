@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/PlatformDepthJump",
-  "Name": "Box Depth Jump",
+  "name": "Box Depth Jump",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

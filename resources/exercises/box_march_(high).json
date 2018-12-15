@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/BoxMarchHigh",
-  "Name": "Box March (high)",
+  "name": "Box March (high)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

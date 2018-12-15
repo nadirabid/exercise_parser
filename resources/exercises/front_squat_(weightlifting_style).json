@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/OlympicLifts/FrontSquat",
-  "Name": "Front Squat (weightlifting style)",
+  "name": "Front Squat (weightlifting style)",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

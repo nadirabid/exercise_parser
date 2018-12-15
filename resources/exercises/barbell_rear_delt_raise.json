@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/DeltoidPosterior/BBRearDeltRaise",
-  "Name": "Barbell Rear Delt Raise",
+  "name": "Barbell Rear Delt Raise",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

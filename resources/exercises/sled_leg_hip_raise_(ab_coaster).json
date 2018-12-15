@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/RectusAbdominis/SLLegHipRaise",
-  "Name": "Sled Leg Hip Raise (ab coaster)",
+  "name": "Sled Leg Hip Raise (ab coaster)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

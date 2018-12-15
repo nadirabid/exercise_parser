@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/Plyometrics/AlternateBoundDoubleArm",
-  "Name": "Alternate Bound (with double arm action)",
+  "name": "Alternate Bound (with double arm action)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

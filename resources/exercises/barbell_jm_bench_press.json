@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Triceps/BBJMPress",
-  "Name": "Barbell JM Bench Press",
+  "name": "Barbell JM Bench Press",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

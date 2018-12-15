@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Triceps/CBOneArmTriExt",
-  "Name": "Cable One Arm Triceps Extension (supinated grip)",
+  "name": "Cable One Arm Triceps Extension (supinated grip)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

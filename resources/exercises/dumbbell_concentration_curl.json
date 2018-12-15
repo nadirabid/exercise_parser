@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Brachialis/DBConcentrationCurl",
-  "Name": "Dumbbell Concentration Curl",
+  "name": "Dumbbell Concentration Curl",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Biceps/DBCurl",
-  "Name": "Dumbbell Curl",
+  "name": "Dumbbell Curl",
   "classification": {
     "utility": "Basic",
     "mechanics": "Isolated",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/HipFlexors/CBLyingLegRaiseBench",
-  "Name": "Cable Lying Leg Raise (on bench)",
+  "name": "Cable Lying Leg Raise (on bench)",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

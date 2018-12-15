@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/MBSideThrowWall",
-  "Name": "Medicine Ball Side Throw",
+  "name": "Medicine Ball Side Throw",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

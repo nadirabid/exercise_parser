@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/Plyometrics/QuadrantJumpsDiagonal",
-  "Name": "Quadrant Jumps (diagonal)",
+  "name": "Quadrant Jumps (diagonal)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/PectoralSternal/BBBenchPressPowerLift",
-  "Name": "Barbell Bench Press (power lift)",
+  "name": "Barbell Bench Press (power lift)",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

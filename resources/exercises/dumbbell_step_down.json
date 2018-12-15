@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/GluteusMaximus/DBStepDown",
-  "Name": "Dumbbell Step Down",
+  "name": "Dumbbell Step Down",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Compound",

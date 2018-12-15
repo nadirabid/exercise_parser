@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/Plyometrics/SingleLegLateralHopBarrier",
-  "Name": "Single-leg Lateral Hop (over barrier)",
+  "name": "Single-leg Lateral Hop (over barrier)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Quadriceps/CBStandingLegExtension",
-  "Name": "Cable Standing Leg Extension",
+  "name": "Cable Standing Leg Extension",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

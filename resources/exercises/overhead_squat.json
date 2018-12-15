@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/OlympicLifts/OverheadSquat",
-  "Name": "Overhead Squat",
+  "name": "Overhead Squat",
   "classification": {
     "utility": "Power",
     "mechanics": "Compound",

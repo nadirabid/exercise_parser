@@ -1,6 +1,6 @@
 {
   "url": "http://exrx.net/Plyometrics/PlankShuffleMB",
-  "Name": "Plank Shuffle (on medicine ball)",
+  "name": "Plank Shuffle (on medicine ball)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",

@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Brachioradialis/DBHammerCurl",
-  "Name": "Dumbbell Hammer Curl",
+  "name": "Dumbbell Hammer Curl",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",

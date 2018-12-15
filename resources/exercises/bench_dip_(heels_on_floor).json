@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Triceps/BWBenchDipFloor",
-  "Name": "Bench Dip (heels on floor)",
+  "name": "Bench Dip (heels on floor)",
   "classification": {
     "utility": "Basic",
     "mechanics": "Compound",

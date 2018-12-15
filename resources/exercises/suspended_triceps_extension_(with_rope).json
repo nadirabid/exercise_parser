@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/Triceps/BWSuspendedTricepsExtension",
-  "Name": "Suspended Triceps Extension (with rope)",
+  "name": "Suspended Triceps Extension (with rope)",
   "classification": {
     "utility": "Basic or Auxiliary",
     "mechanics": "Isolated",

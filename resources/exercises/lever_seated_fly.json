@@ -1,6 +1,6 @@
 {
-  "url": "https://exrx.net/WeightExercises/PectoralSternal/LVSeatedFly",
-  "Name": "Lever Seated Fly",
+  "url": "https://exrx.net/WeightExercises/PectoralSternal/LVSeatedFly2",
+  "name": "Lever Seated Fly",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",
@@ -69,4 +69,4 @@
     },
     "exercise_type_id": 0
   }
-}}
+}

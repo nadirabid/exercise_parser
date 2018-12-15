@@ -1,6 +1,6 @@
 {
   "url": "https://exrx.net/WeightExercises/DeltoidAnterior/BBFrontRaise",
-  "Name": "Barbell Front Raise",
+  "name": "Barbell Front Raise",
   "classification": {
     "utility": "Auxiliary",
     "mechanics": "Isolated",
