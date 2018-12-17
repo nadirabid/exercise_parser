@@ -1,0 +1,1 @@
+PostgreSQL Text Search: http://shisaa.jp/postset/postgresql-full-text-search-part-3.html

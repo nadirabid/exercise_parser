@@ -1,12 +1,10 @@
 package scraper
 
 import (
-	"encoding/json"
 	"exercise_parser/models"
+	"exercise_parser/utils"
 	"fmt"
-	"io/ioutil"
 	"net/url"
-	"os"
 	"strings"
 	"sync"
 
@@ -78,19 +76,16 @@ func (s *Scraper) Start(url string) {
 	s.scraperWaitGroup.Wait()
 }
 
-// TODO: ScrapeMusclePage
-
 // ScrapeExercisePage will take the url and parse out the data
 func (s *Scraper) ScrapeExercisePage(url string) {
 	defer s.scraperWaitGroup.Done()
-
-	// TODO: if the page say's "Page Not Found", abort the damn thing!
 
 	if strings.Contains(url, "Stills") || strings.Contains(url, "Lists") {
 		fmt.Println("Ignoring: ", url)
 		return
 	}
 
+	ignoreWrite := false
 	exercise := &models.ExerciseDictionary{
 		URL: url,
 	}
@@ -272,36 +267,31 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 		})
 	})
 
+	c.OnHTML(".row.Breadcrumb-Container.Add-Margin-Top .col-sm-9", func(e *colly.HTMLElement) {
+		if strings.Contains(e.Text, "> Article") || strings.Contains(e.Text, "> Data") {
+			ignoreWrite = true
+		}
+	})
+
 	c.OnError(func(r *colly.Response, err error) {
 		fmt.Printf("Error loading %s: %s\n", url, err.Error())
 	})
 
-	c.Visit(url)
-
-	if err := writeToDir(exercise, s.outputDirector); err != nil {
-		fmt.Println(err)
-	}
-}
-
-// WriteToDir saves exerices to specified folers as JSON files
-func writeToDir(e *models.ExerciseDictionary, dir string) error {
-	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		os.Mkdir(dir, os.ModePerm)
+	if err := c.Visit(url); err != nil {
+		fmt.Println(err.Error())
+		return
 	}
 
-	filename := fmt.Sprintf("%s/%s.json", dir, strings.ToLower(strings.Join(strings.Split(e.Name, " "), "_")))
-
-	json, err := json.MarshalIndent(e, "", "  ")
-	if err != nil {
-		return err
+	if ignoreWrite {
+		fmt.Printf("Ignore scrapped page: %s\n", exercise.Name)
+		return
 	}
 
-	err = ioutil.WriteFile(filename, json, 0644)
-	if err != nil {
-		return err
-	}
+	fileName := strings.ToLower(strings.Join(strings.Split(exercise.Name, " "), "_"))
 
-	return nil
+	if err := utils.WriteToDir(exercise, fileName, s.outputDirector); err != nil {
+		fmt.Println(err.Error())
+	}
 }
 
 func getURL(current string, path string) (string, error) {

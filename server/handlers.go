@@ -2,8 +2,10 @@ package server
 
 import (
 	"exercise_parser/models"
+	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/labstack/echo"
 )
@@ -33,6 +35,11 @@ func handleGetWorkout(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, workout)
 }
 
+type searchResults struct {
+	models.ExerciseRelatedName
+	Rank float32
+}
+
 func handlePostWorkout(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
@@ -48,6 +55,31 @@ func handlePostWorkout(c echo.Context) error {
 			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 		}
 		workout.Exercises[i] = e
+
+		// search exercise db
+		searchTerms := strings.Join(strings.Split(e.Name, " "), " & ")
+
+		q := `
+			SELECT *, ts_rank(related_tsv, keywords, 1) AS rank
+			FROM exercise_related_names, to_tsquery(?) keywords
+			WHERE related_tsv @@ keywords
+			ORDER BY rank DESC
+		`
+
+		rows, err := db.Raw(q, searchTerms).Rows()
+		if err != nil {
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+
+		defer rows.Close()
+
+		results := []*searchResults{}
+		for rows.Next() {
+			res := &searchResults{}
+			db.ScanRows(rows, res)
+			results = append(results, res)
+			fmt.Printf("%s, %s, %s, %f\n", searchTerms, res.Primary, res.Related, res.Rank)
+		}
 	}
 
 	if err := db.Create(workout).Error; err != nil {

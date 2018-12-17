@@ -12,3 +12,4 @@ port=5432
 [resources]
 exercises_dir="resources/exercises"
 lemmas_dir="resources/lemmas"
+related_names_dir="resources/related_names"

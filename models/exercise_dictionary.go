@@ -55,6 +55,15 @@ type Joints struct {
 	ArticulationID int            `json:"articulation_id" gorm:"type:int REFERENCES articulations(id) ON DELETE CASCADE"`
 }
 
+// ExerciseRelatedName is a mapping of all the related names given a
+type ExerciseRelatedName struct {
+	ID         uint   `json:"-" gorm:"primary_key"`
+	Primary    string `json:"primary" gorm:"primary_key"`
+	Related    string `json:"related" gorm:"primary_key"`
+	RelatedTSV string `json:"-" gorm:"type:tsvector"`
+	// ExerciseDictionaryID int    `gorm:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionary(id) ON DELETE SET NULL"`
+}
+
 // ExerciseDictionary is a single exercise type
 type ExerciseDictionary struct {
 	HiddenModel
@@ -64,21 +73,4 @@ type ExerciseDictionary struct {
 	Muscles        Muscles        `json:"muscles"`
 	Articulation   Articulation   `json:"articulation"`
 	TSV            string         `json:"-" gorm:"type:tsvector"`
-}
-
-type ExerciseDictionarySearchResult struct {
-	ExerciseDictionary
-	Rank int `json:"rank"`
-}
-
-// Search searches
-func (e *ExerciseDictionary) Search(exercise string) (*ExerciseDictionary, error) {
-	// q := `
-	// 	SELECT *, ts_rank(tsv, keywords, 1) as rank
-	// 	FROM exercise_dictionaries, to_tsquery('?') keywords
-	// 	WHERE tsv @@ keywords
-	// 	ORDER BY ts_rank DESC
-	// `
-
-	return nil, nil
 }

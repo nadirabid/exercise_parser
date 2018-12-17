@@ -37,9 +37,9 @@ func Migrate(db *gorm.DB) {
 
 	// Dictionary models
 	db.AutoMigrate(&ExerciseDictionary{})
+	db.AutoMigrate(&ExerciseRelatedName{})
 	db.AutoMigrate(&Classification{})
 	db.AutoMigrate(&Muscles{})
 	db.AutoMigrate(&Articulation{})
 	db.AutoMigrate(&Joints{})
-
 }
