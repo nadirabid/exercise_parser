@@ -13,6 +13,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// TODO: compile related names corpus
+
 // NOTE: i'm seeding from locally stored files, because we're going to be seeding more
 // than we should be hitting (by means of scrapping). allows for rapid nuking of the database
 // without compromising on speed
@@ -97,6 +99,8 @@ func seed(cmd *cobra.Command, args []string) error {
 			m := &models.ExerciseRelatedName{}
 			m.Primary = related.Name
 			m.Related = r
+
+			// TODO: check before insertion if there is a matching exercise dictionary entry by the primary name or else run into hard to find bugs
 
 			if err := db.Create(m).Error; err != nil {
 				fmt.Println("errored while saving", m)
