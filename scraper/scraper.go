@@ -16,8 +16,6 @@ import (
 
 // Scraper returns object that scrapes exrx.net
 type Scraper struct {
-	dynamic          map[string]bool
-	static           map[string]bool
 	visitedURL       map[string]bool
 	visitedLock      sync.RWMutex
 	scraperWaitGroup sync.WaitGroup
@@ -27,8 +25,6 @@ type Scraper struct {
 // New returns a scraper object\
 func New(v *viper.Viper) *Scraper {
 	return &Scraper{
-		dynamic:        make(map[string]bool),
-		static:         make(map[string]bool),
 		visitedURL:     make(map[string]bool),
 		outputDirector: v.GetString("resources.exercises_dir"),
 	}
