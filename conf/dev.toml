@@ -13,3 +13,4 @@ port=5432
 exercises_dir="resources/exercises"
 lemmas_dir="resources/lemmas"
 related_names_dir="resources/related_names"
+related_searches_dir="resources/related_searches"

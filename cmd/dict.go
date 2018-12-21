@@ -14,6 +14,11 @@ import (
 )
 
 // TODO: compile related names corpus
+// 1. get related searches for every exercise name
+// 2. filter out stop words
+// 3. dump them into resources/related_searches
+// 4. create table with exercise_name to related_searches
+// 5. test!
 
 // NOTE: i'm seeding from locally stored files, because we're going to be seeding more
 // than we should be hitting (by means of scrapping). allows for rapid nuking of the database

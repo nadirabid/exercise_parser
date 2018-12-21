@@ -18,18 +18,6 @@ func scrape(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func scrape2(cmd *cobra.Command, args []string) error {
-	v, err := configureViperFromCmd(cmd)
-	if err != nil {
-		return err
-	}
-
-	s := scraper.NewSpotibiScraper(v)
-	s.Start()
-
-	return nil
-}
-
 var scrapeCmd = &cobra.Command{
 	Use:   "scrape",
 	Short: "Scrape url",
