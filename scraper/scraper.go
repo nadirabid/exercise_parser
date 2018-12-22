@@ -26,7 +26,7 @@ type Scraper struct {
 func New(v *viper.Viper) *Scraper {
 	return &Scraper{
 		visitedURL:     make(map[string]bool),
-		outputDirector: v.GetString("resources.exercises_dir"),
+		outputDirector: v.GetString("resources.dir.exercises"),
 	}
 }
 

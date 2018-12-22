@@ -27,13 +27,13 @@ func scrapeRelatedSearches(cmd *cobra.Command, args []string) error {
 	endpoint := "https://api.cognitive.microsoft.com/bing/v7.0/search"
 	key := "a67f95eca5ab4c43a07733c6882653a5"
 
-	dir := v.GetString("resources.exercises_dir")
+	dir := v.GetString("resources.dir.exercises")
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
 		return err
 	}
 
-	outDir := v.GetString("resources.related_searches_bing_dir")
+	outDir := v.GetString("resources.dir.related_searches_bing")
 
 	for _, f := range files {
 		// open up exercise file to determine the name
@@ -206,13 +206,13 @@ func spellcheck(cmd *cobra.Command, args []string) error {
 
 var scrapeRelatedCmd = &cobra.Command{
 	Use:   "scrape",
-	Short: "scrape related searches",
-	RunE:  scrape,
+	Short: "scrape related searches based on all the names from exercises resources",
+	RunE:  scrapeRelatedSearches,
 }
 
 var relatedCmd = &cobra.Command{
 	Use:   "related",
-	Short: "get relates searches",
+	Short: "test relates searches",
 	RunE:  relatedSearches,
 }
 

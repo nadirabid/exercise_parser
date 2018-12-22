@@ -29,7 +29,7 @@ type GoogScraper struct {
 // NewGoogScraper create GoogScraper
 func NewGoogScraper(v *viper.Viper) *GoogScraper {
 	return &GoogScraper{
-		outputDir: v.GetString("resources.related_searches_goog_dir"),
+		outputDir: v.GetString("resources.dir.related_searches_goog"),
 	}
 }
 

@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 )
 
@@ -40,6 +41,38 @@ type searchResults struct {
 	Rank float32
 }
 
+func resolveHelper(db *gorm.DB, name string) error {
+	searchTerms := strings.Join(strings.Split(name, " "), " & ")
+
+	q := `
+		SELECT *, ts_rank(related_tsv, keywords, 1) AS rank
+		FROM exercise_related_names, to_tsquery(?) keywords
+		WHERE related_tsv @@ keywords
+		ORDER BY rank DESC
+	`
+
+	rows, err := db.Raw(q, searchTerms).Rows()
+	if err != nil {
+		return err
+	}
+
+	defer rows.Close()
+
+	fmt.Printf("::: %s :::\n\n", name)
+
+	results := []*searchResults{}
+	for rows.Next() {
+		res := &searchResults{}
+		db.ScanRows(rows, res)
+		results = append(results, res)
+		fmt.Printf("\t%s, %s, %s, %f\n", searchTerms, res.Primary, res.Related, res.Rank)
+	}
+
+	fmt.Println()
+
+	return nil
+}
+
 func handlePostWorkout(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
@@ -56,29 +89,8 @@ func handlePostWorkout(c echo.Context) error {
 		}
 		workout.Exercises[i] = e
 
-		// search exercise db
-		searchTerms := strings.Join(strings.Split(e.Name, " "), " & ")
-
-		q := `
-			SELECT *, ts_rank(related_tsv, keywords, 1) AS rank
-			FROM exercise_related_names, to_tsquery(?) keywords
-			WHERE related_tsv @@ keywords
-			ORDER BY rank DESC
-		`
-
-		rows, err := db.Raw(q, searchTerms).Rows()
-		if err != nil {
+		if err := resolveHelper(db, e.Name); err != nil {
 			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-		}
-
-		defer rows.Close()
-
-		results := []*searchResults{}
-		for rows.Next() {
-			res := &searchResults{}
-			db.ScanRows(rows, res)
-			results = append(results, res)
-			fmt.Printf("%s, %s, %s, %f\n", searchTerms, res.Primary, res.Related, res.Rank)
 		}
 	}
 

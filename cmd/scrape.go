@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func scrape(cmd *cobra.Command, args []string) error {
+func scrapeExrx(cmd *cobra.Command, args []string) error {
 	v, err := configureViperFromCmd(cmd)
 	if err != nil {
 		return err
@@ -23,7 +23,7 @@ func scrape(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func test(cmd *cobra.Command, args []string) error {
+func scrapeGoog(cmd *cobra.Command, args []string) error {
 	v, err := configureViperFromCmd(cmd)
 	if err != nil {
 		return err
@@ -31,14 +31,14 @@ func test(cmd *cobra.Command, args []string) error {
 
 	s := scraper.NewGoogScraper(v)
 
-	dir := v.GetString("resources.exercises_dir")
+	dir := v.GetString("resources.dir.exercises")
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
 		return err
 	}
 
 	for _, f := range files {
-		outDir := v.GetString("resources.related_searches_goog_dir")
+		outDir := v.GetString("resources.dir.related_searches_goog")
 
 		if _, err := os.Stat(filepath.Join(outDir, f.Name())); !os.IsNotExist(err) {
 			continue
@@ -61,19 +61,23 @@ func test(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-var testCmd = &cobra.Command{
-	Use:   "test",
-	Short: "test",
-	RunE:  test,
+var scrapeGoogCmd = &cobra.Command{
+	Use:   "goog",
+	Short: "Scrape goog",
+	RunE:  scrapeGoog,
+}
+
+var scrapeExrxCmd = &cobra.Command{
+	Use:   "exrx",
+	Short: "Scrape exrx",
+	RunE:  scrapeExrx,
 }
 
 var scrapeCmd = &cobra.Command{
 	Use:   "scrape",
-	Short: "Scrape url",
-	RunE:  scrape,
+	Short: "various scrapers useful for getting data for this app",
 }
 
 func init() {
-	rootCmd.AddCommand(scrapeCmd)
-	rootCmd.AddCommand(testCmd)
+	rootCmd.AddCommand(scrapeGoogCmd)
 }

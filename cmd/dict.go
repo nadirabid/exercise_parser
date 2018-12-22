@@ -1,21 +1,115 @@
 package cmd
 
 import (
+	"bufio"
 	"encoding/json"
 	"exercise_parser/models"
 	"exercise_parser/utils"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/jinzhu/gorm"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
-func seedRelatedNames(db *gorm.DB, seedDir string) error {
+var wordCount = make(map[string]int)
+
+func updateWordCount(s string) {
+	words := strings.Fields(s)
+	for _, w := range words {
+		wordCount[w]++
+	}
+}
+
+func printWordCount() {
+	type count struct {
+		Word  string
+		Count int
+	}
+
+	counts := make([]count, len(wordCount))
+
+	for k, v := range wordCount {
+		counts = append(counts, count{k, v})
+	}
+
+	sort.Slice(counts, func(i, j int) bool {
+		if counts[i].Count < counts[j].Count {
+			return false
+		}
+
+		return true
+	})
+
+	for _, c := range counts {
+		fmt.Println(c.Word, c.Count)
+	}
+}
+
+func loadStopWords(v *viper.Viper) ([]string, error) {
+	dir := v.GetString("resources.dir.stop_words")
+
+	stopWords := []string{}
+
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, f := range files {
+		file, err := os.Open(filepath.Join(dir, f.Name()))
+		if err != nil {
+			return nil, err
+		}
+		defer file.Close()
+
+		reader := bufio.NewReader(file)
+		for {
+			next, err := reader.ReadString('\n')
+			if err == io.EOF {
+				break
+			} else if err != nil {
+				return nil, err
+			}
+
+			next = strings.Trim(next, "\n")
+
+			stopWords = append(stopWords, next, "")
+		}
+	}
+
+	return stopWords, nil
+}
+
+func removeStopWords(s string, stopWords []string) string {
+	result := []string{""}
+	tokens := strings.Split(s, " ")
+
+	for _, t := range tokens {
+		isStopWord := false
+		for _, w := range stopWords {
+			if t == w {
+				isStopWord = true
+				break
+			}
+		}
+
+		if !isStopWord {
+			result = append(result, t)
+		}
+	}
+
+	return strings.Join(result, " ")
+}
+
+func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 	files, err := ioutil.ReadDir(seedDir)
 	if err != nil {
 		return err
@@ -36,7 +130,14 @@ func seedRelatedNames(db *gorm.DB, seedDir string) error {
 		for _, r := range related.Related {
 			m := &models.ExerciseRelatedName{}
 			m.Primary = related.Name
-			m.Related = r
+			m.Related = strings.Trim(removeStopWords(r, stopWords), " ")
+
+			updateWordCount(r)
+
+			if m.Related == "" {
+				// if, after removing stop words, we have an emptry string, then don't insert into db
+				continue
+			}
 
 			d := &models.ExerciseDictionary{}
 			if db.Where("name = ?", m.Primary).First(d).RecordNotFound() {
@@ -44,7 +145,6 @@ func seedRelatedNames(db *gorm.DB, seedDir string) error {
 			}
 
 			if err := db.Create(m).Error; err != nil {
-				fmt.Println("errored while saving", m)
 				return fmt.Errorf("unable to save related name: %s", err.Error())
 			}
 
@@ -61,13 +161,6 @@ func seedRelatedNames(db *gorm.DB, seedDir string) error {
 
 	return nil
 }
-
-// TODO: compile related names corpus
-// 1. get related searches for every exercise name
-// 2. filter out stop words
-// 3. dump them into resources/related_searches
-// 4. create table with exercise_name to related_searches
-// 5. test!
 
 // NOTE: i'm seeding from locally stored files, because we're going to be seeding more
 // than we should be hitting (by means of scrapping). allows for rapid nuking of the database
@@ -88,7 +181,7 @@ func seed(cmd *cobra.Command, args []string) error {
 	models.Migrate(db)
 
 	// seed exercises
-	dir := v.GetString("resources.exercises_dir")
+	dir := v.GetString("resources.dir.exercises")
 
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
@@ -130,28 +223,34 @@ func seed(cmd *cobra.Command, args []string) error {
 	}
 	fmt.Println("exercises seeding complete")
 
-	// seed related names
-	dir = v.GetString("resources.related_names_dir")
+	// get stop words replacer
+	stopWords, err := loadStopWords(v)
+	if err != nil {
+		return err
+	}
 
-	if err := seedRelatedNames(db, dir); err != nil {
+	// seed related names
+	dir = v.GetString("resources.dir.related_names")
+
+	if err := seedRelatedNames(db, dir, stopWords); err != nil {
 		return err
 	}
 
 	fmt.Println("related names seeding complete")
 
 	// seed bing related searchs
-	dir = v.GetString("resources.related_searches_bing_dir")
+	dir = v.GetString("resources.dir.related_searches_bing")
 
-	if err := seedRelatedNames(db, dir); err != nil {
+	if err := seedRelatedNames(db, dir, stopWords); err != nil {
 		return err
 	}
 
 	fmt.Println("bing related searches seeding complete")
 
 	// seed goog related searchs
-	dir = v.GetString("resources.related_searches_goog_dir")
+	dir = v.GetString("resources.dir.related_searches_goog")
 
-	if err := seedRelatedNames(db, dir); err != nil {
+	if err := seedRelatedNames(db, dir, stopWords); err != nil {
 		return err
 	}
 
@@ -205,7 +304,7 @@ func dump(cmd *cobra.Command, args []string) error {
 		r.Related = relatedNames
 
 		fileName := strings.ToLower(strings.Join(strings.Split(r.Name, " "), "_"))
-		dir := v.GetString("resources.related_names_dir")
+		dir := v.GetString("resources.dir.related_names")
 
 		utils.WriteToDir(r, fileName, dir)
 	}
