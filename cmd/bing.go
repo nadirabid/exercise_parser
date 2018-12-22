@@ -17,15 +17,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// BingAnswer struct formats the answers provided by the Bing Web Search API
-type BingAnswer struct {
-	RelatedSearches struct {
-		Value []struct {
-			Text string `json:"text"`
-		} `json:"value"`
-	} `json:"relatedSearches"`
-}
-
 func scrapeRelatedSearches(cmd *cobra.Command, args []string) error {
 	// init viper
 	v, err := configureViperFromCmd(cmd)
@@ -42,7 +33,7 @@ func scrapeRelatedSearches(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	outDir := v.GetString("resources.related_searches_dir")
+	outDir := v.GetString("resources.related_searches_bing_dir")
 
 	for _, f := range files {
 		// open up exercise file to determine the name
@@ -83,18 +74,13 @@ func scrapeRelatedSearches(cmd *cobra.Command, args []string) error {
 			return err
 		}
 
-		res := BingAnswer{}
+		res := bingAnswer{}
 		err = json.Unmarshal(body, &res)
 		if err != nil {
 			return err
 		}
 
-		type relatedSearch struct {
-			Name    string   `json:"name"`
-			Related []string `json:"related"`
-		}
-
-		related := &relatedSearch{}
+		related := &relatedTerms{}
 		related.Name = exerciseDictionary.Name
 		for _, r := range res.RelatedSearches.Value {
 			related.Related = append(related.Related, r.Text)
@@ -149,7 +135,7 @@ func relatedSearches(cmd *cobra.Command, args []string) error {
 	}
 
 	// Create a new answer.
-	res := BingAnswer{}
+	res := bingAnswer{}
 	err = json.Unmarshal(body, &res)
 	if err != nil {
 		return err
@@ -246,11 +232,6 @@ func init() {
 	rootCmd.AddCommand(bingCmd)
 
 	bingCmd.AddCommand(spellcheckCmd)
-	spellcheckCmd.Flags().String("conf", "dev", "The conf file name to use.")
-
 	bingCmd.AddCommand(relatedCmd)
-	relatedCmd.Flags().String("conf", "dev", "The conf file name to use.")
-
 	bingCmd.AddCommand(scrapeRelatedCmd)
-	scrapeRelatedCmd.Flags().String("conf", "dev", "The conf file name to use.")
 }

@@ -48,13 +48,12 @@ func (s *Scraper) Start(url string) {
 
 			s.visitedLock.Lock()
 			if _, ok := s.visitedURL[link]; ok {
-				//fmt.Println("Alredy visited: ", link)
 				s.visitedLock.Unlock()
 				return
-			} else {
-				s.visitedURL[link] = true
-				s.visitedLock.Unlock()
 			}
+
+			s.visitedURL[link] = true
+			s.visitedLock.Unlock()
 
 			if strings.Contains(link, "/WeightExercises/") ||
 				strings.Contains(link, "/Aerobic/") ||

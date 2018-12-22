@@ -24,6 +24,4 @@ var startCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(startCmd)
-
-	startCmd.Flags().String("conf", "dev", "The conf file name to use.")
 }

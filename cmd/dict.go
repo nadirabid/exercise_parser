@@ -97,7 +97,7 @@ func seed(cmd *cobra.Command, args []string) error {
 
 		byteValue, _ := ioutil.ReadAll(file)
 
-		related := related{}
+		related := relatedTerms{}
 		json.Unmarshal(byteValue, &related)
 
 		for _, r := range related.Related {
@@ -105,7 +105,10 @@ func seed(cmd *cobra.Command, args []string) error {
 			m.Primary = related.Name
 			m.Related = r
 
-			// TODO: check before insertion if there is a matching exercise dictionary entry by the primary name or else run into hard to find bugs
+			d := &models.ExerciseDictionary{}
+			if db.Where("name = ?", m.Primary).First(d).RecordNotFound() {
+				return fmt.Errorf("exercise_dictionary entry by name does not exist: %v", m)
+			}
 
 			if err := db.Create(m).Error; err != nil {
 				fmt.Println("errored while saving", m)
@@ -125,12 +128,54 @@ func seed(cmd *cobra.Command, args []string) error {
 
 	fmt.Printf("seeded related names for %d exercise types!\n", len(files))
 
-	return nil
-}
+	// seed related searchs
+	dir = v.GetString("resources.related_searches_bing_dir")
+	files, err = ioutil.ReadDir(dir)
+	if err != nil {
+		return err
+	}
 
-type related struct {
-	Name    string
-	Related []string
+	for _, f := range files {
+		file, err := os.Open(filepath.Join(dir, f.Name()))
+		if err != nil {
+			return err
+		}
+		defer file.Close()
+
+		byteValue, _ := ioutil.ReadAll(file)
+
+		related := relatedTerms{}
+		json.Unmarshal(byteValue, &related)
+
+		for _, r := range related.Related {
+			m := &models.ExerciseRelatedName{}
+			m.Primary = related.Name
+			m.Related = r
+
+			d := &models.ExerciseDictionary{}
+			if db.Where("name = ?", m.Primary).First(d).RecordNotFound() {
+				return fmt.Errorf("exercise_dictionary entry by name does not exist: %v", m)
+			}
+
+			if err := db.Create(m).Error; err != nil {
+				fmt.Println("errored while saving", m)
+				return fmt.Errorf("unable to save related name: %s", err.Error())
+			}
+
+			setTSV := `
+				UPDATE exercise_related_names
+				SET related_tsv=to_tsvector('english', coalesce(exercise_related_names.related, ''))
+				WHERE id = ?
+			`
+			if err := db.Exec(setTSV, m.ID).Error; err != nil {
+				return fmt.Errorf("unable to set tsvector: %s", err.Error())
+			}
+		}
+	}
+
+	fmt.Printf("seeded related searches for %d exercise types!\n", len(files))
+
+	return nil
 }
 
 func dump(cmd *cobra.Command, args []string) error {
@@ -173,7 +218,7 @@ func dump(cmd *cobra.Command, args []string) error {
 	}
 
 	for k, relatedNames := range relatedMap {
-		r := &related{}
+		r := &relatedTerms{}
 		r.Name = k
 		r.Related = relatedNames
 
@@ -241,11 +286,6 @@ func init() {
 	rootCmd.AddCommand(dictCmd)
 
 	dictCmd.AddCommand(seedCmd)
-	seedCmd.Flags().String("conf", "dev", "The conf file name to use.")
-
 	dictCmd.AddCommand(dumpCmd)
-	dumpCmd.Flags().String("conf", "dev", "The conf file name to use.")
-
 	dictCmd.AddCommand(dropCmd)
-	dropCmd.Flags().String("conf", "dev", "The conf file name to use.")
 }
