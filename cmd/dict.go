@@ -10,8 +10,57 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/jinzhu/gorm"
+
 	"github.com/spf13/cobra"
 )
+
+func seedRelatedNames(db *gorm.DB, seedDir string) error {
+	files, err := ioutil.ReadDir(seedDir)
+	if err != nil {
+		return err
+	}
+
+	for _, f := range files {
+		file, err := os.Open(filepath.Join(seedDir, f.Name()))
+		if err != nil {
+			return err
+		}
+		defer file.Close()
+
+		byteValue, _ := ioutil.ReadAll(file)
+
+		related := relatedTerms{}
+		json.Unmarshal(byteValue, &related)
+
+		for _, r := range related.Related {
+			m := &models.ExerciseRelatedName{}
+			m.Primary = related.Name
+			m.Related = r
+
+			d := &models.ExerciseDictionary{}
+			if db.Where("name = ?", m.Primary).First(d).RecordNotFound() {
+				return fmt.Errorf("exercise_dictionary entry by name does not exist: %v", m)
+			}
+
+			if err := db.Create(m).Error; err != nil {
+				fmt.Println("errored while saving", m)
+				return fmt.Errorf("unable to save related name: %s", err.Error())
+			}
+
+			setTSV := `
+				UPDATE exercise_related_names
+				SET related_tsv=to_tsvector('english', coalesce(exercise_related_names.related, ''))
+				WHERE id = ?
+			`
+			if err := db.Exec(setTSV, m.ID).Error; err != nil {
+				return fmt.Errorf("unable to set tsvector: %s", err.Error())
+			}
+		}
+	}
+
+	return nil
+}
 
 // TODO: compile related names corpus
 // 1. get related searches for every exercise name
@@ -40,6 +89,7 @@ func seed(cmd *cobra.Command, args []string) error {
 
 	// seed exercises
 	dir := v.GetString("resources.exercises_dir")
+
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
 		return err
@@ -78,102 +128,34 @@ func seed(cmd *cobra.Command, args []string) error {
 			return fmt.Errorf("unable to set tsvector: %s", err.Error())
 		}
 	}
-
-	fmt.Printf("seeded %d exercise types!\n", len(files))
+	fmt.Println("exercises seeding complete")
 
 	// seed related names
 	dir = v.GetString("resources.related_names_dir")
-	files, err = ioutil.ReadDir(dir)
-	if err != nil {
+
+	if err := seedRelatedNames(db, dir); err != nil {
 		return err
 	}
 
-	for _, f := range files {
-		file, err := os.Open(filepath.Join(dir, f.Name()))
-		if err != nil {
-			return err
-		}
-		defer file.Close()
+	fmt.Println("related names seeding complete")
 
-		byteValue, _ := ioutil.ReadAll(file)
-
-		related := relatedTerms{}
-		json.Unmarshal(byteValue, &related)
-
-		for _, r := range related.Related {
-			m := &models.ExerciseRelatedName{}
-			m.Primary = related.Name
-			m.Related = r
-
-			d := &models.ExerciseDictionary{}
-			if db.Where("name = ?", m.Primary).First(d).RecordNotFound() {
-				return fmt.Errorf("exercise_dictionary entry by name does not exist: %v", m)
-			}
-
-			if err := db.Create(m).Error; err != nil {
-				fmt.Println("errored while saving", m)
-				return fmt.Errorf("unable to save related name: %s", err.Error())
-			}
-
-			setTSV := `
-				UPDATE exercise_related_names
-				SET related_tsv=to_tsvector('english', coalesce(exercise_related_names.related, ''))
-				WHERE id = ?
-			`
-			if err := db.Exec(setTSV, m.ID).Error; err != nil {
-				return fmt.Errorf("unable to set tsvector: %s", err.Error())
-			}
-		}
-	}
-
-	fmt.Printf("seeded related names for %d exercise types!\n", len(files))
-
-	// seed related searchs
+	// seed bing related searchs
 	dir = v.GetString("resources.related_searches_bing_dir")
-	files, err = ioutil.ReadDir(dir)
-	if err != nil {
+
+	if err := seedRelatedNames(db, dir); err != nil {
 		return err
 	}
 
-	for _, f := range files {
-		file, err := os.Open(filepath.Join(dir, f.Name()))
-		if err != nil {
-			return err
-		}
-		defer file.Close()
+	fmt.Println("bing related searches seeding complete")
 
-		byteValue, _ := ioutil.ReadAll(file)
+	// seed goog related searchs
+	dir = v.GetString("resources.related_searches_goog_dir")
 
-		related := relatedTerms{}
-		json.Unmarshal(byteValue, &related)
-
-		for _, r := range related.Related {
-			m := &models.ExerciseRelatedName{}
-			m.Primary = related.Name
-			m.Related = r
-
-			d := &models.ExerciseDictionary{}
-			if db.Where("name = ?", m.Primary).First(d).RecordNotFound() {
-				return fmt.Errorf("exercise_dictionary entry by name does not exist: %v", m)
-			}
-
-			if err := db.Create(m).Error; err != nil {
-				fmt.Println("errored while saving", m)
-				return fmt.Errorf("unable to save related name: %s", err.Error())
-			}
-
-			setTSV := `
-				UPDATE exercise_related_names
-				SET related_tsv=to_tsvector('english', coalesce(exercise_related_names.related, ''))
-				WHERE id = ?
-			`
-			if err := db.Exec(setTSV, m.ID).Error; err != nil {
-				return fmt.Errorf("unable to set tsvector: %s", err.Error())
-			}
-		}
+	if err := seedRelatedNames(db, dir); err != nil {
+		return err
 	}
 
-	fmt.Printf("seeded related searches for %d exercise types!\n", len(files))
+	fmt.Println("goog related searches seeding complete")
 
 	return nil
 }
