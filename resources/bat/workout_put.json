@@ -1,0 +1,13 @@
+{
+  "id": 9,
+  "name": "Nadir's workout 2",
+  "exercises": [
+    {
+      "id": 12,
+      "raw": "2.34 miles of rowing"
+    },
+    {
+      "raw": "3 by 5 tricep curls"
+    }
+  ]
+}

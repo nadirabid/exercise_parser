@@ -4,6 +4,7 @@ import (
 	"exercise_parser/models"
 	"fmt"
 	"net/http"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -36,16 +37,29 @@ func handleGetWorkout(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, workout)
 }
 
-type searchResults struct {
+// ResolveResult holds the result values w/ rank info
+type ResolveResult struct {
 	models.ExerciseRelatedName
 	Rank float32
 }
 
-func resolveHelper(db *gorm.DB, name string) error {
+type AggregateRelated struct {
+	Name string  `json:"name"`
+	Rank float32 `json:"rank"`
+}
+
+type AggregatedResult struct {
+	Primary string             `json:"primary"`
+	Rank    float32            `json:"rank"`
+	Related []AggregateRelated `json:"related"`
+}
+
+// ResolveHelper will print the search results
+func ResolveHelper(db *gorm.DB, name string) ([]*AggregatedResult, error) {
 	searchTerms := strings.Join(strings.Split(name, " "), " & ")
 
 	q := `
-		SELECT *, ts_rank(related_tsv, keywords, 1) AS rank
+		SELECT *, ts_rank(related_tsv, keywords, 2) AS rank
 		FROM exercise_related_names, to_tsquery(?) keywords
 		WHERE related_tsv @@ keywords
 		ORDER BY rank DESC
@@ -53,24 +67,65 @@ func resolveHelper(db *gorm.DB, name string) error {
 
 	rows, err := db.Raw(q, searchTerms).Rows()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	defer rows.Close()
 
-	fmt.Printf("::: %s :::\n\n", name)
-
-	results := []*searchResults{}
+	groupedByPrimary := make(map[string][]*ResolveResult)
 	for rows.Next() {
-		res := &searchResults{}
+		res := &ResolveResult{}
 		db.ScanRows(rows, res)
-		results = append(results, res)
-		fmt.Printf("\t%s, %s, %s, %f\n", searchTerms, res.Primary, res.Related, res.Rank)
+
+		if _, ok := groupedByPrimary[res.Primary]; !ok {
+			groupedByPrimary[res.Primary] = []*ResolveResult{}
+		}
+
+		groupedByPrimary[res.Primary] = append(groupedByPrimary[res.Primary], res)
 	}
 
-	fmt.Println()
+	results := []*AggregatedResult{}
+	for k, v := range groupedByPrimary {
+		res := &AggregatedResult{}
+		res.Primary = k
 
-	return nil
+		rank := float32(0)
+		for _, r := range v {
+			rel := AggregateRelated{}
+			rel.Name = r.Related
+
+			if r.Type == "" {
+				rel.Rank += r.Rank
+			} else if r.Type == "resources/related_names" {
+				rel.Rank += r.Rank
+			} else if r.Type == "resources/related_searches_goog" {
+				rel.Rank += (r.Rank * 0.1)
+			} else if r.Type == "resources/related_searches_bing" {
+				rel.Rank += (r.Rank * 0.1)
+			} else {
+				return nil, fmt.Errorf("unknown related searches type: %v", r)
+			}
+
+			rank += rel.Rank
+
+			res.Related = append(res.Related, rel)
+		}
+
+		res.Rank = rank
+
+		results = append(results, res)
+	}
+
+	// sort in descending order
+	sort.Slice(results, func(i, j int) bool {
+		if results[i].Rank < results[j].Rank {
+			return false
+		}
+
+		return true
+	})
+
+	return results, nil
 }
 
 func handlePostWorkout(c echo.Context) error {
@@ -89,7 +144,7 @@ func handlePostWorkout(c echo.Context) error {
 		}
 		workout.Exercises[i] = e
 
-		if err := resolveHelper(db, e.Name); err != nil {
+		if _, err := ResolveHelper(db, e.Name); err != nil {
 			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 		}
 	}

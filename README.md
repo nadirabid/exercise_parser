@@ -10,3 +10,6 @@
 #### Done
 
 - [x] Sanatize search names by removing stop words
+- [x] Get related search terms for all proper exercise names 
+- [x] Related Names should be unique on the ts_vector
+

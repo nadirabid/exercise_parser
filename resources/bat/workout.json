@@ -1,0 +1,11 @@
+{
+  "name": "Leg day",
+  "exercises": [
+    { "raw": "3x4 tricep curls" },
+    { "raw": "4 miles of running" },
+    { "raw": "4 miles of treadmill running" },
+    { "raw": "6x2 skullcrushers" },
+    { "raw": "10x2 side to side hops"},
+    { "raw": "3x15 burpee push up"}
+  ]
+}

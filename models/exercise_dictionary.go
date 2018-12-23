@@ -61,7 +61,7 @@ type ExerciseRelatedName struct {
 	Primary    string `json:"primary" gorm:"primary_key"`
 	Related    string `json:"related" gorm:"primary_key"`
 	RelatedTSV string `json:"-" gorm:"type:tsvector"`
-	// ExerciseDictionaryID int    `gorm:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionary(id) ON DELETE SET NULL"`
+	Type       string `json:"-"`
 }
 
 // ExerciseDictionary is a single exercise type

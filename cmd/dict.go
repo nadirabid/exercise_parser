@@ -130,17 +130,38 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 		for _, r := range related.Related {
 			m := &models.ExerciseRelatedName{}
 			m.Primary = related.Name
-			m.Related = strings.Trim(removeStopWords(r, stopWords), " ")
+			//m.Related = strings.Trim(removeStopWords(r, stopWords), " ")
+			m.Related = strings.Trim(r, " ")
+			m.Type = seedDir
 
 			updateWordCount(r)
 
+			// if, after removing stop words, we have an emptry string, then don't insert into db
 			if m.Related == "" {
-				// if, after removing stop words, we have an emptry string, then don't insert into db
 				continue
 			}
 
+			// check if related_tsv is already in tehre
+			q := `
+				SELECT related_tsv
+				FROM exercise_related_names
+				WHERE to_tsvector(?) = related_tsv
+			`
+			rows, err := db.Raw(q, m.Related).Rows()
+			if err != nil {
+				return err
+			}
+			defer rows.Close()
+
+			if rows.Next() {
+				rows.Close()
+				continue
+			}
+			rows.Close()
+
 			d := &models.ExerciseDictionary{}
 			if db.Where("name = ?", m.Primary).First(d).RecordNotFound() {
+				// TODO: does check fucking work???
 				return fmt.Errorf("exercise_dictionary entry by name does not exist: %v", m)
 			}
 
