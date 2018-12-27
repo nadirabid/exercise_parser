@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+	"math"
 	"sort"
 	"strings"
 
@@ -57,10 +59,9 @@ func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySe
 
 		rank := float32(0)
 		for _, r := range v {
-			if r.Type == "resources/related_searches_goog" {
-				r.Rank *= 0.1
-			} else if r.Type == "resources/related_searches_bing" {
-				r.Rank *= 0.1
+			if r.Type != "" {
+				fmt.Println(r.Type)
+				r.Rank = calculateWeightOfRelatedSearch(r.Rank)
 			}
 
 			rank += r.Rank
@@ -91,4 +92,12 @@ func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySe
 	})
 
 	return results, nil
+}
+
+// https://www.wolframalpha.com/input/?i=(1%2F18000)e%5E(90*x+-+0.5),+x+from+0+to+0.1
+func calculateWeightOfRelatedSearch(x float32) float32 {
+	exp := float64(80)*float64(x) - float64(0.5)
+	val := (float64(1.0) / float64(10000)) * math.Exp(exp)
+
+	return float32(math.Min(val, 0.1))
 }
