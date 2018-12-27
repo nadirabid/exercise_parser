@@ -94,7 +94,7 @@ func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySe
 	return results, nil
 }
 
-// https://www.wolframalpha.com/input/?i=(1%2F18000)e%5E(90*x+-+0.5),+x+from+0+to+0.1
+// https://www.wolframalpha.com/input/?i=(1%2F10000)e%5E(80*x+-+0.5),+x+from+0+to+0.1
 func calculateWeightOfRelatedSearch(x float32) float32 {
 	exp := float64(80)*float64(x) - float64(0.5)
 	val := (float64(1.0) / float64(10000)) * math.Exp(exp)
