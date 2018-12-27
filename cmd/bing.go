@@ -156,6 +156,8 @@ func spellcheck(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("Specify string you'd like to spellcheck")
 	}
 
+	cmd.SilenceUsage = true
+
 	// https://stackoverflow.com/questions/24455147/how-do-i-send-a-json-string-in-a-post-request-in-go
 	mkt := "en-US"
 	mode := "proof"
@@ -178,11 +180,15 @@ func spellcheck(cmd *cobra.Command, args []string) error {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer resp.Body.Close()
 
 	body, _ := ioutil.ReadAll(resp.Body)
+
+	if resp.StatusCode >= 400 {
+		return errors.New(string(body))
+	}
 
 	type BingSpellCheck struct {
 		FlaggedToken []struct {
@@ -197,7 +203,9 @@ func spellcheck(cmd *cobra.Command, args []string) error {
 	}
 
 	r := BingSpellCheck{}
-	json.Unmarshal(body, &r)
+	if err := json.Unmarshal(body, &r); err != nil {
+		return err
+	}
 
 	utils.PrettyPrint(r)
 
