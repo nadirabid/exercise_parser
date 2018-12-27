@@ -151,7 +151,6 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 			if err != nil {
 				return err
 			}
-			defer rows.Close()
 
 			if rows.Next() {
 				rows.Close()

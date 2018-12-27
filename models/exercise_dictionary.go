@@ -1,6 +1,8 @@
 package models
 
-import "github.com/lib/pq"
+import (
+	"github.com/lib/pq"
+)
 
 // Classification of exercise
 type Classification struct {

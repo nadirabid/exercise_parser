@@ -3,14 +3,13 @@ package cmd
 import (
 	"errors"
 	"exercise_parser/models"
-	"exercise_parser/server"
 	"exercise_parser/utils"
 	"strings"
 
 	"github.com/spf13/cobra"
 )
 
-func resolve(cmd *cobra.Command, args []string) error {
+func search(cmd *cobra.Command, args []string) error {
 	if len(args) == 0 {
 		return errors.New("must specify at least one word argument")
 	}
@@ -25,7 +24,7 @@ func resolve(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	results, err := server.ResolveHelper(db, strings.Join(args, " "))
+	results, err := models.SearchExerciseDictionary(db, strings.Join(args, " "))
 	if err != nil {
 		return err
 	}
@@ -46,14 +45,14 @@ func resolve(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-var resolveCmd = &cobra.Command{
-	Use:   "resolve",
+var searchCmd = &cobra.Command{
+	Use:   "search",
 	Short: "show closest matches",
-	RunE:  resolve,
+	RunE:  search,
 }
 
 func init() {
-	rootCmd.AddCommand(resolveCmd)
+	rootCmd.AddCommand(searchCmd)
 
-	resolveCmd.Flags().Int("limit", 0, "max number of results to show. displayed in descending order.")
+	searchCmd.Flags().Int("limit", 0, "max number of results to show. displayed in descending order.")
 }
