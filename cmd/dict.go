@@ -131,7 +131,7 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 			m := &models.ExerciseRelatedName{}
 			m.Primary = related.Name
 			//m.Related = strings.Trim(removeStopWords(r, stopWords), " ")
-			m.Related = strings.Trim(r, " ")
+			m.Related = sanitizeRelatedName(r)
 			m.Type = seedDir
 
 			updateWordCount(r)
@@ -184,6 +184,13 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 	return nil
 }
 
+func sanitizeRelatedName(s string) string {
+	s = strings.ToLower(s)
+	s = strings.Replace(s, "-", " ", -1)
+	s = strings.Trim(s, " ")
+	return s
+}
+
 // NOTE: i'm seeding from locally stored files, because we're going to be seeding more
 // than we should be hitting (by means of scrapping). allows for rapid nuking of the database
 // without compromising on speed
@@ -228,7 +235,7 @@ func seed(cmd *cobra.Command, args []string) error {
 
 		relatedName := &models.ExerciseRelatedName{}
 		relatedName.Primary = exerciseDictionary.Name
-		relatedName.Related = exerciseDictionary.Name
+		relatedName.Related = sanitizeRelatedName(exerciseDictionary.Name)
 		relatedName.ExerciseDictionaryID = exerciseDictionary.ID
 
 		if err := db.Create(relatedName).Error; err != nil {
