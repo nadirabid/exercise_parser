@@ -11,14 +11,14 @@ import (
 // ExerciseRelatedNameSearchResult holds the result values w/ rank info
 type ExerciseRelatedNameSearchResult struct {
 	ExerciseRelatedName
-	Rank float32
+	Rank float32 `json:"rank"`
 }
 
 // ExerciseDictionarySearchResult holds search results based on matched ExerciseRelatedNames
 type ExerciseDictionarySearchResult struct {
-	Primary string                            `json:"primary"`
-	Rank    float32                           `json:"rank"`
-	Related []ExerciseRelatedNameSearchResult `json:"related"`
+	ExerciseDictionaryID uint                              `json:"exercise_dictionary_id"`
+	Rank                 float32                           `json:"rank"`
+	Related              []ExerciseRelatedNameSearchResult `json:"related"`
 }
 
 // SearchExerciseDictionary will search for ExcerciseDictionary entity from the provided exercise name
@@ -32,7 +32,7 @@ func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySe
 		ORDER BY rank DESC
 	`
 
-	groupedByPrimary := make(map[string][]*ExerciseRelatedNameSearchResult)
+	groupedByPrimary := make(map[uint][]*ExerciseRelatedNameSearchResult)
 
 	rows, err := db.Raw(q, searchTerms).Rows()
 	if err != nil {
@@ -44,23 +44,22 @@ func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySe
 		res := &ExerciseRelatedNameSearchResult{}
 		db.ScanRows(rows, res)
 
-		if _, ok := groupedByPrimary[res.Primary]; !ok {
-			groupedByPrimary[res.Primary] = []*ExerciseRelatedNameSearchResult{}
+		if _, ok := groupedByPrimary[res.ExerciseDictionaryID]; !ok {
+			groupedByPrimary[res.ExerciseDictionaryID] = []*ExerciseRelatedNameSearchResult{}
 		}
 
-		groupedByPrimary[res.Primary] = append(groupedByPrimary[res.Primary], res)
+		groupedByPrimary[res.ExerciseDictionaryID] = append(groupedByPrimary[res.ExerciseDictionaryID], res)
 	}
 
 	results := []*ExerciseDictionarySearchResult{}
 	for k, v := range groupedByPrimary {
 		res := &ExerciseDictionarySearchResult{}
-		res.Primary = k
+		res.ExerciseDictionaryID = k
 
 		rank := float32(0)
 		for _, r := range v {
-			if r.Type != "" {
-				// if its a related search, then lets reweigh it so that its
-				// not the same as a direct match
+			if r.Type != "" && r.Type != "resources/related_names" {
+				// if its a related search term, then lets reweigh it so that its not the same as a direct match
 				r.Rank = calculateWeightOfRelatedSearch(r.Rank)
 			}
 

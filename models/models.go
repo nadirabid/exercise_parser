@@ -29,12 +29,13 @@ func (w *Workout) HasExercise(id uint) bool {
 // Exercise model
 type Exercise struct {
 	Model
-	Raw              string            `json:"raw"`
-	Type             string            `json:"type"`
-	Name             string            `json:"name"`
-	WeightedExercise *WeightedExercise `json:"weighted_exercise"`
-	DistanceExercise *DistanceExercise `json:"distance_exercise"`
-	WorkoutID        int               `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
+	Raw                  string            `json:"raw"`
+	Type                 string            `json:"type"`
+	Name                 string            `json:"name"`
+	ExerciseDictionaryID uint              `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
+	WeightedExercise     *WeightedExercise `json:"weighted_exercise"`
+	DistanceExercise     *DistanceExercise `json:"distance_exercise"`
+	WorkoutID            uint              `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
 }
 
 // Resolve will take the Raw exercise string and parse out the various fields
@@ -90,9 +91,9 @@ func (e *Exercise) Resolve() error {
 // WeightedExercise model
 type WeightedExercise struct {
 	HiddenModel
-	Sets       int `json:"sets"`
-	Reps       int `json:"reps"`
-	ExerciseID int `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
+	Sets       int  `json:"sets"`
+	Reps       int  `json:"reps"`
+	ExerciseID uint `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }
 
 // DistanceExercise model
@@ -101,5 +102,5 @@ type DistanceExercise struct {
 	Time       string  `json:"time"`
 	Distance   float32 `json:"distance"`
 	Units      string  `json:"units"`
-	ExerciseID int     `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
+	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }

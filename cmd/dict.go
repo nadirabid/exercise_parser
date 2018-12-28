@@ -164,6 +164,8 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 				return fmt.Errorf("exercise_dictionary entry by name does not exist: %v", m)
 			}
 
+			m.ExerciseDictionaryID = d.ID
+
 			if err := db.Create(m).Error; err != nil {
 				return fmt.Errorf("unable to save related name: %s", err.Error())
 			}
@@ -227,6 +229,7 @@ func seed(cmd *cobra.Command, args []string) error {
 		relatedName := &models.ExerciseRelatedName{}
 		relatedName.Primary = exerciseDictionary.Name
 		relatedName.Related = exerciseDictionary.Name
+		relatedName.ExerciseDictionaryID = exerciseDictionary.ID
 
 		if err := db.Create(relatedName).Error; err != nil {
 			return fmt.Errorf("unable to save related name: %s", err.Error())

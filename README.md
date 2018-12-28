@@ -2,11 +2,12 @@
 
 ####  Now
 
-- [ ] Workout POST handler should create reference to "resolved exercise" after parsing the raw exercise string out
 - [ ] Create a google/bing spelling correct for things like "benchpress" -> "bench press"
 
 #### Done
 
+- [x] Workout POST handler should create reference to "resolved exercise" after parsing the raw exercise string out
+  - [x] Filter out ExerciseDictionary results with too low results 
 - [x] Create an exponential multiplier for "related searches" ranks. Modelled by eyeballing a small amount test data. 
   - [x] If a "related search" is super confident, then lets make it matter. 
   - [x] If a "related search" is semi to not confident at all, then lets not have it matter much at all.
@@ -22,3 +23,4 @@
 
 * [PostgreSQL Text Search](http://shisaa.jp/postset/postgresql-full-text-search-part-3.html)
 * [Example workout](https://www.instagram.com/p/BY7EIqvA1_C/)
+

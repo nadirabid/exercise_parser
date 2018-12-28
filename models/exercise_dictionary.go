@@ -14,7 +14,7 @@ type Classification struct {
 	Function             string `json:"function"`
 	Bearing              string `json:"bearing"`
 	Impact               string `json:"impact"`
-	ExerciseDictionaryID int    `json:"exercise_type_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
+	ExerciseDictionaryID uint   `json:"exercise_type_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
 }
 
 // Muscles are the areas that a given exercise affects
@@ -26,7 +26,7 @@ type Muscles struct {
 	DynamicStabilizers    pq.StringArray `json:"dynamic_stabilizers" gorm:"type:varchar(250)[]"`
 	AntagonistStabilizers pq.StringArray `json:"antagonist_stabilizers" gorm:"type:varchar(250)[]"`
 	ROMCriteria           pq.StringArray `json:"rom_criteria" gorm:"type:varchar(250)[]"`
-	ExerciseDictionaryID  int            `json:"exercise_type_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
+	ExerciseDictionaryID  uint           `json:"exercise_type_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
 }
 
 // Articulation is Plyometric as far as I can tell
@@ -34,7 +34,7 @@ type Articulation struct {
 	HiddenModel
 	Dynamic              Joints `json:"dynamic"`
 	Static               Joints `json:"static"`
-	ExerciseDictionaryID int    `json:"exercise_type_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
+	ExerciseDictionaryID uint   `json:"exercise_type_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
 }
 
 // Joints for dynamic/static articulation
@@ -59,11 +59,12 @@ type Joints struct {
 
 // ExerciseRelatedName is a mapping of all the related names given a
 type ExerciseRelatedName struct {
-	ID         uint   `json:"-" gorm:"primary_key"`
-	Primary    string `json:"primary" gorm:"primary_key"`
-	Related    string `json:"related" gorm:"primary_key"`
-	RelatedTSV string `json:"-" gorm:"type:tsvector"`
-	Type       string `json:"-"`
+	ID                   uint   `json:"-" gorm:"primary_key"`
+	Primary              string `json:"primary" gorm:"primary_key"`
+	ExerciseDictionaryID uint   `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
+	Related              string `json:"related" gorm:"primary_key"`
+	RelatedTSV           string `json:"-" gorm:"type:tsvector"`
+	Type                 string `json:"-"`
 }
 
 // ExerciseDictionary is a single exercise type

@@ -2,6 +2,7 @@ package server
 
 import (
 	"exercise_parser/models"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -47,6 +48,26 @@ func handlePostWorkout(c echo.Context) error {
 		if err := e.Resolve(); err != nil {
 			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 		}
+
+		searchResults, err := models.SearchExerciseDictionary(db, e.Name)
+		if err != nil {
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+
+		if len(searchResults) > 0 {
+			minSearchRank := float32(0.05)
+			topSearchResult := searchResults[0]
+
+			fmt.Println("topSearchResult.rank", topSearchResult.Rank)
+			if topSearchResult.Rank < minSearchRank {
+				return ctx.JSON(http.StatusInternalServerError, fmt.Errorf("search results for %s have too low of rank", e.Name))
+			}
+
+			e.ExerciseDictionaryID = topSearchResult.ExerciseDictionaryID
+		} else {
+			return ctx.JSON(http.StatusInternalServerError, fmt.Errorf("couldn't resolve ExerciseDictionary entry for: %s", e.Name))
+		}
+
 		workout.Exercises[i] = e
 	}
 
