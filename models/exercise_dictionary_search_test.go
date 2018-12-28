@@ -86,7 +86,12 @@ func TestSearchTestData(t *testing.T) {
 
 			highestRanked := results[0]
 
-			assert.Equal(t, d.Expected, highestRanked.Primary)
+			e := &ExerciseDictionary{}
+			if err := db.Where("id = ?", highestRanked.ExerciseDictionaryID).First(e).Error; err != nil {
+				t.Fatal(err.Error())
+			}
+
+			assert.Equal(t, d.Expected, e.Name)
 		})
 	}
 }

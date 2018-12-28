@@ -2,6 +2,10 @@
 
 ####  Now
 
+- [ ] Start iOS project
+
+#### Reminder (*important*)
+
 - [ ] Create a google/bing spelling correct for things like "benchpress" -> "bench press"
 
 #### Done
@@ -23,4 +27,3 @@
 
 * [PostgreSQL Text Search](http://shisaa.jp/postset/postgresql-full-text-search-part-3.html)
 * [Example workout](https://www.instagram.com/p/BY7EIqvA1_C/)
-
