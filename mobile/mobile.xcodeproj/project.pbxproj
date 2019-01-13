@@ -12,8 +12,6 @@
 		6439251521D7523100D27497 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6439251321D7523100D27497 /* Main.storyboard */; };
 		6439251721D7523100D27497 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6439251621D7523100D27497 /* Assets.xcassets */; };
 		6439251A21D7523100D27497 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6439251821D7523100D27497 /* LaunchScreen.storyboard */; };
-		6439252521D7523100D27497 /* mobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6439252421D7523100D27497 /* mobileTests.swift */; };
-		6439253021D7523100D27497 /* mobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6439252F21D7523100D27497 /* mobileUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,11 +40,7 @@
 		6439251921D7523100D27497 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6439251B21D7523100D27497 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6439252021D7523100D27497 /* mobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6439252421D7523100D27497 /* mobileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mobileTests.swift; sourceTree = "<group>"; };
-		6439252621D7523100D27497 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6439252B21D7523100D27497 /* mobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mobileUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6439252F21D7523100D27497 /* mobileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mobileUITests.swift; sourceTree = "<group>"; };
-		6439253121D7523100D27497 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +72,6 @@
 			isa = PBXGroup;
 			children = (
 				6439250E21D7523100D27497 /* mobile */,
-				6439252321D7523100D27497 /* mobileTests */,
-				6439252E21D7523100D27497 /* mobileUITests */,
 				6439250D21D7523100D27497 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,31 +90,21 @@
 			isa = PBXGroup;
 			children = (
 				6439251321D7523100D27497 /* Main.storyboard */,
-				6439250F21D7523100D27497 /* AppDelegate.swift */,
-				6439251621D7523100D27497 /* Assets.xcassets */,
-				6439251821D7523100D27497 /* LaunchScreen.storyboard */,
+				646702AB21E2BA8E00A982CB /* Supporting Files */,
 				6439251121D7523100D27497 /* ViewController.swift */,
 				6439251B21D7523100D27497 /* Info.plist */,
 			);
 			path = mobile;
 			sourceTree = "<group>";
 		};
-		6439252321D7523100D27497 /* mobileTests */ = {
+		646702AB21E2BA8E00A982CB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6439252421D7523100D27497 /* mobileTests.swift */,
-				6439252621D7523100D27497 /* Info.plist */,
+				6439250F21D7523100D27497 /* AppDelegate.swift */,
+				6439251621D7523100D27497 /* Assets.xcassets */,
+				6439251821D7523100D27497 /* LaunchScreen.storyboard */,
 			);
-			path = mobileTests;
-			sourceTree = "<group>";
-		};
-		6439252E21D7523100D27497 /* mobileUITests */ = {
-			isa = PBXGroup;
-			children = (
-				6439252F21D7523100D27497 /* mobileUITests.swift */,
-				6439253121D7523100D27497 /* Info.plist */,
-			);
-			path = mobileUITests;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,7 +247,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6439252521D7523100D27497 /* mobileTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +254,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6439253021D7523100D27497 /* mobileUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

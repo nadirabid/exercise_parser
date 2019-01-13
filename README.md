@@ -2,7 +2,13 @@
 
 ####  Now
 
-- [ ] Start iOS project
+- [ ] List view of past workouts
+  - [ ] Should be cards based
+  - [ ] Should have a "create"/"add button"
+- [ ] "add"/"create" view
+  - [ ] Simple text editor to create a list
+  - [ ] Button (top or bottom?) which allows user to insert new line item
+    - [ ] Orrrrrr just automatically inserts empty line item at the bottom (might look "unsymetrical")
 
 #### Reminder (*important*)
 
@@ -10,6 +16,7 @@
 
 #### Done
 
+- [x] Start iOS project: basic element it should have:
 - [x] Workout POST handler should create reference to "resolved exercise" after parsing the raw exercise string out
   - [x] Filter out ExerciseDictionary results with too low results 
 - [x] Create an exponential multiplier for "related searches" ranks. Modelled by eyeballing a small amount test data. 
