@@ -22,31 +22,52 @@
                                 <rect key="frame" x="8" y="52" width="359" height="718"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WorkoutCell" id="He9-Vl-7x5" customClass="WorkoutTableViewCell" customModule="mobile" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActivityWorkoutCell" id="ubI-me-Kvf" customClass="WorkoutActivityTableViewCell" customModule="mobile" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="359" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="He9-Vl-7x5" id="IbU-RO-2fd">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ubI-me-Kvf" id="eLb-th-kC5">
                                             <rect key="frame" x="0.0" y="0.0" width="359" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SZk-FZ-vOc">
-                                                    <rect key="frame" x="15" y="11" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d90-W0-hb8">
+                                                    <rect key="frame" x="0.0" y="0.0" width="359" height="43.666666666666664"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T25-nP-wne">
+                                                            <rect key="frame" x="41.000000000000007" y="0.0" width="91.666666666666686" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="39"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AnA-6d-xz4">
+                                                            <rect key="frame" x="41" y="24.666666666666671" width="42" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.88217744261076769" green="0.30165097724262935" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <constraints>
+                                                        <constraint firstItem="T25-nP-wne" firstAttribute="leading" secondItem="d90-W0-hb8" secondAttribute="leading" constant="41" id="GMX-T0-uAY"/>
+                                                        <constraint firstItem="AnA-6d-xz4" firstAttribute="firstBaseline" secondItem="T25-nP-wne" secondAttribute="baseline" constant="28" symbolType="layoutAnchor" id="JWg-sE-gu5"/>
+                                                        <constraint firstItem="T25-nP-wne" firstAttribute="top" secondItem="d90-W0-hb8" secondAttribute="top" id="QJu-oM-bAr"/>
+                                                        <constraint firstAttribute="bottom" secondItem="AnA-6d-xz4" secondAttribute="bottom" constant="-2.0000000000000071" id="S0M-h6-pqM"/>
+                                                        <constraint firstAttribute="trailing" secondItem="AnA-6d-xz4" secondAttribute="trailing" constant="276" id="geh-Ip-nPo"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="SZk-FZ-vOc" firstAttribute="top" secondItem="IbU-RO-2fd" secondAttribute="top" constant="11" id="30a-Tp-Yp7"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SZk-FZ-vOc" secondAttribute="trailing" constant="20" symbolic="YES" id="4W6-a0-XVG"/>
-                                                <constraint firstItem="SZk-FZ-vOc" firstAttribute="leading" secondItem="IbU-RO-2fd" secondAttribute="leadingMargin" id="f7k-1p-sHo"/>
-                                                <constraint firstAttribute="bottom" secondItem="SZk-FZ-vOc" secondAttribute="bottom" constant="11.666666666666664" id="ni1-4K-SiU"/>
+                                                <constraint firstItem="d90-W0-hb8" firstAttribute="leading" secondItem="eLb-th-kC5" secondAttribute="leading" id="2VI-Z4-JFd"/>
+                                                <constraint firstAttribute="bottom" secondItem="d90-W0-hb8" secondAttribute="bottom" id="B6s-07-dei"/>
+                                                <constraint firstAttribute="trailing" secondItem="d90-W0-hb8" secondAttribute="trailing" id="Hqp-Tw-O25"/>
+                                                <constraint firstItem="d90-W0-hb8" firstAttribute="top" secondItem="eLb-th-kC5" secondAttribute="top" id="zSs-2u-5w1"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <accessibility key="accessibilityConfiguration" identifier="Workout"/>
-                                        <connections>
-                                            <outlet property="workoutName" destination="SZk-FZ-vOc" id="Tq8-Gj-Kky"/>
-                                        </connections>
+                                        <accessibility key="accessibilityConfiguration" identifier="WorkoutActivity"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="calvinColor">
+                                                <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -66,7 +87,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-562" y="47"/>
+            <point key="canvasLocation" x="-562.39999999999998" y="46.551724137931039"/>
         </scene>
     </scenes>
 </document>

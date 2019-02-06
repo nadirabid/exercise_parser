@@ -9,7 +9,7 @@
 import UIKit
 
 class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    var items = ["one", "two", "three" ]
+    var items = ["one"]
     
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -23,7 +23,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "WorkoutCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ActivityWorkoutCell", for: indexPath)
         
         if let workoutTableViewCell = cell as? WorkoutTableViewCell {
             workoutTableViewCell.workoutName.text = items[indexPath.row]
