@@ -9,5 +9,16 @@
 import UIKit
 
 class WorkoutActivityCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var cellContent: UIView! {
+        didSet {
+            cellContent.layer.borderColor = UIColor.yellow.cgColor
+            cellContent.layer.borderWidth = 2
+        }
+    }
+    
+    @IBOutlet weak var textLabel: UILabel!
+    override func layoutSubviews() {
+        layer.borderColor = UIColor.black.cgColor
+        layer.borderWidth = 2
+    }
 }

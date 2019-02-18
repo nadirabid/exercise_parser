@@ -41,7 +41,7 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WorkoutActivityCollectionViewCell", for: indexPath)
         
         if let workoutCollectionViewCell = cell as? WorkoutActivityCollectionViewCell {
-            workoutCollectionViewCell.label.text = items[indexPath.row]
+            workoutCollectionViewCell.textLabel.text = items[indexPath.row]
         }
         
         return cell
