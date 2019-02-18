@@ -36,11 +36,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1RK-jb-cov">
+                                                <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="1RK-jb-cov">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sa2-yJ-TL0">
-                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="200" height="50"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="BDw-em-Mp5"/>
+                                                                <constraint firstAttribute="height" constant="50" id="dEb-aC-CJ7"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="55"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -51,7 +55,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="Sa2-yJ-TL0" secondAttribute="bottom" id="5WM-aU-S0D"/>
                                                         <constraint firstItem="Sa2-yJ-TL0" firstAttribute="top" secondItem="1RK-jb-cov" secondAttribute="top" id="7uO-ph-pRx"/>
-                                                        <constraint firstAttribute="trailing" secondItem="Sa2-yJ-TL0" secondAttribute="trailing" id="J9L-ip-tLg"/>
+                                                        <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Sa2-yJ-TL0" secondAttribute="trailing" id="J9L-ip-tLg"/>
                                                         <constraint firstItem="Sa2-yJ-TL0" firstAttribute="leading" secondItem="1RK-jb-cov" secondAttribute="leading" id="Zib-cH-SjH"/>
                                                     </constraints>
                                                 </view>
