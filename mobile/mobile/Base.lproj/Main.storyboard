@@ -18,67 +18,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tix-1K-Ukx">
-                                <rect key="frame" x="8" y="52" width="359" height="718"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WorkoutActivityTableViewCell" rowHeight="176" id="ubI-me-Kvf" customClass="WorkoutActivityTableViewCell" customModule="mobile" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="359" height="176"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ubI-me-Kvf" id="eLb-th-kC5">
-                                            <rect key="frame" x="0.0" y="0.0" width="359" height="175.66666666666666"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CAr-F2-Zg9">
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="gJG-d3-pvI">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="WorkoutActivityCollectionViewCell" id="Hu6-vx-34b" customClass="WorkoutActivityCollectionViewCell" customModule="mobile" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="359" placeholderIntrinsicHeight="200" translatesAutoresizingMaskIntoConstraints="NO" id="d90-W0-hb8">
-                                                    <rect key="frame" x="0.0" y="0.0" width="359" height="175.66666666666666"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ONB-bn-atp">
-                                                            <rect key="frame" x="0.0" y="0.0" width="211.33333333333334" height="175.66666666666666"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="92"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="ONB-bn-atp" firstAttribute="top" secondItem="d90-W0-hb8" secondAttribute="top" id="4WI-HS-vK8"/>
-                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ONB-bn-atp" secondAttribute="trailing" constant="20" symbolic="YES" id="ohD-At-24Y"/>
-                                                        <constraint firstAttribute="bottom" secondItem="ONB-bn-atp" secondAttribute="bottom" id="y3t-Hv-FVx"/>
-                                                        <constraint firstItem="ONB-bn-atp" firstAttribute="leading" secondItem="d90-W0-hb8" secondAttribute="leading" id="z91-Bp-w5c"/>
-                                                    </constraints>
-                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Testttt" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8s8-A1-Umh">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="d90-W0-hb8" firstAttribute="leading" secondItem="eLb-th-kC5" secondAttribute="leading" id="2VI-Z4-JFd"/>
-                                                <constraint firstAttribute="bottom" secondItem="d90-W0-hb8" secondAttribute="bottom" id="B6s-07-dei"/>
-                                                <constraint firstAttribute="trailing" secondItem="d90-W0-hb8" secondAttribute="trailing" id="Hqp-Tw-O25"/>
-                                                <constraint firstItem="d90-W0-hb8" firstAttribute="top" secondItem="eLb-th-kC5" secondAttribute="top" id="zSs-2u-5w1"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <accessibility key="accessibilityConfiguration" identifier="WorkoutActivityTableViewCell"/>
-                                        <rect key="contentStretch" x="0.0" y="0.10000000000000001" width="1" height="1"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="calvinColor">
-                                                <color key="value" cocoaTouchSystemColor="darkTextColor"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="8s8-A1-Umh" firstAttribute="leading" secondItem="Hu6-vx-34b" secondAttribute="leading" id="DBL-aX-DEn"/>
+                                            <constraint firstAttribute="bottom" secondItem="8s8-A1-Umh" secondAttribute="bottom" id="Itv-r7-3PM"/>
+                                            <constraint firstItem="8s8-A1-Umh" firstAttribute="top" secondItem="Hu6-vx-34b" secondAttribute="top" id="eud-Km-Sh4"/>
+                                            <constraint firstAttribute="trailing" secondItem="8s8-A1-Umh" secondAttribute="trailing" id="mVZ-Dz-1ct"/>
+                                        </constraints>
                                         <connections>
-                                            <outlet property="cardView" destination="d90-W0-hb8" id="O1x-N0-Shd"/>
-                                            <outlet property="label" destination="ONB-bn-atp" id="SM4-xn-Qkx"/>
+                                            <outlet property="label" destination="8s8-A1-Umh" id="0Qz-bo-KIS"/>
                                         </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="tix-1K-Ukx" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="aDJ-Cn-Kb0"/>
-                            <constraint firstItem="tix-1K-Ukx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="hPw-9y-4eS"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="tix-1K-Ukx" secondAttribute="bottom" constant="8" id="hjv-Aq-zbN"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tix-1K-Ukx" secondAttribute="trailing" constant="8" id="wG4-3j-oUr"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="CAr-F2-Zg9" secondAttribute="bottom" id="OGd-UX-vW6"/>
+                            <constraint firstItem="CAr-F2-Zg9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="RlR-Hx-d6X"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CAr-F2-Zg9" secondAttribute="trailing" id="afy-93-6wp"/>
+                            <constraint firstItem="CAr-F2-Zg9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="mFh-V9-ySn"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="tableView" destination="tix-1K-Ukx" id="Jck-ZS-Bc0"/>
+                        <outlet property="collectionView" destination="CAr-F2-Zg9" id="jXy-UV-pQt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

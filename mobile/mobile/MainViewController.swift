@@ -8,25 +8,40 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    var items = ["one", "two"]
+class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    @IBOutlet weak var tableView: UITableView! {
+    var items = ["one", "two", "three"]
+    
+    let columnLayout = ColumnFlowLayout(
+        cellsPerRow: 1,
+        minimumInteritemSpacing: 10,
+        minimumLineSpacing: 10,
+        sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    )
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        collectionView?.collectionViewLayout = columnLayout
+        collectionView?.contentInsetAdjustmentBehavior = .always
+    }
+    
+    @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
+            collectionView.dataSource = self
+            collectionView.delegate = self
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "WorkoutActivityTableViewCell", for: indexPath)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WorkoutActivityCollectionViewCell", for: indexPath)
         
-        if let workoutTableViewCell = cell as? WorkoutActivityTableViewCell {
-            workoutTableViewCell.label.text = items[indexPath.row]
+        if let workoutCollectionViewCell = cell as? WorkoutActivityCollectionViewCell {
+            workoutCollectionViewCell.label.text = items[indexPath.row]
         }
         
         return cell
