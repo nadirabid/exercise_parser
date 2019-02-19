@@ -11,8 +11,8 @@ import UIKit
 class WorkoutActivityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var cellContent: UIView! {
         didSet {
-            cellContent.layer.borderColor = UIColor.yellow.cgColor
-            cellContent.layer.borderWidth = 2
+            cellContent.layer.borderColor = UIColor.red.cgColor
+            cellContent.layer.borderWidth = 4
         }
     }
     
