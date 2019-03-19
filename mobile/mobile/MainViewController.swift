@@ -24,6 +24,11 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         collectionView?.collectionViewLayout = columnLayout
         collectionView?.contentInsetAdjustmentBehavior = .always
+        
+        if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
+            let w = collectionView.frame.width - 20
+            flowLayout.estimatedItemSize = CGSize(width: w, height: 200)
+        }
     }
     
     @IBOutlet weak var collectionView: UICollectionView! {

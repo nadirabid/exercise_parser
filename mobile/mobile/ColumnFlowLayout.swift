@@ -13,6 +13,8 @@ class ColumnFlowLayout: UICollectionViewFlowLayout {
         self.minimumLineSpacing = minimumLineSpacing
         self.sectionInset = sectionInset
     }
+    // https://janthielemann.de/ios-development/self-sizing-uicollectionviewcells-ios-10-swift-3/
+    // https://parveenkaler.com/posts/self-sizing-uicollectionviewcell-swift
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
