@@ -36,40 +36,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="1RK-jb-cov">
+                                                <view contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="tTT-uX-YPB">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sa2-yJ-TL0">
-                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="50"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="55"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Sa2-yJ-TL0" secondAttribute="trailing" constant="-28" id="3ms-jw-xAj"/>
-                                                        <constraint firstItem="Sa2-yJ-TL0" firstAttribute="leading" secondItem="1RK-jb-cov" secondAttribute="leading" id="9cE-XB-E9C"/>
-                                                        <constraint firstItem="Sa2-yJ-TL0" firstAttribute="centerY" secondItem="1RK-jb-cov" secondAttribute="centerY" id="C2p-7n-j2q"/>
-                                                        <constraint firstAttribute="bottom" secondItem="Sa2-yJ-TL0" secondAttribute="bottom" id="Tud-dw-LKw"/>
-                                                        <constraint firstItem="Sa2-yJ-TL0" firstAttribute="centerX" secondItem="1RK-jb-cov" secondAttribute="centerX" constant="14" id="ZUD-oX-FJH"/>
-                                                        <constraint firstItem="Sa2-yJ-TL0" firstAttribute="top" secondItem="1RK-jb-cov" secondAttribute="top" id="iVZ-tF-J6H"/>
-                                                    </constraints>
                                                 </view>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="1RK-jb-cov" secondAttribute="trailing" id="5iJ-iB-n6R"/>
-                                            <constraint firstAttribute="bottom" secondItem="1RK-jb-cov" secondAttribute="bottom" id="LfA-q3-f20"/>
-                                            <constraint firstItem="1RK-jb-cov" firstAttribute="top" secondItem="Hu6-vx-34b" secondAttribute="top" id="QdX-ga-yuo"/>
-                                            <constraint firstItem="1RK-jb-cov" firstAttribute="centerX" secondItem="Hu6-vx-34b" secondAttribute="centerX" id="dQd-ZE-P37"/>
-                                            <constraint firstItem="1RK-jb-cov" firstAttribute="leading" secondItem="Hu6-vx-34b" secondAttribute="leading" id="lkB-UI-qhz"/>
-                                            <constraint firstItem="1RK-jb-cov" firstAttribute="centerY" secondItem="Hu6-vx-34b" secondAttribute="centerY" id="tup-Lq-olS"/>
+                                            <constraint firstItem="tTT-uX-YPB" firstAttribute="top" secondItem="Hu6-vx-34b" secondAttribute="top" id="91W-MK-5O3"/>
+                                            <constraint firstItem="tTT-uX-YPB" firstAttribute="leading" secondItem="Hu6-vx-34b" secondAttribute="leading" id="A0n-NN-BZo"/>
+                                            <constraint firstAttribute="trailing" secondItem="tTT-uX-YPB" secondAttribute="trailing" id="MJi-Gq-OEW"/>
+                                            <constraint firstAttribute="bottom" secondItem="tTT-uX-YPB" secondAttribute="bottom" id="cWi-qM-Psr"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="cellContent" destination="1RK-jb-cov" id="8WQ-sb-LWU"/>
-                                            <outlet property="textLabel" destination="Sa2-yJ-TL0" id="v5T-Bq-fmp"/>
+                                            <outlet property="cellContent" destination="tTT-uX-YPB" id="Mqd-lX-3bA"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

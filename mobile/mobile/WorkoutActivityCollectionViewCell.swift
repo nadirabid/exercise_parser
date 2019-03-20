@@ -13,22 +13,21 @@ class WorkoutActivityCollectionViewCell: UICollectionViewCell {
         didSet {
             cellContent.layer.borderColor = UIColor.red.cgColor
             cellContent.layer.borderWidth = 8
-            cellContent.sizeToFit()
         }
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         setNeedsLayout()
         layoutIfNeeded()
+        
         let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
-        var frame = layoutAttributes.frame
-        frame.size.height = ceil(size.height)
-        layoutAttributes.frame = frame
+        layoutAttributes.frame.size.height = ceil(size.height)
+
         return layoutAttributes
     }
     
-    @IBOutlet weak var textLabel: UILabel!
     override func layoutSubviews() {
+        super.layoutSubviews() // DONT FUCKING FORGET TO CALL THIS 
         self.contentView.layer.borderColor = UIColor.blue.cgColor
         self.contentView.layer.borderWidth = 4
         
