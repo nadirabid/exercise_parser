@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		640B78FC221A870900ED26E6 /* WorkoutActivityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640B78FB221A870900ED26E6 /* WorkoutActivityCollectionViewCell.swift */; };
-		640B78FE221A8EF000ED26E6 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640B78FD221A8EF000ED26E6 /* ColumnFlowLayout.swift */; };
 		6439251021D7523100D27497 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6439250F21D7523100D27497 /* AppDelegate.swift */; };
 		6439251221D7523100D27497 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6439251121D7523100D27497 /* MainViewController.swift */; };
 		6439251521D7523100D27497 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6439251321D7523100D27497 /* Main.storyboard */; };
@@ -35,7 +34,6 @@
 
 /* Begin PBXFileReference section */
 		640B78FB221A870900ED26E6 /* WorkoutActivityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutActivityCollectionViewCell.swift; sourceTree = "<group>"; };
-		640B78FD221A8EF000ED26E6 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
 		6439250C21D7523100D27497 /* mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6439250F21D7523100D27497 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6439251121D7523100D27497 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -98,7 +96,6 @@
 				6439251121D7523100D27497 /* MainViewController.swift */,
 				6439251B21D7523100D27497 /* Info.plist */,
 				640B78FB221A870900ED26E6 /* WorkoutActivityCollectionViewCell.swift */,
-				640B78FD221A8EF000ED26E6 /* ColumnFlowLayout.swift */,
 			);
 			path = mobile;
 			sourceTree = "<group>";
@@ -245,7 +242,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				640B78FC221A870900ED26E6 /* WorkoutActivityCollectionViewCell.swift in Sources */,
-				640B78FE221A8EF000ED26E6 /* ColumnFlowLayout.swift in Sources */,
 				6439251221D7523100D27497 /* MainViewController.swift in Sources */,
 				6439251021D7523100D27497 /* AppDelegate.swift in Sources */,
 			);

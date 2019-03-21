@@ -10,20 +10,20 @@ import UIKit
 
 class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    var items = ["one", "two", "three"]
-    
-    let columnLayout = ColumnFlowLayout(
-        cellsPerRow: 1,
-        minimumInteritemSpacing: 10,
-        minimumLineSpacing: 10,
-        sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    )
+    var items = [
+        "one is a very long sentence so i can test how cells expand in height",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine",
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        collectionView?.collectionViewLayout = columnLayout
-        collectionView?.contentInsetAdjustmentBehavior = .always
         
         if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
             let w = collectionView.frame.width - 20
@@ -35,6 +35,8 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         didSet {
             collectionView.dataSource = self
             collectionView.delegate = self
+            collectionView.layer.borderColor = UIColor.black.cgColor
+            collectionView.layer.borderWidth = 2
         }
     }
     
@@ -46,7 +48,7 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WorkoutActivityCollectionViewCell", for: indexPath)
         
         if let workoutCollectionViewCell = cell as? WorkoutActivityCollectionViewCell {
-            //workoutCollectionViewCell.textLabel.text = items[indexPath.row]
+            workoutCollectionViewCell.textLabel.text = items[indexPath.row]
         }
         
         return cell

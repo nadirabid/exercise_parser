@@ -9,6 +9,11 @@
 import UIKit
 
 class WorkoutActivityCollectionViewCell: UICollectionViewCell {
+    @IBOutlet weak var textLabel: UILabel! {
+        didSet {
+            textLabel.preferredMaxLayoutWidth = 10 // setting this makes text label wrap
+        }
+    }
     @IBOutlet weak var cellContent: UIView! {
         didSet {
             cellContent.layer.borderColor = UIColor.red.cgColor
@@ -27,7 +32,7 @@ class WorkoutActivityCollectionViewCell: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        super.layoutSubviews() // DONT FUCKING FORGET TO CALL THIS 
+        super.layoutSubviews() // DONT FUCKING FORGET TO CALL THIS
         self.contentView.layer.borderColor = UIColor.blue.cgColor
         self.contentView.layer.borderWidth = 4
         

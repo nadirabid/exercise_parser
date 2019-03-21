@@ -36,9 +36,23 @@
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="tTT-uX-YPB">
+                                                <view contentMode="scaleToFill" horizontalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tTT-uX-YPB">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" verticalCompressionResistancePriority="752" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rvr-Qi-zYr">
+                                                            <rect key="frame" x="8" y="15" width="92" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="Rvr-Qi-zYr" secondAttribute="bottom" constant="14" id="2uA-13-Fxg"/>
+                                                        <constraint firstItem="Rvr-Qi-zYr" firstAttribute="leading" secondItem="tTT-uX-YPB" secondAttribute="leading" constant="8" id="CK5-82-aY7"/>
+                                                        <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Rvr-Qi-zYr" secondAttribute="trailing" id="W8P-po-Wia"/>
+                                                        <constraint firstItem="Rvr-Qi-zYr" firstAttribute="top" secondItem="tTT-uX-YPB" secondAttribute="top" constant="15" id="o5X-6w-10w"/>
+                                                    </constraints>
                                                 </view>
                                             </subviews>
                                         </view>
@@ -50,6 +64,7 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="cellContent" destination="tTT-uX-YPB" id="Mqd-lX-3bA"/>
+                                            <outlet property="textLabel" destination="Rvr-Qi-zYr" id="4WM-9l-X4g"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
