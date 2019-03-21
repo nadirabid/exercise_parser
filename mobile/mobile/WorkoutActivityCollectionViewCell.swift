@@ -11,7 +11,7 @@ import UIKit
 class WorkoutActivityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var textLabel: UILabel! {
         didSet {
-            textLabel.preferredMaxLayoutWidth = 10 // setting this makes text label wrap
+            textLabel.preferredMaxLayoutWidth = 5 // setting this makes text label wrap
         }
     }
     @IBOutlet weak var cellContent: UIView! {
