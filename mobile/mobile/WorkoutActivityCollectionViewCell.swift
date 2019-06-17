@@ -9,17 +9,9 @@
 import UIKit
 
 class WorkoutActivityCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var textLabel: UILabel! {
-        didSet {
-            textLabel.preferredMaxLayoutWidth = 5 // setting this makes text label wrap
-        }
-    }
-    @IBOutlet weak var cellContent: UIView! {
-        didSet {
-            cellContent.layer.borderColor = UIColor.red.cgColor
-            cellContent.layer.borderWidth = 8
-        }
-    }
+    @IBOutlet weak var textLabel: UILabel!
+    
+    @IBOutlet weak var cellContent: UIView!
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         setNeedsLayout()
@@ -33,10 +25,14 @@ class WorkoutActivityCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews() // DONT FUCKING FORGET TO CALL THIS
-        self.contentView.layer.borderColor = UIColor.blue.cgColor
-        self.contentView.layer.borderWidth = 4
         
-        layer.borderColor = UIColor.black.cgColor
-        layer.borderWidth = 2
+        cellContent.layer.cornerRadius = 6.0
+        cellContent.layer.shadowColor! = UIColor.init(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.08).cgColor
+        cellContent.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        cellContent.layer.shadowRadius = 20
+        cellContent.layer.shadowOpacity = 1.0
+        
+        let size = layer.preferredFrameSize()
+        textLabel?.preferredMaxLayoutWidth = size.width
     }
 }

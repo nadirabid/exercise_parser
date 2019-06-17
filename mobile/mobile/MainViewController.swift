@@ -11,7 +11,7 @@ import UIKit
 class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var items = [
-        "one is a very long sentence so i can test how cells expand in height",
+        "one is a very long sentence so i can test how cells expand in height. so i will keep writing something down. here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here here",
         "two",
         "three",
         "four",
@@ -20,6 +20,9 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         "seven",
         "eight",
         "nine",
+        "ten",
+        "eleven",
+        "twelve"
     ]
     
     override func viewDidLoad() {
@@ -35,8 +38,6 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         didSet {
             collectionView.dataSource = self
             collectionView.delegate = self
-            collectionView.layer.borderColor = UIColor.black.cgColor
-            collectionView.layer.borderWidth = 2
         }
     }
     
@@ -52,5 +53,14 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
         
         return cell
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
+            let w = collectionView.frame.width - 20
+            flowLayout.estimatedItemSize = CGSize(width: w, height: 200)
+        }
     }
 }
