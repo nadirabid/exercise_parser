@@ -70,6 +70,7 @@ func New(v *viper.Viper) error {
 	e.POST("/exercise", handlePostExercise)
 	e.DELETE("/exercise/:id", handleDeleteExercise)
 
+	e.GET("/workout", handleGetAllWorkout)
 	e.GET("/workout/:id", handleGetWorkout)
 	e.POST("/workout", handlePostWorkout)
 	e.PUT("/workout", handlePutWorkout)

@@ -9,6 +9,37 @@ import (
 	"github.com/labstack/echo"
 )
 
+// ListResponse is generic struct for returning lists
+type ListResponse struct {
+	Count   int         `json:"count"`
+	Results interface{} `json:"results"`
+}
+
+func handleGetAllWorkout(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	workouts := []models.Workout{}
+
+	err := db.
+		Preload("Exercises").
+		Preload("Exercises.WeightedExercise").
+		Preload("Exercises.DistanceExercise").
+		Find(&workouts).
+		Error
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	r := ListResponse{
+		Count:   len(workouts),
+		Results: workouts,
+	}
+
+	return ctx.JSON(http.StatusOK, r)
+}
+
 func handleGetWorkout(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()

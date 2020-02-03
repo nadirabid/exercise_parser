@@ -17,7 +17,9 @@ struct ContentView: View {
     var workouts: [Activity] = [
         Activity(name: "Running", units: [["mi", "0.7"]]),
         Activity(name: "Rowing", units: [["m", "700"], ["mins", "4"]]),
-        Activity(name: "Incline Benchpress", units: [["sets", "5"], ["reps", "5"], ["lbs", "95"]])
+        Activity(name: "Incline Benchpress", units: [["sets", "5"], ["reps", "5"], ["lbs", "95"]]),
+        Activity(name: "Situps", units: [["reps", "60"]]),
+        Activity(name: "Deadlift", units: [["sets", "5"], ["reps", "5"], ["lbs", "188"]])
     ]
     
     var body: some View {
@@ -29,8 +31,10 @@ struct ContentView: View {
                 VStack(alignment: .leading) {
                     Text("Morning workout")
                         .font(.headline)
+                    
                     Text("Nov 19th, 2018")
                         .font(.caption)
+                        .foregroundColor(.secondary)
                 }
                 .fixedSize()
                 
@@ -38,10 +42,10 @@ struct ContentView: View {
             }
             
             MapView()
-                .frame(height: 150)
+                .frame(height: CGFloat(150.0))
             
             VStack {
-                ForEach(workouts.identified(by: \.name)) { workout in
+                ForEach(workouts, id: \.name) { workout in
                     ActivityView(workout: workout)
                 }
             }
@@ -60,10 +64,11 @@ struct ActivityView : View {
             Spacer()
             
             HStack {
-                ForEach(workout.units.identified(by: \.self)) { unit in
+                ForEach(workout.units, id: \.self) { unit in
                     VStack(alignment: .trailing, spacing: 1.0) {
                         Text(unit[0])
                             .font(.caption)
+                            .foregroundColor(.secondary)
                         
                         Text(unit[1])
                             .font(.headline)
