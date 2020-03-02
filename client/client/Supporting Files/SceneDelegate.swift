@@ -26,9 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
-        
-        print("HERE YOU GO")
-        
+                
 //        APIService.shared.GET(endpoint: "workout", params: nil) {
 //            (result: Result<PaginatedResponse<Workout>, APIService.APIError>) in
 //            switch result {

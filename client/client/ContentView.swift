@@ -53,33 +53,6 @@ struct ContentView: View {
     }
 }
 
-struct ActivityView : View {
-    var workout: Activity
-    
-    var body: some View {
-        HStack {
-            Text(workout.name)
-                .font(.subheadline)
-            
-            Spacer()
-            
-            HStack {
-                ForEach(workout.units, id: \.self) { unit in
-                    VStack(alignment: .trailing, spacing: 1.0) {
-                        Text(unit[0])
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        
-                        Text(unit[1])
-                            .font(.headline)
-                    }
-                    .padding(.leading, 2.0)
-                }
-            }
-        }
-    }
-}
-
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
