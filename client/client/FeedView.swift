@@ -7,23 +7,45 @@
 //
 
 import SwiftUI
+import Combine
 
+let baseURL = "http://localhost:1234"
 let appColor: Color = Color(red: 224 / 255, green: 84 / 255, blue: 9 / 255)
 
 struct FeedView: View {
     @State private var newActivity = false
+    @State private var feedDataPublisher: AnyCancellable? = nil
+    @State private var feedData: PaginatedResponse<Workout>? = nil
 
     func showNewActivity() {
         self.newActivity = true
     }
     
+    func getFeedData() {
+        self.feedDataPublisher = URLSession.shared.dataTaskPublisher(for: URL(string: "\(baseURL)/workout")!)
+            .map{ response in response.data }
+            .decode(type: PaginatedResponse<Workout>.self, decoder: JSONDecoder())
+            .replaceError(with: PaginatedResponse<Workout>(page: 0, count: 0, pages: 0, results: []))
+            .sink(receiveValue: { response in self.feedData = response })
+    }
+    
     var body: some View {
-         VStack {
+        return VStack {
             if !newActivity {
-                ScrollView {
-                    ContentView()
-                    ContentView()
-                    ContentView()
+                if self.feedData != nil {
+                    ScrollView {
+                        ForEach(self.feedData!.results) { workout in
+                            ContentView(workout: workout)
+                        }
+                    }
+                } else {
+                    HStack {
+                        Spacer()
+                        Text("You have nothing in your feed!")
+                        Spacer()
+                    }
+                    
+                    Spacer()
                 }
                 
                 Button(action: self.showNewActivity) {
@@ -45,11 +67,16 @@ struct FeedView: View {
         }
         .padding()
         .edgesIgnoringSafeArea(.bottom)
+        .onAppear {
+            self.getFeedData()
+        }
     }
 }
 
+#if DEBUG
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
         FeedView()
     }
 }
+#endif

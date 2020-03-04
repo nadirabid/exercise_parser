@@ -22,6 +22,7 @@ type parsedExercise struct {
 
 func weightedExerciseExpressions() []string {
 	// increasing specificity is in descending order
+	// TODO: add {Units} for lb/kg - how the fuck did i overlook that
 
 	expressions := []string{
 		`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,                                       // {Sets:Number} {Reps:Number} {Exercise:String}

@@ -8,18 +8,19 @@
 
 import SwiftUI
 
-struct Activity {
+struct ActivityViewModel {
     var name: String
     var units: [[String]]
 }
 
 struct ContentView: View {
-    var workouts: [Activity] = [
-        Activity(name: "Running", units: [["mi", "0.7"]]),
-        Activity(name: "Rowing", units: [["m", "700"], ["mins", "4"]]),
-        Activity(name: "Incline Benchpress", units: [["sets", "5"], ["reps", "5"], ["lbs", "95"]]),
-        Activity(name: "Situps", units: [["reps", "60"]]),
-        Activity(name: "Deadlift", units: [["sets", "5"], ["reps", "5"], ["lbs", "188"]])
+    @State var workout: Workout
+    var workouts: [ActivityViewModel] = [
+        ActivityViewModel(name: "Running", units: [["mi", "0.7"]]),
+        ActivityViewModel(name: "Rowing", units: [["m", "700"], ["mins", "4"]]),
+        ActivityViewModel(name: "Incline Benchpress", units: [["sets", "5"], ["reps", "5"], ["lbs", "95"]]),
+        ActivityViewModel(name: "Situps", units: [["reps", "60"]]),
+        ActivityViewModel(name: "Deadlift", units: [["sets", "5"], ["reps", "5"], ["lbs", "188"]])
     ]
     
     var body: some View {
@@ -29,7 +30,7 @@ struct ContentView: View {
                     .frame(width: 45)
                 
                 VStack(alignment: .leading) {
-                    Text("Morning workout")
+                    Text(workout.name)
                         .font(.headline)
                     
                     Text("Nov 19th, 2018")
@@ -45,8 +46,8 @@ struct ContentView: View {
                 .frame(height: CGFloat(150.0))
             
             VStack {
-                ForEach(workouts, id: \.name) { workout in
-                    ActivityView(workout: workout)
+                ForEach(workout.exercises) { exercise in
+                    ActivityView(exercise: exercise, workout: self.workouts[0])
                 }
             }
         }
@@ -57,9 +58,9 @@ struct ContentView: View {
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
         List {
-            ContentView()
-            ContentView()
-            ContentView()
+            ContentView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: "", exercises: []))
+            ContentView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: "", exercises: []))
+            ContentView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: "", exercises: []))
         }
     }
 }

@@ -9,15 +9,10 @@
 import Foundation
 import SwiftUI
 
-protocol Model {
-    var createdAt: Date { get }
-    var updatedAt: Date { get }
-}
-
 struct Workout: Codable, Identifiable {
     let id: Int
-    let createdAt: Date
-    let updatedAt: Date
+    let createdAt: String
+    let updatedAt: String
     let name: String
     let date: String
     let exercises: [Exercise]
@@ -31,8 +26,8 @@ struct Workout: Codable, Identifiable {
 
 struct Exercise: Codable, Identifiable {
     let id: Int
-    let createdAt: Date
-    let updatedAt: Date
+    let createdAt: String
+    let updatedAt: String
     let name: String
     let type: String
     let raw: String

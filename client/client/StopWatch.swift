@@ -16,12 +16,21 @@ class Stopwatch: ObservableObject {
     }
     
     func stop() {
+        if self.timer == nil {
+            return
+        }
+        
         timer!.invalidate()
         self.timer = nil
     }
     
     func reset() {
         counter = 0
+        
+        if self.timer == nil {
+            return
+        }
+        
         timer!.invalidate()
     }
     

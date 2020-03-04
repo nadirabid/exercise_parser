@@ -9,25 +9,59 @@
 import SwiftUI
 
 struct ActivityView : View {
-    var workout: Activity
+    var exercise: Exercise
+    var workout: ActivityViewModel
     var asSecondary: Bool = false
     
     var body: some View {
         HStack {
-            Text(workout.name)
+            Text(exercise.name.capitalized)
                 .font(.subheadline)
                 .foregroundColor(asSecondary ? .secondary : .primary)
             
             Spacer()
             
             HStack {
-                ForEach(workout.units, id: \.self) { unit in
+                if exercise.type == "weighted" {
                     VStack(alignment: .trailing, spacing: 1.0) {
-                        Text(unit[0])
+                        Text("sets")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         
-                        Text(unit[1])
+                        Text("\(exercise.weightedExercise!.sets)")
+                            .font(.headline)
+                            .foregroundColor(self.asSecondary ? .secondary : .primary)
+                    }
+                    .padding(.leading, 2.0)
+                    
+                    VStack(alignment: .trailing, spacing: 1.0) {
+                        Text("reps")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        Text("\(exercise.weightedExercise!.reps)")
+                            .font(.headline)
+                            .foregroundColor(self.asSecondary ? .secondary : .primary)
+                    }
+                    .padding(.leading, 2.0)
+                    
+                    VStack(alignment: .trailing, spacing: 1.0) {
+                        Text("lbs")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        Text("x")
+                            .font(.headline)
+                            .foregroundColor(self.asSecondary ? .secondary : .primary)
+                    }
+                    .padding(.leading, 2.0)
+                } else if exercise.type == "distance" {
+                    VStack(alignment: .trailing, spacing: 1.0) {
+                        Text(exercise.distanceExercise!.units)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        Text(exercise.distanceExercise!.distance.format(f: ".1"))
                             .font(.headline)
                             .foregroundColor(self.asSecondary ? .secondary : .primary)
                     }
@@ -38,17 +72,25 @@ struct ActivityView : View {
     }
 }
 
+extension Float32 {
+    func format(f: String) -> String {
+        return String(format: "%\(f)f", self)
+    }
+}
+
+#if DEBUG
 struct ActivityView_Previews: PreviewProvider {
     static var previews: some View {
-        let workouts: [Activity] = [
-            Activity(name: "Running", units: [["mi", "0.7"]]),
-            Activity(name: "Rowing", units: [["m", "700"], ["mins", "4"]]),
+        let workouts: [ActivityViewModel] = [
+            ActivityViewModel(name: "Running", units: [["mi", "0.7"]]),
+            ActivityViewModel(name: "Rowing", units: [["m", "700"], ["mins", "4"]]),
         ]
         
         return Group {
-            ActivityView(workout: workouts[0])
-            ActivityView(workout: workouts[1])
+            ActivityView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil), workout: workouts[0])
+            ActivityView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil), workout: workouts[1])
         }
         .previewLayout(.fixed(width: 400, height: 70))
     }
 }
+#endif

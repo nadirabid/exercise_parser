@@ -7,6 +7,7 @@ require (
 	github.com/antchfx/htmlquery v0.0.0-20180925020018-98389addba3d // indirect
 	github.com/antchfx/xmlquery v0.0.0-20181024140136-98cdbc3221ed // indirect
 	github.com/antchfx/xpath v0.0.0-20181115033526-a762252498f5 // indirect
+	github.com/astaxie/bat v0.0.2 // indirect
 	github.com/denisenkom/go-mssqldb v0.0.0-20190111225525-2fea367d496d // indirect
 	github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 // indirect
 	github.com/fatih/color v1.7.0 // indirect
@@ -39,3 +40,5 @@ require (
 	golang.org/x/sys v0.0.0-20181116161606-93218def8b18 // indirect
 	google.golang.org/appengine v1.3.0 // indirect
 )
+
+go 1.13

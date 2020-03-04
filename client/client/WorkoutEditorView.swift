@@ -42,12 +42,12 @@ public struct ActivityField: View {
         stopWatch.start()
     }
     
-    var workouts: [Activity] = [
-        Activity(name: "Running", units: [["mi", "0.7"]]),
-        Activity(name: "Rowing", units: [["m", "700"], ["mins", "4"]]),
-        Activity(name: "Incline Benchpress", units: [["sets", "5"], ["reps", "5"], ["lbs", "95"]]),
-        Activity(name: "Situps", units: [["reps", "60"]]),
-        Activity(name: "Deadlift", units: [["sets", "5"], ["reps", "5"], ["lbs", "188"]])
+    var workouts: [ActivityViewModel] = [
+        ActivityViewModel(name: "Running", units: [["mi", "0.7"]]),
+        ActivityViewModel(name: "Rowing", units: [["m", "700"], ["mins", "4"]]),
+        ActivityViewModel(name: "Incline Benchpress", units: [["sets", "5"], ["reps", "5"], ["lbs", "95"]]),
+        ActivityViewModel(name: "Situps", units: [["reps", "60"]]),
+        ActivityViewModel(name: "Deadlift", units: [["sets", "5"], ["reps", "5"], ["lbs", "188"]])
     ]
     
     func pressStop() {
@@ -86,7 +86,11 @@ public struct ActivityField: View {
                         })
                         .font(.body)
                         
-                        ActivityView(workout: self.workouts[2], asSecondary: true)
+                        ActivityView(
+                            exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil),
+                            workout: self.workouts[2],
+                            asSecondary: true
+                        )
                         
                         Divider()
                     }

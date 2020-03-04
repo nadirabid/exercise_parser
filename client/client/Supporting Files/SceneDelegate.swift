@@ -22,22 +22,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: WorkoutEditorView())
+            window.rootViewController = UIHostingController(rootView: FeedView())
             self.window = window
             window.makeKeyAndVisible()
         }
-                
-//        APIService.shared.GET(endpoint: "workout", params: nil) {
-//            (result: Result<PaginatedResponse<Workout>, APIService.APIError>) in
-//            switch result {
-//            case let .success(response):
-//                response.results.forEach { workout in
-//                    print("RESPONSE \(workout)")
-//                }
-//            case let .failure(error):
-//                print("ERORRRRR \(error)")
-//            }
-//        }
     }
 }
 
