@@ -8,9 +8,11 @@
 
 import SwiftUI
 import Introspect
+import Combine
 
 // TODO: fix scroll bug due to auto focus
-// TODO; fix timer counting to 100 instead of 60
+// TODO: fix the workout timer counting to 100 instead of 60
+// TODO: add on text change - re resolve the exercise w/ some debounce
 
 struct WorkoutEditorView : View {
     @State private var amount: Decimal?
@@ -21,9 +23,21 @@ struct WorkoutEditorView : View {
     }
 }
 
-struct UserActivity {
+class UserActivity: ObservableObject {
     var id = UUID()
     @State var input: String
+    var dataTaskPublisher: AnyCancellable?
+    var exercise: Exercise?
+    
+    init(input: String) {
+        self.input = input
+    }
+    
+    init(input: String, dataTaskPublisher: AnyCancellable?, exercise: Exercise?) {
+        self.input = input
+        self.dataTaskPublisher = dataTaskPublisher
+        self.exercise = exercise
+    }
 }
 
 public struct ActivityField: View {
@@ -42,14 +56,6 @@ public struct ActivityField: View {
         stopWatch.start()
     }
     
-    var workouts: [ActivityViewModel] = [
-        ActivityViewModel(name: "Running", units: [["mi", "0.7"]]),
-        ActivityViewModel(name: "Rowing", units: [["m", "700"], ["mins", "4"]]),
-        ActivityViewModel(name: "Incline Benchpress", units: [["sets", "5"], ["reps", "5"], ["lbs", "95"]]),
-        ActivityViewModel(name: "Situps", units: [["reps", "60"]]),
-        ActivityViewModel(name: "Deadlift", units: [["sets", "5"], ["reps", "5"], ["lbs", "188"]])
-    ]
-    
     func pressStop() {
         self.stopWatch.stop()
         self.isStopped = true
@@ -62,6 +68,29 @@ public struct ActivityField: View {
     
     func pressFinish() {
         pressStop()
+    }
+    
+    func resolveRawExercise(userActivity: UserActivity) {
+        // we do this just for viewing purposes
+        let exercise = Exercise(raw: userActivity.input)
+        
+        let jsonData = try! JSONEncoder().encode(exercise)
+        if let jsonString = String(data: jsonData, encoding: .utf8) {
+            print(jsonString)
+        }
+        
+        var request = URLRequest(url: URL(string: "\(baseURL)/exercise/resolve")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+        request.httpMethod = "POST"
+        
+        userActivity.dataTaskPublisher = URLSession
+            .shared
+            .dataTaskPublisher(for: request)
+            .map{ response in response.data }
+            .decode(type: Exercise.self, decoder: JSONDecoder())
+            .replaceError(with: Exercise())
+            .sink(receiveValue: { response in userActivity.exercise = response })
     }
     
     public var body: some View {
@@ -86,11 +115,12 @@ public struct ActivityField: View {
                         })
                         .font(.body)
                         
-                        ActivityView(
-                            exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil),
-                            workout: self.workouts[2],
-                            asSecondary: true
-                        )
+                        if activity.exercise != nil {
+                            ActivityView(
+                                exercise: activity.exercise!,
+                                asSecondary: true
+                            )
+                        }
                         
                         Divider()
                     }
@@ -98,7 +128,10 @@ public struct ActivityField: View {
                 
                 TextField("New entry", text: $newEntry, onCommit: {
                     if !self.newEntry.isEmpty {
-                        self.activities.append(UserActivity(input: self.newEntry))
+                        let userActivity = UserActivity(input: self.newEntry)
+                        self.activities.append(userActivity)
+                        self.resolveRawExercise(userActivity: userActivity)
+                        
                         self.newEntry = ""
                         textFieldCtx!.becomeFirstResponder()
                     }

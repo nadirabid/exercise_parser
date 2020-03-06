@@ -25,14 +25,34 @@ struct Workout: Codable, Identifiable {
 }
 
 struct Exercise: Codable, Identifiable {
-    let id: Int
-    let createdAt: String
-    let updatedAt: String
+    let id: Int?
+    let createdAt: String?
+    let updatedAt: String?
     let name: String
     let type: String
     let raw: String
     let weightedExercise: WeightedExercise?
     let distanceExercise: DistanceExercise?
+    
+    init(
+        id: Int? = nil,
+        createdAt: String? = nil,
+        updatedAt: String? = nil,
+        name: String = "",
+        type: String = "",
+        raw: String = "",
+        weightedExercise: WeightedExercise? = nil,
+        distanceExercise: DistanceExercise? = nil
+    ) {
+        self.id = id
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.name = name
+        self.type = type
+        self.raw = raw
+        self.weightedExercise = weightedExercise
+        self.distanceExercise = distanceExercise
+    }
     
     enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"

@@ -4,6 +4,7 @@ import (
 	"exercise_parser/models"
 	"exercise_parser/parser"
 	"fmt"
+	"net/http/httputil"
 
 	"github.com/jinzhu/gorm"
 
@@ -60,6 +61,17 @@ func New(v *viper.Viper) error {
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
 
+	e.Use(middleware.BodyDump(func(c echo.Context, reqBody, resBody []byte) {
+
+		fmt.Println()
+		requestDump, err := httputil.DumpRequest(c.Request(), true)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(string(requestDump))
+		fmt.Println(string(reqBody))
+	}))
+
 	e.Use(func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			return h(newContext(c, db))
@@ -67,6 +79,7 @@ func New(v *viper.Viper) error {
 	})
 
 	e.GET("/exercise/:id", handleGetExercise)
+	e.POST("/exercise/resolve", handleResolveExercise)
 	e.POST("/exercise", handlePostExercise)
 	e.DELETE("/exercise/:id", handleDeleteExercise)
 

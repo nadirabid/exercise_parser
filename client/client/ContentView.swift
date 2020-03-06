@@ -15,13 +15,6 @@ struct ActivityViewModel {
 
 struct ContentView: View {
     @State var workout: Workout
-    var workouts: [ActivityViewModel] = [
-        ActivityViewModel(name: "Running", units: [["mi", "0.7"]]),
-        ActivityViewModel(name: "Rowing", units: [["m", "700"], ["mins", "4"]]),
-        ActivityViewModel(name: "Incline Benchpress", units: [["sets", "5"], ["reps", "5"], ["lbs", "95"]]),
-        ActivityViewModel(name: "Situps", units: [["reps", "60"]]),
-        ActivityViewModel(name: "Deadlift", units: [["sets", "5"], ["reps", "5"], ["lbs", "188"]])
-    ]
     
     var body: some View {
         VStack {
@@ -47,7 +40,7 @@ struct ContentView: View {
             
             VStack {
                 ForEach(workout.exercises) { exercise in
-                    ActivityView(exercise: exercise, workout: self.workouts[0])
+                    ActivityView(exercise: exercise)
                 }
             }
         }

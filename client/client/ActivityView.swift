@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ActivityView : View {
     var exercise: Exercise
-    var workout: ActivityViewModel
     var asSecondary: Bool = false
     
     var body: some View {
@@ -80,15 +79,10 @@ extension Float32 {
 
 #if DEBUG
 struct ActivityView_Previews: PreviewProvider {
-    static var previews: some View {
-        let workouts: [ActivityViewModel] = [
-            ActivityViewModel(name: "Running", units: [["mi", "0.7"]]),
-            ActivityViewModel(name: "Rowing", units: [["m", "700"], ["mins", "4"]]),
-        ]
-        
+    static var previews: some View {        
         return Group {
-            ActivityView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil), workout: workouts[0])
-            ActivityView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil), workout: workouts[1])
+            ActivityView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil))
+            ActivityView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil))
         }
         .previewLayout(.fixed(width: 400, height: 70))
     }
