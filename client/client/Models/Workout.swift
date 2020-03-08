@@ -10,12 +10,28 @@ import Foundation
 import SwiftUI
 
 struct Workout: Codable, Identifiable {
-    let id: Int
-    let createdAt: String
-    let updatedAt: String
+    let id: Int?
+    let createdAt: String?
+    let updatedAt: String?
     let name: String
-    let date: String
+    let date: String?
     let exercises: [Exercise]
+    
+    init(
+        id: Int? = nil,
+        createdAt: String? = nil,
+        updatedAt: String? = nil,
+        name: String = "",
+        date: String? = nil,
+        exercises: [Exercise] = []
+    ) {
+        self.id = id
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.name = name
+        self.date = date
+        self.exercises = exercises
+    }
     
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"

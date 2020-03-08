@@ -9,64 +9,6 @@
 import SwiftUI
 import Combine
 
-#if DEBUG
-let localFeedData: PaginatedResponse<Workout> = PaginatedResponse<Workout>(
-    page: 1,
-    count: 4,
-    pages: 1,
-    results: [
-        Workout(
-            id: 1,
-            createdAt: "",
-            updatedAt: "",
-            name: "Leg day",
-            date: "",
-            exercises: [
-                Exercise(
-                    id: 1,
-                    createdAt: "",
-                    updatedAt: "",
-                    name: "Curls",
-                    type: "weighted",
-                    raw: "1x3 curls",
-                    weightedExercise: WeightedExercise(sets: 1, reps: 3),
-                    distanceExercise: nil
-                ),
-                Exercise(
-                    id: 1,
-                    createdAt: "",
-                    updatedAt: "",
-                    name: "Benchpress",
-                    type: "weighted",
-                    raw: "4 sets of 3 of benchpress",
-                    weightedExercise: WeightedExercise(sets: 4, reps: 3),
-                    distanceExercise: nil
-                )
-            ]
-        ),
-        Workout(
-            id: 1,
-            createdAt: "",
-            updatedAt: "",
-            name: "Arm day",
-            date: "",
-            exercises: [
-                Exercise(
-                    id: 1,
-                    createdAt: "",
-                    updatedAt: "",
-                    name: "Curls",
-                    type: "weighted",
-                    raw: "1 by 3 of curls",
-                    weightedExercise: WeightedExercise(sets: 1, reps: 3),
-                    distanceExercise: nil
-                )
-            ]
-        )
-    ]
-)
-#endif
-
 struct FeedView: View {
     @State private var newActivity = false
     @State private var feedDataPublisher: AnyCancellable? = nil
@@ -138,6 +80,7 @@ struct FeedView: View {
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
         FeedView()
+            .environmentObject(WorkoutEditorState())
     }
 }
 #endif

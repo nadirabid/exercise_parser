@@ -43,6 +43,8 @@ github.com/hokaccha/go-prettyjson v0.0.0-20180920040306-f579f869bbfe h1:MCgzztuo
 github.com/hokaccha/go-prettyjson v0.0.0-20180920040306-f579f869bbfe/go.mod h1:pFlLw2CfqZiIBOx6BuCeRLCrfxBJipTY0nIOF/VbGcI=
 github.com/inconshreveable/mousetrap v1.0.0 h1:Z8tu5sraLXCXIcARxBp/8cbvlwVa7Z1NHg9XEKhtSvM=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
+github.com/jbardin/gotlsscan v0.0.0-20170302211626-45ee1aa1afb7 h1:GTDaAJeRsH0ZcoZGIK0EGk9WPI57XUWVy/t4R/3HmUw=
+github.com/jbardin/gotlsscan v0.0.0-20170302211626-45ee1aa1afb7/go.mod h1:h454DxnnIb9MElRcXJdPdsAAOesnrGp53Y0j0293e0g=
 github.com/jinzhu/gorm v1.9.1 h1:lDSDtsCt5AGGSKTs8AHlSDbbgif4G4+CKJ8ETBDVHTA=
 github.com/jinzhu/gorm v1.9.1/go.mod h1:Vla75njaFJ8clLU1W44h34PjIkijhjHIYnZxMqCdxqo=
 github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a h1:eeaG9XMUvRBYXJi4pg1ZKM7nxc5AfXfojeLLW7O5J3k=

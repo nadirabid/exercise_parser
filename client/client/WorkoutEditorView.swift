@@ -14,16 +14,7 @@ import Combine
 // TODO: fix the workout timer counting to 100 instead of 60
 // TODO: add on text change - re resolve the exercise w/ some debounce
 
-struct WorkoutEditorView : View {
-    @State private var amount: Decimal?
-    @State private var date: Date?
-
-    public var body: some View {
-        ActivityField()
-    }
-}
-
-class UserActivity: ObservableObject {
+class UserActivity {
     var id = UUID()
     @State var input: String
     var dataTaskPublisher: AnyCancellable?
@@ -40,17 +31,10 @@ class UserActivity: ObservableObject {
     }
 }
 
-public struct ActivityField: View {
-    @State private var workoutName: String = "Morning workout"
-    @State private var newEntry: String = ""
-    @State private var activities: [UserActivity] = [
-        UserActivity(input: "running for 5 minutes"),
-        UserActivity(input: "running for 5 minutes"),
-        UserActivity(input: "3x3 tricep curls at 45lbs")
-    ]
-    @State private var isStopped = false
-    
+public struct WorkoutEditorView: View {
+    @EnvironmentObject var state: WorkoutEditorState
     @ObservedObject private var stopWatch: Stopwatch = Stopwatch();
+    @State private var workoutDataTaskPublisher: AnyCancellable? = nil
     
     init() {
         stopWatch.start()
@@ -58,16 +42,38 @@ public struct ActivityField: View {
     
     func pressStop() {
         self.stopWatch.stop()
-        self.isStopped = true
+        self.state.isStopped = true
     }
     
     func pressResume() {
         self.stopWatch.start()
-        self.isStopped = false
+        self.state.isStopped = false
     }
     
     func pressFinish() {
-        pressStop()
+        let exercises: [Exercise] = state.activities.map{ a in Exercise(raw: a.input) }
+        let workout = Workout(name: state.workoutName, exercises: exercises)
+        
+        let jsonData = try! JSONEncoder().encode(workout)
+        if let jsonString = String(data: jsonData, encoding: .utf8) {
+            print(jsonString)
+        }
+        
+        var request = URLRequest(url: URL(string: "\(baseURL)/workout")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+        request.httpMethod = "POST"
+        
+        state.dataTaskPublisher = URLSession
+            .shared
+            .dataTaskPublisher(for: request)
+            .map{ response in return response.data }
+            .decode(type: Workout.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
+            .replaceError(with: Workout())
+            .sink(receiveValue: { _ in
+                self.state.reset()
+            })
     }
     
     func resolveRawExercise(userActivity: UserActivity) {
@@ -89,6 +95,7 @@ public struct ActivityField: View {
             .dataTaskPublisher(for: request)
             .map{ response in response.data }
             .decode(type: Exercise.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
             .replaceError(with: Exercise())
             .sink(receiveValue: { response in userActivity.exercise = response })
     }
@@ -108,7 +115,7 @@ public struct ActivityField: View {
             }
             
             ScrollView {
-                ForEach(activities, id: \.id) { activity in
+                ForEach(state.activities, id: \.id) { activity in
                     VStack {
                         TextField("New entry", text: activity.$input, onCommit: {
                             textFieldCtx!.becomeFirstResponder()
@@ -126,13 +133,13 @@ public struct ActivityField: View {
                     }
                 }
                 
-                TextField("New entry", text: $newEntry, onCommit: {
-                    if !self.newEntry.isEmpty {
-                        let userActivity = UserActivity(input: self.newEntry)
-                        self.activities.append(userActivity)
+                TextField("New entry", text: $state.newEntry, onCommit: {
+                    if !self.state.newEntry.isEmpty {
+                        let userActivity = UserActivity(input: self.state.newEntry)
+                        self.state.activities.append(userActivity)
                         self.resolveRawExercise(userActivity: userActivity)
                         
-                        self.newEntry = ""
+                        self.state.newEntry = ""
                         textFieldCtx!.becomeFirstResponder()
                     }
                 })
@@ -147,7 +154,7 @@ public struct ActivityField: View {
             HStack {
                 Spacer()
                 
-                if !isStopped {
+                if !state.isStopped {
                     Button(action: self.pressStop) {
                         ZStack {
                             Circle()
@@ -202,6 +209,7 @@ public struct ActivityField: View {
 struct WorkoutEditorView_Previews : PreviewProvider {
     static var previews: some View {
         WorkoutEditorView()
+            .environmentObject(WorkoutEditorState())
     }
 }
 #endif

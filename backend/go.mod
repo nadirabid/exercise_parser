@@ -17,6 +17,7 @@ require (
 	github.com/google/go-cmp v0.2.0 // indirect
 	github.com/hokaccha/go-prettyjson v0.0.0-20180920040306-f579f869bbfe
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
+	github.com/jbardin/gotlsscan v0.0.0-20170302211626-45ee1aa1afb7 // indirect
 	github.com/jinzhu/gorm v1.9.1
 	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
 	github.com/jinzhu/now v0.0.0-20181116074157-8ec929ed50c3 // indirect
