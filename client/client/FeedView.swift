@@ -10,13 +10,9 @@ import SwiftUI
 import Combine
 
 struct FeedView: View {
-    @State private var newActivity = false
+    @EnvironmentObject var route: RouteState
     @State private var feedDataPublisher: AnyCancellable? = nil
     @State private var feedData: PaginatedResponse<Workout>? = nil
-
-    func showNewActivity() {
-        self.newActivity = true
-    }
     
     func getFeedData() {
         self.feedDataPublisher = URLSession
@@ -31,46 +27,26 @@ struct FeedView: View {
     func getLocalFeedData() {
         self.feedData = localFeedData
     }
-    
+        
     var body: some View {
         return VStack {
-            if !newActivity {
-                if self.feedData != nil {
-                    ScrollView {
-                        ForEach(self.feedData!.results) { workout in
-                            ContentView(workout: workout)
-                        }
-                    }
-                } else {
-                    HStack {
-                        Spacer()
-                        Text("You have nothing in your feed!")
-                        Spacer()
-                    }
-                    
-                    Spacer()
-                }
-                
-                Button(action: self.showNewActivity) {
-                    ZStack {
-                        Circle()
-                            .stroke(appColor, lineWidth: 2)
-                            .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
-                            .frame(width: 50, height: 50)
-                        
-                        Circle()
-                            .fill(appColor)
-                            .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
-                            .frame(width: 20, height: 20)
+            if self.feedData != nil && self.feedData?.count ?? 0 > 0  {
+                ScrollView {
+                    ForEach(self.feedData!.results) { workout in
+                        WorkoutView(workout: workout)
                     }
                 }
             } else {
-                WorkoutEditorView()
+                HStack {
+                    Spacer()
+                    Text("You have nothing in your feed!")
+                    Spacer()
+                }
+                
+                Spacer()
             }
         }
-        .padding()
-        .edgesIgnoringSafeArea(.bottom)
-        .onAppear {
+        .onAppear(){
             self.getFeedData()
         }
     }
@@ -81,6 +57,7 @@ struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
         FeedView()
             .environmentObject(WorkoutEditorState())
+            .environmentObject(RouteState(current: .feed))
     }
 }
 #endif

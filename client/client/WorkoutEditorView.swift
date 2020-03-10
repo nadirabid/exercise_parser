@@ -32,6 +32,7 @@ class UserActivity {
 }
 
 public struct WorkoutEditorView: View {
+    @EnvironmentObject var route: RouteState
     @EnvironmentObject var state: WorkoutEditorState
     @ObservedObject private var stopWatch: Stopwatch = Stopwatch();
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
@@ -73,6 +74,7 @@ public struct WorkoutEditorView: View {
             .replaceError(with: Workout())
             .sink(receiveValue: { _ in
                 self.state.reset()
+                self.route.current = .feed
             })
     }
     
@@ -140,7 +142,7 @@ public struct WorkoutEditorView: View {
                         self.resolveRawExercise(userActivity: userActivity)
                         
                         self.state.newEntry = ""
-                        textFieldCtx!.becomeFirstResponder()
+                        textFieldCtx?.becomeFirstResponder()
                     }
                 })
                 .introspectTextField { textField in
@@ -200,8 +202,6 @@ public struct WorkoutEditorView: View {
                 Spacer()
             }
         }
-        .padding()
-        .edgesIgnoringSafeArea(.bottom)
     }
 }
 
@@ -209,7 +209,10 @@ public struct WorkoutEditorView: View {
 struct WorkoutEditorView_Previews : PreviewProvider {
     static var previews: some View {
         WorkoutEditorView()
+            .padding([.leading, .trailing, .bottom])
+            .edgesIgnoringSafeArea(.bottom)
             .environmentObject(WorkoutEditorState())
+            .environmentObject(RouteState(current: .editor))
     }
 }
 #endif

@@ -27,6 +27,7 @@ func handleGetAllWorkout(c echo.Context) error {
 		Preload("Exercises").
 		Preload("Exercises.WeightedExercise").
 		Preload("Exercises.DistanceExercise").
+		Order("created_at desc").
 		Find(&workouts).
 		Error
 

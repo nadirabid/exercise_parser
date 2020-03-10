@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6402BBBD2414CBD80061FB58 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6402BBBC2414CBD80061FB58 /* AppState.swift */; };
+		6405131A241635E300DDC3D7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64051319241635E300DDC3D7 /* MapKit.framework */; };
+		6405131F24163A8900DDC3D7 /* SignInWithAppleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6405131E24163A8900DDC3D7 /* SignInWithAppleView.swift */; };
 		642675AC22C0A0DC008E07A1 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642675AB22C0A0DC008E07A1 /* APIService.swift */; };
 		642675AF22C0A44F008E07A1 /* PaginatedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642675AE22C0A44F008E07A1 /* PaginatedResponse.swift */; };
 		642675B122C0A48D008E07A1 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642675B022C0A48D008E07A1 /* Workout.swift */; };
@@ -15,13 +17,14 @@
 		644E3364240CE26200458438 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E3363240CE26200458438 /* FeedView.swift */; };
 		6494A01622B6139900C19543 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A01522B6139900C19543 /* AppDelegate.swift */; };
 		6494A01822B6139900C19543 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A01722B6139900C19543 /* SceneDelegate.swift */; };
-		6494A01A22B6139900C19543 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A01922B6139900C19543 /* ContentView.swift */; };
+		6494A01A22B6139900C19543 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A01922B6139900C19543 /* WorkoutView.swift */; };
 		6494A01C22B6139B00C19543 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6494A01B22B6139B00C19543 /* Assets.xcassets */; };
 		6494A01F22B6139B00C19543 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6494A01E22B6139B00C19543 /* Preview Assets.xcassets */; };
 		6494A02222B6139B00C19543 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6494A02022B6139B00C19543 /* LaunchScreen.storyboard */; };
 		6494A02D22B6139B00C19543 /* clientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A02C22B6139B00C19543 /* clientTests.swift */; };
 		6494A03822B6139B00C19543 /* clientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A03722B6139B00C19543 /* clientUITests.swift */; };
 		6498A98D24122355005BB19F /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6498A98C24122355005BB19F /* Config.swift */; };
+		6499C7EB2417561500743CDD /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6499C7EA2417561500743CDD /* MainView.swift */; };
 		649A4917240670BC003206C3 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649A4916240670BC003206C3 /* ActivityView.swift */; };
 		649A491924067561003206C3 /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649A491824067561003206C3 /* StopWatch.swift */; };
 		649CBE8F22B6D84500D23DD6 /* CircleProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */; };
@@ -48,6 +51,9 @@
 
 /* Begin PBXFileReference section */
 		6402BBBC2414CBD80061FB58 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		64051319241635E300DDC3D7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		6405131B2416364D00DDC3D7 /* client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = client.entitlements; sourceTree = "<group>"; };
+		6405131E24163A8900DDC3D7 /* SignInWithAppleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleView.swift; sourceTree = "<group>"; };
 		642675AB22C0A0DC008E07A1 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		642675AE22C0A44F008E07A1 /* PaginatedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatedResponse.swift; sourceTree = "<group>"; };
 		642675B022C0A48D008E07A1 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
@@ -56,7 +62,7 @@
 		6494A01222B6139900C19543 /* client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6494A01522B6139900C19543 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6494A01722B6139900C19543 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		6494A01922B6139900C19543 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; wrapsLines = 1; };
+		6494A01922B6139900C19543 /* WorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutView.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		6494A01B22B6139B00C19543 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6494A01E22B6139B00C19543 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6494A02122B6139B00C19543 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -68,6 +74,7 @@
 		6494A03722B6139B00C19543 /* clientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clientUITests.swift; sourceTree = "<group>"; };
 		6494A03922B6139B00C19543 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6498A98C24122355005BB19F /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		6499C7EA2417561500743CDD /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		649A4916240670BC003206C3 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		649A491824067561003206C3 /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProfileImage.swift; sourceTree = "<group>"; };
@@ -79,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6405131A241635E300DDC3D7 /* MapKit.framework in Frameworks */,
 				64F499FC23E8031E003ADB62 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,6 +108,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64051318241635E300DDC3D7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				64051319241635E300DDC3D7 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		642675AD22C0A425008E07A1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +133,7 @@
 				6494A02B22B6139B00C19543 /* clientTests */,
 				6494A03622B6139B00C19543 /* clientUITests */,
 				6494A01322B6139900C19543 /* Products */,
+				64051318241635E300DDC3D7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -133,11 +150,13 @@
 		6494A01422B6139900C19543 /* client */ = {
 			isa = PBXGroup;
 			children = (
+				6405131B2416364D00DDC3D7 /* client.entitlements */,
 				642675AD22C0A425008E07A1 /* Models */,
 				6494A01D22B6139B00C19543 /* Preview Content */,
 				6494A04522B6142D00C19543 /* Supporting Files */,
-				6494A01922B6139900C19543 /* ContentView.swift */,
+				6494A01922B6139900C19543 /* WorkoutView.swift */,
 				649A491824067561003206C3 /* StopWatch.swift */,
+				6499C7EA2417561500743CDD /* MainView.swift */,
 				649A4916240670BC003206C3 /* ActivityView.swift */,
 				64E06CC72352F6E0005AC1D8 /* WorkoutEditorView.swift */,
 				6494A02322B6139B00C19543 /* Info.plist */,
@@ -146,6 +165,7 @@
 				642675AB22C0A0DC008E07A1 /* APIService.swift */,
 				644E3363240CE26200458438 /* FeedView.swift */,
 				6498A98C24122355005BB19F /* Config.swift */,
+				6405131E24163A8900DDC3D7 /* SignInWithAppleView.swift */,
 			);
 			path = client;
 			sourceTree = "<group>";
@@ -333,11 +353,13 @@
 				6498A98D24122355005BB19F /* Config.swift in Sources */,
 				642DA77922B71279002F49AE /* MapView.swift in Sources */,
 				642675B122C0A48D008E07A1 /* Workout.swift in Sources */,
+				6499C7EB2417561500743CDD /* MainView.swift in Sources */,
 				6402BBBD2414CBD80061FB58 /* AppState.swift in Sources */,
+				6405131F24163A8900DDC3D7 /* SignInWithAppleView.swift in Sources */,
 				64E06CC82352F6E0005AC1D8 /* WorkoutEditorView.swift in Sources */,
 				6494A01822B6139900C19543 /* SceneDelegate.swift in Sources */,
 				642675AF22C0A44F008E07A1 /* PaginatedResponse.swift in Sources */,
-				6494A01A22B6139900C19543 /* ContentView.swift in Sources */,
+				6494A01A22B6139900C19543 /* WorkoutView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,15 +524,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = client/client.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "client/Preview\\ Content";
+				DEVELOPMENT_TEAM = C3HW5VXXF5;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = client/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = workout.client;
+				PRODUCT_BUNDLE_IDENTIFIER = ryden.client;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -521,15 +545,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = client/client.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "client/Preview\\ Content";
+				DEVELOPMENT_TEAM = C3HW5VXXF5;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = client/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = workout.client;
+				PRODUCT_BUNDLE_IDENTIFIER = ryden.client;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

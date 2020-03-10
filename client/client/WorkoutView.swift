@@ -13,7 +13,7 @@ struct ActivityViewModel {
     var units: [[String]]
 }
 
-struct ContentView: View {
+struct WorkoutView: View {
     @State var workout: Workout
     
     var body: some View {
@@ -48,12 +48,12 @@ struct ContentView: View {
 }
 
 #if DEBUG
-struct ContentView_Previews : PreviewProvider {
+struct WorkoutView_Previews : PreviewProvider {
     static var previews: some View {
         List {
-            ContentView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: "", exercises: []))
-            ContentView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: "", exercises: []))
-            ContentView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: "", exercises: []))
+            WorkoutView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: "", exercises: []))
+            WorkoutView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: "", exercises: []))
+            WorkoutView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: "", exercises: []))
         }
     }
 }

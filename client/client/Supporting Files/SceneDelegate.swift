@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import AuthenticationServices
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -20,11 +21,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller
         
+        let userState = UserState()
+        
+        if let userID = UserDefaults.standard.object(forKey: "userId") as? String {
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            appleIDProvider.getCredentialState(forUserID: userID) { (state, error) in
+                
+                DispatchQueue.main.async {
+                    switch state
+                    {
+                    case .authorized: // valid user id
+                        userState.authorization = 1
+                        break
+                    case .revoked: // user revoked authorization
+                        userState.authorization = -1
+                        break
+                    case .notFound: //not found
+                        userState.authorization = 0
+                        break
+                    default:
+                        break
+                    }
+                }
+            }
+        }
+        
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
-            let rootView = FeedView()
+            let rootView = MainView()
                 .environmentObject(WorkoutEditorState())
+                .environmentObject(RouteState())
+                .environmentObject(userState)
             
             window.rootViewController = UIHostingController(rootView: rootView)
             

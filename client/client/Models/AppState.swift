@@ -25,3 +25,20 @@ class WorkoutEditorState: ObservableObject {
     }
 }
 
+class RouteState: ObservableObject {
+    @Published var current: Route
+    
+    init(current: Route = .feed) {
+        self.current = current
+    }
+    
+    enum Route {
+        case feed
+        case editor
+    }
+}
+
+class UserState: ObservableObject {
+    // 1 = Authorized, -1 = Revoked
+    @Published var authorization: Int = 0
+}
