@@ -90,7 +90,7 @@ struct SignInWithAppleView: UIViewRepresentable {
                 print("credentials not found....")
                 return
             }
-            
+                        
             let defaults = UserDefaults.standard
             defaults.set(credentials.user, forKey: "userId")
             parent?.name = "\(credentials.fullName?.givenName ?? "")"

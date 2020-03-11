@@ -1,20 +1,49 @@
 package server
 
 import (
+	"encoding/json"
 	"exercise_parser/models"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo"
+	"github.com/lestrrat-go/jwx/jwk"
 )
 
-// ListResponse is generic struct for returning lists
-type ListResponse struct {
-	Page    int         `json:"page"`
-	Pages   int         `json:"pages"`
-	Count   int         `json:"count"`
-	Results interface{} `json:"results"`
+func handleUserRegistration(c echo.Context) error {
+	ctx := c.(*Context)
+
+	jwkURL := "https://appleid.apple.com/auth/keys"
+	set, err := jwk.Fetch(jwkURL)
+	if err != nil {
+		log.Printf("failed to parse JWK: %s", err)
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	res2B, _ := json.Marshal(set)
+
+	fmt.Println(string(res2B))
+
+	// resp, err := http.Get(jwkURL)
+	// if err != nil {
+	// 	panic("coudn't get jwe from apple")
+	// }
+	// defer resp.Body.Close()
+	// body, err := ioutil.ReadAll(resp.Body)
+
+	// fmt.Println("body", string(body))
+
+	// var parsedKey jose.JSONWebKey
+	// err = parsedKey.UnmarshalJSON(body)
+	// if err != nil {
+	// 	fmt.Println("error", err)
+	// }
+
+	// fmt.Println("hereee", parsedKey)
+
+	return ctx.JSON(http.StatusOK, nil)
 }
 
 func handleGetAllWorkout(c echo.Context) error {
@@ -35,7 +64,7 @@ func handleGetAllWorkout(c echo.Context) error {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
 
-	r := ListResponse{
+	r := models.ListResponse{
 		Count:   len(workouts),
 		Results: workouts,
 	}

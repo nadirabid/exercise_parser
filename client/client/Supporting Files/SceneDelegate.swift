@@ -26,7 +26,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let userID = UserDefaults.standard.object(forKey: "userId") as? String {
             let appleIDProvider = ASAuthorizationAppleIDProvider()
             appleIDProvider.getCredentialState(forUserID: userID) { (state, error) in
-                
                 DispatchQueue.main.async {
                     switch state
                     {

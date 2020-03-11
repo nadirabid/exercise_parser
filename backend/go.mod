@@ -24,10 +24,12 @@ require (
 	github.com/kennygrant/sanitize v1.2.4 // indirect
 	github.com/labstack/echo v0.0.0-20181106020225-2e9f4ea4e010
 	github.com/labstack/gommon v0.2.8 // indirect
+	github.com/lestrrat-go/jwx v0.9.1
 	github.com/lib/pq v1.0.0
 	github.com/mattn/go-isatty v0.0.4 // indirect
 	github.com/mattn/go-sqlite3 v1.10.0 // indirect
 	github.com/mitchellh/mapstructure v1.1.2 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
 	github.com/spf13/cast v1.3.0 // indirect
 	github.com/spf13/cobra v0.0.3
@@ -40,6 +42,7 @@ require (
 	golang.org/x/sync v0.0.0-20181221193216-37e7f081c4d4 // indirect
 	golang.org/x/sys v0.0.0-20181116161606-93218def8b18 // indirect
 	google.golang.org/appengine v1.3.0 // indirect
+	gopkg.in/square/go-jose.v2 v2.4.1
 )
 
 go 1.13
