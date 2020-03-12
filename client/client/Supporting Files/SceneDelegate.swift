@@ -23,27 +23,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let userState = UserState()
         
-        if let userID = UserDefaults.standard.object(forKey: "userId") as? String {
-            let appleIDProvider = ASAuthorizationAppleIDProvider()
-            appleIDProvider.getCredentialState(forUserID: userID) { (state, error) in
-                DispatchQueue.main.async {
-                    switch state
-                    {
-                    case .authorized: // valid user id
-                        userState.authorization = 1
-                        break
-                    case .revoked: // user revoked authorization
-                        userState.authorization = -1
-                        break
-                    case .notFound: //not found
-                        userState.authorization = 0
-                        break
-                    default:
-                        break
-                    }
-                }
-            }
-        }
+//        if let userID = UserDefaults.standard.object(forKey: "userId") as? String {
+//            let appleIDProvider = ASAuthorizationAppleIDProvider()
+//            appleIDProvider.getCredentialState(forUserID: userID) { (state, error) in
+//                DispatchQueue.main.async {
+//                    switch state
+//                    {
+//                    case .authorized: // valid user id
+//                        userState.authorization = 1
+//                        break
+//                    case .revoked: // user revoked authorization
+//                        userState.authorization = -1
+//                        break
+//                    case .notFound: //not found
+//                        userState.authorization = 0
+//                        break
+//                    default:
+//                        break
+//                    }
+//                }
+//            }
+//        }
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)

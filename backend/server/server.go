@@ -78,7 +78,7 @@ func New(v *viper.Viper) error {
 		}
 	})
 
-	e.GET("/user/register", handleUserRegistration)
+	e.POST("/user/register", handleUserRegistration)
 
 	e.GET("/exercise/:id", handleGetExercise)
 	e.POST("/exercise/resolve", handleResolveExercise)

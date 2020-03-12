@@ -14,7 +14,7 @@ struct MainView: View {
     
     var body: some View {
         VStack {
-            if userState.authorization < 0 {
+            if userState.authorization < 1 {
                 SignInView()
             } else {
                 if route.current == .feed {

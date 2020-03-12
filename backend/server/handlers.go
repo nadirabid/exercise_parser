@@ -1,20 +1,31 @@
 package server
 
 import (
+	"bytes"
 	"encoding/json"
 	"exercise_parser/models"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/labstack/echo"
 	"github.com/lestrrat-go/jwx/jwk"
+	"github.com/lestrrat-go/jwx/jwt"
 )
+
+type UserRegistrationData struct {
+	UserId     string `json:"user_id"`
+	Email      string `json:"email"`
+	GivenName  string `json:"given_name"`
+	FamilyName string `json:"family_name"`
+}
 
 func handleUserRegistration(c echo.Context) error {
 	ctx := c.(*Context)
 
+	// TODO: we should cache jwk
 	jwkURL := "https://appleid.apple.com/auth/keys"
 	set, err := jwk.Fetch(jwkURL)
 	if err != nil {
@@ -22,26 +33,36 @@ func handleUserRegistration(c echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	res2B, _ := json.Marshal(set)
+	bearerToken := strings.Split(c.Request().Header.Get("Authorization"), " ")
 
+	fmt.Println("heree", bearerToken[1])
+	token, err := jwt.Parse(bytes.NewReader([]byte(bearerToken[1])))
+	if err != nil {
+		// handle it
+	}
+
+	keyID, ok := token.Get("kid")
+	if !ok {
+		// handl it
+	}
+
+	keys := set.LookupKeyID(keyID.(string))
+
+	fmt.Println("count", len(keys))
+
+	res2B, _ := json.Marshal(set)
 	fmt.Println(string(res2B))
 
-	// resp, err := http.Get(jwkURL)
-	// if err != nil {
-	// 	panic("coudn't get jwe from apple")
-	// }
-	// defer resp.Body.Close()
-	// body, err := ioutil.ReadAll(resp.Body)
+	fmt.Println("key_id", set.Keys[0].KeyID())
+	fmt.Println("key_id", set.Keys[1].KeyID())
 
-	// fmt.Println("body", string(body))
+	userRegistrationData := &UserRegistrationData{}
+	if err := ctx.Bind(userRegistrationData); err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
 
-	// var parsedKey jose.JSONWebKey
-	// err = parsedKey.UnmarshalJSON(body)
-	// if err != nil {
-	// 	fmt.Println("error", err)
-	// }
-
-	// fmt.Println("hereee", parsedKey)
+	res3, _ := json.Marshal(userRegistrationData)
+	fmt.Println("userRegiData", string(res3))
 
 	return ctx.JSON(http.StatusOK, nil)
 }

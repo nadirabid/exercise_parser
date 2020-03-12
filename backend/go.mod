@@ -2,7 +2,6 @@ module exercise_parser
 
 require (
 	cloud.google.com/go v0.34.0 // indirect
-	github.com/BurntSushi/toml v0.3.1 // indirect
 	github.com/PuerkitoBio/goquery v1.5.0
 	github.com/antchfx/htmlquery v0.0.0-20180925020018-98389addba3d // indirect
 	github.com/antchfx/xmlquery v0.0.0-20181024140136-98cdbc3221ed // indirect
@@ -35,12 +34,10 @@ require (
 	github.com/spf13/cobra v0.0.3
 	github.com/spf13/pflag v1.0.3 // indirect
 	github.com/spf13/viper v1.2.1
-	github.com/stretchr/testify v1.2.2
+	github.com/stretchr/testify v1.4.0
 	github.com/temoto/robotstxt v0.0.0-20180810133444-97ee4a9ee6ea // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	golang.org/x/crypto v0.0.0-20181112202954-3d3f9f413869 // indirect
-	golang.org/x/sync v0.0.0-20181221193216-37e7f081c4d4 // indirect
-	golang.org/x/sys v0.0.0-20181116161606-93218def8b18 // indirect
+	golang.org/x/tools/gopls v0.3.3 // indirect
 	google.golang.org/appengine v1.3.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.4.1
 )

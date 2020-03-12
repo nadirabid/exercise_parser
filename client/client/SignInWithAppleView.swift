@@ -8,6 +8,8 @@
 
 import SwiftUI
 import AuthenticationServices
+import Combine
+import Alamofire
 
 extension String: Error { }
 
@@ -39,6 +41,7 @@ struct SignInView: View {
 
 struct SignInWithAppleView: UIViewRepresentable {
     @Binding var name: String
+    var dataPublisher: AnyCancellable? = nil
     
     func makeCoordinator() -> Coordinator {
         return Coordinator(self)
@@ -61,7 +64,7 @@ struct SignInWithAppleView: UIViewRepresentable {
     }
     
     class Coordinator: NSObject, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
-        let parent: SignInWithAppleView?
+        var parent: SignInWithAppleView?
         
         init(_ parent: SignInWithAppleView) {
             self.parent = parent
@@ -90,13 +93,53 @@ struct SignInWithAppleView: UIViewRepresentable {
                 print("credentials not found....")
                 return
             }
+            
+            credentials.identityToken?.head
+            
+            let identityToken = String(data: credentials.identityToken!, encoding: .utf8)!
+            print("identityToken", identityToken)
                         
             let defaults = UserDefaults.standard
             defaults.set(credentials.user, forKey: "userId")
             parent?.name = "\(credentials.fullName?.givenName ?? "")"
+            
+            let data = UserRegistrationData(
+                userId: credentials.user,
+                email: credentials.email ?? "",
+                givenName: credentials.fullName?.givenName ?? "",
+                familyName: credentials.fullName?.familyName ?? ""
+            )
+            
+            let headers: HTTPHeaders = [
+                "Accept": "application/json",
+                "Authorization": "Bearer \(identityToken)"
+            ]
+            
+            let url = "\(baseURL)/user/register"
+            
+            AF.request(url, method: .post, parameters: data, encoder: JSONParameterEncoder.default, headers: headers)
+                .validate()
+                .response(queue: DispatchQueue.main) { (data) in
+                    print(data)
+                }
+        }
+        
+        struct UserRegistrationData: Codable {
+            let userId: String
+            let email: String?
+            let givenName: String?
+            let familyName: String?
+            
+            private enum CodingKeys: String, CodingKey {
+                case userId = "user_id"
+                case email = "email"
+                case givenName = "given_name"
+                case familyName = "family_name"
+            }
         }
         
         func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+            // TODO: handle error
         }
     }
 }
