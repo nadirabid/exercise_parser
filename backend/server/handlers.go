@@ -1,7 +1,6 @@
 package server
 
 import (
-	"bytes"
 	"encoding/json"
 	"exercise_parser/models"
 	"fmt"
@@ -12,7 +11,7 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/lestrrat-go/jwx/jwk"
-	"github.com/lestrrat-go/jwx/jwt"
+	"github.com/lestrrat-go/jwx/jws"
 )
 
 type UserRegistrationData struct {
@@ -35,26 +34,13 @@ func handleUserRegistration(c echo.Context) error {
 
 	bearerToken := strings.Split(c.Request().Header.Get("Authorization"), " ")
 
-	fmt.Println("heree", bearerToken[1])
-	token, err := jwt.Parse(bytes.NewReader([]byte(bearerToken[1])))
+	verified, err := jws.VerifyWithJWKSet([]byte(bearerToken[1]), set, nil)
 	if err != nil {
-		// handle it
+		fmt.Println("failed to verify", err)
+		return ctx.JSON(http.StatusUnauthorized, newErrorMessage(err.Error()))
 	}
 
-	keyID, ok := token.Get("kid")
-	if !ok {
-		// handl it
-	}
-
-	keys := set.LookupKeyID(keyID.(string))
-
-	fmt.Println("count", len(keys))
-
-	res2B, _ := json.Marshal(set)
-	fmt.Println(string(res2B))
-
-	fmt.Println("key_id", set.Keys[0].KeyID())
-	fmt.Println("key_id", set.Keys[1].KeyID())
+	fmt.Println("verified", string(verified))
 
 	userRegistrationData := &UserRegistrationData{}
 	if err := ctx.Bind(userRegistrationData); err != nil {

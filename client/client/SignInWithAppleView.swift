@@ -39,6 +39,7 @@ struct SignInView: View {
     }
 }
 
+// https://developer.apple.com/documentation/signinwithapplerestapi/authenticating_users_with_sign_in_with_apple
 struct SignInWithAppleView: UIViewRepresentable {
     @Binding var name: String
     var dataPublisher: AnyCancellable? = nil
@@ -94,10 +95,9 @@ struct SignInWithAppleView: UIViewRepresentable {
                 return
             }
             
-            credentials.identityToken?.head
+            print("scopes", credentials.authorizedScopes)
             
             let identityToken = String(data: credentials.identityToken!, encoding: .utf8)!
-            print("identityToken", identityToken)
                         
             let defaults = UserDefaults.standard
             defaults.set(credentials.user, forKey: "userId")
