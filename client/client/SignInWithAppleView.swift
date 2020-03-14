@@ -61,7 +61,7 @@ struct SignInWithAppleView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: ASAuthorizationAppleIDButton, context: Context) {
-    
+        
     }
     
     class Coordinator: NSObject, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
@@ -70,7 +70,6 @@ struct SignInWithAppleView: UIViewRepresentable {
         init(_ parent: SignInWithAppleView) {
             self.parent = parent
             super.init()
-
         }
         
         @objc func didTapButton() {

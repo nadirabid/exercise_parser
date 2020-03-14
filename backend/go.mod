@@ -8,6 +8,7 @@ require (
 	github.com/antchfx/xpath v0.0.0-20181115033526-a762252498f5 // indirect
 	github.com/astaxie/bat v0.0.2 // indirect
 	github.com/denisenkom/go-mssqldb v0.0.0-20190111225525-2fea367d496d // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 // indirect
 	github.com/fatih/color v1.7.0 // indirect
 	github.com/go-sql-driver/mysql v1.4.1 // indirect

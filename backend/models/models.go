@@ -13,6 +13,7 @@ type Workout struct {
 	Name      string     `json:"name"`
 	Date      time.Time  `json:"date"`
 	Exercises []Exercise `json:"exercises"`
+	UserID    uint       `json:"user_id" gorm:"type:int REFERENCES users(id) ON DELETE CASCADE"`
 }
 
 // HasExercise returns true if Exercise exists with id, otherwise false

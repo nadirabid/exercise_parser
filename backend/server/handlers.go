@@ -1,28 +1,39 @@
 package server
 
 import (
-	"encoding/json"
+	"crypto/rand"
+	"crypto/rsa"
+
 	"exercise_parser/models"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/labstack/echo"
+	"github.com/lestrrat-go/jwx/jwa"
 	"github.com/lestrrat-go/jwx/jwk"
 	"github.com/lestrrat-go/jwx/jws"
+	"github.com/lestrrat-go/jwx/jwt"
 )
 
-type UserRegistrationData struct {
-	UserId     string `json:"user_id"`
-	Email      string `json:"email"`
-	GivenName  string `json:"given_name"`
-	FamilyName string `json:"family_name"`
+var tempKey *rsa.PrivateKey
+
+func init() {
+	key, err := rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		panic("Failed to generate key")
+	}
+
+	tempKey = key
 }
 
 func handleUserRegistration(c echo.Context) error {
 	ctx := c.(*Context)
+
+	rsa.GenerateKey(rand.Reader, 2048)
 
 	// TODO: we should cache jwk
 	jwkURL := "https://appleid.apple.com/auth/keys"
@@ -34,23 +45,61 @@ func handleUserRegistration(c echo.Context) error {
 
 	bearerToken := strings.Split(c.Request().Header.Get("Authorization"), " ")
 
-	verified, err := jws.VerifyWithJWKSet([]byte(bearerToken[1]), set, nil)
+	verifiedToken, err := jws.VerifyWithJWKSet([]byte(bearerToken[1]), set, nil)
 	if err != nil {
-		fmt.Println("failed to verify", err)
 		return ctx.JSON(http.StatusUnauthorized, newErrorMessage(err.Error()))
 	}
 
-	fmt.Println("verified", string(verified))
+	fmt.Println("verifiedToken", verifiedToken)
 
-	userRegistrationData := &UserRegistrationData{}
-	if err := ctx.Bind(userRegistrationData); err != nil {
+	// we're now verified/authenticated
+
+	user := &models.User{}
+	if err := ctx.Bind(user); err != nil {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	res3, _ := json.Marshal(userRegistrationData)
-	fmt.Println("userRegiData", string(res3))
+	tx := ctx.DB().Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
 
-	return ctx.JSON(http.StatusOK, nil)
+	err = tx.
+		Preload("Users").
+		Where("external_user_id = ?", user.ID).
+		First(user).
+		Error
+
+	if err != nil {
+		// then user doesn't exist so we create a new one
+		if err := tx.Create(user).Error; err != nil {
+			tx.Rollback()
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+
+		if err := tx.Commit().Error; err != nil {
+			tx.Rollback()
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+	}
+
+	now := time.Unix(time.Now().Unix(), 0)
+	t := jwt.New()
+	t.Set(jwt.AudienceKey, "ryden")
+	t.Set(jwt.ExpirationKey, now.Add(10*time.Hour).Unix())
+	t.Set(jwt.IssuedAtKey, now.Unix())
+	t.Set(jwt.IssuerKey, "https://ryden.app")
+	t.Set(jwt.SubjectKey, user.ID)
+
+	payload, err := t.Sign(jwa.RS256, tempKey)
+
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, payload)
 }
 
 func handleGetAllWorkout(c echo.Context) error {
@@ -128,14 +177,19 @@ func handlePostWorkout(c echo.Context) error {
 			minSearchRank := float32(0.05)
 			topSearchResult := searchResults[0]
 
-			fmt.Println("topSearchResult.rank", topSearchResult.Rank)
 			if topSearchResult.Rank < minSearchRank {
-				return ctx.JSON(http.StatusInternalServerError, fmt.Errorf("search results for %s have too low of rank", e.Name))
+				return ctx.JSON(
+					http.StatusInternalServerError,
+					newErrorMessage(fmt.Errorf("search results for %s have too low of rank", e.Name).Error()),
+				)
 			}
 
 			e.ExerciseDictionaryID = topSearchResult.ExerciseDictionaryID
 		} else {
-			return ctx.JSON(http.StatusInternalServerError, fmt.Errorf("couldn't resolve ExerciseDictionary entry for: %s", e.Name))
+			return ctx.JSON(
+				http.StatusInternalServerError,
+				newErrorMessage(fmt.Errorf("couldn't resolve ExerciseDictionary entry for: %s", e.Name).Error()),
+			)
 		}
 
 		workout.Exercises[i] = e
@@ -274,7 +328,7 @@ func handleResolveExercise(c echo.Context) error {
 	}
 
 	if err := exercise.Resolve(); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, err.Error())
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
 	return ctx.JSON(http.StatusOK, exercise)
@@ -291,7 +345,7 @@ func handlePostExercise(c echo.Context) error {
 	}
 
 	if err := exercise.Resolve(); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, err.Error())
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
 	if err := db.Create(exercise).Error; err != nil {
