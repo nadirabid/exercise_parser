@@ -1,12 +1,15 @@
 package server
 
 import (
+	"crypto/rand"
+	"crypto/rsa"
 	"exercise_parser/models"
 	"exercise_parser/parser"
 	"fmt"
 	"net/http/httputil"
 
 	"github.com/jinzhu/gorm"
+	"github.com/lestrrat-go/jwx/jwt"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres" // dialect automatically used by gorm
 
@@ -19,7 +22,9 @@ import (
 // Context is an extention of echo.Context
 type Context struct {
 	echo.Context
-	db *gorm.DB
+	db  *gorm.DB
+	key *rsa.PrivateKey
+	jwt *jwt.Token
 }
 
 // DB returns the database object used in handlers
@@ -28,9 +33,16 @@ func (c *Context) DB() *gorm.DB {
 }
 
 func newContext(c echo.Context, db *gorm.DB) *Context {
+	key, err := rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		panic("Failed to generate key")
+	}
+
 	return &Context{
 		c,
 		db,
+		key,
+		nil,
 	}
 }
 

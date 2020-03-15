@@ -41,4 +41,5 @@ class RouteState: ObservableObject {
 class UserState: ObservableObject {
     // 1 = Authorized, -1 = Revoked
     @Published var authorization: Int = 0
+    @Published var token: String? = nil
 }

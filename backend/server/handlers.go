@@ -1,9 +1,6 @@
 package server
 
 import (
-	"crypto/rand"
-	"crypto/rsa"
-
 	"exercise_parser/models"
 	"fmt"
 	"log"
@@ -18,21 +15,6 @@ import (
 	"github.com/lestrrat-go/jwx/jws"
 	"github.com/lestrrat-go/jwx/jwt"
 )
-
-var tempKey *rsa.PrivateKey
-
-func init() {
-	key, err := rsa.GenerateKey(rand.Reader, 2048)
-	if err != nil {
-		panic("Failed to generate key")
-	}
-
-	tempKey = key
-}
-
-type Token struct {
-	Token string
-}
 
 func handleUserRegistration(c echo.Context) error {
 	ctx := c.(*Context)
@@ -97,13 +79,13 @@ func handleUserRegistration(c echo.Context) error {
 	t.Set(jwt.IssuerKey, "https://ryden.app")
 	t.Set(jwt.SubjectKey, user.ID)
 
-	payload, err := t.Sign(jwa.RS256, tempKey)
+	payload, err := t.Sign(jwa.RS256, ctx.key)
 
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	return ctx.JSON(http.StatusOK, Token{string(payload)})
+	return ctx.JSON(http.StatusOK, models.Token{string(payload)})
 }
 
 func handleGetAllWorkout(c echo.Context) error {

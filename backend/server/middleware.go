@@ -1,0 +1,44 @@
+package server
+
+import (
+	"bytes"
+	"net/http"
+	"strings"
+
+	"github.com/labstack/echo"
+	"github.com/lestrrat-go/jwx/jwa"
+	"github.com/lestrrat-go/jwx/jwt"
+)
+
+func ServerHandler(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		ctx := c.(*Context)
+
+		authorization := c.Request().Header.Get("Authorization")
+
+		if authorization != "" {
+			return c.JSON(
+				http.StatusUnauthorized,
+				newErrorMessage("Authorization header is unspecified"),
+			)
+		}
+
+		token := strings.Split(authorization, " ")
+
+		jwt, err := jwt.Parse(
+			bytes.NewReader([]byte(token[1])),
+			jwt.WithVerify(jwa.RS256, &ctx.key.PublicKey),
+		)
+
+		if err != nil {
+			return c.JSON(
+				http.StatusUnauthorized,
+				newErrorMessage(err.Error()),
+			)
+		}
+
+		ctx.jwt = jwt
+
+		return next(ctx)
+	}
+}
