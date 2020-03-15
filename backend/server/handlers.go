@@ -30,10 +30,12 @@ func init() {
 	tempKey = key
 }
 
+type Token struct {
+	Token string
+}
+
 func handleUserRegistration(c echo.Context) error {
 	ctx := c.(*Context)
-
-	rsa.GenerateKey(rand.Reader, 2048)
 
 	// TODO: we should cache jwk
 	jwkURL := "https://appleid.apple.com/auth/keys"
@@ -45,12 +47,10 @@ func handleUserRegistration(c echo.Context) error {
 
 	bearerToken := strings.Split(c.Request().Header.Get("Authorization"), " ")
 
-	verifiedToken, err := jws.VerifyWithJWKSet([]byte(bearerToken[1]), set, nil)
+	_, err = jws.VerifyWithJWKSet([]byte(bearerToken[1]), set, nil)
 	if err != nil {
 		return ctx.JSON(http.StatusUnauthorized, newErrorMessage(err.Error()))
 	}
-
-	fmt.Println("verifiedToken", verifiedToken)
 
 	// we're now verified/authenticated
 
@@ -68,7 +68,7 @@ func handleUserRegistration(c echo.Context) error {
 
 	err = tx.
 		Preload("Users").
-		Where("external_user_id = ?", user.ID).
+		Where("external_user_id = ?", user.ExternalUserId).
 		First(user).
 		Error
 
@@ -78,12 +78,16 @@ func handleUserRegistration(c echo.Context) error {
 			tx.Rollback()
 			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 		}
-
-		if err := tx.Commit().Error; err != nil {
-			tx.Rollback()
-			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-		}
 	}
+
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	// alrighty - lets create a token for this user. the jwt given
+	// by apple only lasts for 10 minutes. SO - use apple token to
+	// do a "login", and then handout our own jwt
 
 	now := time.Unix(time.Now().Unix(), 0)
 	t := jwt.New()
@@ -99,7 +103,7 @@ func handleUserRegistration(c echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	return ctx.JSON(http.StatusOK, payload)
+	return ctx.JSON(http.StatusOK, Token{string(payload)})
 }
 
 func handleGetAllWorkout(c echo.Context) error {

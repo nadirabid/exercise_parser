@@ -62,7 +62,7 @@ func New(v *viper.Viper) error {
 	}))
 
 	e.Use(middleware.BodyDump(func(c echo.Context, reqBody, resBody []byte) {
-		fmt.Println()
+		fmt.Println("########")
 		requestDump, err := httputil.DumpRequest(c.Request(), true)
 		if err != nil {
 			fmt.Println(err)

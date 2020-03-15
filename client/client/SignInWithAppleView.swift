@@ -130,7 +130,7 @@ struct SignInWithAppleView: UIViewRepresentable {
             let familyName: String?
             
             private enum CodingKeys: String, CodingKey {
-                case userId = "user_id"
+                case userId = "external_user_id"
                 case email = "email"
                 case givenName = "given_name"
                 case familyName = "family_name"
