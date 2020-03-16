@@ -53,7 +53,6 @@ func handleUserRegistration(c echo.Context) error {
 		First(user).
 		Error
 
-	// FIX go dupicated error key
 	if err != nil {
 		// then user doesn't exist so we create a new one
 		if err := tx.Create(user).Error; err != nil {
@@ -72,12 +71,15 @@ func handleUserRegistration(c echo.Context) error {
 	// do a "login", and then handout our own jwt
 
 	now := time.Unix(time.Now().Unix(), 0)
+
 	t := jwt.New()
+
+	// standard claims
 	t.Set(jwt.AudienceKey, "ryden")
 	t.Set(jwt.ExpirationKey, now.Add(7*24*time.Hour).Unix()) // a goddamn week
 	t.Set(jwt.IssuedAtKey, now.Unix())
 	t.Set(jwt.IssuerKey, "https://ryden.app")
-	t.Set(jwt.SubjectKey, user.ID)
+	t.Set(jwt.SubjectKey, fmt.Sprint(user.ID))
 
 	payload, err := t.Sign(jwa.RS256, ctx.key)
 
@@ -93,6 +95,8 @@ func handleGetAllWorkout(c echo.Context) error {
 	db := ctx.DB()
 
 	workouts := []models.Workout{}
+
+	// NEXT: only return workouts for the user
 
 	err := db.
 		Preload("Exercises").
