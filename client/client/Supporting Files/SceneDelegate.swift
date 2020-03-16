@@ -49,7 +49,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     
                     if userState.authorization == 1 {
                         if let token = UserDefaults.standard.object(forKey: "token") as? String {
-                            print("read out token", token)
                             if let jwt = try? decode(jwt: token) {
                                 if !jwt.expired {
                                     userState.jwt = jwt

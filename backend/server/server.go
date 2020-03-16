@@ -53,6 +53,7 @@ func newContext(v *viper.Viper, c echo.Context, db *gorm.DB) *Context {
 }
 
 func LogRequestResponse(c echo.Context, reqBody, resBody []byte) {
+	fmt.Println()
 	fmt.Println("########")
 	requestDump, err := httputil.DumpRequest(c.Request(), true)
 	if err != nil {

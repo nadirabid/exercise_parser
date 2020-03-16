@@ -9,6 +9,7 @@
 import SwiftUI
 import Introspect
 import Combine
+import Alamofire
 
 // TODO: fix scroll bug due to auto focus
 // TODO: fix the workout timer counting to 100 instead of 60
@@ -32,6 +33,7 @@ class UserActivity {
 }
 
 public struct WorkoutEditorView: View {
+    @EnvironmentObject var userState: UserState
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var state: WorkoutEditorState
     @ObservedObject private var stopWatch: Stopwatch = Stopwatch();
@@ -55,51 +57,39 @@ public struct WorkoutEditorView: View {
         let exercises: [Exercise] = state.activities.map{ a in Exercise(raw: a.input) }
         let workout = Workout(name: state.workoutName, exercises: exercises)
         
-        let jsonData = try! JSONEncoder().encode(workout)
-        if let jsonString = String(data: jsonData, encoding: .utf8) {
-            print(jsonString)
-        }
+        let headers: HTTPHeaders = [
+            "Accept": "application/json",
+            "Authorization": "Bearer \(userState.jwt!.string)"
+        ]
         
-        var request = URLRequest(url: URL(string: "\(baseURL)/workout")!)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = jsonData
-        request.httpMethod = "POST"
-        
-        state.dataTaskPublisher = URLSession
-            .shared
-            .dataTaskPublisher(for: request)
-            .map{ response in return response.data }
-            .decode(type: Workout.self, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main)
-            .replaceError(with: Workout())
-            .sink(receiveValue: { _ in
+        AF.request("\(baseURL)/workout", method: .post, parameters: workout, encoder: JSONParameterEncoder.default, headers: headers)
+            .validate(statusCode: 200..<300)
+            .response(queue: DispatchQueue.main) { (response) in
                 self.state.reset()
                 self.route.current = .feed
-            })
+            }
     }
     
     func resolveRawExercise(userActivity: UserActivity) {
         // we do this just for viewing purposes
         let exercise = Exercise(raw: userActivity.input)
         
-        let jsonData = try! JSONEncoder().encode(exercise)
-        if let jsonString = String(data: jsonData, encoding: .utf8) {
-            print(jsonString)
-        }
+        let headers: HTTPHeaders = [
+            "Accept": "application/json",
+            "Authorization": "Bearer \(userState.jwt!.string)"
+        ]
         
-        var request = URLRequest(url: URL(string: "\(baseURL)/exercise/resolve")!)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = jsonData
-        request.httpMethod = "POST"
-        
-        userActivity.dataTaskPublisher = URLSession
-            .shared
-            .dataTaskPublisher(for: request)
-            .map{ response in response.data }
-            .decode(type: Exercise.self, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main)
-            .replaceError(with: Exercise())
-            .sink(receiveValue: { response in userActivity.exercise = response })
+        AF.request("\(baseURL)/exercise/resolve", method: .post, parameters: exercise, encoder: JSONParameterEncoder.default, headers: headers)
+            .validate(statusCode: 200..<300)
+            .response(queue: DispatchQueue.main) { (response) in
+                switch response.result {
+                case .success(let data):
+                    let e = try! JSONDecoder().decode(Exercise.self, from: data!)
+                    userActivity.exercise = e
+                case .failure(let error):
+                    print("Failed to resolve exercise: ", error)
+                }
+            }
     }
     
     public var body: some View {
@@ -213,6 +203,7 @@ struct WorkoutEditorView_Previews : PreviewProvider {
             .edgesIgnoringSafeArea(.bottom)
             .environmentObject(WorkoutEditorState())
             .environmentObject(RouteState(current: .editor))
+            .environmentObject(UserState())
     }
 }
 #endif

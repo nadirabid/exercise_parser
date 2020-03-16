@@ -40,8 +40,7 @@ func keyTest(cmd *cobra.Command, args []string) error {
 
 	key, err := server.ParseRsaPrivateKeyFromPemStr(string(fileBytes))
 
-	// payload, err := t.Sign(jwa.RS256, key)
-	payload := []byte("eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicnlkZW4iXSwiZXhwIjoxNTg0OTI1NjY5LCJpYXQiOjE1ODQzMjA4NjksImlzcyI6Imh0dHBzOi8vcnlkZW4uYXBwIn0.IhGDrm26pBsC6TOh9eo0QSo22VvakTCbBB9CayqnhlAj6NQrjpFKtNtcvtW_OlJoxqSPSKchZt4lTVt2evXWje2OkllCxepgIcW6GMCUC_C0qD-9jIXeUSwFQtB4eiRDbtrfKLFZiBMpknfm0ePXKUBxlAk5x8cG4ItRFTSf6VgsLTuhgvXXeyPGbeU0Tlzeu1TKW7j8BxItQIIrvDCOLoWe4_xfHiKhLfY8inRy1O8uKbYeHDwVgAEkzE9aVkhtb-B6ZYhdCHdiT0PIs6iz5FQONG1Lxt_Z4SgbeMpfMwHwUwOihPt_qcGwyj9gZmMpUwJUrh-BnKQQdfPRnLyrcQ")
+	payload, err := t.Sign(jwa.RS256, key)
 
 	_, err = jwt.Parse(
 		bytes.NewReader(payload),
