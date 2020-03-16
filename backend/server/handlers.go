@@ -49,11 +49,11 @@ func handleUserRegistration(c echo.Context) error {
 	}()
 
 	err = tx.
-		Preload("Users").
 		Where("external_user_id = ?", user.ExternalUserId).
 		First(user).
 		Error
 
+	// FIX go dupicated error key
 	if err != nil {
 		// then user doesn't exist so we create a new one
 		if err := tx.Create(user).Error; err != nil {
@@ -74,7 +74,7 @@ func handleUserRegistration(c echo.Context) error {
 	now := time.Unix(time.Now().Unix(), 0)
 	t := jwt.New()
 	t.Set(jwt.AudienceKey, "ryden")
-	t.Set(jwt.ExpirationKey, now.Add(10*time.Hour).Unix())
+	t.Set(jwt.ExpirationKey, now.Add(7*24*time.Hour).Unix()) // a goddamn week
 	t.Set(jwt.IssuedAtKey, now.Unix())
 	t.Set(jwt.IssuerKey, "https://ryden.app")
 	t.Set(jwt.SubjectKey, user.ID)
@@ -85,7 +85,7 @@ func handleUserRegistration(c echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	return ctx.JSON(http.StatusOK, models.Token{string(payload)})
+	return ctx.JSON(http.StatusOK, models.Token{Token: string(payload)})
 }
 
 func handleGetAllWorkout(c echo.Context) error {

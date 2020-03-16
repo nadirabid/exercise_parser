@@ -1,11 +1,11 @@
 package server
 
 import (
-	"crypto/rand"
 	"crypto/rsa"
 	"exercise_parser/models"
 	"exercise_parser/parser"
 	"fmt"
+	"io/ioutil"
 	"net/http/httputil"
 
 	"github.com/jinzhu/gorm"
@@ -32,8 +32,14 @@ func (c *Context) DB() *gorm.DB {
 	return c.db
 }
 
-func newContext(c echo.Context, db *gorm.DB) *Context {
-	key, err := rsa.GenerateKey(rand.Reader, 2048)
+func newContext(v *viper.Viper, c echo.Context, db *gorm.DB) *Context {
+	file := v.GetString("auth.file")
+	bytes, err := ioutil.ReadFile(file)
+	if err != nil {
+		panic(fmt.Sprintf("Failed to open pem keypair file: %s", file))
+	}
+
+	key, err := ParseRsaPrivateKeyFromPemStr(string(bytes))
 	if err != nil {
 		panic("Failed to generate key")
 	}
@@ -44,6 +50,17 @@ func newContext(c echo.Context, db *gorm.DB) *Context {
 		key,
 		nil,
 	}
+}
+
+func LogRequestResponse(c echo.Context, reqBody, resBody []byte) {
+	fmt.Println("########")
+	requestDump, err := httputil.DumpRequest(c.Request(), true)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(string(requestDump))
+	fmt.Println(string(reqBody))
+	fmt.Println(string(resBody))
 }
 
 // New returns Echo server
@@ -69,39 +86,36 @@ func New(v *viper.Viper) error {
 
 	e.Pre(middleware.RemoveTrailingSlash())
 
+	e.Use(middleware.BodyDump(LogRequestResponse))
+
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
 
-	e.Use(middleware.BodyDump(func(c echo.Context, reqBody, resBody []byte) {
-		fmt.Println("########")
-		requestDump, err := httputil.DumpRequest(c.Request(), true)
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Println(string(requestDump))
-		fmt.Println(string(reqBody))
-		fmt.Println(string(resBody))
-	}))
-
 	e.Use(func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			return h(newContext(c, db))
+			return h(newContext(v, c, db))
 		}
 	})
 
 	e.POST("/user/register", handleUserRegistration)
 
-	e.GET("/exercise/:id", handleGetExercise)
-	e.POST("/exercise/resolve", handleResolveExercise)
-	e.POST("/exercise", handlePostExercise)
-	e.DELETE("/exercise/:id", handleDeleteExercise)
+	r := e.Group("")
 
-	e.GET("/workout", handleGetAllWorkout)
-	e.GET("/workout/:id", handleGetWorkout)
-	e.POST("/workout", handlePostWorkout)
-	e.PUT("/workout", handlePutWorkout)
-	e.DELETE("/workout/:id", handleDeleteWorkout)
+	if v.GetBool("middleware.auth") {
+		r.Use(JWTAuthMiddleware)
+	}
+
+	r.GET("/exercise/:id", handleGetExercise)
+	r.POST("/exercise/resolve", handleResolveExercise)
+	r.POST("/exercise", handlePostExercise)
+	r.DELETE("/exercise/:id", handleDeleteExercise)
+
+	r.GET("/workout", handleGetAllWorkout)
+	r.GET("/workout/:id", handleGetWorkout)
+	r.POST("/workout", handlePostWorkout)
+	r.PUT("/workout", handlePutWorkout)
+	r.DELETE("/workout/:id", handleDeleteWorkout)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port"))))
 	return nil

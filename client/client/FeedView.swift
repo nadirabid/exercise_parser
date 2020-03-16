@@ -6,22 +6,37 @@
 //  Copyright © 2020 Nadir Muzaffar. All rights reserved.
 //
 
+import Alamofire
 import SwiftUI
 import Combine
 
 struct FeedView: View {
     @EnvironmentObject var route: RouteState
+    @EnvironmentObject var userState: UserState
     @State private var feedDataPublisher: AnyCancellable? = nil
     @State private var feedData: PaginatedResponse<Workout>? = nil
     
     func getFeedData() {
-        self.feedDataPublisher = URLSession
-            .shared
-            .dataTaskPublisher(for: URL(string: "\(baseURL)/workout")!)
-            .map{ response in response.data }
-            .decode(type: PaginatedResponse<Workout>.self, decoder: JSONDecoder())
-            .replaceError(with: PaginatedResponse<Workout>(page: 0, count: 0, pages: 0, results: []))
-            .sink(receiveValue: { response in self.feedData = response })
+        let headers: HTTPHeaders = [
+            "Accept": "application/json",
+            "Authorization": "Bearer \(userState.jwt!.string)"
+        ]
+        
+        let url = "\(baseURL)/workout"
+        
+        AF.request(url, method: .get, headers: headers)
+            .validate(statusCode: 200..<300)
+            .response(queue: DispatchQueue.main) { (response) in
+                switch response.result {
+                case .success(let data):
+                    self.feedData = try! JSONDecoder().decode(PaginatedResponse<Workout>.self, from: data!)
+                case .failure(let error):
+                    print("Failed to get workouts: ", error)
+                    if let data = response.data {
+                        print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                    }
+                }
+            }
     }
     
     func getLocalFeedData() {
@@ -58,6 +73,7 @@ struct FeedView_Previews: PreviewProvider {
         FeedView()
             .environmentObject(WorkoutEditorState())
             .environmentObject(RouteState(current: .feed))
+            .environmentObject(UserState())
     }
 }
 #endif

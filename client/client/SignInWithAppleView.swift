@@ -10,30 +10,17 @@ import SwiftUI
 import AuthenticationServices
 import Combine
 import Alamofire
-
-extension String: Error { }
-
-enum CredentialsOrError {
-  case credentials(user: String, givenName: String?, familyName: String?, email: String?)
-  case error(_ error: Error)
-}
-
-struct Credentials {
-  let user: String
-  let givenName: String?
-  let familyName: String?
-  let email: String?
-}
+import JWTDecode
 
 // https://medium.com/better-programming/swiftui-sign-in-with-apple-c1e70ccb2a71
 // https://github.com/Q42/iOS-Demo-SignInWithApple-SwiftUI
 
 struct SignInView: View {
-    @State var name: String = ""
+    @EnvironmentObject var userState: UserState
     
     var body: some View {
         return VStack {
-            SignInWithAppleView(name: $name)
+            SignInWithAppleView(userState: userState)
                 .frame(width: 200, height: 50)
         }
     }
@@ -41,8 +28,7 @@ struct SignInView: View {
 
 // https://developer.apple.com/documentation/signinwithapplerestapi/authenticating_users_with_sign_in_with_apple
 struct SignInWithAppleView: UIViewRepresentable {
-    @Binding var name: String
-    var dataPublisher: AnyCancellable? = nil
+    var userState: UserState
     
     func makeCoordinator() -> Coordinator {
         return Coordinator(self)
@@ -90,20 +76,17 @@ struct SignInWithAppleView: UIViewRepresentable {
         
         func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
             guard let credentials = authorization.credential as? ASAuthorizationAppleIDCredential else {
-                print("credentials not found....")
+                debugPrint("credentials not found....")
                 return
             }
-            
-            print("scopes", credentials.authorizedScopes)
             
             let identityToken = String(data: credentials.identityToken!, encoding: .utf8)!
                         
             let defaults = UserDefaults.standard
             defaults.set(credentials.user, forKey: "userId")
-            parent?.name = "\(credentials.fullName?.givenName ?? "")"
             
             let data = UserRegistrationData(
-                userId: credentials.user,
+                externalUserId: credentials.user,
                 email: credentials.email ?? "",
                 givenName: credentials.fullName?.givenName ?? "",
                 familyName: credentials.fullName?.familyName ?? ""
@@ -116,25 +99,27 @@ struct SignInWithAppleView: UIViewRepresentable {
             
             let url = "\(baseURL)/user/register"
             
-            AF.request(url, method: .post, parameters: data, encoder: JSONParameterEncoder.default, headers: headers)
-                .validate()
-                .response(queue: DispatchQueue.main) { (data) in
-                    print(data)
-                }
-        }
-        
-        struct UserRegistrationData: Codable {
-            let userId: String
-            let email: String?
-            let givenName: String?
-            let familyName: String?
-            
-            private enum CodingKeys: String, CodingKey {
-                case userId = "external_user_id"
-                case email = "email"
-                case givenName = "given_name"
-                case familyName = "family_name"
+            struct UserRegistrationResponse: Codable {
+                let token: String
             }
+            
+            AF
+                .request(url, method: .post, parameters: data, encoder: JSONParameterEncoder.default, headers: headers)
+                .validate(statusCode: 200..<300)
+                .response(queue: DispatchQueue.main) { (response) in
+                    switch response.result {
+                    case .success(let data):
+                        let t = try! JSONDecoder().decode(UserRegistrationResponse.self, from: data!)
+                        let jwt = try! decode(jwt: t.token)
+                        
+                        self.parent?.userState.jwt = jwt
+                        
+                        defaults.set(t.token, forKey: "token")
+                        print("ive inserted token", t.token)
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
         }
         
         func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {

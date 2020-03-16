@@ -10,13 +10,13 @@ import (
 	"github.com/lestrrat-go/jwx/jwt"
 )
 
-func ServerHandler(next echo.HandlerFunc) echo.HandlerFunc {
+func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := c.(*Context)
 
 		authorization := c.Request().Header.Get("Authorization")
 
-		if authorization != "" {
+		if authorization == "" {
 			return c.JSON(
 				http.StatusUnauthorized,
 				newErrorMessage("Authorization header is unspecified"),
@@ -25,9 +25,16 @@ func ServerHandler(next echo.HandlerFunc) echo.HandlerFunc {
 
 		token := strings.Split(authorization, " ")
 
+		if len(token) != 2 {
+			return c.JSON(
+				http.StatusUnauthorized,
+				newErrorMessage("Authorization should have format: Bearer <token>"),
+			)
+		}
+
 		jwt, err := jwt.Parse(
 			bytes.NewReader([]byte(token[1])),
-			jwt.WithVerify(jwa.RS256, &ctx.key.PublicKey),
+			jwt.WithVerify(jwa.RS256, &(ctx.key.PublicKey)),
 		)
 
 		if err != nil {

@@ -11,6 +11,7 @@
 		64038282241A35BF0000C17C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 64038281241A35BF0000C17C /* Alamofire */; };
 		6405131A241635E300DDC3D7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64051319241635E300DDC3D7 /* MapKit.framework */; };
 		6405131F24163A8900DDC3D7 /* SignInWithAppleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6405131E24163A8900DDC3D7 /* SignInWithAppleView.swift */; };
+		640BC8A6241E0D5200B99E90 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640BC8A5241E0D5200B99E90 /* User.swift */; };
 		642675AC22C0A0DC008E07A1 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642675AB22C0A0DC008E07A1 /* APIService.swift */; };
 		642675AF22C0A44F008E07A1 /* PaginatedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642675AE22C0A44F008E07A1 /* PaginatedResponse.swift */; };
 		642675B122C0A48D008E07A1 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642675B022C0A48D008E07A1 /* Workout.swift */; };
@@ -29,6 +30,7 @@
 		649A4917240670BC003206C3 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649A4916240670BC003206C3 /* ActivityView.swift */; };
 		649A491924067561003206C3 /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649A491824067561003206C3 /* StopWatch.swift */; };
 		649CBE8F22B6D84500D23DD6 /* CircleProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */; };
+		64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 64A9956E241EE3DC006716CA /* JWTDecode */; };
 		64E06CC82352F6E0005AC1D8 /* WorkoutEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E06CC72352F6E0005AC1D8 /* WorkoutEditorView.swift */; };
 		64F499FC23E8031E003ADB62 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 64F499FB23E8031E003ADB62 /* Introspect */; };
 /* End PBXBuildFile section */
@@ -55,6 +57,7 @@
 		64051319241635E300DDC3D7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		6405131B2416364D00DDC3D7 /* client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = client.entitlements; sourceTree = "<group>"; };
 		6405131E24163A8900DDC3D7 /* SignInWithAppleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleView.swift; sourceTree = "<group>"; };
+		640BC8A5241E0D5200B99E90 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		642675AB22C0A0DC008E07A1 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		642675AE22C0A44F008E07A1 /* PaginatedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatedResponse.swift; sourceTree = "<group>"; };
 		642675B022C0A48D008E07A1 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
@@ -89,6 +92,7 @@
 			files = (
 				64038282241A35BF0000C17C /* Alamofire in Frameworks */,
 				6405131A241635E300DDC3D7 /* MapKit.framework in Frameworks */,
+				64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */,
 				64F499FC23E8031E003ADB62 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,6 +128,7 @@
 				642675AE22C0A44F008E07A1 /* PaginatedResponse.swift */,
 				642675B022C0A48D008E07A1 /* Workout.swift */,
 				6402BBBC2414CBD80061FB58 /* AppState.swift */,
+				640BC8A5241E0D5200B99E90 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -228,6 +233,7 @@
 			packageProductDependencies = (
 				64F499FB23E8031E003ADB62 /* Introspect */,
 				64038281241A35BF0000C17C /* Alamofire */,
+				64A9956E241EE3DC006716CA /* JWTDecode */,
 			);
 			productName = client;
 			productReference = 6494A01222B6139900C19543 /* client.app */;
@@ -304,6 +310,7 @@
 			packageReferences = (
 				64F499FA23E8031E003ADB62 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				64038280241A35BF0000C17C /* XCRemoteSwiftPackageReference "Alamofire" */,
+				64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
 			);
 			productRefGroup = 6494A01322B6139900C19543 /* Products */;
 			projectDirPath = "";
@@ -355,6 +362,7 @@
 				649CBE8F22B6D84500D23DD6 /* CircleProfileImage.swift in Sources */,
 				649A4917240670BC003206C3 /* ActivityView.swift in Sources */,
 				6498A98D24122355005BB19F /* Config.swift in Sources */,
+				640BC8A6241E0D5200B99E90 /* User.swift in Sources */,
 				642DA77922B71279002F49AE /* MapView.swift in Sources */,
 				642675B122C0A48D008E07A1 /* Workout.swift in Sources */,
 				6499C7EB2417561500743CDD /* MainView.swift in Sources */,
@@ -694,6 +702,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.1;
+			};
+		};
 		64F499FA23E8031E003ADB62 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/timbersoftware/SwiftUI-Introspect.git";
@@ -709,6 +725,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 64038280241A35BF0000C17C /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		64A9956E241EE3DC006716CA /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
+			productName = JWTDecode;
 		};
 		64F499FB23E8031E003ADB62 /* Introspect */ = {
 			isa = XCSwiftPackageProductDependency;
