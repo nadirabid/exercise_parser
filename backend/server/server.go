@@ -39,7 +39,7 @@ func newContext(v *viper.Viper, c echo.Context, db *gorm.DB) *Context {
 		panic(fmt.Sprintf("Failed to open pem keypair file: %s", file))
 	}
 
-	key, err := ParseRsaPrivateKeyFromPemStr(string(bytes))
+	key, err := parseRsaPrivateKeyFromPemStr(string(bytes))
 	if err != nil {
 		panic("Failed to generate key")
 	}

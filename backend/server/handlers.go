@@ -96,12 +96,13 @@ func handleGetAllWorkout(c echo.Context) error {
 
 	workouts := []models.Workout{}
 
-	// NEXT: only return workouts for the user
+	userID := getUserIDFromContext(ctx)
 
 	err := db.
 		Preload("Exercises").
 		Preload("Exercises.WeightedExercise").
 		Preload("Exercises.DistanceExercise").
+		Where("user_id = ?", userID).
 		Order("created_at desc").
 		Find(&workouts).
 		Error
@@ -127,12 +128,15 @@ func handleGetWorkout(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
+	userID := getUserIDFromContext(ctx)
+
 	workout := &models.Workout{}
 	err = db.
 		Preload("Exercises").
 		Preload("Exercises.WeightedExercise").
 		Preload("Exercises.DistanceExercise").
 		Where("id = ?", id).
+		Where("user_id = ?", userID).
 		First(workout).
 		Error
 
@@ -147,11 +151,15 @@ func handlePostWorkout(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
 
+	userID := getUserIDFromContext(ctx)
+
 	workout := &models.Workout{}
 
 	if err := ctx.Bind(workout); err != nil {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
+
+	workout.UserID = userID // to make sure user isn't overriding this value
 
 	for i, e := range workout.Exercises {
 		if err := e.Resolve(); err != nil {
@@ -202,12 +210,16 @@ func handlePutWorkout(c echo.Context) error {
 		}
 	}()
 
+	userID := getUserIDFromContext(ctx)
+
 	workout := &models.Workout{}
 
 	if err := ctx.Bind(workout); err != nil {
 		tx.Rollback()
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
+
+	workout.UserID = userID // to make sure user isn't overriding this value
 
 	for i, e := range workout.Exercises {
 		if err := e.Resolve(); err != nil {
@@ -224,6 +236,7 @@ func handlePutWorkout(c echo.Context) error {
 		Preload("Exercises.WeightedExercise").
 		Preload("Exercises.DistanceExercise").
 		Where("id = ?", workout.ID).
+		Where("user_id = ?", userID).
 		First(existingWorkout).
 		Error
 
@@ -263,12 +276,15 @@ func handleDeleteWorkout(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
+	userID := getUserIDFromContext(ctx)
+
 	workout := &models.Workout{}
 	tx.
 		Preload("Exercises").
 		Preload("Exercises.WeightedExercise").
 		Preload("Exercises.DistanceExercise").
 		Where("id = ?", id).
+		Where("user_id = ?", userID).
 		First(workout).
 		Delete(workout)
 
@@ -282,6 +298,25 @@ func handleDeleteWorkout(c echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, workout)
 }
+
+func handleResolveExercise(c echo.Context) error {
+	// this guy just resolves raw exercise text
+	ctx := c.(*Context)
+
+	exercise := &models.Exercise{}
+
+	if err := ctx.Bind(exercise); err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	if err := exercise.Resolve(); err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, exercise)
+}
+
+// TODO: do we really need any of these handlers below?
 
 func handleGetExercise(c echo.Context) error {
 	ctx := c.(*Context)
@@ -302,23 +337,6 @@ func handleGetExercise(c echo.Context) error {
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
-	}
-
-	return ctx.JSON(http.StatusOK, exercise)
-}
-
-func handleResolveExercise(c echo.Context) error {
-	// this guy just resolves raw exercise text
-	ctx := c.(*Context)
-
-	exercise := &models.Exercise{}
-
-	if err := ctx.Bind(exercise); err != nil {
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
-	}
-
-	if err := exercise.Resolve(); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
 	return ctx.JSON(http.StatusOK, exercise)
