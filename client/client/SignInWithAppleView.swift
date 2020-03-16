@@ -112,10 +112,10 @@ struct SignInWithAppleView: UIViewRepresentable {
                         let t = try! JSONDecoder().decode(UserRegistrationResponse.self, from: data!)
                         let jwt = try! decode(jwt: t.token)
                         
-                        self.parent?.userState.jwt = jwt
-                        
                         defaults.set(t.token, forKey: "token")
-                        print("ive inserted token", t.token)
+                        
+                        self.parent?.userState.jwt = jwt
+                        self.parent?.userState.authorization = 1
                     case .failure(let error):
                         print(error)
                     }
