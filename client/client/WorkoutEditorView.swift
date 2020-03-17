@@ -11,7 +11,6 @@ import Introspect
 import Combine
 import Alamofire
 
-// TODO: fix scroll bug due to auto focus
 // TODO: fix the workout timer counting to 100 instead of 60
 // TODO: add on text change - re resolve the exercise w/ some debounce
 
