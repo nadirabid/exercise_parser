@@ -68,9 +68,9 @@ func loadStopWords(v *viper.Viper) ([]string, error) {
 		if err != nil {
 			return nil, err
 		}
-		defer file.Close()
 
 		reader := bufio.NewReader(file)
+
 		for {
 			next, err := reader.ReadString('\n')
 			if err == io.EOF {
@@ -83,6 +83,8 @@ func loadStopWords(v *viper.Viper) ([]string, error) {
 
 			stopWords = append(stopWords, next, "")
 		}
+
+		file.Close()
 	}
 
 	return stopWords, nil
@@ -120,9 +122,9 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 		if err != nil {
 			return err
 		}
-		defer file.Close()
 
 		byteValue, _ := ioutil.ReadAll(file)
+		file.Close()
 
 		related := relatedTerms{}
 		json.Unmarshal(byteValue, &related)
@@ -222,9 +224,9 @@ func seed(cmd *cobra.Command, args []string) error {
 		if err != nil {
 			return err
 		}
-		defer file.Close()
 
 		byteValue, _ := ioutil.ReadAll(file)
+		file.Close()
 
 		exerciseDictionary := &models.ExerciseDictionary{}
 		json.Unmarshal(byteValue, &exerciseDictionary)

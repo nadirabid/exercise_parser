@@ -8,6 +8,24 @@
 
 import Foundation
 import Combine
+import SwiftUI
+
+class UserActivity: ObservableObject {
+    var id = UUID()
+    @Published var input: String
+    var dataTaskPublisher: AnyCancellable?
+    @Published var exercise: Exercise?
+    
+    init(input: String) {
+        self.input = input
+    }
+    
+    init(input: String, dataTaskPublisher: AnyCancellable?, exercise: Exercise?) {
+        self.input = input
+        self.dataTaskPublisher = dataTaskPublisher
+        self.exercise = exercise
+    }
+}
 
 class WorkoutEditorState: ObservableObject {
     @Published var newEntry: String = ""
@@ -15,6 +33,7 @@ class WorkoutEditorState: ObservableObject {
     @Published var activities: [UserActivity] = []
     @Published var isStopped = false
     var dataTaskPublisher: AnyCancellable? = nil
+    var anyCancellable: AnyCancellable? = nil
     
     func reset() {
         self.newEntry = ""

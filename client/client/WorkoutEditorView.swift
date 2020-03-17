@@ -15,29 +15,13 @@ import Alamofire
 // TODO: fix the workout timer counting to 100 instead of 60
 // TODO: add on text change - re resolve the exercise w/ some debounce
 
-class UserActivity {
-    var id = UUID()
-    @State var input: String
-    var dataTaskPublisher: AnyCancellable?
-    var exercise: Exercise?
-    
-    init(input: String) {
-        self.input = input
-    }
-    
-    init(input: String, dataTaskPublisher: AnyCancellable?, exercise: Exercise?) {
-        self.input = input
-        self.dataTaskPublisher = dataTaskPublisher
-        self.exercise = exercise
-    }
-}
-
 public struct WorkoutEditorView: View {
     @EnvironmentObject var userState: UserState
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var state: WorkoutEditorState
     @ObservedObject private var stopWatch: Stopwatch = Stopwatch();
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
+    @State private var textFieldContext: UITextField? = nil
     
     init() {
         stopWatch.start()
@@ -93,10 +77,7 @@ public struct WorkoutEditorView: View {
     }
     
     public var body: some View {
-        var textFieldCtx: UITextField? = nil
-        let appColor: Color = Color(red: 224 / 255, green: 84 / 255, blue: 9 / 255)
-
-        return VStack(alignment: .leading) {
+        VStack(alignment: .leading) {
             HStack {
                 Spacer()
                 
@@ -108,36 +89,26 @@ public struct WorkoutEditorView: View {
             
             ScrollView {
                 ForEach(state.activities, id: \.id) { activity in
-                    VStack {
-                        TextField("New entry", text: activity.$input, onCommit: {
-                            textFieldCtx!.becomeFirstResponder()
-                        })
-                        .font(.body)
-                        
-                        if activity.exercise != nil {
-                            ActivityView(
-                                exercise: activity.exercise!,
-                                asSecondary: true
-                            )
-                        }
-                        
-                        Divider()
-                    }
+                    ExerciseEditorView(activity: activity, textFieldContext: self.textFieldContext)
                 }
                 
                 TextField("New entry", text: $state.newEntry, onCommit: {
+                    self.state.newEntry = self.state.newEntry.trimmingCharacters(in: .whitespaces)
+                    
                     if !self.state.newEntry.isEmpty {
                         let userActivity = UserActivity(input: self.state.newEntry)
                         self.state.activities.append(userActivity)
                         self.resolveRawExercise(userActivity: userActivity)
                         
                         self.state.newEntry = ""
-                        textFieldCtx?.becomeFirstResponder()
+                        self.textFieldContext = nil
                     }
                 })
                 .introspectTextField { textField in
-                    textField.becomeFirstResponder()
-                    textFieldCtx = textField
+                    if self.textFieldContext == nil {
+                        textField.becomeFirstResponder()
+                    }
+                    self.textFieldContext = textField
                 }
             }
 
@@ -191,6 +162,29 @@ public struct WorkoutEditorView: View {
                 
                 Spacer()
             }
+        }
+    }
+}
+
+public struct ExerciseEditorView: View {
+    @ObservedObject var activity: UserActivity
+    var textFieldContext: UITextField?
+    
+    public var body: some View {
+        VStack {
+            TextField("", text: $activity.input, onCommit: {
+                self.textFieldContext!.becomeFirstResponder()
+            })
+            .font(.body)
+            
+            if activity.exercise != nil {
+                ActivityView(
+                    exercise: activity.exercise!,
+                    asSecondary: true
+                )
+            }
+            
+            Divider()
         }
     }
 }
