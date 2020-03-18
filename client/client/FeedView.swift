@@ -30,11 +30,11 @@ struct FeedView: View {
                     Text("You have nothing in your feed!")
                     Spacer()
                 }
-                
+
                 Spacer()
             }
         }
-        .onAppear(){
+        .onAppear {
             self.workoutAPI.getUserFeed { (response) in
                 self.feedData = response
             }

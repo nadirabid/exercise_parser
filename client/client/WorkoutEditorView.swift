@@ -44,6 +44,8 @@ public struct WorkoutEditorView: View {
         let workout = Workout(name: state.workoutName, exercises: exercises)
         
         if exercises.count == 0 {
+            self.state.reset()
+            self.route.current = .feed
             return
         }
         
@@ -64,6 +66,19 @@ public struct WorkoutEditorView: View {
     
     public var body: some View {
         VStack(alignment: .leading) {
+            HStack {
+                Spacer()
+                
+                Button(action: {
+                    
+                }) {
+                    Text("Hide")
+                }
+                .padding(.trailing)
+            }
+        
+            Divider()
+            
             HStack {
                 Spacer()
                 
@@ -179,11 +194,11 @@ public struct ExerciseEditorView: View {
 struct WorkoutEditorView_Previews : PreviewProvider {
     static var previews: some View {
         return WorkoutEditorView()
-            .padding([.leading, .trailing, .bottom])
             .edgesIgnoringSafeArea(.bottom)
             .environmentObject(WorkoutEditorState())
             .environmentObject(RouteState(current: .editor))
             .environmentObject(WorkoutPreviewProviderAPI(userState: UserState()))
+            .environmentObject(ExercisePreviewProviderAPI(userState: UserState()))
     }
 }
 #endif

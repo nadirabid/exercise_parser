@@ -192,3 +192,18 @@ class ExerciseAPI: ObservableObject {
             }
     }
 }
+
+class ExercisePreviewProviderAPI: ExerciseAPI {
+    override func resolveExercise(exercise: Exercise, _ completionHandler: @escaping (Exercise) -> Void) {
+        completionHandler(Exercise(
+            id: 1,
+            createdAt: "",
+            updatedAt: "",
+            name: "Curls",
+            type: "weighted",
+            raw: "1 by 3 of curls",
+            weightedExercise: WeightedExercise(sets: 1, reps: 3),
+            distanceExercise: nil
+        ))
+    }
+}
