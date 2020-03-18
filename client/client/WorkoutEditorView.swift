@@ -43,6 +43,10 @@ public struct WorkoutEditorView: View {
         let exercises: [Exercise] = state.activities.map{ a in Exercise(raw: a.input) }
         let workout = Workout(name: state.workoutName, exercises: exercises)
         
+        if exercises.count == 0 {
+            return
+        }
+        
         workoutAPI.createWorkout(workout: workout) { (_) in
             self.state.reset()
             self.route.current = .feed
@@ -179,7 +183,7 @@ struct WorkoutEditorView_Previews : PreviewProvider {
             .edgesIgnoringSafeArea(.bottom)
             .environmentObject(WorkoutEditorState())
             .environmentObject(RouteState(current: .editor))
-            .environmentObject(UserState())
+            .environmentObject(WorkoutPreviewProviderAPI(userState: UserState()))
     }
 }
 #endif

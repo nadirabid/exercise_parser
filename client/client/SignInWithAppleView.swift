@@ -112,5 +112,7 @@ struct SignInWithAppleView: UIViewRepresentable {
 struct SignInWithApple_Previews: PreviewProvider {
     static var previews: some View {
         SignInView()
+            .environmentObject(UserState())
+            .environmentObject(UserAPI())
     }
 }

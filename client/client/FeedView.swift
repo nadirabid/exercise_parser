@@ -48,6 +48,7 @@ struct FeedView_Previews: PreviewProvider {
         return FeedView()
             .environmentObject(WorkoutEditorState())
             .environmentObject(RouteState(current: .feed))
+            .environmentObject(WorkoutPreviewProviderAPI(userState: UserState()))
     }
 }
 #endif

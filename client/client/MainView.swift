@@ -44,9 +44,14 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        let userState = UserState()
+        
+        return MainView()
             .environmentObject(RouteState())
             .environmentObject(UserState())
             .environmentObject(WorkoutEditorState())
+            .environmentObject(WorkoutAPI(userState: userState))
+            .environmentObject(ExerciseAPI(userState: userState))
+            .environmentObject(UserAPI())
     }
 }
