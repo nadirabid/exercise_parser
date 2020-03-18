@@ -15,10 +15,13 @@ import Alamofire
 // TODO: add on text change - re resolve the exercise w/ some debounce
 
 public struct WorkoutEditorView: View {
-    @EnvironmentObject var userState: UserState
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var state: WorkoutEditorState
+    @EnvironmentObject var workoutAPI: WorkoutAPI
+    @EnvironmentObject var exerciseAPI: ExerciseAPI
+    
     @ObservedObject private var stopWatch: Stopwatch = Stopwatch();
+    
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
     @State private var textFieldContext: UITextField? = nil
     
@@ -40,39 +43,19 @@ public struct WorkoutEditorView: View {
         let exercises: [Exercise] = state.activities.map{ a in Exercise(raw: a.input) }
         let workout = Workout(name: state.workoutName, exercises: exercises)
         
-        let headers: HTTPHeaders = [
-            "Accept": "application/json",
-            "Authorization": "Bearer \(userState.jwt!.string)"
-        ]
-        
-        AF.request("\(baseURL)/workout", method: .post, parameters: workout, encoder: JSONParameterEncoder.default, headers: headers)
-            .validate(statusCode: 200..<300)
-            .response(queue: DispatchQueue.main) { (response) in
-                self.state.reset()
-                self.route.current = .feed
-            }
+        workoutAPI.createWorkout(workout: workout) { (_) in
+            self.state.reset()
+            self.route.current = .feed
+        }
     }
     
     func resolveRawExercise(userActivity: UserActivity) {
         // we do this just for viewing purposes
         let exercise = Exercise(raw: userActivity.input)
         
-        let headers: HTTPHeaders = [
-            "Accept": "application/json",
-            "Authorization": "Bearer \(userState.jwt!.string)"
-        ]
-        
-        AF.request("\(baseURL)/exercise/resolve", method: .post, parameters: exercise, encoder: JSONParameterEncoder.default, headers: headers)
-            .validate(statusCode: 200..<300)
-            .response(queue: DispatchQueue.main) { (response) in
-                switch response.result {
-                case .success(let data):
-                    let e = try! JSONDecoder().decode(Exercise.self, from: data!)
-                    userActivity.exercise = e
-                case .failure(let error):
-                    print("Failed to resolve exercise: ", error)
-                }
-            }
+        exerciseAPI.resolveExercise(exercise: exercise) { (e) in
+            userActivity.exercise = e
+        }
     }
     
     public var body: some View {
@@ -191,7 +174,7 @@ public struct ExerciseEditorView: View {
 #if DEBUG
 struct WorkoutEditorView_Previews : PreviewProvider {
     static var previews: some View {
-        WorkoutEditorView()
+        return WorkoutEditorView()
             .padding([.leading, .trailing, .bottom])
             .edgesIgnoringSafeArea(.bottom)
             .environmentObject(WorkoutEditorState())

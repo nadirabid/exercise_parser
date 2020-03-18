@@ -18,7 +18,7 @@ struct MainView: View {
                 SignInView()
             } else {
                 if route.current == .feed {
-                    FeedView()
+                    FeedView().background(feedColor)
                     
                     Button(action: { self.route.current = .editor }) {
                         ZStack {

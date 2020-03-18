@@ -13,8 +13,8 @@ import SwiftUI
 class UserActivity: ObservableObject {
     var id = UUID()
     @Published var input: String
-    var dataTaskPublisher: AnyCancellable?
     @Published var exercise: Exercise?
+    var dataTaskPublisher: AnyCancellable?
     
     init(input: String) {
         self.input = input

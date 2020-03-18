@@ -34,6 +34,7 @@ struct WorkoutView: View {
                 
                 Spacer()
             }
+            .padding([.leading, .trailing])
             
             MapView()
                 .frame(height: CGFloat(150.0))
@@ -43,7 +44,9 @@ struct WorkoutView: View {
                     ActivityView(exercise: exercise)
                 }
             }
+            .padding([.leading, .trailing])
         }
+        .padding([.top, .bottom])
     }
 }
 

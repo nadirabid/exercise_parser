@@ -71,8 +71,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 .environmentObject(WorkoutEditorState())
                 .environmentObject(RouteState())
                 .environmentObject(userState)
+                .environmentObject(UserAPI())
+                .environmentObject(WorkoutAPI(userState: userState))
+                .environmentObject(ExerciseAPI(userState: userState))
             
             window.rootViewController = UIHostingController(rootView: rootView)
+            window.rootViewController?.overrideUserInterfaceStyle = .light
             
             self.window = window
             window.makeKeyAndVisible()

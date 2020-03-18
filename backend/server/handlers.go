@@ -14,24 +14,30 @@ import (
 	"github.com/lestrrat-go/jwx/jwk"
 	"github.com/lestrrat-go/jwx/jws"
 	"github.com/lestrrat-go/jwx/jwt"
+	"github.com/spf13/viper"
 )
 
+// right now this only does "sign in with apple"
 func handleUserRegistration(c echo.Context) error {
 	ctx := c.(*Context)
 
-	// TODO: we should cache jwk
-	jwkURL := "https://appleid.apple.com/auth/keys"
-	set, err := jwk.Fetch(jwkURL)
-	if err != nil {
-		log.Printf("failed to parse JWK: %s", err)
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-
 	bearerToken := strings.Split(c.Request().Header.Get("Authorization"), " ")
 
-	_, err = jws.VerifyWithJWKSet([]byte(bearerToken[1]), set, nil)
-	if err != nil {
-		return ctx.JSON(http.StatusUnauthorized, newErrorMessage(err.Error()))
+	if !viper.GetBool("middleware.auth") {
+		// if auth is disabled - we'll just hand out a JWT without authenticating
+
+		// TODO: we should cache jwk
+		jwkURL := "https://appleid.apple.com/auth/keys"
+		set, err := jwk.Fetch(jwkURL)
+		if err != nil {
+			log.Printf("failed to parse JWK: %s", err)
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+
+		_, err = jws.VerifyWithJWKSet([]byte(bearerToken[1]), set, nil)
+		if err != nil {
+			return ctx.JSON(http.StatusUnauthorized, newErrorMessage(err.Error()))
+		}
 	}
 
 	// we're now verified/authenticated
@@ -48,7 +54,7 @@ func handleUserRegistration(c echo.Context) error {
 		}
 	}()
 
-	err = tx.
+	err := tx.
 		Where("external_user_id = ?", user.ExternalUserId).
 		First(user).
 		Error

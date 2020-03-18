@@ -22,9 +22,10 @@ import (
 // Context is an extention of echo.Context
 type Context struct {
 	echo.Context
-	db  *gorm.DB
-	key *rsa.PrivateKey
-	jwt *jwt.Token
+	db    *gorm.DB
+	key   *rsa.PrivateKey
+	viper *viper.Viper
+	jwt   *jwt.Token
 }
 
 // DB returns the database object used in handlers
@@ -48,6 +49,7 @@ func newContext(v *viper.Viper, c echo.Context, db *gorm.DB) *Context {
 		c,
 		db,
 		key,
+		v,
 		nil,
 	}
 }
@@ -103,9 +105,7 @@ func New(v *viper.Viper) error {
 
 	r := e.Group("")
 
-	if v.GetBool("middleware.auth") {
-		r.Use(JWTAuthMiddleware)
-	}
+	r.Use(JWTAuthMiddleware)
 
 	r.GET("/exercise/:id", handleGetExercise)
 	r.POST("/exercise/resolve", handleResolveExercise)

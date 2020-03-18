@@ -9,8 +9,8 @@
 import Foundation
 import SwiftUI
 
-let baseURL = "http://192.168.1.69:1234"
 let appColor: Color = Color(red: 224 / 255, green: 84 / 255, blue: 9 / 255)
+let feedColor: Color = Color(red: 247 / 255, green: 247 / 255, blue: 247 / 255)
 
 #if DEBUG
 let localFeedData: PaginatedResponse<Workout> = PaginatedResponse<Workout>(

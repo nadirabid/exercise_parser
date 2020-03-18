@@ -17,10 +17,11 @@ import JWTDecode
 
 struct SignInView: View {
     @EnvironmentObject var userState: UserState
+    @EnvironmentObject var userAPI: UserAPI
     
     var body: some View {
         return VStack {
-            SignInWithAppleView(userState: userState)
+            SignInWithAppleView(userState: userState, userAPI: userAPI)
                 .frame(width: 200, height: 50)
         }
     }
@@ -29,6 +30,7 @@ struct SignInView: View {
 // https://developer.apple.com/documentation/signinwithapplerestapi/authenticating_users_with_sign_in_with_apple
 struct SignInWithAppleView: UIViewRepresentable {
     var userState: UserState
+    var userAPI: UserAPI
     
     func makeCoordinator() -> Coordinator {
         return Coordinator(self)
@@ -92,34 +94,12 @@ struct SignInWithAppleView: UIViewRepresentable {
                 familyName: credentials.fullName?.familyName ?? ""
             )
             
-            let headers: HTTPHeaders = [
-                "Accept": "application/json",
-                "Authorization": "Bearer \(identityToken)"
-            ]
-            
-            let url = "\(baseURL)/user/register"
-            
-            struct UserRegistrationResponse: Codable {
-                let token: String
+            self.parent?.userAPI.userRegistrationAndLogin(identityToken: identityToken, data: data) { jwt in
+                defaults.set(jwt.string, forKey: "token")
+                                       
+                self.parent?.userState.jwt = jwt
+                self.parent?.userState.authorization = 1
             }
-            
-            AF
-                .request(url, method: .post, parameters: data, encoder: JSONParameterEncoder.default, headers: headers)
-                .validate(statusCode: 200..<300)
-                .response(queue: DispatchQueue.main) { (response) in
-                    switch response.result {
-                    case .success(let data):
-                        let t = try! JSONDecoder().decode(UserRegistrationResponse.self, from: data!)
-                        let jwt = try! decode(jwt: t.token)
-                        
-                        defaults.set(t.token, forKey: "token")
-                        
-                        self.parent?.userState.jwt = jwt
-                        self.parent?.userState.authorization = 1
-                    case .failure(let error):
-                        print(error)
-                    }
-                }
         }
         
         func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
