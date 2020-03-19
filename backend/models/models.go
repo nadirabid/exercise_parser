@@ -13,6 +13,7 @@ type Workout struct {
 	Name      string     `json:"name"`
 	Date      time.Time  `json:"date"`
 	Exercises []Exercise `json:"exercises"`
+	Location  *Location  `json:"location"`
 	UserID    uint       `json:"user_id" gorm:"type:int REFERENCES users(id) ON DELETE CASCADE"`
 }
 
@@ -25,6 +26,13 @@ func (w *Workout) HasExercise(id uint) bool {
 	}
 
 	return false
+}
+
+type Location struct {
+	Model
+	Latitude  float64 `json:"latitude" gorm:"not null"`
+	Longitude float64 `json:"longitude" gorm:"not null"`
+	WorkoutID uint    `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
 }
 
 // Exercise model

@@ -18,7 +18,7 @@ struct MainView: View {
                 SignInView()
             } else {
                 if route.current == .feed {
-                    FeedView().background(feedColor)
+                    FeedView()
                     
                     Button(action: { self.route.current = .editor }) {
                         ZStack {
@@ -33,9 +33,9 @@ struct MainView: View {
                                 .frame(width: 20, height: 20)
                         }
                     }
+                    .padding(.top, 5)
                 } else if route.current == .editor {
-                    WorkoutEditorView()
-                        .padding([.trailing, .leading])
+                    WorkoutEditorView().padding([.trailing, .leading])
                 }
             }
         }

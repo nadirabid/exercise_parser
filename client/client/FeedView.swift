@@ -25,15 +25,16 @@ struct FeedView: View {
                     }
                 }
             } else {
+                Spacer()
                 HStack {
                     Spacer()
-                    Text("You have nothing in your feed!")
+                    ActivityIndicator(isAnimating: .constant(true), style: .large)
                     Spacer()
                 }
-
                 Spacer()
             }
         }
+        .background(self.feedData == nil ? Color.white : feedColor)
         .onAppear {
             self.workoutAPI.getUserFeed { (response) in
                 self.feedData = response

@@ -29,6 +29,7 @@
 		649A4917240670BC003206C3 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649A4916240670BC003206C3 /* ActivityView.swift */; };
 		649A491924067561003206C3 /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649A491824067561003206C3 /* StopWatch.swift */; };
 		649CBE8F22B6D84500D23DD6 /* CircleProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */; };
+		64A93D9524232DA000B73B95 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A93D9424232DA000B73B95 /* ActivityIndicator.swift */; };
 		64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 64A9956E241EE3DC006716CA /* JWTDecode */; };
 		64E06CC82352F6E0005AC1D8 /* WorkoutEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E06CC72352F6E0005AC1D8 /* WorkoutEditorView.swift */; };
 		64F499FC23E8031E003ADB62 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 64F499FB23E8031E003ADB62 /* Introspect */; };
@@ -81,6 +82,7 @@
 		649A4916240670BC003206C3 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		649A491824067561003206C3 /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProfileImage.swift; sourceTree = "<group>"; };
+		64A93D9424232DA000B73B95 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		64E06CC72352F6E0005AC1D8 /* WorkoutEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEditorView.swift; sourceTree = "<group>"; };
 		64FD08252421C5B1000F1479 /* WebAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -162,6 +164,7 @@
 				6494A01D22B6139B00C19543 /* Preview Content */,
 				6494A04522B6142D00C19543 /* Supporting Files */,
 				6494A01922B6139900C19543 /* WorkoutView.swift */,
+				64A93D9424232DA000B73B95 /* ActivityIndicator.swift */,
 				649A491824067561003206C3 /* StopWatch.swift */,
 				6499C7EA2417561500743CDD /* MainView.swift */,
 				649A4916240670BC003206C3 /* ActivityView.swift */,
@@ -371,6 +374,7 @@
 				64E06CC82352F6E0005AC1D8 /* WorkoutEditorView.swift in Sources */,
 				6494A01822B6139900C19543 /* SceneDelegate.swift in Sources */,
 				642675AF22C0A44F008E07A1 /* PaginatedResponse.swift in Sources */,
+				64A93D9524232DA000B73B95 /* ActivityIndicator.swift in Sources */,
 				6494A01A22B6139900C19543 /* WorkoutView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -17,6 +17,7 @@ struct Workout: Codable, Identifiable {
     let date: String?
     let exercises: [Exercise]
     let userID: Int?
+    let location: Location?
     
     init(
         id: Int? = nil,
@@ -25,7 +26,8 @@ struct Workout: Codable, Identifiable {
         name: String = "",
         date: String? = nil,
         exercises: [Exercise] = [],
-        userID: Int? = nil
+        userID: Int? = nil,
+        location: Location? = nil
     ) {
         self.id = id
         self.createdAt = createdAt
@@ -34,14 +36,20 @@ struct Workout: Codable, Identifiable {
         self.date = date
         self.exercises = exercises
         self.userID = userID
+        self.location = location
     }
     
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
         case updatedAt = "updated_at"
         case userID = "user_id"
-        case id, name, date, exercises
+        case id, name, date, exercises, location
     }
+}
+
+struct Location: Codable {
+    let latitude: Double
+    let longitude: Double
 }
 
 struct Exercise: Codable, Identifiable {

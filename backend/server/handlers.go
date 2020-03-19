@@ -105,6 +105,7 @@ func handleGetAllWorkout(c echo.Context) error {
 	userID := getUserIDFromContext(ctx)
 
 	err := db.
+		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.WeightedExercise").
 		Preload("Exercises.DistanceExercise").

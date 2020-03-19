@@ -10,6 +10,7 @@ import SwiftUI
 import Introspect
 import Combine
 import Alamofire
+import MapKit
 
 // TODO: fix the workout timer counting to 100 instead of 60
 // TODO: add on text change - re resolve the exercise w/ some debounce
@@ -20,7 +21,8 @@ public struct WorkoutEditorView: View {
     @EnvironmentObject var workoutAPI: WorkoutAPI
     @EnvironmentObject var exerciseAPI: ExerciseAPI
     
-    @ObservedObject private var stopWatch: Stopwatch = Stopwatch();
+    @ObservedObject private var stopWatch: Stopwatch = Stopwatch()
+    @ObservedObject private var locationManager: LocationManager = LocationManager()
     
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
     @State private var textFieldContext: UITextField? = nil
@@ -40,8 +42,10 @@ public struct WorkoutEditorView: View {
     }
     
     func pressFinish() {
+        let coord: CLLocationCoordinate2D? = locationManager.lastLocation?.coordinate
+        let location = try? Location(latitude: coord!.latitude, longitude: coord!.longitude)
         let exercises: [Exercise] = state.activities.map{ a in Exercise(raw: a.input) }
-        let workout = Workout(name: state.workoutName, exercises: exercises)
+        let workout = Workout(name: state.workoutName, exercises: exercises, location: location)
         
         if exercises.count == 0 {
             self.state.reset()

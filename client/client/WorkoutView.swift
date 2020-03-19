@@ -36,8 +36,10 @@ struct WorkoutView: View {
             }
             .padding([.leading, .trailing])
             
-            MapView()
-                .frame(height: CGFloat(150.0))
+            if workout.location != nil {
+                MapView(location: workout.location!)
+                    .frame(height: CGFloat(150.0))
+            }
             
             VStack {
                 ForEach(workout.exercises) { exercise in
