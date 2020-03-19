@@ -27,6 +27,8 @@ public struct WorkoutEditorView: View {
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
     @State private var textFieldContext: UITextField? = nil
     
+    private var date: Date = Date()
+    
     init() {
         stopWatch.start()
     }
@@ -43,9 +45,14 @@ public struct WorkoutEditorView: View {
     
     func pressFinish() {
         let coord: CLLocationCoordinate2D? = locationManager.lastLocation?.coordinate
-        let location = try? Location(latitude: coord!.latitude, longitude: coord!.longitude)
+        let location = coord != nil ? Location(latitude: coord!.latitude, longitude: coord!.longitude) : nil
         let exercises: [Exercise] = state.activities.map{ a in Exercise(raw: a.input) }
-        let workout = Workout(name: state.workoutName, exercises: exercises, location: location)
+        let workout = Workout(
+            name: state.workoutName,
+            date: self.date,
+            exercises: exercises,
+            location: location
+        )
         
         if exercises.count == 0 {
             self.state.reset()

@@ -26,9 +26,11 @@ struct WorkoutView: View {
                     Text(workout.name)
                         .font(.headline)
                     
-                    Text("Nov 19th, 2018")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                    if workout.date != nil {
+                        Text(workout.date!.getHumanFriendlyString())
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
                 .fixedSize()
                 
@@ -56,9 +58,9 @@ struct WorkoutView: View {
 struct WorkoutView_Previews : PreviewProvider {
     static var previews: some View {
         List {
-            WorkoutView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: "", exercises: []))
-            WorkoutView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: "", exercises: []))
-            WorkoutView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: "", exercises: []))
+            WorkoutView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: Date(), exercises: []))
+            WorkoutView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: Date(), exercises: []))
+            WorkoutView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: Date(), exercises: []))
         }
     }
 }

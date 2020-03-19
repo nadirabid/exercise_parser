@@ -27,6 +27,28 @@ struct SignInView: View {
     }
 }
 
+struct SignInDevView: View {
+    @EnvironmentObject var userState: UserState
+    @EnvironmentObject var userAPI: UserAPI
+
+    func signIn() {
+        let data = UserRegistrationData(externalUserId: "test.user", email: "test@user.com", givenName: "Calev", familyName: "Muzaffar")
+        
+        self.userAPI.userRegistrationAndLogin(identityToken: "not.a.token", data: data) { jwt in
+            self.userState.jwt = jwt
+            self.userState.authorization = 1
+        }
+    }
+    
+    var body: some View {
+        return VStack {
+            Button(action: { self.signIn() }) {
+                Text("Sign in")
+            }
+        }
+    }
+}
+
 // https://developer.apple.com/documentation/signinwithapplerestapi/authenticating_users_with_sign_in_with_apple
 struct SignInWithAppleView: UIViewRepresentable {
     var userState: UserState

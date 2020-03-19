@@ -18,7 +18,15 @@ struct FeedView: View {
         
     var body: some View {
         return VStack {
-            if self.feedData != nil && self.feedData?.count ?? 0 > 0  {
+            if self.feedData == nil {
+                Spacer()
+                HStack {
+                    Spacer()
+                    ActivityIndicator(isAnimating: .constant(true), style: .large)
+                    Spacer()
+                }
+                Spacer()
+            } else if self.feedData != nil && self.feedData?.count ?? 0 > 0  {
                 ScrollView {
                     ForEach(self.feedData!.results) { workout in
                         WorkoutView(workout: workout).background(Color.white)
@@ -28,7 +36,7 @@ struct FeedView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    ActivityIndicator(isAnimating: .constant(true), style: .large)
+                    Text("There's nothing in your feed!")
                     Spacer()
                 }
                 Spacer()

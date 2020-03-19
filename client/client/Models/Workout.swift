@@ -14,7 +14,7 @@ struct Workout: Codable, Identifiable {
     let createdAt: String?
     let updatedAt: String?
     let name: String
-    let date: String?
+    let date: Date?
     let exercises: [Exercise]
     let userID: Int?
     let location: Location?
@@ -24,7 +24,7 @@ struct Workout: Codable, Identifiable {
         createdAt: String? = nil,
         updatedAt: String? = nil,
         name: String = "",
-        date: String? = nil,
+        date: Date? = nil,
         exercises: [Exercise] = [],
         userID: Int? = nil,
         location: Location? = nil

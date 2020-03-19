@@ -17,6 +17,12 @@ class UserAPI: ObservableObject {
         let token: String
     }
     
+    private let encoder = JSONEncoder()
+    
+    init() {
+        self.encoder.dateEncodingStrategy = .iso8601
+    }
+    
     func userRegistrationAndLogin(
         identityToken: String,
         data: UserRegistrationData,
@@ -34,12 +40,15 @@ class UserAPI: ObservableObject {
         }
         
         AF
-            .request(url, method: .post, parameters: data, encoder: JSONParameterEncoder.default, headers: headers)
+            .request(url, method: .post, parameters: data, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
                 case .success(let data):
-                    let t = try! JSONDecoder().decode(UserRegistrationResponse.self, from: data!)
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .iso8601
+                    
+                    let t = try! decoder.decode(UserRegistrationResponse.self, from: data!)
                     let jwt = try! decode(jwt: t.token)
                     
                     completionHandler(jwt)
@@ -52,9 +61,11 @@ class UserAPI: ObservableObject {
 
 class WorkoutAPI: ObservableObject {
     private var userState: UserState
+    private let encoder = JSONEncoder()
 
     init(userState: UserState) {
         self.userState = userState
+        self.encoder.dateEncodingStrategy = .iso8601
     }
     
     func getUserFeed(_ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) {
@@ -70,7 +81,10 @@ class WorkoutAPI: ObservableObject {
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
                 case .success(let data):
-                    let feedData = try! JSONDecoder().decode(PaginatedResponse<Workout>.self, from: data!)
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .iso8601
+                    
+                    let feedData = try! decoder.decode(PaginatedResponse<Workout>.self, from: data!)
                     completionHandler(feedData)
                 case .failure(let error):
                     print("Failed to get workouts: ", error)
@@ -87,12 +101,15 @@ class WorkoutAPI: ObservableObject {
             "Authorization": "Bearer \(userState.jwt!.string)"
         ]
         
-        AF.request("\(baseURL)/workout", method: .post, parameters: workout, encoder: JSONParameterEncoder.default, headers: headers)
+        AF.request("\(baseURL)/workout", method: .post, parameters: workout, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
                 case .success(let data):
-                    let workout = try! JSONDecoder().decode(Workout.self, from: data!)
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .iso8601
+                    
+                    let workout = try! decoder.decode(Workout.self, from: data!)
                     completionHandler(workout)
                 case .failure(let error):
                     print("Failed to create workout", error)
@@ -115,7 +132,7 @@ class WorkoutPreviewProviderAPI: WorkoutAPI {
                 createdAt: "",
                 updatedAt: "",
                 name: "Leg day",
-                date: "",
+                date: Date(),
                 exercises: [
                     Exercise(
                         id: 1,
@@ -144,7 +161,7 @@ class WorkoutPreviewProviderAPI: WorkoutAPI {
                 createdAt: "",
                 updatedAt: "",
                 name: "Arm day",
-                date: "",
+                date: Date(),
                 exercises: [
                     Exercise(
                         id: 1,
@@ -168,9 +185,11 @@ class WorkoutPreviewProviderAPI: WorkoutAPI {
 
 class ExerciseAPI: ObservableObject {
     private var userState: UserState
+    private let encoder = JSONEncoder()
 
     init(userState: UserState) {
         self.userState = userState
+        self.encoder.dateEncodingStrategy = .iso8601
     }
     
     func resolveExercise(exercise: Exercise, _ completionHandler: @escaping (Exercise) -> Void) {
@@ -179,12 +198,15 @@ class ExerciseAPI: ObservableObject {
             "Authorization": "Bearer \(userState.jwt!.string)"
         ]
         
-        AF.request("\(baseURL)/exercise/resolve", method: .post, parameters: exercise, encoder: JSONParameterEncoder.default, headers: headers)
+        AF.request("\(baseURL)/exercise/resolve", method: .post, parameters: exercise, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
                 case .success(let data):
-                    let e = try! JSONDecoder().decode(Exercise.self, from: data!)
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .iso8601
+                    
+                    let e = try! decoder.decode(Exercise.self, from: data!)
                     completionHandler(e)
                 case .failure(let error):
                     print("Failed to resolve exercise: ", error)
