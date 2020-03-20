@@ -1,14 +1,14 @@
 ### Exercise!
 
 ####  Now
-
-- [ ] List view of past workouts
-  - [ ] Should be cards based
-  - [ ] Should have a "create"/"add button"
-- [ ] "add"/"create" view
-  - [ ] Simple text editor to create a list
-  - [ ] Button (top or bottom?) which allows user to insert new line item
-    - [ ] Orrrrrr just automatically inserts empty line item at the bottom (might look "unsymetrical")
+ 
+- [x] Add header in FeedView - currently it scrolls past the notch
+- [ ] EditorView
+  - [ ] Fix side padding
+  - [ ] Save amount of time the workout took
+  - [ ] Add view indicator when exercise fails to resolve
+  - [ ] Create a view/input to let user name the workout
+  - [ ] Exercise search???? BIG IFF
 
 #### Reminder (*important*)
 
@@ -16,6 +16,13 @@
 
 #### Done
 
+- [x] List view of past workouts
+  - [x] Should be cards based
+  - [x] Should have a "create"/"add button"
+- [x] "add"/"create" view
+  - [x] Simple text editor to create a list
+  - [x] Button (top or bottom?) which allows user to insert new line item
+    - [x] Orrrrrr just automatically inserts empty line item at the bottom (might look "unsymetrical")
 - [x] Start iOS project: basic element it should have:
 - [x] Workout POST handler should create reference to "resolved exercise" after parsing the raw exercise string out
   - [x] Filter out ExerciseDictionary results with too low results 

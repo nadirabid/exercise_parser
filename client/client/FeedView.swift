@@ -31,6 +31,7 @@ struct FeedView: View {
                     ForEach(self.feedData!.results) { workout in
                         WorkoutView(workout: workout).background(Color.white)
                     }
+                    .padding(.top)
                 }
             } else {
                 Spacer()

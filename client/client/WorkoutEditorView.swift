@@ -51,7 +51,8 @@ public struct WorkoutEditorView: View {
             name: state.workoutName,
             date: self.date,
             exercises: exercises,
-            location: location
+            location: location,
+            timeElapsed: stopWatch.counter
         )
         
         if exercises.count == 0 {
@@ -122,6 +123,7 @@ public struct WorkoutEditorView: View {
                     }
                     self.textFieldContext = textField
                 }
+                .padding([.leading, .trailing])
             }
 
             Spacer()
@@ -184,17 +186,20 @@ public struct ExerciseEditorView: View {
     
     public var body: some View {
         VStack {
-            TextField("", text: $activity.input, onCommit: {
-                self.textFieldContext!.becomeFirstResponder()
-            })
-            .font(.body)
-            
-            if activity.exercise != nil {
-                ActivityView(
-                    exercise: activity.exercise!,
-                    asSecondary: true
-                )
+            VStack {
+                TextField("", text: $activity.input, onCommit: {
+                    self.textFieldContext!.becomeFirstResponder()
+                })
+                .font(.body)
+                
+                if activity.exercise != nil {
+                    ActivityView(
+                        exercise: activity.exercise!,
+                        asSecondary: true
+                    )
+                }
             }
+            .padding([.leading, .trailing])
             
             Divider()
         }

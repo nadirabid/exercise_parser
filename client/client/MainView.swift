@@ -15,9 +15,17 @@ struct MainView: View {
     var body: some View {
         VStack {
             if userState.authorization < 1 {
+                #if targetEnvironment(simulator)
                 SignInDevView()
+                #else
+                SignInView()
+                #endif
             } else {
                 if route.current == .feed {
+                    VStack(alignment: .center) {
+                        Text("Activity")
+                    }
+
                     FeedView()
                     
                     Button(action: { self.route.current = .editor }) {
@@ -35,7 +43,7 @@ struct MainView: View {
                     }
                     .padding(.top, 5)
                 } else if route.current == .editor {
-                    WorkoutEditorView().padding([.trailing, .leading])
+                    WorkoutEditorView()
                 }
             }
         }

@@ -35,17 +35,13 @@ class Stopwatch: ObservableObject {
     }
     
     func convertCountToTimeString() -> String {
-        let millseconds = counter % 100
-        let seconds = counter / 100
-        let minutes = seconds / 60
+        let seconds = counter % 60
+        let minutes = counter / 60
+        let hours = seconds / 60
         
-        var millsecondsString = "\(millseconds)"
         var secondsString = "\(seconds)"
         var minutesString = "\(minutes)"
-        
-        if millseconds < 10 {
-            millsecondsString = "0" + millsecondsString
-        }
+        var hoursString = "\(hours)"
         
         if seconds < 10 {
             secondsString = "0" + secondsString
@@ -55,6 +51,10 @@ class Stopwatch: ObservableObject {
             minutesString = "0" + minutesString
         }
         
-        return "\(minutesString):\(secondsString):\(millsecondsString)"
+        if hours < 10 {
+            hoursString = "0" + hoursString
+        }
+        
+        return "\(hoursString):\(minutesString):\(secondsString)"
     }
 }
