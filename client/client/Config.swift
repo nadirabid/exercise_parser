@@ -11,11 +11,3 @@ import SwiftUI
 
 let appColor: Color = Color(red: 224 / 255, green: 84 / 255, blue: 9 / 255)
 let feedColor: Color = Color(red: 247 / 255, green: 247 / 255, blue: 247 / 255)
-
-extension Date {
-    func getHumanFriendlyString() -> String {
-        let dateformat = DateFormatter()
-        dateformat.dateFormat = "EEEE - MMM d yyyy - h:mm a"
-        return dateformat.string(from: self)
-    }
-}
