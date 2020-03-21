@@ -3,8 +3,9 @@
 ####  Now
 
 - [ ] FeedView: show total time of workout
-- [ ] WorkoutEditor: Create a view/input to let user name the workout
+- [ ] WorkoutEditor: Create a view/input to allow naming the working (also pick a default name)
 - [ ] WorkoutEditor: timer looks ugly - annoying work
+- [ ] WorkoutEditor: fix the hide button
 - [ ] Create icon for app - annoying wokr
 - [ ] Pick a new app color - annoying work
 - [ ] Exercise search???? BIG IFF
