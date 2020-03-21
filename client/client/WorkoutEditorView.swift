@@ -12,14 +12,12 @@ import Combine
 import Alamofire
 import MapKit
 
-// TODO: fix the workout timer counting to 100 instead of 60
 // TODO: add on text change - re resolve the exercise w/ some debounce
 
 public struct WorkoutEditorView: View {
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var state: WorkoutEditorState
     @EnvironmentObject var workoutAPI: WorkoutAPI
-    @EnvironmentObject var exerciseAPI: ExerciseAPI
     
     @ObservedObject private var stopWatch: Stopwatch = Stopwatch()
     @ObservedObject private var locationManager: LocationManager = LocationManager()
@@ -67,22 +65,13 @@ public struct WorkoutEditorView: View {
         }
     }
     
-    func resolveRawExercise(userActivity: UserActivity) {
-        // we do this just for viewing purposes
-        let exercise = Exercise(raw: userActivity.input)
-        
-        exerciseAPI.resolveExercise(exercise: exercise) { (e) in
-            userActivity.exercise = e
-        }
-    }
-    
     public var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             HStack {
                 Spacer()
                 
                 Button(action: {
-                    
+                    // TODOOOOO
                 }) {
                     Text("Hide")
                 }
@@ -96,34 +85,36 @@ public struct WorkoutEditorView: View {
                 
                 Text(self.stopWatch.convertCountToTimeString())
                     .font(.title)
+                    .allowsTightening(true)
                 
                 Spacer()
             }
             
             ScrollView {
-                ForEach(state.activities, id: \.id) { activity in
-                    ExerciseEditorView(activity: activity, textFieldContext: self.textFieldContext)
-                }
-                
-                TextField("New entry", text: $state.newEntry, onCommit: {
-                    self.state.newEntry = self.state.newEntry.trimmingCharacters(in: .whitespaces)
+                VStack(spacing: 0) {
+                    ForEach(state.activities, id: \.id) { activity in
+                        ExerciseEditorView(activity: activity, textFieldContext: self.textFieldContext)
+                    }
                     
-                    if !self.state.newEntry.isEmpty {
-                        let userActivity = UserActivity(input: self.state.newEntry)
-                        self.state.activities.append(userActivity)
-                        self.resolveRawExercise(userActivity: userActivity)
+                    TextField("New entry", text: $state.newEntry, onCommit: {
+                        self.state.newEntry = self.state.newEntry.trimmingCharacters(in: .whitespaces)
                         
-                        self.state.newEntry = ""
-                        self.textFieldContext = nil
+                        if !self.state.newEntry.isEmpty {
+                            let userActivity = UserActivity(input: self.state.newEntry)
+                            self.state.activities.append(userActivity)
+                            
+                            self.state.newEntry = ""
+                            self.textFieldContext = nil
+                        }
+                    })
+                    .introspectTextField { textField in
+                        if self.textFieldContext == nil {
+                            textField.becomeFirstResponder()
+                        }
+                        self.textFieldContext = textField
                     }
-                })
-                .introspectTextField { textField in
-                    if self.textFieldContext == nil {
-                        textField.becomeFirstResponder()
-                    }
-                    self.textFieldContext = textField
+                    .padding([.leading, .trailing])
                 }
-                .padding([.leading, .trailing])
             }
 
             Spacer()
@@ -180,32 +171,6 @@ public struct WorkoutEditorView: View {
     }
 }
 
-public struct ExerciseEditorView: View {
-    @ObservedObject var activity: UserActivity
-    var textFieldContext: UITextField?
-    
-    public var body: some View {
-        VStack {
-            VStack {
-                TextField("", text: $activity.input, onCommit: {
-                    self.textFieldContext!.becomeFirstResponder()
-                })
-                .font(.body)
-                
-                if activity.exercise != nil {
-                    ActivityView(
-                        exercise: activity.exercise!,
-                        asSecondary: true
-                    )
-                }
-            }
-            .padding([.leading, .trailing])
-            
-            Divider()
-        }
-    }
-}
-
 #if DEBUG
 struct WorkoutEditorView_Previews : PreviewProvider {
     static var previews: some View {
@@ -213,8 +178,8 @@ struct WorkoutEditorView_Previews : PreviewProvider {
             .edgesIgnoringSafeArea(.bottom)
             .environmentObject(WorkoutEditorState())
             .environmentObject(RouteState(current: .editor))
-            .environmentObject(WorkoutPreviewProviderAPI(userState: UserState()))
-            .environmentObject(ExercisePreviewProviderAPI(userState: UserState()))
+            .environmentObject(MockWorkoutAPI(userState: UserState()) as WorkoutAPI)
+            .environmentObject(MockExerciseAPI(userState: UserState()) as ExerciseAPI)
     }
 }
 #endif

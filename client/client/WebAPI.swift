@@ -121,7 +121,7 @@ class WorkoutAPI: ObservableObject {
     }
 }
 
-class WorkoutPreviewProviderAPI: WorkoutAPI {
+class MockWorkoutAPI: WorkoutAPI {
     let localFeedData: PaginatedResponse<Workout> = PaginatedResponse<Workout>(
         page: 1,
         count: 4,
@@ -215,7 +215,7 @@ class ExerciseAPI: ObservableObject {
     }
 }
 
-class ExercisePreviewProviderAPI: ExerciseAPI {
+class MockExerciseAPI: ExerciseAPI {
     override func resolveExercise(exercise: Exercise, _ completionHandler: @escaping (Exercise) -> Void) {
         completionHandler(Exercise(
             id: 1,

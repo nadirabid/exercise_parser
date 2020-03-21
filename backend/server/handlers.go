@@ -23,8 +23,8 @@ func handleUserRegistration(c echo.Context) error {
 
 	bearerToken := strings.Split(c.Request().Header.Get("Authorization"), " ")
 
-	if !viper.GetBool("middleware.auth") {
-		// if auth is disabled - we'll just hand out a JWT without authenticating
+	if viper.GetBool("middleware.auth") {
+		// this is the check we do - before handing out a token
 
 		// TODO: we should cache jwk
 		jwkURL := "https://appleid.apple.com/auth/keys"
@@ -39,8 +39,6 @@ func handleUserRegistration(c echo.Context) error {
 			return ctx.JSON(http.StatusUnauthorized, newErrorMessage(err.Error()))
 		}
 	}
-
-	// we're now verified/authenticated
 
 	user := &models.User{}
 	if err := ctx.Bind(user); err != nil {

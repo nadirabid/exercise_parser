@@ -79,12 +79,12 @@ extension Float32 {
 
 #if DEBUG
 struct ActivityView_Previews: PreviewProvider {
-    static var previews: some View {        
-        return Group {
+    static var previews: some View {
+        return VStack {
             ActivityView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil))
             ActivityView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil))
         }
-        .previewLayout(.fixed(width: 400, height: 70))
+        .environmentObject(MockExerciseAPI(userState: UserState()))
     }
 }
 #endif

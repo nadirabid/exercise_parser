@@ -58,8 +58,8 @@ struct MainView_Previews: PreviewProvider {
             .environmentObject(RouteState())
             .environmentObject(UserState())
             .environmentObject(WorkoutEditorState())
-            .environmentObject(WorkoutAPI(userState: userState))
-            .environmentObject(ExerciseAPI(userState: userState))
+            .environmentObject(MockWorkoutAPI(userState: userState) as WorkoutAPI)
+            .environmentObject(MockExerciseAPI(userState: userState) as ExerciseAPI)
             .environmentObject(UserAPI())
     }
 }
