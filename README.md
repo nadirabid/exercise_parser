@@ -1,14 +1,13 @@
 ### Exercise!
 
 ####  Now
- 
-- [x] Add header in FeedView - currently it scrolls past the notch
-- [ ] EditorView
-  - [ ] Fix side padding
-  - [ ] Save amount of time the workout took
-  - [ ] Add view indicator when exercise fails to resolve
-  - [ ] Create a view/input to let user name the workout
-  - [ ] Exercise search???? BIG IFF
+
+- [ ] FeedView: show total time of workout
+- [ ] WorkoutEditor: Create a view/input to let user name the workout
+- [ ] WorkoutEditor: timer looks ugly - annoying work
+- [ ] Create icon for app - annoying wokr
+- [ ] Pick a new app color - annoying work
+- [ ] Exercise search???? BIG IFF
 
 #### Reminder (*important*)
 
@@ -16,6 +15,11 @@
 
 #### Done
 
+- [x] Add header in FeedView - currently it scrolls past the notch
+- [x] EditorView
+  - [x] Fix side padding
+  - [x] Save amount of time the workout took
+  - [x] Add view indicator when exercise fails to resolve
 - [x] List view of past workouts
   - [x] Should be cards based
   - [x] Should have a "create"/"add button"
