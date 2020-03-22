@@ -2,13 +2,15 @@
 
 ####  Now
 
-- [ ] FeedView: show total time of workout
+- [ ] FeedView: if could not parse - show raw string - needed fosho
 - [ ] WorkoutEditor: Create a view/input to allow naming the working (also pick a default name)
 - [ ] WorkoutEditor: timer looks ugly - annoying work
 - [ ] WorkoutEditor: fix the hide button
-- [ ] FeedView: if could not parse - show raw string - needed fosho
 - [ ] Create icon for app - annoying wokr
 - [ ] Pick a new app color - annoying work
+- [ ] Get/save profile picture from server
+- [ ] Workout date should not be optional
+- [ ] Time elapsed should not be optional
 - [ ] Exercise search???? BIG IFF
 
 #### Reminder (*important*)
@@ -17,6 +19,7 @@
 
 #### Done
 
+- [x] FeedView: show total time of workout
 - [x] Add header in FeedView - currently it scrolls past the notch
 - [x] EditorView
   - [x] Fix side padding

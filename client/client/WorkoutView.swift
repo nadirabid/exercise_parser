@@ -28,37 +28,38 @@ struct WorkoutView: View {
     @State var workout: Workout
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             HStack {
-                 CircleProfileImage()
-                     .frame(width: 45)
-                 
-                 VStack(alignment: .leading) {
-                     Text(workout.name)
-                         .font(.headline)
-                     
-                     if workout.date != nil {
-                         Text(workout.date!.getHumanFriendlyString())
-                             .font(.caption)
-                             .foregroundColor(.secondary)
-                     }
-                 }
-                 .fixedSize()
-                 
-                 Spacer()
-             }
-             .padding([.leading, .trailing])
+                CircleProfileImage().frame(width: 45, height: 45)
+                
+                VStack(alignment: .leading) {
+                    Text(workout.name)
+                    
+                    if workout.date != nil {
+                        Text("Calev Muzaffar")
+                            .font(.caption)
+                            .foregroundColor(Color.gray)
+                    }
+                }
+            }
+            .padding(.leading)
             
             HStack(spacing: 10) {
-                WorkoutDetail(name: "MAR", value: "20")
+                WorkoutDetail(
+                    name: workout.date!.abbreviatedMonthString,
+                    value: workout.date!.dayString
+                )
                 Divider()
-                WorkoutDetail(name: "Time", value: "2:23:32")
+                if workout.secondsElapsed != nil {
+                    WorkoutDetail(name: "Time", value: secondsToElapsedTimeString(workout.secondsElapsed!))
+                    Divider()
+                }
+                WorkoutDetail(name: "Exercises", value: "\(workout.exercises.count)")
                 Divider()
-                WorkoutDetail(name: "Exercises", value: "7")
-                Spacer()
+                WorkoutDetail(name: "Weight", value:"45000 lbs")
             }
             .fixedSize(horizontal: false, vertical: true)
-            .padding([.leading, .trailing])
+            .padding(.leading)
             
             if workout.location != nil {
                 MapView(location: workout.location!)

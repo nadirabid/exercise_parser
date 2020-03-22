@@ -10,12 +10,12 @@ import (
 // Workout model
 type Workout struct {
 	Model
-	Name        string     `json:"name"`
-	Date        time.Time  `json:"date"`
-	Exercises   []Exercise `json:"exercises"`
-	Location    *Location  `json:"location"`
-	TimeElapsed uint       `json:"time_elapsed"`
-	UserID      uint       `json:"user_id" gorm:"type:int REFERENCES users(id) ON DELETE CASCADE"`
+	Name           string     `json:"name"`
+	Date           time.Time  `json:"date"`
+	Exercises      []Exercise `json:"exercises"`
+	Location       *Location  `json:"location"`
+	SecondsElapsed uint       `json:"seconds_elapsed"`
+	UserID         uint       `json:"user_id" gorm:"type:int REFERENCES users(id) ON DELETE CASCADE"`
 }
 
 // HasExercise returns true if Exercise exists with id, otherwise false

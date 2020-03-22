@@ -50,7 +50,7 @@ public struct WorkoutEditorView: View {
             date: self.date,
             exercises: exercises,
             location: location,
-            timeElapsed: stopWatch.counter
+            secondsElapsed: stopWatch.counter
         )
         
         if exercises.count == 0 {

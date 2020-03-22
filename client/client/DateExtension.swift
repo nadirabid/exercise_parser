@@ -9,9 +9,27 @@
 import Foundation
 
 extension Date {
-    func getHumanFriendlyString() -> String {
-        let dateformat = DateFormatter()
-        dateformat.dateFormat = "EEEE - MMM d, yyyy - h:mm a"
-        return dateformat.string(from: self)
+    var monthDayYearString: String {
+        let f = DateFormatter()
+        f.dateFormat = "MMM d, yyyy"
+        return f.string(from: self)
+    }
+    
+    var yearString: String {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy"
+        return f.string(from: self)
+    }
+    
+    var dayString: String {
+        let f = DateFormatter()
+        f.dateFormat = "d"
+        return f.string(from: self)
+    }
+    
+    var abbreviatedMonthString: String {
+        let f = DateFormatter()
+        f.dateFormat = "LLL"
+        return f.string(from: self)
     }
 }
