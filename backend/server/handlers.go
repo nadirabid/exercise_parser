@@ -17,11 +17,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-const (
-	GivenNameKey  = "given_name"
-	FamilyNameKey = "family_name"
-)
-
 // right now this only does "sign in with apple"
 func handleUserRegistration(c echo.Context) error {
 	ctx := c.(*Context)
@@ -181,31 +176,25 @@ func handlePostWorkout(c echo.Context) error {
 
 	for i, e := range workout.Exercises {
 		if err := e.Resolve(); err != nil {
-			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-		}
-
-		searchResults, err := models.SearchExerciseDictionary(db, e.Name)
-		if err != nil {
-			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-		}
-
-		if len(searchResults) > 0 {
-			minSearchRank := float32(0.05)
-			topSearchResult := searchResults[0]
-
-			if topSearchResult.Rank < minSearchRank {
-				return ctx.JSON(
-					http.StatusInternalServerError,
-					newErrorMessage(fmt.Errorf("search results for %s have too low of rank", e.Name).Error()),
-				)
+			// This means we'll need to do post processing - potentially first requiring manual
+			// updates
+			e.Type = "unknown"
+		} else {
+			searchResults, err := models.SearchExerciseDictionary(db, e.Name)
+			if err != nil {
+				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}
 
-			e.ExerciseDictionaryID = topSearchResult.ExerciseDictionaryID
-		} else {
-			return ctx.JSON(
-				http.StatusInternalServerError,
-				newErrorMessage(fmt.Errorf("couldn't resolve ExerciseDictionary entry for: %s", e.Name).Error()),
-			)
+			if len(searchResults) > 0 {
+				minSearchRank := float32(0.05)
+				topSearchResult := searchResults[0]
+
+				if topSearchResult.Rank >= minSearchRank {
+					// if we didn't make it ot this if condition - but we resolved properly above
+					// then that means we couldn't find a close enough match for the exercise
+					e.ExerciseDictionaryID = topSearchResult.ExerciseDictionaryID
+				}
+			}
 		}
 
 		workout.Exercises[i] = e

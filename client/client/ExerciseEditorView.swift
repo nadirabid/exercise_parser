@@ -39,17 +39,7 @@ public struct ExerciseEditorView: View {
                 if activity.exercise != nil {
                     ActivityView(exercise: activity.exercise!, asSecondary: true)
                 } else {
-                    HStack(spacing: 0) {
-                        Text("Deep processing")
-                            .font(.caption)
-                            .foregroundColor(Color.gray)
-                        
-                        Spacer()
-                        
-                        FancyLoader()
-                    }
-                    .padding(.top, 10)
-                    .padding(.bottom, 8)
+                    ProcessingActivityView()
                 }
             }
             .padding([.leading, .trailing])

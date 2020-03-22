@@ -76,9 +76,26 @@ struct WorkoutView: View {
                     .frame(height: CGFloat(130.0))
             }
             
-            VStack {
+            VStack(spacing: 0) {
                 ForEach(workout.exercises) { exercise in
-                    ActivityView(exercise: exercise)
+                    if exercise.type != "unknown" {
+                        ActivityView(exercise: exercise)
+                    } else {
+                        HStack(spacing: 0) {
+                            VStack(alignment: .leading) {
+                                Text(exercise.raw)
+                                    .font(.subheadline)
+
+                                Text("Still learning")
+                                    .font(.caption)
+                                    .foregroundColor(Color.gray)
+                            }
+                            
+                            Spacer()
+                            
+                            FancyLoader()
+                        }
+                    }
                 }
             }
             .padding([.leading, .trailing])
@@ -90,7 +107,16 @@ struct WorkoutView: View {
 #if DEBUG
 struct WorkoutView_Previews : PreviewProvider {
     static var previews: some View {
-        WorkoutView(
+        let userState = UserState()
+        userState.userInfo = User(
+            id: 1,
+            externalUserId: "test.user",
+            email: "test@user.com",
+            givenName: "Calev",
+            familyName: "Muzaffar"
+        )
+        
+        return WorkoutView(
             workout: Workout(
                 id: 1,
                 createdAt: "",
@@ -112,6 +138,13 @@ struct WorkoutView_Previews : PreviewProvider {
                         id: 2,
                         createdAt: "",
                         updatedAt: "",
+                        type: "unknown",
+                        raw: "1x3 curls"
+                    ),
+                    Exercise(
+                        id: 3,
+                        createdAt: "",
+                        updatedAt: "",
                         name: "Benchpress",
                         type: "weighted",
                         raw: "4 sets of 3 of benchpress",
@@ -122,6 +155,7 @@ struct WorkoutView_Previews : PreviewProvider {
                 location: Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
             )
         )
+        .environmentObject(userState)
     }
 }
 #endif

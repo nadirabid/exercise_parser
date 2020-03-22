@@ -2,7 +2,6 @@
 
 ####  Now
 
-- [ ] FeedView: if could not parse - show raw string - needed fosho
 - [ ] WorkoutEditor: Create a view/input to allow naming the working (also pick a default name)
 - [ ] WorkoutEditor: timer looks ugly - annoying work
 - [ ] WorkoutEditor: fix the hide button
@@ -19,6 +18,7 @@
 
 #### Done
 
+- [x] FeedView: if could not parse - show raw string - needed fosho
 - [x] FeedView: show total time of workout
 - [x] Add header in FeedView - currently it scrolls past the notch
 - [x] EditorView

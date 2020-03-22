@@ -71,6 +71,22 @@ struct ActivityView : View {
     }
 }
 
+struct ProcessingActivityView: View {
+    var body: some View {
+        HStack(spacing: 0) {
+            Text("Now learning")
+                .font(.caption)
+                .foregroundColor(Color.gray)
+            
+            Spacer()
+            
+            FancyLoader()
+        }
+        .padding(.top, 10)
+        .padding(.bottom, 8)
+    }
+}
+
 extension Float32 {
     func format(f: String) -> String {
         return String(format: "%\(f)f", self)
