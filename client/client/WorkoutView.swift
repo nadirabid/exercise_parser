@@ -8,27 +8,13 @@
 
 import SwiftUI
 
-struct ActivityViewModel {
-    var name: String
-    var units: [[String]]
-}
-
-struct DividerSpacer: View {
-    var body: some View {
-        return HStack(spacing:0) {
-            Spacer()
-            Divider()
-        }
-    }
-}
-
-struct MyText: View {
-    var key: String
-    var value: String
+struct WorkoutDetail: View {
+    let name: String
+    let value: String
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(self.key.uppercased())
+            Text(self.name.uppercased())
                 .font(.caption)
                 .fontWeight(.heavy)
                 .fixedSize()
@@ -44,33 +30,31 @@ struct WorkoutView: View {
     var body: some View {
         VStack {
             HStack {
-                CircleProfileImage()
-                    .frame(width: 45)
-                
-                VStack(alignment: .leading) {
-                    Text(workout.name)
-                        .font(.headline)
-                    
-                    if workout.date != nil {
-                        Text(workout.date!.getHumanFriendlyString())
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                .fixedSize()
-                
-                Spacer()
-            }
-            .padding([.leading, .trailing])
+                 CircleProfileImage()
+                     .frame(width: 45)
+                 
+                 VStack(alignment: .leading) {
+                     Text(workout.name)
+                         .font(.headline)
+                     
+                     if workout.date != nil {
+                         Text(workout.date!.getHumanFriendlyString())
+                             .font(.caption)
+                             .foregroundColor(.secondary)
+                     }
+                 }
+                 .fixedSize()
+                 
+                 Spacer()
+             }
+             .padding([.leading, .trailing])
             
             HStack(spacing: 10) {
-                MyText(key: "MAR", value: "20")
+                WorkoutDetail(name: "MAR", value: "20")
                 Divider()
-                MyText(key: "Time", value: "2:23:32")
+                WorkoutDetail(name: "Time", value: "2:23:32")
                 Divider()
-                MyText(key: "Weight", value: "23243 lbs")
-                Divider()
-                MyText(key: "Exercises", value: "7")
+                WorkoutDetail(name: "Exercises", value: "7")
                 Spacer()
             }
             .fixedSize(horizontal: false, vertical: true)
@@ -78,7 +62,7 @@ struct WorkoutView: View {
             
             if workout.location != nil {
                 MapView(location: workout.location!)
-                    .frame(height: CGFloat(150.0))
+                    .frame(height: CGFloat(130.0))
             }
             
             VStack {

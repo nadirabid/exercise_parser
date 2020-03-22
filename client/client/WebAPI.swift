@@ -131,7 +131,7 @@ class MockWorkoutAPI: WorkoutAPI {
                 id: 1,
                 createdAt: "",
                 updatedAt: "",
-                name: "Leg day",
+                name: "Monday morning workout",
                 date: Date(),
                 exercises: [
                     Exercise(
@@ -161,7 +161,7 @@ class MockWorkoutAPI: WorkoutAPI {
                 id: 2,
                 createdAt: "",
                 updatedAt: "",
-                name: "Arm day",
+                name: "Wednesday afternoon workout",
                 date: Date(),
                 exercises: [
                     Exercise(
@@ -181,7 +181,7 @@ class MockWorkoutAPI: WorkoutAPI {
                 id: 3,
                 createdAt: "",
                 updatedAt: "",
-                name: "Arm day",
+                name: "Friday evening workout",
                 date: Date(),
                 exercises: [
                     Exercise(

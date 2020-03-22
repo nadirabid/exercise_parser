@@ -28,10 +28,13 @@ struct FeedView: View {
                 Spacer()
             } else if self.feedData != nil && self.feedData?.count ?? 0 > 0  {
                 ScrollView {
-                    ForEach(self.feedData!.results) { workout in
-                        WorkoutView(workout: workout).background(Color.white)
+                    VStack(spacing: 0) {
+                        ForEach(self.feedData!.results) { workout in
+                            WorkoutView(workout: workout)
+                                .background(Color.white)
+                                .padding(.top)
+                        }
                     }
-                    .padding(.top)
                 }
             } else {
                 Spacer()

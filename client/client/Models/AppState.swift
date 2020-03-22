@@ -29,7 +29,7 @@ class UserActivity: ObservableObject {
 
 class WorkoutEditorState: ObservableObject {
     @Published var newEntry: String = ""
-    @Published var workoutName: String = "No name"
+    @Published var workoutName: String = "Wednesday morning workout"
     @Published var activities: [UserActivity] = []
     @Published var isStopped = false
     var dataTaskPublisher: AnyCancellable? = nil
