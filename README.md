@@ -6,6 +6,7 @@
 - [ ] WorkoutEditor: Create a view/input to allow naming the working (also pick a default name)
 - [ ] WorkoutEditor: timer looks ugly - annoying work
 - [ ] WorkoutEditor: fix the hide button
+- [ ] FeedView: if could not parse - show raw string - needed fosho
 - [ ] Create icon for app - annoying wokr
 - [ ] Pick a new app color - annoying work
 - [ ] Exercise search???? BIG IFF

@@ -145,7 +145,7 @@ class MockWorkoutAPI: WorkoutAPI {
                         distanceExercise: nil
                     ),
                     Exercise(
-                        id: 1,
+                        id: 2,
                         createdAt: "",
                         updatedAt: "",
                         name: "Benchpress",
@@ -154,17 +154,18 @@ class MockWorkoutAPI: WorkoutAPI {
                         weightedExercise: WeightedExercise(sets: 4, reps: 3),
                         distanceExercise: nil
                     )
-                ]
+                ],
+                location: Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
             ),
             Workout(
-                id: 1,
+                id: 2,
                 createdAt: "",
                 updatedAt: "",
                 name: "Arm day",
                 date: Date(),
                 exercises: [
                     Exercise(
-                        id: 1,
+                        id: 3,
                         createdAt: "",
                         updatedAt: "",
                         name: "Curls",
@@ -173,7 +174,28 @@ class MockWorkoutAPI: WorkoutAPI {
                         weightedExercise: WeightedExercise(sets: 1, reps: 3),
                         distanceExercise: nil
                     )
-                ]
+                ],
+                location: Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
+            ),
+            Workout(
+                id: 3,
+                createdAt: "",
+                updatedAt: "",
+                name: "Arm day",
+                date: Date(),
+                exercises: [
+                    Exercise(
+                        id: 4,
+                        createdAt: "",
+                        updatedAt: "",
+                        name: "Curls",
+                        type: "weighted",
+                        raw: "1 by 3 of curls",
+                        weightedExercise: WeightedExercise(sets: 1, reps: 3),
+                        distanceExercise: nil
+                    )
+                ],
+                location: Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
             )
         ]
     )

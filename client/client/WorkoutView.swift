@@ -13,6 +13,31 @@ struct ActivityViewModel {
     var units: [[String]]
 }
 
+struct DividerSpacer: View {
+    var body: some View {
+        return HStack(spacing:0) {
+            Spacer()
+            Divider()
+        }
+    }
+}
+
+struct MyText: View {
+    var key: String
+    var value: String
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(self.key.uppercased())
+                .font(.caption)
+                .fontWeight(.heavy)
+                .fixedSize()
+            Text(self.value)
+                .fixedSize()
+        }
+    }
+}
+
 struct WorkoutView: View {
     @State var workout: Workout
     
@@ -38,6 +63,19 @@ struct WorkoutView: View {
             }
             .padding([.leading, .trailing])
             
+            HStack(spacing: 10) {
+                MyText(key: "MAR", value: "20")
+                Divider()
+                MyText(key: "Time", value: "2:23:32")
+                Divider()
+                MyText(key: "Weight", value: "23243 lbs")
+                Divider()
+                MyText(key: "Exercises", value: "7")
+                Spacer()
+            }
+            .fixedSize(horizontal: false, vertical: true)
+            .padding([.leading, .trailing])
+            
             if workout.location != nil {
                 MapView(location: workout.location!)
                     .frame(height: CGFloat(150.0))
@@ -57,11 +95,38 @@ struct WorkoutView: View {
 #if DEBUG
 struct WorkoutView_Previews : PreviewProvider {
     static var previews: some View {
-        List {
-            WorkoutView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: Date(), exercises: []))
-            WorkoutView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: Date(), exercises: []))
-            WorkoutView(workout: Workout(id: 1, createdAt: "", updatedAt: "", name: "", date: Date(), exercises: []))
-        }
+        WorkoutView(
+            workout: Workout(
+                id: 1,
+                createdAt: "",
+                updatedAt: "",
+                name: "Morning workout",
+                date: Date(),
+                exercises: [
+                    Exercise(
+                        id: 1,
+                        createdAt: "",
+                        updatedAt: "",
+                        name: "Curls",
+                        type: "weighted",
+                        raw: "1x3 curls",
+                        weightedExercise: WeightedExercise(sets: 1, reps: 3),
+                        distanceExercise: nil
+                    ),
+                    Exercise(
+                        id: 2,
+                        createdAt: "",
+                        updatedAt: "",
+                        name: "Benchpress",
+                        type: "weighted",
+                        raw: "4 sets of 3 of benchpress",
+                        weightedExercise: WeightedExercise(sets: 4, reps: 3),
+                        distanceExercise: nil
+                    )
+                ],
+                location: Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
+            )
+        )
     }
 }
 #endif
