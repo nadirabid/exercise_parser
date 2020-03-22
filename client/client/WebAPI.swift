@@ -25,8 +25,8 @@ class UserAPI: ObservableObject {
     
     func userRegistrationAndLogin(
         identityToken: String,
-        data: UserRegistrationData,
-        _ completionHandler: @escaping (JWT) -> Void
+        data: User,
+        _ completionHandler: @escaping (JWT, User) -> Void
     ) {
         let headers: HTTPHeaders = [
             "Accept": "application/json",
@@ -37,6 +37,7 @@ class UserAPI: ObservableObject {
         
         struct UserRegistrationResponse: Codable {
             let token: String
+            let user: User
         }
         
         AF
@@ -48,10 +49,10 @@ class UserAPI: ObservableObject {
                     let decoder = JSONDecoder()
                     decoder.dateDecodingStrategy = .iso8601
                     
-                    let t = try! decoder.decode(UserRegistrationResponse.self, from: data!)
-                    let jwt = try! decode(jwt: t.token)
+                    let r = try! decoder.decode(UserRegistrationResponse.self, from: data!)
+                    let jwt = try! decode(jwt: r.token)
                     
-                    completionHandler(jwt)
+                    completionHandler(jwt, r.user)
                 case .failure(let error):
                     print(error)
                 }

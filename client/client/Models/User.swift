@@ -9,7 +9,8 @@
 import Foundation
 import JWTDecode
 
-struct UserRegistrationData: Codable {
+struct User: Codable {
+    let id: Int?
     let externalUserId: String
     let email: String?
     let givenName: String?
@@ -20,6 +21,7 @@ struct UserRegistrationData: Codable {
         case email = "email"
         case givenName = "given_name"
         case familyName = "family_name"
+        case id
     }
 }
 
@@ -27,4 +29,5 @@ class UserState: ObservableObject {
     // 1 = Authorized, -1 = Revoked
     @Published var authorization: Int = 0
     @Published var jwt: JWT? = nil
+    @Published var userInfo: User? = nil
 }

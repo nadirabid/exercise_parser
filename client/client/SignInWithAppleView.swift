@@ -32,9 +32,16 @@ struct SignInDevView: View {
     @EnvironmentObject var userAPI: UserAPI
 
     func signIn() {
-        let data = UserRegistrationData(externalUserId: "test.user", email: "test@user.com", givenName: "Calev", familyName: "Muzaffar")
+        let data = User(
+            id: nil,
+            externalUserId: "test.user",
+            email: "test@user.com",
+            givenName: "Calev",
+            familyName: "Muzaffar"
+        )
         
-        self.userAPI.userRegistrationAndLogin(identityToken: "not.a.token", data: data) { jwt in
+        self.userAPI.userRegistrationAndLogin(identityToken: "not.a.token", data: data) { (jwt, user) in
+            self.userState.userInfo = user
             self.userState.jwt = jwt
             self.userState.authorization = 1
         }
@@ -109,16 +116,21 @@ struct SignInWithAppleView: UIViewRepresentable {
             let defaults = UserDefaults.standard
             defaults.set(credentials.user, forKey: "userId")
             
-            let data = UserRegistrationData(
+            let data = User(
+                id: nil,
                 externalUserId: credentials.user,
                 email: credentials.email ?? "",
                 givenName: credentials.fullName?.givenName ?? "",
                 familyName: credentials.fullName?.familyName ?? ""
             )
             
-            self.parent?.userAPI.userRegistrationAndLogin(identityToken: identityToken, data: data) { jwt in
+            self.parent?.userAPI.userRegistrationAndLogin(identityToken: identityToken, data: data) { (jwt, user) in
+                let userJSON = try! JSONEncoder().encode(user)
+                
                 defaults.set(jwt.string, forKey: "token")
+                defaults.set(String(data: userJSON, encoding: .utf8), forKey: "userInfo")
                                        
+                self.parent?.userState.userInfo = user
                 self.parent?.userState.jwt = jwt
                 self.parent?.userState.authorization = 1
             }

@@ -47,13 +47,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         break
                     }
                     
+                    if let userJSON = UserDefaults.standard.object(forKey: "userInfo") as? String {
+                        let decoder = JSONDecoder()
+                        decoder.dateDecodingStrategy = .iso8601
+                        
+                        if let user = try? decoder.decode(User.self, from: userJSON.data(using: .utf8) ?? Data()) {
+                            userState.userInfo = user
+                        } else {
+                            userState.authorization = 0
+                        }
+                    } else {
+                        // userInfo doesn't exist - this won't really happen because
+                        // if we're authed then we also stored the user info as part of sign in
+                        userState.authorization = 0
+                    }
+                    
                     if userState.authorization == 1 {
                         if let token = UserDefaults.standard.object(forKey: "token") as? String {
-                            if let jwt = try? decode(jwt: token) {
-                                if !jwt.expired {
-                                    userState.jwt = jwt
-                                    return
-                                }
+                            if let jwt = try? decode(jwt: token), !jwt.expired {
+                                userState.jwt = jwt
+                                return
                             }
                         }
                         

@@ -17,6 +17,11 @@ import (
 	"github.com/spf13/viper"
 )
 
+const (
+	GivenNameKey  = "given_name"
+	FamilyNameKey = "family_name"
+)
+
 // right now this only does "sign in with apple"
 func handleUserRegistration(c echo.Context) error {
 	ctx := c.(*Context)
@@ -87,11 +92,19 @@ func handleUserRegistration(c echo.Context) error {
 
 	payload, err := t.Sign(jwa.RS256, ctx.key)
 
+	type Response struct {
+		Token string      `json:"token"`
+		User  models.User `json:"user"`
+	}
+
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	return ctx.JSON(http.StatusOK, models.Token{Token: string(payload)})
+	return ctx.JSON(http.StatusOK, Response{
+		Token: string(payload),
+		User:  *user,
+	})
 }
 
 func handleGetAllWorkout(c echo.Context) error {
