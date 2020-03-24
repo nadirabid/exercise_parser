@@ -12,8 +12,6 @@ import Combine
 import Alamofire
 import MapKit
 
-// TODO: add on text change - re resolve the exercise w/ some debounce
-
 public struct WorkoutEditorView: View {
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var state: WorkoutEditorState
@@ -70,19 +68,6 @@ public struct WorkoutEditorView: View {
             HStack {
                 Spacer()
                 
-                Button(action: {
-                    // TODOOOOO
-                }) {
-                    Text("Hide")
-                }
-                .padding(.trailing)
-            }
-        
-            Divider()
-            
-            HStack {
-                Spacer()
-                
                 Text(self.stopWatch.convertCountToTimeString())
                     .font(.title)
                     .allowsTightening(true)
@@ -93,7 +78,10 @@ public struct WorkoutEditorView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     ForEach(state.activities, id: \.id) { activity in
-                        ExerciseEditorView(activity: activity, textFieldContext: self.textFieldContext)
+                        ExerciseEditorView(
+                            activity: activity,
+                            textFieldContext: self.textFieldContext
+                        )
                     }
                     
                     TextField("New entry", text: $state.newEntry, onCommit: {
@@ -123,7 +111,9 @@ public struct WorkoutEditorView: View {
                 Spacer()
                 
                 if !state.isStopped {
-                    Button(action: self.pressStop) {
+                    Button(action: {
+                        withAnimation { self.pressStop() }
+                    }) {
                         ZStack {
                             Circle()
                                 .fill(appColor)
@@ -136,9 +126,12 @@ public struct WorkoutEditorView: View {
                                 .frame(width: 14, height: 14)
                         }
                     }
+                    .transition(AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1)))
                 }
                 else {
-                    Button(action: self.pressResume) {
+                    Button(action: {
+                        withAnimation { self.pressResume() }
+                    }) {
                         ZStack {
                             Circle()
                                 .stroke(appColor, lineWidth: 4)
@@ -150,8 +143,11 @@ public struct WorkoutEditorView: View {
                                 .foregroundColor(appColor)
                         }
                     }
+                    .transition(.identity)
                     
-                    Button(action: self.pressFinish) {
+                    Button(action: {
+                        withAnimation { self.pressFinish() }
+                    }) {
                         ZStack {
                             Circle()
                                 .fill(appColor)
@@ -163,6 +159,7 @@ public struct WorkoutEditorView: View {
                                 .foregroundColor(.white)
                         }
                     }
+                    .transition(.identity)
                 }
                 
                 Spacer()
@@ -174,9 +171,16 @@ public struct WorkoutEditorView: View {
 #if DEBUG
 struct WorkoutEditorView_Previews : PreviewProvider {
     static var previews: some View {
+        let workoutEditorState = WorkoutEditorState()
+        workoutEditorState.activities = [
+            UserActivity(input: "3x3 tricep curls"),
+            UserActivity(input: "4 mins of running"),
+            UserActivity(input: "benchpress 3x3x2", dataTaskPublisher: nil, exercise: Exercise(type: "unknown"))
+        ]
+        
         return WorkoutEditorView()
             .edgesIgnoringSafeArea(.bottom)
-            .environmentObject(WorkoutEditorState())
+            .environmentObject(workoutEditorState)
             .environmentObject(RouteState(current: .editor))
             .environmentObject(MockWorkoutAPI(userState: UserState()) as WorkoutAPI)
             .environmentObject(MockExerciseAPI(userState: UserState()) as ExerciseAPI)

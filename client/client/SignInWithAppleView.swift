@@ -30,6 +30,7 @@ struct SignInView: View {
 struct SignInDevView: View {
     @EnvironmentObject var userState: UserState
     @EnvironmentObject var userAPI: UserAPI
+    
 
     func signIn() {
         let data = User(

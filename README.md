@@ -10,6 +10,7 @@
 - [ ] Get/save profile picture from server
 - [ ] Workout date should not be optional
 - [ ] Time elapsed should not be optional
+- [ ] WorkoutEditor: add on text change - re resolve the exercise w/ some debounce
 - [ ] Exercise search???? BIG IFF
 
 #### Reminder (*important*)

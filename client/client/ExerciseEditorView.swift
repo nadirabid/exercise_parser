@@ -9,34 +9,49 @@
 import SwiftUI
 
 public struct ExerciseEditorView: View {
+    @EnvironmentObject var state: WorkoutEditorState
     @EnvironmentObject var exerciseAPI: ExerciseAPI
     @ObservedObject var activity: UserActivity
     @State var resolveExercise = true
-    var textFieldContext: UITextField?
+    var textFieldContext: UITextField? = nil
+    @State private var isButtonVisible = true
     
-    func resolveRawExercise(userActivity: UserActivity) {
-        // we do this just for viewing purposes
-        let exercise = Exercise(raw: userActivity.input)
+    func resolveRawExercise() {
+        if !resolveExercise || activity.exercise != nil {
+            return
+        }
         
+        // we do this just for viewing purposes
+        let exercise = Exercise(raw: activity.input)
+
         exerciseAPI.resolveExercise(exercise: exercise) { e in
             self.activity.exercise = e
         }
     }
     
+    func test() {
+        isButtonVisible = !isButtonVisible
+    }
+    
+    func showActivityView() -> Bool {
+        return activity.exercise != nil && activity.exercise?.type != "unknown"
+    }
+    
     public var body: some View {
-        VStack(spacing: 0) {
+        return VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
-                TextField("", text: $activity.input, onCommit: {
-                    self.textFieldContext!.becomeFirstResponder()
-                })
-                    .font(.body)
-                    .onAppear {
-                        if self.activity.exercise == nil && self.resolveExercise {
-                            self.resolveRawExercise(userActivity: self.activity)
+                if !state.isStopped {
+                    TextField("", text: $activity.input.animation(), onCommit: {
+                        self.textFieldContext?.becomeFirstResponder()
+                    })
+                        .animation(Animation.default.speed(0.1))
+                        .font(.body)
+                        .onAppear {
+                            self.resolveRawExercise()
                         }
-                    }
+                }
                 
-                if activity.exercise != nil {
+                if self.showActivityView() {
                     ActivityView(exercise: activity.exercise!, asSecondary: true)
                 } else {
                     ProcessingActivityView()
@@ -58,5 +73,6 @@ struct ExerciseEditorView_Previews: PreviewProvider {
             ExerciseEditorView(activity: UserActivity(input: "3x3 tricep curls"))
         }
         .environmentObject(MockExerciseAPI(userState: UserState()) as ExerciseAPI)
+        .environmentObject(WorkoutEditorState())
     }
 }

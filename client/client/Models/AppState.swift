@@ -47,7 +47,7 @@ class WorkoutEditorState: ObservableObject {
 class RouteState: ObservableObject {
     @Published var current: Route
     
-    init(current: Route = .feed) {
+    init(current: Route = .editor) {
         self.current = current
     }
     
