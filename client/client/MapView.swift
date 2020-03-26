@@ -16,10 +16,8 @@ struct MapView: UIViewRepresentable {
     var location: Location
     
     func makeUIView(context: Context) -> MKMapView {
-        MKMapView(frame: .zero)
-    }
-    
-    func updateUIView(_ view: MKMapView, context: Context) {
+        let view = MKMapView(frame: .zero)
+        
         let coordinate = CLLocationCoordinate2D(
             latitude: self.location.latitude,
             longitude: self.location.longitude
@@ -30,11 +28,17 @@ struct MapView: UIViewRepresentable {
         view.isZoomEnabled = false
         view.isScrollEnabled = false
         view.isUserInteractionEnabled = false
-        
+
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
         annotation.title = "Home gym"
         view.addAnnotation(annotation)
+        
+        return view
+    }
+    
+    func updateUIView(_ view: MKMapView, context: Context) {
+
     }
 }
 

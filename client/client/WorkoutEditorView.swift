@@ -12,6 +12,27 @@ import Combine
 import Alamofire
 import MapKit
 
+struct ScaleEffectHeightModifier: ViewModifier {
+    let height: CGFloat
+
+    init(_ height: CGFloat) {
+        self.height = height
+    }
+
+    func body(content: Content) -> some View {
+        content.scaleEffect(x: 1, y: height, anchor: UnitPoint.top)
+    }
+}
+
+extension AnyTransition {
+    static func scaleHeight(from: CGFloat, to: CGFloat) -> AnyTransition {
+        .modifier(
+            active: ScaleEffectHeightModifier(from),
+            identity: ScaleEffectHeightModifier(to)
+        )
+    }
+}
+
 public struct WorkoutEditorView: View {
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var state: WorkoutEditorState
@@ -22,14 +43,23 @@ public struct WorkoutEditorView: View {
     
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
     @State private var textFieldContext: UITextField? = nil
+    @State private var location: Location? = nil
     
     private var date: Date = Date()
     
     init() {
         stopWatch.start()
+        //self.pressPause()
     }
     
-    func pressStop() {
+    func pressPause() {
+        #if targetEnvironment(simulator)
+        self.location = Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
+        #else
+        let coord: CLLocationCoordinate2D? = locationManager.lastLocation?.coordinate
+        self.location = coord != nil ? Location(latitude: coord!.latitude, longitude: coord!.longitude) : nil
+        #endif
+        
         self.stopWatch.stop()
         self.state.isStopped = true
     }
@@ -64,7 +94,7 @@ public struct WorkoutEditorView: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading) {
             HStack {
                 Spacer()
                 
@@ -74,9 +104,41 @@ public struct WorkoutEditorView: View {
                 
                 Spacer()
             }
+
             
             ScrollView {
                 VStack(spacing: 0) {
+                    VStack(alignment: .leading) {
+                        if state.isStopped {
+                            HStack(spacing: 10) {
+                                WorkoutDetail(
+                                    name: date.abbreviatedMonthString,
+                                    value: date.dayString
+                                )
+                                Divider()
+                                
+                                WorkoutDetail(name: "Time", value: secondsToElapsedTimeString(stopWatch.counter))
+                                Divider()
+                                
+                                WorkoutDetail(name: "Exercises", value: "\(state.activities.count)")
+                                Divider()
+                                
+                                WorkoutDetail(name: "Weight", value:"45000 lbs")
+                            }
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding([.leading])
+                        }
+                        
+                        if state.isStopped && self.location != nil {
+                            MapView(location: self.location!)
+                                .frame(height: 130)
+                                .transition(
+                                    AnyTransition.scaleHeight(from: 0, to: 1).combined(with: AnyTransition.opacity)
+                                )
+                        }
+                    }
+                    .padding([.top, .bottom])
+                    
                     ForEach(state.activities, id: \.id) { activity in
                         ExerciseEditorView(
                             activity: activity,
@@ -84,24 +146,26 @@ public struct WorkoutEditorView: View {
                         )
                     }
                     
-                    TextField("New entry", text: $state.newEntry, onCommit: {
-                        self.state.newEntry = self.state.newEntry.trimmingCharacters(in: .whitespaces)
-                        
-                        if !self.state.newEntry.isEmpty {
-                            let userActivity = UserActivity(input: self.state.newEntry)
-                            self.state.activities.append(userActivity)
+                    if !state.isStopped {
+                        TextField("New entry", text: $state.newEntry, onCommit: {
+                            self.state.newEntry = self.state.newEntry.trimmingCharacters(in: .whitespaces)
                             
-                            self.state.newEntry = ""
-                            self.textFieldContext = nil
+                            if !self.state.newEntry.isEmpty {
+                                let userActivity = UserActivity(input: self.state.newEntry)
+                                self.state.activities.append(userActivity)
+                                
+                                self.state.newEntry = ""
+                                self.textFieldContext = nil
+                            }
+                        })
+                        .introspectTextField { textField in
+                            if self.textFieldContext == nil {
+                                textField.becomeFirstResponder()
+                            }
+                            self.textFieldContext = textField
                         }
-                    })
-                    .introspectTextField { textField in
-                        if self.textFieldContext == nil {
-                            textField.becomeFirstResponder()
-                        }
-                        self.textFieldContext = textField
+                        .padding([.leading, .trailing])
                     }
-                    .padding([.leading, .trailing])
                 }
             }
 
@@ -112,7 +176,9 @@ public struct WorkoutEditorView: View {
                 
                 if !state.isStopped {
                     Button(action: {
-                        withAnimation { self.pressStop() }
+                        withAnimation(.easeInOut(duration: 0.25)) {
+                            self.pressPause()
+                        }
                     }) {
                         ZStack {
                             Circle()
@@ -126,11 +192,15 @@ public struct WorkoutEditorView: View {
                                 .frame(width: 14, height: 14)
                         }
                     }
-                    .transition(AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1)))
+                    .transition(
+                        AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1))
+                    )
                 }
                 else {
                     Button(action: {
-                        withAnimation { self.pressResume() }
+                        withAnimation(.easeInOut(duration: 0.25)) {
+                            self.pressResume()
+                        }
                     }) {
                         ZStack {
                             Circle()
@@ -143,10 +213,14 @@ public struct WorkoutEditorView: View {
                                 .foregroundColor(appColor)
                         }
                     }
-                    .transition(.identity)
+                    .transition(
+                        AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1))
+                    )
                     
                     Button(action: {
-                        withAnimation { self.pressFinish() }
+                        withAnimation(.easeInOut(duration: 0.25)) {
+                            self.pressFinish()
+                        }
                     }) {
                         ZStack {
                             Circle()
@@ -159,7 +233,9 @@ public struct WorkoutEditorView: View {
                                 .foregroundColor(.white)
                         }
                     }
-                    .transition(.identity)
+                    .transition(
+                        AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1))
+                    )
                 }
                 
                 Spacer()

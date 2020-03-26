@@ -44,7 +44,6 @@ public struct ExerciseEditorView: View {
                     TextField("", text: $activity.input.animation(), onCommit: {
                         self.textFieldContext?.becomeFirstResponder()
                     })
-                        .animation(Animation.default.speed(0.1))
                         .font(.body)
                         .onAppear {
                             self.resolveRawExercise()
