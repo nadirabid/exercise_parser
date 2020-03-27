@@ -68,7 +68,7 @@ struct WorkoutView: View {
                 Divider()
                 WorkoutDetail(name: "Weight", value:"45000 lbs")
             }
-            .fixedSize(horizontal: false, vertical: true)
+            .fixedSize(horizontal: true, vertical: true)
             .padding(.leading)
             
             if workout.location != nil {

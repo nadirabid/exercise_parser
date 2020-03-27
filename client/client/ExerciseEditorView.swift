@@ -51,7 +51,7 @@ public struct ExerciseEditorView: View {
                 }
                 
                 if self.showActivityView() {
-                    ActivityView(exercise: activity.exercise!, asSecondary: true)
+                    ActivityView(exercise: activity.exercise!, asSecondary: !state.isStopped)
                 } else {
                     ProcessingActivityView()
                 }

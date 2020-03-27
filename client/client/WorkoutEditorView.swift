@@ -33,6 +33,35 @@ extension AnyTransition {
     }
 }
 
+struct AdaptsToSoftwareKeyboard: ViewModifier {
+  @State var currentHeight: CGFloat = 0
+
+  func body(content: Content) -> some View {
+    content
+      .padding(.bottom, currentHeight)
+      .edgesIgnoringSafeArea(.bottom)
+      .onAppear(perform: subscribeToKeyboardEvents)
+  }
+
+  private func subscribeToKeyboardEvents() {
+    NotificationCenter.Publisher(
+      center: NotificationCenter.default,
+      name: UIResponder.keyboardWillShowNotification
+    ).compactMap { notification in
+        notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect
+    }.map { rect in
+      rect.height
+    }.subscribe(Subscribers.Assign(object: self, keyPath: \.currentHeight))
+
+    NotificationCenter.Publisher(
+      center: NotificationCenter.default,
+      name: UIResponder.keyboardWillHideNotification
+    ).compactMap { notification in
+      CGFloat.zero
+    }.subscribe(Subscribers.Assign(object: self, keyPath: \.currentHeight))
+  }
+}
+
 public struct WorkoutEditorView: View {
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var state: WorkoutEditorState
@@ -44,12 +73,12 @@ public struct WorkoutEditorView: View {
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
     @State private var textFieldContext: UITextField? = nil
     @State private var location: Location? = nil
+    @State private var workoutName = ""
     
     private var date: Date = Date()
     
     init() {
         stopWatch.start()
-        //self.pressPause()
     }
     
     func pressPause() {
@@ -95,56 +124,89 @@ public struct WorkoutEditorView: View {
     
     public var body: some View {
         VStack(alignment: .leading) {
-            HStack {
-                Spacer()
-                
-                Text(self.stopWatch.convertCountToTimeString())
-                    .font(.title)
-                    .allowsTightening(true)
-                
-                Spacer()
+            if !state.isStopped {
+                HStack {
+                    Spacer()
+                    
+                    Text(self.stopWatch.convertCountToTimeString())
+                        .font(.title)
+                        .allowsTightening(true)
+                    
+                    Spacer()
+                }
             }
-
             
             ScrollView {
-                VStack(spacing: 0) {
-                    VStack(alignment: .leading) {
-                        if state.isStopped {
+                VStack(alignment: .leading, spacing: 0) {
+                    if state.isStopped {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("Workout name")
+                                .font(.caption)
+                                .padding([.leading, .top])
+                                .padding(.bottom, 3)
+                                .foregroundColor(Color.gray)
+                            
+                            TextField("Morning workout", text: $workoutName)
+                                .padding([.leading, .trailing])
+                                .padding([.top, .bottom], 12)
+                                .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
+                                .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
+                                .introspectTextField { textField in
+                                    textField.becomeFirstResponder()
+                                }
+                            
+                            Text("Breakdown")
+                                .font(.caption)
+                                .padding([.leading, .top])
+                                .padding(.bottom, 3)
+                                .foregroundColor(Color.gray)
+                        
                             HStack(spacing: 10) {
                                 WorkoutDetail(
                                     name: date.abbreviatedMonthString,
                                     value: date.dayString
                                 )
                                 Divider()
-                                
+
                                 WorkoutDetail(name: "Time", value: secondsToElapsedTimeString(stopWatch.counter))
                                 Divider()
-                                
+
                                 WorkoutDetail(name: "Exercises", value: "\(state.activities.count)")
                                 Divider()
-                                
+
                                 WorkoutDetail(name: "Weight", value:"45000 lbs")
                             }
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding([.leading])
+                            .fixedSize(horizontal: true, vertical: true)
+                            .padding(.leading)
+                            .padding(.bottom, 5)
+                            
+                            if self.location != nil {
+                                MapView(location: self.location!)
+                                    .frame(height: 130)
+                                    .transition(
+                                        AnyTransition.scaleHeight(from: 0, to: 1).combined(with: AnyTransition.opacity)
+                                    )
+                            }
                         }
                         
-                        if state.isStopped && self.location != nil {
-                            MapView(location: self.location!)
-                                .frame(height: 130)
-                                .transition(
-                                    AnyTransition.scaleHeight(from: 0, to: 1).combined(with: AnyTransition.opacity)
-                                )
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("Exercises")
+                                .font(.caption)
+                                .padding([.leading, .top])
+                                .padding(.bottom, 3)
+                                .foregroundColor(Color.gray)
                         }
                     }
-                    .padding([.top, .bottom])
                     
-                    ForEach(state.activities, id: \.id) { activity in
-                        ExerciseEditorView(
-                            activity: activity,
-                            textFieldContext: self.textFieldContext
-                        )
+                    VStack(spacing: 0) {
+                        ForEach(state.activities, id: \.id) { activity in
+                            ExerciseEditorView(
+                                activity: activity,
+                                textFieldContext: self.textFieldContext
+                            )
+                        }
                     }
+                    .background(Color.white)
                     
                     if !state.isStopped {
                         TextField("New entry", text: $state.newEntry, onCommit: {
@@ -176,7 +238,7 @@ public struct WorkoutEditorView: View {
                 
                 if !state.isStopped {
                     Button(action: {
-                        withAnimation(.easeInOut(duration: 0.25)) {
+                        withAnimation(.easeInOut(duration: 0.18)) {
                             self.pressPause()
                         }
                     }) {
@@ -198,7 +260,7 @@ public struct WorkoutEditorView: View {
                 }
                 else {
                     Button(action: {
-                        withAnimation(.easeInOut(duration: 0.25)) {
+                        withAnimation(.easeInOut(duration: 0.18)) {
                             self.pressResume()
                         }
                     }) {
@@ -218,7 +280,7 @@ public struct WorkoutEditorView: View {
                     )
                     
                     Button(action: {
-                        withAnimation(.easeInOut(duration: 0.25)) {
+                        withAnimation(.easeInOut(duration: 0.18)) {
                             self.pressFinish()
                         }
                     }) {
