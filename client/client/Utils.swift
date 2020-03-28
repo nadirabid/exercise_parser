@@ -19,3 +19,7 @@ func secondsToElapsedTimeString(_ seconds: Int) -> String {
     
     return "\(hours)h \(minutes)m"
 }
+
+func dateToWorkoutName(_ d: Date) -> String {
+    return "\(d.weekdayString.capitalized) \(d.timeOfDayString.lowercased()) workout"
+}

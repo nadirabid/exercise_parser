@@ -27,9 +27,28 @@ extension Date {
         return f.string(from: self)
     }
     
+    var weekdayString: String {
+        let weekday = Calendar.current.component(.weekday, from: self) - 1
+        let f = DateFormatter()
+        return f.weekdaySymbols[weekday]
+    }
+    
     var abbreviatedMonthString: String {
         let f = DateFormatter()
         f.dateFormat = "LLL"
         return f.string(from: self)
+    }
+    
+    var timeOfDayString: String {
+        //TODO: localize?
+        let hour = Calendar.current.component(.hour, from: Date())
+
+        switch hour {
+        case 6..<12 : return NSLocalizedString("Morning", comment: "Morning")
+        case 12 : return NSLocalizedString("Noon", comment: "Noon")
+        case 13..<17 : return NSLocalizedString("Afternoon", comment: "Afternoon")
+        case 17..<22 : return NSLocalizedString("Evening", comment: "Evening")
+        default: return NSLocalizedString("Night", comment: "Night")
+        }
     }
 }

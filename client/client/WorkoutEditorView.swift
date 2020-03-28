@@ -169,7 +169,7 @@ public struct WorkoutEditorView: View {
                                 .padding(.bottom, 3)
                                 .foregroundColor(Color.gray)
                             
-                            TextField("Morning workout", text: $state.workoutName, onCommit: {
+                            TextField(dateToWorkoutName(date), text: $state.workoutName, onCommit: {
                                 self.state.workoutName = self.state.workoutName.trimmingCharacters(in: .whitespaces)
                             })
                                 .padding([.leading, .trailing])
