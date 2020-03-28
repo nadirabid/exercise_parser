@@ -49,6 +49,8 @@ struct AdaptsToSoftwareKeyboard: ViewModifier {
     }
     
     private func subscribeToKeyboardEvents() {
+        let speed = 2.2
+        
         self.showKeyBoardCancellable = NotificationCenter.Publisher(
             center: NotificationCenter.default,
             name: UIResponder.keyboardWillShowNotification
@@ -61,7 +63,7 @@ struct AdaptsToSoftwareKeyboard: ViewModifier {
         .sink(receiveValue: { (height) in
             self.isKeyboardDisplayed = true
             
-            withAnimation(Animation.easeInOut.speed(2.2)) {
+            withAnimation(Animation.easeInOut.speed(speed)) {
                 self.currentHeight = height
             }
         })
@@ -76,7 +78,7 @@ struct AdaptsToSoftwareKeyboard: ViewModifier {
         .sink(receiveValue: { (height) in
             self.isKeyboardDisplayed = false
             
-            withAnimation(Animation.easeInOut.speed(2.2)) {
+            withAnimation(Animation.easeInOut.speed(speed)) {
                 self.currentHeight = height
             }
         })
@@ -95,7 +97,6 @@ public struct WorkoutEditorView: View {
     @State private var newEntryTextField: UITextField? = nil
     @State private var workoutNameTextField: UITextField? = nil
     @State private var location: Location? = nil
-    @State private var workoutName: String = ""
     
     private var date: Date = Date()
     
@@ -168,7 +169,7 @@ public struct WorkoutEditorView: View {
                                 .padding(.bottom, 3)
                                 .foregroundColor(Color.gray)
                             
-                            TextField("Morning workout", text: $workoutName, onCommit: {
+                            TextField("Morning workout", text: $state.workoutName, onCommit: {
                                 self.state.workoutName = self.state.workoutName.trimmingCharacters(in: .whitespaces)
                             })
                                 .padding([.leading, .trailing])
