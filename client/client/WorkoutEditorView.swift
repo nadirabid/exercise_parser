@@ -11,6 +11,7 @@ import Introspect
 import Combine
 import Alamofire
 import MapKit
+import UIKit
 
 struct ScaleEffectHeightModifier: ViewModifier {
     let height: CGFloat
@@ -34,32 +35,52 @@ extension AnyTransition {
 }
 
 struct AdaptsToSoftwareKeyboard: ViewModifier {
-  @State var currentHeight: CGFloat = 0
-
-  func body(content: Content) -> some View {
-    content
-      .padding(.bottom, currentHeight)
-      .edgesIgnoringSafeArea(.bottom)
-      .onAppear(perform: subscribeToKeyboardEvents)
-  }
-
-  private func subscribeToKeyboardEvents() {
-    NotificationCenter.Publisher(
-      center: NotificationCenter.default,
-      name: UIResponder.keyboardWillShowNotification
-    ).compactMap { notification in
-        notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect
-    }.map { rect in
-      rect.height
-    }.subscribe(Subscribers.Assign(object: self, keyPath: \.currentHeight))
-
-    NotificationCenter.Publisher(
-      center: NotificationCenter.default,
-      name: UIResponder.keyboardWillHideNotification
-    ).compactMap { notification in
-      CGFloat.zero
-    }.subscribe(Subscribers.Assign(object: self, keyPath: \.currentHeight))
-  }
+    @State var currentHeight: CGFloat = 0
+    @State var isKeyboardDisplayed = false
+    
+    @State private var showKeyBoardCancellable: AnyCancellable? = nil
+    @State private var hideKeyBoardCancellable: AnyCancellable? = nil
+    
+    func body(content: Content) -> some View {
+        return content
+            .padding(.bottom, currentHeight)
+            .edgesIgnoringSafeArea(isKeyboardDisplayed ? [.bottom] : [])
+            .onAppear(perform: subscribeToKeyboardEvents)
+    }
+    
+    private func subscribeToKeyboardEvents() {
+        self.showKeyBoardCancellable = NotificationCenter.Publisher(
+            center: NotificationCenter.default,
+            name: UIResponder.keyboardWillShowNotification
+        ).compactMap { notification in
+            notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect
+        }.map { rect in
+            rect.height
+        }
+        .receive(on: DispatchQueue.main)
+        .sink(receiveValue: { (height) in
+            self.isKeyboardDisplayed = true
+            
+            withAnimation(Animation.easeInOut.speed(2.2)) {
+                self.currentHeight = height
+            }
+        })
+        
+        self.hideKeyBoardCancellable = NotificationCenter.Publisher(
+            center: NotificationCenter.default,
+            name: UIResponder.keyboardWillHideNotification
+        ).compactMap { notification in
+            CGFloat.zero
+        }
+        .receive(on: DispatchQueue.main)
+        .sink(receiveValue: { (height) in
+            self.isKeyboardDisplayed = false
+            
+            withAnimation(Animation.easeInOut.speed(2.2)) {
+                self.currentHeight = height
+            }
+        })
+    }
 }
 
 public struct WorkoutEditorView: View {
@@ -71,9 +92,10 @@ public struct WorkoutEditorView: View {
     @ObservedObject private var locationManager: LocationManager = LocationManager()
     
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
-    @State private var textFieldContext: UITextField? = nil
+    @State private var newEntryTextField: UITextField? = nil
+    @State private var workoutNameTextField: UITextField? = nil
     @State private var location: Location? = nil
-    @State private var workoutName = ""
+    @State private var workoutName: String = ""
     
     private var date: Date = Date()
     
@@ -123,7 +145,7 @@ public struct WorkoutEditorView: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading) {
+        let view = VStack(alignment: .leading) {
             if !state.isStopped {
                 HStack {
                     Spacer()
@@ -146,13 +168,18 @@ public struct WorkoutEditorView: View {
                                 .padding(.bottom, 3)
                                 .foregroundColor(Color.gray)
                             
-                            TextField("Morning workout", text: $workoutName)
+                            TextField("Morning workout", text: $workoutName, onCommit: {
+                                self.state.workoutName = self.state.workoutName.trimmingCharacters(in: .whitespaces)
+                            })
                                 .padding([.leading, .trailing])
                                 .padding([.top, .bottom], 12)
                                 .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
                                 .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
                                 .introspectTextField { textField in
-                                    textField.becomeFirstResponder()
+                                    if self.workoutNameTextField ==  nil { // only become first responder the first time
+                                        textField.becomeFirstResponder()
+                                    }
+                                    self.workoutNameTextField = textField
                                 }
                             
                             Text("Breakdown")
@@ -176,15 +203,17 @@ public struct WorkoutEditorView: View {
 
                                 WorkoutDetail(name: "Weight", value:"45000 lbs")
                             }
-                            .fixedSize(horizontal: true, vertical: true)
-                            .padding(.leading)
-                            .padding(.bottom, 5)
+                                .fixedSize(horizontal: true, vertical: true)
+                                .padding(.leading)
+                                .padding(.bottom, 5)
                             
                             if self.location != nil {
                                 MapView(location: self.location!)
                                     .frame(height: 130)
                                     .transition(
-                                        AnyTransition.scaleHeight(from: 0, to: 1).combined(with: AnyTransition.opacity)
+                                        AnyTransition
+                                            .scaleHeight(from: 0, to: 1)
+                                            .combined(with: AnyTransition.opacity)
                                     )
                             }
                         }
@@ -202,11 +231,11 @@ public struct WorkoutEditorView: View {
                         ForEach(state.activities, id: \.id) { activity in
                             ExerciseEditorView(
                                 activity: activity,
-                                textFieldContext: self.textFieldContext
+                                textFieldContext: self.newEntryTextField
                             )
                         }
                     }
-                    .background(Color.white)
+                        .background(Color.white)
                     
                     if !state.isStopped {
                         TextField("New entry", text: $state.newEntry, onCommit: {
@@ -217,26 +246,26 @@ public struct WorkoutEditorView: View {
                                 self.state.activities.append(userActivity)
                                 
                                 self.state.newEntry = ""
-                                self.textFieldContext = nil
+                                self.newEntryTextField = nil
                             }
                         })
-                        .introspectTextField { textField in
-                            if self.textFieldContext == nil {
-                                textField.becomeFirstResponder()
+                            .introspectTextField { textField in
+                                if self.newEntryTextField == nil {
+                                    textField.becomeFirstResponder()
+                                }
+                                self.newEntryTextField = textField
                             }
-                            self.textFieldContext = textField
-                        }
-                        .padding([.leading, .trailing])
+                            .padding([.leading, .trailing])
                     }
                 }
             }
 
             Spacer()
             
-            HStack {
-                Spacer()
-                
+            HStack(spacing: 0) {
                 if !state.isStopped {
+                    Spacer()
+                    
                     Button(action: {
                         withAnimation(.easeInOut(duration: 0.18)) {
                             self.pressPause()
@@ -254,53 +283,42 @@ public struct WorkoutEditorView: View {
                                 .frame(width: 14, height: 14)
                         }
                     }
-                    .transition(
-                        AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1))
-                    )
+                        .transition(
+                            AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1))
+                        )
+                    
+                    Spacer()
                 }
                 else {
-                    Button(action: {
-                        withAnimation(.easeInOut(duration: 0.18)) {
-                            self.pressResume()
-                        }
-                    }) {
-                        ZStack {
-                            Circle()
-                                .stroke(appColor, lineWidth: 4)
-                                .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
-                                .frame(width: 70, height: 70)
-                            
-                            Text("Resume")
-                                .font(.caption)
-                                .foregroundColor(appColor)
-                        }
-                    }
-                    .transition(
-                        AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1))
-                    )
-                    
                     Button(action: {
                         withAnimation(.easeInOut(duration: 0.18)) {
                             self.pressFinish()
                         }
                     }) {
-                        ZStack {
-                            Circle()
-                                .fill(appColor)
-                                .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
-                                .frame(width: 70, height: 70)
+                        HStack {
+                            Spacer()
                             
                             Text("Finish")
-                                .font(.caption)
-                                .foregroundColor(.white)
+                                .foregroundColor(Color.white)
+                                .fontWeight(.semibold)
+                            
+                            Spacer()
                         }
+                            .padding()
+                            .background(appColor)
                     }
-                    .transition(
-                        AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1))
-                    )
+                        .transition(
+                            AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1))
+                        )
                 }
-                
-                Spacer()
+            }
+        }
+        
+        return VStack(spacing: 0) {
+            if state.isStopped {
+                view.modifier(AdaptsToSoftwareKeyboard())
+            } else {
+                view
             }
         }
     }
@@ -315,9 +333,9 @@ struct WorkoutEditorView_Previews : PreviewProvider {
             UserActivity(input: "4 mins of running"),
             UserActivity(input: "benchpress 3x3x2", dataTaskPublisher: nil, exercise: Exercise(type: "unknown"))
         ]
+        workoutEditorState.isStopped = true
         
         return WorkoutEditorView()
-            .edgesIgnoringSafeArea(.bottom)
             .environmentObject(workoutEditorState)
             .environmentObject(RouteState(current: .editor))
             .environmentObject(MockWorkoutAPI(userState: UserState()) as WorkoutAPI)
