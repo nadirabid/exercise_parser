@@ -85,19 +85,47 @@ struct AdaptsToSoftwareKeyboard: ViewModifier {
     }
 }
 
+class ExerciseDefaultEntries: ObservableObject {
+    @Published var defaultText = "Enter workout"
+    private var timer: Timer? = nil
+    private var index = 0
+    private var entries = [
+        "3x3 tricep curls",
+        "7 mins of running",
+        "rowing for 16 mins",
+        "bench press 3x3x3"
+    ]
+    
+    init() {
+        self.timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
+            self.index = (self.index + 1) % self.entries.count
+            
+            withAnimation(Animation.easeInOut) {
+                self.defaultText = self.entries[self.index]
+            }
+        }
+    }
+    
+    func stop() {
+        self.timer?.invalidate()
+    }
+}
+
 public struct WorkoutEditorView: View {
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var state: WorkoutEditorState
     @EnvironmentObject var workoutAPI: WorkoutAPI
     
-    @ObservedObject private var stopWatch: Stopwatch = Stopwatch()
-    @ObservedObject private var locationManager: LocationManager = LocationManager()
+    @ObservedObject private var stopWatch = Stopwatch()
+    @ObservedObject private var locationManager = LocationManager()
+    @ObservedObject private var defaultEnteries = ExerciseDefaultEntries()
     
+    
+    @State private var location: Location? = nil
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
     @State private var newEntryTextField: UITextField? = nil
     @State private var workoutNameTextField: UITextField? = nil
-    @State private var location: Location? = nil
-    
+
     private var date: Date = Date()
     
     init() {
@@ -239,19 +267,25 @@ public struct WorkoutEditorView: View {
                         .background(Color.white)
                     
                     if !state.isStopped {
-                        TextField("New entry", text: $state.newEntry, onCommit: {
-                            self.state.newEntry = self.state.newEntry.trimmingCharacters(in: .whitespaces)
-                            
-                            if !self.state.newEntry.isEmpty {
-                                let userActivity = UserActivity(input: self.state.newEntry)
-                                self.state.activities.append(userActivity)
+                        TextField(
+                            defaultEnteries.defaultText,
+                            text: $state.newEntry,
+                            onCommit: {
+                                self.state.newEntry = self.state.newEntry.trimmingCharacters(in: .whitespaces)
                                 
-                                self.state.newEntry = ""
-                                self.newEntryTextField = nil
+                                if !self.state.newEntry.isEmpty {
+                                    let userActivity = UserActivity(input: self.state.newEntry)
+                                    self.state.activities.append(userActivity)
+                                    
+                                    self.state.newEntry = ""
+                                    self.newEntryTextField = nil
+                                }
                             }
-                        })
-                            .introspectTextField { textField in
-                                if self.newEntryTextField == nil {
+                        )
+                            .introspectTextField { (textField: UITextField) in
+                                if self.newEntryTextField != textField {
+                                    textField.autocorrectionType = UITextAutocorrectionType.no
+                                    textField.returnKeyType = .next
                                     textField.becomeFirstResponder()
                                 }
                                 self.newEntryTextField = textField
@@ -334,7 +368,6 @@ struct WorkoutEditorView_Previews : PreviewProvider {
             UserActivity(input: "4 mins of running"),
             UserActivity(input: "benchpress 3x3x2", dataTaskPublisher: nil, exercise: Exercise(type: "unknown"))
         ]
-        workoutEditorState.isStopped = true
         
         return WorkoutEditorView()
             .environmentObject(workoutEditorState)
