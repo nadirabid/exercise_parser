@@ -37,7 +37,7 @@ class WorkoutEditorState: ObservableObject {
     
     func reset() {
         self.newEntry = ""
-        self.workoutName = "No name"
+        self.workoutName = ""
         self.activities = []
         self.isStopped = false
         self.dataTaskPublisher = nil

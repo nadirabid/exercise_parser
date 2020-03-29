@@ -30,4 +30,15 @@ class UserState: ObservableObject {
     @Published var authorization: Int = 0
     @Published var jwt: JWT? = nil
     @Published var userInfo: User? = nil
+    
+    func getUserName() -> String {
+        let user = self.userInfo!
+        if user.givenName != nil && user.familyName != nil {
+            return "\(user.givenName!) \(user.familyName!)"
+        } else if user.givenName != nil {
+            return "\(user.givenName!)"
+        } else {
+            return "-- --"
+        }
+    }
 }

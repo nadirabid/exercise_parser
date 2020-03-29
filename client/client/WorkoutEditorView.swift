@@ -122,14 +122,14 @@ public struct WorkoutEditorView: View {
     }
     
     func pressFinish() {
-        let coord: CLLocationCoordinate2D? = locationManager.lastLocation?.coordinate
-        let location = coord != nil ? Location(latitude: coord!.latitude, longitude: coord!.longitude) : nil
         let exercises: [Exercise] = state.activities.map{ a in Exercise(raw: a.input) }
+        let name = state.workoutName.isEmpty ? dateToWorkoutName(date) : state.workoutName
+        
         let workout = Workout(
-            name: state.workoutName,
+            name: name,
             date: self.date,
             exercises: exercises,
-            location: location,
+            location: self.location,
             secondsElapsed: stopWatch.counter
         )
         

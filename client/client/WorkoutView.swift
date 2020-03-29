@@ -28,17 +28,6 @@ struct WorkoutView: View {
     @EnvironmentObject var userState: UserState
     @State var workout: Workout
     
-    func getUserName() -> String {
-        let user = userState.userInfo!
-        if user.givenName != nil && user.familyName != nil {
-            return "\(user.givenName!) \(user.familyName!)"
-        } else if user.givenName != nil {
-            return "\(user.givenName!)"
-        } else {
-            return "-- --"
-        }
-    }
-    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -47,7 +36,7 @@ struct WorkoutView: View {
                 VStack(alignment: .leading) {
                     Text(workout.name)
                     
-                    Text(getUserName())
+                    Text(userState.getUserName())
                         .font(.caption)
                         .foregroundColor(Color.gray)
                 }
