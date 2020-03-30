@@ -32,15 +32,12 @@ class WorkoutEditorState: ObservableObject {
     @Published var workoutName: String = ""
     @Published var activities: [UserActivity] = []
     @Published var isStopped = false
-    var dataTaskPublisher: AnyCancellable? = nil
-    var anyCancellable: AnyCancellable? = nil
     
     func reset() {
         self.newEntry = ""
         self.workoutName = ""
         self.activities = []
         self.isStopped = false
-        self.dataTaskPublisher = nil
     }
 }
 

@@ -13,80 +13,8 @@ import Alamofire
 import MapKit
 import UIKit
 
-struct ScaleEffectHeightModifier: ViewModifier {
-    let height: CGFloat
-
-    init(_ height: CGFloat) {
-        self.height = height
-    }
-
-    func body(content: Content) -> some View {
-        content.scaleEffect(x: 1, y: height, anchor: UnitPoint.top)
-    }
-}
-
-extension AnyTransition {
-    static func scaleHeight(from: CGFloat, to: CGFloat) -> AnyTransition {
-        .modifier(
-            active: ScaleEffectHeightModifier(from),
-            identity: ScaleEffectHeightModifier(to)
-        )
-    }
-}
-
-struct AdaptsToSoftwareKeyboard: ViewModifier {
-    @State var currentHeight: CGFloat = 0
-    @State var isKeyboardDisplayed = false
-    
-    @State private var showKeyBoardCancellable: AnyCancellable? = nil
-    @State private var hideKeyBoardCancellable: AnyCancellable? = nil
-    
-    func body(content: Content) -> some View {
-        return content
-            .padding(.bottom, currentHeight)
-            .edgesIgnoringSafeArea(isKeyboardDisplayed ? [.bottom] : [])
-            .onAppear(perform: subscribeToKeyboardEvents)
-    }
-    
-    private func subscribeToKeyboardEvents() {
-        let speed = 2.2
-        
-        self.showKeyBoardCancellable = NotificationCenter.Publisher(
-            center: NotificationCenter.default,
-            name: UIResponder.keyboardWillShowNotification
-        ).compactMap { notification in
-            notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect
-        }.map { rect in
-            rect.height
-        }
-        .receive(on: DispatchQueue.main)
-        .sink(receiveValue: { (height) in
-            self.isKeyboardDisplayed = true
-            
-            withAnimation(Animation.easeInOut.speed(speed)) {
-                self.currentHeight = height
-            }
-        })
-        
-        self.hideKeyBoardCancellable = NotificationCenter.Publisher(
-            center: NotificationCenter.default,
-            name: UIResponder.keyboardWillHideNotification
-        ).compactMap { notification in
-            CGFloat.zero
-        }
-        .receive(on: DispatchQueue.main)
-        .sink(receiveValue: { (height) in
-            self.isKeyboardDisplayed = false
-            
-            withAnimation(Animation.easeInOut.speed(speed)) {
-                self.currentHeight = height
-            }
-        })
-    }
-}
-
 class ExerciseDefaultEntries: ObservableObject {
-    @Published var defaultText = "Enter workout"
+    @Published var defaultText = "Type in your exercise"
     private var timer: Timer? = nil
     private var index = 0
     private var entries = [
@@ -260,7 +188,9 @@ public struct WorkoutEditorView: View {
                         ForEach(state.activities, id: \.id) { activity in
                             ExerciseEditorView(
                                 activity: activity,
-                                textFieldContext: self.newEntryTextField
+                                onTextFieldCommit: {
+                                    self.newEntryTextField?.becomeFirstResponder()
+                                }
                             )
                         }
                     }
@@ -291,6 +221,8 @@ public struct WorkoutEditorView: View {
                                 self.newEntryTextField = textField
                             }
                             .padding([.leading, .trailing])
+                        
+                        
                     }
                 }
             }
@@ -299,30 +231,26 @@ public struct WorkoutEditorView: View {
             
             HStack(spacing: 0) {
                 if !state.isStopped {
-                    Spacer()
-                    
                     Button(action: {
                         withAnimation(.easeInOut(duration: 0.18)) {
                             self.pressPause()
                         }
                     }) {
-                        ZStack {
-                            Circle()
-                                .fill(appColor)
-                                .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
-                                .frame(width: 70, height: 70)
+                        HStack {
+                            Spacer()
                             
-                            RoundedRectangle(cornerRadius: 3, style: .continuous)
-                                .stroke(lineWidth: 2)
-                                .fill(Color.white)
-                                .frame(width: 14, height: 14)
+                            Text("Pause")
+                                .foregroundColor(Color.white)
+                                .fontWeight(.semibold)
+                            
+                            Spacer()
                         }
+                            .padding()
+                            .background(appColor)
                     }
                         .transition(
                             AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1))
                         )
-                    
-                    Spacer()
                 }
                 else {
                     Button(action: {
@@ -349,13 +277,7 @@ public struct WorkoutEditorView: View {
             }
         }
         
-        return VStack(spacing: 0) {
-            if state.isStopped {
-                view.modifier(AdaptsToSoftwareKeyboard())
-            } else {
-                view
-            }
-        }
+        return view.modifier(AdaptsToSoftwareKeyboard())
     }
 }
 
@@ -364,9 +286,9 @@ struct WorkoutEditorView_Previews : PreviewProvider {
     static var previews: some View {
         let workoutEditorState = WorkoutEditorState()
         workoutEditorState.activities = [
-            UserActivity(input: "3x3 tricep curls"),
-            UserActivity(input: "4 mins of running"),
-            UserActivity(input: "benchpress 3x3x2", dataTaskPublisher: nil, exercise: Exercise(type: "unknown"))
+//            UserActivity(input: "3x3 tricep curls"),
+//            UserActivity(input: "4 mins of running"),
+//            UserActivity(input: "benchpress 3x3x2", dataTaskPublisher: nil, exercise: Exercise(type: "unknown"))
         ]
         
         return WorkoutEditorView()

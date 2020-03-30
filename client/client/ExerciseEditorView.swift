@@ -13,8 +13,9 @@ public struct ExerciseEditorView: View {
     @EnvironmentObject var exerciseAPI: ExerciseAPI
     @ObservedObject var activity: UserActivity
     @State var resolveExercise = true
-    var textFieldContext: UITextField? = nil
-    @State private var isButtonVisible = true
+    var onTextFieldCommit: (() -> Void)? = nil
+    
+    @State private var textField: UITextField?
     
     func resolveRawExercise() {
         if !resolveExercise || activity.exercise != nil {
@@ -29,10 +30,6 @@ public struct ExerciseEditorView: View {
         }
     }
     
-    func test() {
-        isButtonVisible = !isButtonVisible
-    }
-    
     func showActivityView() -> Bool {
         return activity.exercise != nil && activity.exercise?.type != "unknown"
     }
@@ -41,12 +38,19 @@ public struct ExerciseEditorView: View {
         return VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
                 if !state.isStopped {
-                    TextField("", text: $activity.input.animation(), onCommit: {
-                        self.textFieldContext?.becomeFirstResponder()
+                    TextField("", text: $activity.input, onCommit: {
+                        self.onTextFieldCommit?()
                     })
                         .font(.body)
                         .onAppear {
                             self.resolveRawExercise()
+                        }
+                        .introspectTextField { (textField: UITextField) in
+                            if self.textField != textField {
+                                textField.autocorrectionType = UITextAutocorrectionType.no
+                                textField.returnKeyType = .next
+                            }
+                            self.textField = textField
                         }
                 }
                 
