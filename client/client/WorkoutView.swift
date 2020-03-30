@@ -68,22 +68,9 @@ struct WorkoutView: View {
             VStack(spacing: 0) {
                 ForEach(workout.exercises) { exercise in
                     if exercise.type != "unknown" {
-                        ActivityView(exercise: exercise)
+                        ExerciseView(exercise: exercise)
                     } else {
-                        HStack(spacing: 0) {
-                            VStack(alignment: .leading) {
-                                Text(exercise.raw)
-                                    .font(.subheadline)
-
-                                Text("Still learning")
-                                    .font(.caption)
-                                    .foregroundColor(Color.gray)
-                            }
-                            
-                            Spacer()
-                            
-                            FancyLoader()
-                        }
+                        ProcessingExerciseView(exercise: exercise)
                     }
                 }
             }

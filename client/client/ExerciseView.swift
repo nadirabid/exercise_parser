@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ActivityView : View {
+struct ExerciseView : View {
     var exercise: Exercise
     var asSecondary: Bool = false
     
@@ -71,19 +71,24 @@ struct ActivityView : View {
     }
 }
 
-struct ProcessingActivityView: View {
+struct ProcessingExerciseView: View {
+    var exercise: Exercise
+    
     var body: some View {
         HStack(spacing: 0) {
-            Text("Now learning")
-                .font(.caption)
-                .foregroundColor(Color.gray)
+            VStack(alignment: .leading) {
+                Text(exercise.raw)
+                    .font(.subheadline)
+                
+                Text("Now learning")
+                    .font(.caption)
+                    .foregroundColor(Color.gray)
+            }
             
             Spacer()
             
             FancyLoader()
         }
-        .padding(.top, 10)
-        .padding(.bottom, 8)
     }
 }
 
@@ -97,8 +102,8 @@ extension Float32 {
 struct ActivityView_Previews: PreviewProvider {
     static var previews: some View {
         return VStack {
-            ActivityView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil))
-            ActivityView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil))
+            ExerciseView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil))
+            ExerciseView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil))
         }
         .environmentObject(MockExerciseAPI(userState: UserState()))
     }

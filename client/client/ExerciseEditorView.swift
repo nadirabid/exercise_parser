@@ -55,9 +55,9 @@ public struct ExerciseEditorView: View {
                 }
                 
                 if self.showActivityView() {
-                    ActivityView(exercise: activity.exercise!, asSecondary: !state.isStopped)
+                    ExerciseView(exercise: activity.exercise!, asSecondary: !state.isStopped)
                 } else {
-                    ProcessingActivityView()
+                    ProcessingExerciseView(exercise: activity.exercise!)
                 }
             }
             .padding([.leading, .trailing])
