@@ -24,9 +24,10 @@ public struct ExerciseEditorView: View {
         
         // we do this just for viewing purposes
         let exercise = Exercise(raw: activity.input)
+        self.activity.exercise = exercise
 
-        exerciseAPI.resolveExercise(exercise: exercise) { e in
-            self.activity.exercise = e
+        exerciseAPI.resolveExercise(exercise: exercise) { resolvedExercise in
+            self.activity.exercise = resolvedExercise
         }
     }
     
@@ -57,12 +58,13 @@ public struct ExerciseEditorView: View {
                 if self.showActivityView() {
                     ExerciseView(exercise: activity.exercise!, asSecondary: !state.isStopped)
                 } else {
-                    ProcessingExerciseView(exercise: activity.exercise!)
+                    ProcessingExerciseView()
                 }
             }
-            .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
             
-            Divider().padding([.top, .bottom], 10)
+            Divider()
+                .padding([.top, .bottom], 10)
         }
     }
 }
@@ -75,7 +77,7 @@ struct ExerciseEditorView_Previews: PreviewProvider {
             ExerciseEditorView(activity: UserActivity(input: "3x3 tricep curls"), resolveExercise: false)
             ExerciseEditorView(activity: UserActivity(input: "3x3 tricep curls"))
         }
-        .environmentObject(MockExerciseAPI(userState: UserState()) as ExerciseAPI)
-        .environmentObject(WorkoutEditorState())
+            .environmentObject(MockExerciseAPI(userState: UserState()) as ExerciseAPI)
+            .environmentObject(WorkoutEditorState())
     }
 }

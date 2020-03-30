@@ -31,7 +31,7 @@ struct ExerciseView : View {
                             .font(.headline)
                             .foregroundColor(self.asSecondary ? .secondary : .primary)
                     }
-                    .padding(.leading, 2.0)
+                        .padding(.leading, 2.0)
                     
                     VStack(alignment: .trailing, spacing: 1.0) {
                         Text("reps")
@@ -42,7 +42,7 @@ struct ExerciseView : View {
                             .font(.headline)
                             .foregroundColor(self.asSecondary ? .secondary : .primary)
                     }
-                    .padding(.leading, 2.0)
+                        .padding(.leading, 2.0)
                     
                     VStack(alignment: .trailing, spacing: 1.0) {
                         Text("lbs")
@@ -53,7 +53,7 @@ struct ExerciseView : View {
                             .font(.headline)
                             .foregroundColor(self.asSecondary ? .secondary : .primary)
                     }
-                    .padding(.leading, 2.0)
+                        .padding(.leading, 2.0)
                 } else if exercise.type == "distance" {
                     VStack(alignment: .trailing, spacing: 1.0) {
                         Text(exercise.distanceExercise!.units)
@@ -64,7 +64,7 @@ struct ExerciseView : View {
                             .font(.headline)
                             .foregroundColor(self.asSecondary ? .secondary : .primary)
                     }
-                    .padding(.leading, 2.0)
+                        .padding(.leading, 2.0)
                 }
             }
         }
@@ -72,13 +72,15 @@ struct ExerciseView : View {
 }
 
 struct ProcessingExerciseView: View {
-    var exercise: Exercise
+    var exercise: Exercise?
     
     var body: some View {
         HStack(spacing: 0) {
             VStack(alignment: .leading) {
-                Text(exercise.raw)
-                    .font(.subheadline)
+                if exercise != nil {
+                    Text(exercise!.raw)
+                        .font(.subheadline)
+                }
                 
                 Text("Now learning")
                     .font(.caption)

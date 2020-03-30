@@ -71,7 +71,7 @@ struct Exercise: Codable, Identifiable {
         createdAt: String? = nil,
         updatedAt: String? = nil,
         name: String = "",
-        type: String = "",
+        type: String = "unknown",
         raw: String = "",
         weightedExercise: WeightedExercise? = nil,
         distanceExercise: DistanceExercise? = nil
