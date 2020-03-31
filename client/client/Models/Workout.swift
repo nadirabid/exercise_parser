@@ -56,6 +56,12 @@ struct Location: Codable {
     let longitude: Double
 }
 
+enum ExerciseType: String {
+    case distance = "distance"
+    case weighted = "weighted"
+    case unknown = "unknown"
+}
+
 struct Exercise: Codable, Identifiable {
     let id: Int?
     let createdAt: String?
@@ -65,6 +71,23 @@ struct Exercise: Codable, Identifiable {
     let raw: String
     let weightedExercise: WeightedExercise?
     let distanceExercise: DistanceExercise?
+    
+    init(
+        name: String,
+        type: String,
+        raw: String,
+        weightedExercise: WeightedExercise? = nil,
+        distanceExercise: DistanceExercise? = nil
+    ) {
+        self.id = nil
+        self.createdAt = nil
+        self.updatedAt = nil
+        self.name = name
+        self.type = type
+        self.raw = raw
+        self.weightedExercise = weightedExercise
+        self.distanceExercise = distanceExercise
+    }
     
     init(
         id: Int? = nil,

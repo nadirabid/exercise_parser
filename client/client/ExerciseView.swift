@@ -94,9 +94,17 @@ struct ProcessingExerciseView: View {
     }
 }
 
-extension Float32 {
-    func format(f: String) -> String {
-        return String(format: "%\(f)f", self)
+struct WaitingForExerciseView: View {
+    var body: some View {
+        HStack {
+            Text("Waiting")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            
+            Spacer()
+            
+            FancyLoader()
+        }
     }
 }
 

@@ -23,9 +23,18 @@ struct ScaleEffectHeightModifier: ViewModifier {
 
 extension AnyTransition {
     static func scaleHeight(from: CGFloat, to: CGFloat) -> AnyTransition {
-        .modifier(
+        AnyTransition.modifier(
             active: ScaleEffectHeightModifier(from),
             identity: ScaleEffectHeightModifier(to)
+        )
+    }
+}
+
+extension AnyTransition {
+    static func moveUpAndFade() -> AnyTransition {
+        AnyTransition.asymmetric(
+            insertion: AnyTransition.opacity.combined(with: .move(edge: .top)),
+            removal: AnyTransition.opacity.combined(with: .move(edge: .bottom))
         )
     }
 }

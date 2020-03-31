@@ -14,22 +14,46 @@ import MapKit
 import UIKit
 
 class ExerciseDefaultEntries: ObservableObject {
-    @Published var defaultText = "Type in your exercise"
+    @Published var current: Exercise? = nil
+    @Published var index = 0
     private var timer: Timer? = nil
-    private var index = 0
-    private var entries = [
-        "3x3 tricep curls",
-        "7 mins of running",
-        "rowing for 16 mins",
-        "bench press 3x3x3"
+    private var options = [
+        Exercise(
+            name: "Tricep curls",
+            type: ExerciseType.weighted.rawValue,
+            raw: "3x3 tricep curls",
+            weightedExercise: WeightedExercise(sets: 3, reps: 3)
+        ),
+        Exercise(
+            name: "Running",
+            type: ExerciseType.distance.rawValue,
+            raw: "ran 3.3 miles in 7 mins",
+            distanceExercise: DistanceExercise(time: "7", distance: 3.3, units: "miles")
+        ),
+        Exercise(
+            name: "Rowing",
+            type: ExerciseType.distance.rawValue,
+            raw: "rowing 4km in 16 mins",
+            distanceExercise: DistanceExercise(time: "16", distance: 5, units: "km")
+        ),
+        Exercise(
+            name: "Bench press",
+            type: ExerciseType.weighted.rawValue,
+            raw: "bench press 3x3x3",
+            weightedExercise: WeightedExercise(sets: 3, reps: 3)
+        )
     ]
     
     init() {
         self.timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
-            self.index = (self.index + 1) % self.entries.count
+            self.index = (self.index + 1) % (self.options.count + 2)
             
-            withAnimation(Animation.easeInOut) {
-                self.defaultText = self.entries[self.index]
+            withAnimation(Animation.easeInOut.speed(2)) {
+                if self.index < self.options.count {
+                    self.current = self.options[self.index]
+                } else {
+                    self.current = nil
+                }
             }
         }
     }
@@ -47,7 +71,6 @@ public struct WorkoutEditorView: View {
     @ObservedObject private var stopWatch = Stopwatch()
     @ObservedObject private var locationManager = LocationManager()
     @ObservedObject private var defaultEnteries = ExerciseDefaultEntries()
-    
     
     @State private var location: Location? = nil
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
@@ -198,7 +221,7 @@ public struct WorkoutEditorView: View {
                     
                     if !state.isStopped {
                         TextField(
-                            defaultEnteries.defaultText,
+                            self.defaultEnteries.current?.raw ?? "Enter exercise",
                             text: $state.newEntry,
                             onCommit: {
                                 self.state.newEntry = self.state.newEntry.trimmingCharacters(in: .whitespaces)
@@ -222,7 +245,16 @@ public struct WorkoutEditorView: View {
                             }
                             .padding([.leading, .trailing])
                         
-                        
+                        if defaultEnteries.current != nil {
+                            ExerciseView(exercise: defaultEnteries.current!, asSecondary: true)
+                                .padding([.leading, .trailing])
+                                .transition(AnyTransition.moveUpAndFade())
+                                .id("default_enteries_\(defaultEnteries.current!.raw)") // unique ID forces transition
+                        } else {
+                            WaitingForExerciseView()
+                                .padding([.leading, .trailing])
+                                .transition(AnyTransition.moveUpAndFade())
+                        }
                     }
                 }
             }
@@ -248,9 +280,6 @@ public struct WorkoutEditorView: View {
                             .padding()
                             .background(appColor)
                     }
-                        .transition(
-                            AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1))
-                        )
                 }
                 else {
                     Button(action: {
@@ -261,7 +290,7 @@ public struct WorkoutEditorView: View {
                         HStack {
                             Spacer()
                             
-                            Text("Finish")
+                            Text(state.activities.count > 0 ? "Finish" : "Cancel")
                                 .foregroundColor(Color.white)
                                 .fontWeight(.semibold)
                             
@@ -270,9 +299,6 @@ public struct WorkoutEditorView: View {
                             .padding()
                             .background(appColor)
                     }
-                        .transition(
-                            AnyTransition.opacity.animation(Animation.easeInOut(duration: 0.1))
-                        )
                 }
             }
         }
