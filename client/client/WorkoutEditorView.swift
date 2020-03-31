@@ -15,7 +15,7 @@ import UIKit
 
 class ExerciseDefaultEntries: ObservableObject {
     @Published var current: Exercise? = nil
-    @Published var index = 0
+    @Published var index = 4
     private var timer: Timer? = nil
     private var options = [
         Exercise(
@@ -58,6 +58,11 @@ class ExerciseDefaultEntries: ObservableObject {
         }
     }
     
+    func reset() {
+        self.index = self.options.count
+        self.current = nil
+    }
+    
     func stop() {
         self.timer?.invalidate()
     }
@@ -74,6 +79,7 @@ public struct WorkoutEditorView: View {
     
     @State private var location: Location? = nil
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
+    @State private var userEntryCancellable: AnyCancellable? = nil
     @State private var newEntryTextField: UITextField? = nil
     @State private var workoutNameTextField: UITextField? = nil
 
@@ -240,12 +246,18 @@ public struct WorkoutEditorView: View {
                                     textField.autocorrectionType = UITextAutocorrectionType.no
                                     textField.returnKeyType = .next
                                     textField.becomeFirstResponder()
+                                    
+                                    self.userEntryCancellable = self.state.$newEntry.sink { (value) in
+                                        if value.isEmpty {
+                                            self.defaultEnteries.reset()
+                                        }
+                                    }
                                 }
                                 self.newEntryTextField = textField
                             }
                             .padding([.leading, .trailing])
                         
-                        if defaultEnteries.current != nil {
+                        if defaultEnteries.current != nil && state.newEntry.isEmpty {
                             ExerciseView(exercise: defaultEnteries.current!, asSecondary: true)
                                 .padding([.leading, .trailing])
                                 .transition(AnyTransition.moveUpAndFade())
