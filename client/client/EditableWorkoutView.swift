@@ -13,64 +13,9 @@ import Alamofire
 import MapKit
 import UIKit
 
-class ExerciseDefaultEntries: ObservableObject {
-    @Published var current: Exercise? = nil
-    @Published var index = 4
-    private var timer: Timer? = nil
-    private var options = [
-        Exercise(
-            name: "Tricep curls",
-            type: ExerciseType.weighted.rawValue,
-            raw: "3x3 tricep curls",
-            weightedExercise: WeightedExercise(sets: 3, reps: 3)
-        ),
-        Exercise(
-            name: "Running",
-            type: ExerciseType.distance.rawValue,
-            raw: "ran 3.3 miles in 7 mins",
-            distanceExercise: DistanceExercise(time: "7", distance: 3.3, units: "miles")
-        ),
-        Exercise(
-            name: "Rowing",
-            type: ExerciseType.distance.rawValue,
-            raw: "rowing 4km in 16 mins",
-            distanceExercise: DistanceExercise(time: "16", distance: 5, units: "km")
-        ),
-        Exercise(
-            name: "Bench press",
-            type: ExerciseType.weighted.rawValue,
-            raw: "bench press 3x3x3",
-            weightedExercise: WeightedExercise(sets: 3, reps: 3)
-        )
-    ]
-    
-    init() {
-        self.timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
-            self.index = (self.index + 1) % (self.options.count + 2)
-            
-            withAnimation(Animation.easeInOut.speed(2)) {
-                if self.index < self.options.count {
-                    self.current = self.options[self.index]
-                } else {
-                    self.current = nil
-                }
-            }
-        }
-    }
-    
-    func reset() {
-        self.index = self.options.count
-        self.current = nil
-    }
-    
-    func stop() {
-        self.timer?.invalidate()
-    }
-}
-
-public struct WorkoutEditorView: View {
+public struct EditableWorkoutView: View {
     @EnvironmentObject var route: RouteState
-    @EnvironmentObject var state: WorkoutEditorState
+    @EnvironmentObject var state: EditableWorkoutState
     @EnvironmentObject var workoutAPI: WorkoutAPI
     
     @ObservedObject private var stopWatch = Stopwatch()
@@ -215,9 +160,9 @@ public struct WorkoutEditorView: View {
                     
                     VStack(spacing: 0) {
                         ForEach(state.activities, id: \.id) { activity in
-                            ExerciseEditorView(
-                                activity: activity,
-                                onTextFieldCommit: {
+                            EditableExerciseView(
+                                exerciseState: activity,
+                                onUserInputCommit: {
                                     self.newEntryTextField?.becomeFirstResponder()
                                 }
                             )
@@ -233,7 +178,7 @@ public struct WorkoutEditorView: View {
                                 self.state.newEntry = self.state.newEntry.trimmingCharacters(in: .whitespaces)
                                 
                                 if !self.state.newEntry.isEmpty {
-                                    let userActivity = UserActivity(input: self.state.newEntry)
+                                    let userActivity = EditableExerciseState(input: self.state.newEntry)
                                     self.state.activities.append(userActivity)
                                     
                                     self.state.newEntry = ""
@@ -322,14 +267,14 @@ public struct WorkoutEditorView: View {
 #if DEBUG
 struct WorkoutEditorView_Previews : PreviewProvider {
     static var previews: some View {
-        let workoutEditorState = WorkoutEditorState()
+        let workoutEditorState = EditableWorkoutState()
         workoutEditorState.activities = [
 //            UserActivity(input: "3x3 tricep curls"),
 //            UserActivity(input: "4 mins of running"),
 //            UserActivity(input: "benchpress 3x3x2", dataTaskPublisher: nil, exercise: Exercise(type: "unknown"))
         ]
         
-        return WorkoutEditorView()
+        return EditableWorkoutView()
             .environmentObject(workoutEditorState)
             .environmentObject(RouteState(current: .editor))
             .environmentObject(MockWorkoutAPI(userState: UserState()) as WorkoutAPI)
