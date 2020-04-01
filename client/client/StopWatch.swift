@@ -36,8 +36,8 @@ class Stopwatch: ObservableObject {
     
     func convertCountToTimeString() -> String {
         let seconds = counter % 60
-        let minutes = counter / 60
-        let hours = seconds / 60
+        let minutes = (counter / 60) % 60
+        let hours = (counter / 60*60) % 60
         
         var secondsString = "\(seconds)"
         var minutesString = "\(minutes)"

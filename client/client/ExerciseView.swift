@@ -103,7 +103,9 @@ struct WaitingForExerciseView: View {
             
             Spacer()
             
-            FancyLoader()
+            VStack {
+                FancyLoader()
+            }
         }
     }
 }

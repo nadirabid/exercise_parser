@@ -59,7 +59,7 @@ struct FeedView: View {
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
         return FeedView()
-            .environmentObject(WorkoutEditorState())
+            .environmentObject(EditableWorkoutState())
             .environmentObject(RouteState(current: .feed))
             .environmentObject(MockWorkoutAPI(userState: UserState()) as WorkoutAPI)
     }

@@ -10,37 +10,38 @@ import Combine
 import SwiftUI
 
 public struct EditableExerciseView: View {
-    @EnvironmentObject var workoutState: EditableWorkoutState
+    @EnvironmentObject var state: EditableWorkoutState
     @EnvironmentObject var exerciseAPI: ExerciseAPI
     @ObservedObject var exerciseState: EditableExerciseState
-    @ObservedObject var suggestions: ExcerciseUserSuggestions
+    @State var isNewEntryField: Bool = false
+    @State var resolveExercise: Bool = true
+    var onUserInputCommit: (() -> Void)? = nil
     
-    private var isNewEntry: Bool
-    private var shouldResolveExercise: Bool
-    private var userInputCommitHandler: (() -> Void)? = nil
-
-    @State private var textField: UITextField? = nil
+    @State private var textField: UITextField?
     @State private var cancellable: AnyCancellable? = nil
+    private var enteries: ExerciseDefaultEntries?
     
     init(
-        state: EditableExerciseState,
-        isNewEntry: Bool = false,
-        suggestions: ExcerciseUserSuggestions = ExcerciseUserSuggestions(),
-        shouldResolveExercise: Bool = true,
+        exerciseState: EditableExerciseState,
+        isNewEntryField: Bool = false,
+        resolveExercise: Bool = true,
         onUserInputCommit: @escaping (() -> Void) = {}
     ) {
-        self.exerciseState = state
-        self.isNewEntry = isNewEntry
-        self.suggestions = suggestions
-        self.shouldResolveExercise = shouldResolveExercise
-        self.userInputCommitHandler = onUserInputCommit
+        self.exerciseState = exerciseState
+        self.isNewEntryField = isNewEntryField
+        self.resolveExercise = resolveExercise
+        self.onUserInputCommit = onUserInputCommit
+        
+        if isNewEntryField {
+            enteries = ExerciseDefaultEntries()
+        }
     }
     
     private func resolveRawExercise() {
-        if !shouldResolveExercise || exerciseState.exercise != nil {
+        if !resolveExercise || exerciseState.exercise != nil {
             return
         }
-
+        
         // we do this just for viewing purposes
         let exercise = Exercise(raw: exerciseState.input)
         self.exerciseState.exercise = exercise
@@ -49,37 +50,35 @@ public struct EditableExerciseView: View {
             self.exerciseState.exercise = resolvedExercise
         }
     }
-
+    
     private func showActivityView() -> Bool {
-        return exerciseState.exercise != nil && exerciseState.exercise?.type != ExerciseType.unknown.rawValue
+        return !self.isNewEntryField &&
+            exerciseState.exercise != nil &&
+            exerciseState.exercise?.type != "unknown"
     }
-
+    
     private var defaultText: String {
-        self.suggestions.current?.raw ?? "Enter Exercise"
-    }
-
-    private var exercise: Exercise? {
-        if isNewEntry {
-            return suggestions.current
+        if isNewEntryField {
+            return self.enteries?.current?.raw ?? "Enter Exercise"
+        } else {
+            return ""
         }
-
-        return exerciseState.exercise
     }
     
     public var body: some View {
         return VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
-                if !workoutState.isStopped {
+                if !state.isStopped {
                     TextField(
                         defaultText,
                         text: $exerciseState.input,
                         onCommit: {
-                            self.userInputCommitHandler?()
+                            self.onUserInputCommit?()
                         }
                     )
                         .font(.body) // TODO: does this do anything?
                         .onAppear {
-                            if !self.isNewEntry {
+                            if !self.isNewEntryField {
                                 self.resolveRawExercise()
                             }
                         }
@@ -87,13 +86,13 @@ public struct EditableExerciseView: View {
                             if self.textField != textField {
                                 textField.autocorrectionType = UITextAutocorrectionType.no
                                 textField.returnKeyType = .next
-
-                                if self.isNewEntry {
+                                
+                                if self.isNewEntryField {
                                     textField.becomeFirstResponder()
-
-                                    self.cancellable = self.exerciseState.$input.sink { value in
+                                    
+                                    self.cancellable = self.state.$newEntry.sink { value in
                                         if value.isEmpty {
-                                            self.suggestions.reset()
+                                            self.enteries?.reset()
                                         }
                                     }
                                 }
@@ -102,19 +101,10 @@ public struct EditableExerciseView: View {
                         }
                 }
                 
-                if exercise?.type == ExerciseType.unknown.rawValue &&
-                    !exerciseState.input.isEmpty &&
-                    !isNewEntry {
-                    ProcessingExerciseView()
-                } else if exercise == nil || !exerciseState.input.isEmpty {
-                    WaitingForExerciseView()
+                if self.showActivityView() {
+                    ExerciseView(exercise: exerciseState.exercise!, asSecondary: !state.isStopped)
                 } else {
-                    ExerciseView(
-                        exercise: suggestions.current!,
-                        asSecondary: !workoutState.isStopped || self.isNewEntry
-                    )
-                        .transition(AnyTransition.moveUpAndFade())
-                        .id("exercise_\(exercise!.raw)")
+                    ProcessingExerciseView()
                 }
             }
                 .padding([.leading, .trailing])
@@ -125,11 +115,9 @@ public struct EditableExerciseView: View {
     }
 }
 
-extension String: Error {}
-
-class ExcerciseUserSuggestions: ObservableObject {
+class ExerciseDefaultEntries: ObservableObject {
     @Published var current: Exercise? = nil
-    private var index = 0
+    @Published var index = 4
     private var timer: Timer? = nil
     private var options = [
         Exercise(
@@ -161,7 +149,7 @@ class ExcerciseUserSuggestions: ObservableObject {
     init() {
         self.timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
             self.index = (self.index + 1) % (self.options.count + 2)
-
+            
             withAnimation(Animation.easeInOut.speed(2)) {
                 if self.index < self.options.count {
                     self.current = self.options[self.index]
@@ -176,15 +164,19 @@ class ExcerciseUserSuggestions: ObservableObject {
         self.index = self.options.count
         self.current = nil
     }
+    
+    func stop() {
+        self.timer?.invalidate()
+    }
 }
 
 struct ExerciseEditorView_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
-            EditableExerciseView(state: EditableExerciseState(input: "3x3 tricep curls"))
-            EditableExerciseView(state: EditableExerciseState(input: "3x3 tricep curls"))
-            EditableExerciseView(state: EditableExerciseState(input: "3x3 tricep curls"), shouldResolveExercise: false)
-            EditableExerciseView(state: EditableExerciseState(input: "3x3 tricep curls"))
+            EditableExerciseView(exerciseState: EditableExerciseState(input: "3x3 tricep curls"))
+            EditableExerciseView(exerciseState: EditableExerciseState(input: "3x3 tricep curls"))
+            EditableExerciseView(exerciseState: EditableExerciseState(input: "3x3 tricep curls"), resolveExercise: false)
+            EditableExerciseView(exerciseState: EditableExerciseState(input: "3x3 tricep curls"))
         }
             .environmentObject(MockExerciseAPI(userState: UserState()) as ExerciseAPI)
             .environmentObject(EditableWorkoutState())

@@ -10,7 +10,7 @@ import Foundation
 import Combine
 import SwiftUI
 
-class UserActivity: ObservableObject {
+class EditableExerciseState: ObservableObject {
     var id = UUID()
     @Published var input: String
     @Published var exercise: Exercise?
@@ -27,10 +27,10 @@ class UserActivity: ObservableObject {
     }
 }
 
-class WorkoutEditorState: ObservableObject {
+class EditableWorkoutState: ObservableObject {
     @Published var newEntry: String = ""
     @Published var workoutName: String = ""
-    @Published var activities: [UserActivity] = []
+    @Published var activities: [EditableExerciseState] = []
     @Published var isStopped = false
     
     func reset() {

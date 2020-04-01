@@ -43,7 +43,7 @@ struct MainView: View {
                     }
                     .padding(.top, 5)
                 } else if route.current == .editor {
-                    WorkoutEditorView()
+                    EditableWorkoutView()
                 }
             }
         }
@@ -57,7 +57,7 @@ struct MainView_Previews: PreviewProvider {
         return MainView()
             .environmentObject(RouteState())
             .environmentObject(UserState())
-            .environmentObject(WorkoutEditorState())
+            .environmentObject(EditableWorkoutState())
             .environmentObject(MockWorkoutAPI(userState: userState) as WorkoutAPI)
             .environmentObject(MockExerciseAPI(userState: userState) as ExerciseAPI)
             .environmentObject(UserAPI())

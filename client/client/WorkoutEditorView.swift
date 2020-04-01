@@ -18,17 +18,15 @@ public struct EditableWorkoutView: View {
     @EnvironmentObject var state: EditableWorkoutState
     @EnvironmentObject var workoutAPI: WorkoutAPI
     
+    @ObservedObject private var stopWatch = Stopwatch()
     @ObservedObject private var locationManager = LocationManager()
-    private var stopWatch = Stopwatch()
-    private var suggestions = ExcerciseUserSuggestions()
+    @ObservedObject private var defaultEnteries = ExerciseDefaultEntries()
     
     @State private var location: Location? = nil
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
     @State private var userEntryCancellable: AnyCancellable? = nil
     @State private var newEntryTextField: UITextField? = nil
     @State private var workoutNameTextField: UITextField? = nil
-    
-    @State private var newEntryState: EditableExerciseState = EditableExerciseState(input: "")
 
     private var date: Date = Date()
     
@@ -78,9 +76,17 @@ public struct EditableWorkoutView: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading) {
+        let view = VStack(alignment: .leading) {
             if !state.isStopped {
-                TimerView(stopWatch: stopWatch)
+                HStack {
+                    Spacer()
+                    
+                    Text(self.stopWatch.convertCountToTimeString())
+                        .font(.title)
+                        .allowsTightening(true)
+                    
+                    Spacer()
+                }
             }
             
             ScrollView {
@@ -155,8 +161,7 @@ public struct EditableWorkoutView: View {
                     VStack(spacing: 0) {
                         ForEach(state.activities, id: \.id) { activity in
                             EditableExerciseView(
-                                state: activity,
-                                suggestions: self.suggestions,
+                                exerciseState: activity,
                                 onUserInputCommit: {
                                     self.newEntryTextField?.becomeFirstResponder()
                                 }
@@ -166,17 +171,47 @@ public struct EditableWorkoutView: View {
                         .background(Color.white)
                     
                     if !state.isStopped {
-                        EditableExerciseView(
-                            state: newEntryState,
-                            isNewEntry: true,
-                            suggestions: suggestions,
-                            onUserInputCommit: {
-                                if !self.newEntryState.input.isEmpty {
-                                    self.state.activities.append(self.newEntryState)
-                                    self.newEntryState = EditableExerciseState(input: "")
+                        TextField(
+                            self.defaultEnteries.current?.raw ?? "Enter exercise",
+                            text: $state.newEntry,
+                            onCommit: {
+                                self.state.newEntry = self.state.newEntry.trimmingCharacters(in: .whitespaces)
+                                
+                                if !self.state.newEntry.isEmpty {
+                                    let userActivity = EditableExerciseState(input: self.state.newEntry)
+                                    self.state.activities.append(userActivity)
+                                    
+                                    self.state.newEntry = ""
+                                    self.newEntryTextField = nil
                                 }
                             }
                         )
+                            .introspectTextField { (textField: UITextField) in
+                                if self.newEntryTextField != textField {
+                                    textField.autocorrectionType = UITextAutocorrectionType.no
+                                    textField.returnKeyType = .next
+                                    textField.becomeFirstResponder()
+                                    
+                                    self.userEntryCancellable = self.state.$newEntry.sink { (value) in
+                                        if value.isEmpty {
+                                            self.defaultEnteries.reset()
+                                        }
+                                    }
+                                }
+                                self.newEntryTextField = textField
+                            }
+                            .padding([.leading, .trailing])
+                        
+                        if defaultEnteries.current != nil && state.newEntry.isEmpty {
+                            ExerciseView(exercise: defaultEnteries.current!, asSecondary: true)
+                                .padding([.leading, .trailing])
+                                .transition(AnyTransition.moveUpAndFade())
+                                .id("default_enteries_\(defaultEnteries.current!.raw)") // unique ID forces transition
+                        } else {
+                            WaitingForExerciseView()
+                                .padding([.leading, .trailing])
+                                .transition(AnyTransition.moveUpAndFade())
+                        }
                     }
                 }
             }
@@ -223,23 +258,9 @@ public struct EditableWorkoutView: View {
                     }
                 }
             }
-        }.modifier(AdaptsToSoftwareKeyboard())
-    }
-}
-
-public struct TimerView: View {
-    @ObservedObject var stopWatch: Stopwatch
-
-    public var body: some View {
-        HStack {
-            Spacer()
-            
-            Text(self.stopWatch.convertCountToTimeString())
-                .font(.title)
-                .allowsTightening(true)
-            
-            Spacer()
         }
+        
+        return view.modifier(AdaptsToSoftwareKeyboard())
     }
 }
 
