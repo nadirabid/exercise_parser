@@ -175,7 +175,6 @@ public struct EditableWorkoutView: View {
                                 if !self.newEntryState.input.isEmpty {
                                     self.state.activities.append(self.newEntryState)
                                     self.newEntryState = EditableExerciseState(input: "")
-                                    self.newEntryState.input = ""
                                 }
                                 
                                 DispatchQueue.main.async {

@@ -78,6 +78,7 @@ public struct EditableExerciseView: View {
                         text: $exerciseState.input,
                         onCommit: {
                             self.userInputCommitHandler(self.textField!)
+                            self.suggestions.reset()
                         }
                     )
                         .font(.body) // TODO: does this do anything?
@@ -96,7 +97,6 @@ public struct EditableExerciseView: View {
                                     
                                     self.cancellable = self.exerciseState.$input.sink { value in
                                         if value.isEmpty {
-                                            print("hereee")
                                             self.suggestions.reset()
                                         }
                                     }
@@ -110,7 +110,7 @@ public struct EditableExerciseView: View {
                     !exerciseState.input.isEmpty &&
                     !isNewEntry {
                     ProcessingExerciseView()
-                } else if exercise == nil || exerciseState.input.isEmpty {
+                } else if exercise == nil || (!exerciseState.input.isEmpty && isNewEntry) {
                     WaitingForExerciseView()
                 } else {
                     ExerciseView(
