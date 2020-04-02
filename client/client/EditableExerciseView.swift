@@ -110,7 +110,8 @@ public struct EditableExerciseView: View {
                     !exerciseState.input.isEmpty &&
                     !isNewEntry {
                     ProcessingExerciseView()
-                } else if exercise == nil || (!exerciseState.input.isEmpty && isNewEntry) {
+                } else if exercise == nil ||
+                    (!exerciseState.input.isEmpty && isNewEntry) {
                     WaitingForExerciseView()
                 } else {
                     ExerciseView(
