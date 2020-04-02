@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		640093062435CCAF007193B4 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640093052435CCAF007193B4 /* TimerView.swift */; };
 		6402BBBD2414CBD80061FB58 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6402BBBC2414CBD80061FB58 /* AppState.swift */; };
 		64038282241A35BF0000C17C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 64038281241A35BF0000C17C /* Alamofire */; };
 		6405131A241635E300DDC3D7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64051319241635E300DDC3D7 /* MapKit.framework */; };
@@ -60,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		640093052435CCAF007193B4 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		6402BBBC2414CBD80061FB58 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		64051319241635E300DDC3D7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		6405131B2416364D00DDC3D7 /* client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = client.entitlements; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				6422DAA52425E83800A67744 /* DateExtension.swift */,
 				649A4916240670BC003206C3 /* ExerciseView.swift */,
 				64615A94242581AF0098ED5A /* EditableExerciseView.swift */,
+				64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */,
 				64615A962425983F0098ED5A /* FancyLoader.swift */,
 				644E3363240CE26200458438 /* FeedView.swift */,
 				648C6F0E2433052B00FAE56A /* FloatExtension.swift */,
@@ -186,10 +189,10 @@
 				642DA77822B71279002F49AE /* MapView.swift */,
 				6405131E24163A8900DDC3D7 /* SignInWithAppleView.swift */,
 				649A491824067561003206C3 /* StopWatch.swift */,
+				640093052435CCAF007193B4 /* TimerView.swift */,
 				641E3FCE24316B27005C71A3 /* Transitions.swift */,
 				6411FD9E242733D3003D49BF /* Utils.swift */,
 				64FD08252421C5B1000F1479 /* WebAPI.swift */,
-				64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */,
 				6494A01922B6139900C19543 /* WorkoutView.swift */,
 				642675AD22C0A425008E07A1 /* Models */,
 				6494A01D22B6139B00C19543 /* Preview Content */,
@@ -386,6 +389,7 @@
 				6498A98D24122355005BB19F /* Config.swift in Sources */,
 				6411FD9F242733D3003D49BF /* Utils.swift in Sources */,
 				640BC8A6241E0D5200B99E90 /* User.swift in Sources */,
+				640093062435CCAF007193B4 /* TimerView.swift in Sources */,
 				642DA77922B71279002F49AE /* MapView.swift in Sources */,
 				64615A972425983F0098ED5A /* FancyLoader.swift in Sources */,
 				64615A95242581AF0098ED5A /* EditableExerciseView.swift in Sources */,

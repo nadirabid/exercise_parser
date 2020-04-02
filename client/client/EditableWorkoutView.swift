@@ -27,7 +27,6 @@ public struct EditableWorkoutView: View {
     @State private var userEntryCancellable: AnyCancellable? = nil
     @State private var newEntryTextField: UITextField? = nil
     @State private var workoutNameTextField: UITextField? = nil
-    @State private var test: String = ""
     
     @State private var newEntryState: EditableExerciseState = EditableExerciseState(input: "")
 
@@ -159,7 +158,9 @@ public struct EditableWorkoutView: View {
                                 state: activity,
                                 suggestions: self.suggestions,
                                 onUserInputCommit: { _ in
-                                    //self.newEntryTextField?.becomeFirstResponder() // TODO:
+                                    DispatchQueue.main.async {
+                                        self.newEntryTextField?.becomeFirstResponder()
+                                    }
                                 }
                             )
                         }
@@ -180,6 +181,9 @@ public struct EditableWorkoutView: View {
                                 DispatchQueue.main.async {
                                     textField.becomeFirstResponder()
                                 }
+                            },
+                            onTextFieldChange: { (textField: UITextField) in
+                                self.newEntryTextField = textField
                             }
                         )
                     }
@@ -229,22 +233,6 @@ public struct EditableWorkoutView: View {
                 }
             }
         }.modifier(AdaptsToSoftwareKeyboard())
-    }
-}
-
-public struct TimerView: View {
-    @ObservedObject var stopWatch: Stopwatch
-
-    public var body: some View {
-        HStack {
-            Spacer()
-            
-            Text(self.stopWatch.convertCountToTimeString())
-                .font(.title)
-                .allowsTightening(true)
-            
-            Spacer()
-        }
     }
 }
 

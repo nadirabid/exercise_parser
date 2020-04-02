@@ -9,7 +9,7 @@
 import Combine
 import SwiftUI
 
-typealias TextFieldCommitHandler = ((UITextField) -> Void)
+typealias TextFieldHandler = ((UITextField) -> Void)
 
 public struct EditableExerciseView: View {
     @EnvironmentObject var workoutState: EditableWorkoutState
@@ -19,7 +19,8 @@ public struct EditableExerciseView: View {
     
     private var isNewEntry: Bool
     private var shouldResolveExercise: Bool
-    private var userInputCommitHandler: TextFieldCommitHandler
+    private var userInputCommitHandler: TextFieldHandler
+    private var textFieldChangeHandler: TextFieldHandler
 
     @State private var textField: UITextField? = nil
     @State private var cancellable: AnyCancellable? = nil
@@ -30,17 +31,19 @@ public struct EditableExerciseView: View {
         isNewEntry: Bool = false,
         suggestions: ExcerciseUserSuggestions = ExcerciseUserSuggestions(),
         shouldResolveExercise: Bool = true,
-        onUserInputCommit: @escaping TextFieldCommitHandler = { _ in }
+        onUserInputCommit: @escaping TextFieldHandler = { _ in },
+        onTextFieldChange: @escaping TextFieldHandler = { _ in }
     ) {
         self.exerciseState = state
         self.isNewEntry = isNewEntry
         self.suggestions = suggestions
         self.shouldResolveExercise = shouldResolveExercise
         self.userInputCommitHandler = onUserInputCommit
+        self.textFieldChangeHandler = onTextFieldChange
     }
     
     private func resolveRawExercise() {
-        if !shouldResolveExercise || exerciseState.exercise != nil {
+        if !shouldResolveExercise || !isNewEntry {
             return
         }
 
@@ -77,15 +80,14 @@ public struct EditableExerciseView: View {
                         exercise?.raw ?? "Enter your exercise",
                         text: $exerciseState.input,
                         onCommit: {
+                            self.resolveRawExercise() // TODO reRESOLVE
                             self.userInputCommitHandler(self.textField!)
                             self.suggestions.reset()
                         }
                     )
                         .font(.body) // TODO: does this do anything?
                         .onAppear {
-                            if !self.isNewEntry {
-                                self.resolveRawExercise()
-                            }
+                            self.resolveRawExercise()
                         }
                         .introspectTextField { (textField: UITextField) in
                             if self.textField != textField {
@@ -101,6 +103,8 @@ public struct EditableExerciseView: View {
                                         }
                                     }
                                 }
+                                
+                                self.textFieldChangeHandler(textField)
                             }
                             self.textField = textField
                         }
