@@ -9,6 +9,8 @@
 import Combine
 import SwiftUI
 
+typealias TextFieldCommitHandler = ((UITextField) -> Void)
+
 public struct EditableExerciseView: View {
     @EnvironmentObject var workoutState: EditableWorkoutState
     @EnvironmentObject var exerciseAPI: ExerciseAPI
@@ -17,17 +19,18 @@ public struct EditableExerciseView: View {
     
     private var isNewEntry: Bool
     private var shouldResolveExercise: Bool
-    private var userInputCommitHandler: (() -> Void)? = nil
+    private var userInputCommitHandler: TextFieldCommitHandler
 
     @State private var textField: UITextField? = nil
     @State private var cancellable: AnyCancellable? = nil
+    @State private var test: String = ""
     
     init(
         state: EditableExerciseState,
         isNewEntry: Bool = false,
         suggestions: ExcerciseUserSuggestions = ExcerciseUserSuggestions(),
         shouldResolveExercise: Bool = true,
-        onUserInputCommit: @escaping (() -> Void) = {}
+        onUserInputCommit: @escaping TextFieldCommitHandler = { _ in }
     ) {
         self.exerciseState = state
         self.isNewEntry = isNewEntry
@@ -71,10 +74,10 @@ public struct EditableExerciseView: View {
             VStack(alignment: .leading, spacing: 0) {
                 if !workoutState.isStopped {
                     TextField(
-                        defaultText,
+                        exercise?.raw ?? "Enter your exercise",
                         text: $exerciseState.input,
                         onCommit: {
-                            self.userInputCommitHandler?()
+                            self.userInputCommitHandler(self.textField!)
                         }
                     )
                         .font(.body) // TODO: does this do anything?
@@ -90,9 +93,10 @@ public struct EditableExerciseView: View {
 
                                 if self.isNewEntry {
                                     textField.becomeFirstResponder()
-
+                                    
                                     self.cancellable = self.exerciseState.$input.sink { value in
                                         if value.isEmpty {
+                                            print("hereee")
                                             self.suggestions.reset()
                                         }
                                     }
@@ -101,16 +105,16 @@ public struct EditableExerciseView: View {
                             self.textField = textField
                         }
                 }
-                
+
                 if exercise?.type == ExerciseType.unknown.rawValue &&
                     !exerciseState.input.isEmpty &&
                     !isNewEntry {
                     ProcessingExerciseView()
-                } else if exercise == nil || !exerciseState.input.isEmpty {
+                } else if exercise == nil || exerciseState.input.isEmpty {
                     WaitingForExerciseView()
                 } else {
                     ExerciseView(
-                        exercise: suggestions.current!,
+                        exercise: exercise!,
                         asSecondary: !workoutState.isStopped || self.isNewEntry
                     )
                         .transition(AnyTransition.moveUpAndFade())
@@ -118,14 +122,12 @@ public struct EditableExerciseView: View {
                 }
             }
                 .padding([.leading, .trailing])
-            
+
             Divider()
                 .padding([.top, .bottom], 10)
         }
     }
 }
-
-extension String: Error {}
 
 class ExcerciseUserSuggestions: ObservableObject {
     @Published var current: Exercise? = nil
@@ -160,13 +162,15 @@ class ExcerciseUserSuggestions: ObservableObject {
     
     init() {
         self.timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
-            self.index = (self.index + 1) % (self.options.count + 2)
+            DispatchQueue.main.async {
+                self.index = (self.index + 1) % (self.options.count + 2)
 
-            withAnimation(Animation.easeInOut.speed(2)) {
-                if self.index < self.options.count {
-                    self.current = self.options[self.index]
-                } else {
-                    self.current = nil
+                withAnimation(Animation.easeInOut.speed(2)) {
+                    if self.index < self.options.count {
+                        self.current = self.options[self.index]
+                    } else {
+                        self.current = nil
+                    }
                 }
             }
         }
@@ -179,6 +183,7 @@ class ExcerciseUserSuggestions: ObservableObject {
 }
 
 struct ExerciseEditorView_Previews: PreviewProvider {
+    
     static var previews: some View {
         ScrollView {
             EditableExerciseView(state: EditableExerciseState(input: "3x3 tricep curls"))

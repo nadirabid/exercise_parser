@@ -27,6 +27,7 @@ public struct EditableWorkoutView: View {
     @State private var userEntryCancellable: AnyCancellable? = nil
     @State private var newEntryTextField: UITextField? = nil
     @State private var workoutNameTextField: UITextField? = nil
+    @State private var test: String = ""
     
     @State private var newEntryState: EditableExerciseState = EditableExerciseState(input: "")
 
@@ -157,23 +158,28 @@ public struct EditableWorkoutView: View {
                             EditableExerciseView(
                                 state: activity,
                                 suggestions: self.suggestions,
-                                onUserInputCommit: {
-                                    self.newEntryTextField?.becomeFirstResponder()
+                                onUserInputCommit: { _ in
+                                    //self.newEntryTextField?.becomeFirstResponder() // TODO:
                                 }
                             )
                         }
                     }
                         .background(Color.white)
-                    
+
                     if !state.isStopped {
                         EditableExerciseView(
                             state: newEntryState,
                             isNewEntry: true,
                             suggestions: suggestions,
-                            onUserInputCommit: {
+                            onUserInputCommit: { (textField: UITextField) in
                                 if !self.newEntryState.input.isEmpty {
                                     self.state.activities.append(self.newEntryState)
                                     self.newEntryState = EditableExerciseState(input: "")
+                                    self.newEntryState.input = ""
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    textField.becomeFirstResponder()
                                 }
                             }
                         )
@@ -247,11 +253,7 @@ public struct TimerView: View {
 struct WorkoutEditorView_Previews : PreviewProvider {
     static var previews: some View {
         let workoutEditorState = EditableWorkoutState()
-        workoutEditorState.activities = [
-//            UserActivity(input: "3x3 tricep curls"),
-//            UserActivity(input: "4 mins of running"),
-//            UserActivity(input: "benchpress 3x3x2", dataTaskPublisher: nil, exercise: Exercise(type: "unknown"))
-        ]
+        workoutEditorState.activities = []
         
         return EditableWorkoutView()
             .environmentObject(workoutEditorState)

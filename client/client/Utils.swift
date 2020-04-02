@@ -10,6 +10,8 @@ import Combine
 import Foundation
 import SwiftUI
 
+extension String: Error {}
+
 struct AdaptsToSoftwareKeyboard: ViewModifier {
     @State var currentHeight: CGFloat = 0
     @State var isKeyboardDisplayed = false
