@@ -150,6 +150,37 @@ public struct EditableWorkoutView: View {
                                 .padding(.bottom, 3)
                                 .foregroundColor(Color.gray)
                         }
+                    } else {
+                        HStack {
+                            WorkoutDetail(
+                                name: date.abbreviatedMonthString,
+                                value: date.dayString
+                            )
+                            
+                            DividerSpacer()
+
+                            WorkoutDetail(
+                                name: "Time",
+                                value: secondsToElapsedTimeString(stopWatch.counter)
+                            )
+                            
+                            DividerSpacer()
+
+                            WorkoutDetail(
+                                name: "Exercises",
+                                value: "\(state.activities.count)"
+                            )
+                            
+                            DividerSpacer()
+
+                            WorkoutDetail(
+                                name: "Weight",
+                                value:"45000 lbs"
+                            )
+                        }
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding([.trailing, .leading])
+                            .padding(.bottom, 20)
                     }
                     
                     VStack(spacing: 0) {
@@ -215,7 +246,7 @@ public struct EditableWorkoutView: View {
                 else {
                     Button(action: {
                         withAnimation(.easeInOut(duration: 0.18)) {
-                            self.pressFinish()
+                            self.pressResume() // TODO change back later
                         }
                     }) {
                         HStack {
@@ -233,6 +264,16 @@ public struct EditableWorkoutView: View {
                 }
             }
         }.modifier(AdaptsToSoftwareKeyboard())
+    }
+}
+
+public struct DividerSpacer: View {
+    public var body: some View {
+        return HStack {
+            Spacer()
+            Divider()
+            Spacer()
+        }
     }
 }
 
