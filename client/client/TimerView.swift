@@ -15,12 +15,49 @@ public struct TimerView: View {
         HStack {
             Spacer()
             
-            Text(self.stopWatch.convertCountToTimeString())
-                .font(.title)
-                .allowsTightening(true)
+            HStack {
+                HStack(alignment: .center, spacing: 2) {
+                    Text(stopWatch.hoursString)
+                        .font(.title)
+                        .foregroundColor(Color(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)))
+                    
+                    Text("H")
+                        .font(.caption)
+                        .fontWeight(.heavy)
+                        .foregroundColor(Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)))
+                    
+                    Text(stopWatch.minutesString)
+                        .font(.title)
+                        .foregroundColor(Color(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)))
+                    
+                    Text("M")
+                        .font(.caption)
+                        .fontWeight(.heavy)
+                        .foregroundColor(Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)))
+                    
+                    Text(stopWatch.secondsString)
+                        .font(.title)
+                        .foregroundColor(Color(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)))
+                    
+                    Text("S")
+                        .font(.caption)
+                        .fontWeight(.heavy)
+                        .foregroundColor(Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)))
+                }
+            }
             
             Spacer()
         }
+    }
+}
+
+private struct TextView: View {
+    @State var text: String
+
+    public var body: some View {
+        Text(text)
+            .font(.title)
+            .foregroundColor(Color(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)))
     }
 }
 

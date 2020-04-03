@@ -4,13 +4,49 @@ import Combine
 
 class Stopwatch: ObservableObject {
     @Published var counter: Int = 0
+    @Published var seconds = 0
+    @Published var minutes = 0
+    @Published var hours = 0
     
     var timer: Timer? = nil
+    
+    var secondsString: String {
+        var string = "\(seconds)"
+        
+        if seconds < 10 {
+            string = "0" + string
+        }
+        
+        return string
+    }
+    
+    var minutesString: String {
+        var string = "\(minutes)"
+        
+        if minutes < 10 {
+            string = "0" + string
+        }
+        
+        return string
+    }
+    
+    var hoursString: String {
+        var string = "\(hours)"
+        
+        if hours < 10 {
+            string = "0" + string
+        }
+        
+        return string
+    }
     
     func start() {
         if self.timer == nil {
             self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 self.counter += 1
+                self.seconds = self.counter % 60
+                self.minutes = (self.counter / 60) % 60
+                self.hours = (self.counter / 60*60) % 60
             }
         }
     }

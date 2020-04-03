@@ -11,5 +11,5 @@ import SwiftUI
 
 // COLORS: https://colors.lol
 
-let appColor: Color = Color(red: 224 / 255, green: 84 / 255, blue: 9 / 255)
+let appColor: Color = Color(0xF8481C)
 let feedColor: Color = Color(red: 247 / 255, green: 247 / 255, blue: 247 / 255)
