@@ -16,10 +16,11 @@ public struct TimerView: View {
             Spacer()
             
             HStack {
-                HStack(alignment: .center, spacing: 2) {
+                HStack(alignment: .center, spacing: 0) {
                     Text(stopWatch.hoursString)
                         .font(.title)
                         .foregroundColor(Color(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)))
+                        .frame(width: 40)
                     
                     Text("H")
                         .font(.caption)
@@ -29,6 +30,7 @@ public struct TimerView: View {
                     Text(stopWatch.minutesString)
                         .font(.title)
                         .foregroundColor(Color(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)))
+                        .frame(width: 40)
                     
                     Text("M")
                         .font(.caption)
@@ -38,6 +40,7 @@ public struct TimerView: View {
                     Text(stopWatch.secondsString)
                         .font(.title)
                         .foregroundColor(Color(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)))
+                        .frame(width: 40)
                     
                     Text("S")
                         .font(.caption)

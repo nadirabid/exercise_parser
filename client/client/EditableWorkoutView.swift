@@ -29,8 +29,6 @@ public struct EditableWorkoutView: View {
     @State private var workoutNameTextField: UITextField? = nil
     
     @State private var newEntryState: EditableExerciseState = EditableExerciseState(input: "")
-
-    private var date: Date = Date()
     
     init() {
         stopWatch.start()
@@ -55,11 +53,11 @@ public struct EditableWorkoutView: View {
     
     func pressFinish() {
         let exercises: [Exercise] = state.activities.map{ a in Exercise(raw: a.input) }
-        let name = state.workoutName.isEmpty ? dateToWorkoutName(date) : state.workoutName
+        let name = state.workoutName.isEmpty ? dateToWorkoutName(self.state.date) : state.workoutName
         
         let workout = Workout(
             name: name,
-            date: self.date,
+            date: self.state.date,
             exercises: exercises,
             location: self.location,
             secondsElapsed: stopWatch.counter
@@ -79,10 +77,6 @@ public struct EditableWorkoutView: View {
     
     public var body: some View {
         VStack(alignment: .leading) {
-            if !state.isStopped {
-                TimerView(stopWatch: stopWatch)
-            }
-            
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
                     if state.isStopped {
@@ -93,7 +87,7 @@ public struct EditableWorkoutView: View {
                                 .padding(.bottom, 3)
                                 .foregroundColor(Color.gray)
                             
-                            TextField(dateToWorkoutName(date), text: $state.workoutName, onCommit: {
+                            TextField(dateToWorkoutName(self.state.date), text: $state.workoutName, onCommit: {
                                 self.state.workoutName = self.state.workoutName.trimmingCharacters(in: .whitespaces)
                             })
                                 .padding([.leading, .trailing])
@@ -115,8 +109,8 @@ public struct EditableWorkoutView: View {
                         
                             HStack(spacing: 10) {
                                 WorkoutDetail(
-                                    name: date.abbreviatedMonthString,
-                                    value: date.dayString
+                                    name: self.state.date.abbreviatedMonthString,
+                                    value: self.state.date.dayString
                                 )
                                 Divider()
 
@@ -151,36 +145,7 @@ public struct EditableWorkoutView: View {
                                 .foregroundColor(Color.gray)
                         }
                     } else {
-                        HStack {
-                            WorkoutDetail(
-                                name: date.abbreviatedMonthString,
-                                value: date.dayString
-                            )
-                            
-                            DividerSpacer()
-
-                            WorkoutDetail(
-                                name: "Time",
-                                value: secondsToElapsedTimeString(stopWatch.counter)
-                            )
-                            
-                            DividerSpacer()
-
-                            WorkoutDetail(
-                                name: "Exercises",
-                                value: "\(state.activities.count)"
-                            )
-                            
-                            DividerSpacer()
-
-                            WorkoutDetail(
-                                name: "Weight",
-                                value:"45000 lbs"
-                            )
-                        }
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding([.trailing, .leading])
-                            .padding(.bottom, 20)
+                        EditableWorkoutDetailCardView(stopWatch: stopWatch)
                     }
                     
                     VStack(spacing: 0) {
@@ -274,6 +239,44 @@ public struct DividerSpacer: View {
             Divider()
             Spacer()
         }
+    }
+}
+
+public struct EditableWorkoutDetailCardView: View {
+    @EnvironmentObject var state: EditableWorkoutState
+    @ObservedObject var stopWatch: Stopwatch
+    
+    public var body: some View {
+        HStack {
+            WorkoutDetail(
+                name: state.date.abbreviatedMonthString,
+                value: state.date.dayString
+            )
+            
+            DividerSpacer()
+
+            WorkoutDetail(
+                name: "Time",
+                value: secondsToElapsedTimeString(stopWatch.counter)
+            )
+            
+            DividerSpacer()
+
+            WorkoutDetail(
+                name: "Exercises",
+                value: "\(state.activities.count)"
+            )
+            
+            DividerSpacer()
+
+            WorkoutDetail(
+                name: "Weight",
+                value:"45000 lbs"
+            )
+        }
+            .fixedSize(horizontal: false, vertical: true)
+            .padding([.top, .trailing, .leading])
+            .padding(.bottom, 20)
     }
 }
 
