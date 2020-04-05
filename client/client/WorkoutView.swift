@@ -19,6 +19,7 @@ struct WorkoutDetail: View {
                 .fontWeight(.heavy)
                 .fixedSize()
             Text(self.value)
+                .font(.callout)
                 .fixedSize()
         }
     }

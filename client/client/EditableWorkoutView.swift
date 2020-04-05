@@ -123,11 +123,6 @@ public struct EditableWorkoutView: View {
                         if self.location != nil {
                             MapView(location: self.location!)
                                 .frame(height: 130)
-                                .transition(
-                                    AnyTransition
-                                        .scaleHeight(from: 0, to: 1)
-                                        .combined(with: AnyTransition.opacity)
-                                )
                         }
 
                         VStack(alignment: .leading, spacing: 0) {
@@ -235,8 +230,7 @@ public struct DividerSpacer: View {
 
 public struct EditableWorkoutDetailCardView: View {
     @EnvironmentObject var state: EditableWorkoutState
-    
-    var stopwatch: Stopwatch
+    @ObservedObject var stopwatch: Stopwatch
     var stretchToFillParent = true
     var showDate = true
     var showTime = true
@@ -262,7 +256,12 @@ public struct EditableWorkoutDetailCardView: View {
             }
             
             if showTime {
-                TimerWorkoutDetail(stopwatch: stopwatch)
+                WorkoutDetail(
+                    name: "Time",
+                    value: secondsToElapsedTimeString(stopwatch.counter)
+                )
+                    .frame(width: 70, alignment: .leading)
+                    .fixedSize()
             }
             
             if showTime && (showWeight || showDistance || showExercises) {
@@ -309,23 +308,6 @@ public struct EditableWorkoutDetailCardView: View {
                     value: "\(state.activities.count)"
                 )
             }
-        }
-    }
-}
-
-public struct TimerWorkoutDetail: View {
-    @ObservedObject var stopwatch: Stopwatch
-    
-    public var body: some View {
-        VStack(alignment: .leading) {
-            Text("TIME")
-                .font(.caption)
-                .fontWeight(.heavy)
-                .fixedSize()
-            
-            Text(secondsToElapsedTimeString(stopwatch.counter))
-                .frame(width: 70, alignment: .leading)
-                .fixedSize()
         }
     }
 }
