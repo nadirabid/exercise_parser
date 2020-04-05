@@ -15,22 +15,65 @@ import JWTDecode
 // https://medium.com/better-programming/swiftui-sign-in-with-apple-c1e70ccb2a71
 // https://github.com/Q42/iOS-Demo-SignInWithApple-SwiftUI
 
+// https://www.myfonts.com/fonts/yellow-design/eveleth/
+// https://www.myfonts.com/fonts/typemates/cera-stencil/
+
 struct SignInView: View {
     @EnvironmentObject var userState: UserState
     @EnvironmentObject var userAPI: UserAPI
     
     var body: some View {
-        return VStack {
-            SignInWithAppleView(userState: userState, userAPI: userAPI)
-                .frame(width: 200, height: 50)
+        GeometryReader { geometry in
+            return VStack {
+                VStack {
+                    Spacer()
+                    
+                    Text("FOR THE ATHLETES")
+                        .foregroundColor(Color(0xF43605))
+                        .font(.caption)
+                        .fontWeight(.heavy)
+                    
+                    Text("RYDEN")
+                        .font(.largeTitle)
+                        .fontWeight(.heavy)
+                        .tracking(10)
+                        .foregroundColor(Color.white)
+                    
+                    HStack(alignment: .center) {
+                        Text("FORM")
+                            .foregroundColor(Color(0xF43605))
+                            .font(.callout)
+                            .fontWeight(.heavy)
+                        
+                        Text("&")
+                            .foregroundColor(Color(0xF43605))
+                            .font(.subheadline)
+                            .fontWeight(.heavy)
+                        
+                        Text("WILL")
+                            .foregroundColor(Color(0xF43605))
+                            .font(.callout)
+                            .fontWeight(.heavy)
+                    }
+                    
+                    Spacer()
+                    
+                    SignInWithAppleView(userState: self.userState, userAPI: self.userAPI)
+                        .frame(width: 200, height: 40)
+                        .padding(.bottom)
+                }
+                    .padding(.bottom, geometry.safeAreaInsets.bottom)
+            }
+                .frame(width: geometry.size.width)
+                .background(appColor)
         }
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
 struct SignInDevView: View {
     @EnvironmentObject var userState: UserState
     @EnvironmentObject var userAPI: UserAPI
-    
 
     func signIn() {
         let data = User(
@@ -67,7 +110,7 @@ struct SignInWithAppleView: UIViewRepresentable {
     }
     
     func makeUIView(context: Context) -> ASAuthorizationAppleIDButton {
-        let button = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .black)
+        let button = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .white)
         
         button.addTarget(
             context.coordinator,
