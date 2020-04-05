@@ -63,10 +63,10 @@ struct AdaptsToSoftwareKeyboard: ViewModifier {
     }
 }
 
-func secondsToElapsedTimeString(_ seconds: Int) -> String {
-    let seconds = seconds % 60
-    let minutes = seconds / 60
-    let hours = seconds / 60
+func secondsToElapsedTimeString(_ totalSeconds: Int) -> String {
+    let seconds = totalSeconds % 60
+    let minutes = totalSeconds / 60
+    let hours = totalSeconds / (60*60)
     
     if hours == 0 {
         return "\(minutes)m \(seconds)s"

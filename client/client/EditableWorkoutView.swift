@@ -17,23 +17,23 @@ public struct EditableWorkoutView: View {
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var state: EditableWorkoutState
     @EnvironmentObject var workoutAPI: WorkoutAPI
-    
+
     @ObservedObject private var locationManager = LocationManager()
-    private var stopWatch = Stopwatch()
+    private var stopwatch = Stopwatch()
     private var suggestions = ExcerciseUserSuggestions()
-    
+
     @State private var location: Location? = nil
     @State private var workoutDataTaskPublisher: AnyCancellable? = nil
     @State private var userEntryCancellable: AnyCancellable? = nil
     @State private var newEntryTextField: UITextField? = nil
     @State private var workoutNameTextField: UITextField? = nil
-    
+
     @State private var newEntryState: EditableExerciseState = EditableExerciseState(input: "")
-    
+
     init() {
-        stopWatch.start()
+        stopwatch.start()
     }
-    
+
     func pressPause() {
         #if targetEnvironment(simulator)
         self.location = Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
@@ -41,34 +41,34 @@ public struct EditableWorkoutView: View {
         let coord: CLLocationCoordinate2D? = locationManager.lastLocation?.coordinate
         self.location = coord != nil ? Location(latitude: coord!.latitude, longitude: coord!.longitude) : nil
         #endif
-        
-        self.stopWatch.stop()
+
+        self.stopwatch.stop()
         self.state.isStopped = true
     }
     
     func pressResume() {
-        self.stopWatch.start()
+        self.stopwatch.start()
         self.state.isStopped = false
     }
     
     func pressFinish() {
         let exercises: [Exercise] = state.activities.map{ a in Exercise(raw: a.input) }
         let name = state.workoutName.isEmpty ? dateToWorkoutName(self.state.date) : state.workoutName
-        
+
         let workout = Workout(
             name: name,
             date: self.state.date,
             exercises: exercises,
             location: self.location,
-            secondsElapsed: stopWatch.counter
+            secondsElapsed: stopwatch.counter
         )
-        
+
         if exercises.count == 0 {
             self.state.reset()
             self.route.current = .feed
             return
         }
-        
+
         workoutAPI.createWorkout(workout: workout) { (_) in
             self.state.reset()
             self.route.current = .feed
@@ -106,37 +106,30 @@ public struct EditableWorkoutView: View {
                                 .padding([.leading, .top])
                                 .padding(.bottom, 3)
                                 .foregroundColor(Color.gray)
-                        
-                            HStack(spacing: 10) {
-                                WorkoutDetail(
-                                    name: self.state.date.abbreviatedMonthString,
-                                    value: self.state.date.dayString
-                                )
-                                Divider()
-
-                                WorkoutDetail(name: "Time", value: secondsToElapsedTimeString(stopWatch.counter))
-                                Divider()
-
-                                WorkoutDetail(name: "Exercises", value: "\(state.activities.count)")
-                                Divider()
-
-                                WorkoutDetail(name: "Weight", value:"45000 lbs")
-                            }
-                                .fixedSize(horizontal: true, vertical: true)
-                                .padding(.leading)
-                                .padding(.bottom, 5)
-                            
-                            if self.location != nil {
-                                MapView(location: self.location!)
-                                    .frame(height: 130)
-                                    .transition(
-                                        AnyTransition
-                                            .scaleHeight(from: 0, to: 1)
-                                            .combined(with: AnyTransition.opacity)
-                                    )
-                            }
                         }
+                    }
+                
+                    EditableWorkoutDetailCardView(
+                        stopwatch: stopwatch,
+                        stretchToFillParent: !state.isStopped,
+                        showDate: state.isStopped,
+                        showExercises: !state.isStopped
+                    )
+                        .fixedSize(horizontal: state.isStopped, vertical: true)
+                        .padding(state.isStopped ? [.leading] : [.top, .trailing, .leading])
+                        .padding(.bottom, state.isStopped ? 5 : 20)
                         
+                    if state.isStopped {
+                        if self.location != nil {
+                            MapView(location: self.location!)
+                                .frame(height: 130)
+                                .transition(
+                                    AnyTransition
+                                        .scaleHeight(from: 0, to: 1)
+                                        .combined(with: AnyTransition.opacity)
+                                )
+                        }
+
                         VStack(alignment: .leading, spacing: 0) {
                             Text("Exercises")
                                 .font(.caption)
@@ -144,8 +137,6 @@ public struct EditableWorkoutView: View {
                                 .padding(.bottom, 3)
                                 .foregroundColor(Color.gray)
                         }
-                    } else {
-                        EditableWorkoutDetailCardView(stopWatch: stopWatch)
                     }
                     
                     VStack(spacing: 0) {
@@ -234,7 +225,7 @@ public struct EditableWorkoutView: View {
 
 public struct DividerSpacer: View {
     public var body: some View {
-        return HStack {
+        return HStack(spacing: 0) {
             Spacer()
             Divider()
             Spacer()
@@ -244,39 +235,98 @@ public struct DividerSpacer: View {
 
 public struct EditableWorkoutDetailCardView: View {
     @EnvironmentObject var state: EditableWorkoutState
-    @ObservedObject var stopWatch: Stopwatch
+    
+    var stopwatch: Stopwatch
+    var stretchToFillParent = true
+    var showDate = true
+    var showTime = true
+    var showExercises = true
+    var showDistance = true
+    var showWeight = true
     
     public var body: some View {
-        HStack {
-            WorkoutDetail(
-                name: state.date.abbreviatedMonthString,
-                value: state.date.dayString
-            )
+        HStack(spacing: stretchToFillParent ? 0 : 10) {
+            if showDate {
+                WorkoutDetail(
+                    name: self.state.date.abbreviatedMonthString,
+                    value: self.state.date.dayString
+                )
+            }
             
-            DividerSpacer()
-
-            WorkoutDetail(
-                name: "Time",
-                value: secondsToElapsedTimeString(stopWatch.counter)
-            )
+            if showDate && (showTime || showWeight || showDistance || showExercises) {
+                if stretchToFillParent {
+                    DividerSpacer()
+                } else {
+                    Divider()
+                }
+            }
             
-            DividerSpacer()
-
-            WorkoutDetail(
-                name: "Exercises",
-                value: "\(state.activities.count)"
-            )
+            if showTime {
+                TimerWorkoutDetail(stopwatch: stopwatch)
+            }
             
-            DividerSpacer()
+            if showTime && (showWeight || showDistance || showExercises) {
+                if stretchToFillParent {
+                    DividerSpacer()
+                } else {
+                    Divider()
+                }
+            }
 
-            WorkoutDetail(
-                name: "Weight",
-                value:"45000 lbs"
-            )
+            if showWeight {
+                WorkoutDetail(
+                    name: "Weight",
+                    value:"45000 lbs"
+                )
+            }
+            
+            if showWeight && (showDistance || showExercises) {
+                if stretchToFillParent {
+                    DividerSpacer()
+                } else {
+                    Divider()
+                }
+            }
+
+            if showDistance {
+                WorkoutDetail(
+                    name: "Distance",
+                    value: "14 km"
+                )
+            }
+            
+            if showDistance && showExercises {
+                if stretchToFillParent {
+                    DividerSpacer()
+                } else {
+                    Divider()
+                }
+            }
+            
+            if showExercises {
+                WorkoutDetail(
+                    name: "Exercises",
+                    value: "\(state.activities.count)"
+                )
+            }
         }
-            .fixedSize(horizontal: false, vertical: true)
-            .padding([.top, .trailing, .leading])
-            .padding(.bottom, 20)
+    }
+}
+
+public struct TimerWorkoutDetail: View {
+    @ObservedObject var stopwatch: Stopwatch
+    
+    public var body: some View {
+        VStack(alignment: .leading) {
+            Text("TIME")
+                .font(.caption)
+                .fontWeight(.heavy)
+                .fixedSize()
+            
+            Text(secondsToElapsedTimeString(stopwatch.counter))
+                .frame(width: 70, alignment: .leading)
+                .fixedSize()
+        }
     }
 }
 
