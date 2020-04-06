@@ -46,12 +46,12 @@ struct WorkoutView: View {
             
             HStack(spacing: 10) {
                 WorkoutDetail(
-                    name: workout.date!.abbreviatedMonthString,
-                    value: workout.date!.dayString
+                    name: workout.date.abbreviatedMonthString,
+                    value: workout.date.dayString
                 )
                 Divider()
                 if workout.secondsElapsed != nil {
-                    WorkoutDetail(name: "Time", value: secondsToElapsedTimeString(workout.secondsElapsed!))
+                    WorkoutDetail(name: "Time", value: secondsToElapsedTimeString(workout.secondsElapsed))
                     Divider()
                 }
                 WorkoutDetail(name: "Exercises", value: "\(workout.exercises.count)")

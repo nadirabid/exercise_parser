@@ -14,22 +14,22 @@ struct Workout: Codable, Identifiable {
     let createdAt: String?
     let updatedAt: String?
     let name: String
-    let date: Date?
+    let date: Date
     let exercises: [Exercise]
     let userID: Int?
     let location: Location?
-    let secondsElapsed: Int?
+    let secondsElapsed: Int
     
     init(
         id: Int? = nil,
         createdAt: String? = nil,
         updatedAt: String? = nil,
         name: String = "",
-        date: Date? = nil,
+        date: Date = Date(),
         exercises: [Exercise] = [],
         userID: Int? = nil,
         location: Location? = nil,
-        secondsElapsed: Int? = 0
+        secondsElapsed: Int = 0
     ) {
         self.id = id
         self.createdAt = createdAt
