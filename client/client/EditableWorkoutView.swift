@@ -18,7 +18,7 @@ public struct EditableWorkoutView: View {
     @EnvironmentObject var state: EditableWorkoutState
     @EnvironmentObject var workoutAPI: WorkoutAPI
 
-    @ObservedObject private var locationManager = LocationManager()
+    private var locationManager = LocationManager()
     private var stopwatch = Stopwatch()
     private var suggestions = ExcerciseUserSuggestions()
 

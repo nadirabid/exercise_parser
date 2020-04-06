@@ -173,8 +173,8 @@
 		6494A01422B6139900C19543 /* client */ = {
 			isa = PBXGroup;
 			children = (
-				6405131B2416364D00DDC3D7 /* client.entitlements */,
 				6494A02322B6139B00C19543 /* Info.plist */,
+				6405131B2416364D00DDC3D7 /* client.entitlements */,
 				64A93D9424232DA000B73B95 /* ActivityIndicator.swift */,
 				649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */,
 				6498A98C24122355005BB19F /* Config.swift */,
