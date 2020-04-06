@@ -162,11 +162,17 @@ public struct EditableWorkoutView: View {
                     }
                     
                     VStack(spacing: 0) {
-                        ForEach(state.activities, id: \.id) { activity in
+                        ForEach(state.activities, id: \.id) { (exerciseState: EditableExerciseState) in
                             EditableExerciseView(
-                                state: activity,
+                                state: exerciseState,
                                 suggestions: self.suggestions,
                                 onUserInputCommit: { _ in
+                                    if exerciseState.input.isEmpty {
+                                        self.state.activities.removeAll(where: { ex in
+                                            return ex === exerciseState
+                                        })
+                                    }
+                                    
                                     DispatchQueue.main.async {
                                         self.newEntryTextField?.becomeFirstResponder()
                                     }

@@ -45,7 +45,6 @@ public struct EditableExerciseView: View {
     }
     
     private func resolveRawExercise() {
-        print("here")
         if !shouldResolveExercise {
             return
         }
