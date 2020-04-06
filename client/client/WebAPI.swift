@@ -215,13 +215,13 @@ class ExerciseAPI: ObservableObject {
         self.encoder.dateEncodingStrategy = .iso8601
     }
     
-    func resolveExercise(exercise: Exercise, _ completionHandler: @escaping (Exercise) -> Void) {
+    func resolveExercise(exercise: Exercise, _ completionHandler: @escaping (Exercise) -> Void) -> DataRequest? {
         let headers: HTTPHeaders = [
             "Accept": "application/json",
             "Authorization": "Bearer \(userState.jwt!.string)"
         ]
         
-        AF.request("\(baseURL)/exercise/resolve", method: .post, parameters: exercise, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
+        return AF.request("\(baseURL)/exercise/resolve", method: .post, parameters: exercise, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
@@ -239,7 +239,7 @@ class ExerciseAPI: ObservableObject {
 }
 
 class MockExerciseAPI: ExerciseAPI {
-    override func resolveExercise(exercise: Exercise, _ completionHandler: @escaping (Exercise) -> Void) {
+    override func resolveExercise(exercise: Exercise, _ completionHandler: @escaping (Exercise) -> Void) -> DataRequest? {
         completionHandler(Exercise(
             id: 1,
             createdAt: "",
@@ -250,5 +250,7 @@ class MockExerciseAPI: ExerciseAPI {
             weightedExercise: WeightedExercise(sets: 1, reps: 3),
             distanceExercise: nil
         ))
+        
+        return nil
     }
 }

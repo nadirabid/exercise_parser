@@ -49,13 +49,20 @@ struct WorkoutView: View {
                     name: workout.date.abbreviatedMonthString,
                     value: workout.date.dayString
                 )
+                
                 Divider()
-                if workout.secondsElapsed != nil {
-                    WorkoutDetail(name: "Time", value: secondsToElapsedTimeString(workout.secondsElapsed))
-                    Divider()
-                }
+                
+                WorkoutDetail(
+                    name: "Time",
+                    value: secondsToElapsedTimeString(workout.secondsElapsed)
+                )
+                
+                Divider()
+
                 WorkoutDetail(name: "Exercises", value: "\(workout.exercises.count)")
+                
                 Divider()
+                
                 WorkoutDetail(name: "Weight", value:"45000 lbs")
             }
             .fixedSize(horizontal: true, vertical: true)

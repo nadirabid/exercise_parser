@@ -8,6 +8,7 @@
 
 import Combine
 import SwiftUI
+import Alamofire
 
 typealias TextFieldHandler = ((UITextField) -> Void)
 
@@ -21,7 +22,8 @@ public struct EditableExerciseView: View {
     private var shouldResolveExercise: Bool
     private var userInputCommitHandler: TextFieldHandler
     private var textFieldChangeHandler: TextFieldHandler
-
+    
+    @State private var resolveExerciseRequest: DataRequest?
     @State private var textField: UITextField? = nil
     @State private var cancellable: AnyCancellable? = nil
     @State private var test: String = ""
@@ -43,15 +45,21 @@ public struct EditableExerciseView: View {
     }
     
     private func resolveRawExercise() {
-        if !shouldResolveExercise || !isNewEntry {
+        print("here")
+        if !shouldResolveExercise {
             return
+        }
+        
+        if let req = resolveExerciseRequest {
+            resolveExerciseRequest = nil
+            req.cancel()
         }
 
         // we do this just for viewing purposes
         let exercise = Exercise(raw: exerciseState.input)
         self.exerciseState.exercise = exercise
 
-        exerciseAPI.resolveExercise(exercise: exercise) { resolvedExercise in
+        self.resolveExerciseRequest = exerciseAPI.resolveExercise(exercise: exercise) { resolvedExercise in
             self.exerciseState.exercise = resolvedExercise
         }
     }
@@ -80,14 +88,19 @@ public struct EditableExerciseView: View {
                         exercise?.raw ?? "Enter your exercise",
                         text: $exerciseState.input,
                         onCommit: {
-                            self.resolveRawExercise() // TODO reRESOLVE
+                            if !self.exerciseState.input.isEmpty && !self.isNewEntry {
+                                self.resolveRawExercise()
+                            }
+                            
                             self.userInputCommitHandler(self.textField!)
                             self.suggestions.reset()
                         }
                     )
                         .font(.body) // TODO: does this do anything?
                         .onAppear {
-                            self.resolveRawExercise()
+                            if !self.isNewEntry {
+                                self.resolveRawExercise()
+                            }
                         }
                         .introspectTextField { (textField: UITextField) in
                             if self.textField != textField {
