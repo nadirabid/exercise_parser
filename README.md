@@ -2,11 +2,11 @@
 
 ####  Now
 
-- [ ] Create icon for app - annoying wokr
 - [ ] Get/save profile picture from server
 - [ ] Workout date should not be optional
 - [ ] Time elapsed should not be optional
 - [ ] WorkoutEditor: add on text change - re resolve the exercise w/ some debounce
+- [ ] When app reopens - verify if app is still authenticated
 - [ ] Exercise search???? BIG IFF
 
 #### Reminder (*important*)
@@ -15,6 +15,7 @@
 
 #### Done
 
+- [x] Create icon for app - annoying wokr
 - [x] WorkoutEditor: fix the hide button
 - [x] Pick a new app color - annoying work
 - [x] WorkoutEditor: Create a view/input to allow naming the working (also pick a default name)
