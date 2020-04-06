@@ -2,7 +2,6 @@
 
 ####  Now
 
-- [ ] WorkoutEditor: fix the hide button
 - [ ] Create icon for app - annoying wokr
 - [ ] Get/save profile picture from server
 - [ ] Workout date should not be optional
@@ -16,6 +15,7 @@
 
 #### Done
 
+- [x] WorkoutEditor: fix the hide button
 - [x] Pick a new app color - annoying work
 - [x] WorkoutEditor: Create a view/input to allow naming the working (also pick a default name)
 - [x] WorkoutEditor: timer looks ugly - annoying work

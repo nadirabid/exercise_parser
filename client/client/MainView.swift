@@ -22,26 +22,44 @@ struct MainView: View {
                 #endif
             } else {
                 if route.current == .feed {
-                    VStack(alignment: .center) {
-                        Text("Activity")
-                    }
-
-                    FeedView()
-                    
-                    Button(action: { self.route.current = .editor }) {
-                        ZStack {
-                            Circle()
-                                .stroke(appColor, lineWidth: 2)
-                                .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
-                                .frame(width: 50, height: 50)
-                            
-                            Circle()
-                                .fill(appColor)
-                                .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
-                                .frame(width: 20, height: 20)
+                    VStack(spacing: 0) {
+                        VStack(alignment: .center) {
+                            Text("Feed")
+                                .foregroundColor(appColor)
+                                .fontWeight(.medium)
+                                
+                            Divider()
                         }
+                            .background(Color.white)
+
+                        FeedView()
+                        
+                        VStack {
+                            Divider()
+                            HStack {
+                                Spacer()
+                                
+                                Button(action: { self.route.current = .editor }) {
+                                    ZStack {
+                                        Circle()
+                                            .stroke(appColor, lineWidth: 2)
+                                            .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
+                                            .frame(width: 50, height: 50)
+                                        
+                                        Circle()
+                                            .fill(appColor)
+                                            .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
+                                            .frame(width: 20, height: 20)
+                                    }
+                                }
+                                
+                                Spacer()
+                            }
+                                .padding(.top, 5)
+                        }
+                            .background(Color.white)
                     }
-                    .padding(.top, 5)
+                        .background(feedColor)
                 } else if route.current == .editor {
                     EditableWorkoutView()
                 }

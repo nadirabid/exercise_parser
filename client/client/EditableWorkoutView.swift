@@ -77,6 +77,33 @@ public struct EditableWorkoutView: View {
     
     public var body: some View {
         VStack(alignment: .leading) {
+            if state.isStopped {
+                VStack(alignment: .center) {
+                    HStack {
+                        Spacer()
+                        
+                        Button(action: {
+                            self.pressResume()
+                        }) {
+                            Text("Resume")
+                                .font(.caption)
+                                .foregroundColor(Color.white)
+                                .background(GeometryReader { (geometry: GeometryProxy) in
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .size(
+                                            width: geometry.size.width + 10,
+                                            height: geometry.size.height + 10
+                                        )
+                                        .offset(x: -5, y: -5)
+                                        .fill(appColor)
+                                })
+                        }
+                            .padding(.trailing)
+                    }
+                    Divider()
+                }
+            }
+            
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
                     if state.isStopped {
@@ -108,7 +135,7 @@ public struct EditableWorkoutView: View {
                                 .foregroundColor(Color.gray)
                         }
                     }
-                
+
                     EditableWorkoutDetailCardView(
                         stopwatch: stopwatch,
                         stretchToFillParent: !state.isStopped,
@@ -118,7 +145,7 @@ public struct EditableWorkoutView: View {
                         .fixedSize(horizontal: state.isStopped, vertical: true)
                         .padding(state.isStopped ? [.leading] : [.top, .trailing, .leading])
                         .padding(.bottom, state.isStopped ? 5 : 20)
-                        
+
                     if state.isStopped {
                         if self.location != nil {
                             MapView(location: self.location!)
@@ -177,9 +204,7 @@ public struct EditableWorkoutView: View {
             HStack(spacing: 0) {
                 if !state.isStopped {
                     Button(action: {
-                        withAnimation(.easeInOut(duration: 0.18)) {
-                            self.pressPause()
-                        }
+                        self.pressPause()
                     }) {
                         HStack {
                             Spacer()
@@ -196,9 +221,7 @@ public struct EditableWorkoutView: View {
                 }
                 else {
                     Button(action: {
-                        withAnimation(.easeInOut(duration: 0.18)) {
-                            self.pressResume() // TODO change back later
-                        }
+                        self.pressFinish()
                     }) {
                         HStack {
                             Spacer()
@@ -214,7 +237,8 @@ public struct EditableWorkoutView: View {
                     }
                 }
             }
-        }.modifier(AdaptsToSoftwareKeyboard())
+        }
+            .modifier(AdaptsToSoftwareKeyboard())
     }
 }
 
