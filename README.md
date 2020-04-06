@@ -3,8 +3,6 @@
 ####  Now
 
 - [ ] Get/save profile picture from server
-- [ ] Workout date should not be optional
-- [ ] Time elapsed should not be optional
 - [ ] WorkoutEditor: add on text change - re resolve the exercise w/ some debounce
 - [ ] When app reopens - verify if app is still authenticated
 - [ ] Exercise search???? BIG IFF
@@ -15,6 +13,8 @@
 
 #### Done
 
+- [x] Workout date should not be optional
+- [x] Time elapsed should not be optional
 - [x] Create icon for app - annoying wokr
 - [x] WorkoutEditor: fix the hide button
 - [x] Pick a new app color - annoying work
