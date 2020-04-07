@@ -52,7 +52,7 @@ public struct EditableWorkoutView: View {
     }
     
     func pressFinish() {
-        let exercises: [Exercise] = state.activities.map{ a in Exercise(raw: a.input) }
+        let exercises: [Exercise] = state.exerciseStates.map{ a in Exercise(raw: a.input) }
         let name = state.workoutName.isEmpty ? dateToWorkoutName(self.state.date) : state.workoutName
 
         let workout = Workout(
@@ -73,6 +73,10 @@ public struct EditableWorkoutView: View {
             self.state.reset()
             self.route.current = .feed
         }
+    }
+    
+    func deleteRow(at indexSet: IndexSet) {
+        print("delete", indexSet)
     }
     
     public var body: some View {
@@ -162,13 +166,13 @@ public struct EditableWorkoutView: View {
                     }
                     
                     VStack(spacing: 0) {
-                        ForEach(state.activities, id: \.id) { (exerciseState: EditableExerciseState) in
+                        ForEach(state.exerciseStates, id: \.id) { (exerciseState: EditableExerciseState) in
                             EditableExerciseView(
                                 state: exerciseState,
                                 suggestions: self.suggestions,
                                 onUserInputCommit: { _ in
                                     if exerciseState.input.isEmpty {
-                                        self.state.activities.removeAll(where: { ex in
+                                        self.state.exerciseStates.removeAll(where: { ex in
                                             return ex === exerciseState
                                         })
                                     }
@@ -179,6 +183,8 @@ public struct EditableWorkoutView: View {
                                 }
                             )
                         }
+                        .onDelete(perform: self.deleteRow)
+                            
                     }
                         .background(Color.white)
 
@@ -189,7 +195,7 @@ public struct EditableWorkoutView: View {
                             suggestions: suggestions,
                             onUserInputCommit: { (textField: UITextField) in
                                 if !self.newEntryState.input.isEmpty {
-                                    self.state.activities.append(self.newEntryState)
+                                    self.state.exerciseStates.append(self.newEntryState)
                                     self.newEntryState = EditableExerciseState(input: "")
                                 }
                                 
@@ -232,7 +238,7 @@ public struct EditableWorkoutView: View {
                         HStack {
                             Spacer()
                             
-                            Text(state.activities.count > 0 ? "Finish" : "Cancel")
+                            Text(state.exerciseStates.count > 0 ? "Finish" : "Cancel")
                                 .foregroundColor(Color.white)
                                 .fontWeight(.semibold)
                             
@@ -335,7 +341,7 @@ public struct EditableWorkoutDetailCardView: View {
             if showExercises {
                 WorkoutDetail(
                     name: "Exercises",
-                    value: "\(state.activities.count)"
+                    value: "\(state.exerciseStates.count)"
                 )
             }
         }
@@ -346,7 +352,7 @@ public struct EditableWorkoutDetailCardView: View {
 struct WorkoutEditorView_Previews : PreviewProvider {
     static var previews: some View {
         let workoutEditorState = EditableWorkoutState()
-        workoutEditorState.activities = []
+        workoutEditorState.exerciseStates = []
         
         return EditableWorkoutView()
             .environmentObject(workoutEditorState)

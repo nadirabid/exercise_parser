@@ -30,14 +30,14 @@ class EditableExerciseState: ObservableObject {
 class EditableWorkoutState: ObservableObject {
     @Published var newEntry: String = ""
     @Published var workoutName: String = ""
-    @Published var activities: [EditableExerciseState] = []
+    @Published var exerciseStates: [EditableExerciseState] = []
     @Published var isStopped = false
     var date: Date = Date()
     
     func reset() {
         self.newEntry = ""
         self.workoutName = ""
-        self.activities = []
+        self.exerciseStates = []
         self.isStopped = false
         self.date = Date()
     }
