@@ -134,14 +134,14 @@ public struct EditableExerciseView: View {
                         exercise: exercise!,
                         asSecondary: !workoutState.isStopped || self.isNewEntry
                     )
-                        .transition(AnyTransition.moveUpAndFade())
+                        .transition(self.isNewEntry ? AnyTransition.moveUpAndFade() : AnyTransition.identity)
                         .id("exercise_\(exercise!.raw)")
                 }
             }
                 .padding([.leading, .trailing])
 
             Divider()
-                .padding([.top, .bottom], 10)
+                .padding([.top], 10)
         }
     }
 }

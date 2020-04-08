@@ -32,6 +32,7 @@ public struct EditableWorkoutView: View {
 
     init() {
         stopwatch.start()
+        UITableView.appearance().separatorStyle = .none
     }
 
     func pressPause() {
@@ -80,14 +81,16 @@ public struct EditableWorkoutView: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             if state.isStopped {
                 VStack(alignment: .center) {
                     HStack {
                         Spacer()
                         
                         Button(action: {
-                            self.pressResume()
+                            withAnimation(Animation.easeInOut.speed(1.5)) {
+                                self.pressResume()
+                            }
                         }) {
                             Text("Resume")
                                 .font(.caption)
@@ -108,115 +111,111 @@ public struct EditableWorkoutView: View {
                 }
             }
             
-            ScrollView {
+            if state.isStopped {
                 VStack(alignment: .leading, spacing: 0) {
-                    if state.isStopped {
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Workout name")
-                                .font(.caption)
-                                .padding([.leading, .top])
-                                .padding(.bottom, 3)
-                                .foregroundColor(Color.gray)
-                            
-                            TextField(dateToWorkoutName(self.state.date), text: $state.workoutName, onCommit: {
-                                self.state.workoutName = self.state.workoutName.trimmingCharacters(in: .whitespaces)
-                            })
-                                .padding([.leading, .trailing])
-                                .padding([.top, .bottom], 12)
-                                .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
-                                .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
-                                .introspectTextField { textField in
-                                    if self.workoutNameTextField ==  nil { // only become first responder the first time
-                                        textField.becomeFirstResponder()
-                                    }
-                                    self.workoutNameTextField = textField
-                                }
-                            
-                            Text("Breakdown")
-                                .font(.caption)
-                                .padding([.leading, .top])
-                                .padding(.bottom, 3)
-                                .foregroundColor(Color.gray)
-                        }
-                    }
-
-                    EditableWorkoutDetailCardView(
-                        stopwatch: stopwatch,
-                        stretchToFillParent: !state.isStopped,
-                        showDate: state.isStopped,
-                        showExercises: !state.isStopped
-                    )
-                        .fixedSize(horizontal: state.isStopped, vertical: true)
-                        .padding(state.isStopped ? [.leading] : [.top, .trailing, .leading])
-                        .padding(.bottom, state.isStopped ? 5 : 20)
-
-                    if state.isStopped {
-                        if self.location != nil {
-                            MapView(location: self.location!)
-                                .frame(height: 130)
-                        }
-
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Exercises")
-                                .font(.caption)
-                                .padding([.leading, .top])
-                                .padding(.bottom, 3)
-                                .foregroundColor(Color.gray)
-                        }
-                    }
+                    Text("Workout name")
+                        .font(.caption)
+                        .padding([.leading, .top])
+                        .padding(.bottom, 3)
+                        .foregroundColor(Color.gray)
                     
-                    VStack(spacing: 0) {
-                        ForEach(state.exerciseStates, id: \.id) { (exerciseState: EditableExerciseState) in
-                            EditableExerciseView(
-                                state: exerciseState,
-                                suggestions: self.suggestions,
-                                onUserInputCommit: { _ in
-                                    if exerciseState.input.isEmpty {
-                                        self.state.exerciseStates.removeAll(where: { ex in
-                                            return ex === exerciseState
-                                        })
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        self.newEntryTextField?.becomeFirstResponder()
-                                    }
-                                }
-                            )
+                    TextField(dateToWorkoutName(self.state.date), text: $state.workoutName, onCommit: {
+                        self.state.workoutName = self.state.workoutName.trimmingCharacters(in: .whitespaces)
+                    })
+                        .padding([.leading, .trailing])
+                        .padding([.top, .bottom], 12)
+                        .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
+                        .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
+                        .introspectTextField { textField in
+                            if self.workoutNameTextField ==  nil { // only become first responder the first time
+                                textField.becomeFirstResponder()
+                            }
+                            self.workoutNameTextField = textField
                         }
-                        .onDelete(perform: self.deleteRow)
-                            
-                    }
-                        .background(Color.white)
+                    
+                    Text("Breakdown")
+                        .font(.caption)
+                        .padding([.leading, .top])
+                        .padding(.bottom, 3)
+                        .foregroundColor(Color.gray)
+                }
+            }
 
-                    if !state.isStopped {
-                        EditableExerciseView(
-                            state: newEntryState,
-                            isNewEntry: true,
-                            suggestions: suggestions,
-                            onUserInputCommit: { (textField: UITextField) in
+            EditableWorkoutDetailCardView(
+                stopwatch: stopwatch,
+                stretchToFillParent: !state.isStopped,
+                showDate: state.isStopped,
+                showExercises: !state.isStopped
+            )
+                .fixedSize(horizontal: state.isStopped, vertical: true)
+                .padding(state.isStopped ? [.leading] : [.top, .trailing, .leading])
+                .padding(.bottom, state.isStopped ? 5 : 20)
+
+            if state.isStopped {
+                if self.location != nil {
+                    MapView(location: self.location!)
+                        .frame(height: 130)
+                }
+
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Exercises")
+                        .font(.caption)
+                        .padding([.leading, .top])
+                        .padding(.bottom, 3)
+                        .foregroundColor(Color.gray)
+                }
+            }
+            
+            ScrollView {
+                ForEach(state.exerciseStates, id: \.id) { (exerciseState: EditableExerciseState) in
+                    EditableExerciseView(
+                        state: exerciseState,
+                        suggestions: self.suggestions,
+                        onUserInputCommit: { _ in
+                            DispatchQueue.main.async {
+                                if exerciseState.input.isEmpty {
+                                    self.state.exerciseStates.removeAll(where: { ex in
+                                        return ex === exerciseState
+                                    })
+                                }
+                                self.newEntryTextField?.becomeFirstResponder()
+                            }
+                        }
+                    )
+                }
+                    .onDelete(perform: self.deleteRow)
+                    .listRowInsets(EdgeInsets())
+
+                if !state.isStopped {
+                    EditableExerciseView(
+                        state: newEntryState,
+                        isNewEntry: true,
+                        suggestions: suggestions,
+                        onUserInputCommit: { (textField: UITextField) in
+                            DispatchQueue.main.async {
                                 if !self.newEntryState.input.isEmpty {
                                     self.state.exerciseStates.append(self.newEntryState)
                                     self.newEntryState = EditableExerciseState(input: "")
                                 }
-                                
-                                DispatchQueue.main.async {
-                                    textField.becomeFirstResponder()
-                                }
-                            },
-                            onTextFieldChange: { (textField: UITextField) in
-                                self.newEntryTextField = textField
+                                textField.becomeFirstResponder()
                             }
-                        )
-                    }
+                        },
+                        onTextFieldChange: { (textField: UITextField) in
+                            self.newEntryTextField = textField
+                        }
+                    )
+                        .listRowInsets(EdgeInsets())
                 }
             }
-
+            
             Spacer()
             
             HStack(spacing: 0) {
                 if !state.isStopped {
                     Button(action: {
-                        self.pressPause()
+                        withAnimation(Animation.easeInOut.speed(1.5)) {
+                            self.pressPause()
+                        }
                     }) {
                         HStack {
                             Spacer()
@@ -233,7 +232,9 @@ public struct EditableWorkoutView: View {
                 }
                 else {
                     Button(action: {
-                        self.pressFinish()
+                        withAnimation(Animation.easeInOut.speed(1.5)) {
+                            self.pressFinish()
+                        }
                     }) {
                         HStack {
                             Spacer()
@@ -352,7 +353,10 @@ public struct EditableWorkoutDetailCardView: View {
 struct WorkoutEditorView_Previews : PreviewProvider {
     static var previews: some View {
         let workoutEditorState = EditableWorkoutState()
-        workoutEditorState.exerciseStates = []
+        workoutEditorState.exerciseStates = [
+            EditableExerciseState(input: "3x3 tricep curls"),
+            EditableExerciseState(input: "4 mins of running")
+        ]
         
         return EditableWorkoutView()
             .environmentObject(workoutEditorState)

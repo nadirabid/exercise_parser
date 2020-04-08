@@ -3,7 +3,7 @@ import SwiftUI
 import Combine
 
 class Stopwatch: ObservableObject {
-    @Published var counter: Int = 2000
+    @Published var counter: Int = 2000 // TODO: change back to zero
     @Published var seconds = 0
     @Published var minutes = 0
     @Published var hours = 0
