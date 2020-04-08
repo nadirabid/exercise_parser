@@ -182,9 +182,8 @@ public struct EditableWorkoutView: View {
                             }
                         }
                     )
+                        .modifier(DeletableViewModifier(disable: self.state.isStopped))
                 }
-                    .onDelete(perform: self.deleteRow)
-                    .listRowInsets(EdgeInsets())
 
                 if !state.isStopped {
                     EditableExerciseView(
@@ -204,7 +203,6 @@ public struct EditableWorkoutView: View {
                             self.newEntryTextField = textField
                         }
                     )
-                        .listRowInsets(EdgeInsets())
                 }
             }
             
@@ -252,6 +250,45 @@ public struct EditableWorkoutView: View {
             }
         }
             .modifier(AdaptsToSoftwareKeyboard())
+    }
+}
+
+struct NoButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+    }
+}
+
+extension View {
+    func delayTouches() -> some View {
+        Button(action: {}) {
+            highPriorityGesture(TapGesture())
+        }
+        .buttonStyle(NoButtonStyle())
+    }
+}
+
+public struct DeletableViewModifier: ViewModifier {
+    var disable: Bool
+    @State var dragOffset = CGSize.zero
+    
+    public func body(content: Content) -> some View {
+        return content
+            .animation(self.dragOffset == CGSize.zero && !disable ? .spring() : .none)
+            .offset(x: self.dragOffset.width)
+            .gesture(DragGesture(minimumDistance: 2)
+                .onChanged({ (value) in
+                    if !self.disable {
+                        self.dragOffset = value.translation
+                    }
+                })
+                .onEnded({ (value) in
+                    if !self.disable {
+                        self.dragOffset = .zero
+                    }
+                })
+            )
+            .delayTouches()
     }
 }
 

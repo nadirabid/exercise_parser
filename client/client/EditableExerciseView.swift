@@ -26,7 +26,7 @@ public struct EditableExerciseView: View {
     @State private var resolveExerciseRequest: DataRequest?
     @State private var textField: UITextField? = nil
     @State private var cancellable: AnyCancellable? = nil
-    @State private var test: String = ""
+    @State private var dragOffset = CGSize.zero
     
     init(
         state: EditableExerciseState,
