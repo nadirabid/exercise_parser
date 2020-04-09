@@ -77,8 +77,8 @@ public struct EditableWorkoutView: View {
     }
     
     func removeExerciseStateElement(state: EditableExerciseState) {
-        self.state.exerciseStates.removeAll(where: { ex in
-            return ex === state
+        self.state.exerciseStates.removeAll(where: { e in
+            return e === state
         })
     }
     
@@ -187,8 +187,9 @@ public struct EditableWorkoutView: View {
                                 }
                             )
                                 .padding([.top, .bottom], 6)
+                                .transition(AnyTransition.slide.combined(with: AnyTransition.scale))
                             
-                            Divider()
+                            Divider().animation(Animation.easeInOut.speed(2))
                         }
                             .modifier(DeletableViewModifier(disable: self.state.isStopped, onClick: {
                                 self.removeExerciseStateElement(state: exerciseState)
@@ -216,7 +217,7 @@ public struct EditableWorkoutView: View {
                             )
                                 .padding([.top, .bottom], 6)
                             
-                            Divider()
+                            Divider().animation(Animation.easeInOut.speed(2))
                         }
                     }
                 }
@@ -266,66 +267,6 @@ public struct EditableWorkoutView: View {
             }
         }
             .modifier(AdaptsToSoftwareKeyboard())
-    }
-}
-
-public struct DeletableViewModifier: ViewModifier {
-    var disable: Bool
-    var onClick: () -> Void = {}
-    
-    @State private var dragOffset = CGFloat.zero
-    @State private var prevOffset = CGFloat.zero
-    
-    public func body(content: Content) -> some View {
-        return ZStack {
-            GeometryReader { (geometry: GeometryProxy) in
-                HStack {
-                    Text("Delete")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundColor(Color.white)
-                        .padding(.leading)
-                        .fixedSize()
-                    
-                    Spacer()
-                }
-                    .frame(width: abs(self.dragOffset), height: geometry.size.height)
-                    .background(Color.red)
-                    .offset(x: geometry.size.width + self.dragOffset)
-                    .animation(
-                        (self.dragOffset == CGFloat.zero || self.dragOffset == -140) ? .spring() : .none
-                    )
-                    .onTapGesture {
-                        self.onClick()
-                    }
-            }
-            
-            content
-                .animation(
-                    !self.disable && (dragOffset == CGFloat.zero || dragOffset == -140) ? .spring() : .none
-                )
-                .offset(x: self.dragOffset)
-                .gesture(DragGesture()
-                    .onChanged({ value in
-                        let delta = value.translation.width - self.prevOffset
-                        let offset = self.dragOffset + delta
-                        
-                        self.prevOffset = value.translation.width
-
-                        if !self.disable && offset < 0 {
-                            self.dragOffset = max(offset, -140)
-                        }
-                    })
-                    .onEnded({ value in
-                        if value.translation.width > -90 {
-                            self.dragOffset = 0.0
-                        } else {
-                            self.dragOffset = -140
-                        }
-                    })
-                )
-                .highPriorityGesture(TapGesture()) // this allows scrollview to work
-        }
     }
 }
 

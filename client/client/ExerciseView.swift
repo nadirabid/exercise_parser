@@ -8,15 +8,49 @@
 
 import SwiftUI
 
+enum ExerciseViewDisplayType {
+    case primary, secondary, tertiary
+}
+
 struct ExerciseView : View {
     var exercise: Exercise
-    var asSecondary: Bool = false
+    var displayType: ExerciseViewDisplayType = .primary
+    
+    var valuesColor: Color {
+        switch displayType {
+        case .primary:
+            return .primary
+        case .secondary:
+            return .secondary
+        case .tertiary:
+            return Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
+        }
+    }
+    
+    var unitsColor: Color {
+        switch displayType {
+        case .primary, .secondary:
+            return .secondary
+        case .tertiary:
+            return Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
+        }
+    }
+    
+    var shouldItalicize: Bool {
+        switch displayType {
+        case .primary, .secondary:
+            return false
+        case .tertiary:
+            return true
+        }
+    }
     
     var body: some View {
         HStack {
             Text(exercise.name.capitalized)
                 .font(.subheadline)
-                .foregroundColor(asSecondary ? .secondary : .primary)
+                .foregroundColor(self.valuesColor)
+                .shouldItalicize(shouldItalicize)
             
             Spacer()
             
@@ -25,44 +59,52 @@ struct ExerciseView : View {
                     VStack(alignment: .trailing, spacing: 1.0) {
                         Text("sets")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(self.unitsColor)
+                            .shouldItalicize(shouldItalicize)
                         
                         Text("\(exercise.weightedExercise!.sets)")
                             .font(.headline)
-                            .foregroundColor(self.asSecondary ? .secondary : .primary)
+                            .foregroundColor(self.valuesColor)
+                            .shouldItalicize(shouldItalicize)
                     }
                         .padding(.leading, 2.0)
                     
                     VStack(alignment: .trailing, spacing: 1.0) {
                         Text("reps")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(self.unitsColor)
+                            .shouldItalicize(shouldItalicize)
                         
                         Text("\(exercise.weightedExercise!.reps)")
                             .font(.headline)
-                            .foregroundColor(self.asSecondary ? .secondary : .primary)
+                            .foregroundColor(self.valuesColor)
+                            .shouldItalicize(shouldItalicize)
                     }
                         .padding(.leading, 2.0)
                     
                     VStack(alignment: .trailing, spacing: 1.0) {
                         Text("lbs")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(self.unitsColor)
+                            .shouldItalicize(shouldItalicize)
                         
                         Text("x")
                             .font(.headline)
-                            .foregroundColor(self.asSecondary ? .secondary : .primary)
+                            .foregroundColor(self.valuesColor)
+                            .shouldItalicize(shouldItalicize)
                     }
                         .padding(.leading, 2.0)
                 } else if exercise.type == "distance" {
                     VStack(alignment: .trailing, spacing: 1.0) {
                         Text(exercise.distanceExercise!.units)
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(self.unitsColor)
+                            .shouldItalicize(shouldItalicize)
                         
                         Text(exercise.distanceExercise!.distance.format(f: ".1"))
                             .font(.headline)
-                            .foregroundColor(self.asSecondary ? .secondary : .primary)
+                            .foregroundColor(self.valuesColor)
+                            .shouldItalicize(shouldItalicize)
                     }
                         .padding(.leading, 2.0)
                 }
@@ -99,7 +141,7 @@ struct WaitingForExerciseView: View {
         HStack {
             Text("Waiting")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
             
             Spacer()
             

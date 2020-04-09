@@ -10,59 +10,6 @@ import Combine
 import Foundation
 import SwiftUI
 
-extension String: Error {}
-
-struct AdaptsToSoftwareKeyboard: ViewModifier {
-    @State var currentHeight: CGFloat = 0
-    @State var isKeyboardDisplayed = false
-    
-    @State private var showKeyBoardCancellable: AnyCancellable? = nil
-    @State private var hideKeyBoardCancellable: AnyCancellable? = nil
-    
-    func body(content: Content) -> some View {
-        return content
-            .padding(.bottom, currentHeight)
-            .edgesIgnoringSafeArea(isKeyboardDisplayed ? [.bottom] : [])
-            .onAppear(perform: subscribeToKeyboardEvents)
-    }
-    
-    private func subscribeToKeyboardEvents() {
-        let speed = 2.2
-        
-        self.showKeyBoardCancellable = NotificationCenter.Publisher(
-            center: NotificationCenter.default,
-            name: UIResponder.keyboardWillShowNotification
-        ).compactMap { notification in
-            notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect
-        }.map { rect in
-            rect.height
-        }
-        .receive(on: DispatchQueue.main)
-        .sink(receiveValue: { (height) in
-            self.isKeyboardDisplayed = true
-            
-            withAnimation(Animation.easeInOut.speed(speed)) {
-                self.currentHeight = height
-            }
-        })
-        
-        self.hideKeyBoardCancellable = NotificationCenter.Publisher(
-            center: NotificationCenter.default,
-            name: UIResponder.keyboardWillHideNotification
-        ).compactMap { notification in
-            CGFloat.zero
-        }
-        .receive(on: DispatchQueue.main)
-        .sink(receiveValue: { (height) in
-            self.isKeyboardDisplayed = false
-            
-            withAnimation(Animation.easeInOut.speed(speed)) {
-                self.currentHeight = height
-            }
-        })
-    }
-}
-
 func secondsToElapsedTimeString(_ totalSeconds: Int) -> String {
     let seconds = totalSeconds % 60
     let minutes = totalSeconds / 60
@@ -77,13 +24,4 @@ func secondsToElapsedTimeString(_ totalSeconds: Int) -> String {
 
 func dateToWorkoutName(_ d: Date) -> String {
     return "\(d.weekdayString.capitalized) \(d.timeOfDayString.lowercased()) workout"
-}
-
-extension Color {
-    init(_ hex: UInt32, opacity:Double = 1.0) {
-        let red = Double((hex & 0xff0000) >> 16) / 255.0
-        let green = Double((hex & 0xff00) >> 8) / 255.0
-        let blue = Double((hex & 0xff) >> 0) / 255.0
-        self.init(.sRGB, red: red, green: green, blue: blue, opacity: opacity)
-    }
 }

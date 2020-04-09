@@ -79,6 +79,16 @@ public struct EditableExerciseView: View {
         return exerciseState.exercise
     }
     
+    var exerciseViewDisplayType: ExerciseViewDisplayType {
+        if isNewEntry {
+            return .tertiary
+        } else if workoutState.isStopped {
+            return .primary
+        } else {
+            return .secondary
+        }
+    }
+    
     public var body: some View {
         return VStack(alignment: .leading, spacing: 0) {
             if !workoutState.isStopped {
@@ -131,7 +141,7 @@ public struct EditableExerciseView: View {
             } else {
                 ExerciseView(
                     exercise: exercise!,
-                    asSecondary: !workoutState.isStopped || self.isNewEntry
+                    displayType: self.exerciseViewDisplayType
                 )
                     .transition(self.isNewEntry ? AnyTransition.moveUpAndFade() : AnyTransition.identity)
                     .id("exercise_\(exercise!.raw)")

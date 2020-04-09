@@ -15,7 +15,6 @@
 		640BC8A6241E0D5200B99E90 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640BC8A5241E0D5200B99E90 /* User.swift */; };
 		6411FD9F242733D3003D49BF /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6411FD9E242733D3003D49BF /* Utils.swift */; };
 		641E3FCF24316B27005C71A3 /* Transitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641E3FCE24316B27005C71A3 /* Transitions.swift */; };
-		6422DAA62425E83800A67744 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6422DAA52425E83800A67744 /* DateExtension.swift */; };
 		642675AF22C0A44F008E07A1 /* PaginatedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642675AE22C0A44F008E07A1 /* PaginatedResponse.swift */; };
 		642675B122C0A48D008E07A1 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642675B022C0A48D008E07A1 /* Workout.swift */; };
 		642DA77922B71279002F49AE /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642DA77822B71279002F49AE /* MapView.swift */; };
@@ -39,6 +38,8 @@
 		64A93D9524232DA000B73B95 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A93D9424232DA000B73B95 /* ActivityIndicator.swift */; };
 		64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 64A9956E241EE3DC006716CA /* JWTDecode */; };
 		64E06CC82352F6E0005AC1D8 /* EditableWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */; };
+		64F0529D243FBD38004D24E6 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F0529C243FBD38004D24E6 /* ViewModifiers.swift */; };
+		64F0529F243FC325004D24E6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F0529E243FC325004D24E6 /* Extensions.swift */; };
 		64F499FC23E8031E003ADB62 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 64F499FB23E8031E003ADB62 /* Introspect */; };
 		64FD08262421C5B1000F1479 /* WebAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FD08252421C5B1000F1479 /* WebAPI.swift */; };
 /* End PBXBuildFile section */
@@ -69,7 +70,6 @@
 		640BC8A5241E0D5200B99E90 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6411FD9E242733D3003D49BF /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		641E3FCE24316B27005C71A3 /* Transitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transitions.swift; sourceTree = "<group>"; };
-		6422DAA52425E83800A67744 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		642675AE22C0A44F008E07A1 /* PaginatedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatedResponse.swift; sourceTree = "<group>"; };
 		642675B022C0A48D008E07A1 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		642DA77822B71279002F49AE /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -98,6 +98,8 @@
 		649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProfileImage.swift; sourceTree = "<group>"; };
 		64A93D9424232DA000B73B95 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableWorkoutView.swift; sourceTree = "<group>"; };
+		64F0529C243FBD38004D24E6 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		64F0529E243FC325004D24E6 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		64FD08252421C5B1000F1479 /* WebAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -178,8 +180,8 @@
 				64A93D9424232DA000B73B95 /* ActivityIndicator.swift */,
 				649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */,
 				6498A98C24122355005BB19F /* Config.swift */,
-				6422DAA52425E83800A67744 /* DateExtension.swift */,
 				649A4916240670BC003206C3 /* ExerciseView.swift */,
+				64F0529E243FC325004D24E6 /* Extensions.swift */,
 				64615A94242581AF0098ED5A /* EditableExerciseView.swift */,
 				64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */,
 				64615A962425983F0098ED5A /* FancyLoader.swift */,
@@ -192,6 +194,7 @@
 				640093052435CCAF007193B4 /* TimerView.swift */,
 				641E3FCE24316B27005C71A3 /* Transitions.swift */,
 				6411FD9E242733D3003D49BF /* Utils.swift */,
+				64F0529C243FBD38004D24E6 /* ViewModifiers.swift */,
 				64FD08252421C5B1000F1479 /* WebAPI.swift */,
 				6494A01922B6139900C19543 /* WorkoutView.swift */,
 				642675AD22C0A425008E07A1 /* Models */,
@@ -380,7 +383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6494A01622B6139900C19543 /* AppDelegate.swift in Sources */,
-				6422DAA62425E83800A67744 /* DateExtension.swift in Sources */,
+				64F0529F243FC325004D24E6 /* Extensions.swift in Sources */,
 				648C6F0F2433052B00FAE56A /* FloatExtension.swift in Sources */,
 				644E3364240CE26200458438 /* FeedView.swift in Sources */,
 				649A491924067561003206C3 /* StopWatch.swift in Sources */,
@@ -402,6 +405,7 @@
 				6494A01822B6139900C19543 /* SceneDelegate.swift in Sources */,
 				642675AF22C0A44F008E07A1 /* PaginatedResponse.swift in Sources */,
 				64A93D9524232DA000B73B95 /* ActivityIndicator.swift in Sources */,
+				64F0529D243FBD38004D24E6 /* ViewModifiers.swift in Sources */,
 				6494A01A22B6139900C19543 /* WorkoutView.swift in Sources */,
 				641E3FCF24316B27005C71A3 /* Transitions.swift in Sources */,
 			);
