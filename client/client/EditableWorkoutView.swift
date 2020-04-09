@@ -76,8 +76,10 @@ public struct EditableWorkoutView: View {
         }
     }
     
-    func deleteRow(at indexSet: IndexSet) {
-        print("delete", indexSet)
+    func removeExerciseStateElement(state: EditableExerciseState) {
+        self.state.exerciseStates.removeAll(where: { ex in
+            return ex === state
+        })
     }
     
     public var body: some View {
@@ -167,42 +169,56 @@ public struct EditableWorkoutView: View {
             }
             
             ScrollView {
-                ForEach(state.exerciseStates, id: \.id) { (exerciseState: EditableExerciseState) in
-                    EditableExerciseView(
-                        state: exerciseState,
-                        suggestions: self.suggestions,
-                        onUserInputCommit: { _ in
-                            DispatchQueue.main.async {
-                                if exerciseState.input.isEmpty {
-                                    self.state.exerciseStates.removeAll(where: { ex in
-                                        return ex === exerciseState
-                                    })
+                VStack(spacing: 0) {
+                    ForEach(state.exerciseStates, id: \.id) { (exerciseState: EditableExerciseState) in
+                        VStack(spacing: 0) {
+                            EditableExerciseView(
+                                state: exerciseState,
+                                suggestions: self.suggestions,
+                                onUserInputCommit: { _ in
+                                    DispatchQueue.main.async {
+                                        if exerciseState.input.isEmpty {
+                                            self.state.exerciseStates.removeAll(where: { ex in
+                                                return ex === exerciseState
+                                            })
+                                        }
+                                        self.newEntryTextField?.becomeFirstResponder()
+                                    }
                                 }
-                                self.newEntryTextField?.becomeFirstResponder()
-                            }
+                            )
+                                .padding([.top, .bottom], 6)
+                            
+                            Divider()
                         }
-                    )
-                        .modifier(DeletableViewModifier(disable: self.state.isStopped))
-                }
+                            .modifier(DeletableViewModifier(disable: self.state.isStopped, onClick: {
+                                self.removeExerciseStateElement(state: exerciseState)
+                            }))
+                    }
 
-                if !state.isStopped {
-                    EditableExerciseView(
-                        state: newEntryState,
-                        isNewEntry: true,
-                        suggestions: suggestions,
-                        onUserInputCommit: { (textField: UITextField) in
-                            DispatchQueue.main.async {
-                                if !self.newEntryState.input.isEmpty {
-                                    self.state.exerciseStates.append(self.newEntryState)
-                                    self.newEntryState = EditableExerciseState(input: "")
+                    if !state.isStopped {
+                        VStack(spacing: 0) {
+                            EditableExerciseView(
+                                state: newEntryState,
+                                isNewEntry: true,
+                                suggestions: suggestions,
+                                onUserInputCommit: { (textField: UITextField) in
+                                    DispatchQueue.main.async {
+                                        if !self.newEntryState.input.isEmpty {
+                                            self.state.exerciseStates.append(self.newEntryState)
+                                            self.newEntryState = EditableExerciseState(input: "")
+                                        }
+                                        textField.becomeFirstResponder()
+                                    }
+                                },
+                                onTextFieldChange: { (textField: UITextField) in
+                                    self.newEntryTextField = textField
                                 }
-                                textField.becomeFirstResponder()
-                            }
-                        },
-                        onTextFieldChange: { (textField: UITextField) in
-                            self.newEntryTextField = textField
+                            )
+                                .padding([.top, .bottom], 6)
+                            
+                            Divider()
                         }
-                    )
+                    }
                 }
             }
             
@@ -253,42 +269,63 @@ public struct EditableWorkoutView: View {
     }
 }
 
-struct NoButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-    }
-}
-
-extension View {
-    func delayTouches() -> some View {
-        Button(action: {}) {
-            highPriorityGesture(TapGesture())
-        }
-        .buttonStyle(NoButtonStyle())
-    }
-}
-
 public struct DeletableViewModifier: ViewModifier {
     var disable: Bool
-    @State var dragOffset = CGSize.zero
+    var onClick: () -> Void = {}
+    
+    @State private var dragOffset = CGFloat.zero
+    @State private var prevOffset = CGFloat.zero
     
     public func body(content: Content) -> some View {
-        return content
-            .animation(self.dragOffset == CGSize.zero && !disable ? .spring() : .none)
-            .offset(x: self.dragOffset.width)
-            .gesture(DragGesture(minimumDistance: 2)
-                .onChanged({ (value) in
-                    if !self.disable {
-                        self.dragOffset = value.translation
+        return ZStack {
+            GeometryReader { (geometry: GeometryProxy) in
+                HStack {
+                    Text("Delete")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(Color.white)
+                        .padding(.leading)
+                        .fixedSize()
+                    
+                    Spacer()
+                }
+                    .frame(width: abs(self.dragOffset), height: geometry.size.height)
+                    .background(Color.red)
+                    .offset(x: geometry.size.width + self.dragOffset)
+                    .animation(
+                        (self.dragOffset == CGFloat.zero || self.dragOffset == -140) ? .spring() : .none
+                    )
+                    .onTapGesture {
+                        self.onClick()
                     }
-                })
-                .onEnded({ (value) in
-                    if !self.disable {
-                        self.dragOffset = .zero
-                    }
-                })
-            )
-            .delayTouches()
+            }
+            
+            content
+                .animation(
+                    !self.disable && (dragOffset == CGFloat.zero || dragOffset == -140) ? .spring() : .none
+                )
+                .offset(x: self.dragOffset)
+                .gesture(DragGesture()
+                    .onChanged({ value in
+                        let delta = value.translation.width - self.prevOffset
+                        let offset = self.dragOffset + delta
+                        
+                        self.prevOffset = value.translation.width
+
+                        if !self.disable && offset < 0 {
+                            self.dragOffset = max(offset, -140)
+                        }
+                    })
+                    .onEnded({ value in
+                        if value.translation.width > -90 {
+                            self.dragOffset = 0.0
+                        } else {
+                            self.dragOffset = -140
+                        }
+                    })
+                )
+                .highPriorityGesture(TapGesture()) // this allows scrollview to work
+        }
     }
 }
 

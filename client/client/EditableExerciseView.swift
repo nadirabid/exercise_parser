@@ -80,69 +80,64 @@ public struct EditableExerciseView: View {
     }
     
     public var body: some View {
-        return VStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 0) {
-                if !workoutState.isStopped {
-                    TextField(
-                        exercise?.raw ?? "Enter your exercise",
-                        text: $exerciseState.input,
-                        onCommit: {
-                            if !self.exerciseState.input.isEmpty && !self.isNewEntry {
-                                self.resolveRawExercise()
-                            }
-                            
-                            self.userInputCommitHandler(self.textField!)
-                            self.suggestions.reset()
+        return VStack(alignment: .leading, spacing: 0) {
+            if !workoutState.isStopped {
+                TextField(
+                    exercise?.raw ?? "Enter your exercise",
+                    text: $exerciseState.input,
+                    onCommit: {
+                        if !self.exerciseState.input.isEmpty && !self.isNewEntry {
+                            self.resolveRawExercise()
                         }
-                    )
-                        .font(.body) // TODO: does this do anything?
-                        .onAppear {
-                            if !self.isNewEntry {
-                                self.resolveRawExercise()
-                            }
+                        
+                        self.userInputCommitHandler(self.textField!)
+                        self.suggestions.reset()
+                    }
+                )
+                    .font(.body) // TODO: does this do anything?
+                    .onAppear {
+                        if !self.isNewEntry {
+                            self.resolveRawExercise()
                         }
-                        .introspectTextField { (textField: UITextField) in
-                            if self.textField != textField {
-                                textField.autocorrectionType = UITextAutocorrectionType.no
-                                textField.returnKeyType = .next
+                    }
+                    .introspectTextField { (textField: UITextField) in
+                        if self.textField != textField {
+                            textField.autocorrectionType = UITextAutocorrectionType.no
+                            textField.returnKeyType = .next
 
-                                if self.isNewEntry {
-                                    textField.becomeFirstResponder()
-                                    
-                                    self.cancellable = self.exerciseState.$input.sink { value in
-                                        if value.isEmpty {
-                                            self.suggestions.reset()
-                                        }
+                            if self.isNewEntry {
+                                textField.becomeFirstResponder()
+                                
+                                self.cancellable = self.exerciseState.$input.sink { value in
+                                    if value.isEmpty {
+                                        self.suggestions.reset()
                                     }
                                 }
-                                
-                                self.textFieldChangeHandler(textField)
                             }
-                            self.textField = textField
+                            
+                            self.textFieldChangeHandler(textField)
                         }
-                }
-
-                if exercise?.type == ExerciseType.unknown.rawValue &&
-                    !exerciseState.input.isEmpty &&
-                    !isNewEntry {
-                    ProcessingExerciseView()
-                } else if exercise == nil ||
-                    (!exerciseState.input.isEmpty && isNewEntry) {
-                    WaitingForExerciseView()
-                } else {
-                    ExerciseView(
-                        exercise: exercise!,
-                        asSecondary: !workoutState.isStopped || self.isNewEntry
-                    )
-                        .transition(self.isNewEntry ? AnyTransition.moveUpAndFade() : AnyTransition.identity)
-                        .id("exercise_\(exercise!.raw)")
-                }
+                        self.textField = textField
+                    }
             }
-                .padding([.leading, .trailing])
 
-            Divider()
-                .padding([.top], 10)
+            if exercise?.type == ExerciseType.unknown.rawValue &&
+                !exerciseState.input.isEmpty &&
+                !isNewEntry {
+                ProcessingExerciseView()
+            } else if exercise == nil ||
+                (!exerciseState.input.isEmpty && isNewEntry) {
+                WaitingForExerciseView()
+            } else {
+                ExerciseView(
+                    exercise: exercise!,
+                    asSecondary: !workoutState.isStopped || self.isNewEntry
+                )
+                    .transition(self.isNewEntry ? AnyTransition.moveUpAndFade() : AnyTransition.identity)
+                    .id("exercise_\(exercise!.raw)")
+            }
         }
+            .padding([.leading, .trailing])
     }
 }
 
