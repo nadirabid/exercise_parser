@@ -24,9 +24,10 @@ struct MainView: View {
                 if route.current == .feed {
                     VStack(spacing: 0) {
                         VStack(alignment: .center) {
-                            Text("Feed")
+                            Text("RYDEN")
                                 .foregroundColor(appColor)
-                                .fontWeight(.medium)
+                                .fontWeight(.heavy)
+                                .font(.subheadline)
                                 
                             Divider()
                         }
