@@ -2,8 +2,11 @@
 
 ####  Now
 
+- [ ] Create API for selecting related names
+- [ ] Create API for reprocessing unprocessed exercises 
 - [ ] Get/save profile picture from server
 - [ ] When app reopens - verify if app is still authenticated
+- [ ] Incrementally load into ScrollView
 - [ ] Exercise search???? BIG IFF
 
 #### Reminder (*important*)
@@ -12,6 +15,16 @@
 
 #### Done
 
+- [x] Fix fancy loader weird animation problem
+- [x] Ability to relate/verify/protect user only date through API
+- [x] JWT based token generation
+- [x] Sign in with apple integration
+- [x] Create splash page
+- [x] WorkoutEditor - add resume top right button
+- [x] WorkoutEditor - add swipe to delete 
+- [x] WorkoutEditor - show fun metrics 
+- [x] WorkouEditor - store user location
+- [x] WorkoutEditor: suggestions
 - [x] WorkoutEditor: add on text change - re resolve the exercise w/ some debounce
 - [x] Workout date should not be optional
 - [x] Time elapsed should not be optional
