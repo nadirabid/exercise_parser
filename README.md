@@ -1,65 +1,8 @@
 ### Exercise!
 
-####  Now
+#### Tod
 
-- [ ] Create API for selecting related names
-- [ ] Create API for reprocessing unprocessed exercises 
-- [ ] Get/save profile picture from server
-- [ ] When app reopens - verify if app is still authenticated
-- [ ] Incrementally load into ScrollView
-- [ ] Exercise search???? BIG IFF
-
-#### Reminder (*important*)
-
-- [ ] Create a google/bing spelling correct for things like "benchpress" -> "bench press"
-
-#### Done
-
-- [x] Fix fancy loader weird animation problem
-- [x] Ability to relate/verify/protect user only date through API
-- [x] JWT based token generation
-- [x] Sign in with apple integration
-- [x] Create splash page
-- [x] WorkoutEditor - add resume top right button
-- [x] WorkoutEditor - add swipe to delete 
-- [x] WorkoutEditor - show fun metrics 
-- [x] WorkouEditor - store user location
-- [x] WorkoutEditor: suggestions
-- [x] WorkoutEditor: add on text change - re resolve the exercise w/ some debounce
-- [x] Workout date should not be optional
-- [x] Time elapsed should not be optional
-- [x] Create icon for app - annoying wokr
-- [x] WorkoutEditor: fix the hide button
-- [x] Pick a new app color - annoying work
-- [x] WorkoutEditor: Create a view/input to allow naming the working (also pick a default name)
-- [x] WorkoutEditor: timer looks ugly - annoying work
-- [x] FeedView: if could not parse - show raw string - needed fosho
-- [x] FeedView: show total time of workout
-- [x] Add header in FeedView - currently it scrolls past the notch
-- [x] EditorView
-  - [x] Fix side padding
-  - [x] Save amount of time the workout took
-  - [x] Add view indicator when exercise fails to resolve
-- [x] List view of past workouts
-  - [x] Should be cards based
-  - [x] Should have a "create"/"add button"
-- [x] "add"/"create" view
-  - [x] Simple text editor to create a list
-  - [x] Button (top or bottom?) which allows user to insert new line item
-    - [x] Orrrrrr just automatically inserts empty line item at the bottom (might look "unsymetrical")
-- [x] Start iOS project: basic element it should have:
-- [x] Workout POST handler should create reference to "resolved exercise" after parsing the raw exercise string out
-  - [x] Filter out ExerciseDictionary results with too low results 
-- [x] Create an exponential multiplier for "related searches" ranks. Modelled by eyeballing a small amount test data. 
-  - [x] If a "related search" is super confident, then lets make it matter. 
-  - [x] If a "related search" is semi to not confident at all, then lets not have it matter much at all.
-- [x] Write tests for ResolveHelper. 
-  - [x] Create test file schema (raw -> expected proper name)
-  - [x] Write first level specs 
-- [x] Determine some basic utility function for determining highest probability selector
-- [x] Sanatize search names by removing stop words
-- [x] Get related search terms for all proper exercise names 
-- [x] Related Names should be unique on the ts_vector
+* [Project Board](https://github.com/nadirabid/exercise_parser/projects/1)
 
 #### Materials
 
