@@ -27,8 +27,8 @@ public struct EditableWorkoutView: View {
     @State private var userEntryCancellable: AnyCancellable? = nil
     @State private var newEntryTextField: UITextField? = nil
     @State private var workoutNameTextField: UITextField? = nil
-
     @State private var newEntryState: EditableExerciseState = EditableExerciseState(input: "")
+    @State private var contentOffset: CGPoint = .zero
 
     init() {
         stopwatch.start()
@@ -170,7 +170,7 @@ public struct EditableWorkoutView: View {
             
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(state.exerciseStates, id: \.id) { (exerciseState: EditableExerciseState) in
+                    ForEach(self.state.exerciseStates, id: \.id) { (exerciseState: EditableExerciseState) in
                         VStack(spacing: 0) {
                             EditableExerciseView(
                                 state: exerciseState,
@@ -196,12 +196,12 @@ public struct EditableWorkoutView: View {
                             }))
                     }
 
-                    if !state.isStopped {
+                    if !self.state.isStopped {
                         VStack(spacing: 0) {
                             EditableExerciseView(
-                                state: newEntryState,
+                                state: self.newEntryState,
                                 isNewEntry: true,
-                                suggestions: suggestions,
+                                suggestions: self.suggestions,
                                 onUserInputCommit: { (textField: UITextField) in
                                     DispatchQueue.main.async {
                                         if !self.newEntryState.input.isEmpty {
@@ -216,7 +216,7 @@ public struct EditableWorkoutView: View {
                                 }
                             )
                                 .padding([.top, .bottom], 6)
-                            
+
                             Divider().animation(Animation.easeInOut.speed(2))
                         }
                     }

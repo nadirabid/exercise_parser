@@ -40,6 +40,7 @@
 		64E06CC82352F6E0005AC1D8 /* EditableWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */; };
 		64F0529D243FBD38004D24E6 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F0529C243FBD38004D24E6 /* ViewModifiers.swift */; };
 		64F0529F243FC325004D24E6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F0529E243FC325004D24E6 /* Extensions.swift */; };
+		64F052A1243FF22D004D24E6 /* ScrollableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F052A0243FF22D004D24E6 /* ScrollableView.swift */; };
 		64F499FC23E8031E003ADB62 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 64F499FB23E8031E003ADB62 /* Introspect */; };
 		64FD08262421C5B1000F1479 /* WebAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FD08252421C5B1000F1479 /* WebAPI.swift */; };
 /* End PBXBuildFile section */
@@ -100,6 +101,7 @@
 		64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableWorkoutView.swift; sourceTree = "<group>"; };
 		64F0529C243FBD38004D24E6 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		64F0529E243FC325004D24E6 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		64F052A0243FF22D004D24E6 /* ScrollableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableView.swift; sourceTree = "<group>"; };
 		64FD08252421C5B1000F1479 /* WebAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -200,6 +202,7 @@
 				642675AD22C0A425008E07A1 /* Models */,
 				6494A01D22B6139B00C19543 /* Preview Content */,
 				6494A04522B6142D00C19543 /* Supporting Files */,
+				64F052A0243FF22D004D24E6 /* ScrollableView.swift */,
 			);
 			path = client;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6494A01622B6139900C19543 /* AppDelegate.swift in Sources */,
+				64F052A1243FF22D004D24E6 /* ScrollableView.swift in Sources */,
 				64F0529F243FC325004D24E6 /* Extensions.swift in Sources */,
 				648C6F0F2433052B00FAE56A /* FloatExtension.swift in Sources */,
 				644E3364240CE26200458438 /* FeedView.swift in Sources */,

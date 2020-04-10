@@ -23,7 +23,7 @@ struct FancyLoader: View {
             HStack {
                 Circle()
                     .frame(
-                        width: oneBounce ? radius : radius * (1 + radiusGrowth),
+                        width: radius,
                         height: radius
                     )
                     .foregroundColor(oneBounce ?
@@ -33,21 +33,23 @@ struct FancyLoader: View {
                     .offset(y: oneBounce ? 0 : bounceHeight)
                     .animation(
                         Animation.interpolatingSpring(stiffness: 200, damping: 3)
-                            .repeatForever(autoreverses: false)
-                            .delay(0.01)
-                            .speed(0.5)
+                                .repeatForever(autoreverses: false)
+                                .delay(0.01)
+                                .speed(0.5)
                     )
+                    .opacity(oneBounce ? 1 : 0)
                     .onAppear() { self.oneBounce.toggle() }
                 
                 Circle()
                     .frame(
-                        width: twoBounce ? radius : radius * (1 + radiusGrowth),
+                        width: radius,
                         height: radius
                     )
                     .foregroundColor(twoBounce ?
                         Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)) :
                         Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1))
                     )
+                    .offset(CGSize.zero)
                     .offset(y: twoBounce ? 0 : bounceHeight)
                     .animation(
                         Animation.interpolatingSpring(stiffness: 200, damping: 3)
@@ -55,8 +57,9 @@ struct FancyLoader: View {
                             .delay(0.04)
                             .speed(0.5)
                     )
+                    .opacity(oneBounce ? 1 : 0)
                     .onAppear() { self.twoBounce.toggle() }
-                
+
                 Circle()
                     .frame(
                         width: threeBounce ? radius : radius * (1 + radiusGrowth),
@@ -73,8 +76,9 @@ struct FancyLoader: View {
                             .delay(0.07)
                             .speed(0.5)
                     )
+                    .opacity(oneBounce ? 1 : 0)
                     .onAppear() { self.threeBounce.toggle() }
-                
+
                 Circle()
                     .frame(
                         width: fourBounce ? radius : radius * (1 + radiusGrowth),
@@ -91,6 +95,7 @@ struct FancyLoader: View {
                             .delay(0.10)
                             .speed(0.5)
                     )
+                    .opacity(oneBounce ? 1 : 0)
                     .onAppear() { self.fourBounce.toggle() }
             }
         }
