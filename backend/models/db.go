@@ -45,3 +45,31 @@ func Migrate(db *gorm.DB) {
 	db.AutoMigrate(&Articulation{})
 	db.AutoMigrate(&Joints{})
 }
+
+func DropAll(db *gorm.DB) error {
+	// drop it all
+	err := db.
+		Set("gorm:table_options", "CASCADE").
+		DropTableIfExists(
+			&Joints{},
+			&Classification{},
+			&Muscles{},
+			&Articulation{},
+			&ExerciseRelatedName{},
+			&ExerciseDictionary{},
+
+			&DistanceExercise{},
+			&WeightedExercise{},
+			&Exercise{},
+			&Location{},
+			&Workout{},
+			&User{},
+		).
+		Error
+
+	if err != nil {
+		return fmt.Errorf("couldn't drop table: %s", err.Error())
+	}
+
+	return nil
+}

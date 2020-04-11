@@ -60,7 +60,6 @@ type Joints struct {
 // ExerciseRelatedName is a mapping of all the related names given a
 type ExerciseRelatedName struct {
 	ID                   uint   `json:"-" gorm:"primary_key"`
-	Primary              string `json:"primary" gorm:"primary_key"`
 	ExerciseDictionaryID uint   `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
 	Related              string `json:"related" gorm:"primary_key"`
 	RelatedTSV           string `json:"-" gorm:"type:tsvector"`

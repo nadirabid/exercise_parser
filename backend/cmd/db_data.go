@@ -10,7 +10,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"sort"
 	"strings"
 
 	"github.com/jinzhu/gorm"
@@ -18,40 +17,6 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
-
-var wordCount = make(map[string]int)
-
-func updateWordCount(s string) {
-	words := strings.Fields(s)
-	for _, w := range words {
-		wordCount[w]++
-	}
-}
-
-func printWordCount() {
-	type count struct {
-		Word  string
-		Count int
-	}
-
-	counts := make([]count, len(wordCount))
-
-	for k, v := range wordCount {
-		counts = append(counts, count{k, v})
-	}
-
-	sort.Slice(counts, func(i, j int) bool {
-		if counts[i].Count < counts[j].Count {
-			return false
-		}
-
-		return true
-	})
-
-	for _, c := range counts {
-		fmt.Println(c.Word, c.Count)
-	}
-}
 
 func loadStopWords(v *viper.Viper) ([]string, error) {
 	dir := v.GetString("resources.dir.stop_words")
@@ -90,27 +55,6 @@ func loadStopWords(v *viper.Viper) ([]string, error) {
 	return stopWords, nil
 }
 
-func removeStopWords(s string, stopWords []string) string {
-	result := []string{""}
-	tokens := strings.Split(s, " ")
-
-	for _, t := range tokens {
-		isStopWord := false
-		for _, w := range stopWords {
-			if t == w {
-				isStopWord = true
-				break
-			}
-		}
-
-		if !isStopWord {
-			result = append(result, t)
-		}
-	}
-
-	return strings.Join(result, " ")
-}
-
 func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 	files, err := ioutil.ReadDir(seedDir)
 	if err != nil {
@@ -131,12 +75,8 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 
 		for _, r := range related.Related {
 			m := &models.ExerciseRelatedName{}
-			m.Primary = related.Name
-			//m.Related = strings.Trim(removeStopWords(r, stopWords), " ")
 			m.Related = sanitizeRelatedName(r)
 			m.Type = seedDir
-
-			updateWordCount(r)
 
 			// if, after removing stop words, we have an emptry string, then don't insert into db
 			if m.Related == "" {
@@ -161,7 +101,7 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 			rows.Close()
 
 			d := &models.ExerciseDictionary{}
-			if db.Where("name = ?", m.Primary).First(d).RecordNotFound() {
+			if db.Where("name = ?", related.Name).First(d).RecordNotFound() {
 				// TODO: does check fucking work???
 				return fmt.Errorf("exercise_dictionary entry by name does not exist: %v", m)
 			}
@@ -186,11 +126,50 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 	return nil
 }
 
-func sanitizeRelatedName(s string) string {
-	s = strings.ToLower(s)
-	s = strings.Replace(s, "-", " ", -1)
-	s = strings.Trim(s, " ")
-	return s
+func seedExercises(db *gorm.DB, seedDir string) error {
+	files, err := ioutil.ReadDir(seedDir)
+	if err != nil {
+		return err
+	}
+
+	for _, f := range files {
+		file, err := os.Open(filepath.Join(seedDir, f.Name()))
+		if err != nil {
+			return err
+		}
+
+		byteValue, _ := ioutil.ReadAll(file)
+		file.Close()
+
+		exerciseDictionary := &models.ExerciseDictionary{}
+		json.Unmarshal(byteValue, &exerciseDictionary)
+
+		if err := db.Create(exerciseDictionary).Error; err != nil {
+			return fmt.Errorf("unable to save exercise type: %s", err.Error())
+		}
+
+		relatedName := &models.ExerciseRelatedName{}
+		relatedName.Related = sanitizeRelatedName(exerciseDictionary.Name)
+		relatedName.ExerciseDictionaryID = exerciseDictionary.ID
+		relatedName.Type = "model"
+
+		if err := db.Create(relatedName).Error; err != nil {
+			return fmt.Errorf("unable to save related name: %s", err.Error())
+		}
+
+		setTSV := `
+			UPDATE exercise_related_names
+			SET related_tsv=to_tsvector('english', coalesce(exercise_related_names.related, ''))
+			WHERE id = ?
+		`
+		if err := db.Exec(setTSV, relatedName.ID).Error; err != nil {
+			return fmt.Errorf("unable to set tsvector: %s", err.Error())
+		}
+	}
+
+	fmt.Println("exercises seeding complete")
+
+	return nil
 }
 
 // NOTE: i'm seeding from locally stored files, because we're going to be seeding more
@@ -211,53 +190,15 @@ func seed(cmd *cobra.Command, args []string) error {
 
 	models.Migrate(db)
 
-	// seed exercises
-	dir := v.GetString("resources.dir.exercises")
-
-	files, err := ioutil.ReadDir(dir)
+	stopWords, err := loadStopWords(v) // get stop words replacer
 	if err != nil {
 		return err
 	}
 
-	for _, f := range files {
-		file, err := os.Open(filepath.Join(dir, f.Name()))
-		if err != nil {
-			return err
-		}
+	// seed exercises
+	dir := v.GetString("resources.dir.exercises")
 
-		byteValue, _ := ioutil.ReadAll(file)
-		file.Close()
-
-		exerciseDictionary := &models.ExerciseDictionary{}
-		json.Unmarshal(byteValue, &exerciseDictionary)
-
-		if err := db.Create(exerciseDictionary).Error; err != nil {
-			return fmt.Errorf("unable to save exercise type: %s", err.Error())
-		}
-
-		relatedName := &models.ExerciseRelatedName{}
-		relatedName.Primary = exerciseDictionary.Name
-		relatedName.Related = sanitizeRelatedName(exerciseDictionary.Name)
-		relatedName.ExerciseDictionaryID = exerciseDictionary.ID
-
-		if err := db.Create(relatedName).Error; err != nil {
-			return fmt.Errorf("unable to save related name: %s", err.Error())
-		}
-
-		setTSV := `
-			UPDATE exercise_related_names
-			SET related_tsv=to_tsvector('english', coalesce(exercise_related_names.related, ''))
-			WHERE id = ?
-		`
-		if err := db.Exec(setTSV, relatedName.ID).Error; err != nil {
-			return fmt.Errorf("unable to set tsvector: %s", err.Error())
-		}
-	}
-	fmt.Println("exercises seeding complete")
-
-	// get stop words replacer
-	stopWords, err := loadStopWords(v)
-	if err != nil {
+	if err := seedExercises(db, dir); err != nil {
 		return err
 	}
 
@@ -305,7 +246,7 @@ func dump(cmd *cobra.Command, args []string) error {
 	}
 
 	// start dump
-	relatedMap := make(map[string][]string)
+	relatedMap := make(map[uint][]string)
 
 	rows, err := db.Model(&models.ExerciseRelatedName{}).Rows()
 	if err != nil {
@@ -317,22 +258,33 @@ func dump(cmd *cobra.Command, args []string) error {
 		m := &models.ExerciseRelatedName{}
 		db.ScanRows(rows, m)
 
-		if m.Related == m.Primary {
+		if m.Type == "model" {
 			// no need to dump if related and primary are the same
 			continue
 		}
 
 		relatedNames := []string{}
-		if _, ok := relatedMap[m.Primary]; ok {
-			relatedNames = relatedMap[m.Primary]
+		if _, ok := relatedMap[m.ExerciseDictionaryID]; ok {
+			relatedNames = relatedMap[m.ExerciseDictionaryID]
 		}
 
-		relatedMap[m.Primary] = append(relatedNames, m.Related)
+		relatedMap[m.ExerciseDictionaryID] = append(relatedNames, m.Related)
 	}
 
 	for k, relatedNames := range relatedMap {
 		r := &relatedTerms{}
-		r.Name = k
+
+		exerciseDictionary := &models.ExerciseDictionary{}
+		err := db.
+			Where("id = ?", k).
+			First(exerciseDictionary).
+			Error
+
+		if err != nil {
+			return err
+		}
+
+		r.Name = exerciseDictionary.Name
 		r.Related = relatedNames
 
 		fileName := strings.ToLower(strings.Join(strings.Split(r.Name, " "), "_"))
@@ -344,7 +296,7 @@ func dump(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func drop(cmd *cobra.Command, args []string) error {
+func dropDictionaryTables(cmd *cobra.Command, args []string) error {
 	// init viper
 	v, err := configureViperFromCmd(cmd)
 	if err != nil {
@@ -372,6 +324,26 @@ func drop(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+func dropAllTables(cmd *cobra.Command, args []string) error {
+	// init viper
+	v, err := configureViperFromCmd(cmd)
+	if err != nil {
+		return err
+	}
+
+	// init db
+	db, err := models.NewDatabase(v)
+	if err != nil {
+		return err
+	}
+
+	if err := models.DropAll(db); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 var seedCmd = &cobra.Command{
 	Use:   "seed",
 	Short: "Seed the exercise dictionary",
@@ -384,10 +356,10 @@ var dumpCmd = &cobra.Command{
 	RunE:  dump,
 }
 
-var dropCmd = &cobra.Command{
+var dropDictCmd = &cobra.Command{
 	Use:   "drop",
-	Short: "Drop the exercise dictionary",
-	RunE:  drop,
+	Short: "Drop dictionary tables",
+	RunE:  dropDictionaryTables,
 }
 
 var dictCmd = &cobra.Command{
@@ -395,10 +367,24 @@ var dictCmd = &cobra.Command{
 	Short: "Commands to interact with dictionary",
 }
 
+var dropAllCmd = &cobra.Command{
+	Use:   "drop",
+	Short: "Drop all databases",
+	RunE:  dropAllTables,
+}
+
+var dbCmd = &cobra.Command{
+	Use:   "db",
+	Short: "Commands to interact with database",
+}
+
 func init() {
-	rootCmd.AddCommand(dictCmd)
+	rootCmd.AddCommand(dbCmd)
+
+	dbCmd.AddCommand(dictCmd)
+	dbCmd.AddCommand(dropAllCmd)
 
 	dictCmd.AddCommand(seedCmd)
 	dictCmd.AddCommand(dumpCmd)
-	dictCmd.AddCommand(dropCmd)
+	dictCmd.AddCommand(dropDictCmd)
 }

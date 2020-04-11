@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -44,4 +45,32 @@ func isDirectory(name string) (bool, error) {
 	}
 
 	return info.IsDir(), nil
+}
+
+func sanitizeRelatedName(s string) string {
+	s = strings.ToLower(s)
+	s = strings.Replace(s, "-", " ", -1)
+	s = strings.Trim(s, " ")
+	return s
+}
+
+func removeStopWords(s string, stopWords []string) string {
+	result := []string{""}
+	tokens := strings.Split(s, " ")
+
+	for _, t := range tokens {
+		isStopWord := false
+		for _, w := range stopWords {
+			if t == w {
+				isStopWord = true
+				break
+			}
+		}
+
+		if !isStopWord {
+			result = append(result, t)
+		}
+	}
+
+	return strings.Join(result, " ")
 }
