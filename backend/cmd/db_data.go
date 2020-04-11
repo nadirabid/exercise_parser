@@ -326,6 +326,32 @@ func dropDictionaryTables(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+func seedFakeData(cmd *cobra.Command, args []string) error {
+	// init viper
+	v, err := configureViperFromCmd(cmd)
+	if err != nil {
+		return err
+	}
+
+	// init db
+	db, err := models.NewDatabase(v)
+	if err != nil {
+		return err
+	}
+
+	user := &models.User{}
+	user.FamilyName = "User"
+	user.GivenName = "Fake"
+	user.Email = "fake@user.com"
+	user.ExternalUserId = "fake.user.id"
+
+	if err := db.Create(user).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func dropAllTables(cmd *cobra.Command, args []string) error {
 	// init viper
 	v, err := configureViperFromCmd(cmd)
@@ -346,8 +372,8 @@ func dropAllTables(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-var seedCmd = &cobra.Command{
-	Use:   "seed",
+var seedDictCmd = &cobra.Command{
+	Use:   "dict",
 	Short: "Seed the exercise dictionary",
 	RunE:  seed,
 }
@@ -364,15 +390,26 @@ var dropDictCmd = &cobra.Command{
 	RunE:  dropDictionaryTables,
 }
 
-var dictCmd = &cobra.Command{
-	Use:   "dict",
-	Short: "Commands to interact with dictionary",
+var seedFakeCmd = &cobra.Command{
+	Use:   "fake",
+	Short: "Seed fake user/etc data",
+	RunE:  seedFakeData,
 }
 
 var dropAllCmd = &cobra.Command{
-	Use:   "drop",
-	Short: "Drop all databases",
+	Use:   "all",
+	Short: "Drop all tables",
 	RunE:  dropAllTables,
+}
+
+var dropCmd = &cobra.Command{
+	Use:   "drop",
+	Short: "Drop tables",
+}
+
+var seedCmd = &cobra.Command{
+	Use:   "seed",
+	Short: "Seed data",
 }
 
 var dbCmd = &cobra.Command{
@@ -383,10 +420,13 @@ var dbCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(dbCmd)
 
-	dbCmd.AddCommand(dictCmd)
-	dbCmd.AddCommand(dropAllCmd)
+	dbCmd.AddCommand(dropCmd)
+	dbCmd.AddCommand(seedCmd)
+	dbCmd.AddCommand(dumpCmd)
 
-	dictCmd.AddCommand(seedCmd)
-	dictCmd.AddCommand(dumpCmd)
-	dictCmd.AddCommand(dropDictCmd)
+	dropCmd.AddCommand(dropAllCmd)
+	dropCmd.AddCommand(dropDictCmd)
+
+	seedCmd.AddCommand(seedDictCmd)
+	seedCmd.AddCommand(seedFakeCmd)
 }

@@ -7,6 +7,7 @@
 #### Materials
 
 * [PostgreSQL Text Search](http://shisaa.jp/postset/postgresql-full-text-search-part-3.html)
+* [Muscle Book](https://github.com/cfilipov/MuscleBook/tree/master/MuscleBook)
 
 #### Examples
 

@@ -47,7 +47,6 @@ func Migrate(db *gorm.DB) {
 }
 
 func DropAll(db *gorm.DB) error {
-	// drop it all
 	err := db.
 		Set("gorm:table_options", "CASCADE").
 		DropTableIfExists(
