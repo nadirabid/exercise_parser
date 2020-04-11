@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/lestrrat-go/jwx/jwa"
 	"github.com/lestrrat-go/jwx/jwt"
+	"github.com/spf13/viper"
 )
 
 func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
@@ -16,7 +17,11 @@ func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 
 		authorization := c.Request().Header.Get("Authorization")
 
-		if authorization == "" {
+		if authorization == "" && !viper.GetBool("middleware.auth") {
+			// when auth is disabled - and there is no token - we'll create one
+			ctx.jwt = generateFakeUserJWT()
+			return next(ctx)
+		} else if authorization == "" {
 			return c.JSON(
 				http.StatusUnauthorized,
 				newErrorMessage("Authorization header is unspecified"),

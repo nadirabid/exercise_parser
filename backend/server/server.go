@@ -111,6 +111,8 @@ func New(v *viper.Viper) error {
 	r.POST("/exercise/resolve", handleResolveExercise)
 	r.POST("/exercise", handlePostExercise)
 	r.DELETE("/exercise/:id", handleDeleteExercise)
+	r.GET("/exercise/dictionary", handleGetAllExerciseDictionary)
+	r.GET("/exercise/dictionary/related", handlePostExerciseRelatedName)
 
 	r.GET("/workout", handleGetAllWorkout)
 	r.GET("/workout/:id", handleGetWorkout)
