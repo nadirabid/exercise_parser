@@ -167,8 +167,6 @@ func seedExercises(db *gorm.DB, seedDir string) error {
 		}
 	}
 
-	fmt.Println("exercises seeding complete")
-
 	return nil
 }
 
@@ -190,6 +188,8 @@ func seed(cmd *cobra.Command, args []string) error {
 
 	models.Migrate(db)
 
+	fmt.Println("migration complete")
+
 	stopWords, err := loadStopWords(v) // get stop words replacer
 	if err != nil {
 		return err
@@ -201,6 +201,8 @@ func seed(cmd *cobra.Command, args []string) error {
 	if err := seedExercises(db, dir); err != nil {
 		return err
 	}
+
+	fmt.Println("exercises seeding complete")
 
 	// seed related names
 	dir = v.GetString("resources.dir.related_names")

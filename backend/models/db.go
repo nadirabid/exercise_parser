@@ -29,14 +29,6 @@ func NewDatabase(v *viper.Viper) (*gorm.DB, error) {
 
 // Migrate will auto migrate
 func Migrate(db *gorm.DB) {
-	// User models
-	db.AutoMigrate(&User{})
-	db.AutoMigrate(&Workout{})
-	db.AutoMigrate(&Location{})
-	db.AutoMigrate(&Exercise{})
-	db.AutoMigrate(&WeightedExercise{})
-	db.AutoMigrate(&DistanceExercise{})
-
 	// Dictionary models
 	db.AutoMigrate(&ExerciseDictionary{})
 	db.AutoMigrate(&ExerciseRelatedName{})
@@ -44,6 +36,14 @@ func Migrate(db *gorm.DB) {
 	db.AutoMigrate(&Muscles{})
 	db.AutoMigrate(&Articulation{})
 	db.AutoMigrate(&Joints{})
+
+	// User models
+	db.AutoMigrate(&User{})
+	db.AutoMigrate(&Workout{})
+	db.AutoMigrate(&Location{})
+	db.AutoMigrate(&Exercise{})
+	db.AutoMigrate(&WeightedExercise{})
+	db.AutoMigrate(&DistanceExercise{})
 }
 
 func DropAll(db *gorm.DB) error {
