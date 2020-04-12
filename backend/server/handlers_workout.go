@@ -59,7 +59,6 @@ func handleGetAllWorkout(c echo.Context) error {
 	}
 
 	r := models.ListResponse{
-		Count:   len(workouts),
 		Results: workouts,
 	}
 

@@ -2,8 +2,8 @@ package models
 
 // ListResponse is generic struct for returning lists
 type ListResponse struct {
-	Page    int         `json:"page"`
+	Page    int         `json:"page"` // starts w/ zero
 	Pages   int         `json:"pages"`
-	Count   int         `json:"count"`
+	Size    int         `json:"size"`
 	Results interface{} `json:"results"`
 }

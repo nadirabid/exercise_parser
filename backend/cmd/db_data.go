@@ -75,7 +75,7 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 
 		for _, r := range related.Related {
 			m := &models.ExerciseRelatedName{}
-			m.Related = sanitizeRelatedName(r)
+			m.Related = removeStopWords(sanitizeRelatedName(r), stopWords)
 			m.Type = seedDir
 
 			// if, after removing stop words, we have an emptry string, then don't insert into db
@@ -385,7 +385,7 @@ var dumpCmd = &cobra.Command{
 }
 
 var dropDictCmd = &cobra.Command{
-	Use:   "drop",
+	Use:   "dict",
 	Short: "Drop dictionary tables",
 	RunE:  dropDictionaryTables,
 }

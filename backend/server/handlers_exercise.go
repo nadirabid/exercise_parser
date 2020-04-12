@@ -117,7 +117,6 @@ func handleGetAllExerciseDictionary(c echo.Context) error {
 	}
 
 	r := models.ListResponse{
-		Count:   len(results),
 		Results: results,
 	}
 
@@ -162,7 +161,6 @@ func handleGetExerciseRelatedName(c echo.Context) error {
 	}
 
 	r := models.ListResponse{
-		Count:   len(related),
 		Results: related,
 	}
 
