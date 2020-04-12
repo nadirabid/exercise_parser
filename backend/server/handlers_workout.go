@@ -42,27 +42,33 @@ func handleGetAllWorkout(c echo.Context) error {
 
 	workouts := []models.Workout{}
 
+	page, err := strconv.Atoi(getWithDefault(ctx.QueryParam("page"), "0"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	size, err := strconv.Atoi(getWithDefault(ctx.QueryParam("size"), "20"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
 	userID := getUserIDFromContext(ctx)
 
-	err := db.
+	q := db.Debug().
 		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.WeightedExercise").
 		Preload("Exercises.DistanceExercise").
 		Where("user_id = ?", userID).
-		Order("created_at desc").
-		Find(&workouts).
-		Error
+		Order("created_at desc")
+
+	listResponse, err := paging(q, page, size, &workouts)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
 
-	r := models.ListResponse{
-		Results: workouts,
-	}
-
-	return ctx.JSON(http.StatusOK, r)
+	return ctx.JSON(http.StatusOK, listResponse)
 }
 
 func handlePostWorkout(c echo.Context) error {

@@ -7,36 +7,29 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type Param struct {
-	DB    *gorm.DB
-	Page  int
-	Limit int
-}
-
-func getListResponse(p *Param, result interface{}) (*models.ListResponse, error) {
-	db := p.DB
-
-	if p.Page < 0 {
-		p.Page = 0
-	}
-
-	if p.Limit == 0 {
-		p.Limit = 10
+func paging(db *gorm.DB, page int, size int, result interface{}) (*models.ListResponse, error) {
+	if page < 0 {
+		page = 0
 	}
 
 	list := models.ListResponse{}
 	count := 0
-	offset := p.Page * p.Limit
+	offset := page * size
 
-	err := db.Limit(p.Limit).Offset(offset).Find(result).Error
+	// err := db.Count(&count).Error
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	err := db.Limit(size).Offset(offset).Find(result).Error
 	if err != nil {
 		return nil, err
 	}
 
-	list.Size = p.Limit
+	list.Size = size
 	list.Results = result
-	list.Page = p.Page
-	list.Pages = int(math.Ceil(float64(count) / float64(p.Limit)))
+	list.Page = page
+	list.Pages = int(math.Ceil(float64(count) / float64(size)))
 
 	return &list, nil
 }

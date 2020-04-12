@@ -2,7 +2,6 @@ package server
 
 import (
 	"exercise_parser/models"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -103,7 +102,6 @@ func handleGetAllExerciseDictionary(c echo.Context) error {
 
 	results := []models.ExerciseDictionary{}
 
-	fmt.Println("#######", ctx.QueryParam("page"), ctx.QueryParam("size"))
 	page, err := strconv.Atoi(getWithDefault(ctx.QueryParam("page"), "0"))
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
@@ -114,8 +112,6 @@ func handleGetAllExerciseDictionary(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	fmt.Println("HEREEEEEE", page, size)
-
 	q := db.
 		Preload("Classification").
 		Preload("Muscles").
@@ -124,19 +120,13 @@ func handleGetAllExerciseDictionary(c echo.Context) error {
 		Preload("Articulation.Static").
 		Order("name asc")
 
-	param := &Param{
-		DB:    q,
-		Limit: size,
-		Page:  page,
-	}
-
-	r, err := getListResponse(param, &results)
+	listResponse, err := paging(q, page, size, &results)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
 
-	return ctx.JSON(http.StatusOK, r)
+	return ctx.JSON(http.StatusOK, listResponse)
 }
 
 func handlePostExerciseRelatedName(c echo.Context) error {
