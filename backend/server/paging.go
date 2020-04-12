@@ -8,19 +8,13 @@ import (
 )
 
 type Param struct {
-	DB      *gorm.DB
-	Page    int
-	Limit   int
-	OrderBy []string
-	ShowSQL bool
+	DB    *gorm.DB
+	Page  int
+	Limit int
 }
 
-func Paging(p *Param, result interface{}) (*models.ListResponse, error) {
+func getListResponse(p *Param, result interface{}) (*models.ListResponse, error) {
 	db := p.DB
-
-	if p.ShowSQL {
-		db = db.Debug()
-	}
 
 	if p.Page < 0 {
 		p.Page = 0
@@ -28,12 +22,6 @@ func Paging(p *Param, result interface{}) (*models.ListResponse, error) {
 
 	if p.Limit == 0 {
 		p.Limit = 10
-	}
-
-	if len(p.OrderBy) > 0 {
-		for _, o := range p.OrderBy {
-			db = db.Order(o)
-		}
 	}
 
 	list := models.ListResponse{}

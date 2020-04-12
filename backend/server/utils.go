@@ -63,3 +63,11 @@ func generateFakeUserJWT() *jwt.Token {
 
 	return t
 }
+
+func getWithDefault(value string, defaultValue string) string {
+	if value == "" {
+		return defaultValue
+	}
+
+	return value
+}

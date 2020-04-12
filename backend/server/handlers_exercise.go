@@ -2,6 +2,7 @@ package server
 
 import (
 	"exercise_parser/models"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -102,22 +103,37 @@ func handleGetAllExerciseDictionary(c echo.Context) error {
 
 	results := []models.ExerciseDictionary{}
 
-	err := db.
+	fmt.Println("#######", ctx.QueryParam("page"), ctx.QueryParam("size"))
+	page, err := strconv.Atoi(getWithDefault(ctx.QueryParam("page"), "0"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	size, err := strconv.Atoi(getWithDefault(ctx.QueryParam("size"), "20"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	fmt.Println("HEREEEEEE", page, size)
+
+	q := db.
 		Preload("Classification").
 		Preload("Muscles").
 		Preload("Articulation").
 		Preload("Articulation.Dynamic").
 		Preload("Articulation.Static").
-		Order("name desc").
-		Find(&results).
-		Error
+		Order("name asc")
+
+	param := &Param{
+		DB:    q,
+		Limit: size,
+		Page:  page,
+	}
+
+	r, err := getListResponse(param, &results)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
-	}
-
-	r := models.ListResponse{
-		Results: results,
 	}
 
 	return ctx.JSON(http.StatusOK, r)
