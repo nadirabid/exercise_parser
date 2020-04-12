@@ -25,8 +25,6 @@ func handleResolveExercise(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, exercise)
 }
 
-// TODO: do we really need any of these handlers below?
-
 func handleGetExercise(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
@@ -98,23 +96,6 @@ func handleDeleteExercise(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, exercise)
 }
 
-func handlePostExerciseRelatedName(c echo.Context) error {
-	ctx := c.(*Context)
-	db := ctx.DB()
-
-	relatedName := &models.ExerciseRelatedName{}
-
-	if err := ctx.Bind(relatedName); err != nil {
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
-	}
-
-	if err := db.Create(relatedName).Error; err != nil {
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-
-	return ctx.JSON(http.StatusOK, relatedName)
-}
-
 func handleGetAllExerciseDictionary(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
@@ -138,6 +119,51 @@ func handleGetAllExerciseDictionary(c echo.Context) error {
 	r := models.ListResponse{
 		Count:   len(results),
 		Results: results,
+	}
+
+	return ctx.JSON(http.StatusOK, r)
+}
+
+func handlePostExerciseRelatedName(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	relatedName := &models.ExerciseRelatedName{}
+
+	if err := ctx.Bind(relatedName); err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	if err := db.Create(relatedName).Error; err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, relatedName)
+}
+
+func handleGetExerciseRelatedName(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	related := []models.ExerciseRelatedName{}
+
+	err = db.
+		Where("exercise_dictionary_id = ?", id).
+		Find(&related).
+		Error
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	r := models.ListResponse{
+		Count:   len(related),
+		Results: related,
 	}
 
 	return ctx.JSON(http.StatusOK, r)
