@@ -21,7 +21,12 @@ func paging(db *gorm.DB, page int, size int, result interface{}) (*models.ListRe
 		return nil, err
 	}
 
-	err = db.Limit(size).Offset(offset).Find(result).Error
+	if size == -1 {
+		err = db.Find(result).Error
+	} else {
+		err = db.Limit(size).Offset(offset).Find(result).Error
+	}
+
 	if err != nil {
 		return nil, err
 	}

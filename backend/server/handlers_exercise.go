@@ -157,17 +157,29 @@ func handleGetExerciseRelatedName(c echo.Context) error {
 
 	related := []models.ExerciseRelatedName{}
 
-	err = db.
-		Where("exercise_dictionary_id = ?", id).
-		Find(&related).
-		Error
+	q := db.Where("exercise_dictionary_id = ?", id)
+
+	r, err := paging(q, 0, -1, &related)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
 
-	r := models.ListResponse{
-		Results: related,
+	return ctx.JSON(http.StatusOK, r)
+}
+
+func handleGetUnprocessedExercises(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	exercises := []models.Exercise{}
+
+	q := db.Where("type = unknown")
+
+	r, err := paging(q, 0, -1, &exercises)
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
 
 	return ctx.JSON(http.StatusOK, r)
