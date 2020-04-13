@@ -81,7 +81,9 @@ func New(v *viper.Viper) error {
 		return err
 	}
 
-	models.Migrate(db)
+	if err := models.Migrate(db); err != nil {
+		return err
+	}
 
 	// init server
 
@@ -124,6 +126,5 @@ func New(v *viper.Viper) error {
 	r.PUT("/workout", handlePutWorkout)
 	r.DELETE("/workout/:id", handleDeleteWorkout)
 
-	e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port"))))
-	return nil
+	return e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port")))
 }

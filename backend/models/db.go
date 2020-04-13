@@ -28,22 +28,28 @@ func NewDatabase(v *viper.Viper) (*gorm.DB, error) {
 }
 
 // Migrate will auto migrate
-func Migrate(db *gorm.DB) {
+func Migrate(db *gorm.DB) error {
 	// Dictionary models
-	db.AutoMigrate(&ExerciseDictionary{})
-	db.AutoMigrate(&ExerciseRelatedName{})
-	db.AutoMigrate(&Classification{})
-	db.AutoMigrate(&Muscles{})
-	db.AutoMigrate(&Articulation{})
-	db.AutoMigrate(&Joints{})
+	err := db.
 
-	// User models
-	db.AutoMigrate(&User{})
-	db.AutoMigrate(&Workout{})
-	db.AutoMigrate(&Location{})
-	db.AutoMigrate(&Exercise{})
-	db.AutoMigrate(&WeightedExercise{})
-	db.AutoMigrate(&DistanceExercise{})
+		// dictionary related models
+		AutoMigrate(&ExerciseDictionary{}).
+		AutoMigrate(&ExerciseRelatedName{}).
+		AutoMigrate(&Classification{}).
+		AutoMigrate(&Muscles{}).
+		AutoMigrate(&Articulation{}).
+		AutoMigrate(&Joints{}).
+
+		// user related models
+		AutoMigrate(&User{}).
+		AutoMigrate(&Workout{}).
+		AutoMigrate(&Location{}).
+		AutoMigrate(&Exercise{}).
+		AutoMigrate(&WeightedExercise{}).
+		AutoMigrate(&DistanceExercise{}).
+		Error
+
+	return err
 }
 
 func DropAll(db *gorm.DB) error {
