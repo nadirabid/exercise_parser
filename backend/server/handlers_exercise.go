@@ -184,3 +184,26 @@ func handleGetUnprocessedExercises(c echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, r)
 }
+
+func handleResolveAllUnresolvedExercises(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	exercises := []models.Exercise{}
+
+	q := db.Where("type = unknown")
+
+	r, err := paging(q, 0, -1, &exercises)
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	for _, e := range exercises {
+		if err := e.Resolve(); err != nil {
+			c.Logger().Errorf("Failed to resolve exercise: %v", e)
+		}
+	}
+
+	return ctx.JSON(http.StatusOK, r)
+}

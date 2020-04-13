@@ -107,7 +107,8 @@ func New(v *viper.Viper) error {
 
 	r.Use(JWTAuthMiddleware)
 
-	r.GET("/exercise/unprocessed", handleGetUnprocessedExercises)
+	r.GET("/exercise/unresolved", handleGetUnprocessedExercises)
+	r.POST("/exercise/unresolved/resolve", handleResolveAllUnresolvedExercises)
 	r.GET("/exercise/:id", handleGetExercise)
 	r.POST("/exercise/resolve", handleResolveExercise)
 	r.POST("/exercise", handlePostExercise)
