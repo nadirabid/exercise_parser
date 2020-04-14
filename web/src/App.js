@@ -55,7 +55,7 @@ function App() {
       <AppBar position="static" color="inherit">
         <Toolbar color="inherit">
           <Typography variant="h5" color="inherit" className={classes.title}>
-            ryden
+            ryden console
           </Typography>
           <Button onClick={signIn} color="inherit">Login</Button>
         </Toolbar>
