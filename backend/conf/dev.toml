@@ -26,3 +26,6 @@ file="resources/dev_keys/token_keypair.pem"
 [auth.facebook]
 id="503165517257633"
 secret="028d559359203f4dd980377a75e393f5"
+
+[auth.apple]
+client_id="ryden.web"

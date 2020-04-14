@@ -1,11 +1,13 @@
 package server
 
 import (
+	"encoding/json"
 	"exercise_parser/models"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -16,6 +18,47 @@ import (
 	"github.com/lestrrat-go/jwx/jwt"
 	"github.com/spf13/viper"
 )
+
+type TokenResponse struct {
+	Token string      `json:"token"`
+	User  models.User `json:"user"`
+}
+
+func handleUserRegistrationHelper(user *models.User, ctx *Context) (*TokenResponse, error) {
+	err := ctx.db.
+		Where("external_user_id = ?", user.ExternalUserId).
+		FirstOrCreate(user).
+		Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	now := time.Unix(time.Now().Unix(), 0)
+
+	// alrighty - lets create a token for this user. the jwt given
+	// by apple only lasts for 10 minutes. SO - use apple token to
+	// do a "login", and then handout our own jwt
+	t := jwt.New()
+
+	// standard claims
+	t.Set(jwt.AudienceKey, "ryden")
+	t.Set(jwt.ExpirationKey, now.Add(7*24*time.Hour).Unix()) // a goddamn week
+	t.Set(jwt.IssuedAtKey, now.Unix())
+	t.Set(jwt.IssuerKey, "https://ryden.app")
+	t.Set(jwt.SubjectKey, fmt.Sprint(user.ID))
+
+	payload, err := t.Sign(jwa.RS256, ctx.key)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &TokenResponse{
+		Token: string(payload),
+		User:  *user,
+	}, nil
+}
 
 // right now this only does "sign in with apple"
 func handleUserRegistration(c echo.Context) error {
@@ -45,95 +88,101 @@ func handleUserRegistration(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	tx := ctx.DB().Begin()
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
-		}
-	}()
-
-	err := tx.
-		Where("external_user_id = ?", user.ExternalUserId).
-		First(user).
-		Error
-
-	if err != nil {
-		// then user doesn't exist so we create a new one
-		if err := tx.Create(user).Error; err != nil {
-			tx.Rollback()
-			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-		}
-	}
-
-	if err := tx.Commit().Error; err != nil {
-		tx.Rollback()
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-
-	// alrighty - lets create a token for this user. the jwt given
-	// by apple only lasts for 10 minutes. SO - use apple token to
-	// do a "login", and then handout our own jwt
-
-	now := time.Unix(time.Now().Unix(), 0)
-
-	t := jwt.New()
-
-	// standard claims
-	t.Set(jwt.AudienceKey, "ryden")
-	t.Set(jwt.ExpirationKey, now.Add(7*24*time.Hour).Unix()) // a goddamn week
-	t.Set(jwt.IssuedAtKey, now.Unix())
-	t.Set(jwt.IssuerKey, "https://ryden.app")
-	t.Set(jwt.SubjectKey, fmt.Sprint(user.ID))
-
-	payload, err := t.Sign(jwa.RS256, ctx.key)
-
-	type Response struct {
-		Token string      `json:"token"`
-		User  models.User `json:"user"`
-	}
-
+	r, err := handleUserRegistrationHelper(user, ctx)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	return ctx.JSON(http.StatusOK, Response{
-		Token: string(payload),
-		User:  *user,
-	})
+	return ctx.JSON(http.StatusOK, r)
 }
 
+type AppleAuthTokenResponse struct {
+	AccessToken  string `json:"access_token"`
+	ExpiresIn    uint   `json:"expires_in"`
+	IdToken      string `json:"id_token"`
+	RefreshToken string `json:"refresh_token"`
+	TokenType    string `json:"token_type"`
+}
+
+type AppleUserFormPost struct {
+	Email string `json:"email"`
+	Name  struct {
+		FirstName string `json:"firstName"`
+		LastName  string `json:"lastName"`
+	}
+}
+
+func getEmailFromJWT(t *jwt.Token) (string, error) {
+	email, ok := t.Get("email")
+
+	if !ok {
+		return "", fmt.Errorf("email doesn't exist in jwt token")
+	}
+
+	return email.(string), nil
+}
+
+// https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple
+// https://developer.apple.com/documentation/sign_in_with_apple/generate_and_validate_tokens
 func handleAppleAuthCallback(c echo.Context) error {
-	// https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple
-	// https://developer.apple.com/documentation/sign_in_with_apple/generate_and_validate_tokens
 	ctx := c.(*Context)
 
-	fmt.Println(ctx.Request().Form)
+	user := &models.User{}
 
-	bytes, err := ioutil.ReadFile("resources/dev_keys/apple.key.p8")
-	if err != nil {
-		return err
+	if userFormValue := ctx.FormValue("user"); userFormValue != "" {
+		u := &AppleUserFormPost{}
+		if err := json.Unmarshal([]byte(userFormValue), u); err != nil {
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+
+		user.GivenName = u.Name.FirstName
+		user.FamilyName = u.Name.LastName
 	}
 
-	key, err := parseECDSAPrivateKeyFromStr(bytes)
+	appleAuthCode := ctx.FormValue("code")
+	if appleAuthCode == "" {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage("Auth code is missing. Failed to authenticate!"))
+	}
+
+	resp, err := http.PostForm("https://appleid.apple.com/auth/token", url.Values{
+		"grant_type":    {"authorization_code"},
+		"code":          {appleAuthCode},
+		"redirect_uri":  {"https://rydenfitness.com/apple/callback"},
+		"client_id":     {ctx.viper.GetString("auth.apple.client_id")},
+		"client_secret": {ctx.appleClientSecret},
+	})
+
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	} else if resp.StatusCode == 400 {
+		defer resp.Body.Close()
+		body, _ := ioutil.ReadAll(resp.Body)
+
+		r := struct {
+			Error string `json:"error"`
+		}{}
+		json.Unmarshal(body, &r)
+
+		return ctx.JSON(http.StatusUnauthorized, newErrorMessage(r.Error))
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+
+	tokenResp := &AppleAuthTokenResponse{}
+	if err := json.Unmarshal(body, &tokenResp); err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	appleIdToken, _ := jwt.ParseString(tokenResp.IdToken) // TODO: verify signature?
+	user.ExternalUserId = appleIdToken.Subject()
+	user.Email, _ = getEmailFromJWT(appleIdToken)
+
+	_, err = handleUserRegistrationHelper(user, ctx)
+
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	now := time.Unix(time.Now().Unix(), 0)
-
-	t := jwt.New()
-
-	t.Set(jwt.AudienceKey, "https://appleid.apple.com")
-	t.Set(jwt.IssuedAtKey, now.Unix())
-	t.Set(jwt.ExpirationKey, now.Add(7*24*time.Hour).Unix()) // a goddamn week
-	t.Set(jwt.IssuerKey, "C3HW5VXXF5")
-	t.Set(jwt.SubjectKey, "ryden.web")
-
-	payload, err := signJWT(t, jwa.ES256, key, "PHK94N7Y9A")
-	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-	fmt.Println(string(payload))
-
-	return ctx.JSON(http.StatusOK, nil)
+	return ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprintf("localhost:3000?id_token=%s", "test"))
 }

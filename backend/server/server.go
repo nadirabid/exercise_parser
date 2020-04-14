@@ -5,11 +5,11 @@ import (
 	"exercise_parser/models"
 	"exercise_parser/parser"
 	"fmt"
-	"io/ioutil"
 	"net/http/httputil"
 
 	"github.com/jinzhu/gorm"
 	"github.com/lestrrat-go/jwx/jwt"
+	"golang.org/x/crypto/acme/autocert"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres" // dialect automatically used by gorm
 
@@ -22,10 +22,11 @@ import (
 // Context is an extention of echo.Context
 type Context struct {
 	echo.Context
-	db    *gorm.DB
-	key   *rsa.PrivateKey
-	viper *viper.Viper
-	jwt   *jwt.Token
+	db                *gorm.DB
+	key               *rsa.PrivateKey
+	viper             *viper.Viper
+	jwt               *jwt.Token
+	appleClientSecret string
 }
 
 // DB returns the database object used in handlers
@@ -34,15 +35,14 @@ func (c *Context) DB() *gorm.DB {
 }
 
 func newContext(v *viper.Viper, c echo.Context, db *gorm.DB) *Context {
-	file := v.GetString("auth.file")
-	bytes, err := ioutil.ReadFile(file)
+	key, err := parseRsaPrivateKeyForTokenGeneration(v)
 	if err != nil {
-		panic(fmt.Sprintf("Failed to open pem keypair file: %s", file))
+		panic(fmt.Sprintf("Failed to generate key: %s", err.Error()))
 	}
 
-	key, err := parseRsaPrivateKeyFromPemStr(string(bytes))
+	clientSecret, err := generateAppleClientSecret(v)
 	if err != nil {
-		panic("Failed to generate key")
+		panic(fmt.Sprintf("Failed to generate client secret: %s", err.Error()))
 	}
 
 	return &Context{
@@ -51,6 +51,7 @@ func newContext(v *viper.Viper, c echo.Context, db *gorm.DB) *Context {
 		key,
 		v,
 		nil,
+		clientSecret,
 	}
 }
 
@@ -89,6 +90,8 @@ func New(v *viper.Viper) error {
 
 	e := echo.New()
 
+	e.AutoTLSManager.Cache = autocert.DirCache("resources/.cache")
+
 	e.Pre(middleware.RemoveTrailingSlash())
 
 	e.Use(middleware.BodyDump(LogRequestResponse))
@@ -106,26 +109,27 @@ func New(v *viper.Viper) error {
 	e.POST("/user/register", handleUserRegistration)
 	e.POST("/apple/callback", handleAppleAuthCallback)
 
-	r := e.Group("")
+	apiRoutes := e.Group("/api")
 
-	r.Use(JWTAuthMiddleware)
+	apiRoutes.Use(JWTAuthMiddleware)
 
-	r.GET("/exercise/unresolved", handleGetUnprocessedExercises)
-	r.POST("/exercise/unresolved/resolve", handleResolveAllUnresolvedExercises)
-	r.GET("/exercise/:id", handleGetExercise)
-	r.POST("/exercise/resolve", handleResolveExercise)
-	r.POST("/exercise", handlePostExercise)
-	r.DELETE("/exercise/:id", handleDeleteExercise)
+	apiRoutes.GET("/exercise/unresolved", handleGetUnprocessedExercises)
+	apiRoutes.POST("/exercise/unresolved/resolve", handleResolveAllUnresolvedExercises)
+	apiRoutes.GET("/exercise/:id", handleGetExercise)
+	apiRoutes.POST("/exercise/resolve", handleResolveExercise)
+	apiRoutes.POST("/exercise", handlePostExercise)
+	apiRoutes.DELETE("/exercise/:id", handleDeleteExercise)
 
-	r.GET("/exercise/dictionary", handleGetAllExerciseDictionary)
-	r.POST("/exercise/dictionary/related", handlePostExerciseRelatedName)
-	r.GET("/exercise/dictionary/:id/related", handleGetExerciseRelatedName)
+	apiRoutes.GET("/exercise/dictionary", handleGetAllExerciseDictionary)
+	apiRoutes.POST("/exercise/dictionary/related", handlePostExerciseRelatedName)
+	apiRoutes.GET("/exercise/dictionary/:id/related", handleGetExerciseRelatedName)
 
-	r.GET("/workout", handleGetAllWorkout)
-	r.GET("/workout/:id", handleGetWorkout)
-	r.POST("/workout", handlePostWorkout)
-	r.PUT("/workout", handlePutWorkout)
-	r.DELETE("/workout/:id", handleDeleteWorkout)
+	apiRoutes.GET("/workout", handleGetAllWorkout)
+	apiRoutes.GET("/workout/:id", handleGetWorkout)
+	apiRoutes.POST("/workout", handlePostWorkout)
+	apiRoutes.PUT("/workout", handlePutWorkout)
+	apiRoutes.DELETE("/workout/:id", handleDeleteWorkout)
 
-	return e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port")))
+	//return e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port")))
+	return e.StartTLS(":443", "resources/.cache/cert.pem", "resources/.cache/key.pem")
 }

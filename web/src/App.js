@@ -4,8 +4,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -28,17 +26,17 @@ const darkTheme = createMuiTheme({
   }
 });
 
-async function signIn() {
+function signIn() {
   const params = {
     'response_type': 'code',
     'redirect_uri': 'https://rydenfitness.com/apple/callback',
     'client_id': 'ryden.web',
-    'scope': 'email',
+    'scope': 'email name',
     'response_mode': 'form_post'
   };
 
   const paramsStr = Object.entries(params).reduce((str, [key, value]) => {
-    if (str != '') {
+    if (str !== '') {
       str += '&'
     }
 
@@ -56,14 +54,9 @@ function App() {
       <CssBaseline />
       <AppBar position="static" color="inherit">
         <Toolbar color="inherit">
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
           <Typography variant="h5" color="inherit" className={classes.title}>
-            News
+            ryden
           </Typography>
-          <div id="appleid-signin" data-color="black" data-border="true" data-type="sign in"></div>
-
           <Button onClick={signIn} color="inherit">Login</Button>
         </Toolbar>
       </AppBar>

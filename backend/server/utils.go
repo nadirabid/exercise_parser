@@ -7,12 +7,15 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"errors"
+	"fmt"
+	"io/ioutil"
 	"strconv"
 	"time"
 
 	"github.com/lestrrat-go/jwx/jwa"
 	"github.com/lestrrat-go/jwx/jws"
 	"github.com/lestrrat-go/jwx/jwt"
+	"github.com/spf13/viper"
 )
 
 type errorMessage struct {
@@ -25,8 +28,14 @@ func newErrorMessage(m string) *errorMessage {
 	}
 }
 
-func parseRsaPrivateKeyFromPemStr(privPEM string) (*rsa.PrivateKey, error) {
-	block, _ := pem.Decode([]byte(privPEM))
+func parseRsaPrivateKeyForTokenGeneration(v *viper.Viper) (*rsa.PrivateKey, error) {
+	file := v.GetString("auth.file")
+	bytes, err := ioutil.ReadFile(file)
+	if err != nil {
+		panic(fmt.Sprintf("Failed to open pem keypair file: %s", file))
+	}
+
+	block, _ := pem.Decode([]byte(bytes))
 	if block == nil {
 		return nil, errors.New("failed to parse PEM block containing the key")
 	}
@@ -114,4 +123,33 @@ func signJWT(t *jwt.Token, method jwa.SignatureAlgorithm, key interface{}, keyID
 	}
 
 	return sign, nil
+}
+
+func generateAppleClientSecret(v *viper.Viper) (string, error) {
+	bytes, err := ioutil.ReadFile("resources/dev_keys/apple.key.p8")
+	if err != nil {
+		return "", err
+	}
+
+	key, err := parseECDSAPrivateKeyFromStr(bytes)
+	if err != nil {
+		return "", err
+	}
+
+	now := time.Unix(time.Now().Unix(), 0)
+
+	t := jwt.New()
+
+	t.Set(jwt.AudienceKey, "https://appleid.apple.com")
+	t.Set(jwt.IssuedAtKey, now.Unix())
+	t.Set(jwt.ExpirationKey, now.Add(time.Minute).Unix())
+	t.Set(jwt.IssuerKey, "C3HW5VXXF5")
+	t.Set(jwt.SubjectKey, "ryden.web")
+
+	payload, err := signJWT(t, jwa.ES256, key, "PHK94N7Y9A")
+	if err != nil {
+		return "", err
+	}
+
+	return string(payload), nil
 }
