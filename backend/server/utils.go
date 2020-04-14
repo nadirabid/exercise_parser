@@ -1,13 +1,17 @@
 package server
 
 import (
+	"crypto/ecdsa"
 	"crypto/rsa"
 	"crypto/x509"
+	"encoding/json"
 	"encoding/pem"
 	"errors"
 	"strconv"
 	"time"
 
+	"github.com/lestrrat-go/jwx/jwa"
+	"github.com/lestrrat-go/jwx/jws"
 	"github.com/lestrrat-go/jwx/jwt"
 )
 
@@ -33,6 +37,20 @@ func parseRsaPrivateKeyFromPemStr(privPEM string) (*rsa.PrivateKey, error) {
 	}
 
 	return priv, nil
+}
+
+func parseECDSAPrivateKeyFromStr(keyBytes []byte) (*ecdsa.PrivateKey, error) {
+	block, _ := pem.Decode(keyBytes)
+	if block == nil {
+		return nil, errors.New("failed to parse pem block containing the key")
+	}
+
+	priv, err := x509.ParsePKCS8PrivateKey(block.Bytes)
+	if err != nil {
+		return nil, err
+	}
+
+	return priv.(*ecdsa.PrivateKey), err
 }
 
 func getUserIDFromContext(ctx *Context) uint {
@@ -70,4 +88,30 @@ func getWithDefault(value string, defaultValue string) string {
 	}
 
 	return value
+}
+
+// we use this instead of jwt.Token.Sign because we wan't to set the Key ID (kid) in the JWT header
+func signJWT(t *jwt.Token, method jwa.SignatureAlgorithm, key interface{}, keyID string) ([]byte, error) {
+	buf, err := json.Marshal(t)
+	if err != nil {
+		return nil, err
+	}
+
+	var hdr jws.StandardHeaders
+	if keyID != "" {
+		hdr.Set(`kid`, keyID)
+	}
+
+	if hdr.Set(`alg`, method.String()) != nil {
+		return nil, err
+	}
+	if hdr.Set(`typ`, `JWT`) != nil {
+		return nil, err
+	}
+	sign, err := jws.Sign(buf, method, key, jws.WithHeaders(&hdr))
+	if err != nil {
+		return nil, err
+	}
+
+	return sign, nil
 }

@@ -3,6 +3,7 @@ package server
 import (
 	"exercise_parser/models"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -99,4 +100,40 @@ func handleUserRegistration(c echo.Context) error {
 		Token: string(payload),
 		User:  *user,
 	})
+}
+
+func handleAppleAuthCallback(c echo.Context) error {
+	// https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple
+	// https://developer.apple.com/documentation/sign_in_with_apple/generate_and_validate_tokens
+	ctx := c.(*Context)
+
+	fmt.Println(ctx.Request().Form)
+
+	bytes, err := ioutil.ReadFile("resources/dev_keys/apple.key.p8")
+	if err != nil {
+		return err
+	}
+
+	key, err := parseECDSAPrivateKeyFromStr(bytes)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	now := time.Unix(time.Now().Unix(), 0)
+
+	t := jwt.New()
+
+	t.Set(jwt.AudienceKey, "https://appleid.apple.com")
+	t.Set(jwt.IssuedAtKey, now.Unix())
+	t.Set(jwt.ExpirationKey, now.Add(7*24*time.Hour).Unix()) // a goddamn week
+	t.Set(jwt.IssuerKey, "C3HW5VXXF5")
+	t.Set(jwt.SubjectKey, "ryden.web")
+
+	payload, err := signJWT(t, jwa.ES256, key, "PHK94N7Y9A")
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+	fmt.Println(string(payload))
+
+	return ctx.JSON(http.StatusOK, nil)
 }

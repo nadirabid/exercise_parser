@@ -28,6 +28,26 @@ const darkTheme = createMuiTheme({
   }
 });
 
+async function signIn() {
+  const params = {
+    'response_type': 'code',
+    'redirect_uri': 'https://rydenfitness.com/apple/callback',
+    'client_id': 'ryden.web',
+    'scope': 'email',
+    'response_mode': 'form_post'
+  };
+
+  const paramsStr = Object.entries(params).reduce((str, [key, value]) => {
+    if (str != '') {
+      str += '&'
+    }
+
+    return `${str}${key}=${value}`;
+  }, '');
+
+  window.location.href = `https://appleid.apple.com/auth/authorize?${paramsStr}`;
+}
+
 function App() {
   const classes = useStyles();
 
@@ -42,7 +62,9 @@ function App() {
           <Typography variant="h5" color="inherit" className={classes.title}>
             News
           </Typography>
-          <Button color="inherit">Login</Button>
+          <div id="appleid-signin" data-color="black" data-border="true" data-type="sign in"></div>
+
+          <Button onClick={signIn} color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </ThemeProvider>

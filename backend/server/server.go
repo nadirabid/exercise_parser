@@ -104,6 +104,7 @@ func New(v *viper.Viper) error {
 	})
 
 	e.POST("/user/register", handleUserRegistration)
+	e.POST("/apple/callback", handleAppleAuthCallback)
 
 	r := e.Group("")
 

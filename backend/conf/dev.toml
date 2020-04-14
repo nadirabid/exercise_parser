@@ -1,5 +1,5 @@
 [server]
-port=1234
+port=443
 
 [psql]
 sslmode="disable"
@@ -21,4 +21,8 @@ stop_words="resources/stop_words"
 auth=false
 
 [auth]
-file="resources/dev_rsa_key/keypair.pem"
+file="resources/dev_keys/token_keypair.pem"
+
+[auth.facebook]
+id="503165517257633"
+secret="028d559359203f4dd980377a75e393f5"
