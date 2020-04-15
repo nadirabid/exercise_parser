@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import JWTDecode
 
-let baseURL = "http://192.168.1.69:1234/api"
+let baseURL = "http://192.168.1.69:1234"
 
 class UserAPI: ObservableObject {
     struct UserRegistrationResponse: Codable {
@@ -75,7 +75,7 @@ class WorkoutAPI: ObservableObject {
             "Authorization": "Bearer \(userState.jwt!.string)"
         ]
         
-        let url = "\(baseURL)/workout"
+        let url = "\(baseURL)/api/workout"
         
         AF.request(url, method: .get, headers: headers)
             .validate(statusCode: 200..<300)
@@ -102,7 +102,7 @@ class WorkoutAPI: ObservableObject {
             "Authorization": "Bearer \(userState.jwt!.string)"
         ]
         
-        AF.request("\(baseURL)/workout", method: .post, parameters: workout, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
+        AF.request("\(baseURL)/api/workout", method: .post, parameters: workout, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
@@ -125,8 +125,8 @@ class WorkoutAPI: ObservableObject {
 class MockWorkoutAPI: WorkoutAPI {
     let localFeedData: PaginatedResponse<Workout> = PaginatedResponse<Workout>(
         page: 1,
-        count: 4,
         pages: 1,
+        size: -1,
         results: [
             Workout(
                 id: 1,
@@ -221,7 +221,7 @@ class ExerciseAPI: ObservableObject {
             "Authorization": "Bearer \(userState.jwt!.string)"
         ]
         
-        return AF.request("\(baseURL)/exercise/resolve", method: .post, parameters: exercise, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
+        return AF.request("\(baseURL)/api/exercise/resolve", method: .post, parameters: exercise, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {

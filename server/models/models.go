@@ -42,7 +42,7 @@ type Exercise struct {
 	Raw                  string            `json:"raw"`
 	Type                 string            `json:"type"`
 	Name                 string            `json:"name"`
-	ExerciseDictionaryID uint              `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
+	ExerciseDictionaryID *uint             `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
 	WeightedExercise     *WeightedExercise `json:"weighted_exercise"`
 	DistanceExercise     *DistanceExercise `json:"distance_exercise"`
 	WorkoutID            uint              `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`

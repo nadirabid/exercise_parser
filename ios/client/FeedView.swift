@@ -26,7 +26,7 @@ struct FeedView: View {
                     Spacer()
                 }
                 Spacer()
-            } else if self.feedData != nil && self.feedData?.count ?? 0 > 0  {
+            } else if self.feedData != nil && self.feedData?.results.count ?? 0 > 0  {
                 ScrollView {
                     VStack(spacing: 0) {
                         ForEach(self.feedData!.results) { workout in

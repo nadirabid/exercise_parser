@@ -54,7 +54,7 @@ func handleGetAllWorkout(c echo.Context) error {
 
 	userID := getUserIDFromContext(ctx)
 
-	q := db.Debug().
+	q := db.
 		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.WeightedExercise").
@@ -103,7 +103,7 @@ func handlePostWorkout(c echo.Context) error {
 				if topSearchResult.Rank >= minSearchRank {
 					// if we didn't make it ot this if condition - but we resolved properly above
 					// then that means we couldn't find a close enough match for the exercise
-					e.ExerciseDictionaryID = topSearchResult.ExerciseDictionaryID
+					e.ExerciseDictionaryID = &topSearchResult.ExerciseDictionaryID
 				}
 			}
 		}

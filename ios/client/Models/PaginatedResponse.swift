@@ -10,8 +10,8 @@ import Foundation
 
 struct PaginatedResponse<T: Codable>: Codable {
     let page: Int?
-    let count: Int?
     let pages: Int?
+    let size: Int?
     let results: [T]
 }
  

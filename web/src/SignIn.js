@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import Slide from '@material-ui/core/Slide';
 
 const modalStyles = makeStyles((theme) => ({
   root: {
@@ -57,6 +58,10 @@ const skeletonStyles = makeStyles((theme) => ({
   }
 }));
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 function SignIn({ onAuthenticate }) {
   const skeleton = skeletonStyles();
   const modalClasses = modalStyles();
@@ -97,6 +102,7 @@ function SignIn({ onAuthenticate }) {
         open={true}
         closeAfterTransition
         BackdropComponent={Backdrop}
+        TransitionComponent={Transition}
         BackdropProps={{
           timeout: 500,
         }}
