@@ -115,7 +115,7 @@ func New(v *viper.Viper) error {
 
 	apiRoutes.Use(JWTAuthMiddleware)
 
-	apiRoutes.GET("/exercise/unresolved", handleGetUnprocessedExercises)
+	apiRoutes.GET("/exercise/unresolved", handleGetUnresolvedExercises)
 	apiRoutes.POST("/exercise/unresolved/resolve", handleResolveAllUnresolvedExercises)
 	apiRoutes.GET("/exercise/:id", handleGetExercise)
 	apiRoutes.POST("/exercise/resolve", handleResolveExercise)

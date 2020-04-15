@@ -168,13 +168,13 @@ func handleGetExerciseRelatedName(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, r)
 }
 
-func handleGetUnprocessedExercises(c echo.Context) error {
+func handleGetUnresolvedExercises(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
 
 	exercises := []models.Exercise{}
 
-	q := db.Where("type = unknown")
+	q := db.Where("type = ?", "unknown")
 
 	r, err := paging(q, 0, -1, &exercises)
 
