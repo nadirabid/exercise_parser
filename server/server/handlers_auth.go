@@ -112,16 +112,6 @@ type AppleUserFormPost struct {
 	}
 }
 
-func getEmailFromJWT(t *jwt.Token) (string, error) {
-	email, ok := t.Get("email")
-
-	if !ok {
-		return "", fmt.Errorf("email doesn't exist in jwt token")
-	}
-
-	return email.(string), nil
-}
-
 // https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple
 // https://developer.apple.com/documentation/sign_in_with_apple/generate_and_validate_tokens
 func handleAppleAuthCallback(c echo.Context) error {

@@ -78,10 +78,10 @@ struct SignInDevView: View {
     func signIn() {
         let data = User(
             id: nil,
-            externalUserId: "test.user",
-            email: "test@user.com",
-            givenName: "Calev",
-            familyName: "Muzaffar"
+            externalUserId: "fake.user.id",
+            email: "fake@user.com",
+            givenName: "Fake",
+            familyName: "User"
         )
         
         self.userAPI.userRegistrationAndLogin(identityToken: "not.a.token", data: data) { (jwt, user) in

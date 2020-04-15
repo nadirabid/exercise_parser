@@ -96,6 +96,8 @@ func New(v *viper.Viper) error {
 
 	e.Use(middleware.BodyDump(LogRequestResponse))
 
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{}))
+
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
@@ -130,6 +132,6 @@ func New(v *viper.Viper) error {
 	apiRoutes.PUT("/workout", handlePutWorkout)
 	apiRoutes.DELETE("/workout/:id", handleDeleteWorkout)
 
-	//return e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port")))
-	return e.StartTLS(":443", "resources/.cache/cert.pem", "resources/.cache/key.pem")
+	return e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port")))
+	//return e.StartTLS(":443", "resources/.cache/cert.pem", "resources/.cache/key.pem")
 }

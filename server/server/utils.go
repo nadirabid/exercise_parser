@@ -153,3 +153,13 @@ func generateAppleClientSecret(v *viper.Viper) (string, error) {
 
 	return string(payload), nil
 }
+
+func getEmailFromJWT(t *jwt.Token) (string, error) {
+	email, ok := t.Get("email")
+
+	if !ok {
+		return "", fmt.Errorf("email doesn't exist in jwt token")
+	}
+
+	return email.(string), nil
+}

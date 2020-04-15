@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import JWTDecode
 
-let baseURL = "http://192.168.1.69:1234"
+let baseURL = "http://192.168.1.69:1234/api"
 
 class UserAPI: ObservableObject {
     struct UserRegistrationResponse: Codable {
