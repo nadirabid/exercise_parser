@@ -40,7 +40,9 @@ const skeletonStyles = makeStyles((theme) => ({
     alignItems: 'stretch',
   },
   sidebar: {
-    width: '300px',
+    width: '220px',
+    minWidth: '220px',
+    maxWidth: '220px',
     flexGrow: 0,
     flexDirection: 'row',
     display: 'flex'

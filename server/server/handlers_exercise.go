@@ -159,7 +159,7 @@ func handleGetExerciseRelatedName(c echo.Context) error {
 
 	q := db.Where("exercise_dictionary_id = ?", id)
 
-	r, err := paging(q, 0, -1, &related)
+	r, err := paging(q, 0, 0, &related)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
@@ -176,7 +176,7 @@ func handleGetUnresolvedExercises(c echo.Context) error {
 
 	q := db.Where("type = ?", "unknown")
 
-	r, err := paging(q, 0, -1, &exercises)
+	r, err := paging(q, 0, 0, &exercises)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
@@ -193,7 +193,7 @@ func handleResolveAllUnresolvedExercises(c echo.Context) error {
 
 	q := db.Where("type = unknown")
 
-	r, err := paging(q, 0, -1, &exercises)
+	r, err := paging(q, 0, 0, &exercises)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
