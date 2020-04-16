@@ -157,7 +157,22 @@ async function getAPIUnresolvedExercises(page = 1, pageSize=20) {
 }
 
 async function updateAPIExercise(exercise) {
-  
+  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/${exercise.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(exercise),
+  });
+
+  if (result.status !== 200) {
+    console.error('Failed to update exercise: ', result);
+    return;
+  }
+
+  const resp = await result.json();
+
+  return resp;
 }
 
 function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
@@ -278,7 +293,7 @@ function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
       </DialogContent>
       <DialogActions>
         <Button variant="outlined" onClick={onCancel}>Cancel</Button>
-        <Button variant="outlined" onClick={onSave}>Update</Button>
+        <Button variant="outlined" onClick={handleUpdate}>Update</Button>
       </DialogActions>
     </Dialog>
   )
@@ -319,13 +334,20 @@ function Console() {
     getAPIUnresolvedExercises(0).then((list) => setList(list));
   }, []);
 
-  const pageChange = (event, value) => {
+  const pageChange = (_, value) => {
     getAPIUnresolvedExercises(value - 1).then((list) => setList(list));
   };
 
   return (
     <div className={classes.root}>
-      <UpdaterExercise exercise={exercise} onCancel={() => setExercise(null)} />
+      <UpdaterExercise 
+        exercise={exercise}
+        onCancel={() => setExercise(null)}
+        onSave={async (data) => {
+          await updateAPIExercise(data);
+          setExercise(null);
+          await getAPIUnresolvedExercises(0);
+        }}/>
       <Box className={classes.sidebar}>
         <Box className={classes.title}>
         <DashboardIcon />
@@ -333,20 +355,13 @@ function Console() {
         </Box>
         <Box flex="1"></Box>
         <Box flex="0" className={classes.logout}>
-          <Button 
-            onClick={() => {
-              auth.signOut()
-            }}
-          >
+          <Button onClick={() => auth.signOut()}>
             Logout
           </Button>
         </Box>
       </Box>
       <Box className={classes.content}>
         <List className={classes.list} style={{overflow: 'auto'}}>
-          {/* <ListSubheader className={classes.listItem}>
-            <Typography variant="h7">unresolved exercises</Typography>
-          </ListSubheader> */}
           <ExerciseListItems list={list} onItemClick={(item) => setExercise(item)} />
         </List>
         <div className={classes.pagination}>

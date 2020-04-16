@@ -8,22 +8,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func handleResolveExercise(c echo.Context) error {
-	// this guy just resolves raw exercise text
-	ctx := c.(*Context)
-
-	exercise := &models.Exercise{}
-
-	if err := ctx.Bind(exercise); err != nil {
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
-	}
-
-	if err := exercise.Resolve(); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-
-	return ctx.JSON(http.StatusOK, exercise)
-}
+// exercise handlers
 
 func handleGetExercise(c echo.Context) error {
 	ctx := c.(*Context)
@@ -71,6 +56,7 @@ func handlePostExercise(c echo.Context) error {
 }
 
 func handlePutExercise(c echo.Context) error {
+	// technically this url gets called with id (.ie /exercise/:id/)
 	ctx := c.(*Context)
 	db := ctx.DB()
 
@@ -80,9 +66,7 @@ func handlePutExercise(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	if err := exercise.Resolve(); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
+	// we don't resolve exercise - this endpoint is meant to be for a "manual resolve"
 
 	if err := db.Save(exercise).Error; err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
@@ -116,6 +100,50 @@ func handleDeleteExercise(c echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, exercise)
 }
+
+func handleResolveExercise(c echo.Context) error {
+	// this guy just resolves raw exercise text
+	ctx := c.(*Context)
+
+	exercise := &models.Exercise{}
+
+	if err := ctx.Bind(exercise); err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	if err := exercise.Resolve(); err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, exercise)
+}
+
+func handleSearchExercise(c echo.Context) error {
+	ctx := c.(Context)
+	db := ctx.db
+
+	exerciseQuery := ctx.QueryParam("exerciseQuery")
+
+	if exerciseQuery == "" {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage("You have to specify 'exerciseQuery' query parameter'"))
+	}
+
+	searchResults, err := models.SearchExerciseDictionary(db, exerciseQuery)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	r := models.ListResponse{
+		Page:    1,
+		Pages:   1,
+		Size:    0,
+		Results: searchResults,
+	}
+
+	return ctx.JSON(http.StatusOK, r)
+}
+
+// exercise dictionary handlers
 
 func handleGetAllExerciseDictionary(c echo.Context) error {
 	ctx := c.(*Context)
