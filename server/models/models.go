@@ -41,6 +41,7 @@ type Exercise struct {
 	Model
 	Raw                  string            `json:"raw"`
 	Type                 string            `json:"type"`
+	ResolutionType       string            `json:"resolution_type"`
 	Name                 string            `json:"name"`
 	ExerciseDictionaryID *uint             `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
 	WeightedExercise     *WeightedExercise `json:"weighted_exercise"`
@@ -94,6 +95,8 @@ func (e *Exercise) Resolve() error {
 	} else {
 		return fmt.Errorf("unable to resolve raw expression: %v", e)
 	}
+
+	e.ResolutionType = "auto"
 
 	return nil
 }

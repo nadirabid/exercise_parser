@@ -3,13 +3,51 @@ import ReactJson from 'react-json-view'
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import List from '@material-ui/core/List';
+import Paper from '@material-ui/core/Paper';
+import Backdrop from '@material-ui/core/Backdrop';
 import CardContent from '@material-ui/core/CardContent';
 import Skeleton from '@material-ui/lab/Skeleton';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import TextField from '@material-ui/core/TextField';
 import Pagination from '@material-ui/lab/Pagination';
+import Slide from '@material-ui/core/Slide';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import Typography from '@material-ui/core/Typography';
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
+import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+
 import * as auth from './auth';
+
+const solarizedTheme = {
+  base00: 'rgba(1, 1, 1, 0)',
+  base01:"#073642",
+  base02:"#586e75",
+  base03:"#657b83",
+  base04:"#839496",
+  base05:"#93a1a1",
+  base06:"#eee8d5",
+  base07:"#fdf6e3",
+  base08:"#dc322f",
+  base09:"#cb4b16",
+  base0A:"#b58900",
+  base0B:"#859900",
+  base0C:"#2aa198",
+  base0D:"#268bd2",
+  base0E:"#6c71c4",
+  base0F:"#d33682"
+};
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,12 +80,21 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: '6px',
+    marginBottom: theme.spacing(1),
   },
   content: {
     flexGrow: 1,
     alignItems: 'stretch',
     display: 'flex',
+  },
+  pagination: {
+    flex: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '& li': {
+      marginTop: theme.spacing(1),
+    },
   },
   list: {
     display: 'flex',
@@ -59,56 +106,25 @@ const useStyles = makeStyles((theme) => ({
   },
   listItem: {
     backgroundColor: theme.palette.background.paper,
-    marginTop: '6px',
-  },
-  pagination: {
-    flex: 0,
+    margin: '2em',
     display: 'flex',
-    justifyContent: 'center',
+    width: 'auto',
+  },
+  data: {
+    display: 'flex',
+    flexDirection: 'column',
+    '& > *': {
+      marginTop: theme.spacing(1),
+      width: '100%'
+    },
+  },
+  dialog: {
+    display: 'flex',
     alignItems: 'center',
-    '& li': {
-      marginTop: '1em'
-    }
+    justifyContent: 'center',
+    padding: theme.spacing(2)
   }
 }));
-
-const rjvTheme =  {
-  base00: 'rgba(1, 1, 1, 0)',
-  base01: 'rgba(0, 0, 0, 0.05)',
-  base02: 'rgba(0, 0, 0, 0.1)',
-  base03: '#93a1a1',
-  base04: 'rgba(0, 0, 0, 0.3)',
-  base05: '#586e75',
-  base06: '#073642',
-  base07: '#002b36',
-  base08: '#d33682',
-  base09: '#cb4b16',
-  base0A: '#dc322f',
-  base0B: '#859900',
-  base0C: '#6c71c4',
-  base0D: '#586e75',
-  base0E: '#2aa198',
-  base0F: '#268bd2'
-};
-
-const solarizedTheme = {
-  base00: 'rgba(1, 1, 1, 0)',
-  base01:"#073642",
-  base02:"#586e75",
-  base03:"#657b83",
-  base04:"#839496",
-  base05:"#93a1a1",
-  base06:"#eee8d5",
-  base07:"#fdf6e3",
-  base08:"#dc322f",
-  base09:"#cb4b16",
-  base0A:"#b58900",
-  base0B:"#859900",
-  base0C:"#2aa198",
-  base0D:"#268bd2",
-  base0E:"#6c71c4",
-  base0F:"#d33682"
-}
 
 async function fetchUnresolvedExercises(page = 1, pageSize=20) {
   const result = await fetch(`${auth.getAPIUrl()}/api/exercise/unresolved?size=${pageSize}&page=${page}`);
@@ -123,21 +139,81 @@ async function fetchUnresolvedExercises(page = 1, pageSize=20) {
   return resp;
 }
 
-function ExerciseListItems({ list }) {
+function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
+  const classes = useStyles();
+  const [exerciseType, setExerciseType] = React.useState('weighted');
+
+  const shouldOpen = exercise != null;
+  if (exercise == null) {
+    exercise = {}
+  }
+
+  return (
+    <Dialog
+      open={shouldOpen}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      TransitionComponent={Transition}
+      BackdropProps={{
+        timeout: 500,
+      }}
+      onClose={onCancel}
+    >
+      <DialogTitle>{exercise.raw}</DialogTitle>
+      <DialogContent >
+        {/* <h3>{exercise.raw}</h3> */}
+        <div>
+          <ToggleButtonGroup
+            value={exerciseType}
+            exclusive
+            onChange={(e, v) => setExerciseType(v)}
+            aria-label="text alignment"
+          >
+            <ToggleButton value="weighted" aria-label="left aligned">
+              <FitnessCenterIcon />
+            </ToggleButton>
+            <ToggleButton value="distance" aria-label="centered">
+              <DirectionsRunIcon />
+            </ToggleButton>
+          </ToggleButtonGroup>
+          <div className={classes.data}>
+            <Box>
+              <TextField variant="filled" label="Sets" />
+            </Box>
+            <Box>
+              <TextField variant="filled" label="Reps" />
+            </Box>
+            <Box>
+              <TextField variant="filled" label="Lbs" />
+            </Box>
+          </div>
+        </div>
+        <DialogActions>
+          <Button variant="outlined" onClick={onCancel}>Cancel</Button>
+          <Button variant="outlined" onClick={onSave}>Update</Button>
+        </DialogActions>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function ExerciseListItems({ list, onItemClick = () => {} }) {
   const classes = useStyles();
 
+
   if (list == null) {
-    return [0,1,2,3].map(() => (
-      <CardContent>
+    return [0,1,2,3].map((v) => (
+      <CardContent key={v.toString()}>
           <Skeleton animation="wave"/>
           <Skeleton width="60%" animation="wave"/>
       </CardContent>
     ));
   }
 
-  return [list.results].map((item) => (
-    <ListItem className={classes.listItem}>
-      <ReactJson iconStyle="circle" theme={solarizedTheme} src={item} />
+  return list.results.map((item, index) => (
+    <ListItem key={`exercise-${index}`} className={classes.listItem} onClick={() => onItemClick(item)}>
+      <h3>{item.raw}</h3>
+      <ReactJson iconStyle="circle" theme={solarizedTheme} src={item} collapsed={true} />
     </ListItem>
   ));
 }
@@ -146,20 +222,23 @@ function Console() {
   const classes = useStyles();
 
   const [list, setList] = React.useState(null);
+  const [exercise, setExercise] = React.useState(null);
   
   useEffect(() => {
     fetchUnresolvedExercises(0).then((list) => setList(list));
   }, []);
 
-  const handleChange = (event, value) => {
+  const pageChange = (event, value) => {
     fetchUnresolvedExercises(value - 1).then((list) => setList(list));
-  }
+  };
 
   return (
     <div className={classes.root}>
+      <UpdaterExercise exercise={exercise} onCancel={() => setExercise(null)} />
       <Box className={classes.sidebar}>
         <Box className={classes.title}>
-          <h2>console</h2>
+        <DashboardIcon />
+          <Typography variant="h5">console</Typography>
         </Box>
         <Box flex="1"></Box>
         <Box flex="0" className={classes.logout}>
@@ -174,11 +253,15 @@ function Console() {
       </Box>
       <Box className={classes.content}>
         <List className={classes.list} style={{overflow: 'auto'}}>
-          <ExerciseListItems list={list} />
+          {/* <ListSubheader className={classes.listItem}>
+            <Typography variant="h7">unresolved exercises</Typography>
+          </ListSubheader> */}
+          <ExerciseListItems list={list} onItemClick={(item) => setExercise(item)} />
         </List>
         <div className={classes.pagination}>
           <Pagination 
             variant="outlined" size="large" showFirstButton showLastButton 
+            onChange={pageChange}
             disabled={list == null || list.pages <= 1}
             count={list == null ? 6 : list.pages} 
             page={list == null ? 0 : list.page}
