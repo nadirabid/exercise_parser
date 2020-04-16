@@ -23,6 +23,7 @@ import Typography from '@material-ui/core/Typography';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import AssessmentIcon from '@material-ui/icons/Assessment';
 
 import * as auth from './auth';
 
@@ -109,6 +110,20 @@ const useStyles = makeStyles((theme) => ({
     margin: '2em',
     display: 'flex',
     width: 'auto',
+    '& > *:not(:first-child)': {
+      marginLeft: theme.spacing(4),
+    },
+    '& > *:first-child': {
+      flex: 0,
+      overflow: 'none',
+      whiteSpace: 'nowrap',
+    },
+    '& > *:nth-child(2)': {
+      flex: 1,
+    },
+    '& > *:nth-child(3)': {
+      flex: 0,
+    },
   },
   data: {
     display: 'flex',
@@ -211,9 +226,14 @@ function ExerciseListItems({ list, onItemClick = () => {} }) {
   }
 
   return list.results.map((item, index) => (
-    <ListItem key={`exercise-${index}`} className={classes.listItem} onClick={() => onItemClick(item)}>
+    <ListItem key={`exercise-${index}`} className={classes.listItem}>
       <h3>{item.raw}</h3>
-      <ReactJson iconStyle="circle" theme={solarizedTheme} src={item} collapsed={true} />
+      <div>
+        <ReactJson iconStyle="circle" theme={solarizedTheme} src={item} collapsed={true} />
+      </div>
+      <Button onClick={() => onItemClick(item)}>
+        <AssessmentIcon />
+      </Button>
     </ListItem>
   ));
 }
