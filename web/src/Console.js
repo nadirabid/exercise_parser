@@ -5,9 +5,8 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import List from '@material-ui/core/List';
-import Paper from '@material-ui/core/Paper';
 import Backdrop from '@material-ui/core/Backdrop';
 import CardContent from '@material-ui/core/CardContent';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -138,10 +137,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     padding: theme.spacing(2)
+  },
+  dialogContent: {
+    display: 'flex'
   }
 }));
 
-async function fetchUnresolvedExercises(page = 1, pageSize=20) {
+async function getAPIUnresolvedExercises(page = 1, pageSize=20) {
   const result = await fetch(`${auth.getAPIUrl()}/api/exercise/unresolved?size=${pageSize}&page=${page}`);
 
   if (result.status != 200) {
@@ -154,13 +156,84 @@ async function fetchUnresolvedExercises(page = 1, pageSize=20) {
   return resp;
 }
 
+async function updateAPIExercise(exercise) {
+  
+}
+
 function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
   const classes = useStyles();
+
   const [exerciseType, setExerciseType] = React.useState('weighted');
+  const [sets, setSets] = React.useState(0);
+  const [reps, setReps] = React.useState(0);
+  const [weight, setWeight] = React.useState(0);
+
+  const [time, setTime] = React.useState(0);
+  const [distance, setDistance] = React.useState(0);
 
   const shouldOpen = exercise != null;
   if (exercise == null) {
     exercise = {}
+  }
+
+  const handleUpdate = () => {
+    const data = JSON.parse(JSON.stringify(exercise));
+
+    data.type = exerciseType;
+
+    if (exerciseType === 'weighted') {
+      data['weighted_exercise'] = {
+        'sets': sets,
+        'reps': reps,
+        'weight': weight,
+      };
+    } else if (exerciseType === 'distance_exercise') {
+      data['distance_exercise'] = {
+        'distance': distance,
+        'time': time
+      };
+    }
+
+    onSave(data); 
+  };
+
+  let fields = null;
+
+  if (exerciseType === 'weighted') {
+    fields = (
+      <div className={classes.data}>
+        <Box>
+          <TextField variant="filled" label="Sets" 
+            value={sets} onChange={(e) => setSets(e.target.value)} 
+          />
+        </Box>
+        <Box>
+          <TextField variant="filled" label="Reps"
+            value={reps} onChange={(e) => setReps(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <TextField variant="filled" label="Weight" 
+            value={weight} onChange={(e) => setWeight(e.target.value)}
+          />
+        </Box>
+      </div>
+    );
+  } else if (exerciseType === 'distance') {
+    fields = (
+      <div className={classes.data}>
+        <Box>
+          <TextField variant="filled" label="Time" 
+            value={time} onChange={(e) => setTime(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <TextField variant="filled" label="Distance" 
+            value={distance} onChange={(e) => setDistance(e.target.value)}
+          />
+        </Box>
+      </div>
+    );
   }
 
   return (
@@ -175,8 +248,16 @@ function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
       onClose={onCancel}
     >
       <DialogTitle>{exercise.raw}</DialogTitle>
-      <DialogContent >
-        {/* <h3>{exercise.raw}</h3> */}
+      <DialogContent className={classes.dialogContent}>
+        <div> 
+          <Autocomplete
+            options={[]}
+            style={{ width: 300 }}
+            renderInput={(params) => {
+              return (<TextField {...params} label="Exercise Name" variant="outlined" />);
+            }}
+          />
+        </div>
         <div>
           <ToggleButtonGroup
             value={exerciseType}
@@ -191,30 +272,20 @@ function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
               <DirectionsRunIcon />
             </ToggleButton>
           </ToggleButtonGroup>
-          <div className={classes.data}>
-            <Box>
-              <TextField variant="filled" label="Sets" />
-            </Box>
-            <Box>
-              <TextField variant="filled" label="Reps" />
-            </Box>
-            <Box>
-              <TextField variant="filled" label="Lbs" />
-            </Box>
-          </div>
+
+          {fields}
         </div>
-        <DialogActions>
-          <Button variant="outlined" onClick={onCancel}>Cancel</Button>
-          <Button variant="outlined" onClick={onSave}>Update</Button>
-        </DialogActions>
       </DialogContent>
+      <DialogActions>
+        <Button variant="outlined" onClick={onCancel}>Cancel</Button>
+        <Button variant="outlined" onClick={onSave}>Update</Button>
+      </DialogActions>
     </Dialog>
   )
 }
 
 function ExerciseListItems({ list, onItemClick = () => {} }) {
   const classes = useStyles();
-
 
   if (list == null) {
     return [0,1,2,3].map((v) => (
@@ -231,7 +302,7 @@ function ExerciseListItems({ list, onItemClick = () => {} }) {
       <div>
         <ReactJson iconStyle="circle" theme={solarizedTheme} src={item} collapsed={true} />
       </div>
-      <Button onClick={() => onItemClick(item)}>
+      <Button onClick={() => onItemClick(item)} variant="outlined" color="default">
         <AssessmentIcon />
       </Button>
     </ListItem>
@@ -245,11 +316,11 @@ function Console() {
   const [exercise, setExercise] = React.useState(null);
   
   useEffect(() => {
-    fetchUnresolvedExercises(0).then((list) => setList(list));
+    getAPIUnresolvedExercises(0).then((list) => setList(list));
   }, []);
 
   const pageChange = (event, value) => {
-    fetchUnresolvedExercises(value - 1).then((list) => setList(list));
+    getAPIUnresolvedExercises(value - 1).then((list) => setList(list));
   };
 
   return (

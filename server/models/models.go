@@ -106,6 +106,7 @@ type WeightedExercise struct {
 	HiddenModel
 	Sets       int  `json:"sets"`
 	Reps       int  `json:"reps"`
+	Weight     int  `json:"weight"`
 	ExerciseID uint `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }
 
