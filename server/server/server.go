@@ -120,6 +120,7 @@ func New(v *viper.Viper) error {
 	apiRoutes.GET("/exercise/:id", handleGetExercise)
 	apiRoutes.POST("/exercise/resolve", handleResolveExercise)
 	apiRoutes.POST("/exercise", handlePostExercise)
+	apiRoutes.PUT("/exercise/:id", handlePutExercise)
 	apiRoutes.DELETE("/exercise/:id", handleDeleteExercise)
 
 	apiRoutes.GET("/exercise/dictionary", handleGetAllExerciseDictionary)

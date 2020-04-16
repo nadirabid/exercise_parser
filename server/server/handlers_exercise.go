@@ -70,6 +70,27 @@ func handlePostExercise(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, exercise)
 }
 
+func handlePutExercise(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	exercise := &models.Exercise{}
+
+	if err := ctx.Bind(exercise); err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	if err := exercise.Resolve(); err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	if err := db.Save(exercise).Error; err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, exercise)
+}
+
 func handleDeleteExercise(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
