@@ -115,18 +115,22 @@ func New(v *viper.Viper) error {
 
 	apiRoutes.Use(JWTAuthMiddleware)
 
+	// exercise
+	apiRoutes.GET("/exercise/search", handleSearchExercise)
 	apiRoutes.GET("/exercise/unresolved", handleGetUnresolvedExercises)
 	apiRoutes.POST("/exercise/unresolved/resolve", handleResolveAllUnresolvedExercises)
-	apiRoutes.GET("/exercise/:id", handleGetExercise)
 	apiRoutes.POST("/exercise/resolve", handleResolveExercise)
+	apiRoutes.GET("/exercise/:id", handleGetExercise)
 	apiRoutes.POST("/exercise", handlePostExercise)
 	apiRoutes.PUT("/exercise/:id", handlePutExercise)
 	apiRoutes.DELETE("/exercise/:id", handleDeleteExercise)
 
+	// dictionary
 	apiRoutes.GET("/exercise/dictionary", handleGetAllExerciseDictionary)
 	apiRoutes.POST("/exercise/dictionary/related", handlePostExerciseRelatedName)
 	apiRoutes.GET("/exercise/dictionary/:id/related", handleGetExerciseRelatedName)
 
+	// workout
 	apiRoutes.GET("/workout", handleGetAllWorkout)
 	apiRoutes.GET("/workout/:id", handleGetWorkout)
 	apiRoutes.POST("/workout", handlePostWorkout)

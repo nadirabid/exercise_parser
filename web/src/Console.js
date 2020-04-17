@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+
 import ReactJson from 'react-json-view'
+
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -167,7 +169,7 @@ async function updateAPIExercise(exercise) {
 
   if (result.status !== 200) {
     console.error('Failed to update exercise: ', result);
-    return;
+    return false;
   }
 
   const resp = await result.json();
@@ -175,16 +177,80 @@ async function updateAPIExercise(exercise) {
   return resp;
 }
 
+async function getAPIExerciseSearch(exerciseQuery) {
+  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/search?exerciseQuery=${exerciseQuery}`);
+
+  if (result.status != 200) {
+    console.error('Failed to get exercise search results: ', result);
+    return false;
+  }
+
+  const resp = await result.json();
+
+  return resp;
+}
+
+function useRefState(initialValue) {
+  const [state, setState] = useState(initialValue);
+  const stateRef = useRef(state);
+  useEffect(
+    () => { stateRef.current = state },
+    [state]
+  );
+  return [state, stateRef, setState];
+}
+
+function ExerciseSearch({ onSelect = () => {} }) {
+  const classes = useStyles();
+  const [options, setOptions] = useState([]);
+  const [input, setInput] = useState('');
+  const [counter, counterRef, setCounter] = useRefState(0);
+  
+  useEffect(() => {
+    if (input) {
+      getAPIExerciseSearch(input).then((result) => {
+        setCounter(counterRef + 1);
+        if (counter + 1 < counterRef.value) {
+          console.log('ignoring', input, result.results.length)
+          return;
+        }
+
+        setOptions(result.results);
+      });
+    }
+  }, [input]);
+
+  return (
+    <Autocomplete
+      options={options}
+      getOptionLabel={(option) => option.exercise_dictionary_name}
+      style={{ width: 300 }}
+      filterOptions={(options) => options}
+      onChange={(_, v) => onSelect(v)}
+      renderInput={(params) => {
+        return (
+          <TextField
+            onChange={(e) => setInput(e.target.value)}
+            {...params} label="Exercise Name" variant="outlined" fullWidth
+          />
+        );
+      }}
+    />
+  );
+}
+
 function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
   const classes = useStyles();
 
-  const [exerciseType, setExerciseType] = React.useState('weighted');
-  const [sets, setSets] = React.useState(0);
-  const [reps, setReps] = React.useState(0);
-  const [weight, setWeight] = React.useState(0);
+  const [exerciseType, setExerciseType] = useState('weighted');
+  const [sets, setSets] = useState(0);
+  const [reps, setReps] = useState(0);
+  const [weight, setWeight] = useState(0);
 
-  const [time, setTime] = React.useState(0);
-  const [distance, setDistance] = React.useState(0);
+  const [time, setTime] = useState(0);
+  const [distance, setDistance] = useState(0);
+
+  const [exerciseDictionary, setExerciseDictionary] = useState(null);
 
   const shouldOpen = exercise != null;
   if (exercise == null) {
@@ -196,21 +262,28 @@ function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
 
     data.type = exerciseType;
 
+    if (exerciseDictionary) {
+      data.exercise_dictionary_id = exerciseDictionary.exercise_dictionary_id;
+    }
+
     if (exerciseType === 'weighted') {
       data['weighted_exercise'] = {
         'sets': sets,
         'reps': reps,
         'weight': weight,
       };
+
     } else if (exerciseType === 'distance_exercise') {
       data['distance_exercise'] = {
         'distance': distance,
-        'time': time
+        'time': time,
       };
     }
 
     onSave(data); 
   };
+
+  console.log(exerciseDictionary)
 
   let fields = null;
 
@@ -265,13 +338,7 @@ function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
       <DialogTitle>{exercise.raw}</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <div> 
-          <Autocomplete
-            options={[]}
-            style={{ width: 300 }}
-            renderInput={(params) => {
-              return (<TextField {...params} label="Exercise Name" variant="outlined" />);
-            }}
-          />
+          <ExerciseSearch onSelect={(e) => setExerciseDictionary(e)}/>
         </div>
         <div>
           <ToggleButtonGroup
@@ -327,8 +394,8 @@ function ExerciseListItems({ list, onItemClick = () => {} }) {
 function Console() {
   const classes = useStyles();
 
-  const [list, setList] = React.useState(null);
-  const [exercise, setExercise] = React.useState(null);
+  const [list, setList] = useState(null);
+  const [exercise, setExercise] = useState(null);
   
   useEffect(() => {
     getAPIUnresolvedExercises(0).then((list) => setList(list));

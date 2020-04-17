@@ -119,7 +119,7 @@ func handleResolveExercise(c echo.Context) error {
 }
 
 func handleSearchExercise(c echo.Context) error {
-	ctx := c.(Context)
+	ctx := c.(*Context)
 	db := ctx.db
 
 	exerciseQuery := ctx.QueryParam("exerciseQuery")

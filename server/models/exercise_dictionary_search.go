@@ -11,30 +11,33 @@ import (
 // ExerciseRelatedNameSearchResult holds the result values w/ rank info
 type ExerciseRelatedNameSearchResult struct {
 	ExerciseRelatedName
-	Rank float32 `json:"rank"`
+	ExerciseDictionaryName string  `json:"-"`
+	Rank                   float32 `json:"rank"`
 }
 
 // ExerciseDictionarySearchResult holds search results based on matched ExerciseRelatedNames
 type ExerciseDictionarySearchResult struct {
-	ExerciseDictionaryID uint                              `json:"exercise_dictionary_id"`
-	Rank                 float32                           `json:"rank"`
-	Related              []ExerciseRelatedNameSearchResult `json:"related"`
+	ExerciseDictionaryID   uint                              `json:"exercise_dictionary_id"`
+	ExerciseDictionaryName string                            `json:"exercise_dictionary_name"`
+	Rank                   float32                           `json:"rank"`
+	Related                []ExerciseRelatedNameSearchResult `json:"related"`
 }
 
 // SearchExerciseDictionary will search for ExcerciseDictionary entity from the provided exercise name
 func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySearchResult, error) {
 	searchTerms := strings.Join(strings.Split(name, " "), " & ")
 
+	// TODO: make grabbing the dictionary name optional
 	q := `
-		SELECT *, ts_rank(related_tsv, keywords, 2) AS rank
-		FROM exercise_related_names, to_tsquery(?) keywords
-		WHERE related_tsv @@ keywords
+		SELECT exercise_related_names.*, exercise_dictionaries.name as exercise_dictionary_name, ts_rank(related_tsv, keywords, 2) AS rank
+		FROM exercise_dictionaries, exercise_related_names, to_tsquery(?) keywords
+		WHERE related_tsv @@ keywords AND exercise_dictionaries.id = exercise_related_names.exercise_dictionary_id
 		ORDER BY rank DESC
 	`
 
 	groupedByPrimary := make(map[uint][]*ExerciseRelatedNameSearchResult)
 
-	rows, err := db.Raw(q, searchTerms).Rows()
+	rows, err := db.Debug().Raw(q, searchTerms).Rows()
 	if err != nil {
 		return nil, err
 	}
@@ -55,6 +58,7 @@ func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySe
 	for k, v := range groupedByPrimary {
 		res := &ExerciseDictionarySearchResult{}
 		res.ExerciseDictionaryID = k
+		res.ExerciseDictionaryName = v[0].ExerciseDictionaryName
 
 		rank := float32(0)
 		for _, r := range v {
