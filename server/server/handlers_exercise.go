@@ -145,6 +145,23 @@ func handleGetUnresolvedExercises(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, r)
 }
 
+func handleGetUnmatchedExercises(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	exercise := []models.Exercise{}
+
+	q := db.Where("exercise_dictionary_id = NULL")
+
+	r, err := paging(q, 0, 0, &exercise)
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, r)
+}
+
 // exercise dictionary handlers
 
 func handleGetAllExerciseDictionary(c echo.Context) error {
