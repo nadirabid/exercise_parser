@@ -86,6 +86,10 @@ func handlePostWorkout(c echo.Context) error {
 	workout.UserID = userID // to make sure user isn't overriding this value
 
 	for i, e := range workout.Exercises {
+		// we stage in two different phases:
+		// 1. parse the user exercise string into parts
+		// 2. resolve the individual parts (i.e the exercise to a known exercise)
+
 		if err := e.Resolve(); err != nil {
 			// This means we'll need to do post processing - potentially first requiring manual
 			// updates

@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/jinzhu/gorm"
 
@@ -349,6 +350,86 @@ func seedFakeData(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	w := &models.Workout{
+		UserID:         user.ID,
+		Date:           time.Now(),
+		Location:       &models.Location{},
+		SecondsElapsed: 200,
+		Exercises: []models.Exercise{
+			{
+				Raw:  "3x3x3 tricep curls",
+				Type: "unknown",
+			},
+			{
+				Raw:  "4 mins of running in 5 mins",
+				Type: "unknown",
+			},
+			{
+				Raw:  "tricep curls 3x3 - 14lbs",
+				Type: "unknown",
+			},
+			{
+				Raw:  "3 sets of 4 reps at 25lbs - tricep curls",
+				Type: "unknown",
+			},
+		},
+	}
+
+	if err := db.Create(w).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func seedFakeWorkoutData(cmd *cobra.Command, args []string) error {
+	// init viper
+	v, err := configureViperFromCmd(cmd)
+	if err != nil {
+		return err
+	}
+
+	// init db
+	db, err := models.NewDatabase(v)
+	if err != nil {
+		return err
+	}
+
+	user := &models.User{}
+
+	if err := db.Where("external_user_id = ?", "fake.user.id").First(user).Error; err != nil {
+		return err
+	}
+
+	w := &models.Workout{
+		UserID:         user.ID,
+		Date:           time.Now(),
+		Location:       &models.Location{},
+		SecondsElapsed: 200,
+		Exercises: []models.Exercise{
+			{
+				Raw:  "3x3x3 tricep curls",
+				Type: "unknown",
+			},
+			{
+				Raw:  "4 mins of running in 5 mins",
+				Type: "unknown",
+			},
+			{
+				Raw:  "tricep curls 3x3 - 14lbs",
+				Type: "unknown",
+			},
+			{
+				Raw:  "3 sets of 4 reps at 25lbs - tricep curls",
+				Type: "unknown",
+			},
+		},
+	}
+
+	if err := db.Create(w).Error; err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -396,6 +477,12 @@ var seedFakeCmd = &cobra.Command{
 	RunE:  seedFakeData,
 }
 
+var seedFakeWorkoutCmd = &cobra.Command{
+	Use:   "workout",
+	Short: "Seed fake workout data for existing fake user",
+	RunE:  seedFakeWorkoutData,
+}
+
 var dropAllCmd = &cobra.Command{
 	Use:   "all",
 	Short: "Drop all tables",
@@ -429,4 +516,6 @@ func init() {
 
 	seedCmd.AddCommand(seedDictCmd)
 	seedCmd.AddCommand(seedFakeCmd)
+
+	seedFakeCmd.AddCommand(seedFakeWorkoutCmd)
 }
