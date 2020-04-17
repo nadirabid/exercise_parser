@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-import ReactJson from 'react-json-view'
+import ReactJson from 'react-json-view';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -211,7 +211,6 @@ function ExerciseSearch({ onSelect = () => {} }) {
       getAPIExerciseSearch(input).then((result) => {
         setCounter(counterRef + 1);
         if (counter + 1 < counterRef.value) {
-          console.log('ignoring', input, result.results.length)
           return;
         }
 
@@ -243,6 +242,7 @@ function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
   const classes = useStyles();
 
   const [exerciseType, setExerciseType] = useState('weighted');
+
   const [sets, setSets] = useState(0);
   const [reps, setReps] = useState(0);
   const [weight, setWeight] = useState(0);
@@ -250,6 +250,7 @@ function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
   const [time, setTime] = useState(0);
   const [distance, setDistance] = useState(0);
 
+  const [exerciseName, setExerciseName] = useState('');
   const [exerciseDictionary, setExerciseDictionary] = useState(null);
 
   const shouldOpen = exercise != null;
@@ -266,24 +267,26 @@ function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
       data.exercise_dictionary_id = exerciseDictionary.exercise_dictionary_id;
     }
 
+    if (exerciseName) {
+      data.name = exerciseName;
+    }
+
     if (exerciseType === 'weighted') {
       data['weighted_exercise'] = {
-        'sets': sets,
-        'reps': reps,
-        'weight': weight,
+        'sets': parseInt(sets, 10),
+        'reps': parseInt(reps, 10),
+        'weight': parseInt(weight, 10),
       };
 
     } else if (exerciseType === 'distance_exercise') {
       data['distance_exercise'] = {
-        'distance': distance,
-        'time': time,
+        'distance': parseFloat(distance),
+        'time': parseInt(time, 10),
       };
     }
 
     onSave(data); 
   };
-
-  console.log(exerciseDictionary)
 
   let fields = null;
 
@@ -291,17 +294,17 @@ function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
     fields = (
       <div className={classes.data}>
         <Box>
-          <TextField variant="filled" label="Sets" 
+          <TextField variant="filled" label="Sets"  type="number"
             value={sets} onChange={(e) => setSets(e.target.value)} 
           />
         </Box>
         <Box>
-          <TextField variant="filled" label="Reps"
+          <TextField variant="filled" label="Reps" type="number"
             value={reps} onChange={(e) => setReps(e.target.value)}
           />
         </Box>
         <Box>
-          <TextField variant="filled" label="Weight" 
+          <TextField variant="filled" label="Weight" type="number"
             value={weight} onChange={(e) => setWeight(e.target.value)}
           />
         </Box>
@@ -339,6 +342,10 @@ function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
       <DialogContent className={classes.dialogContent}>
         <div> 
           <ExerciseSearch onSelect={(e) => setExerciseDictionary(e)}/>
+          <TextField 
+            variant="filled" label="Exercise Name"
+            value={exerciseName} onChange={(e) => setExerciseName(e.target.value)}
+          />
         </div>
         <div>
           <ToggleButtonGroup

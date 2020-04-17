@@ -104,10 +104,10 @@ func (e *Exercise) Resolve() error {
 // WeightedExercise model
 type WeightedExercise struct {
 	HiddenModel
-	Sets       int  `json:"sets"`
-	Reps       int  `json:"reps"`
-	Weight     int  `json:"weight"`
-	ExerciseID uint `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
+	Sets       int     `json:"sets"`
+	Reps       int     `json:"reps"`
+	Weight     float32 `json:"weight"`
+	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }
 
 // DistanceExercise model

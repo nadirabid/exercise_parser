@@ -66,6 +66,8 @@ func handlePutExercise(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
+	exercise.ResolutionType = "manual"
+
 	// we don't resolve exercise - this endpoint is meant to be for a "manual resolve"
 
 	if err := db.Save(exercise).Error; err != nil {
