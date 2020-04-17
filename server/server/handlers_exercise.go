@@ -103,23 +103,6 @@ func handleDeleteExercise(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, exercise)
 }
 
-func handleResolveExercise(c echo.Context) error {
-	// this guy just resolves raw exercise text
-	ctx := c.(*Context)
-
-	exercise := &models.Exercise{}
-
-	if err := ctx.Bind(exercise); err != nil {
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
-	}
-
-	if err := exercise.Resolve(); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-
-	return ctx.JSON(http.StatusOK, exercise)
-}
-
 func handleSearchExercise(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.db
@@ -140,6 +123,23 @@ func handleSearchExercise(c echo.Context) error {
 		Pages:   1,
 		Size:    0,
 		Results: searchResults,
+	}
+
+	return ctx.JSON(http.StatusOK, r)
+}
+
+func handleGetUnresolvedExercises(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	exercises := []models.Exercise{}
+
+	q := db.Where("type = ?", "unknown")
+
+	r, err := paging(q, 0, 0, &exercises)
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
 
 	return ctx.JSON(http.StatusOK, r)
@@ -214,46 +214,6 @@ func handleGetExerciseRelatedName(c echo.Context) error {
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
-	}
-
-	return ctx.JSON(http.StatusOK, r)
-}
-
-func handleGetUnresolvedExercises(c echo.Context) error {
-	ctx := c.(*Context)
-	db := ctx.DB()
-
-	exercises := []models.Exercise{}
-
-	q := db.Where("type = ?", "unknown")
-
-	r, err := paging(q, 0, 0, &exercises)
-
-	if err != nil {
-		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
-	}
-
-	return ctx.JSON(http.StatusOK, r)
-}
-
-func handleResolveAllUnresolvedExercises(c echo.Context) error {
-	ctx := c.(*Context)
-	db := ctx.DB()
-
-	exercises := []models.Exercise{}
-
-	q := db.Where("type = unknown")
-
-	r, err := paging(q, 0, 0, &exercises)
-
-	if err != nil {
-		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
-	}
-
-	for _, e := range exercises {
-		if err := e.Resolve(); err != nil {
-			c.Logger().Errorf("Failed to resolve exercise: %v", e)
-		}
 	}
 
 	return ctx.JSON(http.StatusOK, r)

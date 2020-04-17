@@ -401,6 +401,7 @@ func seedFakeWorkoutData(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	// currently unresolvable exercises
 	w := &models.Workout{
 		UserID:         user.ID,
 		Date:           time.Now(),
@@ -427,6 +428,28 @@ func seedFakeWorkoutData(cmd *cobra.Command, args []string) error {
 	}
 
 	if err := db.Create(w).Error; err != nil {
+		return err
+	}
+
+	// currently unmatchable exercises
+
+	e := &models.Exercise{
+		Raw: "3x3 fake exercise",
+	}
+
+	e2 := &models.Exercise{
+		Raw: "4 mins of fake exercise",
+	}
+
+	w2 := &models.Workout{
+		UserID:         user.ID,
+		Date:           time.Now(),
+		Location:       &models.Location{},
+		SecondsElapsed: 200,
+		Exercises:      []models.Exercise{*e, *e2, *e, *e2},
+	}
+
+	if err := db.Create(w2).Error; err != nil {
 		return err
 	}
 

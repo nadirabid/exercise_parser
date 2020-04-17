@@ -118,8 +118,6 @@ func New(v *viper.Viper) error {
 	// exercise
 	apiRoutes.GET("/exercise/search", handleSearchExercise)
 	apiRoutes.GET("/exercise/unresolved", handleGetUnresolvedExercises)
-	apiRoutes.POST("/exercise/unresolved/resolve", handleResolveAllUnresolvedExercises)
-	apiRoutes.POST("/exercise/resolve", handleResolveExercise)
 	apiRoutes.GET("/exercise/:id", handleGetExercise)
 	apiRoutes.POST("/exercise", handlePostExercise)
 	apiRoutes.PUT("/exercise/:id", handlePutExercise)
