@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ReactJson from 'react-json-view';
 
@@ -15,9 +15,11 @@ import Typography from '@material-ui/core/Typography';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 import * as auth from './auth';
 import ExerciseSearch from './ExerciseSearch';
+import { darkTheme } from './globals';
 
 const solarizedTheme = {
   base00: 'rgba(1, 1, 1, 0)',
@@ -150,13 +152,10 @@ function RelatedNamesListItems({ list, onItemClick = () => {} }) {
 
   return list.results.map((item, index) => (
     <ListItem key={`exercise-${index}`} className={classes.listItem}>
-      <h3>{item.raw}</h3>
+      <h3>{item.related}</h3>
       <div>
         <ReactJson iconStyle="circle" theme={solarizedTheme} src={item} collapsed={true} />
       </div>
-      <Button onClick={() => onItemClick(item)} variant="outlined" color="default">
-        <AssessmentIcon />
-      </Button>
     </ListItem>
   ));
 }
@@ -167,22 +166,30 @@ function DictionaryRelatedNamesPanel() {
   const [list, setList] = useState(null);
   const [exerciseDictionary, setExerciseDictionary] = useState(null);
   
-  // useEffect(() => {
-  //   getAPIUnmatchedExercises(0).then((list) => setList(list));
-  // }, []);
+  useEffect(() => {
+    if (exerciseDictionary) {
+      getAPIDictionaryRelatedNames(exerciseDictionary.exercise_dictionary_id)
+        .then((result) => setList(result))
+    }
+  }, exerciseDictionary);
 
   const pageChange = (_, value) => {
-    // todooooo: sgetAPIUnmatchedExercises(value - 1).then((list) => setList(list));
+    getAPIDictionaryRelatedNames(exerciseDictionary.exercise_dictionary_id, value - 1)
+        .then((result) => setList(result))
   };
 
+  console.log(exerciseDictionary)
   return (
     <Box className={classes.content}>
-      <AppBar position="sticky">
-        <Toolbar className={classes.toolbar}>
-          <Typography className={classes.toolbarTitle} component="h3" variant="h7">Related Names</Typography>
-          <ExerciseSearch className={classes.toolbarSearch} onSelect={(e) => setExerciseDictionary(e)} />
-        </Toolbar>
-      </AppBar>
+      <ThemeProvider theme={darkTheme}>
+        <AppBar position="sticky">
+          <Toolbar className={classes.toolbar}>
+            <Typography className={classes.toolbarTitle} component="h3" variant="h7">Related Names</Typography>
+            <ExerciseSearch className={classes.toolbarSearch} onSelect={(e) => setExerciseDictionary(e)} />
+          </Toolbar>
+        </AppBar>
+      </ThemeProvider>
+
       <Box className={classes.listContent}>
         <List className={classes.list} style={{overflow: 'auto'}}>
           <RelatedNamesListItems list={list} />

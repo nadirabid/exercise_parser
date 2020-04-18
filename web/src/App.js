@@ -1,16 +1,11 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 import SignIn from './SignIn';
 import Console from './Console';
 import * as auth from './auth';
-
-const darkTheme = createMuiTheme({
-  palette: {
-    type: 'dark'
-  }
-});
+import { darkTheme } from './globals';
 
 function App() {
   const [authenticated, setAuthenticated] = React.useState(auth.isAuthenticated());
