@@ -57,7 +57,7 @@ func loadStopWords(v *viper.Viper) ([]string, error) {
 	return stopWords, nil
 }
 
-func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
+func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string, ignoreDupeTSV bool) error {
 	files, err := ioutil.ReadDir(seedDir)
 	if err != nil {
 		return err
@@ -85,23 +85,25 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 				continue
 			}
 
-			// TODO: does it make sense to ignore related names that have ts_vector equivalence?????
-			// // check if related_tsv is already in tehre
-			// q := `
-			// 	SELECT related_tsv
-			// 	FROM exercise_related_names
-			// 	WHERE to_tsvector(?) = related_tsv
-			// `
-			// rows, err := db.Raw(q, m.Related).Rows()
-			// if err != nil {
-			// 	return err
-			// }
+			if ignoreDupeTSV {
+				// TODO: does it make sense to ignore related names that have ts_vector equivalence?????
+				// check if related_tsv is already in tehre
+				q := `
+				SELECT related_tsv
+				FROM exercise_related_names
+				WHERE to_tsvector(?) = related_tsv
+			`
+				rows, err := db.Raw(q, m.Related).Rows()
+				if err != nil {
+					return err
+				}
 
-			// if rows.Next() {
-			// 	rows.Close()
-			// 	continue
-			// }
-			// rows.Close()
+				if rows.Next() {
+					rows.Close()
+					continue
+				}
+				rows.Close()
+			}
 
 			d := &models.ExerciseDictionary{}
 			if db.Where("name = ?", related.Name).First(d).RecordNotFound() {
@@ -205,7 +207,7 @@ func seed(cmd *cobra.Command, args []string) error {
 	// seed related names
 	dir = v.GetString("resources.dir.related_names")
 
-	if err := seedRelatedNames(db, dir, stopWords); err != nil {
+	if err := seedRelatedNames(db, dir, stopWords, false); err != nil {
 		return err
 	}
 
@@ -214,7 +216,7 @@ func seed(cmd *cobra.Command, args []string) error {
 	// seed bing related searchs
 	dir = v.GetString("resources.dir.related_searches_bing")
 
-	if err := seedRelatedNames(db, dir, stopWords); err != nil {
+	if err := seedRelatedNames(db, dir, stopWords, true); err != nil {
 		return err
 	}
 
@@ -223,7 +225,7 @@ func seed(cmd *cobra.Command, args []string) error {
 	// seed goog related searchs
 	dir = v.GetString("resources.dir.related_searches_goog")
 
-	if err := seedRelatedNames(db, dir, stopWords); err != nil {
+	if err := seedRelatedNames(db, dir, stopWords, true); err != nil {
 		return err
 	}
 

@@ -229,7 +229,7 @@ func handlePostDictionaryRelatedName(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	relatedName.Type = "manual"
+	relatedName.Type = ctx.viper.GetString("resources.dir.related_names")
 
 	if err := db.Create(relatedName).Error; err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))

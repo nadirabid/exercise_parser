@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'stretch',
     flexDirection: 'column',
-    maxHeight: '100vh',
+    maxHeight: '90vh',
     overflowY: 'scroll',
     flex: 1,
   },
