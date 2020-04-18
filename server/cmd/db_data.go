@@ -246,6 +246,8 @@ func dump(cmd *cobra.Command, args []string) error {
 	}
 
 	// start dump
+	dir := v.GetString("resources.dir.related_names")
+
 	relatedMap := make(map[uint][]string)
 
 	rows, err := db.Model(&models.ExerciseRelatedName{}).Rows()
@@ -258,7 +260,7 @@ func dump(cmd *cobra.Command, args []string) error {
 		m := &models.ExerciseRelatedName{}
 		db.ScanRows(rows, m)
 
-		if m.Type == "model" {
+		if m.Type != dir {
 			// no need to dump if related and primary are the same
 			continue
 		}
@@ -288,7 +290,6 @@ func dump(cmd *cobra.Command, args []string) error {
 		r.Related = relatedNames
 
 		fileName := strings.ToLower(strings.Join(strings.Split(r.Name, " "), "_"))
-		dir := v.GetString("resources.dir.related_names")
 
 		utils.WriteToDir(r, fileName, dir)
 	}
