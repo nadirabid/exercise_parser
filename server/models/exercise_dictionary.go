@@ -1,6 +1,9 @@
 package models
 
 import (
+	"fmt"
+
+	"github.com/jinzhu/gorm"
 	"github.com/lib/pq"
 )
 
@@ -63,7 +66,22 @@ type ExerciseRelatedName struct {
 	ExerciseDictionaryID uint   `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
 	Related              string `json:"related" gorm:"primary_key"`
 	RelatedTSV           string `json:"-" gorm:"type:tsvector"`
-	Type                 string `json:"-"`
+	Type                 string `json:"type"`
+	Ignored              bool   `json:"ignored"`
+}
+
+func (r *ExerciseRelatedName) UpdateTSV(db *gorm.DB) error {
+	setTSV := `
+		UPDATE exercise_related_names
+		SET related_tsv=to_tsvector('english', coalesce(exercise_related_names.related, ''))
+		WHERE id = ?
+	`
+
+	if err := db.Exec(setTSV, r.ID).Error; err != nil {
+		return fmt.Errorf("unable to set tsvector: %s", err.Error())
+	}
+
+	return nil
 }
 
 // ExerciseDictionary is a single exercise type

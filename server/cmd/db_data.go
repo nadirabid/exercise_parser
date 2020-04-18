@@ -85,22 +85,23 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 				continue
 			}
 
-			// check if related_tsv is already in tehre
-			q := `
-				SELECT related_tsv
-				FROM exercise_related_names
-				WHERE to_tsvector(?) = related_tsv
-			`
-			rows, err := db.Raw(q, m.Related).Rows()
-			if err != nil {
-				return err
-			}
+			// TODO: does it make sense to ignore related names that have ts_vector equivalence?????
+			// // check if related_tsv is already in tehre
+			// q := `
+			// 	SELECT related_tsv
+			// 	FROM exercise_related_names
+			// 	WHERE to_tsvector(?) = related_tsv
+			// `
+			// rows, err := db.Raw(q, m.Related).Rows()
+			// if err != nil {
+			// 	return err
+			// }
 
-			if rows.Next() {
-				rows.Close()
-				continue
-			}
-			rows.Close()
+			// if rows.Next() {
+			// 	rows.Close()
+			// 	continue
+			// }
+			// rows.Close()
 
 			d := &models.ExerciseDictionary{}
 			if db.Where("name = ?", related.Name).First(d).RecordNotFound() {
@@ -114,12 +115,7 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string) error {
 				return fmt.Errorf("unable to save related name: %s", err.Error())
 			}
 
-			setTSV := `
-				UPDATE exercise_related_names
-				SET related_tsv=to_tsvector('english', coalesce(exercise_related_names.related, ''))
-				WHERE id = ?
-			`
-			if err := db.Exec(setTSV, m.ID).Error; err != nil {
+			if err := m.UpdateTSV(db); err != nil {
 				return fmt.Errorf("unable to set tsvector: %s", err.Error())
 			}
 		}

@@ -125,7 +125,7 @@ func New(v *viper.Viper) error {
 	apiRoutes.DELETE("/exercise/:id", handleDeleteExercise)
 
 	// dictionary
-	apiRoutes.GET("/exercise/dictionary", handleGetAllExerciseDictionary)
+	apiRoutes.GET("/exercise/dictionary", handleGetExerciseDictionaryList)
 	apiRoutes.POST("/exercise/dictionary/related", handlePostExerciseRelatedName)
 	apiRoutes.GET("/exercise/dictionary/:id/related", handleGetExerciseRelatedName)
 

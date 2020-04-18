@@ -207,7 +207,13 @@ func handlePostExerciseRelatedName(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
+	relatedName.Type = "manual"
+
 	if err := db.Create(relatedName).Error; err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	if err := relatedName.UpdateTSV(db); err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
