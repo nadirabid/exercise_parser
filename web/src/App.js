@@ -2,8 +2,8 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-import SignIn from './SignIn'
-import Console from './Console'
+import SignIn from './SignIn';
+import Console from './Console';
 import * as auth from './auth';
 
 const darkTheme = createMuiTheme({

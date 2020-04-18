@@ -11,6 +11,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 import * as auth from './auth';
 import UnresolvedExercisePanel from './UnresolvedExercisePanel';
 import UnmatchedExercisePanel from './UnmatchedExercisePanel';
+import DictionaryRelatedNamesPanel from './DictionaryRelatedNamesPanel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,8 +109,8 @@ function Sidebar({ onSelect = () => {} }) {
   const classes = useStyles();
   const treeItemClasses = useTreeItemStyles();
 
-  const [selected, setSelected] = useState("exercises.unresolved");
-  const [expanded, setExpanded] = useState("exercises");
+  const [selected, setSelected] = useState('exercises.unresolved');
+  const [expanded, setExpanded] = useState('exercises');
 
   const classObj = {
     root: treeItemClasses.root,
@@ -121,11 +122,13 @@ function Sidebar({ onSelect = () => {} }) {
   };
 
   const handleSelect = (_, value) => {
-    if (value.includes("exercises")) {
-      setExpanded("exercises");
+    if (value.includes('exercises')) {
+      setExpanded('exercises');
+    } else if (value.includes('dictionary')) {
+      setExpanded('dictionary');
     }
 
-    if (value.includes(".")) {
+    if (value.includes('.')) {
       setSelected(value);
       onSelect(value);
     }
@@ -158,6 +161,19 @@ function Sidebar({ onSelect = () => {} }) {
               } 
             />
           </TreeItem>
+          <TreeItem
+            classes={classObj} nodeId="dictionary"
+            label={
+              <Typography variant="h7">Dictionary</Typography>
+            }
+          >
+            <TreeItem
+              classes={classObj} nodeId="dictionary.related_names"
+              label={
+                <Typography variant="h7">Related Names</Typography>
+              }
+            />
+          </TreeItem>
         </TreeView>
       </Box>
       <Box flex="0" className={classes.logout}>
@@ -172,13 +188,15 @@ function Sidebar({ onSelect = () => {} }) {
 function Console() {
   const classes = useStyles();
 
-  const [selectedPanel, setSelectedPanel] = useState("exercises.unresolved");
+  const [selectedPanel, setSelectedPanel] = useState('dictionary.related_names');
 
   let panel;
-  if (selectedPanel === "exercises.unresolved") {
+  if (selectedPanel === 'exercises.unresolved') {
     panel = <UnresolvedExercisePanel />;
-  } else if (selectedPanel === "exercises.unmatched") {
+  } else if (selectedPanel === 'exercises.unmatched') {
     panel = <UnmatchedExercisePanel />;
+  } else if (selectedPanel === 'dictionary.related_names') {
+    panel = <DictionaryRelatedNamesPanel />;
   }
 
   return (

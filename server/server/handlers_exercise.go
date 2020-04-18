@@ -164,7 +164,7 @@ func handleGetUnmatchedExercises(c echo.Context) error {
 
 // exercise dictionary handlers
 
-func handleGetAllExerciseDictionary(c echo.Context) error {
+func handleGetExerciseDictionaryList(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
 
