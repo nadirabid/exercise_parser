@@ -74,7 +74,10 @@ const useStyles = makeStyles((theme) => ({
   },
   listItem: {
     backgroundColor: theme.palette.background.paper,
-    margin: '2em',
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    marginRight: theme.spacing(3),
+    marginLeft: theme.spacing(3),
     display: 'flex',
     width: 'auto',
     '& > *:not(:first-child)': {

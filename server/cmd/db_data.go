@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"exercise_parser/models"
+	"exercise_parser/parser"
 	"exercise_parser/utils"
 	"fmt"
 	"io"
@@ -395,6 +396,10 @@ func seedFakeWorkoutData(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	if err := parser.Init(v); err != nil {
+		return err
+	}
+
 	user := &models.User{}
 
 	if err := db.Where("external_user_id = ?", "fake.user.id").First(user).Error; err != nil {
@@ -437,8 +442,16 @@ func seedFakeWorkoutData(cmd *cobra.Command, args []string) error {
 		Raw: "3x3 fake exercise",
 	}
 
+	if err := e.Resolve(); err != nil {
+		return err
+	}
+
 	e2 := &models.Exercise{
 		Raw: "4 mins of fake exercise",
+	}
+
+	if err := e2.Resolve(); err != nil {
+		return err
 	}
 
 	w2 := &models.Workout{

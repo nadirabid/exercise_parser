@@ -151,7 +151,7 @@ func handleGetUnmatchedExercises(c echo.Context) error {
 
 	exercise := []models.Exercise{}
 
-	q := db.Debug().Where("exercise_dictionary_id IS NULL and type != ?", "unknown")
+	q := db.Where("exercise_dictionary_id IS NULL and type != ?", "unknown")
 
 	r, err := paging(q, 0, 0, &exercise)
 

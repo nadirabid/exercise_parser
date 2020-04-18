@@ -121,11 +121,11 @@ function Sidebar({ onSelect = () => {} }) {
   };
 
   const handleSelect = (_, value) => {
-    if (selected.includes("exercises")) {
+    if (value.includes("exercises")) {
       setExpanded("exercises");
     }
 
-    if (selected.includes(".")) {
+    if (value.includes(".")) {
       setSelected(value);
       onSelect(value);
     }
