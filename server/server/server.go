@@ -126,8 +126,11 @@ func New(v *viper.Viper) error {
 
 	// dictionary
 	apiRoutes.GET("/exercise/dictionary", handleGetExerciseDictionaryList)
-	apiRoutes.POST("/exercise/dictionary/related", handlePostExerciseRelatedName)
-	apiRoutes.GET("/exercise/dictionary/:id/related", handleGetExerciseRelatedName)
+	apiRoutes.GET("/exercise/dictionary/:id/related", handleGetDictionaryRelatedName)
+
+	// related names
+	apiRoutes.POST("/exercise/dictionary/related", handlePostDictionaryRelatedName)
+	apiRoutes.PUT("/exercise/dictionary/related/:id", handlePutDictionaryRelatedName)
 
 	// workout
 	apiRoutes.GET("/workout", handleGetAllWorkout)

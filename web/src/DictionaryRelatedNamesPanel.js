@@ -23,6 +23,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Backdrop from '@material-ui/core/Backdrop';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 
 import * as auth from './auth';
 import ExerciseSearch from './ExerciseSearch';
@@ -169,6 +173,25 @@ async function apiCreateDictionaryRelatedName(data) {
   return resp;
 }
 
+async function apiUpdateRelatedName(data) {
+  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/dictionary/related/${data.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (result.status !== 200) {
+    console.error('Failed to create', result);
+    return false;
+  }
+
+  const resp = await result.json();
+
+  return resp;
+}
+
 function CreateRelatedNameDialog({ open, dictionary, onCancel = () => {}, onSave = () => {} }) {
   const classes = useStyles();
 
@@ -218,7 +241,7 @@ function CreateRelatedNameDialog({ open, dictionary, onCancel = () => {}, onSave
   );
 }
 
-function RelatedNamesListItems({ list, onItemClick = () => {} }) {
+function RelatedNamesListItems({ list, onRefreshList = () => {} }) {
   const classes = useStyles();
 
   if (list == null) {
@@ -230,14 +253,59 @@ function RelatedNamesListItems({ list, onItemClick = () => {} }) {
     ));
   }
 
-  return list.results.map((item, index) => (
-    <ListItem key={`exercise-${index}`} className={classes.listItem}>
-      <h3>{item.related}</h3>
-      <div>
-        <ReactJson iconStyle="circle" theme={solarizedTheme} src={item} collapsed={true} />
-      </div>
-    </ListItem>
-  ));
+  const updateRelatedNameIgnored = async (relatedName, ignore) => {
+    if (relatedName.ignored === ignore) {
+      return false;
+    }
+    
+    const data = JSON.parse(JSON.stringify(relatedName));
+    data.ignored = ignore;
+
+    return await apiUpdateRelatedName(data);
+  };
+
+  return list.results.map((item, index) => {
+    return (
+      <ListItem key={`exercise-${index}`} className={classes.listItem}>
+        <h3>{item.related}</h3>
+        <div>
+          <ReactJson iconStyle="circle" theme={solarizedTheme} src={item} collapsed={true} />
+        </div>
+        <Button>
+
+        </Button>
+        <ToggleButtonGroup
+          value={item.ignored ? "true" : "false"}
+          exclusive
+          onChange={(e, v) => {}}
+          aria-label="text alignment"
+        >
+          <ToggleButton 
+            value="false" aria-label="left aligned"
+            onClick={async () => {
+              const updated = await updateRelatedNameIgnored(item, false);
+              if (updated) {
+                onRefreshList();
+              }
+            }}
+          >
+            <VisibilityIcon />
+          </ToggleButton>
+          <ToggleButton
+            value="true" aria-label="centered"
+            onClick={async () => {
+              const updated = await updateRelatedNameIgnored(item, true);
+              if (updated) {
+                onRefreshList();
+              }
+            }}
+          >
+            <VisibilityOffIcon />
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </ListItem>
+    );
+  });
 }
 
 function DictionaryRelatedNamesPanel() {
@@ -258,6 +326,11 @@ function DictionaryRelatedNamesPanel() {
     setPage(value - 1);
   };
 
+  const refreshList = async () => {
+    const result = await apiGetDictionaryRelatedNames(exerciseDictionary.exercise_dictionary_id, page);
+    setList(result);
+  };
+
   return (
     <Box className={classes.content}>
       <CreateRelatedNameDialog
@@ -267,9 +340,7 @@ function DictionaryRelatedNamesPanel() {
         onSave={async (data) => {
           await apiCreateDictionaryRelatedName(data);
           setOpenDialog(false);
-          const result = await apiGetDictionaryRelatedNames(exerciseDictionary.exercise_dictionary_id, page);
-          console.log('updated', result)
-          setList(result)
+          await refreshList();
         }}
       />
       <ThemeProvider theme={darkTheme}>
@@ -283,7 +354,7 @@ function DictionaryRelatedNamesPanel() {
 
       <Box className={classes.listContent}>
         <List className={classes.list} style={{overflow: 'auto'}}>
-          <RelatedNamesListItems list={list} />
+          <RelatedNamesListItems list={list} onRefreshList={refreshList} />
         </List>
         <div className={classes.pagination}>
           <Pagination
