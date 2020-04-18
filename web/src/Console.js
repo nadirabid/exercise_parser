@@ -105,12 +105,20 @@ const useTreeItemStyles = makeStyles((theme) => ({
   },
 }));
 
-function Sidebar({ onSelect = () => {} }) {
+function Sidebar({ defaultSelection = 'exercises.unresolved', onSelect = () => {} }) {
   const classes = useStyles();
   const treeItemClasses = useTreeItemStyles();
 
-  const [selected, setSelected] = useState('exercises.unresolved');
-  const [expanded, setExpanded] = useState('exercises');
+  const [selected, setSelected] = useState(defaultSelection);
+
+  let defaultExpanded;
+  if (selected.includes('exercises')) {
+    defaultExpanded = 'exercises';
+  } else if (selected.includes('dictionary')) {
+    defaultExpanded = 'dictionary';
+  }
+
+  const [expanded, setExpanded] = useState(defaultExpanded);
 
   const classObj = {
     root: treeItemClasses.root,
@@ -188,7 +196,7 @@ function Sidebar({ onSelect = () => {} }) {
 function Console() {
   const classes = useStyles();
 
-  const [selectedPanel, setSelectedPanel] = useState('dictionary.related_names');
+  const [selectedPanel, setSelectedPanel] = useState('exercises.unresolved');
 
   let panel;
   if (selectedPanel === 'exercises.unresolved') {
@@ -201,7 +209,7 @@ function Console() {
 
   return (
     <div className={classes.root}>
-      <Sidebar onSelect={setSelectedPanel} />
+      <Sidebar defaultSelection={selectedPanel} onSelect={setSelectedPanel} />
       {panel}
     </div>
   );
