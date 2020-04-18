@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ReactJson from 'react-json-view';
 
@@ -7,7 +7,6 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import List from '@material-ui/core/List';
 import Backdrop from '@material-ui/core/Backdrop';
 import CardContent from '@material-ui/core/CardContent';
@@ -25,6 +24,7 @@ import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 
 import * as auth from './auth';
+import ExerciseSearch from './ExerciseSearch';
 
 const solarizedTheme = {
   base00: 'rgba(1, 1, 1, 0)',
@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
 async function getAPIUnresolvedExercises(page = 1, pageSize=20) {
   const result = await fetch(`${auth.getAPIUrl()}/api/exercise/unresolved?size=${pageSize}&page=${page}`);
 
-  if (result.status != 200) {
+  if (result.status !== 200) {
     console.error('Failed to sign in', result);
     return false;
   }
@@ -141,66 +141,6 @@ async function updateAPIExercise(exercise) {
   const resp = await result.json();
 
   return resp;
-}
-
-async function getAPIExerciseSearch(exerciseQuery) {
-  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/search?exerciseQuery=${exerciseQuery}`);
-
-  if (result.status != 200) {
-    console.error('Failed to get exercise search results: ', result);
-    return false;
-  }
-
-  const resp = await result.json();
-
-  return resp;
-}
-
-function useRefState(initialValue) {
-  const [state, setState] = useState(initialValue);
-  const stateRef = useRef(state);
-  useEffect(
-    () => { stateRef.current = state },
-    [state]
-  );
-  return [state, stateRef, setState];
-}
-
-function ExerciseSearch({ onSelect = () => {} }) {
-  const [options, setOptions] = useState([]);
-  const [input, setInput] = useState('');
-  const [counter, counterRef, setCounter] = useRefState(0);
-  
-  useEffect(() => {
-    if (input) {
-      getAPIExerciseSearch(input).then((result) => {
-        setCounter(counterRef + 1);
-        if (counter + 1 < counterRef.value) {
-          return;
-        }
-
-        setOptions(result.results);
-      });
-    }
-  }, [input]);
-
-  return (
-    <Autocomplete
-      options={options}
-      getOptionLabel={(option) => option.exercise_dictionary_name}
-      style={{ width: 300 }}
-      filterOptions={(options) => options}
-      onChange={(_, v) => onSelect(v)}
-      renderInput={(params) => {
-        return (
-          <TextField
-            onChange={(e) => setInput(e.target.value)}
-            {...params} label="Exercise Name" variant="outlined" fullWidth
-          />
-        );
-      }}
-    />
-  );
 }
 
 function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
@@ -363,7 +303,7 @@ function ExerciseListItems({ list, onItemClick = () => {} }) {
   ));
 }
 
-function ExercisePanel() {
+function UnresolvedExercisePanel() {
   const classes = useStyles();
 
   const [list, setList] = useState(null);
@@ -404,4 +344,4 @@ function ExercisePanel() {
   );
 }
 
-export default ExercisePanel;
+export default UnresolvedExercisePanel;
