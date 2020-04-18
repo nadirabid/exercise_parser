@@ -325,7 +325,7 @@ function UnresolvedExercisePanel() {
         onSave={async (data) => {
           await updateAPIExercise(data);
           setExercise(null);
-          await getAPIUnresolvedExercises(0);
+          await getAPIUnresolvedExercises(0).then((list) => setList(list));
         }}
       />
       <List className={classes.list} style={{overflow: 'auto'}}>

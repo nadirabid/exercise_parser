@@ -240,7 +240,7 @@ function UnmatchedExercisePanel() {
         onSave={async (data) => {
           await updateAPIExercise(data);
           setExercise(null);
-          await getAPIUnmatchedExercises(0);
+          await getAPIUnmatchedExercises(0).then((list) => setList(list));
         }}
       />
       <List className={classes.list} style={{overflow: 'auto'}}>
