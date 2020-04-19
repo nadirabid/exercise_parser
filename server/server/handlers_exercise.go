@@ -34,6 +34,25 @@ func handleGetExercise(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, exercise)
 }
 
+func handleResolveExercise(c echo.Context) error {
+	// this guy just resolves raw exercise text
+	ctx := c.(*Context)
+
+	exercise := &models.Exercise{}
+
+	if err := ctx.Bind(exercise); err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	if err := exercise.Resolve(); err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	// TODO: should we also do a match to dictionary???
+
+	return ctx.JSON(http.StatusOK, exercise)
+}
+
 func handlePostExercise(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()

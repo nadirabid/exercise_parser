@@ -124,7 +124,7 @@ struct ProcessingExerciseView: View {
                         .font(.subheadline)
                 }
                 
-                Text("Now learning")
+                Text("Taking time to process")
                     .font(.caption)
                     .foregroundColor(Color.gray)
             }

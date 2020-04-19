@@ -134,7 +134,7 @@ public struct EditableExerciseView: View {
             if exercise?.type == ExerciseType.unknown.rawValue &&
                 !exerciseState.input.isEmpty &&
                 !isNewEntry {
-                ProcessingExerciseView()
+                ProcessingExerciseView(exercise: workoutState.isStopped ? exercise : nil)
             } else if exercise == nil ||
                 (!exerciseState.input.isEmpty && isNewEntry) {
                 WaitingForExerciseView()
