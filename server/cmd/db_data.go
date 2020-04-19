@@ -77,7 +77,12 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string, ignoreDup
 
 		for _, r := range related.Related {
 			m := &models.ExerciseRelatedName{}
-			m.Related = removeStopWords(sanitizeRelatedName(r), stopWords)
+			if ignoreDupeTSV {
+				m.Related = r
+			} else {
+				m.Related = removeStopWords(sanitizeRelatedName(r), stopWords)
+			}
+
 			m.Type = seedDir
 
 			// if, after removing stop words, we have an emptry string, then don't insert into db

@@ -72,7 +72,7 @@ func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySe
 			res.Related = append(res.Related, *r)
 		}
 
-		res.Rank = rank
+		res.Rank = rank * (1.2)
 
 		sort.Slice(res.Related, func(i, j int) bool {
 			if res.Related[i].Rank < res.Related[j].Rank {
