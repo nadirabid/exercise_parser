@@ -43,6 +43,12 @@ func weightedExerciseExpressions() []string {
 		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,          // {Sets:Number}x{Reps:Number} at {Weight:Number} {Exercise:String}
 		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`, // {Sets:Number}x{Reps:Number} at {Weight:Number} of {Exercise:String}
 
+		`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilograms|lb|lbs|pounds)\s*(?P<Exercise>[a-zA-Z\s]+)`,                           // {Sets:Number} {Reps:Number} {Weight:Number}{Units} {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilograms|lb|lbs|pounds)\s*(?P<Exercise>[a-zA-Z\s]+)`,           // {Sets:Number}x{Reps:Number}x{Weight:Number}{Units} {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilograms|lb|lbs|pounds)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,  // {Sets:Number}x{Reps:Number}x{Weight:Number}{Units} of {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilograms|lb|lbs|pounds)\s*(?P<Exercise>[a-zA-Z\s]+)`,          // {Sets:Number}x{Reps:Number} at {Weight:Number}{Units} {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilograms|lb|lbs|pounds)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`, // {Sets:Number}x{Reps:Number} at {Weight:Number}{Units} of {Exercise:String}
+
 		`^(?P<Exercise>[a-zA-Z\s]+)(?:(?:\s+)|(?:\s*,\s*))(?P<Sets>\d+)\s+(?P<Reps>\d+)`,                                // {Exericse:String} {Sets:Number} {Reps:Number}
 		`^(?P<Exercise>[a-zA-Z\s]+)(?:(?:\s+)|(?:\s*,\s*))(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)`,                        // {Exericse:String} {Sets:Number}x{Reps:Number}
 		`^(?P<Exercise>[a-zA-Z\s]+)(?:(?:\s+)|(?:\s*,\s*))(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)`,                       // {Exercise:String} {Sets:Number} by {Reps:Number}

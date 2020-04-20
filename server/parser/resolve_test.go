@@ -150,6 +150,43 @@ func TestWeightedExercise(t *testing.T) {
 		parsed := resolveExpUtil("3x3 at 25 of tricep curls")
 		assert.Equal(t, tricepCurls2, parsed.Captures)
 	})
+
+	tricepCurls3 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3", "Weight": "25", "Units": "kg"}
+
+	t.Run("{Sets:Number} {Reps:Number} {Weight:Number}{Units} {Exercise:String}", func(t *testing.T) {
+		parsed := resolveExpUtil("3 3 25kg tricep curls")
+		assert.Equal(t, tricepCurls3, parsed.Captures)
+	})
+
+	t.Run("{Sets:Number} {Reps:Number} {Weight:Number} {Units} {Exercise:String}", func(t *testing.T) {
+		parsed := resolveExpUtil("3 3 25 kg tricep curls")
+		assert.Equal(t, tricepCurls3, parsed.Captures)
+	})
+
+	t.Run("{Sets:Number}x{Reps:Number}x{Weight:Number}{Units} {Exercise:String}", func(t *testing.T) {
+		parsed := resolveExpUtil("3x3x25kg tricep curls")
+		assert.Equal(t, tricepCurls3, parsed.Captures)
+	})
+
+	t.Run("{Sets:Number}x{Reps:Number}x{Weight:Number} {Units} {Exercise:String}", func(t *testing.T) {
+		parsed := resolveExpUtil("3x3x25 kg tricep curls")
+		assert.Equal(t, tricepCurls3, parsed.Captures)
+	})
+
+	t.Run("{Sets:Number}x{Reps:Number}x{Weight:Number}{Units} of {Exercise:String}", func(t *testing.T) {
+		parsed := resolveExpUtil("3x3x25kg of tricep curls")
+		assert.Equal(t, tricepCurls3, parsed.Captures)
+	})
+
+	t.Run("{Sets:Number}x{Reps:Number} at {Weight:Number}{Units} {Exercise:String}", func(t *testing.T) {
+		parsed := resolveExpUtil("3x3 at 25kg tricep curls")
+		assert.Equal(t, tricepCurls3, parsed.Captures)
+	})
+
+	t.Run("{Sets:Number}x{Reps:Number} at {Weight:Number}{Units} of {Exercise:String}", func(t *testing.T) {
+		parsed := resolveExpUtil("3x3 at 25kg of tricep curls")
+		assert.Equal(t, tricepCurls3, parsed.Captures)
+	})
 }
 
 func TestDistanceExercise(t *testing.T) {
