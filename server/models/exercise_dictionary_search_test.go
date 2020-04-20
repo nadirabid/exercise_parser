@@ -73,6 +73,8 @@ func TestSearchTestData(t *testing.T) {
 		t.Fatal(err.Error())
 	}
 
+	fmt.Println("test datums", testDatums)
+
 	for _, d := range testDatums {
 		t.Run(fmt.Sprintf("%s should resolve to %s", d.Search, d.Expected), func(t *testing.T) {
 			results, err := SearchExerciseDictionary(db, d.Search)
