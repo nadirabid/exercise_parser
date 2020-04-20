@@ -10,6 +10,11 @@ func TestWeightedExercise(t *testing.T) {
 	tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 	tricepCurls2 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3", "Weight": "25"}
 
+	t.Run("test", func(t *testing.T) {
+		parsed := resolveExpUtil("4 sets of 4 bench presses")
+		assert.Equal(t, map[string]string{"Exercise": "bench presses", "Sets": "4", "Reps": "4"}, parsed.Captures)
+	})
+
 	t.Run("{Sets:Number} {Reps:Number} {Exercise:String}", func(t *testing.T) {
 		parsed := resolveExpUtil("3 3 tricep curls")
 		assert.Equal(t, tricepCurls1, parsed.Captures)

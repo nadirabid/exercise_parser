@@ -126,3 +126,7 @@ year
 day
 kinds
 everyday
+rep
+reps
+set
+sets

@@ -117,20 +117,14 @@ func (p *Parser) Resolve(exercise string) (*Result, error) {
 	// TODO: convert words to numbers
 
 	exercise = strings.Trim(strings.ToLower(exercise), " ")
-	exercise = p.lemmatize(exercise)
+	// exercise = p.lemmatize(exercise) // TODO: should we lemmatize?
 
 	// resolve expression
 
 	weightedExercise := resolveExpressions(exercise, weightedExerciseExpressions())
 	distanceExercise := resolveExpressions(exercise, distanceExerciseExpressions())
 
-	if weightedExercise.Captures != nil && distanceExercise.Captures != nil {
-		return nil, fmt.Errorf(
-			"multiple matches: %v, %v",
-			weightedExercise,
-			distanceExercise,
-		)
-	} else if weightedExercise.Captures != nil {
+	if weightedExercise.Captures != nil {
 		return &Result{
 			Type:     "weighted",
 			Captures: weightedExercise.Captures,
