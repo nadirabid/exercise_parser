@@ -25,17 +25,20 @@ func weightedExerciseExpressions() []string {
 	// TODO: add {Units} for lb/kg - how the fuck did i overlook that
 
 	expressions := []string{
-		`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,                                       // {Sets:Number} {Reps:Number} {Exercise:String}
-		`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,                              // {Sets:Number} {Reps:Number} of {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,                               // {Sets:Number}x{Reps:Number} {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,                      // {Sets:Number}x{Reps:Number} of {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,                              // {Sets:Number} by {Reps:Number} {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,                     // {Sets:Number} by {Reps:Number} of {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s*(?:sets)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,          // {Sets:Number} by {Reps:Number} sets of {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,                   // {Sets:Number} sets of {Reps:Number} {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,          // {Sets:Number} sets of {Reps:Number} of {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(reps)\s*(?P<Exercise>[a-zA-Z\s]+)`,          // {Sets:Number} sets of {Reps:Number} reps {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(reps)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`, // {Sets:number} sets of {Reps:Number} reps of? {Exercise:String}
+		`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,                                            // {Sets:Number} {Reps:Number} {Exercise:String}
+		`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Weight>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,                          // {Sets:Number} {Reps:Number} {Weight:Number} {Exercise:String}
+		`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,                                   // {Sets:Number} {Reps:Number} of {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,                                    // {Sets:Number}x{Reps:Number} {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,          // {Sets:Number}x{Reps:Number}x{Weight:Number} {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,                           // {Sets:Number}x{Reps:Number} of {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`, // {Sets:Number}x{Reps:Number}x{Weight:Number} of {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,                                   // {Sets:Number} by {Reps:Number} {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,                          // {Sets:Number} by {Reps:Number} of {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s*(?:sets)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,               // {Sets:Number} by {Reps:Number} sets of {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+)`,                        // {Sets:Number} sets of {Reps:Number} {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,               // {Sets:Number} sets of {Reps:Number} of {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(reps)\s*(?P<Exercise>[a-zA-Z\s]+)`,               // {Sets:Number} sets of {Reps:Number} reps {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(reps)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+)`,      // {Sets:number} sets of {Reps:Number} reps of? {Exercise:String}
 
 		`^(?P<Exercise>[a-zA-Z\s]+)(?:(?:\s+)|(?:\s*,\s*))(?P<Sets>\d+)\s+(?P<Reps>\d+)`,                                // {Exericse:String} {Sets:Number} {Reps:Number}
 		`^(?P<Exercise>[a-zA-Z\s]+)(?:(?:\s+)|(?:\s*,\s*))(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)`,                        // {Exericse:String} {Sets:Number}x{Reps:Number}
