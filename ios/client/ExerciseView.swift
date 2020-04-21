@@ -107,6 +107,19 @@ struct ExerciseView : View {
                             .shouldItalicize(shouldItalicize)
                     }
                         .padding(.leading, 2.0)
+                    
+                    VStack(alignment: .trailing, spacing: 1.0) {
+                        Text("time")
+                            .font(.caption)
+                            .foregroundColor(self.unitsColor)
+                            .shouldItalicize(shouldItalicize)
+                        
+                        Text(secondsToElapsedTimeString(exercise.distanceExercise!.time))
+                            .font(.headline)
+                            .foregroundColor(self.valuesColor)
+                            .shouldItalicize(shouldItalicize)
+                    }
+                        .padding(.leading, 2.0)
                 }
             }
         }

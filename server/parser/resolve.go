@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"exercise_parser/utils"
 	"fmt"
 	"regexp"
 	"strings"
@@ -71,8 +72,8 @@ func distanceExerciseExpressions() []string {
 		`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])(?:(?:\s+)|(?:\s*,\s*))(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>(mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, // {Exercise:String} {Distance:Number} {Units:String}
 		`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?:for)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>(mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`,           // {Exercise:String} for {Distance:Number} {Units:String}
 
-		`^(?P<Distance>([0-9]*[.])?[0-9]+)\s+(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)(?:(?:\s+)|(?:\s*,\s*))(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])`, // {Distance:Float} {Units:String} {Exercise:String}
-		`^(?P<Distance>([0-9]*[.])?[0-9]+)\s+(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+of\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])`,                // {Distance:Float} {Units:String} of {Exercise:String}
+		`^(?P<Distance>([0-9]*[.])?[0-9]+)\s+(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)(?:(?:\s+)|(?:\s*,\s*))(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, // {Distance:Float} {Units:String} {Exercise:String}
+		`^(?P<Distance>([0-9]*[.])?[0-9]+)\s+(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+of\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`,                // {Distance:Float} {Units:String} of {Exercise:String}
 
 		`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+in\s+(?P<Time>\d+)\s*(?P<TimeUnits>(sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`,         // {Exercise:String} {Distance:Number} {Units:String} in {Time:Number}{TimeUnits}
 		`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,|-|\s)\s*(?P<Time>\d+)\s*(?P<TimeUnits>(sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, // {Exercise:String} {Distance:Number} {Units:String} (Delimiter) {Time:String}{TimeUnits}
@@ -143,6 +144,7 @@ func (p *Parser) Resolve(exercise string) (*Result, error) {
 			Captures: weightedExercise.Captures,
 		}, nil
 	} else if distanceExercise.Captures != nil {
+		utils.PrettyPrint(distanceExercise)
 		return &Result{
 			Type:     "distance",
 			Captures: distanceExercise.Captures,
