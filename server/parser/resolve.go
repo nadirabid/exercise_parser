@@ -43,12 +43,12 @@ func weightedExerciseExpressions() []string {
 		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`,          // {Sets:Number}x{Reps:Number} at {Weight:Number} {Exercise:String}
 		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, // {Sets:Number}x{Reps:Number} at {Weight:Number} of {Exercise:String}
 
-		`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`,                             // {Sets:Number} {Reps:Number} {Weight:Number}{Units} {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`,             // {Sets:Number}x{Reps:Number}x{Weight:Number}{Units} {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`,    // {Sets:Number}x{Reps:Number}x{Weight:Number}{Units} of {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`,            // {Sets:Number}x{Reps:Number} at {Weight:Number}{Units} {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`,   // {Sets:Number}x{Reps:Number} at {Weight:Number}{Units} of {Exercise:String}
-		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Weight>\d+)\s*(?P<Units>kg$|kilos$|kilogram$|kilograms$|lb$|lbs$|pound$|pounds$)`, // {Sets:Number}x{Reps:Number} {Exercise:String} (Delimiter) {Weight:Number}{Units}
+		`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`,                           // {Sets:Number} {Reps:Number} {Weight:Number}{Units} {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`,           // {Sets:Number}x{Reps:Number}x{Weight:Number}{Units} {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`,  // {Sets:Number}x{Reps:Number}x{Weight:Number}{Units} of {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`,          // {Sets:Number}x{Reps:Number} at {Weight:Number}{Units} {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, // {Sets:Number}x{Reps:Number} at {Weight:Number}{Units} of {Exercise:String}
+		`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Weight>\d+)\s*(?P<Units>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`,    // {Sets:Number}x{Reps:Number} {Exercise:String} (Delimiter) {Weight:Number}{Units}
 
 		`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s+(?P<Reps>\d+)`,                                // {Exercise:String} (Delimiter) {Sets:Number} {Reps:Number}
 		`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)`,                        // {Exercise:String} (Delimiter) {Sets:Number}x{Reps:Number}
@@ -68,14 +68,14 @@ func distanceExerciseExpressions() []string {
 	// increasing specificity is in descending order
 
 	expressions := []string{
-		`^(?P<Exercise>[a-zA-Z\s]+)(?:(?:\s+)|(?:\s*,\s*))(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>(mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, // {Exercise:String} {Distance:Number} {Units:String}
-		`^(?P<Exercise>[a-zA-Z\s]+)\s+(?:for)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>(mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`,           // {Exercise:String} for {Distance:Number} {Units:String}
+		`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])(?:(?:\s+)|(?:\s*,\s*))(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>(mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, // {Exercise:String} {Distance:Number} {Units:String}
+		`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?:for)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>(mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`,           // {Exercise:String} for {Distance:Number} {Units:String}
 
-		`^(?P<Distance>([0-9]*[.])?[0-9]+)\s+(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)(?:(?:\s+)|(?:\s*,\s*))(?P<Exercise>[a-zA-Z\s]+)`, // {Distance:Float} {Units:String} {Exercise:String}
-		`^(?P<Distance>([0-9]*[.])?[0-9]+)\s+(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+of\s+(?P<Exercise>[a-zA-Z\s]+)`,                // {Distance:Float} {Units:String} of {Exercise:String}
+		`^(?P<Distance>([0-9]*[.])?[0-9]+)\s+(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)(?:(?:\s+)|(?:\s*,\s*))(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])`, // {Distance:Float} {Units:String} {Exercise:String}
+		`^(?P<Distance>([0-9]*[.])?[0-9]+)\s+(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+of\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])`,                // {Distance:Float} {Units:String} of {Exercise:String}
 
-		`^(?P<Exercise>[a-zA-Z\s]+)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+in\s+(?P<Time>\d+)\s*(?P<TimeUnits>(sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`,         // {Exercise:String} {Distance:Number} {Units:String} in {Time:Number}{TimeUnits}
-		`^(?P<Exercise>[a-zA-Z\s]+)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,|-|\s)\s*(?P<Time>\d+)\s*(?P<TimeUnits>(sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, // {Exercise:String} {Distance:Number} {Units:String} (Delimiter) {Time:String}{TimeUnits}
+		`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+in\s+(?P<Time>\d+)\s*(?P<TimeUnits>(sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`,         // {Exercise:String} {Distance:Number} {Units:String} in {Time:Number}{TimeUnits}
+		`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,|-|\s)\s*(?P<Time>\d+)\s*(?P<TimeUnits>(sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, // {Exercise:String} {Distance:Number} {Units:String} (Delimiter) {Time:String}{TimeUnits}
 	}
 
 	return expressions

@@ -142,7 +142,7 @@ class MockWorkoutAPI: WorkoutAPI {
                         name: "Curls",
                         type: "weighted",
                         raw: "1x3 curls",
-                        weightedExercise: WeightedExercise(sets: 1, reps: 3),
+                        weightedExercise: WeightedExercise(sets: 1, reps: 3, weight: 10),
                         distanceExercise: nil
                     ),
                     Exercise(
@@ -152,7 +152,7 @@ class MockWorkoutAPI: WorkoutAPI {
                         name: "Benchpress",
                         type: "weighted",
                         raw: "4 sets of 3 of benchpress",
-                        weightedExercise: WeightedExercise(sets: 4, reps: 3),
+                        weightedExercise: WeightedExercise(sets: 4, reps: 3, weight: 10),
                         distanceExercise: nil
                     )
                 ],
@@ -172,7 +172,7 @@ class MockWorkoutAPI: WorkoutAPI {
                         name: "Curls",
                         type: "weighted",
                         raw: "1 by 3 of curls",
-                        weightedExercise: WeightedExercise(sets: 1, reps: 3),
+                        weightedExercise: WeightedExercise(sets: 1, reps: 3, weight: 10),
                         distanceExercise: nil
                     )
                 ],
@@ -192,7 +192,7 @@ class MockWorkoutAPI: WorkoutAPI {
                         name: "Curls",
                         type: "weighted",
                         raw: "1 by 3 of curls",
-                        weightedExercise: WeightedExercise(sets: 1, reps: 3),
+                        weightedExercise: WeightedExercise(sets: 1, reps: 3, weight: 10),
                         distanceExercise: nil
                     )
                 ],
@@ -247,7 +247,7 @@ class MockExerciseAPI: ExerciseAPI {
             name: "Curls",
             type: "weighted",
             raw: "1 by 3 of curls",
-            weightedExercise: WeightedExercise(sets: 1, reps: 3),
+            weightedExercise: WeightedExercise(sets: 1, reps: 3, weight: 10),
             distanceExercise: nil
         ))
         

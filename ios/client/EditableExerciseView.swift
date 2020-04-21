@@ -160,25 +160,25 @@ class ExcerciseUserSuggestions: ObservableObject {
             name: "Tricep curls",
             type: ExerciseType.weighted.rawValue,
             raw: "3x3 tricep curls",
-            weightedExercise: WeightedExercise(sets: 3, reps: 3)
+            weightedExercise: WeightedExercise(sets: 3, reps: 3, weight: 15.3)
         ),
         Exercise(
             name: "Running",
             type: ExerciseType.distance.rawValue,
             raw: "ran 3.3 miles in 7 mins",
-            distanceExercise: DistanceExercise(time: "7", distance: 3.3, units: "miles")
+            distanceExercise: DistanceExercise(time: 120, distance: 3.3)
         ),
         Exercise(
             name: "Rowing",
             type: ExerciseType.distance.rawValue,
             raw: "rowing 4km in 16 mins",
-            distanceExercise: DistanceExercise(time: "16", distance: 5, units: "km")
+            distanceExercise: DistanceExercise(time: 135, distance: 5)
         ),
         Exercise(
             name: "Bench press",
             type: ExerciseType.weighted.rawValue,
             raw: "bench press 3x3x3",
-            weightedExercise: WeightedExercise(sets: 3, reps: 3)
+            weightedExercise: WeightedExercise(sets: 3, reps: 3, weight: 15)
         )
     ]
     

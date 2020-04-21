@@ -121,10 +121,10 @@ struct Exercise: Codable, Identifiable {
 struct WeightedExercise: Codable {
     let sets: Int
     let reps: Int
+    let weight: Float32
 }
 
 struct DistanceExercise: Codable {
-    let time: String
+    let time: Int
     let distance: Float32
-    let units: String
 }

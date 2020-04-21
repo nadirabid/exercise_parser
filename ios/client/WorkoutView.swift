@@ -115,7 +115,7 @@ struct WorkoutView_Previews : PreviewProvider {
                         name: "Curls",
                         type: "weighted",
                         raw: "1x3 curls",
-                        weightedExercise: WeightedExercise(sets: 1, reps: 3),
+                        weightedExercise: WeightedExercise(sets: 1, reps: 3, weight: 10.3),
                         distanceExercise: nil
                     ),
                     Exercise(
@@ -132,7 +132,7 @@ struct WorkoutView_Previews : PreviewProvider {
                         name: "Benchpress",
                         type: "weighted",
                         raw: "4 sets of 3 of benchpress",
-                        weightedExercise: WeightedExercise(sets: 4, reps: 3),
+                        weightedExercise: WeightedExercise(sets: 4, reps: 3, weight: 10),
                         distanceExercise: nil
                     )
                 ],

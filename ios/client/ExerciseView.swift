@@ -96,7 +96,7 @@ struct ExerciseView : View {
                         .padding(.leading, 2.0)
                 } else if exercise.type == "distance" {
                     VStack(alignment: .trailing, spacing: 1.0) {
-                        Text(exercise.distanceExercise!.units)
+                        Text("mi")
                             .font(.caption)
                             .foregroundColor(self.unitsColor)
                             .shouldItalicize(shouldItalicize)

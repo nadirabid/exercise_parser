@@ -51,6 +51,10 @@ func UnitStandardize(unitStr string, quantity float32) (float32, error) {
 		return quantity * 1000, nil
 	case MileUnit:
 		return quantity * 1609.34, nil
+	case PoundUnit:
+		return quantity * 0.453592, nil
+	case KilogramUnit:
+		return quantity, nil
 	}
 
 	return 0, fmt.Errorf("Unknown unit: %s", unitStr)
