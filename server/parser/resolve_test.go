@@ -80,45 +80,43 @@ func TestWeightedExercise(t *testing.T) {
 		assert.Equal(t, tricepCurls1, parsed.Captures)
 	})
 
-	t.Run("{Exericse:String} {Sets:Number}, {Reps:Number}", func(t *testing.T) {
-		parsed := resolveExpUtil("tricep curls, 3 3")
-		assert.Equal(t, tricepCurls1, parsed.Captures)
-	})
+	delimiter := []string{
+		"-", "- ", " -", " - ",
+		",", ", ", " ,", " , ",
+		" ", "  ",
+	}
 
-	t.Run("{Exericse:String} {Sets:Number}x{Reps:Number}", func(t *testing.T) {
-		parsed := resolveExpUtil("tricep curls 3x3")
-		assert.Equal(t, tricepCurls1, parsed.Captures)
-	})
+	for _, d := range delimiter {
+		t.Run("{Exericse:String} (Delimiter) {Sets:Number} {Reps:Number}", func(t *testing.T) {
+			parsed := resolveExpUtil(fmt.Sprintf("tricep curls%s3 3", d))
+			assert.Equal(t, tricepCurls1, parsed.Captures)
+		})
 
-	t.Run("{Exericse:String}, {Sets:Number}x{Reps:Number}", func(t *testing.T) {
-		parsed := resolveExpUtil("tricep curls, 3x3")
-		assert.Equal(t, tricepCurls1, parsed.Captures)
-	})
+		t.Run("{Exericse:String} (Delimiter) {Sets:Number}x{Reps:Number}", func(t *testing.T) {
+			parsed := resolveExpUtil(fmt.Sprintf("tricep curls%s3x3", d))
+			assert.Equal(t, tricepCurls1, parsed.Captures)
+		})
 
-	t.Run("{Exercise:String}, {Sets:Number} by {Reps:Number}", func(t *testing.T) {
-		parsed := resolveExpUtil("tricep curls, 3 by 3")
-		assert.Equal(t, tricepCurls1, parsed.Captures)
-	})
+		t.Run("{Exercise:String} (Delimiter) {Sets:Number} by {Reps:Number}", func(t *testing.T) {
+			parsed := resolveExpUtil(fmt.Sprintf("tricep curls%s3 by 3", d))
+			assert.Equal(t, tricepCurls1, parsed.Captures)
+		})
 
-	t.Run("{Exercise:String} {Sets:Number} sets {Reps:Number} reps", func(t *testing.T) {
-		parsed := resolveExpUtil("tricep curls 3 sets 3 reps")
-		assert.Equal(t, tricepCurls1, parsed.Captures)
-	})
+		t.Run("{Exercise:String} (Delimiter) {Sets:Number} sets {Reps:Number} reps", func(t *testing.T) {
+			parsed := resolveExpUtil(fmt.Sprintf("tricep curls%s3 sets 3 reps", d))
+			assert.Equal(t, tricepCurls1, parsed.Captures)
+		})
 
-	t.Run("{Exercise:String}, {Sets:Number} sets {Reps:Number} reps", func(t *testing.T) {
-		parsed := resolveExpUtil("tricep curls, 3 sets 3 reps")
-		assert.Equal(t, tricepCurls1, parsed.Captures)
-	})
+		t.Run("{Exercise:String} (Delimiter) {Sets:Number} sets of {Reps:Number}", func(t *testing.T) {
+			parsed := resolveExpUtil(fmt.Sprintf("tricep curls%s3 sets of 3", d))
+			assert.Equal(t, tricepCurls1, parsed.Captures)
+		})
 
-	t.Run("{Exercise:String} {Sets:Number}, sets of {Reps:Number}", func(t *testing.T) {
-		parsed := resolveExpUtil("tricep curls, 3 sets of 3")
-		assert.Equal(t, tricepCurls1, parsed.Captures)
-	})
-
-	t.Run("{Exercise:String} {Sets:Number}, sets of {Reps:Number} reps", func(t *testing.T) {
-		parsed := resolveExpUtil("tricep curls, 3 sets of 3 reps")
-		assert.Equal(t, tricepCurls1, parsed.Captures)
-	})
+		t.Run("{Exercise:String} (Delimiter) {Sets:Number}, sets of {Reps:Number} reps", func(t *testing.T) {
+			parsed := resolveExpUtil(fmt.Sprintf("tricep curls%s3 sets of 3 reps", d))
+			assert.Equal(t, tricepCurls1, parsed.Captures)
+		})
+	}
 
 	tricepCurls2 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3", "Weight": "25"}
 
@@ -197,12 +195,6 @@ func TestWeightedExercise(t *testing.T) {
 			parsed := resolveExpUtil(fmt.Sprintf("3x3 at 25%s of tricep curls", u))
 			assert.Equal(t, tricepCurls3, parsed.Captures)
 		})
-
-		delimiter := []string{
-			"-", "- ", " -", " - ",
-			",", ", ", " ,", " , ",
-			" ", "  ",
-		}
 
 		for _, d := range delimiter {
 			t.Run("{Sets:Number}x{Reps:Number} {Exercise:String} (Delimiter) {Weight:Number}{Units}", func(t *testing.T) {
