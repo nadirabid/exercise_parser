@@ -122,9 +122,19 @@ struct WeightedExercise: Codable {
     let sets: Int
     let reps: Int
     let weight: Float32
+    
+    var weightInDisplayUnits: Float {
+        let m = Measurement(value: Double(weight), unit: UnitMass.kilograms).converted(to: UnitMass.pounds)
+        return Float(m.value)
+    }
 }
 
 struct DistanceExercise: Codable {
     let time: Int
     let distance: Float32
+    
+    var distanceInDisplayUnits: Float {
+        let m = Measurement(value: Double(distance), unit: UnitLength.meters).converted(to: UnitLength.miles)
+        return Float(m.value)
+    }
 }

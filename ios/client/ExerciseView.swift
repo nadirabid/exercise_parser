@@ -88,7 +88,7 @@ struct ExerciseView : View {
                             .foregroundColor(self.unitsColor)
                             .shouldItalicize(shouldItalicize)
                         
-                        Text("x")
+                        Text(exercise.weightedExercise!.weightInDisplayUnits.format(f: ".0"))
                             .font(.headline)
                             .foregroundColor(self.valuesColor)
                             .shouldItalicize(shouldItalicize)
@@ -101,7 +101,7 @@ struct ExerciseView : View {
                             .foregroundColor(self.unitsColor)
                             .shouldItalicize(shouldItalicize)
                         
-                        Text(exercise.distanceExercise!.distance.format(f: ".1"))
+                        Text(exercise.distanceExercise!.distanceInDisplayUnits.format(f: ".1"))
                             .font(.headline)
                             .foregroundColor(self.valuesColor)
                             .shouldItalicize(shouldItalicize)

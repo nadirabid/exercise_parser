@@ -12,6 +12,7 @@ import Combine
 import Alamofire
 import MapKit
 import UIKit
+import Foundation
 
 public struct EditableWorkoutView: View {
     @EnvironmentObject var route: RouteState
@@ -143,7 +144,7 @@ public struct EditableWorkoutView: View {
                 }
             }
 
-            EditableWorkoutDetailCardView(
+            EditableWorkoutMetaMetricsView(
                 stopwatch: stopwatch,
                 stretchToFillParent: !state.isStopped,
                 showDate: state.isStopped,
@@ -280,7 +281,7 @@ public struct DividerSpacer: View {
     }
 }
 
-public struct EditableWorkoutDetailCardView: View {
+public struct EditableWorkoutMetaMetricsView: View {
     @EnvironmentObject var state: EditableWorkoutState
     @ObservedObject var stopwatch: Stopwatch
     
@@ -293,28 +294,26 @@ public struct EditableWorkoutDetailCardView: View {
     
     var totalWeight: Int {
         let result = state.exerciseStates.reduce(Float.zero) { (r, s) in
-            if let weighted = s.exercise?.weightedExercise {
-                let total = weighted.weight * Float(weighted.sets) * Float(weighted.reps)
-                return r + total
+            if let weightedExercise = s.exercise?.weightedExercise {
+                return weightedExercise.weightInDisplayUnits + r
             }
             
             return r
         }
         
-        return Int(result)
+        return Int(round(result))
     }
     
     var totalDistance: Int {
         let result = state.exerciseStates.reduce(Float.zero) { (r, s) in
-            if let distance = s.exercise?.distanceExercise {
-                let total = distance.distance
-                return r + total
+            if let distanceExercise = s.exercise?.distanceExercise {
+                return r + distanceExercise.distanceInDisplayUnits
             }
             
             return r
         }
         
-        return Int(result)
+        return Int(round(result))
     }
     
     public var body: some View {
@@ -369,7 +368,7 @@ public struct EditableWorkoutDetailCardView: View {
             if showDistance {
                 WorkoutDetail(
                     name: "Distance",
-                    value: "\(totalDistance) km"
+                    value: "\(totalDistance) mi"
                 )
             }
             
