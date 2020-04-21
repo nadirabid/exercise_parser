@@ -283,12 +283,39 @@ public struct DividerSpacer: View {
 public struct EditableWorkoutDetailCardView: View {
     @EnvironmentObject var state: EditableWorkoutState
     @ObservedObject var stopwatch: Stopwatch
+    
     var stretchToFillParent = true
     var showDate = true
     var showTime = true
     var showExercises = true
     var showDistance = true
     var showWeight = true
+    
+    var totalWeight: Int {
+        let result = state.exerciseStates.reduce(Float.zero) { (r, s) in
+            if let weighted = s.exercise?.weightedExercise {
+                let total = weighted.weight * Float(weighted.sets) * Float(weighted.reps)
+                return r + total
+            }
+            
+            return r
+        }
+        
+        return Int(result)
+    }
+    
+    var totalDistance: Int {
+        let result = state.exerciseStates.reduce(Float.zero) { (r, s) in
+            if let distance = s.exercise?.distanceExercise {
+                let total = distance.distance
+                return r + total
+            }
+            
+            return r
+        }
+        
+        return Int(result)
+    }
     
     public var body: some View {
         HStack(spacing: stretchToFillParent ? 0 : 10) {
@@ -327,7 +354,7 @@ public struct EditableWorkoutDetailCardView: View {
             if showWeight {
                 WorkoutDetail(
                     name: "Weight",
-                    value:"45000 lbs"
+                    value: "\(totalWeight) lbs"
                 )
             }
             
@@ -342,7 +369,7 @@ public struct EditableWorkoutDetailCardView: View {
             if showDistance {
                 WorkoutDetail(
                     name: "Distance",
-                    value: "14 km"
+                    value: "\(totalDistance) km"
                 )
             }
             
