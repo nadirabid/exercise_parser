@@ -68,17 +68,30 @@ func distanceExerciseExpressions() []string {
 	// increasing specificity is in descending order
 
 	expressions := []string{
-		`^(?P<Exercise>[a-zA-Z\s]+)(?:(?:\s+)|(?:\s*,\s*))(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mile$|miles$|kilometer$|kilometers$|km$)`, // {Exercise:String} {Distance:Number} {Units:String}
-		`^(?P<Exercise>[a-zA-Z\s]+)\s+(?:for)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mile$|miles$|kilometer$|kilometers$|km$)`,           // {Exercise:String} for {Distance:Number} {Units:String}
+		`^(?P<Exercise>[a-zA-Z\s]+)(?:(?:\s+)|(?:\s*,\s*))(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>(mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, // {Exercise:String} {Distance:Number} {Units:String}
+		`^(?P<Exercise>[a-zA-Z\s]+)\s+(?:for)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>(mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`,           // {Exercise:String} for {Distance:Number} {Units:String}
 
-		`^(?P<Distance>([0-9]*[.])?[0-9]+)\s+(?P<Units>mile|miles|kilometer|kilometers|km)(?:(?:\s+)|(?:\s*,\s*))(?P<Exercise>[a-zA-Z\s]+)`, // {Distance:Float} {Units:String} {Exercise:String}
-		`^(?P<Distance>([0-9]*[.])?[0-9]+)\s+(?P<Units>mile|miles|kilometer|kilometers|km)\s+of\s+(?P<Exercise>[a-zA-Z\s]+)`,                // {Distance:Float} {Units:String} of {Exercise:String}
+		`^(?P<Distance>([0-9]*[.])?[0-9]+)\s+(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)(?:(?:\s+)|(?:\s*,\s*))(?P<Exercise>[a-zA-Z\s]+)`, // {Distance:Float} {Units:String} {Exercise:String}
+		`^(?P<Distance>([0-9]*[.])?[0-9]+)\s+(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+of\s+(?P<Exercise>[a-zA-Z\s]+)`,                // {Distance:Float} {Units:String} of {Exercise:String}
 
-		`^(?P<Exercise>[a-zA-Z\s]+)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mile|miles|kilometer|kilometers|km)\s+in\s+(?P<Time>\d+)\s*(?P<TimeUnits>(secs|seconds|min|mins|minutes|hour|hours)$)`,         // {Exercise:String} {Distance:Number} {Units:String} in {Time:String}
-		`^(?P<Exercise>[a-zA-Z\s]+)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mile|miles|kilometer|kilometers|km)\s*(?:,|-|\s)\s*(?P<Time>\d+)\s*(?P<TimeUnits>(secs|seconds|min|mins|minutes|hour|hours)$)`, // {Exercise:String} {Distance:Number} {Units:String} (Delimiter) {Time:String}
+		`^(?P<Exercise>[a-zA-Z\s]+)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+in\s+(?P<Time>\d+)\s*(?P<TimeUnits>(sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`,         // {Exercise:String} {Distance:Number} {Units:String} in {Time:String}
+		`^(?P<Exercise>[a-zA-Z\s]+)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,|-|\s)\s*(?P<Time>\d+)\s*(?P<TimeUnits>(sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, // {Exercise:String} {Distance:Number} {Units:String} (Delimiter) {Time:String}
 	}
 
 	return expressions
+}
+
+var seconds = [...]string{"sec", "secs", "seconds"}
+var minutes = [...]string{"min", "mins", "minute", "minutes"}
+var hours = [...]string{"hr", "hrs", "hour", "hours"}
+
+var meters = [...]string{"m", "meter", "meters"}
+var kilometers = [...]string{"km", "kilometer", "kilometers"}
+var miles = [...]string{"mi", "mile", "miles"}
+
+func standardizeUnit(unit string) (string, error) {
+
+	return "", nil
 }
 
 func resolveExpressions(exercise string, regexpSet []string) *parsedExercise {
