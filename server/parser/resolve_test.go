@@ -197,6 +197,24 @@ func TestWeightedExercise(t *testing.T) {
 			parsed := resolveExpUtil(fmt.Sprintf("3x3 at 25%s of tricep curls", u))
 			assert.Equal(t, tricepCurls3, parsed.Captures)
 		})
+
+		delimiter := []string{
+			"-", "- ", " -", " - ",
+			",", ", ", " ,", " , ",
+			" ", "  ",
+		}
+
+		for _, d := range delimiter {
+			t.Run("{Sets:Number}x{Reps:Number} {Exercise:String} (Delimiter) {Weight:Number}{Units}", func(t *testing.T) {
+				parsed := resolveExpUtil(fmt.Sprintf("3x3 tricep curls%s25%s", d, u))
+				assert.Equal(t, tricepCurls3, parsed.Captures)
+			})
+
+			t.Run("{Exercise:String} {Sets:Number}x{Reps:Number} {Delimiter) {Weight:Number} {Units}", func(t *testing.T) {
+				parsed := resolveExpUtil(fmt.Sprintf("tricep curls 3x3%s25%s", d, u))
+				assert.Equal(t, tricepCurls3, parsed.Captures)
+			})
+		}
 	}
 }
 
@@ -243,14 +261,14 @@ func TestDistanceExercise(t *testing.T) {
 		assert.Equal(t, running1, parsed.Captures)
 	})
 
-	running2 := map[string]string{"Exercise": "Ran", "Distance": "5", "Units": "miles", "Time": "10 minutes"}
+	running2 := map[string]string{"Exercise": "ran", "Distance": "5", "Units": "miles", "Time": "10 minutes"}
 
 	t.Run("{Exercise:String} {Distance:Float} {Units:String} in {Time:String}", func(t *testing.T) {
 		parsed := resolveExpUtil("Ran 5 miles in 10 minutes")
 		assert.Equal(t, running2, parsed.Captures)
 	})
 
-	running3 := map[string]string{"Exercise": "Ran", "Distance": "0.5", "Units": "miles", "Time": "10 minutes"}
+	running3 := map[string]string{"Exercise": "ran", "Distance": "0.5", "Units": "miles", "Time": "10 minutes"}
 
 	t.Run("{Exercise:String} {Distance:Float} {Units:String} in {Time:String}", func(t *testing.T) {
 		parsed := resolveExpUtil("Ran 0.5 miles in 10 minutes")
