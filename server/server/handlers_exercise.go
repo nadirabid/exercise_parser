@@ -182,6 +182,32 @@ func handleGetUnmatchedExercises(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, r)
 }
 
+func handlePostReresolveExercises(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	exercises := []models.Exercise{}
+
+	err := db.
+		Where("type = ?", "unknown").
+		Find(&exercises).
+		Error
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	for _, e := range exercises {
+		if err := e.Resolve(); err != nil {
+			return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+		}
+
+		// TODO: should we also rematch to an exercise??
+	}
+
+	return ctx.JSON(http.StatusOK, exercises)
+}
+
 // exercise dictionary handlers
 
 func handleGetExerciseDictionaryList(c echo.Context) error {

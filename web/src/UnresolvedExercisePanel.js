@@ -22,6 +22,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import AssessmentIcon from '@material-ui/icons/Assessment';
+import Fab from '@material-ui/core/Fab';
+import UpdateIcon from '@material-ui/icons/Update';
 
 import * as auth from './auth';
 import ExerciseSearch from './ExerciseSearch';
@@ -111,10 +113,15 @@ const useStyles = makeStyles((theme) => ({
   },
   dialogContent: {
     display: 'flex'
-  }
+  },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
 }));
 
-async function getAPIUnresolvedExercises(page = 1, pageSize=20) {
+async function apiGetUnresolvedExercises(page = 1, pageSize=20) {
   const result = await fetch(`${auth.getAPIUrl()}/api/exercise/unresolved?size=${pageSize}&page=${page}`);
 
   if (result.status !== 200) {
@@ -127,7 +134,7 @@ async function getAPIUnresolvedExercises(page = 1, pageSize=20) {
   return resp;
 }
 
-async function updateAPIExercise(exercise) {
+async function apiUpdateExercise(exercise) {
   const result = await fetch(`${auth.getAPIUrl()}/api/exercise/${exercise.id}`, {
     method: 'PUT',
     headers: {
@@ -144,6 +151,19 @@ async function updateAPIExercise(exercise) {
   const resp = await result.json();
 
   return resp;
+}
+
+async function apiReresolveExercises() {
+  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/unresolved/resolve`, {
+    method: 'POST'
+  });
+
+  if (result.status !== 200) {
+    console.error('Failed to resolve all unresolved exercises: ', result);
+    return false;
+  }
+
+  return await result.json();
 }
 
 function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
@@ -313,11 +333,11 @@ function UnresolvedExercisePanel() {
   const [exercise, setExercise] = useState(null);
   
   useEffect(() => {
-    getAPIUnresolvedExercises(0).then((list) => setList(list));
+    apiGetUnresolvedExercises(0).then((list) => setList(list));
   }, []);
 
   const pageChange = (_, value) => {
-    getAPIUnresolvedExercises(value - 1).then((list) => setList(list));
+    apiGetUnresolvedExercises(value - 1).then((list) => setList(list));
   };
 
   return (
@@ -326,9 +346,9 @@ function UnresolvedExercisePanel() {
         exercise={exercise}
         onCancel={() => setExercise(null)}
         onSave={async (data) => {
-          await updateAPIExercise(data);
+          await apiUpdateExercise(data);
           setExercise(null);
-          await getAPIUnresolvedExercises(0).then((list) => setList(list));
+          await apiGetUnresolvedExercises(0).then((list) => setList(list));
         }}
       />
       <List className={classes.list} style={{overflow: 'auto'}}>
@@ -342,6 +362,14 @@ function UnresolvedExercisePanel() {
           count={list == null ? 6 : list.pages} 
           page={list == null ? 0 : list.page}
         />
+        <Fab 
+          onClick={async () => {
+            await apiReresolveExercises()
+            await apiGetUnresolvedExercises(0).then((list) => setList(list))
+          }}
+          className={classes.fab} color="inherit" disabled={!list || list.count === 0} aria-label="add">
+          <UpdateIcon />
+        </Fab>
       </div>
     </Box>
   );
