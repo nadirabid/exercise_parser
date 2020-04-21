@@ -42,31 +42,11 @@ struct WorkoutView: View {
                         .foregroundColor(Color.gray)
                 }
             }
-            .padding(.leading)
+                .padding(.leading)
             
-            HStack(spacing: 10) {
-                WorkoutDetail(
-                    name: workout.date.abbreviatedMonthString,
-                    value: workout.date.dayString
-                )
-                
-                Divider()
-                
-                WorkoutDetail(
-                    name: "Time",
-                    value: secondsToElapsedTimeString(workout.secondsElapsed)
-                )
-                
-                Divider()
-
-                WorkoutDetail(name: "Exercises", value: "\(workout.exercises.count)")
-                
-                Divider()
-                
-                WorkoutDetail(name: "Weight", value:"45000 lbs")
-            }
-            .fixedSize(horizontal: true, vertical: true)
-            .padding(.leading)
+            WorkoutMetaMetricsView(workout: workout)
+                .fixedSize(horizontal: true, vertical: true)
+                .padding(.leading)
             
             if workout.location != nil {
                 MapView(location: workout.location!)
@@ -82,9 +62,67 @@ struct WorkoutView: View {
                     }
                 }
             }
-            .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
         }
-        .padding([.top, .bottom])
+            .padding([.top, .bottom])
+    }
+}
+
+public struct WorkoutMetaMetricsView: View {
+    @State var workout: Workout
+    
+    var totalWeight: Int {
+        let result = workout.exercises.reduce(Float.zero) { (r, e) in
+            if let weightedExercise = e.weightedExercise {
+                let total = weightedExercise.weightInDisplayUnits * Float(weightedExercise.reps) * Float(weightedExercise.sets)
+                return total + r
+            }
+            
+            return r
+        }
+        
+        return Int(round(result))
+    }
+    
+    var totalDistance: Int {
+        let result = workout.exercises.reduce(Float.zero) { (r, e) in
+            if let distanceExercise = e.distanceExercise {
+                return r + distanceExercise.distanceInDisplayUnits
+            }
+            
+            return r
+        }
+        
+        return Int(round(result))
+    }
+    
+    
+    public var body: some View {
+        HStack(spacing: 10) {
+            WorkoutDetail(
+                name: workout.date.abbreviatedMonthString,
+                value: workout.date.dayString
+            )
+            
+            Divider()
+            
+            WorkoutDetail(
+                name: "Time",
+                value: secondsToElapsedTimeString(workout.secondsElapsed)
+            )
+            
+            Divider()
+
+            WorkoutDetail(name: "Exercises", value: "\(workout.exercises.count)")
+            
+            Divider()
+            
+            WorkoutDetail(name: "Weight", value:"\(totalWeight) lbs")
+            
+            Divider()
+            
+            WorkoutDetail(name: "Distance", value:"\(totalDistance) mi")
+        }
     }
 }
 
