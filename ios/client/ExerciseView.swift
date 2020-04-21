@@ -82,18 +82,20 @@ struct ExerciseView : View {
                     }
                         .padding(.leading, 2.0)
                     
-                    VStack(alignment: .trailing, spacing: 1.0) {
-                        Text("lbs")
-                            .font(.caption)
-                            .foregroundColor(self.unitsColor)
-                            .shouldItalicize(shouldItalicize)
-                        
-                        Text(exercise.weightedExercise!.weightInDisplayUnits.format(f: ".0"))
-                            .font(.headline)
-                            .foregroundColor(self.valuesColor)
-                            .shouldItalicize(shouldItalicize)
+                    if exercise.weightedExercise!.weight > 0 {
+                        VStack(alignment: .trailing, spacing: 1.0) {
+                            Text("lbs")
+                                .font(.caption)
+                                .foregroundColor(self.unitsColor)
+                                .shouldItalicize(shouldItalicize)
+                            
+                            Text(exercise.weightedExercise!.weightInDisplayUnits.format(f: ".0"))
+                                .font(.headline)
+                                .foregroundColor(self.valuesColor)
+                                .shouldItalicize(shouldItalicize)
+                        }
+                            .padding(.leading, 2.0)
                     }
-                        .padding(.leading, 2.0)
                 } else if exercise.type == "distance" {
                     VStack(alignment: .trailing, spacing: 1.0) {
                         Text("mi")
@@ -108,18 +110,20 @@ struct ExerciseView : View {
                     }
                         .padding(.leading, 2.0)
                     
-                    VStack(alignment: .trailing, spacing: 1.0) {
-                        Text("time")
-                            .font(.caption)
-                            .foregroundColor(self.unitsColor)
-                            .shouldItalicize(shouldItalicize)
-                        
-                        Text(secondsToElapsedTimeString(exercise.distanceExercise!.time))
-                            .font(.headline)
-                            .foregroundColor(self.valuesColor)
-                            .shouldItalicize(shouldItalicize)
+                    if exercise.distanceExercise!.time > 0 {
+                        VStack(alignment: .trailing, spacing: 1.0) {
+                            Text("time")
+                                .font(.caption)
+                                .foregroundColor(self.unitsColor)
+                                .shouldItalicize(shouldItalicize)
+                            
+                            Text(secondsToElapsedTimeString(exercise.distanceExercise!.time))
+                                .font(.headline)
+                                .foregroundColor(self.valuesColor)
+                                .shouldItalicize(shouldItalicize)
+                        }
+                            .padding(.leading, 2.0)
                     }
-                        .padding(.leading, 2.0)
                 }
             }
         }
