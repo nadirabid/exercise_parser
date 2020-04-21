@@ -1,0 +1,57 @@
+package parser
+
+import "fmt"
+
+const SecondUnit = "second"
+const MinuteUnit = "minute"
+const HourUnit = "hour"
+
+const MeterUnit = "meter"
+const KilometerUnit = "kilometer"
+const MileUnit = "mile"
+
+const PoundUnit = "pound"
+const KilogramUnit = "kilogram"
+
+func unitClassify(unitStr string) (string, error) {
+	switch unitStr {
+	case "sec", "secs", "second", "seconds":
+		return SecondUnit, nil
+	case "min", "mins", "minute", "minutes":
+		return MinuteUnit, nil
+	case "m", "meter", "meters":
+		return MeterUnit, nil
+	case "km", "kilometer", "kilometers":
+		return KilometerUnit, nil
+	case "mi", "mile", "miles":
+		return MileUnit, nil
+	case "lb", "lbs", "pound", "pounds":
+		return PoundUnit, nil
+	case "kg", "kgs", "kilos", "kilogram", "kilograms":
+		return KilogramUnit, nil
+	}
+
+	return "", fmt.Errorf("Unknown unit: %s", unitStr)
+}
+
+func UnitStandardize(unitStr string, quantity float32) (float32, error) {
+	unit, err := unitClassify(unitStr)
+	if err != nil {
+		return 0, err
+	}
+
+	switch unit {
+	case SecondUnit:
+		return quantity, nil
+	case MinuteUnit:
+		return quantity * 60, nil
+	case MeterUnit:
+		return quantity, nil
+	case KilometerUnit:
+		return quantity * 1000, nil
+	case MileUnit:
+		return quantity * 1609.34, nil
+	}
+
+	return 0, fmt.Errorf("Unknown unit: %s", unitStr)
+}

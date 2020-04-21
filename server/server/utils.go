@@ -91,14 +91,6 @@ func generateFakeUserJWT() *jwt.Token {
 	return t
 }
 
-func getWithDefault(value string, defaultValue string) string {
-	if value == "" {
-		return defaultValue
-	}
-
-	return value
-}
-
 // we use this instead of jwt.Token.Sign because we wan't to set the Key ID (kid) in the JWT header
 func signJWT(t *jwt.Token, method jwa.SignatureAlgorithm, key interface{}, keyID string) ([]byte, error) {
 	buf, err := json.Marshal(t)

@@ -41,3 +41,11 @@ func WriteToDir(s interface{}, fileName string, dir string) error {
 
 	return nil
 }
+
+func GetStringOrDefault(value string, defaultValue string) string {
+	if value == "" {
+		return defaultValue
+	}
+
+	return value
+}

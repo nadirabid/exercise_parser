@@ -191,7 +191,9 @@ func seed(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	models.Migrate(db)
+	if err := models.Migrate(db); err != nil {
+		return err
+	}
 
 	fmt.Println("migration complete")
 
@@ -304,6 +306,54 @@ func dump(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+func dropAllTables(cmd *cobra.Command, args []string) error {
+	// init viper
+	v, err := configureViperFromCmd(cmd)
+	if err != nil {
+		return err
+	}
+
+	// init db
+	db, err := models.NewDatabase(v)
+	if err != nil {
+		return err
+	}
+
+	if err := models.DropAll(db); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func dropUserTables(cmd *cobra.Command, args []string) error {
+	// init viper
+	v, err := configureViperFromCmd(cmd)
+	if err != nil {
+		return err
+	}
+
+	// init db
+	db, err := models.NewDatabase(v)
+	if err != nil {
+		return err
+	}
+
+	// drop it all
+	if err := db.Set("gorm:table_options", "CASCADE").DropTableIfExists(
+		&models.User{},
+		&models.Workout{},
+		&models.Location{},
+		&models.Exercise{},
+		&models.WeightedExercise{},
+		&models.DistanceExercise{},
+	).Error; err != nil {
+		return fmt.Errorf("couldn't drop table: %s", err.Error())
+	}
+
+	return nil
+}
+
 func dropDictionaryTables(cmd *cobra.Command, args []string) error {
 	// init viper
 	v, err := configureViperFromCmd(cmd)
@@ -342,6 +392,10 @@ func seedFakeData(cmd *cobra.Command, args []string) error {
 	// init db
 	db, err := models.NewDatabase(v)
 	if err != nil {
+		return err
+	}
+
+	if err := models.Migrate(db); err != nil {
 		return err
 	}
 
@@ -397,6 +451,10 @@ func seedFakeWorkoutData(cmd *cobra.Command, args []string) error {
 	// init db
 	db, err := models.NewDatabase(v)
 	if err != nil {
+		return err
+	}
+
+	if err := models.Migrate(db); err != nil {
 		return err
 	}
 
@@ -473,26 +531,6 @@ func seedFakeWorkoutData(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func dropAllTables(cmd *cobra.Command, args []string) error {
-	// init viper
-	v, err := configureViperFromCmd(cmd)
-	if err != nil {
-		return err
-	}
-
-	// init db
-	db, err := models.NewDatabase(v)
-	if err != nil {
-		return err
-	}
-
-	if err := models.DropAll(db); err != nil {
-		return err
-	}
-
-	return nil
-}
-
 var seedDictCmd = &cobra.Command{
 	Use:   "dict",
 	Short: "Seed the exercise dictionary",
@@ -503,12 +541,6 @@ var dumpCmd = &cobra.Command{
 	Use:   "dump",
 	Short: "Dumps related names into JSON files",
 	RunE:  dump,
-}
-
-var dropDictCmd = &cobra.Command{
-	Use:   "dict",
-	Short: "Drop dictionary tables",
-	RunE:  dropDictionaryTables,
 }
 
 var seedFakeCmd = &cobra.Command{
@@ -527,6 +559,18 @@ var dropAllCmd = &cobra.Command{
 	Use:   "all",
 	Short: "Drop all tables",
 	RunE:  dropAllTables,
+}
+
+var dropUserTablesCmd = &cobra.Command{
+	Use:   "user",
+	Short: "Drop user tables",
+	RunE:  dropUserTables,
+}
+
+var dropDictCmd = &cobra.Command{
+	Use:   "dict",
+	Short: "Drop dictionary tables",
+	RunE:  dropDictionaryTables,
 }
 
 var dropCmd = &cobra.Command{
@@ -553,6 +597,7 @@ func init() {
 
 	dropCmd.AddCommand(dropAllCmd)
 	dropCmd.AddCommand(dropDictCmd)
+	dropCmd.AddCommand(dropUserTablesCmd)
 
 	seedCmd.AddCommand(seedDictCmd)
 	seedCmd.AddCommand(seedFakeCmd)

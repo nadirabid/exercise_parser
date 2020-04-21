@@ -2,6 +2,7 @@ package models
 
 import (
 	"exercise_parser/parser"
+	"exercise_parser/utils"
 	"fmt"
 	"strconv"
 	"time"
@@ -76,9 +77,24 @@ func (e *Exercise) Resolve() error {
 
 		e.WeightedExercise.Sets = sets
 		e.WeightedExercise.Reps = reps
+
+		if weightStr, ok := res.Captures["Weight"]; ok {
+			unit := utils.GetStringOrDefault(res.Captures["Units"], "pounds")
+
+			weight, err := strconv.ParseFloat(weightStr, 32)
+			if err != nil {
+				return err
+			}
+
+			standardized, err := parser.UnitStandardize(unit, float32(weight))
+			if err != nil {
+				return err
+			}
+
+			e.WeightedExercise.Weight = standardized
+		}
 	} else if res.Type == "distance" {
-		time := res.Captures["Time"]
-		units := res.Captures["Units"]
+		unit := utils.GetStringOrDefault(res.Captures["Units"], "miles")
 
 		distance, err := strconv.ParseFloat(res.Captures["Distance"], 32)
 		if err != nil {
@@ -89,9 +105,27 @@ func (e *Exercise) Resolve() error {
 			e.DistanceExercise = &DistanceExercise{}
 		}
 
-		e.DistanceExercise.Time = time
-		e.DistanceExercise.Distance = float32(distance)
-		e.DistanceExercise.Units = units
+		standardizedDist, err := parser.UnitStandardize(unit, float32(distance))
+		if err != nil {
+			return nil
+		}
+		e.DistanceExercise.Distance = standardizedDist
+
+		if timeStr, ok := res.Captures["Time"]; ok {
+			timeUnit := utils.GetStringOrDefault(res.Captures["TimeUnits"], "minutes")
+
+			time, err := strconv.ParseFloat(timeStr, 32)
+			if err != nil {
+				return err
+			}
+
+			standardizedTime, err := parser.UnitStandardize(timeUnit, float32(time))
+			if err != nil {
+				return err
+			}
+
+			e.DistanceExercise.Time = uint(standardizedTime)
+		}
 	} else {
 		return fmt.Errorf("unable to resolve raw expression: %v", e)
 	}
@@ -113,8 +147,7 @@ type WeightedExercise struct {
 // DistanceExercise model
 type DistanceExercise struct {
 	HiddenModel
-	Time       string  `json:"time"`
+	Time       uint    `json:"time"`
 	Distance   float32 `json:"distance"`
-	Units      string  `json:"units"`
 	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }

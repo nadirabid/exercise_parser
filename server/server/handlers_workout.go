@@ -2,6 +2,7 @@ package server
 
 import (
 	"exercise_parser/models"
+	"exercise_parser/utils"
 	"net/http"
 	"strconv"
 
@@ -42,12 +43,12 @@ func handleGetAllWorkout(c echo.Context) error {
 
 	workouts := []models.Workout{}
 
-	page, err := strconv.Atoi(getWithDefault(ctx.QueryParam("page"), "0"))
+	page, err := strconv.Atoi(utils.GetStringOrDefault(ctx.QueryParam("page"), "0"))
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	size, err := strconv.Atoi(getWithDefault(ctx.QueryParam("size"), "20"))
+	size, err := strconv.Atoi(utils.GetStringOrDefault(ctx.QueryParam("size"), "20"))
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
