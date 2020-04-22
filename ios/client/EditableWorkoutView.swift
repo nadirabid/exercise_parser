@@ -295,7 +295,8 @@ public struct EditableWorkoutMetaMetricsView: View {
     var totalWeight: Int {
         let result = state.exerciseStates.reduce(Float.zero) { (r, s) in
             if let weightedExercise = s.exercise?.weightedExercise {
-                return weightedExercise.weightInDisplayUnits + r
+                let weight = weightedExercise.weightInDisplayUnits * Float(weightedExercise.sets) * Float(weightedExercise.reps)
+                return weight + r
             }
             
             return r
@@ -342,37 +343,7 @@ public struct EditableWorkoutMetaMetricsView: View {
                     .fixedSize()
             }
             
-            if showTime && (showWeight || showDistance || showExercises) {
-                if stretchToFillParent {
-                    DividerSpacer()
-                } else {
-                    Divider()
-                }
-            }
-
-            if showWeight {
-                WorkoutDetail(
-                    name: "Weight",
-                    value: "\(totalWeight) lbs"
-                )
-            }
-            
-            if showWeight && (showDistance || showExercises) {
-                if stretchToFillParent {
-                    DividerSpacer()
-                } else {
-                    Divider()
-                }
-            }
-
-            if showDistance {
-                WorkoutDetail(
-                    name: "Distance",
-                    value: "\(totalDistance) mi"
-                )
-            }
-            
-            if showDistance && showExercises {
+            if showTime && (showWeight || showDistance || showDistance) {
                 if stretchToFillParent {
                     DividerSpacer()
                 } else {
@@ -384,6 +355,36 @@ public struct EditableWorkoutMetaMetricsView: View {
                 WorkoutDetail(
                     name: "Exercises",
                     value: "\(state.exerciseStates.count)"
+                )
+            }
+            
+            if showExercises && (showWeight || showDistance) {
+                 if stretchToFillParent {
+                     DividerSpacer()
+                 } else {
+                     Divider()
+                 }
+             }
+
+            if showWeight {
+                WorkoutDetail(
+                    name: "Weight",
+                    value: "\(totalWeight) lbs"
+                )
+            }
+            
+            if showWeight && showDistance {
+                if stretchToFillParent {
+                    DividerSpacer()
+                } else {
+                    Divider()
+                }
+            }
+            
+            if showDistance {
+                WorkoutDetail(
+                    name: "Distance",
+                    value: "\(totalDistance) mi"
                 )
             }
         }

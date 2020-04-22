@@ -203,10 +203,10 @@ function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
       data['weighted_exercise'] = {
         'sets': parseInt(sets, 10),
         'reps': parseInt(reps, 10),
-        'weight': parseInt(weight, 10),
+        'weight': parseFloat(weight),
       };
 
-    } else if (exerciseType === 'distance_exercise') {
+    } else if (exerciseType === 'distance') {
       data['distance_exercise'] = {
         'distance': parseFloat(distance),
         'time': parseInt(time, 10),
