@@ -205,7 +205,6 @@ function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
         'reps': parseInt(reps, 10),
         'weight': parseFloat(weight),
       };
-
     } else if (exerciseType === 'distance') {
       data['distance_exercise'] = {
         'distance': parseFloat(distance),
