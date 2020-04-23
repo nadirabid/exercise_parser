@@ -23,12 +23,7 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <SignIn 
-        onAuthenticate={async () => {
-          const success = await auth.developmentSignIn();
-          if (success) {
-            setAuthenticated(true);
-          }
-        }}
+        onAuthenticated={() => setAuthenticated(true)}
       />
     </ThemeProvider>
   );

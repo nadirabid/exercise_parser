@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Slide from '@material-ui/core/Slide';
 
+import * as auth from './auth';
+
 const modalStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -68,6 +70,37 @@ function SignIn({ onAuthenticate }) {
   const skeleton = skeletonStyles();
   const modalClasses = modalStyles();
 
+  let signIn;
+  if (auth.isAuthEnabled()) {
+    signIn = (
+      <Button
+        className={modalClasses.button} variant="outlined" color="default" 
+        onClick={async () => {
+          const success = await auth.developmentSignIn();
+          if (success) {
+            onAuthenticate();
+          }
+        }}
+      >
+        Sign In with Apple
+      </Button>
+    );
+  } else {
+    signIn = (
+      <Button
+        className={modalClasses.button} variant="outlined" color="default" 
+        onClick={async () => {
+          const success = await auth.signInWithApple();
+          if (success) {
+            onAuthenticate();
+          }
+        }}
+      >
+        Development Sign In
+      </Button>
+    )
+  }
+
   return (
     <div className={skeleton.root}>
       <div className={skeleton.sidebar}>
@@ -114,12 +147,7 @@ function SignIn({ onAuthenticate }) {
             <Box className={modalClasses.box}>
               <h1 id="transition-modal-title">Sign In</h1>
             </Box>
-            <Button
-              className={modalClasses.button} variant="outlined" color="default" 
-              onClick={onAuthenticate}
-            >
-              Development Sign In
-            </Button>
+            {signIn}
           </Paper>
         </Fade>
       </Dialog>

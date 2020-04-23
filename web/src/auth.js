@@ -34,8 +34,8 @@ export function isAuthEnabled() {
 export function signInWithApple() {
   const params = {
     'response_type': 'code',
-    'redirect_uri': 'https://rydenfitness.com/apple/callback',
-    'client_id': 'ryden.web',
+    'redirect_uri': `${getAPIUrl()}/apple/callback`,
+    'client_id': process.env.REACT_APP_APPLE_CLIENT_ID,
     'scope': 'email name',
     'response_mode': 'form_post',
   };
@@ -48,7 +48,7 @@ export function signInWithApple() {
     return `${str}${key}=${value}`;
   }, '');
 
-  window.location.href = `https://appleid.apple.com/auth/authorize?${paramsStr}`;
+  window.location.href = `${process.env.REACT_APP_APPLE_AUTH_URI}?${paramsStr}`;
 }
 
 export async function developmentSignIn() {
