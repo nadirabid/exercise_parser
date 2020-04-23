@@ -18,7 +18,7 @@ related_searches_goog="resources/related_searches_goog"
 stop_words="resources/stop_words"
 
 [middleware]
-auth=false
+auth=true
 
 [auth.apple]
 client_id="ryden.web"
