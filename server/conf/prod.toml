@@ -10,12 +10,12 @@ host=""
 port=5432
 
 [resources.dir]
-exercises="resources/exercises"
-lemmas="resources/lemmas"
-related_names="resources/related_names"
-related_searches_bing="resources/related_searches_bing"
-related_searches_goog="resources/related_searches_goog"
-stop_words="resources/stop_words"
+exercises="/go/src/exercise_parser/server/resources/exercises"
+lemmas="/go/src/exercise_parser/server/resources/lemmas"
+related_names="/go/src/exercise_parser/server/resources/related_names"
+related_searches_bing="/go/src/exercise_parser/server/resources/related_searches_bing"
+related_searches_goog="/go/src/exercise_parser/server/resources/related_searches_goog"
+stop_words="/go/src/exercise_parser/server/resources/stop_words"
 
 [middleware]
 auth=true

@@ -21,7 +21,7 @@ func configureViperFromCmd(cmd *cobra.Command) (*viper.Viper, error) {
 	// psql env bindings
 	v.BindEnv("psql.user", "RDS_USERNAME")
 	v.BindEnv("psql.password", "RDS_PASSWORD")
-	v.BindEnv("psql.name", "RDS_DB_NAME")
+	v.BindEnv("psql.database", "RDS_DB_NAME")
 	v.BindEnv("psql.host", "RDS_HOSTNAME")
 	v.BindEnv("psql.port", "RDS_PORT")
 	v.BindEnv("psql.ssl_mode", "RDS_SSL_MODE")
