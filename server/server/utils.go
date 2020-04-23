@@ -8,7 +8,6 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"strconv"
 	"time"
 
@@ -29,13 +28,9 @@ func newErrorMessage(m string) *errorMessage {
 }
 
 func parseRsaPrivateKeyForTokenGeneration(v *viper.Viper) (*rsa.PrivateKey, error) {
-	file := v.GetString("auth.pem_file_path")
-	bytes, err := ioutil.ReadFile(file)
-	if err != nil {
-		panic(fmt.Sprintf("Failed to open pem keypair file: %s", file))
-	}
+	key := v.GetString("auth.pem.keypair")
 
-	block, _ := pem.Decode([]byte(bytes))
+	block, _ := pem.Decode([]byte(key))
 	if block == nil {
 		return nil, errors.New("failed to parse PEM block containing the key")
 	}
@@ -118,12 +113,9 @@ func signJWT(t *jwt.Token, method jwa.SignatureAlgorithm, key interface{}, keyID
 }
 
 func generateAppleClientSecret(v *viper.Viper) (string, error) {
-	bytes, err := ioutil.ReadFile("resources/dev_keys/apple.key.p8")
-	if err != nil {
-		return "", err
-	}
+	p8 := v.GetString("auth.apple.key_p8")
 
-	key, err := parseECDSAPrivateKeyFromStr(bytes)
+	key, err := parseECDSAPrivateKeyFromStr([]byte(p8))
 	if err != nil {
 		return "", err
 	}

@@ -30,7 +30,8 @@ func configureViperFromCmd(cmd *cobra.Command) (*viper.Viper, error) {
 	v.BindEnv("psql.max_connection_lifetime", "RDS_MAX_CONNECTION_LIFETIME")
 
 	// auth env bindings
-	v.BindEnv("auth.pem_file_path", "AUTH_PEM_FILE_PATH")
+	v.BindEnv("auth.pem.keypair", "AUTH_PEM_KEYPAIR")
+	v.BindEnv("auth.apple.key_p8", "AUTH_APPLE_KEY_P8")
 
 	// conf file
 	v.SetConfigType("toml")
