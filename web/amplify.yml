@@ -5,7 +5,7 @@ frontend:
       commands:
         - cd web
         - npm install
-        - npm run-script build
+        - npm run build
   artifacts:
     baseDirectory: web/build
     files:
