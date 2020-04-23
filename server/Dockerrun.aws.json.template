@@ -1,8 +1,5 @@
 {
   "AWSEBDockerrunVersion": 2,
-  "volumes": [
-
-  ],
   "containerDefinitions": [
       {
           "name": "ryden.server",
@@ -30,7 +27,7 @@
           ],
           "mountPoints": [
               {
-                  "sourceVolume": "awseb-logs-fetchcore-ryden.server",
+                  "sourceVolume": "awseb-logs-ryden.server",
                   "containerPath": "/var/log/ryden.server"
               }
           ]
