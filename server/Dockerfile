@@ -5,4 +5,4 @@ COPY . .
 
 RUN go install
 
-cmd /go/bin/exercise_parser start
+CMD /go/bin/exercise_parser start
