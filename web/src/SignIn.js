@@ -76,7 +76,7 @@ function SignIn({ onAuthenticate }) {
       <Button
         className={modalClasses.button} variant="outlined" color="default" 
         onClick={async () => {
-          const success = await auth.developmentSignIn();
+          const success = await auth.signInWithApple();
           if (success) {
             onAuthenticate();
           }
@@ -90,7 +90,7 @@ function SignIn({ onAuthenticate }) {
       <Button
         className={modalClasses.button} variant="outlined" color="default" 
         onClick={async () => {
-          const success = await auth.signInWithApple();
+          const success = await auth.developmentSignIn();
           if (success) {
             onAuthenticate();
           }
