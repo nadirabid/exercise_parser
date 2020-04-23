@@ -12,7 +12,7 @@
           "logConfiguration": {
               "logDriver": "json-file",
               "options": {
-                  "max-size": "500m",
+                  "max-size": "100m",
                   "max-file": 1
               }
           },
@@ -24,8 +24,8 @@
           ],
           "environment": [
               {
-                  "name": "CONF",
-                  "value": "production"
+                  "name": "CONFIG",
+                  "value": "prod"
               }
           ],
           "mountPoints": [

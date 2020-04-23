@@ -20,8 +20,9 @@ stop_words="resources/stop_words"
 [middleware]
 auth=false
 
-[auth]
-pem_file_path="___PEM___"
-
 [auth.apple]
 client_id="ryden.web"
+key_p8="____APPLE_KEY_P8___"
+
+[auth.pem]
+keypair="___PEM___"

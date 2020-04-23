@@ -13,7 +13,7 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.PersistentFlags().String("conf", "dev", "The conf file name to use.")
+	rootCmd.PersistentFlags().String("conf", "conf/dev.toml", "The conf file name to use.")
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

@@ -13,6 +13,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -29,8 +33,31 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ryden.server
-        IMAGE_TAG: ${{ github.sha }}
+        IMAGE_TAG: ${{ steps.get_version.outputs.VERSION }}
       run: |
         cd server
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+    - name: "Create, deploy ElasticBeanstalk application"
+      id: build-app
+      env:
+        VERSION: ${{ steps.get_version.outputs.VERSION }}
+      run: |
+        mkdir ebs-application-$VERSION 
+        envsubt < server/Dockerrun.aws.json.template > ebs-application-$VERSION/Dockerrun.aws.json
+        cd ebs-application-$VERSION
+        zip ../ebs-application-$VERSION.zip -r .
+
+    - name: Deploy to EB
+      uses: einaregilsson/beanstalk-deploy@v9
+      env:
+        VERSION: ${{ steps.get_version.outputs.VERSION }}
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: ryden
+        environment_name: ryden-production
+        version_label: 12345
+        region: us-west-2
+        deployment_package: ebs-application-$VERSION.zip

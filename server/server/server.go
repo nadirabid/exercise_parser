@@ -142,5 +142,4 @@ func New(v *viper.Viper) error {
 	apiRoutes.DELETE("/workout/:id", handleDeleteWorkout)
 
 	return e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port")))
-	//return e.StartTLS(":443", "resources/.cache/cert.pem", "resources/.cache/key.pem")
 }
