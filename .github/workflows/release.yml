@@ -35,8 +35,7 @@ jobs:
         ECR_REPOSITORY: ryden.server
         IMAGE_TAG: ${{ steps.get_version.outputs.VERSION }}
       run: |
-        cd server
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build server -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
     - name: Build ElasticBeanstalk application
