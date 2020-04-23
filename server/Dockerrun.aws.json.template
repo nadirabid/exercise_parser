@@ -4,7 +4,7 @@
       {
           "name": "ryden-server",
           "image": "204409546511.dkr.ecr.us-east-2.amazonaws.com/ryden.server:${VERSION}",
-          "essential": false,
+          "essential": true,
           "memoryReservation": 32,
           "logConfiguration": {
               "logDriver": "json-file",
