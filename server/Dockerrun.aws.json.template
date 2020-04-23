@@ -2,7 +2,7 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
       {
-          "name": "ryden.server",
+          "name": "ryden-server",
           "image": "204409546511.dkr.ecr.us-east-2.amazonaws.com/ryden.server:${VERSION}",
           "essential": true,
           "memoryReservation": 32,
@@ -27,8 +27,8 @@
           ],
           "mountPoints": [
               {
-                  "sourceVolume": "awseb-logs-ryden.server",
-                  "containerPath": "/var/log/ryden.server"
+                  "sourceVolume": "awseb-logs-ryden-server",
+                  "containerPath": "/var/log/ryden-server"
               }
           ]
       }
