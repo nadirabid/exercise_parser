@@ -4,10 +4,11 @@ frontend:
     build:
       commands:
         - cd web
-        - npm build
+        - npm install
+        - npm run-script build
   artifacts:
-    baseDirectory: web
+    baseDirectory: web/build
     files:
-      - 'build/*'
+      - '**/*'
   cache:
     paths: []
