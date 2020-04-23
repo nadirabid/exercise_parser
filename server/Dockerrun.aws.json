@@ -6,7 +6,7 @@
   "containerDefinitions": [
       {
           "name": "ryden.server",
-          "image": "204409546511.dkr.ecr.us-east-2.amazonaws.com/ryden-server:{VERSION}",
+          "image": "204409546511.dkr.ecr.us-east-2.amazonaws.com/ryden.server:${VERSION}",
           "essential": true,
           "memoryReservation": 32,
           "logConfiguration": {
@@ -19,19 +19,19 @@
           "portMappings": [
             {
                 "hostPort": 80,
-                "containerPort": 80
+                "containerPort": 1234
             }
           ],
           "environment": [
               {
-                  "name": "CONFIG",
+                  "name": "CONF",
                   "value": "production"
               }
           ],
           "mountPoints": [
               {
                   "sourceVolume": "awseb-logs-fetchcore-ryden.server",
-                  "containerPath": "/var/log/fleet_api_server"
+                  "containerPath": "/var/log/ryden.server"
               }
           ]
       }

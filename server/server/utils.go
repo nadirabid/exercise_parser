@@ -29,7 +29,7 @@ func newErrorMessage(m string) *errorMessage {
 }
 
 func parseRsaPrivateKeyForTokenGeneration(v *viper.Viper) (*rsa.PrivateKey, error) {
-	file := v.GetString("auth.file")
+	file := v.GetString("auth.pem_file_path")
 	bytes, err := ioutil.ReadFile(file)
 	if err != nil {
 		panic(fmt.Sprintf("Failed to open pem keypair file: %s", file))

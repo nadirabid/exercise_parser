@@ -17,6 +17,21 @@ func configureViperFromCmd(cmd *cobra.Command) (*viper.Viper, error) {
 	}
 
 	v := viper.New()
+
+	v.BindEnv("psql.user", "RDS_USERNAME")
+	v.BindEnv("psql.password", "RDS_PASSWORD")
+	v.BindEnv("psql.name", "RDS_DB_NAME")
+	v.BindEnv("psql.host", "RDS_HOSTNAME")
+	v.BindEnv("psql.port", "RDS_PORT")
+	v.BindEnv("psql.ssl_mode", "RDS_SSL_MODE")
+
+	// TODO: calvin trick
+	v.BindEnv("psql.max_connections", "RDS_MAX_CONNECTIONS")
+	v.BindEnv("psql.max_idle_connections", "RDS_MAX_IDLE_CONNECTIONS")
+	v.BindEnv("psql.max_connection_lifetime", "RDS_MAX_CONNECTION_LIFETIME")
+
+	v.BindEnv("auth.pem_file_path", "AUTH_PEM_FILE_PATH")
+
 	v.SetConfigType("toml")
 	v.SetConfigFile(fmt.Sprintf("conf/%s.toml", confFile))
 

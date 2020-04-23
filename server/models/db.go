@@ -14,7 +14,7 @@ func NewDatabase(v *viper.Viper) (*gorm.DB, error) {
 	user := v.GetString("psql.user")
 	password := v.GetString("psql.password")
 	database := v.GetString("psql.database")
-	sslmode := v.GetString("psql.sslmode")
+	sslmode := v.GetString("psql.ssl_mode")
 
 	return gorm.Open("postgres", fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",

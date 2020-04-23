@@ -2,11 +2,11 @@
 port=1234
 
 [psql]
-ssl_mode="disable"
-database="exercise_parser"
-user="exercise"
-password="parser"
-host="localhost"
+ssl_mode=""
+database=""
+user=""
+password=""
+host=""
 port=5432
 
 [resources.dir]
@@ -21,7 +21,7 @@ stop_words="resources/stop_words"
 auth=false
 
 [auth]
-file="resources/dev_keys/token_keypair.pem"
+pem_file_path="___PEM___"
 
 [auth.apple]
 client_id="ryden.web"
