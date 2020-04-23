@@ -40,9 +40,13 @@ func newContext(v *viper.Viper, c echo.Context, db *gorm.DB) *Context {
 		panic(fmt.Sprintf("Failed to generate key: %s", err.Error()))
 	}
 
-	clientSecret, err := generateAppleClientSecret(v)
-	if err != nil {
-		panic(fmt.Sprintf("Failed to generate client secret: %s", err.Error()))
+	clientSecret := ""
+
+	if v.GetBool("middleware.auth") {
+		clientSecret, err = generateAppleClientSecret(v)
+		if err != nil {
+			panic(fmt.Sprintf("Failed to generate client secret: %s", err.Error()))
+		}
 	}
 
 	return &Context{
@@ -104,7 +108,7 @@ func New(v *viper.Viper) error {
 
 	e.Use(func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			return h(newContext(v, c, db))
+			return h(newContext(v, c, db)) // TODO:Optimization - don't create new context everytime
 		}
 	})
 

@@ -118,7 +118,7 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string, ignoreDup
 
 			m.ExerciseDictionaryID = d.ID
 
-			if err := db.Create(m).Error; err != nil {
+			if err := db.Where(models.ExerciseRelatedName{Related: m.Related}).FirstOrCreate(m).Error; err != nil {
 				return fmt.Errorf("unable to save related name: %s", err.Error())
 			}
 
@@ -131,7 +131,7 @@ func seedRelatedNames(db *gorm.DB, seedDir string, stopWords []string, ignoreDup
 	return nil
 }
 
-func seedExercises(db *gorm.DB, seedDir string) error {
+func seedExerciseDictionary(db *gorm.DB, seedDir string) error {
 	files, err := ioutil.ReadDir(seedDir)
 	if err != nil {
 		return err
@@ -149,7 +149,7 @@ func seedExercises(db *gorm.DB, seedDir string) error {
 		exerciseDictionary := &models.ExerciseDictionary{}
 		json.Unmarshal(byteValue, &exerciseDictionary)
 
-		if err := db.Create(exerciseDictionary).Error; err != nil {
+		if err := db.Where(models.ExerciseDictionary{Name: exerciseDictionary.Name}).FirstOrCreate(exerciseDictionary).Error; err != nil {
 			return fmt.Errorf("unable to save exercise type: %s", err.Error())
 		}
 
@@ -158,17 +158,12 @@ func seedExercises(db *gorm.DB, seedDir string) error {
 		relatedName.ExerciseDictionaryID = exerciseDictionary.ID
 		relatedName.Type = "model"
 
-		if err := db.Create(relatedName).Error; err != nil {
+		if err := db.Where(models.ExerciseRelatedName{Related: relatedName.Related}).FirstOrCreate(relatedName).Error; err != nil {
 			return fmt.Errorf("unable to save related name: %s", err.Error())
 		}
 
-		setTSV := `
-			UPDATE exercise_related_names
-			SET related_tsv=to_tsvector('english', coalesce(exercise_related_names.related, ''))
-			WHERE id = ?
-		`
-		if err := db.Exec(setTSV, relatedName.ID).Error; err != nil {
-			return fmt.Errorf("unable to set tsvector: %s", err.Error())
+		if err := relatedName.UpdateTSV(db); err != nil {
+			return err
 		}
 	}
 
@@ -205,7 +200,7 @@ func seed(cmd *cobra.Command, args []string) error {
 	// seed exercises
 	dir := v.GetString("resources.dir.exercises")
 
-	if err := seedExercises(db, dir); err != nil {
+	if err := seedExerciseDictionary(db, dir); err != nil {
 		return err
 	}
 
