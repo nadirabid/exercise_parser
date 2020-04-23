@@ -45,7 +45,7 @@ jobs:
         VERSION: ${{ steps.get_version.outputs.VERSION }}
       run: |
         mkdir ryden-server-app
-        envsubt < server/Dockerrun.aws.json.template > ryden-server-app/Dockerrun.aws.json
+        envsubst < server/Dockerrun.aws.json.template > ryden-server-app/Dockerrun.aws.json
         cd ryden-server-app
         zip ../ryden-server-app.zip -r .
 
