@@ -5,6 +5,5 @@ COPY . .
 
 RUN go install
 
-#CMD /go/bin/exercise_parser start --conf=/go/src/exercise_parser/server/conf/${CONFIG}.toml
-#CMD tail -f /dev/null
-CMD while true; do sleep 30; done;
+CMD /go/bin/exercise_parser start --conf=/go/src/exercise_parser/server/conf/${CONFIG}.toml
+#CMD while true; do sleep 30; done;
