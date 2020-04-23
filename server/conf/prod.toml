@@ -2,7 +2,7 @@
 port=1234
 
 [psql]
-ssl_mode=""
+ssl_mode="disable"
 database=""
 user=""
 password=""
