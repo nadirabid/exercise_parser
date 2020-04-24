@@ -142,6 +142,8 @@ func handleAppleAuthCallback(c echo.Context) error {
 		"client_secret": {ctx.appleClientSecret},
 	})
 
+	fmt.Println(resp.Request.URL.String())
+
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	} else if resp.StatusCode == 400 {
