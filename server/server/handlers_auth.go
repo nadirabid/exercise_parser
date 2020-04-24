@@ -137,12 +137,10 @@ func handleAppleAuthCallback(c echo.Context) error {
 	resp, err := http.PostForm("https://appleid.apple.com/auth/token", url.Values{
 		"grant_type":    {"authorization_code"},
 		"code":          {appleAuthCode},
-		"redirect_uri":  {"https://rydenfitness.com/apple/callback"},
+		"redirect_uri":  {ctx.viper.GetString("auth.apple.redirect_uri")},
 		"client_id":     {ctx.viper.GetString("auth.apple.client_id")},
 		"client_secret": {ctx.appleClientSecret},
 	})
-
-	fmt.Println(resp.Request.URL.String())
 
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))

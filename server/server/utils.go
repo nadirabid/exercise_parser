@@ -135,10 +135,10 @@ func generateAppleClientSecret(v *viper.Viper) (string, error) {
 	t.Set(jwt.AudienceKey, "https://appleid.apple.com")
 	t.Set(jwt.IssuedAtKey, now.Unix())
 	t.Set(jwt.ExpirationKey, now.Add(time.Minute).Unix())
-	t.Set(jwt.IssuerKey, "C3HW5VXXF5")
-	t.Set(jwt.SubjectKey, "ryden.web")
+	t.Set(jwt.IssuerKey, v.GetString("auth.apple.team_id"))
+	t.Set(jwt.SubjectKey, v.GetString("auth.apple.client_id"))
 
-	payload, err := signJWT(t, jwa.ES256, key, "PHK94N7Y9A")
+	payload, err := signJWT(t, jwa.ES256, key, v.GetString("auth.apple.key_id"))
 	if err != nil {
 		return "", err
 	}

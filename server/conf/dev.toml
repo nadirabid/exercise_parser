@@ -21,8 +21,10 @@ stop_words="resources/stop_words"
 auth=false
 
 [auth.apple]
-client_id="ryden.web"
-base64_key_p8="____APPLE_BASE64_KEY_P8___"
+client_id="___CLIENT_ID___"
+team_id="___TEAM_ID___"
+key_id="___KEY_ID___"
+base64_key_p8="___APPLE_BASE64_KEY_P8___"
 redirect_uri="localhost:3000"
 
 [auth.pem]

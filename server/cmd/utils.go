@@ -33,6 +33,8 @@ func configureViperFromCmd(cmd *cobra.Command) (*viper.Viper, error) {
 	v.BindEnv("auth.pem.base64_keypair", "AUTH_PEM_BASE64_KEYPAIR")
 	v.BindEnv("auth.apple.base64_key_p8", "AUTH_APPLE_BASE64_KEY_P8")
 	v.BindEnv("auth.apple.client_id", "AUTH_APPLE_CLIENT_ID")
+	v.BindEnv("auth.apple.key_id", "AUTH_APPLE_KEY_ID")
+	v.BindEnv("auth.apple.team_id", "AUTH_APPLE_TEAM_ID")
 
 	// conf file
 	v.SetConfigType("toml")
