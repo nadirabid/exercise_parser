@@ -4,6 +4,7 @@ import (
 	"crypto/ecdsa"
 	"crypto/rsa"
 	"crypto/x509"
+	"encoding/base64"
 	"encoding/json"
 	"encoding/pem"
 	"errors"
@@ -28,8 +29,14 @@ func newErrorMessage(m string) *errorMessage {
 }
 
 func parseRsaPrivateKeyForTokenGeneration(v *viper.Viper) (*rsa.PrivateKey, error) {
-	key := v.GetString("auth.pem.keypair")
+	// reason for storing it as base64 is because elasticbeanstalk is a bitch about injecting
+	// variables with multilines through its environment variables
+	base64key := v.GetString("auth.pem.base64_keypair")
+	key, err := base64.StdEncoding.DecodeString(base64key)
 
+	if err != nil {
+		return nil, err
+	}
 	block, _ := pem.Decode([]byte(key))
 	if block == nil {
 		return nil, errors.New("failed to parse PEM block containing the key")
