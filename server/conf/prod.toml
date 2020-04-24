@@ -22,7 +22,7 @@ auth=true
 
 [auth.apple]
 client_id="ryden.web"
-key_p8="____APPLE_KEY_P8___"
+base64_key_p8="____APPLE_BASE64_KEY_P8___"
 
 [auth.pem]
 base64_keypair="___PEM___"

@@ -120,7 +120,8 @@ func signJWT(t *jwt.Token, method jwa.SignatureAlgorithm, key interface{}, keyID
 }
 
 func generateAppleClientSecret(v *viper.Viper) (string, error) {
-	p8 := v.GetString("auth.apple.key_p8")
+	base64p8 := v.GetString("auth.apple.base64_key_p8")
+	p8, err := base64.StdEncoding.DecodeString(base64p8)
 
 	key, err := parseECDSAPrivateKeyFromStr([]byte(p8))
 	if err != nil {
