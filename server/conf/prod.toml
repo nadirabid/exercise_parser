@@ -21,7 +21,7 @@ stop_words="/go/src/exercise_parser/server/resources/stop_words"
 auth=true
 
 [auth.apple]
-client_id="ryden.web"
+client_id="com.rydenapp.web"
 base64_key_p8="____APPLE_BASE64_KEY_P8___"
 
 [auth.pem]

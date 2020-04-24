@@ -42,7 +42,7 @@ export function signInWithApple() {
 
   const paramsStr = Object.entries(params).reduce((str, [key, value]) => {
     if (str !== '') {
-      str += '&'
+      str += '&';
     }
 
     return `${str}${key}=${value}`;
