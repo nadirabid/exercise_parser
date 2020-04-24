@@ -168,11 +168,11 @@ func handleAppleAuthCallback(c echo.Context) error {
 	user.ExternalUserId = appleIdToken.Subject()
 	user.Email, _ = getEmailFromJWT(appleIdToken)
 
-	_, err = handleUserRegistrationHelper(user, ctx)
+	r, err := handleUserRegistrationHelper(user, ctx)
 
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	return ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprintf("localhost:3000?id_token=%s", "test"))
+	return ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprintf("%s?id_token=%s", viper.GetString("auth.apple.redirect_uri"), r.Token))
 }

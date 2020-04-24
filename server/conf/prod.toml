@@ -23,6 +23,7 @@ auth=true
 [auth.apple]
 client_id="com.rydenapp.web"
 base64_key_p8="____APPLE_BASE64_KEY_P8___"
+redirect_uri="https://rydenapp.com"
 
 [auth.pem]
 base64_keypair="___PEM___"
