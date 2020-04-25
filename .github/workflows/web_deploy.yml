@@ -1,0 +1,19 @@
+on:
+  push:
+    paths:
+    - 'web/**'
+
+name: Web Deploy to Amplify
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Deploy
+        id: trigger_deploy
+        env:
+          WEBHOOK_TOKEN: ${{ secrets.WEBHOOK_TOKEN }}
+        run: |
+          curl -X POST -d {} "https://webhooks.amplify.us-east-2.amazonaws.com/prod/webhooks?id=ea816ced-4425-40f7-99f5-a6aaba32015a&token=$WEBHOOK_TOKEN&operation=startbuild" -H "Content-Type:application/json"
