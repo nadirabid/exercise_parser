@@ -10,7 +10,11 @@ import Foundation
 import Alamofire
 import JWTDecode
 
+#if targetEnvironment(simulator)
 let baseURL = "http://192.168.1.69:1234"
+#else
+let baseURL = "https://api.rydenapp.com"
+#endif
 
 class UserAPI: ObservableObject {
     struct UserRegistrationResponse: Codable {
