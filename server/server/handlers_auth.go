@@ -134,10 +134,16 @@ func handleAppleAuthCallback(c echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage("Auth code is missing. Failed to authenticate!"))
 	}
 
+	referrer := ctx.Request().Header.Get("Referrer")
+	referrerURL, err := url.Parse(referrer)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(fmt.Sprintf("Unable to parser referrer URL: %s", referrer)))
+	}
+
 	resp, err := http.PostForm("https://appleid.apple.com/auth/token", url.Values{
 		"grant_type":    {"authorization_code"},
 		"code":          {appleAuthCode},
-		"redirect_uri":  {ctx.viper.GetString("auth.apple.redirect_uri")},
+		"redirect_uri":  {referrerURL.Query().Get("redirect_uri")},
 		"client_id":     {ctx.viper.GetString("auth.apple.client_id")},
 		"client_secret": {ctx.appleClientSecret},
 	})
@@ -174,5 +180,5 @@ func handleAppleAuthCallback(c echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	return ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprintf("%s?id_token=%s", viper.GetString("auth.apple.redirect_uri"), r.Token))
+	return ctx.Redirect(http.StatusFound, fmt.Sprintf("%s?id_token=%s", ctx.viper.GetString("auth.apple.redirect_uri"), r.Token))
 }

@@ -35,6 +35,7 @@ func configureViperFromCmd(cmd *cobra.Command) (*viper.Viper, error) {
 	v.BindEnv("auth.apple.client_id", "AUTH_APPLE_CLIENT_ID")
 	v.BindEnv("auth.apple.key_id", "AUTH_APPLE_KEY_ID")
 	v.BindEnv("auth.apple.team_id", "AUTH_APPLE_TEAM_ID")
+	v.BindEnv("auth.apple.redirect_uri", "AUTH_APPLE_REDIRECT_URI")
 
 	// conf file
 	v.SetConfigType("toml")
