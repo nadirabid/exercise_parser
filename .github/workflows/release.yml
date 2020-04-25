@@ -2,7 +2,7 @@ on:
   release:
     types: [created]
 
-name: Deploy to Amazon ECS
+name: Deploy to Amazon ElasticBeanstalk
 
 jobs:
   deploy:
