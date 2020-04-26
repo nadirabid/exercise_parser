@@ -1,31 +1,31 @@
 {
   "images" : [
     {
-      "filename" : "Artboard@0.67x-2.png",
+      "filename" : "Artboard20.2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "Artboard.png",
+      "filename" : "Artboard20.3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "Artboard@1.5x-4.png",
+      "filename" : "Artboard29.2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "Artboard@1.5x-2.png",
+      "filename" : "Artboard29.3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "Artboard@1.5x-3.png",
+      "filename" : "Artboard40.2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
@@ -49,7 +49,7 @@
       "size" : "60x60"
     },
     {
-      "filename" : "Artboard@0.34x.png",
+      "filename" : "Artboard20.1x.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "20x20"
@@ -61,13 +61,13 @@
       "size" : "20x20"
     },
     {
-      "filename" : "Artboard@0.34x-1.png",
+      "filename" : "Artboard29.1x.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "29x29"
     },
     {
-      "filename" : "Artboard-1.png",
+      "filename" : "Artboard29.2x-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"
@@ -79,31 +79,31 @@
       "size" : "40x40"
     },
     {
-      "filename" : "Artboard@1.5x.png",
+      "filename" : "Artboard40.2x-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "Artboard@1.5x-1.png",
+      "filename" : "Artboard76.1x.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "76x76"
     },
     {
-      "filename" : "Artboard@3x-1.png",
+      "filename" : "Artboard76.2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "76x76"
     },
     {
-      "filename" : "Artboard@3x-2.png",
+      "filename" : "Artboard83.5x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "83.5x83.5"
     },
     {
-      "filename" : "Artboard@17.1x.png",
+      "filename" : "Artboard1024.x.no-alpha.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
