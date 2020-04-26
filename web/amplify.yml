@@ -6,7 +6,6 @@ frontend:
         - cd web
         - npm install
         - npm run build
-        - cp -r src/.well-known build/.well-known
   artifacts:
     baseDirectory: web/build
     files:
