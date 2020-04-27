@@ -1,7 +1,9 @@
 on:
   push:
+    branches:
+      - master
     paths:
-    - '/web/**'
+      - 'web/**'
 
 name: Web Deploy to Amplify
 
