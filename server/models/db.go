@@ -16,7 +16,7 @@ func NewDatabase(v *viper.Viper) (*gorm.DB, error) {
 	database := v.GetString("psql.database")
 	sslmode := v.GetString("psql.ssl_mode")
 
-	return gorm.Open("postgres", fmt.Sprintf(
+	db, err := gorm.Open("postgres", fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		host,
 		port,
@@ -25,6 +25,16 @@ func NewDatabase(v *viper.Viper) (*gorm.DB, error) {
 		database,
 		sslmode,
 	))
+
+	if err != nil {
+		return nil, err
+	}
+
+	if err := db.Debug().Exec("ALTER ? IN DATABASE ? SET default_text_search_config TO 'pg_catalog.english'", user, database).Error; err != nil {
+		return nil, err
+	}
+
+	return db, err
 }
 
 // Migrate will auto migrate
