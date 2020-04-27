@@ -37,7 +37,7 @@ func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySe
 
 	groupedByPrimary := make(map[uint][]*ExerciseRelatedNameSearchResult)
 
-	rows, err := db.Debug().Raw(q, searchTerms).Rows()
+	rows, err := db.Raw(q, searchTerms).Rows()
 	if err != nil {
 		return nil, err
 	}
