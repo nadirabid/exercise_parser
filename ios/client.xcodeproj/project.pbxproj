@@ -21,6 +21,8 @@
 		644E3364240CE26200458438 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E3363240CE26200458438 /* FeedView.swift */; };
 		64615A95242581AF0098ED5A /* EditableExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64615A94242581AF0098ED5A /* EditableExerciseView.swift */; };
 		64615A972425983F0098ED5A /* FancyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64615A962425983F0098ED5A /* FancyLoader.swift */; };
+		6467EA8A245676BC00921779 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 6467EA89245676BC00921779 /* FacebookLogin */; };
+		6467EA8C245676BC00921779 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6467EA8B245676BC00921779 /* FacebookCore */; };
 		648C6F0F2433052B00FAE56A /* FloatExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648C6F0E2433052B00FAE56A /* FloatExtension.swift */; };
 		6494A01622B6139900C19543 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A01522B6139900C19543 /* AppDelegate.swift */; };
 		6494A01822B6139900C19543 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A01722B6139900C19543 /* SceneDelegate.swift */; };
@@ -108,6 +110,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6467EA8A245676BC00921779 /* FacebookLogin in Frameworks */,
+				6467EA8C245676BC00921779 /* FacebookCore in Frameworks */,
 				64038282241A35BF0000C17C /* Alamofire in Frameworks */,
 				6405131A241635E300DDC3D7 /* MapKit.framework in Frameworks */,
 				64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */,
@@ -261,6 +265,8 @@
 				64F499FB23E8031E003ADB62 /* Introspect */,
 				64038281241A35BF0000C17C /* Alamofire */,
 				64A9956E241EE3DC006716CA /* JWTDecode */,
+				6467EA89245676BC00921779 /* FacebookLogin */,
+				6467EA8B245676BC00921779 /* FacebookCore */,
 			);
 			productName = client;
 			productReference = 6494A01222B6139900C19543 /* client.app */;
@@ -338,6 +344,7 @@
 				64F499FA23E8031E003ADB62 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				64038280241A35BF0000C17C /* XCRemoteSwiftPackageReference "Alamofire" */,
 				64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
+				6467EA88245676BC00921779 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = 6494A01322B6139900C19543 /* Products */;
 			projectDirPath = "";
@@ -744,6 +751,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		6467EA88245676BC00921779 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.5.1;
+			};
+		};
 		64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/auth0/JWTDecode.swift.git";
@@ -767,6 +782,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 64038280241A35BF0000C17C /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		6467EA89245676BC00921779 /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6467EA88245676BC00921779 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+		6467EA8B245676BC00921779 /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6467EA88245676BC00921779 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
 		};
 		64A9956E241EE3DC006716CA /* JWTDecode */ = {
 			isa = XCSwiftPackageProductDependency;
