@@ -30,6 +30,7 @@ func NewDatabase(v *viper.Viper) (*gorm.DB, error) {
 		return nil, err
 	}
 
+	// WHY?: https://stackoverflow.com/questions/40032685/on-aws-rds-postgres-how-to-have-dictionaries-and-unaccented-full-text-search
 	if err := db.Debug().Exec("ALTER ? IN DATABASE ? SET default_text_search_config TO 'pg_catalog.english'", user, database).Error; err != nil {
 		return nil, err
 	}
