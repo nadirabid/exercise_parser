@@ -83,13 +83,12 @@ func handleGetWorkoutDictionary(c echo.Context) error {
 
 	dictionaries := []models.ExerciseDictionary{}
 
-	q := `
-		SELECT exercise_dictionaries.*
-		FROM exercise_dictionaries, exercises, workouts
-		WHERE workouts.id = ? AND workouts.user_id = ?, exercises.workout_id = workouts.id AND exercise_dictionaries.id = exercises.exercise_dictionary_id
-	`
+	q := db.Debug().
+		Joins("JOIN exercises ON exercises.exercise_dictionary_id = exercise_dictionaries.id").
+		Joins("JOIN workouts ON workouts.id = exercises.workout_id").
+		Where("workouts.id = ? AND workouts.user_id = ?", workoutID, userID)
 
-	r, err := paging(db.Raw(q, workoutID, userID), 0, 0, &dictionaries)
+	r, err := paging(q, 0, 0, &dictionaries)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))

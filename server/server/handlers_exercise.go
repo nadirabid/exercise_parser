@@ -2,6 +2,7 @@ package server
 
 import (
 	"exercise_parser/models"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -195,7 +196,7 @@ func handlePostReresolveExercises(c echo.Context) error {
 
 	exercises := []models.Exercise{}
 
-	err := db.Debug().
+	err := db.
 		Where("type = ?", "unknown").
 		Find(&exercises).
 		Error
@@ -208,15 +209,39 @@ func handlePostReresolveExercises(c echo.Context) error {
 
 	for _, e := range exercises {
 		if err := e.Resolve(); err == nil {
-			resolvedExercises = append(resolvedExercises, e)
+			searchResults, err := models.SearchExerciseDictionary(db, e.Name)
+			if err != nil {
+				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+			}
+
+			if len(searchResults) > 0 {
+				minSearchRank := float32(0.05)
+				topSearchResult := searchResults[0]
+
+				if topSearchResult.Rank >= minSearchRank {
+					fmt.Println("MATCHED", topSearchResult.Rank, minSearchRank)
+					// if we didn't make it ot this if condition - but we resolved properly above
+					// then that means we couldn't find a close enough match for the exercise
+					e.ExerciseDictionaryID = &topSearchResult.ExerciseDictionaryID
+				}
+			}
+
 			if err := db.Save(&e).Error; err != nil {
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}
+
+			resolvedExercises = append(resolvedExercises, e)
 		}
 
 		// TODO: log the ones we failed to resolve?
 		// TODO: should we also rematch to an exercise??
 	}
 
-	return ctx.JSON(http.StatusOK, resolvedExercises)
+	r := models.ListResponse{
+		Size:    len(resolvedExercises),
+		Page:    0,
+		Results: resolvedExercises,
+	}
+
+	return ctx.JSON(http.StatusOK, r)
 }

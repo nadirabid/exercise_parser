@@ -2,6 +2,8 @@ package server
 
 import (
 	"bytes"
+	"exercise_parser/models"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -19,7 +21,14 @@ func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 
 		if authorization == "" && !viper.GetBool("middleware.auth") {
 			// when auth is disabled - and there is no token - we'll create one
-			ctx.jwt = generateFakeUserJWT()
+			fakeUser := models.User{}
+			if err := ctx.db.Where("external_user_id = 'fake.user.id'").First(&fakeUser).Error; err != nil {
+				return c.JSON(http.StatusNotFound, newErrorMessage("Seed fake user! Cannot authenticate."))
+			}
+
+			fmt.Println(fakeUser.ID)
+			ctx.jwt = generateFakeUserJWT(fakeUser)
+
 			return next(ctx)
 		} else if authorization == "" {
 			return c.JSON(

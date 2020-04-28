@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"errors"
+	"exercise_parser/models"
 	"fmt"
 	"strconv"
 	"time"
@@ -78,7 +79,7 @@ func getUserIDFromContext(ctx *Context) uint {
 	return uint(userID)
 }
 
-func generateFakeUserJWT() *jwt.Token {
+func generateFakeUserJWT(fakeUser models.User) *jwt.Token {
 	now := time.Unix(time.Now().Unix(), 0)
 
 	t := jwt.New()
@@ -88,7 +89,7 @@ func generateFakeUserJWT() *jwt.Token {
 	t.Set(jwt.ExpirationKey, now.Add(time.Hour*24).Unix())
 	t.Set(jwt.IssuedAtKey, now.Unix())
 	t.Set(jwt.IssuerKey, "https://ryden.app")
-	t.Set(jwt.SubjectKey, "1") // TODO: this id will change based on seeding data - get a more stable ID
+	t.Set(jwt.SubjectKey, fmt.Sprint(fakeUser.ID))
 
 	return t
 }
