@@ -408,6 +408,7 @@ func seedFakeData(cmd *cobra.Command, args []string) error {
 		UserID:         user.ID,
 		Date:           time.Now(),
 		Location:       &models.Location{},
+		Name:           "Fake exercies",
 		SecondsElapsed: 200,
 		Exercises: []models.Exercise{
 			{
@@ -468,6 +469,7 @@ func seedFakeWorkoutData(cmd *cobra.Command, args []string) error {
 		UserID:         user.ID,
 		Date:           time.Now(),
 		Location:       &models.Location{},
+		Name:           "Fake exercies",
 		SecondsElapsed: 200,
 		Exercises: []models.Exercise{
 			{

@@ -51,7 +51,7 @@ class UserAPI: ObservableObject {
                 switch response.result {
                 case .success(let data):
                     let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .iso8601
+                    decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
                     
                     let r = try! decoder.decode(UserRegistrationResponse.self, from: data!)
                     let jwt = try! decode(jwt: r.token)
@@ -73,12 +73,14 @@ class WorkoutAPI: ObservableObject {
         self.encoder.dateEncodingStrategy = .iso8601
     }
     
-    func getUserFeed(_ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) {
-        let headers: HTTPHeaders = [
+    var headers: HTTPHeaders {
+        return HTTPHeaders([
             "Accept": "application/json",
             "Authorization": "Bearer \(userState.jwt!.string)"
-        ]
-        
+        ])
+    }
+    
+    func getUserFeed(_ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) {
         let url = "\(baseURL)/api/workout"
         
         AF.request(url, method: .get, headers: headers)
@@ -87,7 +89,7 @@ class WorkoutAPI: ObservableObject {
                 switch response.result {
                 case .success(let data):
                     let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .iso8601
+                    decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
                     
                     let feedData = try! decoder.decode(PaginatedResponse<Workout>.self, from: data!)
                     completionHandler(feedData)
@@ -101,18 +103,13 @@ class WorkoutAPI: ObservableObject {
     }
     
     func createWorkout(workout: Workout, _ completionHandler: @escaping (Workout) -> Void) {
-        let headers: HTTPHeaders = [
-            "Accept": "application/json",
-            "Authorization": "Bearer \(userState.jwt!.string)"
-        ]
-        
         AF.request("\(baseURL)/api/workout", method: .post, parameters: workout, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
                 case .success(let data):
                     let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .iso8601
+                    decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
                     
                     let workout = try! decoder.decode(Workout.self, from: data!)
                     completionHandler(workout)
@@ -219,19 +216,21 @@ class ExerciseAPI: ObservableObject {
         self.encoder.dateEncodingStrategy = .iso8601
     }
     
-    func resolveExercise(exercise: Exercise, _ completionHandler: @escaping (Exercise) -> Void) -> DataRequest? {
-        let headers: HTTPHeaders = [
+    var headers: HTTPHeaders {
+        return HTTPHeaders([
             "Accept": "application/json",
             "Authorization": "Bearer \(userState.jwt!.string)"
-        ]
-        
+        ])
+    }
+    
+    func resolveExercise(exercise: Exercise, _ completionHandler: @escaping (Exercise) -> Void) -> DataRequest? {
         return AF.request("\(baseURL)/api/exercise/resolve", method: .post, parameters: exercise, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
                 case .success(let data):
                     let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .iso8601
+                    decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
                     
                     let e = try! decoder.decode(Exercise.self, from: data!)
                     completionHandler(e)
@@ -256,5 +255,66 @@ class MockExerciseAPI: ExerciseAPI {
         ))
         
         return nil
+    }
+}
+
+class ExerciseDictionaryAPI: ObservableObject {
+    private var userState: UserState
+    private let encoder = JSONEncoder()
+    
+    init(userState: UserState) {
+        self.userState = userState
+        self.encoder.dateEncodingStrategy = .iso8601
+    }
+    
+    var headers: HTTPHeaders {
+        return HTTPHeaders([
+            "Accept": "application/json",
+            "Authorization": "Bearer \(userState.jwt!.string)"
+        ])
+    }
+    
+    func getDictionary(id: Int, _ completionHandler: @escaping (ExerciseDictionary) -> Void) -> DataRequest? {
+        let url = "\(baseURL)/api/exercise/dictionary/\(id)"
+        
+        return AF.request(url, method: .get, headers: headers)
+            .validate(statusCode: 200..<300)
+            .response(queue: DispatchQueue.main) { (response) in
+                switch response.result {
+                case .success(let data):
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+                    
+                    let exerciseDictionary = try! decoder.decode(ExerciseDictionary.self, from: data!)
+                    completionHandler(exerciseDictionary)
+                case .failure(let error):
+                    print("Failed to get exercise dictionary: ", error)
+                    if let data = response.data {
+                        print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                    }
+                }
+            }
+    }
+    
+    func getWorkoutDictionaries(id: Int, _ completionHandler: @escaping (PaginatedResponse<ExerciseDictionary>) -> Void) -> DataRequest? {
+        let url = "\(baseURL)/api/workout/\(id)/dictionary/"
+        
+        return AF.request(url, method: .get, headers: headers)
+            .validate(statusCode: 200..<300)
+            .response(queue: DispatchQueue.main) { (response) in
+                switch response.result {
+                case .success(let data):
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+                    
+                    let result = try! decoder.decode(PaginatedResponse<ExerciseDictionary>.self, from: data!)
+                    completionHandler(result)
+                case .failure(let error):
+                    print("Failed to get exercise dictionary: ", error)
+                    if let data = response.data {
+                        print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                    }
+                }
+            }
     }
 }

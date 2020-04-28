@@ -3,7 +3,6 @@ package server
 import (
 	"bytes"
 	"exercise_parser/models"
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -26,7 +25,6 @@ func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 				return c.JSON(http.StatusNotFound, newErrorMessage("Seed fake user! Cannot authenticate."))
 			}
 
-			fmt.Println(fakeUser.ID)
 			ctx.jwt = generateFakeUserJWT(fakeUser)
 
 			return next(ctx)

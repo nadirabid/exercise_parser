@@ -69,6 +69,7 @@ struct Exercise: Codable, Identifiable {
     let name: String
     let type: String
     let raw: String
+    let exerciseDictionaryID: Int?
     let weightedExercise: WeightedExercise?
     let distanceExercise: DistanceExercise?
     
@@ -85,6 +86,7 @@ struct Exercise: Codable, Identifiable {
         self.name = name
         self.type = type
         self.raw = raw
+        self.exerciseDictionaryID = nil
         self.weightedExercise = weightedExercise
         self.distanceExercise = distanceExercise
     }
@@ -105,6 +107,7 @@ struct Exercise: Codable, Identifiable {
         self.name = name
         self.type = type
         self.raw = raw
+        self.exerciseDictionaryID = nil
         self.weightedExercise = weightedExercise
         self.distanceExercise = distanceExercise
     }
@@ -114,6 +117,7 @@ struct Exercise: Codable, Identifiable {
         case updatedAt = "updated_at"
         case weightedExercise = "weighted_exercise"
         case distanceExercise = "distance_exercise"
+        case exerciseDictionaryID = "exercise_dictionary_id"
         case id, name, type, raw
     }
 }

@@ -63,8 +63,53 @@ struct WorkoutView: View {
                 }
             }
                 .padding([.leading, .trailing])
+            
+            VStack {
+                WorkoutMuscleMetricsView(workout: workout)
+            }
+                .padding()
         }
             .padding([.top, .bottom])
+    }
+}
+
+struct WorkoutMuscleMetricsView: View {
+    @EnvironmentObject var exerciseDictionaryAPI: ExerciseDictionaryAPI
+    
+    var workout: Workout
+    
+    @State private var dictionaries: [ExerciseDictionary]?
+    
+    func loadWorkoutDictionaries() {
+        _ = exerciseDictionaryAPI.getWorkoutDictionaries(id: workout.id!) { (response) in
+            self.dictionaries = response.results
+        }
+    }
+    
+    func getDictionaryForExercise(e: Exercise) -> ExerciseDictionary? {
+        dictionaries?.first(where: { $0.id == e.exerciseDictionaryID })
+    }
+    
+    var resolvedExercises: [Exercise] {
+        workout.exercises.filter { $0.exerciseDictionaryID != nil }
+    }
+    
+    var body: some View {
+        
+        VStack {
+            Text("Primary Muscles")
+
+            if self.dictionaries != nil {
+                ForEach(resolvedExercises) { e in
+                    ForEach(self.getDictionaryForExercise(e: e)!.muscles.target!, id: \.self) { m in
+                        Text(m)
+                    }
+                }
+            }
+        }
+            .onAppear {
+                self.loadWorkoutDictionaries()
+            }
     }
 }
 

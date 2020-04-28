@@ -86,7 +86,7 @@ func (r *ExerciseRelatedName) UpdateTSV(db *gorm.DB) error {
 
 // ExerciseDictionary is a single exercise type
 type ExerciseDictionary struct {
-	HiddenModel
+	Model
 	URL            string         `json:"url"`
 	Name           string         `json:"name" gorm:"unique"`
 	Classification Classification `json:"classification"`

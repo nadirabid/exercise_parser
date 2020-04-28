@@ -171,10 +171,53 @@ struct WaitingForExerciseView: View {
 struct ActivityView_Previews: PreviewProvider {
     static var previews: some View {
         return VStack {
-            ExerciseView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil))
-            ExerciseView(exercise: Exercise(id: 0, createdAt: "", updatedAt: "", name: "", type: "", raw: "", weightedExercise: nil, distanceExercise: nil))
+            Divider()
+            
+            ExerciseView(
+                exercise: Exercise(
+                    id: 0,
+                    createdAt: "",
+                    updatedAt: "",
+                    name: "Tricep Curls",
+                    type: "weighted",
+                    raw: "3x3 tricep curls - 45 lbs",
+                    weightedExercise: WeightedExercise(sets: 3, reps: 3, weight: 45),
+                    distanceExercise: nil
+                )
+            )
+            
+            Divider()
+            
+            ExerciseView(
+                exercise: Exercise(
+                    id: 0,
+                    createdAt: "",
+                    updatedAt: "",
+                    name: "Rowing",
+                    type: "distance",
+                    raw: "rowing 1 miles",
+                    weightedExercise: nil,
+                    distanceExercise: DistanceExercise(time: 360, distance: 1600)
+                )
+            )
+            
+            Divider()
+            
+            ExerciseView(
+                exercise: Exercise(
+                    id: 0,
+                    createdAt: "",
+                    updatedAt: "",
+                    name: "Running",
+                    type: "distance",
+                    raw: "running 4 miles",
+                    weightedExercise: nil,
+                    distanceExercise: DistanceExercise(time: 360, distance: 6400)
+                )
+            )
+            
+            Divider()
         }
-        .environmentObject(MockExerciseAPI(userState: UserState()))
     }
 }
 #endif
