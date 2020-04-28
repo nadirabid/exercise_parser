@@ -31,7 +31,6 @@ struct MapView: UIViewRepresentable {
 
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
-        annotation.title = "Home gym"
         view.addAnnotation(annotation)
         
         return view
