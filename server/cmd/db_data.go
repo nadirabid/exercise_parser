@@ -190,11 +190,6 @@ func seed(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	fmt.Println("set dictionary")
-	if err := db.Exec("ALTER ? IN DATABASE ? SET default_text_search_config TO 'pg_catalog.english'").Error; err != nil {
-		return err
-	}
-
 	fmt.Println("migration complete")
 
 	stopWords, err := loadStopWords(v) // get stop words replacer

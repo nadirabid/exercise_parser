@@ -17,7 +17,7 @@ type Classification struct {
 	Function             string `json:"function"`
 	Bearing              string `json:"bearing"`
 	Impact               string `json:"impact"`
-	ExerciseDictionaryID uint   `json:"exercise_type_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
+	ExerciseDictionaryID uint   `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
 }
 
 // Muscles are the areas that a given exercise affects
@@ -29,7 +29,7 @@ type Muscles struct {
 	DynamicStabilizers    pq.StringArray `json:"dynamic_stabilizers" gorm:"type:varchar(250)[]"`
 	AntagonistStabilizers pq.StringArray `json:"antagonist_stabilizers" gorm:"type:varchar(250)[]"`
 	ROMCriteria           pq.StringArray `json:"rom_criteria" gorm:"type:varchar(250)[]"`
-	ExerciseDictionaryID  uint           `json:"exercise_type_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
+	ExerciseDictionaryID  uint           `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
 }
 
 // Articulation is Plyometric as far as I can tell
@@ -37,7 +37,7 @@ type Articulation struct {
 	HiddenModel
 	Dynamic              Joints `json:"dynamic"`
 	Static               Joints `json:"static"`
-	ExerciseDictionaryID uint   `json:"exercise_type_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
+	ExerciseDictionaryID uint   `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
 }
 
 // Joints for dynamic/static articulation

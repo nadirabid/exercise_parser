@@ -2,7 +2,6 @@ package server
 
 import (
 	"exercise_parser/models"
-	"exercise_parser/utils"
 	"net/http"
 	"strconv"
 
@@ -196,7 +195,7 @@ func handlePostReresolveExercises(c echo.Context) error {
 
 	exercises := []models.Exercise{}
 
-	err := db.
+	err := db.Debug().
 		Where("type = ?", "unknown").
 		Find(&exercises).
 		Error
@@ -205,114 +204,19 @@ func handlePostReresolveExercises(c echo.Context) error {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
 
+	resolvedExercises := []models.Exercise{}
+
 	for _, e := range exercises {
-		if err := e.Resolve(); err != nil {
-			return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+		if err := e.Resolve(); err == nil {
+			resolvedExercises = append(resolvedExercises, e)
+			if err := db.Save(&e).Error; err != nil {
+				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+			}
 		}
 
+		// TODO: log the ones we failed to resolve?
 		// TODO: should we also rematch to an exercise??
 	}
 
-	return ctx.JSON(http.StatusOK, exercises)
-}
-
-// exercise dictionary handlers
-
-func handleGetExerciseDictionaryList(c echo.Context) error {
-	ctx := c.(*Context)
-	db := ctx.DB()
-
-	results := []models.ExerciseDictionary{}
-
-	page, err := strconv.Atoi(utils.GetStringOrDefault(ctx.QueryParam("page"), "0"))
-	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
-	}
-
-	size, err := strconv.Atoi(utils.GetStringOrDefault(ctx.QueryParam("size"), "20"))
-	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
-	}
-
-	q := db.
-		Preload("Classification").
-		Preload("Muscles").
-		Preload("Articulation").
-		Preload("Articulation.Dynamic").
-		Preload("Articulation.Static").
-		Order("name asc")
-
-	listResponse, err := paging(q, page, size, &results)
-
-	if err != nil {
-		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
-	}
-
-	return ctx.JSON(http.StatusOK, listResponse)
-}
-
-func handleGetDictionaryRelatedName(c echo.Context) error {
-	ctx := c.(*Context)
-	db := ctx.DB()
-
-	id, err := strconv.Atoi(ctx.Param("id"))
-	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
-	}
-
-	related := []models.ExerciseRelatedName{}
-
-	q := db.Where("exercise_dictionary_id = ?", id)
-
-	r, err := paging(q, 0, 0, &related)
-
-	if err != nil {
-		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
-	}
-
-	return ctx.JSON(http.StatusOK, r)
-}
-
-func handlePostDictionaryRelatedName(c echo.Context) error {
-	ctx := c.(*Context)
-	db := ctx.DB()
-
-	relatedName := &models.ExerciseRelatedName{}
-
-	if err := ctx.Bind(relatedName); err != nil {
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
-	}
-
-	relatedName.Type = ctx.viper.GetString("resources.dir.related_names")
-
-	if err := db.Create(relatedName).Error; err != nil {
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-
-	if err := relatedName.UpdateTSV(db); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-
-	return ctx.JSON(http.StatusOK, relatedName)
-}
-
-func handlePutDictionaryRelatedName(c echo.Context) error {
-	ctx := c.(*Context)
-	db := ctx.DB()
-
-	relatedName := &models.ExerciseRelatedName{}
-
-	if err := ctx.Bind(relatedName); err != nil {
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
-	}
-
-	if err := db.Save(relatedName).Error; err != nil {
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-
-	if err := relatedName.UpdateTSV(db); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-
-	return ctx.JSON(http.StatusOK, relatedName)
+	return ctx.JSON(http.StatusOK, resolvedExercises)
 }
