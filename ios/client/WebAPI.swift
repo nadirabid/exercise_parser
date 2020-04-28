@@ -16,6 +16,35 @@ let baseURL = "http://192.168.1.69:1234"
 let baseURL = "https://api.rydenapp.com"
 #endif
 
+enum DateError: String, Error {
+    case invalidDate
+}
+
+func decodeStrategy() -> JSONDecoder.DateDecodingStrategy {
+    let formatter = DateFormatter()
+    formatter.calendar = Calendar(identifier: .iso8601)
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+    
+    return .custom({ (decoder) -> Date in
+        let container = try decoder.singleValueContainer()
+        let dateStr = try container.decode(String.self)
+
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+        if let date = formatter.date(from: dateStr) {
+            return date
+        }
+        
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
+        if let date = formatter.date(from: dateStr) {
+            return date
+        }
+        
+        throw DateError.invalidDate
+    })
+}
+
 class UserAPI: ObservableObject {
     struct UserRegistrationResponse: Codable {
         let token: String
@@ -51,7 +80,7 @@ class UserAPI: ObservableObject {
                 switch response.result {
                 case .success(let data):
                     let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+                    decoder.dateDecodingStrategy = decodeStrategy()
                     
                     let r = try! decoder.decode(UserRegistrationResponse.self, from: data!)
                     let jwt = try! decode(jwt: r.token)
@@ -89,7 +118,7 @@ class WorkoutAPI: ObservableObject {
                 switch response.result {
                 case .success(let data):
                     let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+                    decoder.dateDecodingStrategy = decodeStrategy()
                     
                     let feedData = try! decoder.decode(PaginatedResponse<Workout>.self, from: data!)
                     completionHandler(feedData)
@@ -109,7 +138,7 @@ class WorkoutAPI: ObservableObject {
                 switch response.result {
                 case .success(let data):
                     let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+                    decoder.dateDecodingStrategy = decodeStrategy()
                     
                     let workout = try! decoder.decode(Workout.self, from: data!)
                     completionHandler(workout)
@@ -230,7 +259,7 @@ class ExerciseAPI: ObservableObject {
                 switch response.result {
                 case .success(let data):
                     let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+                    decoder.dateDecodingStrategy = decodeStrategy()
                     
                     let e = try! decoder.decode(Exercise.self, from: data!)
                     completionHandler(e)
@@ -283,7 +312,7 @@ class ExerciseDictionaryAPI: ObservableObject {
                 switch response.result {
                 case .success(let data):
                     let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+                    decoder.dateDecodingStrategy = decodeStrategy()
                     
                     let exerciseDictionary = try! decoder.decode(ExerciseDictionary.self, from: data!)
                     completionHandler(exerciseDictionary)
@@ -305,7 +334,7 @@ class ExerciseDictionaryAPI: ObservableObject {
                 switch response.result {
                 case .success(let data):
                     let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+                    decoder.dateDecodingStrategy = decodeStrategy()
                     
                     let result = try! decoder.decode(PaginatedResponse<ExerciseDictionary>.self, from: data!)
                     completionHandler(result)

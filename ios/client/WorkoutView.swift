@@ -64,10 +64,8 @@ struct WorkoutView: View {
             }
                 .padding([.leading, .trailing])
             
-            VStack {
-                WorkoutMuscleMetricsView(workout: workout)
-            }
-                .padding()
+            WorkoutMuscleMetricsView(workout: workout)
+                .padding(.top)
         }
             .padding([.top, .bottom])
     }
@@ -95,18 +93,38 @@ struct WorkoutMuscleMetricsView: View {
     }
     
     var body: some View {
-        
-        VStack {
-            Text("Primary Muscles")
+        VStack(alignment: .leading) {
+            Text("Primary muscles")
+                .font(.caption)
+                .padding([.leading, .top])
+                .padding(.bottom, 3)
+                .foregroundColor(Color.gray)
 
             if self.dictionaries != nil {
                 ForEach(resolvedExercises) { e in
                     ForEach(self.getDictionaryForExercise(e: e)!.muscles.target!, id: \.self) { m in
-                        Text(m)
+                        Text(m).font(.subheadline)
                     }
                 }
+                    .padding(.leading)
+            }
+            
+            Text("Assisting muscles")
+                .font(.caption)
+                .padding([.leading, .top])
+                .padding(.bottom, 3)
+                .foregroundColor(Color.gray)
+            
+            if self.dictionaries != nil {
+                ForEach(resolvedExercises) { e in
+                    ForEach(self.getDictionaryForExercise(e: e)!.muscles.stabilizers!, id: \.self) { m in
+                        Text(m).font(.subheadline).padding(.bottom, 2)
+                    }
+                }
+                    .padding(.leading)
             }
         }
+            .padding(.all, 0)
             .onAppear {
                 self.loadWorkoutDictionaries()
             }
