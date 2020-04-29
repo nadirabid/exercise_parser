@@ -29,15 +29,6 @@
         }
       },
       {
-        "package": "Facebook",
-        "repositoryURL": "https://github.com/facebook/facebook-ios-sdk",
-        "state": {
-          "branch": null,
-          "revision": "7a6532a3851ab107c384a07f05f2efee5a6e4103",
-          "version": "6.5.1"
-        }
-      },
-      {
         "package": "JWTDecode",
         "repositoryURL": "https://github.com/auth0/JWTDecode.swift.git",
         "state": {

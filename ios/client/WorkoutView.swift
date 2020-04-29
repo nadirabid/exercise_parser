@@ -27,10 +27,16 @@ struct WorkoutDetail: View {
 
 struct WorkoutView: View {
     @EnvironmentObject var userState: UserState
+    
     @State var workout: Workout
+    @State var index = 0
+    @State var pageZeroSize: CGSize = .zero
+    @State var pageOneSize: CGSize = .zero
+    @State private var offset: CGFloat = 0
+    @State private var isUserSwiping: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading) {
+        return VStack(alignment: .leading) {
             HStack {
                 CircleProfileImage().frame(width: 45, height: 45)
                 
@@ -48,26 +54,59 @@ struct WorkoutView: View {
                 .fixedSize(horizontal: true, vertical: true)
                 .padding(.leading)
             
-            if workout.location != nil {
-                MapView(location: workout.location!)
-                    .frame(height: CGFloat(130.0))
-            }
-            
-            VStack(spacing: 0) {
-                ForEach(workout.exercises) { exercise in
-                    if exercise.type != "unknown" {
-                        ExerciseView(exercise: exercise)
-                    } else {
-                        ProcessingExerciseView(exercise: exercise)
+            if index == 0 {
+                if self.workout.location != nil {
+                    MapView(location: self.workout.location!)
+                        .frame(height: CGFloat(130.0))
+                }
+                
+                VStack(spacing: 0) {
+                    ForEach(self.workout.exercises) { exercise in
+                        if exercise.type != "unknown" {
+                            ExerciseView(exercise: exercise)
+                        } else {
+                            ProcessingExerciseView(exercise: exercise)
+                        }
                     }
                 }
+                    .padding([.leading, .trailing])
+            } else {
+                WorkoutMuscleMetricsView(workout: self.workout)
             }
-                .padding([.leading, .trailing])
             
-            WorkoutMuscleMetricsView(workout: workout)
-                .padding(.top)
+            HStack(spacing: 8) {
+                Spacer()
+                
+                CircleButton(isSelected: Binding<Bool>(get: { self.index == 0 }, set: { _ in })) {
+                    withAnimation(Animation.default.speed(2)) {
+                        self.index = 0
+                    }
+                }
+                
+                CircleButton(isSelected: Binding<Bool>(get: { self.index == 1 }, set: { _ in })) {
+                    withAnimation(Animation.default.speed(2)) {
+                        self.index = 1
+                    }
+                }
+                
+                Spacer()
+            }
         }
             .padding([.top, .bottom])
+    }
+}
+
+struct CircleButton: View {
+    @Binding var isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: {
+            self.action()
+        }) { Circle()
+            .frame(width: 16, height: 16)
+            .foregroundColor(self.isSelected ? appColor : appColor.opacity(0.5))
+        }
     }
 }
 
@@ -101,7 +140,7 @@ struct WorkoutMuscleMetricsView: View {
                 .foregroundColor(Color.gray)
 
             if self.dictionaries != nil {
-                ForEach(resolvedExercises) { e in
+                ForEach(self.resolvedExercises) { e in
                     ForEach(self.getDictionaryForExercise(e: e)!.muscles.target!, id: \.self) { m in
                         Text(m).font(.subheadline)
                     }
@@ -116,7 +155,7 @@ struct WorkoutMuscleMetricsView: View {
                 .foregroundColor(Color.gray)
             
             if self.dictionaries != nil {
-                ForEach(resolvedExercises) { e in
+                ForEach(self.resolvedExercises) { e in
                     ForEach(self.getDictionaryForExercise(e: e)!.muscles.stabilizers!, id: \.self) { m in
                         Text(m).font(.subheadline).padding(.bottom, 2)
                     }

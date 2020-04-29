@@ -92,7 +92,7 @@ public struct DeletableViewModifier: ViewModifier {
                         }
                     }
             }
-            
+
             content
                 .animation(
                     !self.disable && (dragOffset == CGFloat.zero || dragOffset == -140) ? .spring() : .none
