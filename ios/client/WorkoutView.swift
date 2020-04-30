@@ -133,35 +133,38 @@ struct WorkoutMuscleMetricsView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Primary muscles")
-                .font(.caption)
-                .padding([.leading, .top])
-                .padding(.bottom, 3)
-                .foregroundColor(Color.gray)
-
-            if self.dictionaries != nil {
-                ForEach(self.resolvedExercises) { e in
-                    ForEach(self.getDictionaryForExercise(e: e)!.muscles.target!, id: \.self) { m in
-                        Text(m).font(.subheadline)
-                    }
-                }
-                    .padding(.leading)
-            }
+            MacawSVGView()
+                .frame(width: 50, height: 50)
             
-            Text("Assisting muscles")
-                .font(.caption)
-                .padding([.leading, .top])
-                .padding(.bottom, 3)
-                .foregroundColor(Color.gray)
-            
-            if self.dictionaries != nil {
-                ForEach(self.resolvedExercises) { e in
-                    ForEach(self.getDictionaryForExercise(e: e)!.muscles.stabilizers!, id: \.self) { m in
-                        Text(m).font(.subheadline).padding(.bottom, 2)
-                    }
-                }
-                    .padding(.leading)
-            }
+//            Text("Primary muscles")
+//                .font(.caption)
+//                .padding([.leading, .top])
+//                .padding(.bottom, 3)
+//                .foregroundColor(Color.gray)
+//
+//            if self.dictionaries != nil {
+//                ForEach(self.resolvedExercises) { e in
+//                    ForEach(self.getDictionaryForExercise(e: e)!.muscles.target!, id: \.self) { m in
+//                        Text(m).font(.subheadline)
+//                    }
+//                }
+//                    .padding(.leading)
+//            }
+//
+//            Text("Assisting muscles")
+//                .font(.caption)
+//                .padding([.leading, .top])
+//                .padding(.bottom, 3)
+//                .foregroundColor(Color.gray)
+//
+//            if self.dictionaries != nil {
+//                ForEach(self.resolvedExercises) { e in
+//                    ForEach(self.getDictionaryForExercise(e: e)!.muscles.stabilizers!, id: \.self) { m in
+//                        Text(m).font(.subheadline).padding(.bottom, 2)
+//                    }
+//                }
+//                    .padding(.leading)
+//            }
         }
             .padding(.all, 0)
             .onAppear {

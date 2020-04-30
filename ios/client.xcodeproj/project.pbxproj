@@ -17,8 +17,6 @@
 		641A85692459271E00E6499F /* ChildSizeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641A85682459271E00E6499F /* ChildSizeReader.swift */; };
 		641A856B245947BE00E6499F /* SVGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641A856A245947BE00E6499F /* SVGView.swift */; };
 		641A856E245948EB00E6499F /* Macaw in Frameworks */ = {isa = PBXBuildFile; productRef = 641A856D245948EB00E6499F /* Macaw */; };
-		641A857124594B6E00E6499F /* Anterior.svg in Resources */ = {isa = PBXBuildFile; fileRef = 641A857024594B6E00E6499F /* Anterior.svg */; };
-		641A857324594B7700E6499F /* Posterior.svg in Resources */ = {isa = PBXBuildFile; fileRef = 641A857224594B7700E6499F /* Posterior.svg */; };
 		641A857824594EE700E6499F /* Posterior.svg in Resources */ = {isa = PBXBuildFile; fileRef = 641A857724594EE700E6499F /* Posterior.svg */; };
 		641A857A24594EF200E6499F /* Anterior.svg in Resources */ = {isa = PBXBuildFile; fileRef = 641A857924594EF200E6499F /* Anterior.svg */; };
 		641E3FCF24316B27005C71A3 /* Transitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641E3FCE24316B27005C71A3 /* Transitions.swift */; };
@@ -45,6 +43,8 @@
 		649CBE8F22B6D84500D23DD6 /* CircleProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */; };
 		64A93D9524232DA000B73B95 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A93D9424232DA000B73B95 /* ActivityIndicator.swift */; };
 		64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 64A9956E241EE3DC006716CA /* JWTDecode */; };
+		64DAA27E245A2C7F00707D51 /* SwiftSVG in Frameworks */ = {isa = PBXBuildFile; productRef = 64DAA27D245A2C7F00707D51 /* SwiftSVG */; };
+		64DAA280245A888F00707D51 /* SVGTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DAA27F245A888F00707D51 /* SVGTest.swift */; };
 		64E06CC82352F6E0005AC1D8 /* EditableWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */; };
 		64F0529D243FBD38004D24E6 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F0529C243FBD38004D24E6 /* ViewModifiers.swift */; };
 		64F0529F243FC325004D24E6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F0529E243FC325004D24E6 /* Extensions.swift */; };
@@ -79,8 +79,6 @@
 		6411FD9E242733D3003D49BF /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		641A85682459271E00E6499F /* ChildSizeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildSizeReader.swift; sourceTree = "<group>"; };
 		641A856A245947BE00E6499F /* SVGView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGView.swift; sourceTree = "<group>"; };
-		641A857024594B6E00E6499F /* Anterior.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Anterior.svg; sourceTree = "<group>"; };
-		641A857224594B7700E6499F /* Posterior.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Posterior.svg; sourceTree = "<group>"; };
 		641A857724594EE700E6499F /* Posterior.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Posterior.svg; sourceTree = "<group>"; };
 		641A857924594EF200E6499F /* Anterior.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Anterior.svg; sourceTree = "<group>"; };
 		641E3FCE24316B27005C71A3 /* Transitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transitions.swift; sourceTree = "<group>"; };
@@ -112,6 +110,7 @@
 		649A491824067561003206C3 /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProfileImage.swift; sourceTree = "<group>"; };
 		64A93D9424232DA000B73B95 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		64DAA27F245A888F00707D51 /* SVGTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGTest.swift; sourceTree = "<group>"; };
 		64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableWorkoutView.swift; sourceTree = "<group>"; };
 		64F0529C243FBD38004D24E6 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		64F0529E243FC325004D24E6 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -128,6 +127,7 @@
 				6405131A241635E300DDC3D7 /* MapKit.framework in Frameworks */,
 				64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */,
 				64F499FC23E8031E003ADB62 /* Introspect in Frameworks */,
+				64DAA27E245A2C7F00707D51 /* SwiftSVG in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,15 +154,6 @@
 				64051319241635E300DDC3D7 /* MapKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		641A856F24594B5700E6499F /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-				641A857024594B6E00E6499F /* Anterior.svg */,
-				641A857224594B7700E6499F /* Posterior.svg */,
-			);
-			path = Assets;
 			sourceTree = "<group>";
 		};
 		641A857624594ED800E6499F /* Assets */ = {
@@ -229,6 +220,7 @@
 				6405131E24163A8900DDC3D7 /* SignInWithAppleView.swift */,
 				649A491824067561003206C3 /* StopWatch.swift */,
 				641A856A245947BE00E6499F /* SVGView.swift */,
+				64DAA27F245A888F00707D51 /* SVGTest.swift */,
 				640093052435CCAF007193B4 /* TimerView.swift */,
 				641E3FCE24316B27005C71A3 /* Transitions.swift */,
 				6411FD9E242733D3003D49BF /* Utils.swift */,
@@ -245,7 +237,6 @@
 		6494A01D22B6139B00C19543 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				641A856F24594B5700E6499F /* Assets */,
 				6494A01E22B6139B00C19543 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -301,6 +292,7 @@
 				64038281241A35BF0000C17C /* Alamofire */,
 				64A9956E241EE3DC006716CA /* JWTDecode */,
 				641A856D245948EB00E6499F /* Macaw */,
+				64DAA27D245A2C7F00707D51 /* SwiftSVG */,
 			);
 			productName = client;
 			productReference = 6494A01222B6139900C19543 /* client.app */;
@@ -379,6 +371,7 @@
 				64038280241A35BF0000C17C /* XCRemoteSwiftPackageReference "Alamofire" */,
 				64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
 				641A856C245948EA00E6499F /* XCRemoteSwiftPackageReference "Macaw" */,
+				64DAA27C245A2C7F00707D51 /* XCRemoteSwiftPackageReference "SwiftSVG" */,
 			);
 			productRefGroup = 6494A01322B6139900C19543 /* Products */;
 			projectDirPath = "";
@@ -398,8 +391,6 @@
 			files = (
 				6494A02222B6139B00C19543 /* LaunchScreen.storyboard in Resources */,
 				6494A01F22B6139B00C19543 /* Preview Assets.xcassets in Resources */,
-				641A857324594B7700E6499F /* Posterior.svg in Resources */,
-				641A857124594B6E00E6499F /* Anterior.svg in Resources */,
 				641A857A24594EF200E6499F /* Anterior.svg in Resources */,
 				641A857824594EE700E6499F /* Posterior.svg in Resources */,
 				6494A01C22B6139B00C19543 /* Assets.xcassets in Resources */,
@@ -429,6 +420,7 @@
 			files = (
 				6494A01622B6139900C19543 /* AppDelegate.swift in Sources */,
 				64F0529F243FC325004D24E6 /* Extensions.swift in Sources */,
+				64DAA280245A888F00707D51 /* SVGTest.swift in Sources */,
 				648C6F0F2433052B00FAE56A /* FloatExtension.swift in Sources */,
 				644E3364240CE26200458438 /* FeedView.swift in Sources */,
 				649A491924067561003206C3 /* StopWatch.swift in Sources */,
@@ -808,6 +800,14 @@
 				minimumVersion = 2.4.1;
 			};
 		};
+		64DAA27C245A2C7F00707D51 /* XCRemoteSwiftPackageReference "SwiftSVG" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mchoe/SwiftSVG.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.2;
+			};
+		};
 		64F499FA23E8031E003ADB62 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/timbersoftware/SwiftUI-Introspect.git";
@@ -833,6 +833,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
 			productName = JWTDecode;
+		};
+		64DAA27D245A2C7F00707D51 /* SwiftSVG */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64DAA27C245A2C7F00707D51 /* XCRemoteSwiftPackageReference "SwiftSVG" */;
+			productName = SwiftSVG;
 		};
 		64F499FB23E8031E003ADB62 /* Introspect */ = {
 			isa = XCSwiftPackageProductDependency;
