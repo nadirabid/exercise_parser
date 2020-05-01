@@ -133,8 +133,7 @@ struct WorkoutMuscleMetricsView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            MacawSVGView()
-                .frame(width: 50, height: 50)
+            Text("put some metrics here")
             
 //            Text("Primary muscles")
 //                .font(.caption)

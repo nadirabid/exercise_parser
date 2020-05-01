@@ -245,3 +245,8 @@ func handlePostReresolveExercises(c echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, r)
 }
+
+func test() {
+	var test string = ""
+	fmt.Println(test)
+}

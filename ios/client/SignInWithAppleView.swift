@@ -29,7 +29,7 @@ struct SignInView: View {
                     Spacer()
                     
                     Text("FOR THE ATHLETES")
-                        .foregroundColor(Color(0xF43605))
+                        .foregroundColor(secondaryAppColor)
                         .font(.caption)
                         .fontWeight(.heavy)
                     
@@ -41,17 +41,17 @@ struct SignInView: View {
                     
                     HStack(alignment: .center) {
                         Text("FORM")
-                            .foregroundColor(Color(0xF43605))
+                            .foregroundColor(secondaryAppColor)
                             .font(.callout)
                             .fontWeight(.heavy)
                         
                         Text("&")
-                            .foregroundColor(Color(0xF43605))
+                            .foregroundColor(secondaryAppColor)
                             .font(.subheadline)
                             .fontWeight(.heavy)
                         
                         Text("WILL")
-                            .foregroundColor(Color(0xF43605))
+                            .foregroundColor(secondaryAppColor)
                             .font(.callout)
                             .fontWeight(.heavy)
                     }
