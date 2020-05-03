@@ -8,8 +8,37 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
-struct AnteriorBezierPath {
+struct AnteriorPath {
+    static func from(muscle: Muscle) -> Path {
+        switch muscle {
+        case .RectusAbdominis: return Path(fma9628Path().cgPath)
+        case .ExternalOblique: return Path(fma13335Path().cgPath)
+        case .LatissimusDorsi: return Path(fma13357Path().cgPath)
+        case .SerratusAnterior: return Path(fma13397Path().cgPath)
+        case .RectusFemoris: return Path(fma22430Path().cgPath)
+        case .VastusLateralis: return Path(fma22431Path().cgPath)
+        case .VastusMedialis: return Path(fma22432Path().cgPath)
+        case .Peroneus: return Path(fma22538Path().cgPath)
+        case .Soleus: return Path(fma22542Path().cgPath)
+        case .TrapeziusUpperFibers: return Path(fma32557Path().cgPath)
+        case .PectoralisMajorClavicular: return Path(fma34687Path().cgPath)
+        case .PectoralisMajorSternal: return Path(fma34696Path().cgPath)
+        case .Biceps: return Path(fma37670Path().cgPath)
+        case .FlexorCarpiRadialis: return Path(fma38459Path().cgPath)
+        case .FlexorCarpiUlnaris: return Path(fma38465Path().cgPath)
+        case .FlexorDigitorumSuperficialis: return Path(fma38469Path().cgPath)
+        case .Brachioradialis: return Path(fma38485Path().cgPath)
+        case .Abductor: return Path(fma74998Path().cgPath)
+        case .AnteriorDeltoid: return Path(fma83003Path().cgPath)
+        case .LateralDeltoid: return Path(fma83006Path().cgPath)
+        default:
+            print("Called unknown muscle", muscle)
+            return Path()
+        }
+    }
+    
     static func bodybackgroundPath() -> UIBezierPath {
         let bodybackgroundPath = UIBezierPath()
         
@@ -620,8 +649,6 @@ struct AnteriorBezierPath {
         return fMA22432Path
     }
     
-    
-
     static func fma22538Path() -> UIBezierPath {
         let fMA22538Path = UIBezierPath()
         fMA22538Path.move(to: CGPoint(x: 240.5, y: 844.8))
@@ -648,7 +675,6 @@ struct AnteriorBezierPath {
         
         return fMA22538Path
     }
-
 
     static func fma22542Path() -> UIBezierPath {
         let fMA22542Path = UIBezierPath()
@@ -678,7 +704,6 @@ struct AnteriorBezierPath {
         return fMA22542Path
     }
 
-
     static func fma32557Path() -> UIBezierPath {
         let fMA32557Path = UIBezierPath()
         fMA32557Path.move(to: CGPoint(x: 365.6, y: 153.1))
@@ -701,7 +726,6 @@ struct AnteriorBezierPath {
         fMA32557Path.close()
         return fMA32557Path
     }
-
 
     static func fma34687Path() -> UIBezierPath {
         let fMA34687Path = UIBezierPath()
@@ -730,7 +754,6 @@ struct AnteriorBezierPath {
         fMA34687Path.close()
         return fMA34687Path
     }
-
 
     static func fma34696Path() -> UIBezierPath {
         let fMA34696Path = UIBezierPath()
@@ -773,7 +796,6 @@ struct AnteriorBezierPath {
         
         return fMA34696Path
     }
-
 
     static func fma37670Path() -> UIBezierPath {
         let fMA37670Path = UIBezierPath()
@@ -821,7 +843,6 @@ struct AnteriorBezierPath {
         return fMA37670Path
     }
 
-
     static func fma38459Path() -> UIBezierPath {
         let fMA38459Path = UIBezierPath()
         fMA38459Path.move(to: CGPoint(x: 160.5, y: 381))
@@ -861,7 +882,6 @@ struct AnteriorBezierPath {
         return fMA38459Path
     }
 
-
     static func fma38465Path() -> UIBezierPath {
         let fMA38465Path = UIBezierPath()
         fMA38465Path.move(to: CGPoint(x: 173.5, y: 378.7))
@@ -895,8 +915,7 @@ struct AnteriorBezierPath {
         return fMA38465Path
     }
 
-
-    static func fma38469Path() -> UIBezierPath {
+    static func fma38469Path() -> UIBezierPath{
         let fMA38469Path = UIBezierPath()
         fMA38469Path.move(to: CGPoint(x: 97.7, y: 419.9))
         fMA38469Path.addCurve(to: CGPoint(x: 78.5, y: 441.7), controlPoint1: CGPoint(x: 93.1, y: 424.8), controlPoint2: CGPoint(x: 84.4, y: 434.6))
@@ -975,7 +994,6 @@ struct AnteriorBezierPath {
         return fMA38485Path
     }
 
-
     static func fma74998Path() -> UIBezierPath {
         let fMA74998Path = UIBezierPath()
         fMA74998Path.move(to: CGPoint(x: 309.2, y: 580.7))
@@ -1008,7 +1026,6 @@ struct AnteriorBezierPath {
     
         return fMA74998Path
     }
-
 
     static func fma83003Path() -> UIBezierPath {
         let fMA83003Path = UIBezierPath()
@@ -1044,7 +1061,6 @@ struct AnteriorBezierPath {
         
         return fMA83003Path
     }
-
 
     static func fma83006Path() -> UIBezierPath {
         let fMA83006Path = UIBezierPath()
@@ -1087,7 +1103,6 @@ struct AnteriorBezierPath {
     
         return fMA83006Path
     }
-
 
     static func bodyPath() -> UIBezierPath {
         let bodyPath = UIBezierPath()

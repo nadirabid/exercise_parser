@@ -19,7 +19,7 @@
 		641E3FCF24316B27005C71A3 /* Transitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641E3FCE24316B27005C71A3 /* Transitions.swift */; };
 		642675AF22C0A44F008E07A1 /* PaginatedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642675AE22C0A44F008E07A1 /* PaginatedResponse.swift */; };
 		642675B122C0A48D008E07A1 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642675B022C0A48D008E07A1 /* Workout.swift */; };
-		642CC998245BBC91000BFCDB /* AnteriorBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CC997245BBC91000BFCDB /* AnteriorBezierPath.swift */; };
+		642CC998245BBC91000BFCDB /* AnteriorPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CC997245BBC91000BFCDB /* AnteriorPath.swift */; };
 		642CC99A245BBD4F000BFCDB /* PosteriorBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642CC999245BBD4F000BFCDB /* PosteriorBezierPath.swift */; };
 		642DA77922B71279002F49AE /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642DA77822B71279002F49AE /* MapView.swift */; };
 		6436BACB2457744C002BFB07 /* ExerciseDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6436BACA2457744C002BFB07 /* ExerciseDictionary.swift */; };
@@ -42,6 +42,7 @@
 		649A491924067561003206C3 /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649A491824067561003206C3 /* StopWatch.swift */; };
 		649CBE8F22B6D84500D23DD6 /* CircleProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */; };
 		64A33393245C1E2F0071E3AF /* PosteriorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A33392245C1E2F0071E3AF /* PosteriorView.swift */; };
+		64A33395245CCD150071E3AF /* Muscle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A33394245CCD150071E3AF /* Muscle.swift */; };
 		64A93D9524232DA000B73B95 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A93D9424232DA000B73B95 /* ActivityIndicator.swift */; };
 		64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 64A9956E241EE3DC006716CA /* JWTDecode */; };
 		64DAA27E245A2C7F00707D51 /* SwiftSVG in Frameworks */ = {isa = PBXBuildFile; productRef = 64DAA27D245A2C7F00707D51 /* SwiftSVG */; };
@@ -81,7 +82,7 @@
 		641E3FCE24316B27005C71A3 /* Transitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transitions.swift; sourceTree = "<group>"; };
 		642675AE22C0A44F008E07A1 /* PaginatedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatedResponse.swift; sourceTree = "<group>"; };
 		642675B022C0A48D008E07A1 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
-		642CC997245BBC91000BFCDB /* AnteriorBezierPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnteriorBezierPath.swift; sourceTree = "<group>"; };
+		642CC997245BBC91000BFCDB /* AnteriorPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnteriorPath.swift; sourceTree = "<group>"; };
 		642CC999245BBD4F000BFCDB /* PosteriorBezierPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosteriorBezierPath.swift; sourceTree = "<group>"; };
 		642DA77822B71279002F49AE /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		6436BACA2457744C002BFB07 /* ExerciseDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDictionary.swift; sourceTree = "<group>"; };
@@ -110,6 +111,7 @@
 		649A491824067561003206C3 /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProfileImage.swift; sourceTree = "<group>"; };
 		64A33392245C1E2F0071E3AF /* PosteriorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosteriorView.swift; sourceTree = "<group>"; };
+		64A33394245CCD150071E3AF /* Muscle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Muscle.swift; sourceTree = "<group>"; };
 		64A93D9424232DA000B73B95 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableWorkoutView.swift; sourceTree = "<group>"; };
 		64F0529C243FBD38004D24E6 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
@@ -205,12 +207,13 @@
 				64615A962425983F0098ED5A /* FancyLoader.swift */,
 				644E3363240CE26200458438 /* FeedView.swift */,
 				648C6F0E2433052B00FAE56A /* FloatExtension.swift */,
-				642CC997245BBC91000BFCDB /* AnteriorBezierPath.swift */,
+				642CC997245BBC91000BFCDB /* AnteriorPath.swift */,
 				6444E162245B59F40000D21D /* AnteriorView.swift */,
 				642CC999245BBD4F000BFCDB /* PosteriorBezierPath.swift */,
 				64A33392245C1E2F0071E3AF /* PosteriorView.swift */,
 				6499C7EA2417561500743CDD /* MainView.swift */,
 				642DA77822B71279002F49AE /* MapView.swift */,
+				64A33394245CCD150071E3AF /* Muscle.swift */,
 				6405131E24163A8900DDC3D7 /* SignInWithAppleView.swift */,
 				649A491824067561003206C3 /* StopWatch.swift */,
 				640093052435CCAF007193B4 /* TimerView.swift */,
@@ -425,7 +428,8 @@
 				64615A972425983F0098ED5A /* FancyLoader.swift in Sources */,
 				64615A95242581AF0098ED5A /* EditableExerciseView.swift in Sources */,
 				64A33393245C1E2F0071E3AF /* PosteriorView.swift in Sources */,
-				642CC998245BBC91000BFCDB /* AnteriorBezierPath.swift in Sources */,
+				642CC998245BBC91000BFCDB /* AnteriorPath.swift in Sources */,
+				64A33395245CCD150071E3AF /* Muscle.swift in Sources */,
 				642675B122C0A48D008E07A1 /* Workout.swift in Sources */,
 				6499C7EB2417561500743CDD /* MainView.swift in Sources */,
 				6402BBBD2414CBD80061FB58 /* AppState.swift in Sources */,

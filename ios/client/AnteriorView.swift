@@ -8,16 +8,38 @@
 
 import SwiftUI
 
+enum MuscleActivity {
+    case primary
+    case secondary
+    case none
+}
+
 struct AnteriorShape: Shape {
-    let path: UIBezierPath
+    let path: Path
     let absoluteSize: CGSize = CGSize(width: 658.16, height: 1125.9)
     
-    init(_ path: UIBezierPath) {
+    init(_ path: Path) {
         self.path = path
     }
     
     func path(in rect: CGRect) -> Path {
-        let p = Path(path.cgPath)
+        let scaleX = rect.size.width / absoluteSize.width
+        let scaleY = rect.size.height / absoluteSize.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        let center = CGPoint(x: absoluteSize.width / 2, y: absoluteSize.height / 2)
+        
+        var transform  = CGAffineTransform.identity
+        
+        transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
+        transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
+        transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
+        
+        return path.applying(transform)
+    }
+    
+    func setGradient(_ activity: MuscleActivity, _ size: CGSize) -> some View {
+        let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
         
         let scaleX = rect.size.width / absoluteSize.width
         let scaleY = rect.size.height / absoluteSize.height
@@ -31,52 +53,108 @@ struct AnteriorShape: Shape {
         transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
         transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
         
-        return p.applying(transform)
+        let bounds = self.path.applying(transform).boundingRect
+        
+        let colors = Gradient(colors: [.red, .yellow, .orange])
+        let conic = RadialGradient(
+            gradient: colors,
+            center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
+            startRadius: 0,
+            endRadius: max(bounds.width, bounds.height)
+        )
+        
+        return self.fill(conic)
     }
 }
 
 struct AnteriorView: View {
-    let gradient = LinearGradient(
-        gradient: Gradient(colors: [secondaryAppColor, feedColor]),
-        startPoint: .top,
-        endPoint: .bottom
-    )
+    var activatedPrimaryMuscles: [Muscle]
+    var activiatedSecondaryMuscles: [Muscle]
+    @State var size: CGSize = CGSize.zero
+    
+    func getMuscleActivity(for muscle: Muscle) -> MuscleActivity {
+        if activatedPrimaryMuscles.contains(muscle) {
+            return .primary
+        } else if activiatedSecondaryMuscles.contains(muscle) {
+            return .secondary
+        }
+
+        return .none
+    }
     
     var body: some View {
-        GeometryReader { geometry in
+        return GeometryReader { (geometry: GeometryProxy) in
             ZStack {
                 ZStack {
-                    AnteriorShape(AnteriorBezierPath.bodybackgroundPath()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma9628Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma13335Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma13357Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma13397Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma22430Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma22431Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma22432Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma22538Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma22542Path()).fill(Color.clear)
+                    AnteriorShape(Path(AnteriorPath.bodybackgroundPath().cgPath))
+                        .fill(secondaryAppColor)
+                        
+                    AnteriorShape(AnteriorPath.from(muscle: .RectusAbdominis))
+                        .setGradient(self.getMuscleActivity(for: .RectusAbdominis), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .ExternalOblique))
+                        .setGradient(self.getMuscleActivity(for: .ExternalOblique), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .LatissimusDorsi))
+                        .setGradient(self.getMuscleActivity(for: .LatissimusDorsi), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .SerratusAnterior))
+                        .setGradient(self.getMuscleActivity(for: .SerratusAnterior), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .RectusFemoris))
+                        .setGradient(self.getMuscleActivity(for: .RectusFemoris), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .VastusLateralis))
+                        .setGradient(self.getMuscleActivity(for: .VastusMedialis), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .VastusMedialis))
+                        .setGradient(self.getMuscleActivity(for: .VastusMedialis), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .Peroneus))
+                        .setGradient(self.getMuscleActivity(for: .Peroneus), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .Soleus))
+                        .setGradient(self.getMuscleActivity(for: .Soleus), geometry.size)
                 }
+                
                 ZStack {
-                    AnteriorShape(AnteriorBezierPath.fma22430Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma22431Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma22432Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma22538Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma22542Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma32557Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma34687Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma34696Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma37670Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma38459Path()).fill(Color.clear)
+                    AnteriorShape(AnteriorPath.from(muscle: .TrapeziusUpperFibers))
+                        .setGradient(self.getMuscleActivity(for: .TrapeziusUpperFibers), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .PectoralisMajorClavicular))
+                        .setGradient(self.getMuscleActivity(for: .PectoralisMajorClavicular), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .PectoralisMajorSternal))
+                        .setGradient(self.getMuscleActivity(for: .PectoralisMajorSternal), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .Biceps))
+                        .setGradient(self.getMuscleActivity(for: .Biceps), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .FlexorCarpiRadialis))
+                        .setGradient(self.getMuscleActivity(for: .FlexorCarpiRadialis), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .FlexorCarpiUlnaris))
+                        .setGradient(self.getMuscleActivity(for: .FlexorCarpiUlnaris), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .FlexorDigitorumSuperficialis))
+                        .setGradient(self.getMuscleActivity(for: .FlexorDigitorumSuperficialis), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .Brachioradialis))
+                        .setGradient(self.getMuscleActivity(for: .Brachioradialis), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .Abductor))
+                        .setGradient(self.getMuscleActivity(for: .Abductor), geometry.size)
+                    
+                    AnteriorShape(AnteriorPath.from(muscle: .AnteriorDeltoid))
+                        .setGradient(self.getMuscleActivity(for: .AnteriorDeltoid), geometry.size)
                 }
+                
                 ZStack {
-                    AnteriorShape(AnteriorBezierPath.fma38465Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma38469Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma38485Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma74998Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma83003Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.fma83006Path()).fill(Color.clear)
-                    AnteriorShape(AnteriorBezierPath.bodyPath()).fill(secondaryAppColor)
+                    AnteriorShape(AnteriorPath.from(muscle: .LateralDeltoid))
+                        .setGradient(self.getMuscleActivity(for: .LateralDeltoid), geometry.size)
+                    
+                    AnteriorShape(Path(AnteriorPath.bodyPath().cgPath))
+                        .fill(secondaryAppColor)
                 }
             }
                 .padding()
@@ -86,6 +164,9 @@ struct AnteriorView: View {
 
 struct AnteriorView_Previews: PreviewProvider {
     static var previews: some View {
-        AnteriorView()
+        AnteriorView(
+            activatedPrimaryMuscles: [],
+            activiatedSecondaryMuscles: []
+        )
     }
 }
