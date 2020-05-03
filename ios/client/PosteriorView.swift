@@ -98,7 +98,7 @@ struct PosteriorView: View {
             ZStack {
                 ZStack {
                     PosteriorShape(.Background)
-                        .fill(appColor.opacity(0.2))
+                        .fill(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
                     
                     PosteriorShape(.ExternalOblique, with: self.muscleActivity(for: .ExternalOblique))
                         .setGradient(geometry.size)
@@ -189,7 +189,7 @@ struct PosteriorView: View {
                         .setGradient(geometry.size)
                     
                     PosteriorShape(.Body)
-                        .stroke(secondaryAppColor.opacity(0.8), lineWidth: 0.3)
+                        .stroke(Color(#colorLiteral(red: 0.9134874683, green: 0.9134874683, blue: 0.9134874683, alpha: 1)), lineWidth: 0.5)
                 }
             }
         }

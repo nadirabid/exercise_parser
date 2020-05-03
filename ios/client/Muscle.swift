@@ -303,7 +303,7 @@ extension Muscle {
         case .Spinalis: return []
         case .PectoralisMinor: return []
         case .PectoralisMajorClavicular: return ["Pectoralis Major, Clavicular"]
-        case .PectoralisMajorSternal: return ["Pectoralis Sternocostal"]
+        case .PectoralisMajorSternal: return ["pectoralis major, sternal", "Pectoralis Sternocostal"]
         case .PsoasMajor: return []
         case .Iliacus: return []
         case .Iliopsoas: return ["Inner hip muscles", "dorsal hip muscles", "hip flexors"]
