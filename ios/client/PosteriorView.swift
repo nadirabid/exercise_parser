@@ -38,26 +38,33 @@ struct PosteriorShape: Shape {
     
     func setGradient(_ size: CGSize) -> some View {
         var radial: RadialGradient
+        let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
+        
+        let scaleX = rect.size.width / absoluteSize.width
+        let scaleY = rect.size.height / absoluteSize.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        let center = CGPoint(x: absoluteSize.width / 2, y: absoluteSize.height / 2)
+        
+        var transform  = CGAffineTransform.identity
+        
+        transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
+        transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
+        transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
+        
+        let bounds = self.path.boundingRect.applying(transform)
         
         switch self.activity {
-        case .primary, .secondary:
-            let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
-            
-            let scaleX = rect.size.width / absoluteSize.width
-            let scaleY = rect.size.height / absoluteSize.height
-            
-            let factor = min(scaleX, max(scaleY, 0.0))
-            let center = CGPoint(x: absoluteSize.width / 2, y: absoluteSize.height / 2)
-            
-            var transform  = CGAffineTransform.identity
-            
-            transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
-            transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
-            transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
-            
-            let bounds = self.path.boundingRect.applying(transform)
-            
-            let colors = Gradient(colors: [.red, .yellow, .orange])
+        case .primary:
+            let colors = Gradient(colors: [secondaryAppColor, .yellow, appColor])
+            radial = RadialGradient(
+                gradient: colors,
+                center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
+                startRadius: 0,
+                endRadius: max(bounds.width, bounds.height)
+            )
+        case .secondary:
+            let colors = Gradient(colors: [.green, .blue])
             radial = RadialGradient(
                 gradient: colors,
                 center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
