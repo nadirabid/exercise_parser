@@ -138,11 +138,27 @@ struct WorkoutMuscleMetricsView: View {
 
         return self.resolvedExercises.flatMap { (e) -> [Muscle] in
             let dictionary = self.getDictionaryFor(exercise: e)
-            let muscleStrings = dictionary!.muscles.target ?? []
+            let muscleStrings = dictionary!.muscles.target?.map { s in s.lowercased() } ?? []
             
-            return muscleStrings.map { (muscleString) -> Muscle in
-                let muscle = Muscle.allCases.first { $0.name == muscleString || $0.synonyms.contains(muscleString) }
-                return muscle ?? Muscle.Unknown
+   
+            return muscleStrings.flatMap { (muscleString) -> [Muscle] in
+                let muscles = Muscle.allCases.filter { muscle in
+                    if muscleString == muscle.name.lowercased() {
+                        return true
+                    } else if muscle.synonyms.map({ s in s.lowercased() }).contains(muscleString) {
+                        return true
+                    }
+                    
+                    return false
+                }
+                
+                return muscles.flatMap { muscle -> [Muscle] in
+                    if muscle.isMuscleGroup {
+                        return muscle.components
+                    } else {
+                        return [muscle]
+                    }
+                }
             }
         }
     }
@@ -151,20 +167,36 @@ struct WorkoutMuscleMetricsView: View {
         if dictionaries == nil {
             return []
         }
-
+        
         return self.resolvedExercises.flatMap { (e) -> [Muscle] in
             let dictionary = self.getDictionaryFor(exercise: e)
-            let muscleStrings = dictionary!.muscles.synergists ?? []
+            let muscleStrings = dictionary!.muscles.synergists?.map { s in s.lowercased() } ?? []
             
-            return muscleStrings.map { (muscleString) -> Muscle in
-                let muscle = Muscle.allCases.first { $0.name == muscleString || $0.synonyms.contains(muscleString) }
-                return muscle ?? Muscle.Unknown
+            
+            return muscleStrings.flatMap { (muscleString) -> [Muscle] in
+                let muscles = Muscle.allCases.filter { muscle in
+                    if muscleString == muscle.name.lowercased() {
+                        return true
+                    } else if muscle.synonyms.map({ s in s.lowercased() }).contains(muscleString) {
+                        return true
+                    }
+                    
+                    return false
+                }
+                
+                return muscles.flatMap { muscle -> [Muscle] in
+                    if muscle.isMuscleGroup {
+                        return muscle.components
+                    } else {
+                        return [muscle]
+                    }
+                }
             }
         }
     }
     
     var body: some View {
-        return HStack(alignment: .center) {
+        HStack(alignment: .center, spacing: 0) {
             AnteriorView(
                 activatedPrimaryMuscles: self.targetMuscles,
                 activiatedSecondaryMuscles: self.synergistMuscles
@@ -175,7 +207,7 @@ struct WorkoutMuscleMetricsView: View {
                 activiatedSecondaryMuscles: self.synergistMuscles
             )
         }
-            .frame(height: 220)
+            .frame(height: 240)
             .padding(.all, 0)
             .onAppear {
                 self.loadWorkoutDictionaries()

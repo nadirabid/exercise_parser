@@ -122,6 +122,10 @@ extension Muscle {
             muscle.name == name || muscle.synonyms.contains(name)
         }
     }
+    
+    var isMuscleGroup: Bool {
+        return !components.isEmpty
+    }
 
     var components: [Muscle] {
         switch self {

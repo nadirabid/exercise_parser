@@ -156,7 +156,7 @@ struct ProcessingExerciseView: View {
 struct WaitingForExerciseView: View {
     var body: some View {
         HStack {
-            Text("Waiting")
+            Text("Press next to complete")
                 .font(.subheadline)
                 .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
             
