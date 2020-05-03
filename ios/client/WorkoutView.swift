@@ -172,7 +172,7 @@ struct WorkoutMuscleMetricsView: View {
             let dictionary = self.getDictionaryFor(exercise: e)
             let muscleStrings = dictionary!.muscles.synergists?.map { s in s.lowercased() } ?? []
             
-            
+            print(muscleStrings)
             return muscleStrings.flatMap { (muscleString) -> [Muscle] in
                 let muscles = Muscle.allCases.filter { muscle in
                     if muscleString == muscle.name.lowercased() {
@@ -196,7 +196,8 @@ struct WorkoutMuscleMetricsView: View {
     }
     
     var body: some View {
-        HStack(alignment: .center, spacing: 0) {
+        print(synergistMuscles)
+        return HStack(alignment: .center, spacing: 0) {
             AnteriorView(
                 activatedPrimaryMuscles: self.targetMuscles,
                 activiatedSecondaryMuscles: self.synergistMuscles
