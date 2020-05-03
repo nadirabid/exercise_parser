@@ -123,47 +123,54 @@ struct WorkoutMuscleMetricsView: View {
         }
     }
     
-    func getDictionaryForExercise(e: Exercise) -> ExerciseDictionary? {
-        dictionaries?.first(where: { $0.id == e.exerciseDictionaryID })
+    func getDictionaryFor(exercise: Exercise) -> ExerciseDictionary? {
+        dictionaries?.first { $0.id == exercise.exerciseDictionaryID }
     }
     
     var resolvedExercises: [Exercise] {
         workout.exercises.filter { $0.exerciseDictionaryID != nil }
     }
     
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("put some metrics here")
+    var targetMuscles: [Muscle] {
+        if dictionaries == nil {
+            return []
+        }
+
+        return self.resolvedExercises.flatMap { (e) -> [Muscle] in
+            let dictionary = self.getDictionaryFor(exercise: e)
+            let muscleStrings = dictionary!.muscles.target ?? []
             
-//            Text("Primary muscles")
-//                .font(.caption)
-//                .padding([.leading, .top])
-//                .padding(.bottom, 3)
-//                .foregroundColor(Color.gray)
-//
-//            if self.dictionaries != nil {
-//                ForEach(self.resolvedExercises) { e in
-//                    ForEach(self.getDictionaryForExercise(e: e)!.muscles.target!, id: \.self) { m in
-//                        Text(m).font(.subheadline)
-//                    }
-//                }
-//                    .padding(.leading)
-//            }
-//
-//            Text("Assisting muscles")
-//                .font(.caption)
-//                .padding([.leading, .top])
-//                .padding(.bottom, 3)
-//                .foregroundColor(Color.gray)
-//
-//            if self.dictionaries != nil {
-//                ForEach(self.resolvedExercises) { e in
-//                    ForEach(self.getDictionaryForExercise(e: e)!.muscles.stabilizers!, id: \.self) { m in
-//                        Text(m).font(.subheadline).padding(.bottom, 2)
-//                    }
-//                }
-//                    .padding(.leading)
-//            }
+            return muscleStrings.map { (muscleString) -> Muscle in
+                let muscle = Muscle.allCases.first { $0.name == muscleString || $0.synonyms.contains(muscleString) }
+                return muscle ?? Muscle.Unknown
+            }
+        }
+    }
+    
+    var synergistMuscles: [Muscle] {
+        if dictionaries == nil {
+            return []
+        }
+
+        return self.resolvedExercises.flatMap { (e) -> [Muscle] in
+            let dictionary = self.getDictionaryFor(exercise: e)
+            let muscleStrings = dictionary!.muscles.synergists ?? []
+            
+            return muscleStrings.map { (muscleString) -> Muscle in
+                let muscle = Muscle.allCases.first { $0.name == muscleString || $0.synonyms.contains(muscleString) }
+                return muscle ?? Muscle.Unknown
+            }
+        }
+    }
+    
+    var body: some View {
+        print(self.targetMuscles)
+        return VStack(alignment: .leading) {
+            AnteriorView(
+                activatedPrimaryMuscles: self.targetMuscles,
+                activiatedSecondaryMuscles: self.synergistMuscles
+            )
+                .frame(height: 220)
         }
             .padding(.all, 0)
             .onAppear {

@@ -8,12 +8,6 @@
 
 import SwiftUI
 
-enum MuscleActivity {
-    case primary
-    case secondary
-    case none
-}
-
 struct AnteriorShape: Shape {
     let path: Path
     let absoluteSize: CGSize = CGSize(width: 658.16, height: 1125.9)
@@ -39,38 +33,44 @@ struct AnteriorShape: Shape {
     }
     
     func setGradient(_ activity: MuscleActivity, _ size: CGSize) -> some View {
-        let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
+        var radial: RadialGradient
         
-        let scaleX = rect.size.width / absoluteSize.width
-        let scaleY = rect.size.height / absoluteSize.height
+        switch activity {
+        case .primary, .secondary:
+            let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
+            
+            let scaleX = rect.size.width / absoluteSize.width
+            let scaleY = rect.size.height / absoluteSize.height
+            
+            let factor = min(scaleX, max(scaleY, 0.0))
+            let center = CGPoint(x: absoluteSize.width / 2, y: absoluteSize.height / 2)
+            
+            var transform  = CGAffineTransform.identity
+            
+            transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
+            transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
+            transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
+            
+            let bounds = self.path.boundingRect.applying(transform)
+            
+            let colors = Gradient(colors: [.red, .yellow, .orange])
+            radial = RadialGradient(
+                gradient: colors,
+                center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
+                startRadius: 0,
+                endRadius: max(bounds.width, bounds.height)
+            )
+        case .none:
+            radial = RadialGradient(gradient: Gradient(colors: [Color.clear]), center: UnitPoint.center, startRadius: 0, endRadius: 0)
+        }
         
-        let factor = min(scaleX, max(scaleY, 0.0))
-        let center = CGPoint(x: absoluteSize.width / 2, y: absoluteSize.height / 2)
-        
-        var transform  = CGAffineTransform.identity
-        
-        transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
-        transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
-        transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
-        
-        let bounds = self.path.applying(transform).boundingRect
-        
-        let colors = Gradient(colors: [.red, .yellow, .orange])
-        let conic = RadialGradient(
-            gradient: colors,
-            center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
-            startRadius: 0,
-            endRadius: max(bounds.width, bounds.height)
-        )
-        
-        return self.fill(conic)
+        return self.fill(radial)
     }
 }
 
 struct AnteriorView: View {
     var activatedPrimaryMuscles: [Muscle]
     var activiatedSecondaryMuscles: [Muscle]
-    @State var size: CGSize = CGSize.zero
     
     func getMuscleActivity(for muscle: Muscle) -> MuscleActivity {
         if activatedPrimaryMuscles.contains(muscle) {
@@ -87,7 +87,7 @@ struct AnteriorView: View {
             ZStack {
                 ZStack {
                     AnteriorShape(Path(AnteriorPath.bodybackgroundPath().cgPath))
-                        .fill(secondaryAppColor)
+                        .fill(appColor.opacity(0.2))
                         
                     AnteriorShape(AnteriorPath.from(muscle: .RectusAbdominis))
                         .setGradient(self.getMuscleActivity(for: .RectusAbdominis), geometry.size)
@@ -154,7 +154,7 @@ struct AnteriorView: View {
                         .setGradient(self.getMuscleActivity(for: .LateralDeltoid), geometry.size)
                     
                     AnteriorShape(Path(AnteriorPath.bodyPath().cgPath))
-                        .fill(secondaryAppColor)
+                        .stroke(secondaryAppColor.opacity(0.8), lineWidth: 0.3)
                 }
             }
                 .padding()

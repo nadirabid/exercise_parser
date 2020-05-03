@@ -1,13 +1,15 @@
 import Foundation
 
+// MARK: Enums
+
 // Using the integer part of the FMA ID as the raw value. There
 // are a few items that don't map directly to the FMA, so integer
 // values have been generated for these items. It appears that
 // FMA IDs start at 10000, so non-FMA integers in the range of
 // [10,1000] have been reserved for this purpose.
-enum Muscle: Int64 {
+enum Muscle: Int64, CaseIterable {
 
-    /* Individual Muscles */
+    // MARK: individual muscles
 
     case Abductor = 74997
     case ExtensorCarpiUlnaris = 38506
@@ -69,7 +71,7 @@ enum Muscle: Int64 {
     case PsoasMajor = 18060
     case Iliacus = 22310
 
-    /* Muscle Groups */
+    // MARK: Muscle groups
 
     case Iliopsoas = 64918
     case ErectorSpinae = 71302
@@ -93,14 +95,28 @@ enum Muscle: Int64 {
     case Abdominals = 78435
     case PectoralisMajor = 9627
     case Pectorals = 50223
+    
+    // MARK: Unknown muscles
+    case Unknown = 0
 }
+
+enum MuscleActivity {
+    case primary
+    case secondary
+    case none
+}
+
+enum AnatomicalOrientation {
+    case Anterior
+    case Posterior
+}
+
+// MARK: extensions
 
 extension Muscle {
 
-    static var allMuscles: [Muscle] = [.Abductor, .ExtensorCarpiUlnaris, .ExtensorPollicisBrevis, .EntensorPollicisLongus, .Anconeus, .Adductor, .AnteriorDeltoid, .Biceps, .BicepsFemoris, .Brachioradialis, .Coracobrachialis, .ExternalOblique, .FlexorCarpiRadialis, .FlexorCarpiUlnaris, .FlexorDigitorumSuperficialis, .ExtensorDigitorum, .GastrocnemiusLateralHead, .GastrocnemiusMedialHead, .Gastrocnemius, .GluteusMaximus, .GluteusMedius, .GluteusMinimus, .IliotibialBand, .Infraspinatus, .LateralDeltoid, .LatissimusDorsi, .LevatorScapulae, .Peroneus, .PosteriorDeltoid, .RectusAbdominis, .RectusFemoris, .RhomboidMajor, .RhomboidMinor, .Sartorius, .Semitendinosus, .SerratusAnterior, .Soleus, .Subscapularis, .Supraspinatus, .TeresMajor, .TeresMinor, .TransversusAbdominis, .TrapeziusLowerFibers, .TrapeziusUpperFibers, .TrapeziusMiddleFibers, .TricepsSurae, .VastusinterMedius, .VastusLateralis, .VastusMedialis, .TricepsLongHead, .TricepsLateralHead, .Iliocostalis, .Longissimus, .Spinalis, .PectoralisMinor, .PectoralisMajorClavicular, .PectoralisMajorSternal, .PsoasMajor, .Iliacus, .Iliopsoas, .ErectorSpinae, .LowerBack, .Forearm, .MiddleBack, .Abductors, .Deltoids, .Trapezius, .RotatorCuff, .Triceps, .Shoulder, .Arm, .Back, .Glutes, .Quadriceps, .Hamstrings, .Thigh, .Calves, .Legs, .Abdominals, .PectoralisMajor, .Pectorals]
-    
     static func getMuscleFromString(name: String) -> [Muscle] {
-        Muscle.allMuscles.filter { (muscle) -> Bool in
+        Muscle.allCases.filter { (muscle) -> Bool in
             muscle.name == name || muscle.synonyms.contains(name)
         }
     }
@@ -217,6 +233,7 @@ extension Muscle {
         case .Abdominals: return "Abdominals"
         case .PectoralisMajor: return "Pectoralis Major"
         case .Pectorals: return "Pectorals"
+        case .Unknown: return "Unknown"
         }
     }
 
@@ -303,14 +320,10 @@ extension Muscle {
         case .Abdominals: return ["Abs", "Ab", "Core"]
         case .PectoralisMajor: return []
         case .Pectorals: return ["Pecs", "Pectoralis", "Chest"]
+        case .Unknown: return []
         }
     }
 
-}
-
-enum AnatomicalOrientation {
-    case Anterior
-    case Posterior
 }
 
 extension Muscle {
@@ -397,6 +410,7 @@ extension Muscle {
         case .Abdominals: return .Anterior
         case .PectoralisMajor: return .Anterior
         case .Pectorals: return .Anterior
+        case .Unknown: return .Anterior
         }
     }
 }
