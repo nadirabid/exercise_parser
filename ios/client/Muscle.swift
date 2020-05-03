@@ -96,8 +96,10 @@ enum Muscle: Int64, CaseIterable {
     case PectoralisMajor = 9627
     case Pectorals = 50223
     
-    // MARK: Unknown muscles
+    // MARK: Other
     case Unknown = 0
+    case Body = 1
+    case Background = 2
 }
 
 enum MuscleActivity {
@@ -234,6 +236,8 @@ extension Muscle {
         case .PectoralisMajor: return "Pectoralis Major"
         case .Pectorals: return "Pectorals"
         case .Unknown: return "Unknown"
+        case .Body: return "Body"
+        case .Background: return "Background"
         }
     }
 
@@ -321,6 +325,8 @@ extension Muscle {
         case .PectoralisMajor: return []
         case .Pectorals: return ["Pecs", "Pectoralis", "Chest"]
         case .Unknown: return []
+        case .Body: return []
+        case .Background: return []
         }
     }
 
@@ -411,6 +417,8 @@ extension Muscle {
         case .PectoralisMajor: return .Anterior
         case .Pectorals: return .Anterior
         case .Unknown: return .Anterior
+        case .Body: return .Anterior
+        case .Background: return .Anterior
         }
     }
 }

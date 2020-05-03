@@ -9,11 +9,15 @@
 import SwiftUI
 
 struct AnteriorShape: Shape {
+    let muscle: Muscle
+    let activity: MuscleActivity
     let path: Path
     let absoluteSize: CGSize = CGSize(width: 658.16, height: 1125.9)
     
-    init(_ path: Path) {
-        self.path = path
+    init(_ muscle: Muscle, with activity: MuscleActivity = .none) {
+        self.muscle = muscle
+        self.activity = activity
+        self.path = AnteriorPath.from(muscle: muscle)
     }
     
     func path(in rect: CGRect) -> Path {
@@ -32,10 +36,10 @@ struct AnteriorShape: Shape {
         return path.applying(transform)
     }
     
-    func setGradient(_ activity: MuscleActivity, _ size: CGSize) -> some View {
+    func setGradient(_ size: CGSize) -> some View {
         var radial: RadialGradient
         
-        switch activity {
+        switch self.activity {
         case .primary, .secondary:
             let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
             
@@ -72,7 +76,7 @@ struct AnteriorView: View {
     var activatedPrimaryMuscles: [Muscle]
     var activiatedSecondaryMuscles: [Muscle]
     
-    func getMuscleActivity(for muscle: Muscle) -> MuscleActivity {
+    func muscleActivity(for muscle: Muscle) -> MuscleActivity {
         if activatedPrimaryMuscles.contains(muscle) {
             return .primary
         } else if activiatedSecondaryMuscles.contains(muscle) {
@@ -86,74 +90,74 @@ struct AnteriorView: View {
         return GeometryReader { (geometry: GeometryProxy) in
             ZStack {
                 ZStack {
-                    AnteriorShape(Path(AnteriorPath.bodybackgroundPath().cgPath))
+                    AnteriorShape(.Background)
                         .fill(appColor.opacity(0.2))
                         
-                    AnteriorShape(AnteriorPath.from(muscle: .RectusAbdominis))
-                        .setGradient(self.getMuscleActivity(for: .RectusAbdominis), geometry.size)
+                    AnteriorShape(.RectusAbdominis, with: self.muscleActivity(for: .RectusAbdominis))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .ExternalOblique))
-                        .setGradient(self.getMuscleActivity(for: .ExternalOblique), geometry.size)
+                    AnteriorShape(.ExternalOblique, with: self.muscleActivity(for: .ExternalOblique))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .LatissimusDorsi))
-                        .setGradient(self.getMuscleActivity(for: .LatissimusDorsi), geometry.size)
+                    AnteriorShape(.LatissimusDorsi, with: self.muscleActivity(for: .LatissimusDorsi))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .SerratusAnterior))
-                        .setGradient(self.getMuscleActivity(for: .SerratusAnterior), geometry.size)
+                    AnteriorShape(.SerratusAnterior, with: self.muscleActivity(for: .SerratusAnterior))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .RectusFemoris))
-                        .setGradient(self.getMuscleActivity(for: .RectusFemoris), geometry.size)
+                    AnteriorShape(.RectusFemoris, with: self.muscleActivity(for: .RectusFemoris))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .VastusLateralis))
-                        .setGradient(self.getMuscleActivity(for: .VastusMedialis), geometry.size)
+                    AnteriorShape(.VastusLateralis, with: self.muscleActivity(for: .VastusMedialis))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .VastusMedialis))
-                        .setGradient(self.getMuscleActivity(for: .VastusMedialis), geometry.size)
+                    AnteriorShape(.VastusMedialis, with: self.muscleActivity(for: .VastusMedialis))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .Peroneus))
-                        .setGradient(self.getMuscleActivity(for: .Peroneus), geometry.size)
+                    AnteriorShape(.Peroneus, with: self.muscleActivity(for: .Peroneus))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .Soleus))
-                        .setGradient(self.getMuscleActivity(for: .Soleus), geometry.size)
+                    AnteriorShape(.Soleus, with: self.muscleActivity(for: .Soleus))
+                        .setGradient(geometry.size)
                 }
                 
                 ZStack {
-                    AnteriorShape(AnteriorPath.from(muscle: .TrapeziusUpperFibers))
-                        .setGradient(self.getMuscleActivity(for: .TrapeziusUpperFibers), geometry.size)
+                    AnteriorShape(.TrapeziusUpperFibers, with: self.muscleActivity(for: .TrapeziusUpperFibers))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .PectoralisMajorClavicular))
-                        .setGradient(self.getMuscleActivity(for: .PectoralisMajorClavicular), geometry.size)
+                    AnteriorShape(.PectoralisMajorClavicular, with: self.muscleActivity(for: .PectoralisMajorClavicular))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .PectoralisMajorSternal))
-                        .setGradient(self.getMuscleActivity(for: .PectoralisMajorSternal), geometry.size)
+                    AnteriorShape(.PectoralisMajorSternal, with: self.muscleActivity(for: .PectoralisMajorSternal))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .Biceps))
-                        .setGradient(self.getMuscleActivity(for: .Biceps), geometry.size)
+                    AnteriorShape(.Biceps, with: self.muscleActivity(for: .Biceps))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .FlexorCarpiRadialis))
-                        .setGradient(self.getMuscleActivity(for: .FlexorCarpiRadialis), geometry.size)
+                    AnteriorShape(.FlexorCarpiRadialis, with: self.muscleActivity(for: .FlexorCarpiRadialis))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .FlexorCarpiUlnaris))
-                        .setGradient(self.getMuscleActivity(for: .FlexorCarpiUlnaris), geometry.size)
+                    AnteriorShape(.FlexorCarpiUlnaris, with: self.muscleActivity(for: .FlexorCarpiUlnaris))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .FlexorDigitorumSuperficialis))
-                        .setGradient(self.getMuscleActivity(for: .FlexorDigitorumSuperficialis), geometry.size)
+                    AnteriorShape(.FlexorDigitorumSuperficialis, with: self.muscleActivity(for: .FlexorDigitorumSuperficialis))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .Brachioradialis))
-                        .setGradient(self.getMuscleActivity(for: .Brachioradialis), geometry.size)
+                    AnteriorShape(.Brachioradialis, with: self.muscleActivity(for: .Brachioradialis))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .Abductor))
-                        .setGradient(self.getMuscleActivity(for: .Abductor), geometry.size)
+                    AnteriorShape(.Abductor, with: self.muscleActivity(for: .Abductor))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(AnteriorPath.from(muscle: .AnteriorDeltoid))
-                        .setGradient(self.getMuscleActivity(for: .AnteriorDeltoid), geometry.size)
+                    AnteriorShape(.AnteriorDeltoid, with: self.muscleActivity(for: .AnteriorDeltoid))
+                        .setGradient(geometry.size)
                 }
                 
                 ZStack {
-                    AnteriorShape(AnteriorPath.from(muscle: .LateralDeltoid))
-                        .setGradient(self.getMuscleActivity(for: .LateralDeltoid), geometry.size)
+                    AnteriorShape(.LateralDeltoid, with: self.muscleActivity(for: .LateralDeltoid))
+                        .setGradient(geometry.size)
                     
-                    AnteriorShape(Path(AnteriorPath.bodyPath().cgPath))
+                    AnteriorShape(.Body)
                         .stroke(secondaryAppColor.opacity(0.8), lineWidth: 0.3)
                 }
             }

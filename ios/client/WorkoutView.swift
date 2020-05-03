@@ -164,14 +164,18 @@ struct WorkoutMuscleMetricsView: View {
     }
     
     var body: some View {
-        print(self.targetMuscles)
-        return VStack(alignment: .leading) {
+        return HStack(alignment: .center) {
             AnteriorView(
                 activatedPrimaryMuscles: self.targetMuscles,
                 activiatedSecondaryMuscles: self.synergistMuscles
             )
-                .frame(height: 220)
+            
+            PosteriorView(
+                activatedPrimaryMuscles: self.targetMuscles,
+                activiatedSecondaryMuscles: self.synergistMuscles
+            )
         }
+            .frame(height: 220)
             .padding(.all, 0)
             .onAppear {
                 self.loadWorkoutDictionaries()

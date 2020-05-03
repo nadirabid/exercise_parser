@@ -33,6 +33,8 @@ struct AnteriorPath {
         case .Abductor: return Path(fma74998Path().cgPath)
         case .AnteriorDeltoid: return Path(fma83003Path().cgPath)
         case .LateralDeltoid: return Path(fma83006Path().cgPath)
+        case .Body: return Path(bodyPath().cgPath)
+        case .Background: return Path(bodybackgroundPath().cgPath)
         default:
             print("Called unknown muscle", muscle)
             return Path()
