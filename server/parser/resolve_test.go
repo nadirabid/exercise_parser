@@ -8,14 +8,17 @@ import (
 )
 
 func TestWeightedExercise(t *testing.T) {
-	kettlebellSwings1 := map[string]string{"Exercise": "kettlebell swings", "Reps": "50"}
-	squatJumps1 := map[string]string{"Exercise": "squat jumps", "Reps": "20", "Sets": "5"}
-
 	delimiter := []string{
 		"-", "- ", " -", " - ",
 		",", ", ", " ,", " , ",
 		" ", "  ",
 	}
+
+	units := []string{"kg", "kilos", "kilogram", "kilograms", "lb", "lbs", "pound", "pounds"}
+
+	kettlebellSwings1 := map[string]string{"Exercise": "kettlebell swings", "Reps": "50"}
+	squatJumps1 := map[string]string{"Exercise": "squat jumps", "Reps": "20", "Sets": "5"}
+	tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 
 	for _, d := range delimiter {
 		t.Run("{Reps:Number} (Delimiter) {Exercise:String}", func(t *testing.T) {
@@ -30,13 +33,6 @@ func TestWeightedExercise(t *testing.T) {
 			})
 		}
 	}
-
-	t.Run("{Reps:Number} {Exercise:String}", func(t *testing.T) {
-		parsed := resolveExpUtil("50 kettlebell swings")
-		assert.Equal(t, kettlebellSwings1, parsed.Captures)
-	})
-
-	tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 
 	t.Run("{Sets:Number} {Reps:Number} {Exercise:String}", func(t *testing.T) {
 		parsed := resolveExpUtil("3 3 tricep curls")
@@ -138,6 +134,22 @@ func TestWeightedExercise(t *testing.T) {
 			parsed := resolveExpUtil(fmt.Sprintf("tricep curls%s3 sets of 3 reps", d))
 			assert.Equal(t, tricepCurls1, parsed.Captures)
 		})
+
+		for _, u := range units {
+			weightedPullups1 := map[string]string{"Exercise": "weighted pullups", "Weight": "25", "Units": u, "Sets": "2", "Reps": "8"}
+			t.Run("{Exercise:String} (Delimiter) {Weight:Number}{Units} (Delimiter) {Sets:Number}x{Reps:Number}", func(t *testing.T) {
+				parsed := resolveExpUtil(fmt.Sprintf("Weighted pullups%s25%s%s2x8", d, u, d))
+				assert.Equal(t, weightedPullups1, parsed.Captures)
+			})
+		}
+
+		jumpRope1 := map[string]string{"Exercise": "jumping rope", "Reps": "200"}
+		for _, d := range delimiter {
+			t.Run("{Exercise:String} (Delimiter) {Reps:Number}", func(t *testing.T) {
+				parsed := resolveExpUtil(fmt.Sprintf("Jumping rope%s200", d))
+				assert.Equal(t, jumpRope1, parsed.Captures)
+			})
+		}
 	}
 
 	tricepCurls2 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3", "Weight": "25"}
@@ -171,8 +183,6 @@ func TestWeightedExercise(t *testing.T) {
 		parsed := resolveExpUtil("3x3 at 25 of tricep curls")
 		assert.Equal(t, tricepCurls2, parsed.Captures)
 	})
-
-	units := []string{"kg", "kilos", "kilogram", "kilograms", "lb", "lbs", "pound", "pounds"}
 
 	for _, u := range units {
 		tricepCurls3 := map[string]string{
