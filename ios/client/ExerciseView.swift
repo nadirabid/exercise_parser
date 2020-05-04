@@ -56,18 +56,20 @@ struct ExerciseView : View {
             
             HStack {
                 if exercise.type == "weighted" {
-                    VStack(alignment: .trailing, spacing: 1.0) {
-                        Text("sets")
-                            .font(.caption)
-                            .foregroundColor(self.unitsColor)
-                            .shouldItalicize(shouldItalicize)
-                        
-                        Text("\(exercise.weightedExercise!.sets)")
-                            .font(.headline)
-                            .foregroundColor(self.valuesColor)
-                            .shouldItalicize(shouldItalicize)
+                    if exercise.weightedExercise!.sets > 1 {
+                        VStack(alignment: .trailing, spacing: 1.0) {
+                            Text("sets")
+                                .font(.caption)
+                                .foregroundColor(self.unitsColor)
+                                .shouldItalicize(shouldItalicize)
+                            
+                            Text("\(exercise.weightedExercise!.sets)")
+                                .font(.headline)
+                                .foregroundColor(self.valuesColor)
+                                .shouldItalicize(shouldItalicize)
+                        }
+                            .padding(.leading, 2.0)
                     }
-                        .padding(.leading, 2.0)
                     
                     VStack(alignment: .trailing, spacing: 1.0) {
                         Text("reps")

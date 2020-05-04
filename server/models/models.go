@@ -63,7 +63,7 @@ func (e *Exercise) Resolve() error {
 	if res.Type == "weighted" {
 		sets, err := strconv.Atoi(res.Captures["Sets"])
 		if err != nil {
-			return err
+			sets = 1
 		}
 
 		reps, err := strconv.Atoi(res.Captures["Reps"])
