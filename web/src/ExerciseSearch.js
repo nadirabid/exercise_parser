@@ -6,7 +6,11 @@ import TextField from '@material-ui/core/TextField';
 import * as auth from './auth';
 
 async function getAPIExerciseSearch(exerciseQuery) {
-  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/search?exerciseQuery=${exerciseQuery}`);
+  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/search?exerciseQuery=${exerciseQuery}`, {
+    headers: {
+      'Authorization': auth.getAuthHeader(),
+    },
+  });
 
   if (result.status !== 200) {
     console.error('Failed to get exercise search results: ', result);

@@ -8,6 +8,12 @@ export function getAPIUrl() {
   return `http://${domain}`;
 }
 
+export function getAuthHeader() {
+  let token = localStorage.getItem('jwt_token');
+
+  return `Bearer ${token}`;
+}
+
 export function isAuthenticated() {
   var urlParams = new URLSearchParams(window.location.search);
 

@@ -142,7 +142,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 async function apiGetDictionaryRelatedNames(dictionaryId, page = 1, pageSize=20) {
-  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/dictionary/${dictionaryId}/related?size=${pageSize}&page=${page}`);
+  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/dictionary/${dictionaryId}/related?size=${pageSize}&page=${page}`, {
+    headers: {
+      'Authorization': auth.getAuthHeader(),
+    },
+  });
 
   if (result.status !== 200) {
     console.error('Failed to sign in', result);
@@ -158,7 +162,8 @@ async function apiCreateDictionaryRelatedName(data) {
   const result = await fetch(`${auth.getAPIUrl()}/api/exercise/dictionary/related`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': auth.getAuthHeader(),
     },
     body: JSON.stringify(data),
   });
@@ -177,7 +182,8 @@ async function apiUpdateRelatedName(data) {
   const result = await fetch(`${auth.getAPIUrl()}/api/exercise/dictionary/related/${data.id}`, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': auth.getAuthHeader(),
     },
     body: JSON.stringify(data),
   });

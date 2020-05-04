@@ -122,7 +122,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 async function apiGetUnresolvedExercises(page = 1, pageSize=20) {
-  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/unresolved?size=${pageSize}&page=${page}`);
+  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/unresolved?size=${pageSize}&page=${page}`, {
+    headers: {
+      'Authorization': auth.getAuthHeader(),
+    },
+  });
 
   if (result.status !== 200) {
     console.error('Failed to sign in', result);
@@ -138,7 +142,8 @@ async function apiUpdateExercise(exercise) {
   const result = await fetch(`${auth.getAPIUrl()}/api/exercise/${exercise.id}`, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': auth.getAuthHeader(),
     },
     body: JSON.stringify(exercise),
   });
@@ -155,7 +160,10 @@ async function apiUpdateExercise(exercise) {
 
 async function apiReresolveExercises() {
   const result = await fetch(`${auth.getAPIUrl()}/api/exercise/unresolved/resolve`, {
-    method: 'POST'
+    method: 'POST',
+    headers: {
+      'Authorization': auth.getAuthHeader(),
+    },
   });
 
   if (result.status !== 200) {
