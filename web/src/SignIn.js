@@ -66,7 +66,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function SignIn({ onAuthenticate }) {
+function SignIn({ onAuthenticated }) {
   const skeleton = skeletonStyles();
   const modalClasses = modalStyles();
 
@@ -78,7 +78,7 @@ function SignIn({ onAuthenticate }) {
         onClick={async () => {
           const success = await auth.signInWithApple();
           if (success) {
-            onAuthenticate();
+            onAuthenticated();
           }
         }}
       >
@@ -92,7 +92,7 @@ function SignIn({ onAuthenticate }) {
         onClick={async () => {
           const success = await auth.developmentSignIn();
           if (success) {
-            onAuthenticate();
+            onAuthenticated();
           }
         }}
       >

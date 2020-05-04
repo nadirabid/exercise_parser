@@ -9,7 +9,7 @@ export function getAPIUrl() {
 }
 
 export function getAuthHeader() {
-  let token = localStorage.getItem('jwt_token');
+  let token = localStorage.getItem('jwt_token') ?? 'No token exists';
 
   return `Bearer ${token}`;
 }

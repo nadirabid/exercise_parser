@@ -333,6 +333,7 @@ class ExerciseDictionaryAPI: ObservableObject {
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
                 case .success(let data):
+                    print("NADIR: SUCCESS")
                     let decoder = JSONDecoder()
                     decoder.dateDecodingStrategy = decodeStrategy()
                     
