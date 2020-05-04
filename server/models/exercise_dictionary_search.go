@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"math"
 	"sort"
 	"strings"
@@ -65,6 +66,8 @@ func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySe
 			if r.Type != "" && r.Type != "resources/related_names" {
 				// if its a related search term, then lets reweigh it so that its not the same as a direct match
 				r.Rank = calculateWeightOfRelatedSearch(r.Rank)
+			} else {
+				r.Rank *= 1.2
 			}
 
 			rank += r.Rank
@@ -72,7 +75,8 @@ func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySe
 			res.Related = append(res.Related, *r)
 		}
 
-		res.Rank = rank * (1.2)
+		res.Rank = rank
+		fmt.Println(res.ExerciseDictionaryName, rank)
 
 		sort.Slice(res.Related, func(i, j int) bool {
 			if res.Related[i].Rank < res.Related[j].Rank {

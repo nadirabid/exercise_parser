@@ -3,6 +3,7 @@ package server
 import (
 	"exercise_parser/models"
 	"exercise_parser/utils"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -105,6 +106,7 @@ func handlePostWorkout(c echo.Context) error {
 				minSearchRank := float32(0.05)
 				topSearchResult := searchResults[0]
 
+				fmt.Println("search compare", minSearchRank, topSearchResult)
 				if topSearchResult.Rank >= minSearchRank {
 					// if we didn't make it ot this if condition - but we resolved properly above
 					// then that means we couldn't find a close enough match for the exercise

@@ -131,31 +131,6 @@ func handleDeleteExercise(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, exercise)
 }
 
-func handleSearchExercise(c echo.Context) error {
-	ctx := c.(*Context)
-	db := ctx.db
-
-	exerciseQuery := ctx.QueryParam("exerciseQuery")
-
-	if exerciseQuery == "" {
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage("You have to specify 'exerciseQuery' query parameter'"))
-	}
-
-	searchResults, err := models.SearchExerciseDictionary(db, exerciseQuery)
-	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-	}
-
-	r := models.ListResponse{
-		Page:    1,
-		Pages:   1,
-		Size:    0,
-		Results: searchResults,
-	}
-
-	return ctx.JSON(http.StatusOK, r)
-}
-
 func handleGetUnresolvedExercises(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()

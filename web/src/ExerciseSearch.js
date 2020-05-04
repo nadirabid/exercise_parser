@@ -5,8 +5,8 @@ import TextField from '@material-ui/core/TextField';
 
 import * as auth from './auth';
 
-async function getAPIExerciseSearch(exerciseQuery) {
-  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/search?exerciseQuery=${exerciseQuery}`, {
+async function getAPIDictionarySearch(exerciseQuery) {
+  const result = await fetch(`${auth.getAPIUrl()}/api/dictionary/search?query=${exerciseQuery}`, {
     headers: {
       'Authorization': auth.getAuthHeader(),
     },
@@ -39,7 +39,7 @@ function ExerciseSearch({ onSelect = () => {} }) {
   
   useEffect(() => {
     if (input) {
-      getAPIExerciseSearch(input).then((result) => {
+      getAPIDictionarySearch(input).then((result) => {
         setCounter(counterRef + 1);
         if (counter + 1 < counterRef.value) {
           return;

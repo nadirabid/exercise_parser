@@ -120,7 +120,6 @@ func New(v *viper.Viper) error {
 	apiRoutes.Use(JWTAuthMiddleware)
 
 	// returns exercise
-	apiRoutes.GET("/exercise/search", handleSearchExercise)
 	apiRoutes.POST("/exercise/resolve", handleResolveExercise)
 	apiRoutes.GET("/exercise/unresolved", handleGetUnresolvedExercises)
 	apiRoutes.POST("/exercise/unresolved/resolve", handlePostReresolveExercises)
@@ -132,6 +131,7 @@ func New(v *viper.Viper) error {
 
 	// returns dictionary
 	apiRoutes.GET("/dictionary", handleGetExerciseDictionaryList)
+	apiRoutes.GET("/dictionary/search", handleGetSearchDictionary)
 	apiRoutes.GET("/dictionary/:id", handleGetDictionary)
 	apiRoutes.GET("/workout/:id/dictionary", handleGetWorkoutDictionary)
 
