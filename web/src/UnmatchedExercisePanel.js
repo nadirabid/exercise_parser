@@ -18,6 +18,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import AssessmentIcon from '@material-ui/icons/Assessment';
+import Fab from '@material-ui/core/Fab';
+import UpdateIcon from '@material-ui/icons/Update';
 
 import * as auth from './auth';
 import ExerciseSearch from './ExerciseSearch';
@@ -107,7 +109,12 @@ const useStyles = makeStyles((theme) => ({
   },
   dialogContent: {
     display: 'flex'
-  }
+  },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
 }));
 
 async function getAPIUnmatchedExercises(page = 1, pageSize=20) {
@@ -145,6 +152,22 @@ async function updateAPIExercise(exercise) {
   const resp = await result.json();
 
   return resp;
+}
+
+async function apiRematchExercises() {
+  const result = await fetch(`${auth.getAPIUrl()}/api/exercise/unmatched/rematch`, {
+    method: 'POST',
+    headers: {
+      'Authorization': auth.getAuthHeader(),
+    },
+  });
+
+  if (result.status !== 200) {
+    console.error('Failed to resolve all unresolved exercises: ', result);
+    return false;
+  }
+
+  return await result.json();
 }
 
 function UpdaterExercise({ exercise, onCancel = () => {}, onSave = () => {} }) {
@@ -262,6 +285,14 @@ function UnmatchedExercisePanel() {
           count={list == null ? 6 : list.pages} 
           page={list == null ? 0 : list.page}
         />
+        <Fab 
+          onClick={async () => {
+            await apiRematchExercises();
+            await getAPIUnmatchedExercises(0).then((list) => setList(list));
+          }}
+          className={classes.fab} color="inherit" disabled={!list || list.count === 0} aria-label="add">
+          <UpdateIcon />
+        </Fab>
       </div>
     </Box>
   );

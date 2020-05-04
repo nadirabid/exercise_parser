@@ -371,8 +371,8 @@ function UnresolvedExercisePanel() {
         />
         <Fab 
           onClick={async () => {
-            await apiReresolveExercises()
-            await apiGetUnresolvedExercises(0).then((list) => setList(list))
+            await apiReresolveExercises();
+            await apiGetUnresolvedExercises(0).then((list) => setList(list));
           }}
           className={classes.fab} color="inherit" disabled={!list || list.count === 0} aria-label="add">
           <UpdateIcon />

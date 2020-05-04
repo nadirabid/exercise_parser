@@ -2,7 +2,6 @@ package server
 
 import (
 	"exercise_parser/models"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -152,14 +151,64 @@ func handleGetUnmatchedExercises(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
 
-	exercise := []models.Exercise{}
+	exercises := []models.Exercise{}
 
 	q := db.Where("exercise_dictionary_id IS NULL and type != ?", "unknown")
 
-	r, err := paging(q, 0, 0, &exercise)
+	r, err := paging(q, 0, 0, &exercises)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, r)
+}
+
+func handlePostRematchExercises(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	exercises := []models.Exercise{}
+
+	err := db.
+		Where("exercise_dictionary_id IS NULL and type != ?", "unknown").
+		Find(&exercises).
+		Error
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	matchedExercises := []models.Exercise{}
+
+	for _, e := range matchedExercises {
+		searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, e.Name)
+		if err != nil {
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+
+		if len(searchResults) > 0 {
+			minSearchRank := float32(0.05)
+			topSearchResult := searchResults[0]
+
+			if topSearchResult.Rank >= minSearchRank {
+				// if we didn't make it ot this if condition - but we resolved properly above
+				// then that means we couldn't find a close enough match for the exercise
+				e.ExerciseDictionaryID = &topSearchResult.ExerciseDictionaryID
+			}
+		}
+
+		if err := db.Save(&e).Error; err != nil {
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+
+		matchedExercises = append(matchedExercises, e)
+	}
+
+	r := models.ListResponse{
+		Size:    len(matchedExercises),
+		Page:    0,
+		Results: matchedExercises,
 	}
 
 	return ctx.JSON(http.StatusOK, r)
@@ -218,9 +267,4 @@ func handlePostReresolveExercises(c echo.Context) error {
 	}
 
 	return ctx.JSON(http.StatusOK, r)
-}
-
-func test() {
-	var test string = ""
-	fmt.Println(test)
 }

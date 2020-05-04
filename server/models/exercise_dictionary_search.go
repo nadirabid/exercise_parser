@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"math"
 	"sort"
 	"strings"
@@ -77,7 +76,6 @@ func SearchExerciseDictionary(viper *viper.Viper, db *gorm.DB, name string) ([]*
 		}
 
 		res.Rank = rank
-		fmt.Println(res.ExerciseDictionaryName, rank)
 
 		sort.Slice(res.Related, func(i, j int) bool {
 			if res.Related[i].Rank < res.Related[j].Rank {
