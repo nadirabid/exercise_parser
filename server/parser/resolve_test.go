@@ -136,9 +136,9 @@ func TestWeightedExercise(t *testing.T) {
 		})
 
 		for _, u := range units {
-			weightedPullups1 := map[string]string{"Exercise": "weighted pullups", "Weight": "25", "Units": u, "Sets": "2", "Reps": "8"}
+			weightedPullups1 := map[string]string{"Exercise": "weighted pull-ups", "Weight": "25", "Units": u, "Sets": "2", "Reps": "8"}
 			t.Run("{Exercise:String} (Delimiter) {Weight:Number}{Units} (Delimiter) {Sets:Number}x{Reps:Number}", func(t *testing.T) {
-				parsed := resolveExpUtil(fmt.Sprintf("Weighted pullups%s25%s%s2x8", d, u, d))
+				parsed := resolveExpUtil(fmt.Sprintf("Weighted pull-ups%s25%s%s2x8", d, u, d))
 				assert.Equal(t, weightedPullups1, parsed.Captures)
 			})
 		}

@@ -40,48 +40,48 @@ func weightedExerciseExpressions() []*expression {
 	// increasing specificity is in descending order
 
 	expressions := []*expression{
-		newExpression(`^(?P<Reps>\d+)\s*(?P<DontMatchUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:,|-|\s)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, []string{"DontMatchUnits"}),                                     // {Reps:Number} (Delimiter) {Exercise:String}
-		newExpression(`^(?P<Reps>\d+)\s*(?P<DontMatchUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:,|-|\s)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*sets$`, []string{"DontMatchUnits"}), // {Reps:Number} (Delimiter) {Exercise:String} (Delimiter) {Sets:Number} sets
+		newExpression(`^(?P<Reps>\d+)\s*(?P<DontMatchUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:,|-|\s)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, []string{"DontMatchUnits"}),                                     // {Reps:Number} (Delimiter) {Exercise:String}
+		newExpression(`^(?P<Reps>\d+)\s*(?P<DontMatchUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:,|-|\s)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*sets$`, []string{"DontMatchUnits"}), // {Reps:Number} (Delimiter) {Exercise:String} (Delimiter) {Sets:Number} sets
 
-		newExpression(`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),                                       // {Sets:Number} {Reps:Number} {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),                              // {Sets:Number} {Reps:Number} of {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),                               // {Sets:Number}x{Reps:Number} {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),                      // {Sets:Number}x{Reps:Number} of {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),                              // {Sets:Number} by {Reps:Number} {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),                     // {Sets:Number} by {Reps:Number} of {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s*(?:sets)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),          // {Sets:Number} by {Reps:Number} sets of {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),                   // {Sets:Number} sets of {Reps:Number} {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),          // {Sets:Number} sets of {Reps:Number} of {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(reps)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),          // {Sets:Number} sets of {Reps:Number} reps {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(reps)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil), // {Sets:number} sets of {Reps:Number} reps of {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),                                       // {Sets:Number} {Reps:Number} {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),                              // {Sets:Number} {Reps:Number} of {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),                               // {Sets:Number}x{Reps:Number} {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),                      // {Sets:Number}x{Reps:Number} of {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),                              // {Sets:Number} by {Reps:Number} {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),                     // {Sets:Number} by {Reps:Number} of {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+)\s*(?:sets)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),          // {Sets:Number} by {Reps:Number} sets of {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),                   // {Sets:Number} sets of {Reps:Number} {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),          // {Sets:Number} sets of {Reps:Number} of {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(reps)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),          // {Sets:Number} sets of {Reps:Number} reps {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(reps)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil), // {Sets:number} sets of {Reps:Number} reps of {Exercise:String}
 
-		newExpression(`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Weight>\d+)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),                           // {Sets:Number} {Reps:Number} {Weight:Number} {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),           // {Sets:Number}x{Reps:Number}x{Weight:Number} {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),  // {Sets:Number}x{Reps:Number}x{Weight:Number} of {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),          // {Sets:Number}x{Reps:Number} at {Weight:Number} {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil), // {Sets:Number}x{Reps:Number} at {Weight:Number} of {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Weight>\d+)\s+(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),                           // {Sets:Number} {Reps:Number} {Weight:Number} {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s+(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),           // {Sets:Number}x{Reps:Number}x{Weight:Number} {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),  // {Sets:Number}x{Reps:Number}x{Weight:Number} of {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s+(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),          // {Sets:Number}x{Reps:Number} at {Weight:Number} {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?:of)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil), // {Sets:Number}x{Reps:Number} at {Weight:Number} of {Exercise:String}
 
-		newExpression(`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),                           // {Sets:Number} {Reps:Number} {Weight:Number}{Units} {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),           // {Sets:Number}x{Reps:Number}x{Weight:Number}{Units} {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),  // {Sets:Number}x{Reps:Number}x{Weight:Number}{Units} of {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),          // {Sets:Number}x{Reps:Number} at {Weight:Number}{Units} {Exercise:String}
-		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil), // {Sets:Number}x{Reps:Number} at {Weight:Number}{Units} of {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),                           // {Sets:Number} {Reps:Number} {Weight:Number}{Units} {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),           // {Sets:Number}x{Reps:Number}x{Weight:Number}{Units} {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),  // {Sets:Number}x{Reps:Number}x{Weight:Number}{Units} of {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),          // {Sets:Number}x{Reps:Number} at {Weight:Number}{Units} {Exercise:String}
+		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:at)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s+(?:of)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil), // {Sets:Number}x{Reps:Number} at {Weight:Number}{Units} of {Exercise:String}
 
-		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Weight>\d+)\s*(?P<Units>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`, nil), // {Sets:Number}x{Reps:Number} {Exercise:String} (Delimiter) {Weight:Number}{Units}
+		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Weight>\d+)\s*(?P<Units>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`, nil), // {Sets:Number}x{Reps:Number} {Exercise:String} (Delimiter) {Weight:Number}{Units}
 
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Reps>\d+$)`, nil), // {Exercise:String} (Delimiter) {Reps:Number}
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Reps>\d+$)`, nil), // {Exercise:String} (Delimiter) {Reps:Number}
 
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s+(?P<Reps>\d+$)`, nil),                                // {Exercise:String} (Delimiter) {Sets:Number} {Reps:Number}
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, nil),                        // {Exercise:String} (Delimiter) {Sets:Number}x{Reps:Number}
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+$)`, nil),                       // {Exercise:String} (Delimiter) {Sets:Number} by {Reps:Number}
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:sets)\s*(?P<Reps>\d+$)`, nil),                     // {Exercise:String} (Delimiter) {Sets:Number} sets {Reps:Number}
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:sets)\s*(?P<Reps>\d+)\s*(?:reps$)`, nil),          // {Exercise:String} (Delimiter) {Sets:Number} sets {Reps:Number} reps
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+$)`, nil),            // {Exercise:String} (Delimiter) {Sets:Number} sets of {Reps:Number} reps
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(?:reps$)`, nil), // {Exercise:String} (Delimiter) {Sets:Number} sets of {Reps:Number} reps
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s+(?P<Reps>\d+$)`, nil),                                // {Exercise:String} (Delimiter) {Sets:Number} {Reps:Number}
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, nil),                        // {Exercise:String} (Delimiter) {Sets:Number}x{Reps:Number}
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+$)`, nil),                       // {Exercise:String} (Delimiter) {Sets:Number} by {Reps:Number}
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:sets)\s*(?P<Reps>\d+$)`, nil),                     // {Exercise:String} (Delimiter) {Sets:Number} sets {Reps:Number}
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:sets)\s*(?P<Reps>\d+)\s*(?:reps$)`, nil),          // {Exercise:String} (Delimiter) {Sets:Number} sets {Reps:Number} reps
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+$)`, nil),            // {Exercise:String} (Delimiter) {Sets:Number} sets of {Reps:Number} reps
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(?:reps$)`, nil), // {Exercise:String} (Delimiter) {Sets:Number} sets of {Reps:Number} reps
 
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:,|-|\s)\s*(?P<Weight>\d+)\s*(?P<Units>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`, nil), // {Exercise:String} (Delimiter) {Sets:Number}x{Reps:Number} (Delimiter) {Weight:Number}{Units}
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:,|-|\s)\s*(?P<Weight>\d+)\s*(?P<Units>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`, nil), // {Exercise:String} (Delimiter) {Sets:Number}x{Reps:Number} (Delimiter) {Weight:Number}{Units}
 
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, nil), // {Exercise:String} (Delimiter) {Weight:Number}{Units} (Delimiter) {Sets:Number}x{Reps:Number}
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Weight>\d+)\s*(?P<Units>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, nil), // {Exercise:String} (Delimiter) {Weight:Number}{Units} (Delimiter) {Sets:Number}x{Reps:Number}
 	}
 
 	return expressions
