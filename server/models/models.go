@@ -61,12 +61,17 @@ func (e *Exercise) Resolve() error {
 	e.Name = res.Captures["Exercise"]
 
 	if res.Type == "weighted" {
-		sets, err := strconv.Atoi(res.Captures["Sets"])
+		sets, err := evalSets(res.Captures)
 		if err != nil {
-			sets = 1
+			return err
 		}
 
-		reps, err := strconv.Atoi(res.Captures["Reps"])
+		reps, err := evalReps(res.Captures)
+		if err != nil {
+			return err
+		}
+
+		weight, err := evalWeight(res.Captures)
 		if err != nil {
 			return err
 		}
@@ -77,26 +82,14 @@ func (e *Exercise) Resolve() error {
 
 		e.WeightedExercise.Sets = sets
 		e.WeightedExercise.Reps = reps
-
-		if weightStr, ok := res.Captures["Weight"]; ok {
-			unit := utils.GetStringOrDefault(res.Captures["Units"], "pounds")
-
-			weight, err := strconv.ParseFloat(weightStr, 32)
-			if err != nil {
-				return err
-			}
-
-			standardized, err := parser.UnitStandardize(unit, float32(weight))
-			if err != nil {
-				return err
-			}
-
-			e.WeightedExercise.Weight = standardized
-		}
+		e.WeightedExercise.Weight = weight
 	} else if res.Type == "distance" {
-		unit := utils.GetStringOrDefault(res.Captures["Units"], "miles")
+		distance, err := evalDistance(res.Captures)
+		if err != nil {
+			return err
+		}
 
-		distance, err := strconv.ParseFloat(res.Captures["Distance"], 32)
+		time, err := evalTime(res.Captures)
 		if err != nil {
 			return err
 		}
@@ -105,27 +98,8 @@ func (e *Exercise) Resolve() error {
 			e.DistanceExercise = &DistanceExercise{}
 		}
 
-		standardizedDist, err := parser.UnitStandardize(unit, float32(distance))
-		if err != nil {
-			return nil
-		}
-		e.DistanceExercise.Distance = standardizedDist
-
-		if timeStr, ok := res.Captures["Time"]; ok {
-			timeUnit := utils.GetStringOrDefault(res.Captures["TimeUnits"], "minutes")
-
-			time, err := strconv.ParseFloat(timeStr, 32)
-			if err != nil {
-				return err
-			}
-
-			standardizedTime, err := parser.UnitStandardize(timeUnit, float32(time))
-			if err != nil {
-				return err
-			}
-
-			e.DistanceExercise.Time = uint(standardizedTime)
-		}
+		e.DistanceExercise.Distance = distance
+		e.DistanceExercise.Time = time
 	} else {
 		return fmt.Errorf("unable to resolve raw expression: %v", e)
 	}
@@ -150,4 +124,85 @@ type DistanceExercise struct {
 	Time       uint    `json:"time"`
 	Distance   float32 `json:"distance"`
 	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
+}
+
+// returns 1 if not specified
+func evalSets(captures map[string]string) (int, error) {
+	sets, err := strconv.Atoi(captures["Sets"])
+	if err != nil {
+		sets = 1
+	}
+
+	return sets, nil
+}
+
+// returns err if not specified
+func evalReps(captures map[string]string) (int, error) {
+	reps, err := strconv.Atoi(captures["Reps"])
+	if err != nil {
+		return 0, err
+	}
+	return reps, nil
+}
+
+// returns 0 if not specified
+func evalWeight(captures map[string]string) (float32, error) {
+	weightStr, ok := captures["Weight"]
+	if !ok {
+		return 0, nil
+	}
+
+	unit := utils.GetStringOrDefault(captures["Units"], "pounds")
+
+	weight, err := strconv.ParseFloat(weightStr, 32)
+	if err != nil {
+		return 0, err
+	}
+
+	standardized, err := parser.UnitStandardize(unit, float32(weight))
+	if err != nil {
+		return 0, err
+	}
+
+	return standardized, nil
+}
+
+// returns 0 if not specified
+func evalTime(captures map[string]string) (uint, error) {
+	timeStr, ok := captures["Time"]
+
+	if !ok {
+		return 0, nil
+	}
+
+	timeUnit := utils.GetStringOrDefault(captures["TimeUnits"], "minutes")
+
+	time, err := strconv.ParseFloat(timeStr, 32)
+	if err != nil {
+		return 0, err
+	}
+
+	standardizedTime, err := parser.UnitStandardize(timeUnit, float32(time))
+	if err != nil {
+		return 0, err
+	}
+
+	return uint(standardizedTime), nil
+}
+
+// returns error if not specified
+func evalDistance(captures map[string]string) (float32, error) {
+	unit := utils.GetStringOrDefault(captures["Units"], "miles")
+
+	distance, err := strconv.ParseFloat(captures["Distance"], 32)
+	if err != nil {
+		return 0, err
+	}
+
+	standardizedDist, err := parser.UnitStandardize(unit, float32(distance))
+	if err != nil {
+		return 0, err
+	}
+
+	return standardizedDist, nil
 }
