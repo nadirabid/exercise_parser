@@ -59,3 +59,10 @@ func SliceContainsString(slice []string, value string) bool {
 
 	return false
 }
+
+func MaxInt(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}

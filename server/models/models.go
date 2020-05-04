@@ -5,6 +5,7 @@ import (
 	"exercise_parser/utils"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -138,7 +139,24 @@ func evalSets(captures map[string]string) (int, error) {
 
 // returns err if not specified
 func evalReps(captures map[string]string) (int, error) {
-	reps, err := strconv.Atoi(captures["Reps"])
+	repStr := captures["Reps"]
+	if strings.Contains(repStr, "-") {
+		repTokens := strings.Split(repStr, "-")
+		if len(repTokens) != 2 {
+			return 0, fmt.Errorf("Reps contains -, but doesn't have two rep numbers. Eg of expected: 10-12")
+		}
+
+		reps1, err := strconv.Atoi(repTokens[0])
+		reps2, err := strconv.Atoi(repTokens[1])
+
+		if err != nil {
+			return 0, err
+		}
+
+		return utils.MaxInt(reps1, reps2), nil
+	}
+
+	reps, err := strconv.Atoi(repStr)
 	if err != nil {
 		return 0, err
 	}

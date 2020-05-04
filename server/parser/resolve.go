@@ -40,7 +40,7 @@ func weightedExerciseExpressions() []*expression {
 	// increasing specificity is in descending order
 
 	expressions := []*expression{
-		newExpression(`^(?P<Reps>\d+|d+\-d+)\s*(?P<DontMatchUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:,|-|\s)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, []string{"DontMatchUnits"}),                              // {Reps:Number} (Delimiter) {Exercise:String}
+		newExpression(`^(?P<Reps>\d+|\d+\-\d+)\s*(?P<DontMatchUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:,|-|\s)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, []string{"DontMatchUnits"}),                            // {Reps:Number} (Delimiter) {Exercise:String}
 		newExpression(`^(?P<Reps>\d+)\s*(?P<DontMatchUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:,|-|\s)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*sets$`, []string{"DontMatchUnits"}), // {Reps:Number} (Delimiter) {Exercise:String} (Delimiter) {Sets:Number} sets
 
 		newExpression(`^(?P<Sets>\d+)\s+(?P<Reps>\d+)\s+(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z]$)`, nil),                                       // {Sets:Number} {Reps:Number} {Exercise:String}
