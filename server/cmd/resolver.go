@@ -24,7 +24,7 @@ func search(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	results, err := models.SearchExerciseDictionary(db, strings.Join(args, " "))
+	results, err := models.SearchExerciseDictionary(v, db, strings.Join(args, " "))
 	if err != nil {
 		return err
 	}

@@ -97,7 +97,7 @@ func handlePostWorkout(c echo.Context) error {
 			// updates
 			e.Type = "unknown"
 		} else {
-			searchResults, err := models.SearchExerciseDictionary(db, e.Name)
+			searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, e.Name)
 			if err != nil {
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}

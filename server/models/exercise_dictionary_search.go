@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/jinzhu/gorm"
+	"github.com/spf13/viper"
 )
 
 // ExerciseRelatedNameSearchResult holds the result values w/ rank info
@@ -25,7 +26,7 @@ type ExerciseDictionarySearchResult struct {
 }
 
 // SearchExerciseDictionary will search for ExcerciseDictionary entity from the provided exercise name
-func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySearchResult, error) {
+func SearchExerciseDictionary(viper *viper.Viper, db *gorm.DB, name string) ([]*ExerciseDictionarySearchResult, error) {
 	searchTerms := strings.Join(strings.Split(name, " "), " & ")
 
 	// TODO: make grabbing the dictionary name optional
@@ -63,7 +64,7 @@ func SearchExerciseDictionary(db *gorm.DB, name string) ([]*ExerciseDictionarySe
 
 		rank := float32(0)
 		for _, r := range v {
-			if r.Type != "" && r.Type != "resources/related_names" {
+			if r.Type != "model" && r.Type != viper.GetString("resources.dir.related_names") {
 				// if its a related search term, then lets reweigh it so that its not the same as a direct match
 				r.Rank = calculateWeightOfRelatedSearch(r.Rank)
 			} else {

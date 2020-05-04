@@ -80,7 +80,7 @@ func handleGetSearchDictionary(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage("You have to specify url query parameter: 'query'"))
 	}
 
-	searchResults, err := models.SearchExerciseDictionary(db, exerciseQuery)
+	searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, exerciseQuery)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}

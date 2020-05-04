@@ -184,7 +184,7 @@ func handlePostReresolveExercises(c echo.Context) error {
 
 	for _, e := range exercises {
 		if err := e.Resolve(); err == nil {
-			searchResults, err := models.SearchExerciseDictionary(db, e.Name)
+			searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, e.Name)
 			if err != nil {
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}
@@ -194,7 +194,6 @@ func handlePostReresolveExercises(c echo.Context) error {
 				topSearchResult := searchResults[0]
 
 				if topSearchResult.Rank >= minSearchRank {
-					fmt.Println("MATCHED", topSearchResult.Rank, minSearchRank)
 					// if we didn't make it ot this if condition - but we resolved properly above
 					// then that means we couldn't find a close enough match for the exercise
 					e.ExerciseDictionaryID = &topSearchResult.ExerciseDictionaryID
