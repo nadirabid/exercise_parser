@@ -9,7 +9,6 @@ import (
 	"github.com/labstack/echo"
 	"github.com/lestrrat-go/jwx/jwa"
 	"github.com/lestrrat-go/jwx/jwt"
-	"github.com/spf13/viper"
 )
 
 func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
@@ -18,7 +17,7 @@ func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 
 		authorization := c.Request().Header.Get("Authorization")
 
-		if authorization == "" && !viper.GetBool("middleware.auth") {
+		if authorization == "" && !ctx.viper.GetBool("middleware.auth") {
 			// when auth is disabled - and there is no token - we'll create one
 			fakeUser := models.User{}
 			if err := ctx.db.Where("external_user_id = 'fake.user.id'").First(&fakeUser).Error; err != nil {
