@@ -49,3 +49,13 @@ func GetStringOrDefault(value string, defaultValue string) string {
 
 	return value
 }
+
+func SliceContainsString(slice []string, value string) bool {
+	for _, str := range slice {
+		if str == value {
+			return true
+		}
+	}
+
+	return false
+}
