@@ -62,22 +62,39 @@ func (e *Exercise) Resolve() error {
 	e.Type = res.Type
 	e.Name = res.Captures["Exercise"]
 
+	sets, err := evalSets(res.Captures)
+	if err != nil {
+		return err
+	}
+
+	reps, err := evalReps(res.Captures)
+	if err != nil {
+		return err
+	}
+
+	weight, err := evalWeight(res.Captures)
+	if err != nil {
+		return err
+	}
+
+	distance, err := evalDistance(res.Captures)
+	if err != nil {
+		return err
+	}
+
+	time, err := evalTime(res.Captures)
+	if err != nil {
+		return err
+	}
+
+	e.ExerciseData.Sets = sets
+	e.ExerciseData.Reps = reps
+	e.ExerciseData.Weight = weight
+	e.ExerciseData.Distance = distance
+	e.ExerciseData.Time = time
+
+	// TODO: remove this when everyone is on new iOS build
 	if res.Type == "weighted" {
-		sets, err := evalSets(res.Captures)
-		if err != nil {
-			return err
-		}
-
-		reps, err := evalReps(res.Captures)
-		if err != nil {
-			return err
-		}
-
-		weight, err := evalWeight(res.Captures)
-		if err != nil {
-			return err
-		}
-
 		if e.WeightedExercise == nil {
 			e.WeightedExercise = &WeightedExercise{}
 		}
@@ -86,16 +103,6 @@ func (e *Exercise) Resolve() error {
 		e.WeightedExercise.Reps = reps
 		e.WeightedExercise.Weight = weight
 	} else if res.Type == "distance" {
-		distance, err := evalDistance(res.Captures)
-		if err != nil {
-			return err
-		}
-
-		time, err := evalTime(res.Captures)
-		if err != nil {
-			return err
-		}
-
 		if e.DistanceExercise == nil {
 			e.DistanceExercise = &DistanceExercise{}
 		}
@@ -128,16 +135,6 @@ type DistanceExercise struct {
 	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }
 
-// returns 1 if not specified
-func evalSets(captures map[string]string) (int, error) {
-	sets, err := strconv.Atoi(captures["Sets"])
-	if err != nil {
-		sets = 1
-	}
-
-	return sets, nil
-}
-
 type ExerciseData struct {
 	HiddenModel
 	Sets       int     `json:"sets"`
@@ -148,9 +145,28 @@ type ExerciseData struct {
 	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }
 
-// returns err if not specified
+// returns 1 if not specified
+func evalSets(captures map[string]string) (int, error) {
+	setStr, ok := captures["Sets"]
+	if !ok {
+		return 1, nil
+	}
+
+	sets, err := strconv.Atoi(setStr)
+	if err != nil {
+		return 0, nil
+	}
+
+	return sets, nil
+}
+
+// returns 0 if not specified
 func evalReps(captures map[string]string) (int, error) {
-	repStr := captures["Reps"]
+	repStr, ok := captures["Reps"]
+	if !ok {
+		return 0, nil
+	}
+
 	if strings.Contains(repStr, "-") {
 		repTokens := strings.Split(repStr, "-")
 		if len(repTokens) != 2 {
@@ -199,7 +215,6 @@ func evalWeight(captures map[string]string) (float32, error) {
 // returns 0 if not specified
 func evalTime(captures map[string]string) (uint, error) {
 	timeStr, ok := captures["Time"]
-
 	if !ok {
 		return 0, nil
 	}
@@ -219,8 +234,12 @@ func evalTime(captures map[string]string) (uint, error) {
 	return uint(standardizedTime), nil
 }
 
-// returns error if not specified
+// returns 0 if not specified
 func evalDistance(captures map[string]string) (float32, error) {
+	if captures["Distance"] == "" {
+		return 0, nil
+	}
+
 	unit := utils.GetStringOrDefault(captures["Units"], "miles")
 
 	distance, err := strconv.ParseFloat(captures["Distance"], 32)

@@ -23,6 +23,7 @@ func handleGetExercise(c echo.Context) error {
 	err = db.
 		Preload("WeightedExercise").
 		Preload("DistanceExercise").
+		Preload("ExerciseData").
 		Where("id = ?", id).
 		First(exercise).
 		Error
@@ -118,6 +119,7 @@ func handleDeleteExercise(c echo.Context) error {
 	err = db.
 		Preload("WeightedExercise").
 		Preload("DistanceExercise").
+		Preload("ExerciseData").
 		Where("id = ?", id).
 		First(exercise).
 		Delete(exercise).

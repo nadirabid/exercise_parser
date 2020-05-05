@@ -174,7 +174,6 @@ func (p *Parser) Resolve(exercise string) (*Result, error) {
 			Captures: weightedExercise.Captures,
 		}, nil
 	} else if distanceExercise.Captures != nil {
-		utils.PrettyPrint(distanceExercise)
 		return &Result{
 			Type:     "distance",
 			Captures: distanceExercise.Captures,

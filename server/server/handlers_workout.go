@@ -3,7 +3,6 @@ package server
 import (
 	"exercise_parser/models"
 	"exercise_parser/utils"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -26,6 +25,7 @@ func handleGetWorkout(c echo.Context) error {
 		Preload("Exercises").
 		Preload("Exercises.WeightedExercise").
 		Preload("Exercises.DistanceExercise").
+		Preload("Exercises.ExerciseData").
 		Where("id = ?", id).
 		Where("user_id = ?", userID).
 		First(workout).
@@ -61,6 +61,7 @@ func handleGetAllWorkout(c echo.Context) error {
 		Preload("Exercises").
 		Preload("Exercises.WeightedExercise").
 		Preload("Exercises.DistanceExercise").
+		Preload("Exercises.ExerciseData").
 		Where("user_id = ?", userID).
 		Order("created_at desc")
 
@@ -106,7 +107,6 @@ func handlePostWorkout(c echo.Context) error {
 				minSearchRank := float32(0.05)
 				topSearchResult := searchResults[0]
 
-				fmt.Println("search compare", minSearchRank, topSearchResult)
 				if topSearchResult.Rank >= minSearchRank {
 					// if we didn't make it ot this if condition - but we resolved properly above
 					// then that means we couldn't find a close enough match for the exercise
@@ -160,6 +160,7 @@ func handlePutWorkout(c echo.Context) error {
 		Preload("Exercises").
 		Preload("Exercises.WeightedExercise").
 		Preload("Exercises.DistanceExercise").
+		Preload("Exercises.ExerciseData").
 		Where("id = ?", workout.ID).
 		Where("user_id = ?", userID).
 		First(existingWorkout).
@@ -208,6 +209,7 @@ func handleDeleteWorkout(c echo.Context) error {
 		Preload("Exercises").
 		Preload("Exercises.WeightedExercise").
 		Preload("Exercises.DistanceExercise").
+		Preload("Exercises.ExerciseData").
 		Where("id = ?", id).
 		Where("user_id = ?", userID).
 		First(workout).
