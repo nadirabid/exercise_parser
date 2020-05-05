@@ -46,6 +46,7 @@ type Exercise struct {
 	ResolutionType       string            `json:"resolution_type"`
 	Name                 string            `json:"name"`
 	ExerciseDictionaryID *uint             `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
+	ExerciseData         ExerciseData      `json:"data"`
 	WeightedExercise     *WeightedExercise `json:"weighted_exercise"`
 	DistanceExercise     *DistanceExercise `json:"distance_exercise"`
 	WorkoutID            uint              `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
@@ -135,6 +136,16 @@ func evalSets(captures map[string]string) (int, error) {
 	}
 
 	return sets, nil
+}
+
+type ExerciseData struct {
+	HiddenModel
+	Sets       int     `json:"sets"`
+	Reps       int     `json:"reps"`
+	Weight     float32 `json:"weight"`
+	Time       uint    `json:"time"`
+	Distance   float32 `json:"distance"`
+	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }
 
 // returns err if not specified

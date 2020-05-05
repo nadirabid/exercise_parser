@@ -528,6 +528,26 @@ func seedFakeWorkoutData(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+func migrate(cmd *cobra.Command, args []string) error {
+	// init viper
+	v, err := configureViperFromCmd(cmd)
+	if err != nil {
+		return err
+	}
+
+	// init db
+	db, err := models.NewDatabase(v)
+	if err != nil {
+		return err
+	}
+
+	if err := models.Migrate(db); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 var seedDictCmd = &cobra.Command{
 	Use:   "dict",
 	Short: "Seed the exercise dictionary",
@@ -580,6 +600,12 @@ var seedCmd = &cobra.Command{
 	Short: "Seed data",
 }
 
+var migrateCmd = &cobra.Command{
+	Use:   "migrate",
+	Short: "Apply any new migrations",
+	RunE:  migrate,
+}
+
 var dbCmd = &cobra.Command{
 	Use:   "db",
 	Short: "Commands to interact with database",
@@ -591,6 +617,7 @@ func init() {
 	dbCmd.AddCommand(dropCmd)
 	dbCmd.AddCommand(seedCmd)
 	dbCmd.AddCommand(dumpCmd)
+	dbCmd.AddCommand(migrateCmd)
 
 	dropCmd.AddCommand(dropAllCmd)
 	dropCmd.AddCommand(dropDictCmd)

@@ -9,6 +9,4 @@ RUN chmod +x /go/src/exercise_parser/server/launch.sh
 
 RUN apt-get update && apt-get install -y supervisor
 
-#CMD while true; do sleep 30; done;
-#CMD /go/src/exercise_parser/server/launch.sh
 CMD /usr/bin/supervisord

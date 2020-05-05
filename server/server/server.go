@@ -86,10 +86,6 @@ func New(v *viper.Viper) error {
 		return err
 	}
 
-	if err := models.Migrate(db); err != nil {
-		return err
-	}
-
 	// init server
 
 	e := echo.New()
