@@ -614,7 +614,7 @@ var dbCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(dbCmd)
 
-	dbCmd.AddCommand(dropCmd)
+	// dbCmd.AddCommand(dropCmd) -> COMMENT OUT FOR EXTRA SAFETY
 	dbCmd.AddCommand(seedCmd)
 	dbCmd.AddCommand(dumpCmd)
 	dbCmd.AddCommand(migrateCmd)
