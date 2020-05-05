@@ -160,11 +160,11 @@ func evalSets(captures map[string]string) (int, error) {
 	return sets, nil
 }
 
-// returns 0 if not specified
+// returns 1 if not specified
 func evalReps(captures map[string]string) (int, error) {
 	repStr, ok := captures["Reps"]
 	if !ok {
-		return 0, nil
+		return 1, nil
 	}
 
 	if strings.Contains(repStr, "-") {

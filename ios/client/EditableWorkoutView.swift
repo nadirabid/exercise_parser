@@ -294,8 +294,8 @@ public struct EditableWorkoutMetaMetricsView: View {
     
     var totalWeight: Int {
         let result = state.exerciseStates.reduce(Float.zero) { (r, s) in
-            if let weightedExercise = s.exercise?.weightedExercise {
-                let weight = weightedExercise.weightInDisplayUnits * Float(weightedExercise.sets) * Float(weightedExercise.reps)
+            if let e = s.exercise {
+                let weight = e.data.displayUnitsWeight * Float(e.data.sets) * Float(e.data.reps)
                 return weight + r
             }
             
@@ -305,16 +305,16 @@ public struct EditableWorkoutMetaMetricsView: View {
         return Int(round(result))
     }
     
-    var totalDistance: Int {
+    var totalDistance: Float {
         let result = state.exerciseStates.reduce(Float.zero) { (r, s) in
-            if let distanceExercise = s.exercise?.distanceExercise {
-                return r + distanceExercise.distanceInDisplayUnits
+            if let e = s.exercise {
+                return r + e.data.displayUnitsDistance
             }
             
             return r
         }
         
-        return Int(round(result))
+        return result
     }
     
     public var body: some View {

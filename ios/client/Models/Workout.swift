@@ -56,12 +56,6 @@ struct Location: Codable {
     let longitude: Double
 }
 
-enum ExerciseType: String {
-    case distance = "distance"
-    case weighted = "weighted"
-    case unknown = "unknown"
-}
-
 struct Exercise: Codable, Identifiable {
     let id: Int?
     let createdAt: String?
@@ -70,15 +64,13 @@ struct Exercise: Codable, Identifiable {
     let type: String
     let raw: String
     let exerciseDictionaryID: Int?
-    let weightedExercise: WeightedExercise?
-    let distanceExercise: DistanceExercise?
+    let data: ExerciseData
     
     init(
         name: String,
         type: String,
         raw: String,
-        weightedExercise: WeightedExercise? = nil,
-        distanceExercise: DistanceExercise? = nil
+        data: ExerciseData = ExerciseData(sets: 0, reps: 0, weight: 0, time: 0, distance: 0)
     ) {
         self.id = nil
         self.createdAt = nil
@@ -87,8 +79,7 @@ struct Exercise: Codable, Identifiable {
         self.type = type
         self.raw = raw
         self.exerciseDictionaryID = nil
-        self.weightedExercise = weightedExercise
-        self.distanceExercise = distanceExercise
+        self.data = data
     }
     
     init(
@@ -98,8 +89,7 @@ struct Exercise: Codable, Identifiable {
         name: String = "",
         type: String = "unknown",
         raw: String = "",
-        weightedExercise: WeightedExercise? = nil,
-        distanceExercise: DistanceExercise? = nil
+        data: ExerciseData = ExerciseData(sets: 0, reps: 0, weight: 0, time: 0, distance: 0)
     ) {
         self.id = id
         self.createdAt = createdAt
@@ -108,37 +98,31 @@ struct Exercise: Codable, Identifiable {
         self.type = type
         self.raw = raw
         self.exerciseDictionaryID = nil
-        self.weightedExercise = weightedExercise
-        self.distanceExercise = distanceExercise
+        self.data = data
     }
     
     enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
         case updatedAt = "updated_at"
-        case weightedExercise = "weighted_exercise"
-        case distanceExercise = "distance_exercise"
         case exerciseDictionaryID = "exercise_dictionary_id"
-        case id, name, type, raw
+        case id, name, type, raw, data
     }
 }
 
-struct WeightedExercise: Codable {
+struct ExerciseData: Codable {
     let sets: Int
     let reps: Int
-    let weight: Float32
-    
-    var weightInDisplayUnits: Float {
-        let m = Measurement(value: Double(weight), unit: UnitMass.kilograms).converted(to: UnitMass.pounds)
-        return Float(m.value)
-    }
-}
-
-struct DistanceExercise: Codable {
+    let weight: Float
     let time: Int
     let distance: Float32
     
-    var distanceInDisplayUnits: Float {
-        let m = Measurement(value: Double(distance), unit: UnitLength.meters).converted(to: UnitLength.miles)
+    var displayUnitsWeight: Float {
+        let m = Measurement(value: Double(weight), unit: UnitMass.kilograms).converted(to: UnitMass.pounds)
         return Float(m.value)
+    }
+    
+    var displayUnitsDistance: Float {
+        let m = Measurement(value: Double(distance), unit: UnitLength.meters).converted(to: UnitLength.miles)
+        return Float(round(m.value*10)/10)
     }
 }

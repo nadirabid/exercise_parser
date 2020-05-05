@@ -63,10 +63,6 @@ public struct EditableExerciseView: View {
         }
     }
 
-    private func showActivityView() -> Bool {
-        return exerciseState.exercise != nil && exerciseState.exercise?.type != ExerciseType.unknown.rawValue
-    }
-
     private var defaultText: String {
         self.suggestions.current?.raw ?? "Enter Exercise"
     }
@@ -131,7 +127,7 @@ public struct EditableExerciseView: View {
                     }
             }
 
-            if exercise?.type == ExerciseType.unknown.rawValue &&
+            if exercise?.exerciseDictionaryID == nil &&
                 !exerciseState.input.isEmpty &&
                 !isNewEntry {
                 ProcessingExerciseView(exercise: workoutState.isStopped ? exercise : nil)
@@ -158,33 +154,28 @@ class ExcerciseUserSuggestions: ObservableObject {
     private var options = [
         Exercise(
             name: "Tricep curls",
-            type: ExerciseType.weighted.rawValue,
             raw: "3x3 tricep curls",
-            weightedExercise: WeightedExercise(sets: 3, reps: 3, weight: 15.3)
+            data: ExerciseData(sets: 3, reps: 3, weight: 0, time: 0, distance: 0)
         ),
         Exercise(
             name: "Running",
-            type: ExerciseType.distance.rawValue,
             raw: "ran 3.3 miles in 7 mins",
-            distanceExercise: DistanceExercise(time: 120, distance: 3.3)
+            data: ExerciseData(sets: 0, reps: 0, weight: 0, time: 420, distance: 11.27)
         ),
         Exercise(
             name: "Kettlebell swings",
-            type: ExerciseType.weighted.rawValue,
             raw: "12 kettlebell swings",
-            weightedExercise: WeightedExercise(sets: 1, reps: 12, weight: 0)
+            data: ExerciseData(sets: 1, reps: 12, weight: 0, time: 0, distance: 0)
         ),
         Exercise(
             name: "Rowing",
-            type: ExerciseType.distance.rawValue,
             raw: "rowing 4km in 16 mins",
-            distanceExercise: DistanceExercise(time: 135, distance: 5)
+            data: ExerciseData(sets: 1, reps: 0, weight: 0, time: 960, distance: 4)
         ),
         Exercise(
             name: "Bench press",
-            type: ExerciseType.weighted.rawValue,
             raw: "bench press 3x3 - 35 lbs",
-            weightedExercise: WeightedExercise(sets: 3, reps: 3, weight: 15)
+            data: ExerciseData(sets: 3, reps: 3, weight: 35, time: 0, distance: 0)
         )
     ]
     

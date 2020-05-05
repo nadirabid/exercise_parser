@@ -194,8 +194,6 @@ struct WorkoutMuscleMetricsView: View {
     }
     
     var body: some View {
-        print(targetMuscles)
-        print(synergistMuscles)
         return HStack(alignment: .center, spacing: 0) {
             AnteriorView(
                 activatedPrimaryMuscles: self.targetMuscles,
@@ -220,29 +218,20 @@ public struct WorkoutMetaMetricsView: View {
     
     var totalWeight: Int {
         let result = workout.exercises.reduce(Float.zero) { (r, e) in
-            if let weightedExercise = e.weightedExercise {
-                let total = weightedExercise.weightInDisplayUnits * Float(weightedExercise.reps) * Float(weightedExercise.sets)
-                return total + r
-            }
-            
-            return r
+            let total =  e.data.displayUnitsWeight * Float(e.data.reps) * Float(e.data.sets)
+            return total + r
         }
         
         return Int(round(result))
     }
     
-    var totalDistance: Int {
+    var totalDistance: Float {
         let result = workout.exercises.reduce(Float.zero) { (r, e) in
-            if let distanceExercise = e.distanceExercise {
-                return r + distanceExercise.distanceInDisplayUnits
-            }
-            
-            return r
+            return r + e.data.displayUnitsDistance
         }
         
-        return Int(round(result))
+        return result
     }
-    
     
     public var body: some View {
         HStack(spacing: 10) {
@@ -257,10 +246,6 @@ public struct WorkoutMetaMetricsView: View {
                 name: "Time",
                 value: secondsToElapsedTimeString(workout.secondsElapsed)
             )
-            
-            Divider()
-
-            WorkoutDetail(name: "Exercises", value: "\(workout.exercises.count)")
             
             Divider()
             
@@ -300,8 +285,7 @@ struct WorkoutView_Previews : PreviewProvider {
                         name: "Curls",
                         type: "weighted",
                         raw: "1x3 curls",
-                        weightedExercise: WeightedExercise(sets: 1, reps: 3, weight: 10.3),
-                        distanceExercise: nil
+                        data: ExerciseData(sets: 1, reps: 3, weight: 0, time: 0, distance: 0)
                     ),
                     Exercise(
                         id: 2,
@@ -317,8 +301,7 @@ struct WorkoutView_Previews : PreviewProvider {
                         name: "Benchpress",
                         type: "weighted",
                         raw: "4 sets of 3 of benchpress",
-                        weightedExercise: WeightedExercise(sets: 4, reps: 3, weight: 10),
-                        distanceExercise: nil
+                        data: ExerciseData(sets: 4, reps: 3, weight: 0, time: 0, distance: 0)
                     )
                 ],
                 location: Location(latitude: 37.34727983131215, longitude: -121.88308869874288)

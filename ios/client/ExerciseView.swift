@@ -55,77 +55,79 @@ struct ExerciseView : View {
             Spacer()
             
             HStack {
-                if exercise.type == "weighted" {
-                    if exercise.weightedExercise!.sets > 1 {
-                        VStack(alignment: .trailing, spacing: 1.0) {
-                            Text("sets")
-                                .font(.caption)
-                                .foregroundColor(self.unitsColor)
-                                .shouldItalicize(shouldItalicize)
-                            
-                            Text("\(exercise.weightedExercise!.sets)")
-                                .font(.headline)
-                                .foregroundColor(self.valuesColor)
-                                .shouldItalicize(shouldItalicize)
-                        }
-                            .padding(.leading, 2.0)
+                if exercise.data.time > 0 {
+                    VStack(alignment: .trailing, spacing: 1.0) {
+                         Text("time")
+                             .font(.caption)
+                             .foregroundColor(self.unitsColor)
+                             .shouldItalicize(shouldItalicize)
+                         
+                         Text(secondsToElapsedTimeString(exercise.data.time))
+                             .font(.headline)
+                             .foregroundColor(self.valuesColor)
+                             .shouldItalicize(shouldItalicize)
+                     }
+                         .padding(.leading, 2.0)
+                }
+                
+                if exercise.data.distance > 0 {
+                    VStack(alignment: .trailing, spacing: 1.0) {
+                          Text("mi")
+                              .font(.caption)
+                              .foregroundColor(self.unitsColor)
+                              .shouldItalicize(shouldItalicize)
+                          
+                          Text(exercise.data.displayUnitsDistance.format(f: ".1"))
+                              .font(.headline)
+                              .foregroundColor(self.valuesColor)
+                              .shouldItalicize(shouldItalicize)
+                      }
+                          .padding(.leading, 2.0)
+                }
+                
+                if exercise.data.sets > 1 {
+                    VStack(alignment: .trailing, spacing: 1.0) {
+                        Text("sets")
+                            .font(.caption)
+                            .foregroundColor(self.unitsColor)
+                            .shouldItalicize(shouldItalicize)
+                        
+                        Text("\(exercise.data.sets)")
+                            .font(.headline)
+                            .foregroundColor(self.valuesColor)
+                            .shouldItalicize(shouldItalicize)
                     }
-                    
+                        .padding(.leading, 2.0)
+                }
+                
+                if exercise.data.reps > 1 {
                     VStack(alignment: .trailing, spacing: 1.0) {
                         Text("reps")
                             .font(.caption)
                             .foregroundColor(self.unitsColor)
                             .shouldItalicize(shouldItalicize)
                         
-                        Text("\(exercise.weightedExercise!.reps)")
+                        Text("\(exercise.data.reps)")
                             .font(.headline)
                             .foregroundColor(self.valuesColor)
                             .shouldItalicize(shouldItalicize)
                     }
                         .padding(.leading, 2.0)
-                    
-                    if exercise.weightedExercise!.weight > 0 {
-                        VStack(alignment: .trailing, spacing: 1.0) {
-                            Text("lbs")
-                                .font(.caption)
-                                .foregroundColor(self.unitsColor)
-                                .shouldItalicize(shouldItalicize)
-                            
-                            Text(exercise.weightedExercise!.weightInDisplayUnits.format(f: ".0"))
-                                .font(.headline)
-                                .foregroundColor(self.valuesColor)
-                                .shouldItalicize(shouldItalicize)
-                        }
-                            .padding(.leading, 2.0)
-                    }
-                } else if exercise.type == "distance" {
+                }
+                
+                if exercise.data.weight > 0 {
                     VStack(alignment: .trailing, spacing: 1.0) {
-                        Text("mi")
-                            .font(.caption)
-                            .foregroundColor(self.unitsColor)
-                            .shouldItalicize(shouldItalicize)
-                        
-                        Text(exercise.distanceExercise!.distanceInDisplayUnits.format(f: ".1"))
-                            .font(.headline)
-                            .foregroundColor(self.valuesColor)
-                            .shouldItalicize(shouldItalicize)
-                    }
-                        .padding(.leading, 2.0)
-                    
-                    if exercise.distanceExercise!.time > 0 {
-                        VStack(alignment: .trailing, spacing: 1.0) {
-                            Text("time")
-                                .font(.caption)
-                                .foregroundColor(self.unitsColor)
-                                .shouldItalicize(shouldItalicize)
-                            
-                            Text(secondsToElapsedTimeString(exercise.distanceExercise!.time))
-                                .font(.headline)
-                                .foregroundColor(self.valuesColor)
-                                .shouldItalicize(shouldItalicize)
-                        }
-                            .padding(.leading, 2.0)
-                    }
+                           Text("lbs")
+                               .font(.caption)
+                               .foregroundColor(self.unitsColor)
+                               .shouldItalicize(shouldItalicize)
+                           
+                           Text(exercise.data.displayUnitsWeight.format(f: ".0"))
+                               .font(.headline)
+                               .foregroundColor(self.valuesColor)
+                               .shouldItalicize(shouldItalicize)
+                       }
+                           .padding(.leading, 2.0)
                 }
             }
         }
@@ -183,8 +185,7 @@ struct ActivityView_Previews: PreviewProvider {
                     name: "Tricep Curls",
                     type: "weighted",
                     raw: "3x3 tricep curls - 45 lbs",
-                    weightedExercise: WeightedExercise(sets: 3, reps: 3, weight: 45),
-                    distanceExercise: nil
+                    data: ExerciseData(sets: 3, reps: 3, weight: 45, time: 0, distance: 0)
                 )
             )
             
@@ -198,8 +199,7 @@ struct ActivityView_Previews: PreviewProvider {
                     name: "Rowing",
                     type: "distance",
                     raw: "rowing 1 miles",
-                    weightedExercise: nil,
-                    distanceExercise: DistanceExercise(time: 360, distance: 1600)
+                    data: ExerciseData(sets: 1, reps: 0, weight: 0, time: 0, distance: 1.6)
                 )
             )
             
@@ -213,8 +213,7 @@ struct ActivityView_Previews: PreviewProvider {
                     name: "Running",
                     type: "distance",
                     raw: "running 4 miles",
-                    weightedExercise: nil,
-                    distanceExercise: DistanceExercise(time: 360, distance: 6400)
+                    data: ExerciseData(sets: 1, reps: 0, weight: 0, time: 0, distance: 6.44)
                 )
             )
             

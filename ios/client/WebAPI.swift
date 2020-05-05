@@ -172,8 +172,7 @@ class MockWorkoutAPI: WorkoutAPI {
                         name: "Curls",
                         type: "weighted",
                         raw: "1x3 curls",
-                        weightedExercise: WeightedExercise(sets: 1, reps: 3, weight: 10),
-                        distanceExercise: nil
+                        data: ExerciseData(sets: 1, reps: 3, weight: 0, time: 0, distance: 0)
                     ),
                     Exercise(
                         id: 2,
@@ -182,8 +181,7 @@ class MockWorkoutAPI: WorkoutAPI {
                         name: "Benchpress",
                         type: "weighted",
                         raw: "4 sets of 3 of benchpress",
-                        weightedExercise: WeightedExercise(sets: 4, reps: 3, weight: 10),
-                        distanceExercise: nil
+                        data: ExerciseData(sets: 4, reps: 3, weight: 0, time: 0, distance: 0)
                     )
                 ],
                 location: Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
@@ -202,8 +200,7 @@ class MockWorkoutAPI: WorkoutAPI {
                         name: "Curls",
                         type: "weighted",
                         raw: "1 by 3 of curls",
-                        weightedExercise: WeightedExercise(sets: 1, reps: 3, weight: 10),
-                        distanceExercise: nil
+                        data: ExerciseData(sets: 1, reps: 3, weight: 0, time: 0, distance: 0)
                     )
                 ],
                 location: Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
@@ -222,8 +219,7 @@ class MockWorkoutAPI: WorkoutAPI {
                         name: "Curls",
                         type: "weighted",
                         raw: "1 by 3 of curls",
-                        weightedExercise: WeightedExercise(sets: 1, reps: 3, weight: 10),
-                        distanceExercise: nil
+                        data: ExerciseData(sets: 1, reps: 3, weight: 0, time: 0, distance: 0)
                     )
                 ],
                 location: Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
@@ -279,8 +275,7 @@ class MockExerciseAPI: ExerciseAPI {
             name: "Curls",
             type: "weighted",
             raw: "1 by 3 of curls",
-            weightedExercise: WeightedExercise(sets: 1, reps: 3, weight: 10),
-            distanceExercise: nil
+            data: ExerciseData(sets: 1, reps: 3, weight: 10, time: 0, distance: 0)
         ))
         
         return nil
