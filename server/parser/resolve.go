@@ -91,14 +91,14 @@ func distanceExerciseExpressions() []*expression {
 	// increasing specificity is in descending order
 
 	expressions := []*expression{
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])(?:(?:\s+)|(?:\s*,\s*))(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>(mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, nil), // {Exercise:String} {Distance:Number} {Units:String}
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?:for)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>(mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, nil),           // {Exercise:String} for {Distance:Number} {Units:String}
+		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>(mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, nil), // {Exercise:String} (Delimiter) {Distance:Number} {Units:String} :TODO - delimiter test
+		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?:for)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>(mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, nil),    // {Exercise:String} for {Distance:Number} {Units:String}
 
-		newExpression(`^(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)(?:(?:\s+)|(?:\s*,\s*))(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil), // {Distance:Float} {Units:String} {Exercise:String}
-		newExpression(`^(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+of\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),                // {Distance:Float} {Units:String} of {Exercise:String}
+		newExpression(`^(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,|-|\s)\s*(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil), // {Distance:Float} {Units:String} (Delimiter) {Exercise:String} :TODO - delimiter test
+		newExpression(`^(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+of\s+(?P<Exercise>[a-zA-Z\s]+[a-zA-Z]$)`, nil),         // {Distance:Float} {Units:String} of {Exercise:String}
 
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+in\s+(?P<Time>\d+)\s*(?P<TimeUnits>(sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, nil),         // {Exercise:String} {Distance:Number} {Units:String} in {Time:Number}{TimeUnits}
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,|-|\s)\s*(?P<Time>\d+)\s*(?P<TimeUnits>(sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, nil), // {Exercise:String} {Distance:Number} {Units:String} (Delimiter) {Time:String}{TimeUnits}
+		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s+in\s+(?P<Time>\d+)\s*(?P<TimeUnits>(sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, nil),         // {Exercise:String} (Delimiter) {Distance:Number} {Units:String} in {Time:Number}{TimeUnits} :TODO - add delimiter test
+		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<Units>mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,|-|\s)\s*(?P<Time>\d+)\s*(?P<TimeUnits>(sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, nil), // {Exercise:String} {Distance:Number} {Units:String} (Delimiter) {Time:String}{TimeUnits} :TODO - add delimiter ttest
 	}
 
 	return expressions

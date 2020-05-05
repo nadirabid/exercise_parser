@@ -3,6 +3,7 @@ package cmd
 import (
 	"bufio"
 	"encoding/json"
+	"exercise_parser/migration"
 	"exercise_parser/models"
 	"exercise_parser/parser"
 	"exercise_parser/utils"
@@ -183,10 +184,6 @@ func seed(cmd *cobra.Command, args []string) error {
 	// init db
 	db, err := models.NewDatabase(v)
 	if err != nil {
-		return err
-	}
-
-	if err := models.Migrate(db); err != nil {
 		return err
 	}
 
@@ -390,10 +387,6 @@ func seedFakeData(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	if err := models.Migrate(db); err != nil {
-		return err
-	}
-
 	user := &models.User{}
 	user.FamilyName = "User"
 	user.GivenName = "Fake"
@@ -447,10 +440,6 @@ func seedFakeWorkoutData(cmd *cobra.Command, args []string) error {
 	// init db
 	db, err := models.NewDatabase(v)
 	if err != nil {
-		return err
-	}
-
-	if err := models.Migrate(db); err != nil {
 		return err
 	}
 
@@ -541,7 +530,7 @@ func migrate(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	if err := models.Migrate(db); err != nil {
+	if err := migration.Migrate(db); err != nil {
 		return err
 	}
 
