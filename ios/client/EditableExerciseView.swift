@@ -169,6 +169,12 @@ class ExcerciseUserSuggestions: ObservableObject {
             distanceExercise: DistanceExercise(time: 120, distance: 3.3)
         ),
         Exercise(
+            name: "Kettlebell swings",
+            type: ExerciseType.weighted.rawValue,
+            raw: "12 kettlebell swings",
+            weightedExercise: WeightedExercise(sets: 1, reps: 12, weight: 0)
+        ),
+        Exercise(
             name: "Rowing",
             type: ExerciseType.distance.rawValue,
             raw: "rowing 4km in 16 mins",
@@ -177,7 +183,7 @@ class ExcerciseUserSuggestions: ObservableObject {
         Exercise(
             name: "Bench press",
             type: ExerciseType.weighted.rawValue,
-            raw: "bench press 3x3x3",
+            raw: "bench press 3x3 - 35 lbs",
             weightedExercise: WeightedExercise(sets: 3, reps: 3, weight: 15)
         )
     ]

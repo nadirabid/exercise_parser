@@ -7,6 +7,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestFutureSupport(t *testing.T) {
+	t.Run("{Reps:Number} (Delimiter) {Exercise:String} (Delimiter) {Weight}", func(t *testing.T) {
+		parsed := resolveExpUtil("12 kettlebell swings - 25lbs")
+		assert.Equal(t, parsed.Captures, map[string]string{"Exercise": "kettlebell swings", "Reps": "12", "Weight": "25", "Units": "lbs"})
+	})
+}
+
 func TestWeightedExercise(t *testing.T) {
 	delimiter := []string{
 		"-", "- ", " -", " - ",
@@ -145,6 +152,11 @@ func TestWeightedExercise(t *testing.T) {
 			weightedPullups1 := map[string]string{"Exercise": "weighted pull-ups", "Weight": "25", "Units": u, "Sets": "2", "Reps": "8"}
 			t.Run("{Exercise:String} (Delimiter) {Weight:Number}{Units} (Delimiter) {Sets:Number}x{Reps:Number}", func(t *testing.T) {
 				parsed := resolveExpUtil(fmt.Sprintf("Weighted pull-ups%s25%s%s2x8", d, u, d))
+				assert.Equal(t, weightedPullups1, parsed.Captures)
+			})
+
+			t.Run("{Exercise:String} (Delimiter) {Weight:Number}{Units} (Delimiter) {Sets:Number}x{Reps:Number}", func(t *testing.T) {
+				parsed := resolveExpUtil(fmt.Sprintf("Weighted pull-ups%s25%sdumbbell%s2x8", d, u, d))
 				assert.Equal(t, weightedPullups1, parsed.Captures)
 			})
 		}
