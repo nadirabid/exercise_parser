@@ -7,6 +7,7 @@ require (
 	github.com/antchfx/xpath v0.0.0-20181115033526-a762252498f5 // indirect
 	github.com/aws/aws-sdk-go v1.30.11
 	github.com/denisenkom/go-mssqldb v0.0.0-20200206145737-bbfc9a55622e // indirect
+	github.com/dlclark/regexp2 v1.2.0
 	github.com/fatih/color v1.7.0 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/gocolly/colly v1.1.0

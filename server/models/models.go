@@ -197,7 +197,7 @@ func evalWeight(captures map[string]string) (float32, error) {
 		return 0, nil
 	}
 
-	unit := utils.GetStringOrDefault(captures["Units"], "pounds")
+	unit := utils.GetStringOrDefault(captures["WeightUnits"], "pounds")
 
 	weight, err := strconv.ParseFloat(weightStr, 32)
 	if err != nil {
@@ -240,7 +240,7 @@ func evalDistance(captures map[string]string) (float32, error) {
 		return 0, nil
 	}
 
-	unit := utils.GetStringOrDefault(captures["Units"], "miles")
+	unit := utils.GetStringOrDefault(captures["DistanceUnits"], "miles")
 
 	distance, err := strconv.ParseFloat(captures["Distance"], 32)
 	if err != nil {
