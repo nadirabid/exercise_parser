@@ -12,12 +12,12 @@ import (
 // Workout model
 type Workout struct {
 	Model
+	UserID         uint       `json:"user_id" gorm:"type:int REFERENCES users(id) ON DELETE CASCADE"`
 	Name           string     `json:"name"`
 	Date           time.Time  `json:"date"`
-	Exercises      []Exercise `json:"exercises"`
 	Location       *Location  `json:"location"`
 	SecondsElapsed uint       `json:"seconds_elapsed"`
-	UserID         uint       `json:"user_id" gorm:"type:int REFERENCES users(id) ON DELETE CASCADE"`
+	Exercises      []Exercise `json:"exercises"`
 }
 
 func (Workout) TableName() string {

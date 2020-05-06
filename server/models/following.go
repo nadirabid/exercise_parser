@@ -1,12 +1,12 @@
 package models
 
-// Following model
+// UserFollow model
 type UserFollow struct {
 	Model
-	user   User
-	follow User
+	UserID   uint `json:"user_id"`
+	FollowID uint `json:"follow_id"`
 }
 
 func (UserFollow) TableName() string {
-	return "user_follow"
+	return "user_follows"
 }

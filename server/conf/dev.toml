@@ -3,7 +3,7 @@ port=1234
 
 [psql]
 ssl_mode="disable"
-database="exercise_parser_test"
+database="exercise_parser"
 user="exercise"
 password="parser"
 host="localhost"

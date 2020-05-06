@@ -28,7 +28,7 @@ brew install golang-migrate
 To generate new migration files:
 
 ```
-migrate create -ext sql -dir migrations -seq name_of_migration
+migrate create -ext sql -dir migrations -seq <name_of_migration>
 ```
 
 For local testing - to create a db copy:
