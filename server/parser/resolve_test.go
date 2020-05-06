@@ -296,6 +296,14 @@ func TestWeightedExercise(t *testing.T) {
 			assert.Equal(t, tricepCurls3, parsed[0].Captures)
 		})
 
+		bilateralRaise1 := map[string]string{"Exercise": "bilateral raise", "Reps": "3", "Weight": "145", "WeightUnits": u}
+
+		t.Run("{Exercise:String} {Reps:Number}x{Weight:number}{WeightUnits}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("Bilateral raise 3x145%s", u))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, bilateralRaise1, parsed[0].Captures)
+		})
+
 		for _, d := range delimiter {
 			t.Run("{Sets:Number}x{Reps:Number} {Exercise:String} (Delimiter) {Weight:Number}{WeightUnits}", func(t *testing.T) {
 				parsed := resolveAllTestUtil(fmt.Sprintf("3x3 tricep curls%s25%s", d, u))
