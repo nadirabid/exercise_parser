@@ -138,7 +138,7 @@ func handleGetUnresolvedExercises(c echo.Context) error {
 
 	exercises := []models.Exercise{}
 
-	q := db.Where("type = ?", "unknown")
+	q := db.Preload("ExerciseData").Where("type = ?", "unknown")
 
 	r, err := paging(q, 0, 0, &exercises)
 
@@ -155,7 +155,7 @@ func handleGetUnmatchedExercises(c echo.Context) error {
 
 	exercises := []models.Exercise{}
 
-	q := db.Where("exercise_dictionary_id IS NULL and type != ?", "unknown")
+	q := db.Preload("ExerciseData").Where("exercise_dictionary_id IS NULL and type != ?", "unknown")
 
 	r, err := paging(q, 0, 0, &exercises)
 
