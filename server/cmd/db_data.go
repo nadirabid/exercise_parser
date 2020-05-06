@@ -3,7 +3,6 @@ package cmd
 import (
 	"bufio"
 	"encoding/json"
-	"exercise_parser/migration"
 	"exercise_parser/models"
 	"exercise_parser/parser"
 	"exercise_parser/utils"
@@ -187,8 +186,6 @@ func seed(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	fmt.Println("migration complete")
-
 	stopWords, err := loadStopWords(v) // get stop words replacer
 	if err != nil {
 		return err
@@ -293,26 +290,6 @@ func dump(cmd *cobra.Command, args []string) error {
 		fileName := strings.ToLower(strings.Join(strings.Split(r.Name, " "), "_"))
 
 		utils.WriteToDir(r, fileName, dir)
-	}
-
-	return nil
-}
-
-func dropAllTables(cmd *cobra.Command, args []string) error {
-	// init viper
-	v, err := configureViperFromCmd(cmd)
-	if err != nil {
-		return err
-	}
-
-	// init db
-	db, err := models.NewDatabase(v)
-	if err != nil {
-		return err
-	}
-
-	if err := models.DropAll(db); err != nil {
-		return err
 	}
 
 	return nil
@@ -524,13 +501,7 @@ func migrate(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	// init db
-	db, err := models.NewDatabase(v)
-	if err != nil {
-		return err
-	}
-
-	if err := migration.Migrate(db); err != nil {
+	if err := models.Migrate(v); err != nil {
 		return err
 	}
 
@@ -559,12 +530,6 @@ var seedFakeWorkoutCmd = &cobra.Command{
 	Use:   "workout",
 	Short: "Seed fake workout data for existing fake user",
 	RunE:  seedFakeWorkoutData,
-}
-
-var dropAllCmd = &cobra.Command{
-	Use:   "all",
-	Short: "Drop all tables",
-	RunE:  dropAllTables,
 }
 
 var dropUserTablesCmd = &cobra.Command{
@@ -608,7 +573,6 @@ func init() {
 	dbCmd.AddCommand(dumpCmd)
 	dbCmd.AddCommand(migrateCmd)
 
-	dropCmd.AddCommand(dropAllCmd)
 	dropCmd.AddCommand(dropDictCmd)
 	dropCmd.AddCommand(dropUserTablesCmd)
 

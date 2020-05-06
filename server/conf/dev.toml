@@ -3,11 +3,14 @@ port=1234
 
 [psql]
 ssl_mode="disable"
-database="exercise_parser"
+database="exercise_parser_test"
 user="exercise"
 password="parser"
 host="localhost"
 port=5432
+
+[migration]
+dir="migrations"
 
 [resources.dir]
 exercises="resources/exercises"

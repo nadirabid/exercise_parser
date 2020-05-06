@@ -1,4 +1,6 @@
 
+BEGIN;
+
 -- ExerciseDictionary ----------------------------------------------
 
 CREATE TABLE IF NOT EXISTS exercise_dictionaries (
@@ -225,3 +227,5 @@ CREATE TABLE IF NOT EXISTS weighted_exercises (
 
 CREATE UNIQUE INDEX IF NOT EXISTS weighted_exercises_pkey ON weighted_exercises(id int4_ops);
 CREATE INDEX IF NOT EXISTS idx_weighted_exercises_deleted_at ON weighted_exercises(deleted_at timestamptz_ops);
+
+COMMIT;

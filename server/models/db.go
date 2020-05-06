@@ -3,6 +3,10 @@ package models
 import (
 	"fmt"
 
+	"github.com/golang-migrate/migrate"
+	_ "github.com/golang-migrate/migrate/database/postgres"
+	_ "github.com/golang-migrate/migrate/source/file"
+
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
 )
@@ -48,30 +52,30 @@ func NewDatabase(v *viper.Viper) (*gorm.DB, error) {
 	return db, err
 }
 
-// Don't fucking run this
-func DropAll(db *gorm.DB) error {
-	err := db.
-		Set("gorm:table_options", "CASCADE").
-		DropTableIfExists(
-			&Joints{},
-			&Classification{},
-			&Muscles{},
-			&Articulation{},
-			&ExerciseRelatedName{},
-			&ExerciseDictionary{},
+func Migrate(v *viper.Viper) error {
+	host := v.GetString("psql.host")
+	port := v.GetString("psql.port")
+	user := v.GetString("psql.user")
+	password := v.GetString("psql.password")
+	database := v.GetString("psql.database")
+	sslmode := v.GetString("psql.ssl_mode")
 
-			&DistanceExercise{},
-			&WeightedExercise{},
-			&Exercise{},
-			&Location{},
-			&Workout{},
-			&User{},
-		).
-		Error
+	fmt.Println("Migrations startings...")
+
+	m, err := migrate.New(
+		fmt.Sprintf("file://%s", v.GetString("migration.dir")),
+		fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s", user, password, host, port, database, sslmode),
+	)
 
 	if err != nil {
-		return fmt.Errorf("couldn't drop table: %s", err.Error())
+		return err
 	}
+
+	if err := m.Up(); err != nil {
+		return err
+	}
+
+	fmt.Println("Migrations completed!!!")
 
 	return nil
 }

@@ -1,3 +1,5 @@
+BEGIN;
+
 DROP TABLE IF EXISTS weighted_exercises CASCADE;
 DROP TABLE IF EXISTS distance_exercises CASCADE;
 DROP TABLE IF EXISTS exercise_data CASCADE;
@@ -11,3 +13,5 @@ DROP TABLE IF EXISTS classifications CASCADE;
 DROP TABLE IF EXISTS muscles CASCADE;
 DROP TABLE IF EXISTS exercise_related_names CASCADE;
 DROP TABLE IF EXISTS exercise_dictionaries CASCADE;
+
+COMMIT;

@@ -9,6 +9,9 @@ password=""
 host=""
 port=5432
 
+[migration]
+dir="/go/src/exercise_parser/server/migrations"
+
 [resources.dir]
 exercises="/go/src/exercise_parser/server/resources/exercises"
 lemmas="/go/src/exercise_parser/server/resources/lemmas"
