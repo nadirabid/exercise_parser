@@ -53,22 +53,23 @@ struct PosteriorShape: Shape {
         transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
         
         let bounds = self.path.boundingRect.applying(transform)
+        let startRadius = 0.3 * max(bounds.width, bounds.height)
         
         switch self.activity {
         case .primary:
-            let colors = Gradient(colors: [secondaryAppColor, .yellow, appColor])
+            let colors = Gradient(colors: [secondaryAppColor.opacity(0.9), Color.yellow.opacity(0.9), appColor.opacity(0.9)])
             radial = RadialGradient(
                 gradient: colors,
                 center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
-                startRadius: 0,
+                startRadius: startRadius,
                 endRadius: max(bounds.width, bounds.height)
             )
         case .secondary:
-            let colors = Gradient(colors: [.green, .blue])
+            let colors = Gradient(colors: [Color.green.opacity(0.9), Color.blue.opacity(0.9), Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)).opacity(0.9)])
             radial = RadialGradient(
                 gradient: colors,
                 center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
-                startRadius: 0,
+                startRadius: startRadius,
                 endRadius: max(bounds.width, bounds.height)
             )
         case .none:
@@ -189,7 +190,7 @@ struct PosteriorView: View {
                         .setGradient(geometry.size)
                     
                     PosteriorShape(.Body)
-                        .stroke(Color(#colorLiteral(red: 0.9134874683, green: 0.9134874683, blue: 0.9134874683, alpha: 1)), lineWidth: 0.5)
+                        .stroke(Color(#colorLiteral(red: 0.9134874683, green: 0.9134874683, blue: 0.9134874683, alpha: 1)), lineWidth: 0.7)
                 }
             }
         }

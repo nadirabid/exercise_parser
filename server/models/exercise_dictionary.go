@@ -20,6 +20,10 @@ type Classification struct {
 	ExerciseDictionaryID uint   `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
 }
 
+func (Classification) TableName() string {
+	return "classifications"
+}
+
 // Muscles are the areas that a given exercise affects
 type Muscles struct {
 	HiddenModel
@@ -32,12 +36,20 @@ type Muscles struct {
 	ExerciseDictionaryID  uint           `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
 }
 
+func (Muscles) TableName() string {
+	return "muscles"
+}
+
 // Articulation is Plyometric as far as I can tell
 type Articulation struct {
 	HiddenModel
 	Dynamic              Joints `json:"dynamic"`
 	Static               Joints `json:"static"`
 	ExerciseDictionaryID uint   `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
+}
+
+func (Articulation) TableName() string {
+	return "articulations"
 }
 
 // Joints for dynamic/static articulation
@@ -60,6 +72,10 @@ type Joints struct {
 	ArticulationID int            `json:"articulation_id" gorm:"type:int REFERENCES articulations(id) ON DELETE CASCADE"`
 }
 
+func (Joints) TableName() string {
+	return "joints"
+}
+
 // ExerciseRelatedName is a mapping of all the related names given a
 type ExerciseRelatedName struct {
 	ID                   uint   `json:"id" gorm:"primary_key"`
@@ -68,6 +84,10 @@ type ExerciseRelatedName struct {
 	RelatedTSV           string `json:"-" gorm:"type:tsvector"`
 	Type                 string `json:"type"`
 	Ignored              bool   `json:"ignored"`
+}
+
+func (ExerciseRelatedName) TableName() string {
+	return "exercise_related_names"
 }
 
 func (r *ExerciseRelatedName) UpdateTSV(db *gorm.DB) error {
@@ -93,4 +113,8 @@ type ExerciseDictionary struct {
 	Muscles        Muscles        `json:"muscles"`
 	Articulation   Articulation   `json:"articulation"`
 	TSV            string         `json:"-" gorm:"type:tsvector"`
+}
+
+func (ExerciseDictionary) TableName() string {
+	return "exercise_dictionaries"
 }

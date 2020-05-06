@@ -234,7 +234,6 @@ struct AnteriorPath {
         bodybackgroundPath.addCurve(to: CGPoint(x: 316.6, y: 1.5), controlPoint1: CGPoint(x: 338.3, y: 0.1), controlPoint2: CGPoint(x: 323.8, y: -0.3))
         bodybackgroundPath.close()
 
-        
         return bodybackgroundPath
     }
 

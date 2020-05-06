@@ -7,3 +7,7 @@ type User struct {
 	Email          string `json:"email"`
 	ExternalUserId string `json:"external_user_id" gorm:"unique_index:ext_id; not null"` // this comes externally, in the case of apple - this is their stable id
 }
+
+func (User) TableName() string {
+	return "users"
+}

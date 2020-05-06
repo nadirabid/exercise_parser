@@ -20,6 +20,10 @@ type Workout struct {
 	UserID         uint       `json:"user_id" gorm:"type:int REFERENCES users(id) ON DELETE CASCADE"`
 }
 
+func (Workout) TableName() string {
+	return "workouts"
+}
+
 // HasExercise returns true if Exercise exists with id, otherwise false
 func (w *Workout) HasExercise(id uint) bool {
 	for _, e := range w.Exercises {
@@ -38,6 +42,10 @@ type Location struct {
 	WorkoutID uint    `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
 }
 
+func (Location) TableName() string {
+	return "locations"
+}
+
 // Exercise model
 type Exercise struct {
 	Model
@@ -50,6 +58,10 @@ type Exercise struct {
 	WeightedExercise     *WeightedExercise `json:"weighted_exercise"`
 	DistanceExercise     *DistanceExercise `json:"distance_exercise"`
 	WorkoutID            uint              `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
+}
+
+func (Exercise) TableName() string {
+	return "exercises"
 }
 
 // Resolve will take the Raw exercise string and parse out the various fields
@@ -127,12 +139,20 @@ type WeightedExercise struct {
 	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }
 
+func (WeightedExercise) TableName() string {
+	return "weighted_exercises"
+}
+
 // DistanceExercise model
 type DistanceExercise struct {
 	HiddenModel
 	Time       uint    `json:"time"`
 	Distance   float32 `json:"distance"`
 	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
+}
+
+func (DistanceExercise) TableName() string {
+	return "distance_exercise"
 }
 
 type ExerciseData struct {
@@ -143,6 +163,10 @@ type ExerciseData struct {
 	Time       uint    `json:"time"`
 	Distance   float32 `json:"distance"`
 	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
+}
+
+func (ExerciseData) TableName() string {
+	return "exercise_data"
 }
 
 // returns 1 if not specified
