@@ -236,7 +236,7 @@ public struct EditableWorkoutView: View {
                         HStack {
                             Spacer()
                             
-                            Text("Pause")
+                            Text("Stop")
                                 .foregroundColor(Color.white)
                                 .fontWeight(.semibold)
                             
@@ -255,7 +255,7 @@ public struct EditableWorkoutView: View {
                         HStack {
                             Spacer()
                             
-                            Text(state.exerciseStates.count > 0 ? "Finish" : "Cancel")
+                            Text(state.exerciseStates.count > 0 ? "Save" : "Cancel")
                                 .foregroundColor(Color.white)
                                 .fontWeight(.semibold)
                             

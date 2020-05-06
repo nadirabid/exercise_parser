@@ -183,7 +183,7 @@ func handlePostRematchExercises(c echo.Context) error {
 
 	matchedExercises := []models.Exercise{}
 
-	for _, e := range matchedExercises {
+	for _, e := range exercises {
 		searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, e.Name)
 		if err != nil {
 			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))

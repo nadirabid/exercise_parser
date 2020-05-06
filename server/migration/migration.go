@@ -52,8 +52,6 @@ func Migrate(db *gorm.DB) error {
 			return &gormigrate.Migration{
 				ID: migrationID,
 				Migrate: func(tx *gorm.DB) error {
-					tx = tx.Debug()
-
 					err := tx.AutoMigrate(&ExerciseData{}).Error
 					if err != nil {
 						return err

@@ -127,7 +127,7 @@ public struct EditableExerciseView: View {
                     }
             }
 
-            if exercise?.exerciseDictionaryID == nil &&
+            if exercise?.resolutionType != "auto" &&
                 !exerciseState.input.isEmpty &&
                 !isNewEntry {
                 ProcessingExerciseView(exercise: workoutState.isStopped ? exercise : nil)

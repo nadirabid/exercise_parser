@@ -65,6 +65,7 @@ struct Exercise: Codable, Identifiable {
     let raw: String
     let exerciseDictionaryID: Int?
     let data: ExerciseData
+    let resolutionType: String
     
     init(
         name: String,
@@ -80,6 +81,7 @@ struct Exercise: Codable, Identifiable {
         self.raw = raw
         self.exerciseDictionaryID = nil
         self.data = data
+        self.resolutionType = ""
     }
     
     init(
@@ -89,6 +91,7 @@ struct Exercise: Codable, Identifiable {
         name: String = "",
         type: String = "unknown",
         raw: String = "",
+        resolutionType: String = "",
         data: ExerciseData = ExerciseData(sets: 0, reps: 0, weight: 0, time: 0, distance: 0)
     ) {
         self.id = id
@@ -98,6 +101,7 @@ struct Exercise: Codable, Identifiable {
         self.type = type
         self.raw = raw
         self.exerciseDictionaryID = nil
+        self.resolutionType = resolutionType
         self.data = data
     }
     
@@ -105,6 +109,7 @@ struct Exercise: Codable, Identifiable {
         case createdAt = "created_at"
         case updatedAt = "updated_at"
         case exerciseDictionaryID = "exercise_dictionary_id"
+        case resolutionType = "resolution_type"
         case id, name, type, raw, data
     }
 }

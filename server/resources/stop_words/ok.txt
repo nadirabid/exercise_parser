@@ -1,0 +1,12 @@
+above
+below
+to
+from
+up
+down
+in
+out
+on
+off
+over
+under
