@@ -259,7 +259,6 @@ func handlePostReresolveExercises(c echo.Context) error {
 		}
 
 		// TODO: log the ones we failed to resolve?
-		// TODO: should we also rematch to an exercise??
 	}
 
 	r := models.ListResponse{
