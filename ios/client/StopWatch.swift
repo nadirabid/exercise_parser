@@ -2,7 +2,18 @@ import Foundation
 import SwiftUI
 import Combine
 
+extension Date {
+
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
+
+}
+
 class Stopwatch: ObservableObject {
+    var date: Date? = nil
+    var stopDate: Date? = nil
+    var stopCounter: Int = 0
     @Published var counter: Int = 0
     @Published var seconds = 0
     @Published var minutes = 0
@@ -41,9 +52,20 @@ class Stopwatch: ObservableObject {
     }
     
     func start() {
+        if date == nil {
+            self.date = Date()
+        }
+        
+        if stopDate != nil {
+            let delta = Date() - self.stopDate!
+            stopCounter = Int(round(delta))
+        }
+        
         if self.timer == nil {
             self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-                self.counter += 1
+                let delta = Date() - self.date!
+                
+                self.counter = Int(round(delta)) - self.stopCounter
                 self.seconds = self.counter % 60
                 self.minutes = (self.counter / 60) % 60
                 self.hours = (self.counter / 60*60) % 60
@@ -56,12 +78,15 @@ class Stopwatch: ObservableObject {
             return
         }
         
+        
         timer!.invalidate()
         self.timer = nil
+        self.stopDate = Date()
     }
     
     func reset() {
         counter = 0
+        stopCounter = 0
         
         if self.timer == nil {
             return

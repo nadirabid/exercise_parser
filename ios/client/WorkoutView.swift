@@ -151,14 +151,6 @@ struct WorkoutMuscleMetricsView: View {
                     return false
                 }
                 
-                print(muscleString, muscles.flatMap { muscle -> [Muscle] in
-                    if muscle.isMuscleGroup {
-                        return muscle.components
-                    } else {
-                        return [muscle]
-                    }
-                })
-                
                 return muscles.flatMap { muscle -> [Muscle] in
                     if muscle.isMuscleGroup {
                         return muscle.components
