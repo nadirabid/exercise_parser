@@ -138,7 +138,7 @@ struct WorkoutMuscleMetricsView: View {
 
         return self.resolvedExercises.flatMap { (e) -> [Muscle] in
             let dictionary = self.getDictionaryFor(exercise: e)
-            let muscleStrings = dictionary!.muscles.target?.map { s in s.lowercased() } ?? []
+            let muscleStrings = dictionary?.muscles.target?.map { s in s.lowercased() } ?? []
             
             return muscleStrings.flatMap { (muscleString) -> [Muscle] in
                 let muscles = Muscle.allCases.filter { muscle in
@@ -150,6 +150,14 @@ struct WorkoutMuscleMetricsView: View {
                     
                     return false
                 }
+                
+                print(muscleString, muscles.flatMap { muscle -> [Muscle] in
+                    if muscle.isMuscleGroup {
+                        return muscle.components
+                    } else {
+                        return [muscle]
+                    }
+                })
                 
                 return muscles.flatMap { muscle -> [Muscle] in
                     if muscle.isMuscleGroup {
@@ -169,7 +177,7 @@ struct WorkoutMuscleMetricsView: View {
         
         return self.resolvedExercises.flatMap { (e) -> [Muscle] in
             let dictionary = self.getDictionaryFor(exercise: e)
-            let muscleStrings = dictionary!.muscles.synergists?.map { s in s.lowercased() } ?? []
+            let muscleStrings = dictionary?.muscles.synergists?.map { s in s.lowercased() } ?? []
  
             return muscleStrings.flatMap { (muscleString) -> [Muscle] in
                 let muscles = Muscle.allCases.filter { muscle in

@@ -109,7 +109,6 @@ func handleGetWorkoutDictionary(c echo.Context) error {
 	dictionaries := []models.ExerciseDictionary{}
 
 	q := db.Debug().
-		Select("DISTINCT(exercise_dictionaries.id)").
 		Preload("Classification").
 		Preload("Muscles").
 		Preload("Articulation").
@@ -120,6 +119,8 @@ func handleGetWorkoutDictionary(c echo.Context) error {
 		Where("workouts.id = ? AND workouts.user_id = ?", workoutID, userID)
 
 	r, err := paging(q, 0, 0, &dictionaries)
+
+	utils.PrettyPrint(dictionaries)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
