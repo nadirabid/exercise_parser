@@ -32,7 +32,7 @@ struct MainView: View {
                         
                         Divider()
                     }
-                    .background(Color.white)
+                        .background(Color.white)
                     
                     if route.current == .feed {
                         FeedView()
@@ -47,7 +47,9 @@ struct MainView: View {
                             Spacer()
                             
                             Button(action: { self.route.current = .feed }) {
-                                UserIconView().frame(height: 22)
+                                HomeIconShape()
+                                    .stroke(self.route.current == .feed ? appColor : Color.gray)
+                                    .frame(height: 22)
                             }
                             
                             Spacer()
@@ -57,7 +59,7 @@ struct MainView: View {
                                     Circle()
                                         .stroke(appColor, lineWidth: 2)
                                         .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
-                                        .frame(width: 45, height: 45)
+                                        .frame(width: 40, height: 40)
                                     
                                     Circle()
                                         .fill(appColor)
@@ -69,17 +71,18 @@ struct MainView: View {
                             Spacer()
                             
                             Button(action: { self.route.current = .subscribtion_feed }) {
-                                HomeIconView().frame(height: 22)
+                                StreamIconShape()
+                                    .stroke(self.route.current == .subscribtion_feed ? appColor : Color.gray)
+                                    .frame(height: 22)
                             }
                             
                             Spacer()
                             Spacer()
                         }
-                        .padding(.top, 5)
                     }
-                    .background(Color.white)
+                        .background(Color.white)
                 }
-                .background(feedColor)
+                    .background(feedColor)
             }
         }
     }

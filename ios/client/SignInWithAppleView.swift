@@ -23,58 +23,53 @@ struct SignInView: View {
     @EnvironmentObject var userAPI: AuthAPI
     
     var body: some View {
-        GeometryReader { geometry in
-            return VStack {
-                VStack {
-                    Spacer()
-                    
-                    Text("FOR THE ATHLETES")
+        return ZStack{
+            appColor .edgesIgnoringSafeArea(.all)
+            VStack {
+                Spacer()
+                
+                Text("FOR THE ATHLETES")
+                    .foregroundColor(secondaryAppColor)
+                    .font(.caption)
+                    .fontWeight(.heavy)
+                
+                Text("RYDEN")
+                    .font(.largeTitle)
+                    .fontWeight(.heavy)
+                    .tracking(10)
+                    .foregroundColor(Color.white)
+                
+                HStack(alignment: .center) {
+                    Text("FORM")
                         .foregroundColor(secondaryAppColor)
-                        .font(.caption)
+                        .font(.callout)
                         .fontWeight(.heavy)
                     
-                    Text("RYDEN")
-                        .font(.largeTitle)
+                    Text("&")
+                        .foregroundColor(secondaryAppColor)
+                        .font(.subheadline)
                         .fontWeight(.heavy)
-                        .tracking(10)
-                        .foregroundColor(Color.white)
                     
-                    HStack(alignment: .center) {
-                        Text("FORM")
-                            .foregroundColor(secondaryAppColor)
-                            .font(.callout)
-                            .fontWeight(.heavy)
-                        
-                        Text("&")
-                            .foregroundColor(secondaryAppColor)
-                            .font(.subheadline)
-                            .fontWeight(.heavy)
-                        
-                        Text("WILL")
-                            .foregroundColor(secondaryAppColor)
-                            .font(.callout)
-                            .fontWeight(.heavy)
-                    }
-                    
-                    Spacer()
-                    
-                    SignInWithAppleView(userState: self.userState, userAPI: self.userAPI)
-                        .frame(width: 200, height: 40)
-                        .padding(.bottom)
+                    Text("WILL")
+                        .foregroundColor(secondaryAppColor)
+                        .font(.callout)
+                        .fontWeight(.heavy)
                 }
-                    .padding(.bottom, geometry.safeAreaInsets.bottom)
+                
+                Spacer()
+                
+                SignInWithAppleView(userState: self.userState, userAPI: self.userAPI)
+                    .frame(width: 200, height: 40)
+                    .padding(.bottom)
             }
-                .frame(width: geometry.size.width)
-                .background(appColor)
         }
-        .edgesIgnoringSafeArea(.all)
     }
 }
 
 struct SignInDevView: View {
     @EnvironmentObject var userState: UserState
     @EnvironmentObject var userAPI: AuthAPI
-
+    
     func signIn() {
         let data = User(
             id: nil,
@@ -92,9 +87,44 @@ struct SignInDevView: View {
     }
     
     var body: some View {
-        return VStack {
-            Button(action: { self.signIn() }) {
-                Text("Sign in")
+        return ZStack{
+            appColor .edgesIgnoringSafeArea(.all)
+            VStack {
+                Spacer()
+                
+                Text("FOR THE ATHLETES")
+                    .foregroundColor(secondaryAppColor)
+                    .font(.caption)
+                    .fontWeight(.heavy)
+                
+                Text("RYDEN")
+                    .font(.largeTitle)
+                    .fontWeight(.heavy)
+                    .tracking(10)
+                    .foregroundColor(Color.white)
+                
+                HStack(alignment: .center) {
+                    Text("FORM")
+                        .foregroundColor(secondaryAppColor)
+                        .font(.callout)
+                        .fontWeight(.heavy)
+                    
+                    Text("&")
+                        .foregroundColor(secondaryAppColor)
+                        .font(.subheadline)
+                        .fontWeight(.heavy)
+                    
+                    Text("WILL")
+                        .foregroundColor(secondaryAppColor)
+                        .font(.callout)
+                        .fontWeight(.heavy)
+                }
+                
+                Spacer()
+                
+                Button(action: { self.signIn() }) {
+                    Text("Sign in")
+                }
             }
         }
     }
@@ -156,7 +186,7 @@ struct SignInWithAppleView: UIViewRepresentable {
             }
             
             let identityToken = String(data: credentials.identityToken!, encoding: .utf8)!
-                        
+            
             let defaults = UserDefaults.standard
             defaults.set(credentials.user, forKey: "userId")
             
@@ -173,7 +203,7 @@ struct SignInWithAppleView: UIViewRepresentable {
                 
                 defaults.set(jwt.string, forKey: "token")
                 defaults.set(String(data: userJSON, encoding: .utf8), forKey: "userInfo")
-                                       
+                
                 self.parent?.userState.userInfo = user
                 self.parent?.userState.jwt = jwt
                 self.parent?.userState.authorization = 1
