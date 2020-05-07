@@ -214,7 +214,7 @@ public struct WorkoutMetaMetricsView: View {
     
     var totalWeight: Int {
         let result = workout.exercises.reduce(Float.zero) { (r, e) in
-            let total =  e.data.displayUnitsWeight * Float(e.data.reps) * Float(e.data.sets)
+            let total =  e.data.displayWeightValue * Float(e.data.reps) * Float(e.data.sets)
             return total + r
         }
         
@@ -223,7 +223,7 @@ public struct WorkoutMetaMetricsView: View {
     
     var totalDistance: Float {
         let result = workout.exercises.reduce(Float.zero) { (r, e) in
-            return r + e.data.displayUnitsDistance
+            return r + e.data.displayDistanceValue
         }
         
         return result

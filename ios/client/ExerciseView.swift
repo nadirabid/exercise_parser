@@ -46,7 +46,10 @@ struct ExerciseView : View {
     }
     
     var body: some View {
-        HStack {
+        if exercise.data.distance > 0 {
+        print(exercise.data.distance > 0, exercise.data.displayDistanceValue.format(f: ".1"), exercise.data.displayDistanceValue, exercise.data.distance)
+        }
+        return HStack {
             Text(exercise.name.capitalized)
                 .font(.subheadline)
                 .foregroundColor(self.valuesColor)
@@ -72,12 +75,12 @@ struct ExerciseView : View {
                 
                 if exercise.data.distance > 0 {
                     VStack(alignment: .trailing, spacing: 1.0) {
-                          Text("mi")
+                        Text(exercise.data.displayDistanceUnits)
                               .font(.caption)
                               .foregroundColor(self.unitsColor)
                               .shouldItalicize(shouldItalicize)
                           
-                          Text(exercise.data.displayUnitsDistance.format(f: ".1"))
+                          Text(exercise.data.displayDistanceValue.format(f: ".1"))
                               .font(.headline)
                               .foregroundColor(self.valuesColor)
                               .shouldItalicize(shouldItalicize)
@@ -117,12 +120,12 @@ struct ExerciseView : View {
                 
                 if exercise.data.weight > 0 {
                     VStack(alignment: .trailing, spacing: 1.0) {
-                           Text("lbs")
+                           Text(exercise.data.displayWeightUnits)
                                .font(.caption)
                                .foregroundColor(self.unitsColor)
                                .shouldItalicize(shouldItalicize)
                            
-                           Text(exercise.data.displayUnitsWeight.format(f: ".0"))
+                           Text(exercise.data.displayWeightValue.format(f: ".0"))
                                .font(.headline)
                                .foregroundColor(self.valuesColor)
                                .shouldItalicize(shouldItalicize)

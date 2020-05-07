@@ -121,13 +121,32 @@ struct ExerciseData: Codable {
     let time: Int
     let distance: Float32
     
-    var displayUnitsWeight: Float {
+    var displayWeightUnits: String {
+        return UnitMass.pounds.symbol
+    }
+    
+    var displayWeightValue: Float {
         let m = Measurement(value: Double(weight), unit: UnitMass.kilograms).converted(to: UnitMass.pounds)
         return Float(m.value)
     }
     
-    var displayUnitsDistance: Float {
-        let m = Measurement(value: Double(distance), unit: UnitLength.meters).converted(to: UnitLength.miles)
-        return Float(round(m.value*10)/10)
+    var displayDistanceUnits: String {
+        if distance <= 300 {
+            return UnitLength.feet.symbol
+        }
+        
+        return UnitLength.miles.symbol
+    }
+    
+    var displayDistanceValue: Float {
+        var m = Measurement(value: Double(distance), unit: UnitLength.meters)
+        
+        if distance <= 300 {
+            m = Measurement(value: Double(distance), unit: UnitLength.meters).converted(to: UnitLength.feet)
+        } else {
+            m = Measurement(value: Double(distance), unit: UnitLength.meters).converted(to: UnitLength.miles)
+        }
+        
+        return Float(round(m.value*100)/100)
     }
 }
