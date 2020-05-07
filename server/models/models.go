@@ -152,7 +152,7 @@ type DistanceExercise struct {
 }
 
 func (DistanceExercise) TableName() string {
-	return "distance_exercise"
+	return "distance_exercises"
 }
 
 type ExerciseData struct {
