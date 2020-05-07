@@ -104,8 +104,6 @@ func handleGetWorkoutDictionary(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	userID := getUserIDFromContext(ctx)
-
 	dictionaries := []models.ExerciseDictionary{}
 
 	q := db.
@@ -116,7 +114,7 @@ func handleGetWorkoutDictionary(c echo.Context) error {
 		Preload("Articulation.Static").
 		Joins("JOIN exercises ON exercises.exercise_dictionary_id = exercise_dictionaries.id").
 		Joins("JOIN workouts ON workouts.id = exercises.workout_id").
-		Where("workouts.id = ? AND workouts.user_id = ?", workoutID, userID)
+		Where("workouts.id = ?", workoutID)
 
 	r, err := paging(q, 0, 0, &dictionaries)
 

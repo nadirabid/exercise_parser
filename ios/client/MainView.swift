@@ -49,7 +49,7 @@ struct MainView: View {
                             Button(action: { self.route.current = .feed }) {
                                 HomeIconShape()
                                     .stroke(self.route.current == .feed ? appColor : Color.gray)
-                                    .frame(height: 22)
+                                    .frame(height: 20)
                             }
                             
                             Spacer()
@@ -73,7 +73,7 @@ struct MainView: View {
                             Button(action: { self.route.current = .subscribtion_feed }) {
                                 StreamIconShape()
                                     .stroke(self.route.current == .subscribtion_feed ? appColor : Color.gray)
-                                    .frame(height: 22)
+                                    .frame(height: 20)
                             }
                             
                             Spacer()
