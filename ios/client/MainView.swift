@@ -44,19 +44,20 @@ struct MainView: View {
                         Divider()
                         HStack {
                             Spacer()
+                            Spacer()
                             
                             Button(action: { self.route.current = .feed }) {
-                                ZStack {
-                                    Text("User")
-                                }
+                                UserIconView().frame(height: 22)
                             }
+                            
+                            Spacer()
                             
                             Button(action: { self.route.current = .editor }) {
                                 ZStack {
                                     Circle()
                                         .stroke(appColor, lineWidth: 2)
                                         .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
-                                        .frame(width: 50, height: 50)
+                                        .frame(width: 45, height: 45)
                                     
                                     Circle()
                                         .fill(appColor)
@@ -65,12 +66,13 @@ struct MainView: View {
                                 }
                             }
                             
+                            Spacer()
+                            
                             Button(action: { self.route.current = .subscribtion_feed }) {
-                                ZStack {
-                                    Text("Feed")
-                                }
+                                HomeIconView().frame(height: 22)
                             }
                             
+                            Spacer()
                             Spacer()
                         }
                         .padding(.top, 5)

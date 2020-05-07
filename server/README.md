@@ -16,6 +16,7 @@ psql -d exercise_parser
 ```
 
 Also - download Postico for Mac - super good.
+Or checkout: https://www.beekeeperstudio.io
 
 #### Migration
 

@@ -45,6 +45,7 @@
 		64A93D9524232DA000B73B95 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A93D9424232DA000B73B95 /* ActivityIndicator.swift */; };
 		64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 64A9956E241EE3DC006716CA /* JWTDecode */; };
 		64D41A7524639125003D231A /* SubscriptionFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D41A7424639125003D231A /* SubscriptionFeedView.swift */; };
+		64D41A772463E783003D231A /* IconViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D41A762463E783003D231A /* IconViews.swift */; };
 		64E06CC82352F6E0005AC1D8 /* EditableWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */; };
 		64F0529D243FBD38004D24E6 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F0529C243FBD38004D24E6 /* ViewModifiers.swift */; };
 		64F0529F243FC325004D24E6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F0529E243FC325004D24E6 /* Extensions.swift */; };
@@ -113,6 +114,7 @@
 		64A33394245CCD150071E3AF /* Muscle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Muscle.swift; sourceTree = "<group>"; };
 		64A93D9424232DA000B73B95 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		64D41A7424639125003D231A /* SubscriptionFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionFeedView.swift; sourceTree = "<group>"; };
+		64D41A762463E783003D231A /* IconViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconViews.swift; sourceTree = "<group>"; };
 		64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableWorkoutView.swift; sourceTree = "<group>"; };
 		64F0529C243FBD38004D24E6 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		64F0529E243FC325004D24E6 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				64615A962425983F0098ED5A /* FancyLoader.swift */,
 				644E3363240CE26200458438 /* FeedView.swift */,
 				648C6F0E2433052B00FAE56A /* FloatExtension.swift */,
+				64D41A762463E783003D231A /* IconViews.swift */,
 				642CC997245BBC91000BFCDB /* AnteriorPath.swift */,
 				6444E162245B59F40000D21D /* AnteriorView.swift */,
 				642CC999245BBD4F000BFCDB /* PosteriorPath.swift */,
@@ -409,6 +412,7 @@
 				6494A01622B6139900C19543 /* AppDelegate.swift in Sources */,
 				642CC99A245BBD4F000BFCDB /* PosteriorPath.swift in Sources */,
 				64F0529F243FC325004D24E6 /* Extensions.swift in Sources */,
+				64D41A772463E783003D231A /* IconViews.swift in Sources */,
 				648C6F0F2433052B00FAE56A /* FloatExtension.swift in Sources */,
 				644E3364240CE26200458438 /* FeedView.swift in Sources */,
 				649A491924067561003206C3 /* StopWatch.swift in Sources */,

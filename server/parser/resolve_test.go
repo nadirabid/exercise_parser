@@ -10,7 +10,11 @@ import (
 )
 
 func TestFutureSupport(t *testing.T) {
-
+	t.Run("Farmers walk 20 feet", func(t *testing.T) {
+		test := map[string]string{"Exercise": "farmers walk", "Distance": "20", "DistanceUnits": "feet"}
+		parsed := resolveAllTestUtil("Farmers walk 20 feet")
+		assert.Equal(t, test, parsed[0].Captures)
+	})
 }
 
 func TestWeightedExercise(t *testing.T) {
