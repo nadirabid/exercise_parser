@@ -364,13 +364,14 @@ func seedFakeData(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	// create primary test user
 	user := &models.User{}
 	user.FamilyName = "User"
 	user.GivenName = "Fake"
 	user.Email = "fake@user.com"
 	user.ExternalUserId = "fake.user.id"
 
-	if err := db.Create(user).Error; err != nil {
+	if err := db.Where(models.User{ExternalUserId: user.ExternalUserId}).FirstOrCreate(user).Error; err != nil {
 		return err
 	}
 
@@ -401,6 +402,70 @@ func seedFakeData(cmd *cobra.Command, args []string) error {
 	}
 
 	if err := db.Create(w).Error; err != nil {
+		return err
+	}
+
+	// create secondary users - for testing feeds and wnot
+	user2 := &models.User{}
+	user2.FamilyName = "Jane"
+	user2.GivenName = "Doe"
+	user2.Email = "jane@doe.com"
+	user2.ExternalUserId = "jane.doe.id"
+
+	if err := db.Where(models.User{ExternalUserId: user2.ExternalUserId}).FirstOrCreate(user2).Error; err != nil {
+		return err
+	}
+
+	w2 := &models.Workout{
+		UserID:         user2.ID,
+		Date:           time.Now(),
+		Location:       &models.Location{},
+		Name:           "Cardi workout",
+		SecondsElapsed: 200,
+		Exercises: []models.Exercise{
+			{
+				Raw:  "3x3 tricep curls",
+				Type: "unknown",
+			},
+			{
+				Raw:  "4km of rowing - 5 mins",
+				Type: "unknown",
+			},
+			{
+				Raw:  "40 calf raises - 14lbs",
+				Type: "unknown",
+			},
+			{
+				Raw:  "3x5 pullups - 45lbs",
+				Type: "unknown",
+			},
+		},
+	}
+
+	if err := db.Create(w2).Error; err != nil {
+		return err
+	}
+
+	w3 := &models.Workout{
+		UserID:         user2.ID,
+		Date:           time.Now(),
+		Location:       &models.Location{},
+		Name:           "Let workout",
+		SecondsElapsed: 200,
+		Exercises: []models.Exercise{
+			{
+				Raw: "3x3 deadlifts - 150lbs",
+			},
+			{
+				Raw: "3x5 squats - 185lbs",
+			},
+			{
+				Raw: "40 calf raises - 14lbs",
+			},
+		},
+	}
+
+	if err := db.Create(w3).Error; err != nil {
 		return err
 	}
 
