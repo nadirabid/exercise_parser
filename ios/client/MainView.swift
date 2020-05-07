@@ -20,54 +20,69 @@ struct MainView: View {
                 #else
                 SignInView()
                 #endif
+            } else if route.current == .editor {
+                EditableWorkoutView()
             } else {
-                if route.current == .feed {
-                    VStack(spacing: 0) {
-                        VStack(alignment: .center) {
-                            Text("RYDEN")
-                                .foregroundColor(appColor)
-                                .fontWeight(.heavy)
-                                .font(.subheadline)
-
-                            Divider()
-                        }
-                            .background(Color.white)
-
-                        FeedView()
-
-                        VStack {
-                            Divider()
-                            HStack {
-                                Spacer()
-
-                                Button(action: { self.route.current = .editor }) {
-                                    ZStack {
-                                        Circle()
-                                            .stroke(appColor, lineWidth: 2)
-                                            .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
-                                            .frame(width: 50, height: 50)
-
-                                        Circle()
-                                            .fill(appColor)
-                                            .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
-                                            .frame(width: 20, height: 20)
-                                    }
-                                }
-
-                                Spacer()
-                            }
-                                .padding(.top, 5)
-                        }
-                            .background(Color.white)
+                VStack(spacing: 0) {
+                    VStack(alignment: .center) {
+                        Text("RYDEN")
+                            .foregroundColor(appColor)
+                            .fontWeight(.heavy)
+                            .font(.subheadline)
+                        
+                        Divider()
                     }
-                        .background(feedColor)
-                } else if route.current == .editor {
-                    EditableWorkoutView()
+                    .background(Color.white)
+                    
+                    if route.current == .feed {
+                        FeedView()
+                    } else if route.current == .subscribtion_feed {
+                        SubscriptionFeedView()
+                    }
+                    
+                    VStack {
+                        Divider()
+                        HStack {
+                            Spacer()
+                            
+                            Button(action: { self.route.current = .feed }) {
+                                ZStack {
+                                    Text("User")
+                                }
+                            }
+                            
+                            Button(action: { self.route.current = .editor }) {
+                                ZStack {
+                                    Circle()
+                                        .stroke(appColor, lineWidth: 2)
+                                        .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
+                                        .frame(width: 50, height: 50)
+                                    
+                                    Circle()
+                                        .fill(appColor)
+                                        .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
+                                        .frame(width: 20, height: 20)
+                                }
+                            }
+                            
+                            Button(action: { self.route.current = .subscribtion_feed }) {
+                                ZStack {
+                                    Text("Feed")
+                                }
+                            }
+                            
+                            Spacer()
+                        }
+                        .padding(.top, 5)
+                    }
+                    .background(Color.white)
                 }
+                .background(feedColor)
             }
         }
     }
 }
+
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
@@ -79,6 +94,6 @@ struct MainView_Previews: PreviewProvider {
             .environmentObject(EditableWorkoutState())
             .environmentObject(MockWorkoutAPI(userState: userState) as WorkoutAPI)
             .environmentObject(MockExerciseAPI(userState: userState) as ExerciseAPI)
-            .environmentObject(UserAPI())
+            .environmentObject(AuthAPI())
     }
 }

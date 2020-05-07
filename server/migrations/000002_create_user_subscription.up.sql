@@ -11,6 +11,6 @@ CREATE TABLE IF NOT EXISTS user_subscriptions (
     subscribed_to_id integer REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE UNIQUE INDEX idx_subscriber_id_and_subscribed_to_id ON subscription(subscriber_id, subscribed_to_id);
+CREATE UNIQUE INDEX idx_subscriber_id_and_subscribed_to_id ON user_subscriptions(subscriber_id, subscribed_to_id);
 
 COMMIT;

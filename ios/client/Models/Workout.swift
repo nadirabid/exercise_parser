@@ -16,7 +16,7 @@ struct Workout: Codable, Identifiable {
     let name: String
     let date: Date
     let exercises: [Exercise]
-    let userID: Int?
+    let userID: Int
     let location: Location?
     let secondsElapsed: Int
     
@@ -27,7 +27,7 @@ struct Workout: Codable, Identifiable {
         name: String = "",
         date: Date = Date(),
         exercises: [Exercise] = [],
-        userID: Int? = nil,
+        userID: Int = 0,
         location: Location? = nil,
         secondsElapsed: Int = 0
     ) {

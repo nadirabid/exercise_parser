@@ -26,14 +26,10 @@ struct WorkoutDetail: View {
 }
 
 struct WorkoutView: View {
-    @EnvironmentObject var userState: UserState
+    var user: User? = nil
+    var workout: Workout
     
-    @State var workout: Workout
-    @State var index = 0
-    @State var pageZeroSize: CGSize = .zero
-    @State var pageOneSize: CGSize = .zero
-    @State private var offset: CGFloat = 0
-    @State private var isUserSwiping: Bool = false
+    @State private var viewPage = 0
     
     var body: some View {
         return VStack(alignment: .leading) {
@@ -43,7 +39,7 @@ struct WorkoutView: View {
                 VStack(alignment: .leading) {
                     Text(workout.name)
                     
-                    Text(userState.getUserName())
+                    Text(user?.getUserName() ?? "")
                         .font(.caption)
                         .foregroundColor(Color.gray)
                 }
@@ -54,7 +50,7 @@ struct WorkoutView: View {
                 .fixedSize(horizontal: true, vertical: true)
                 .padding(.leading)
             
-            if index == 0 {
+            if viewPage == 0 {
                 if self.workout.location != nil {
                     MapView(location: self.workout.location!)
                         .frame(height: CGFloat(130.0))
@@ -77,15 +73,15 @@ struct WorkoutView: View {
             HStack(spacing: 8) {
                 Spacer()
                 
-                CircleButton(isSelected: Binding<Bool>(get: { self.index == 0 }, set: { _ in })) {
+                CircleButton(isSelected: Binding<Bool>(get: { self.viewPage == 0 }, set: { _ in })) {
                     withAnimation(Animation.default.speed(2)) {
-                        self.index = 0
+                        self.viewPage = 0
                     }
                 }
                 
-                CircleButton(isSelected: Binding<Bool>(get: { self.index == 1 }, set: { _ in })) {
+                CircleButton(isSelected: Binding<Bool>(get: { self.viewPage == 1 }, set: { _ in })) {
                     withAnimation(Animation.default.speed(2)) {
-                        self.index = 1
+                        self.viewPage = 1
                     }
                 }
                 
@@ -261,16 +257,14 @@ public struct WorkoutMetaMetricsView: View {
 #if DEBUG
 struct WorkoutView_Previews : PreviewProvider {
     static var previews: some View {
-        let userState = UserState()
-        userState.userInfo = User(
-            id: 1,
-            externalUserId: "test.user",
-            email: "test@user.com",
-            givenName: "Calev",
-            familyName: "Muzaffar"
-        )
-        
         return WorkoutView(
+            user: User(
+                id: 1,
+                externalUserId: "test.user",
+                email: "test@user.com",
+                givenName: "Calev",
+                familyName: "Muzaffar"
+            ),
             workout: Workout(
                 id: 1,
                 createdAt: "",
@@ -307,7 +301,6 @@ struct WorkoutView_Previews : PreviewProvider {
                 location: Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
             )
         )
-        .environmentObject(userState)
     }
 }
 #endif

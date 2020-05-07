@@ -45,7 +45,7 @@ func decodeStrategy() -> JSONDecoder.DateDecodingStrategy {
     })
 }
 
-class UserAPI: ObservableObject {
+class AuthAPI: ObservableObject {
     struct UserRegistrationResponse: Codable {
         let token: String
     }
@@ -93,6 +93,48 @@ class UserAPI: ObservableObject {
     }
 }
 
+class UserAPI: ObservableObject {
+    private var userState: UserState
+    private let encoder = JSONEncoder()
+
+    init(userState: UserState) {
+        self.userState = userState
+        self.encoder.dateEncodingStrategy = .iso8601
+    }
+    
+    var headers: HTTPHeaders {
+        return HTTPHeaders([
+            "Accept": "application/json",
+            "Authorization": "Bearer \(userState.jwt!.string)"
+        ])
+    }
+    
+    func getUsersByIDs(users: Set<Int>, _ completionHandler: @escaping (PaginatedResponse<User>) -> Void) {
+        let url = "\(baseURL)/api/user"
+        let params: Parameters = [
+            "users": users.map { String($0) }.joined(separator: ",")
+        ]
+        
+        AF.request(url, method: .get, parameters: params, headers: headers)
+            .validate(statusCode: 200..<300)
+            .response(queue: DispatchQueue.main) { (response) in
+                switch response.result {
+                case .success(let data):
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = decodeStrategy()
+                    
+                    let feedData = try! decoder.decode(PaginatedResponse<User>.self, from: data!)
+                    completionHandler(feedData)
+                case .failure(let error):
+                    print("Failed to get workouts: ", error)
+                    if let data = response.data {
+                        print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                    }
+                }
+            }
+    }
+}
+
 class WorkoutAPI: ObservableObject {
     private var userState: UserState
     private let encoder = JSONEncoder()
@@ -109,8 +151,30 @@ class WorkoutAPI: ObservableObject {
         ])
     }
     
-    func getUserFeed(_ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) {
+    func getUserWorkouts(_ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) {
         let url = "\(baseURL)/api/workout"
+        
+        AF.request(url, method: .get, headers: headers)
+            .validate(statusCode: 200..<300)
+            .response(queue: DispatchQueue.main) { (response) in
+                switch response.result {
+                case .success(let data):
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = decodeStrategy()
+                    
+                    let feedData = try! decoder.decode(PaginatedResponse<Workout>.self, from: data!)
+                    completionHandler(feedData)
+                case .failure(let error):
+                    print("Failed to get workouts: ", error)
+                    if let data = response.data {
+                        print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                    }
+                }
+            }
+    }
+    
+    func getUserSubscriptionWorkouts(_ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) {
+        let url = "\(baseURL)/api/workout/subscribedto"
         
         AF.request(url, method: .get, headers: headers)
             .validate(statusCode: 200..<300)
@@ -227,7 +291,7 @@ class MockWorkoutAPI: WorkoutAPI {
         ]
     )
 
-    override func getUserFeed(_ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) {
+    override func getUserSubscriptionWorkouts(_ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) {
         completionHandler(self.localFeedData)
     }
 }

@@ -44,6 +44,7 @@
 		64A33395245CCD150071E3AF /* Muscle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A33394245CCD150071E3AF /* Muscle.swift */; };
 		64A93D9524232DA000B73B95 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A93D9424232DA000B73B95 /* ActivityIndicator.swift */; };
 		64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 64A9956E241EE3DC006716CA /* JWTDecode */; };
+		64D41A7524639125003D231A /* SubscriptionFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D41A7424639125003D231A /* SubscriptionFeedView.swift */; };
 		64E06CC82352F6E0005AC1D8 /* EditableWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */; };
 		64F0529D243FBD38004D24E6 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F0529C243FBD38004D24E6 /* ViewModifiers.swift */; };
 		64F0529F243FC325004D24E6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F0529E243FC325004D24E6 /* Extensions.swift */; };
@@ -111,6 +112,7 @@
 		64A33392245C1E2F0071E3AF /* PosteriorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosteriorView.swift; sourceTree = "<group>"; };
 		64A33394245CCD150071E3AF /* Muscle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Muscle.swift; sourceTree = "<group>"; };
 		64A93D9424232DA000B73B95 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		64D41A7424639125003D231A /* SubscriptionFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionFeedView.swift; sourceTree = "<group>"; };
 		64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableWorkoutView.swift; sourceTree = "<group>"; };
 		64F0529C243FBD38004D24E6 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		64F0529E243FC325004D24E6 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				64A33394245CCD150071E3AF /* Muscle.swift */,
 				6405131E24163A8900DDC3D7 /* SignInWithAppleView.swift */,
 				649A491824067561003206C3 /* StopWatch.swift */,
+				64D41A7424639125003D231A /* SubscriptionFeedView.swift */,
 				640093052435CCAF007193B4 /* TimerView.swift */,
 				641E3FCE24316B27005C71A3 /* Transitions.swift */,
 				6411FD9E242733D3003D49BF /* Utils.swift */,
@@ -419,6 +422,7 @@
 				642DA77922B71279002F49AE /* MapView.swift in Sources */,
 				64615A972425983F0098ED5A /* FancyLoader.swift in Sources */,
 				64615A95242581AF0098ED5A /* EditableExerciseView.swift in Sources */,
+				64D41A7524639125003D231A /* SubscriptionFeedView.swift in Sources */,
 				64A33393245C1E2F0071E3AF /* PosteriorView.swift in Sources */,
 				642CC998245BBC91000BFCDB /* AnteriorPath.swift in Sources */,
 				64A33395245CCD150071E3AF /* Muscle.swift in Sources */,

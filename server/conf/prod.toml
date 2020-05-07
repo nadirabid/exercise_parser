@@ -8,6 +8,7 @@ user=""
 password=""
 host=""
 port=5432
+logging=false
 
 [migration]
 dir="/go/src/exercise_parser/server/migrations"

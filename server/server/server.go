@@ -116,7 +116,9 @@ func New(v *viper.Viper) error {
 	apiRoutes.Use(JWTAuthMiddleware)
 
 	// returns user
+	apiRoutes.GET("/user", handleGetUsers)
 	apiRoutes.POST("/user/me/subscribe/:subscribe_to_id", handlePostSubscribeToUser)
+	apiRoutes.POST("/user/subscribe/alltoall", handleSubscribeAllUsersToAllUsers)
 
 	// returns exercise
 	apiRoutes.POST("/exercise/resolve", handleResolveExercise)
@@ -141,7 +143,7 @@ func New(v *viper.Viper) error {
 	apiRoutes.GET("/exercise/dictionary/:id/related", handleGetDictionaryRelatedName)
 
 	// returns workout
-	apiRoutes.GET("/workout/subscribedto", handleGetWorkoutsOfSubscribedUsers)
+	apiRoutes.GET("/workout/subscribedto", handleGetUserWorkoutSubscriptionFeed)
 	apiRoutes.GET("/workout", handleGetAllWorkout)
 	apiRoutes.GET("/workout/:id", handleGetWorkout)
 	apiRoutes.POST("/workout", handlePostWorkout)

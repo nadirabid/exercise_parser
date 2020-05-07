@@ -30,6 +30,8 @@ func NewDatabase(v *viper.Viper) (*gorm.DB, error) {
 		sslmode,
 	))
 
+	db.LogMode(v.GetBool("psql.logging"))
+
 	if err != nil {
 		return nil, err
 	}

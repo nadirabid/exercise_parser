@@ -20,7 +20,7 @@ import JWTDecode
 
 struct SignInView: View {
     @EnvironmentObject var userState: UserState
-    @EnvironmentObject var userAPI: UserAPI
+    @EnvironmentObject var userAPI: AuthAPI
     
     var body: some View {
         GeometryReader { geometry in
@@ -73,7 +73,7 @@ struct SignInView: View {
 
 struct SignInDevView: View {
     @EnvironmentObject var userState: UserState
-    @EnvironmentObject var userAPI: UserAPI
+    @EnvironmentObject var userAPI: AuthAPI
 
     func signIn() {
         let data = User(
@@ -103,7 +103,7 @@ struct SignInDevView: View {
 // https://developer.apple.com/documentation/signinwithapplerestapi/authenticating_users_with_sign_in_with_apple
 struct SignInWithAppleView: UIViewRepresentable {
     var userState: UserState
-    var userAPI: UserAPI
+    var userAPI: AuthAPI
     
     func makeCoordinator() -> Coordinator {
         return Coordinator(self)
@@ -191,6 +191,6 @@ struct SignInWithApple_Previews: PreviewProvider {
     static var previews: some View {
         SignInView()
             .environmentObject(UserState())
-            .environmentObject(UserAPI())
+            .environmentObject(AuthAPI())
     }
 }

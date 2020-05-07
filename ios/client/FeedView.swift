@@ -11,6 +11,7 @@ import SwiftUI
 import Combine
 
 struct FeedView: View {
+    @EnvironmentObject var userState: UserState
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var workoutAPI: WorkoutAPI
     @State private var feedDataPublisher: AnyCancellable? = nil
@@ -30,7 +31,7 @@ struct FeedView: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         ForEach(self.feedData!.results) { workout in
-                            WorkoutView(workout: workout)
+                            WorkoutView(user: self.userState.userInfo, workout: workout)
                                 .background(Color.white)
                                 .padding(.top)
                         }
@@ -48,7 +49,7 @@ struct FeedView: View {
         }
         .background(self.feedData == nil ? Color.white : feedColor)
         .onAppear {
-            self.workoutAPI.getUserFeed { (response) in
+            self.workoutAPI.getUserWorkouts { (response) in
                 self.feedData = response
             }
         }
@@ -59,6 +60,7 @@ struct FeedView: View {
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
         return FeedView()
+            .environmentObject(UserState())
             .environmentObject(EditableWorkoutState())
             .environmentObject(RouteState(current: .feed))
             .environmentObject(MockWorkoutAPI(userState: UserState()) as WorkoutAPI)

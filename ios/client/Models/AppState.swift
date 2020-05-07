@@ -58,5 +58,6 @@ class RouteState: ObservableObject {
     enum Route {
         case feed
         case editor
+        case subscribtion_feed
     }
 }
