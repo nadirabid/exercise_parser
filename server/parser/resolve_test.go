@@ -9,14 +9,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFutureSupport(t *testing.T) {
-	t.Run("Farmers walk 20 feet", func(t *testing.T) {
-		test := map[string]string{"Exercise": "farmers walk", "Distance": "20", "DistanceUnits": "feet"}
-		parsed := resolveAllTestUtil("Farmers walk 20 feet")
-		assert.Equal(t, test, parsed[0].Captures)
-	})
-}
-
 func TestWeightedExercise(t *testing.T) {
 	delimiter := []string{
 		"-", "- ", " -", " - ",
@@ -302,10 +294,22 @@ func TestWeightedExercise(t *testing.T) {
 
 		bilateralRaise1 := map[string]string{"Exercise": "bilateral raise", "Reps": "3", "Weight": "145", "WeightUnits": u}
 
-		t.Run("{Exercise:String} {Reps:Number}x{Weight:number}{WeightUnits}", func(t *testing.T) {
+		t.Run("{Exercise:String} {Reps:Number}x{Weight:Number}{WeightUnits}", func(t *testing.T) {
 			parsed := resolveAllTestUtil(fmt.Sprintf("Bilateral raise 3x145%s", u))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, bilateralRaise1, parsed[0].Captures)
+		})
+
+		t.Run("{Exercise:String} {Sets:Number}x{Reps:Number}x{Weight:Number}{WeightUnits}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("tricep curls 3x3x25 %s", u))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, tricepCurls3, parsed[0].Captures)
+		})
+
+		t.Run("{Exercise:String} {Sets:Number}x{Reps:Number}x{Weight:Number} {WeightUnits}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("tricep curls 3x3x25 %s", u))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, tricepCurls3, parsed[0].Captures)
 		})
 
 		for _, d := range delimiter {

@@ -26,7 +26,6 @@
 		644E3364240CE26200458438 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E3363240CE26200458438 /* FeedView.swift */; };
 		64615A95242581AF0098ED5A /* EditableExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64615A94242581AF0098ED5A /* EditableExerciseView.swift */; };
 		64615A972425983F0098ED5A /* FancyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64615A962425983F0098ED5A /* FancyLoader.swift */; };
-		648C6F0F2433052B00FAE56A /* FloatExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648C6F0E2433052B00FAE56A /* FloatExtension.swift */; };
 		6494A01622B6139900C19543 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A01522B6139900C19543 /* AppDelegate.swift */; };
 		6494A01822B6139900C19543 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A01722B6139900C19543 /* SceneDelegate.swift */; };
 		6494A01A22B6139900C19543 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A01922B6139900C19543 /* WorkoutView.swift */; };
@@ -90,7 +89,6 @@
 		644E3363240CE26200458438 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		64615A94242581AF0098ED5A /* EditableExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableExerciseView.swift; sourceTree = "<group>"; };
 		64615A962425983F0098ED5A /* FancyLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyLoader.swift; sourceTree = "<group>"; };
-		648C6F0E2433052B00FAE56A /* FloatExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatExtension.swift; sourceTree = "<group>"; };
 		6494A01222B6139900C19543 /* client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6494A01522B6139900C19543 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6494A01722B6139900C19543 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -206,7 +204,6 @@
 				64F0529E243FC325004D24E6 /* Extensions.swift */,
 				64615A962425983F0098ED5A /* FancyLoader.swift */,
 				644E3363240CE26200458438 /* FeedView.swift */,
-				648C6F0E2433052B00FAE56A /* FloatExtension.swift */,
 				64D41A762463E783003D231A /* IconViews.swift */,
 				642CC997245BBC91000BFCDB /* AnteriorPath.swift */,
 				6444E162245B59F40000D21D /* AnteriorView.swift */,
@@ -413,7 +410,6 @@
 				642CC99A245BBD4F000BFCDB /* PosteriorPath.swift in Sources */,
 				64F0529F243FC325004D24E6 /* Extensions.swift in Sources */,
 				64D41A772463E783003D231A /* IconViews.swift in Sources */,
-				648C6F0F2433052B00FAE56A /* FloatExtension.swift in Sources */,
 				644E3364240CE26200458438 /* FeedView.swift in Sources */,
 				649A491924067561003206C3 /* StopWatch.swift in Sources */,
 				649CBE8F22B6D84500D23DD6 /* CircleProfileImage.swift in Sources */,
