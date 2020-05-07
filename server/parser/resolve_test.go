@@ -321,15 +321,16 @@ func TestWeightedExercise(t *testing.T) {
 }
 
 func TestDistanceExercise(t *testing.T) {
-	running1 := map[string]string{"Exercise": "running", "Distance": "1.55", "DistanceUnits": "miles"}
-	running2 := map[string]string{"Exercise": "ran", "Distance": "5", "DistanceUnits": "miles", "Time": "10", "TimeUnits": "minutes"}
-	running3 := map[string]string{"Exercise": "ran", "Distance": "0.5", "DistanceUnits": "miles", "Time": "10", "TimeUnits": "minutes"}
 	running4 := map[string]string{"Exercise": "ran", "Time": "5", "TimeUnits": "mins"}
 
 	delimiter := []string{
 		"-", "- ", " -", " - ",
 		",", ", ", " ,", " , ",
 		" ", "  ",
+	}
+
+	distanceUnits := []string{
+		"ft", "foot", "feet", "mi", "mile", "miles", "m", "meter", "meters", "kilometer", "kilometers", "km",
 	}
 
 	t.Run("{Exercise:String} for {Time:Number} {TimeUnits}", func(t *testing.T) {
@@ -346,78 +347,88 @@ func TestDistanceExercise(t *testing.T) {
 		})
 	}
 
-	t.Run("{Exercise:String} {Distance:Number} {DistanceUnits}", func(t *testing.T) {
-		parsed := resolveAllTestUtil("running 1.55 miles")
-		assert.Equal(t, len(parsed), 1)
-		assert.Equal(t, running1, parsed[0].Captures)
-	})
+	for _, u := range distanceUnits {
+		running1 := map[string]string{"Exercise": "running", "Distance": "1.55", "DistanceUnits": u}
+		running2 := map[string]string{"Exercise": "ran", "Distance": "5", "DistanceUnits": u, "Time": "10", "TimeUnits": "minutes"}
+		running3 := map[string]string{"Exercise": "ran", "Distance": "0.5", "DistanceUnits": u, "Time": "10", "TimeUnits": "minutes"}
 
-	t.Run("{Exercise:String} {Distance:Number}{DistanceUnits}", func(t *testing.T) {
-		parsed := resolveAllTestUtil("running 1.55miles")
-		assert.Equal(t, len(parsed), 1)
-		assert.Equal(t, running1, parsed[0].Captures)
-	})
+		fmt.Println(running1)
+		fmt.Println(running2)
+		fmt.Println(running3)
 
-	t.Run("{Exercise:String}, {Distance:Number}{DistanceUnits}", func(t *testing.T) {
-		parsed := resolveAllTestUtil("running, 1.55miles")
-		assert.Equal(t, len(parsed), 1)
-		assert.Equal(t, running1, parsed[0].Captures)
-	})
+		t.Run("{Exercise:String} {Distance:Number} {DistanceUnits}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("running 1.55 %s", u))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, running1, parsed[0].Captures)
+		})
 
-	t.Run("{Exercise:String} for {Distance:Number} {DistanceUnits}", func(t *testing.T) {
-		parsed := resolveAllTestUtil("running for 1.55 miles")
-		assert.Equal(t, len(parsed), 1)
-		assert.Equal(t, running1, parsed[0].Captures)
-	})
+		t.Run("{Exercise:String} {Distance:Number}{DistanceUnits}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("running 1.55%s", u))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, running1, parsed[0].Captures)
+		})
 
-	t.Run("{Exericse:String} for {Distance:Number}{DistanceUnits}", func(t *testing.T) {
-		parsed := resolveAllTestUtil("running for 1.55 miles")
-		assert.Equal(t, len(parsed), 1)
-		assert.Equal(t, running1, parsed[0].Captures)
-	})
+		t.Run("{Exercise:String}, {Distance:Number}{DistanceUnits}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("running, 1.55%s", u))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, running1, parsed[0].Captures)
+		})
 
-	t.Run("{Distance:Float} {DistanceUnits} of {Exercise:String}", func(t *testing.T) {
-		parsed := resolveAllTestUtil("1.55 miles running")
-		assert.Equal(t, len(parsed), 1)
-		assert.Equal(t, running1, parsed[0].Captures)
-	})
+		t.Run("{Exercise:String} for {Distance:Number} {DistanceUnits}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("running for 1.55 %s", u))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, running1, parsed[0].Captures)
+		})
 
-	t.Run("{Distance:Float} {DistanceUnits}, of {Exercise:String}", func(t *testing.T) {
-		parsed := resolveAllTestUtil("1.55 miles, running")
-		assert.Equal(t, len(parsed), 1)
-		assert.Equal(t, running1, parsed[0].Captures)
-	})
+		t.Run("{Exericse:String} for {Distance:Number}{DistanceUnits}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("running for 1.55 %s", u))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, running1, parsed[0].Captures)
+		})
 
-	t.Run("{Distance:Float} {DistanceUnits} of {Exercise:String}", func(t *testing.T) {
-		parsed := resolveAllTestUtil("1.55 miles of running")
-		assert.Equal(t, len(parsed), 1)
-		assert.Equal(t, running1, parsed[0].Captures)
-	})
+		t.Run("{Distance:Float} {DistanceUnits} of {Exercise:String}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("1.55 %s running", u))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, running1, parsed[0].Captures)
+		})
 
-	t.Run("{Exercise:String} {Distance:Float} {DistanceUnits} in {Time:Number} {TimeUnits}", func(t *testing.T) {
-		parsed := resolveAllTestUtil("Ran 5 miles in 10 minutes")
-		assert.Equal(t, len(parsed), 1)
-		assert.Equal(t, running2, parsed[0].Captures)
-	})
+		t.Run("{Distance:Float} {DistanceUnits}, of {Exercise:String}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("1.55 %s, running", u))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, running1, parsed[0].Captures)
+		})
 
-	t.Run("{Exercise:String} {Distance:Float} {DistanceUnits} in {Time:Number} {TimeUnits}", func(t *testing.T) {
-		parsed := resolveAllTestUtil("Ran 0.5 miles in 10 minutes")
-		assert.Equal(t, len(parsed), 1)
-		assert.Equal(t, running3, parsed[0].Captures)
-	})
+		t.Run("{Distance:Float} {DistanceUnits} of {Exercise:String}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("1.55 %s of running", u))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, running1, parsed[0].Captures)
+		})
 
-	for _, d := range delimiter {
-		t.Run("{Exercise:String} {Distance:Float} {DistanceUnits} (Delimiter) {Time:Number} {TimeUnits}", func(t *testing.T) {
-			parsed := resolveAllTestUtil(fmt.Sprintf("Ran 5 miles%s10 minutes", d))
+		t.Run("{Exercise:String} {Distance:Float} {DistanceUnits} in {Time:Number} {TimeUnits}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("Ran 5 %s in 10 minutes", u))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, running2, parsed[0].Captures)
 		})
 
-		t.Run("{Exercise:String} {Distance:Float} {DistanceUnits} (Delimiter) {Time:Number} {TimeUnits}", func(t *testing.T) {
-			parsed := resolveAllTestUtil(fmt.Sprintf("Ran 0.5 miles%s10 minutes", d))
+		t.Run("{Exercise:String} {Distance:Float} {DistanceUnits} in {Time:Number} {TimeUnits}", func(t *testing.T) {
+			parsed := resolveAllTestUtil(fmt.Sprintf("Ran 0.5 %s in 10 minutes", u))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, running3, parsed[0].Captures)
 		})
+
+		for _, d := range delimiter {
+			t.Run("{Exercise:String} {Distance:Float} {DistanceUnits} (Delimiter) {Time:Number} {TimeUnits}", func(t *testing.T) {
+				parsed := resolveAllTestUtil(fmt.Sprintf("Ran 5 %s%s10 minutes", u, d))
+				assert.Equal(t, len(parsed), 1)
+				assert.Equal(t, running2, parsed[0].Captures)
+			})
+
+			t.Run("{Exercise:String} {Distance:Float} {DistanceUnits} (Delimiter) {Time:Number} {TimeUnits}", func(t *testing.T) {
+				parsed := resolveAllTestUtil(fmt.Sprintf("Ran 0.5 %s%s10 minutes", u, d))
+				assert.Equal(t, len(parsed), 1)
+				assert.Equal(t, running3, parsed[0].Captures)
+			})
+		}
 	}
 }
 
