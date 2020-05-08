@@ -88,7 +88,7 @@ func handleGetUserWorkoutSubscriptionFeed(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	userID := getUserIDFromContext(ctx)
+	// userID := getUserIDFromContext(ctx)
 
 	workouts := []models.Workout{}
 
@@ -96,8 +96,8 @@ func handleGetUserWorkoutSubscriptionFeed(c echo.Context) error {
 		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
-		Joins("JOIN user_subscriptions ON user_subscriptions.subscribed_to_id = workouts.user_id").
-		Where("user_subscriptions.subscriber_id = ? OR workouts.user_id = ?", userID, userID).
+		// Joins("JOIN user_subscriptions ON user_subscriptions.subscribed_to_id = workouts.user_id").
+		// Where("user_subscriptions.subscriber_id = ? OR workouts.user_id = ?", userID, userID).
 		Order("created_at desc")
 
 	listResponse, err := paging(q, page, size, &workouts)

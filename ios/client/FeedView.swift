@@ -33,7 +33,7 @@ struct FeedView: View {
             } else if self.feedData != nil && self.feedData?.results.count ?? 0 > 0  {
                 HStack(alignment: .center) {
                     Spacer()
-                    Text("RYDEN")
+                    Text("")
                         .foregroundColor(appColor)
                         .fontWeight(.heavy)
                         .font(.subheadline)
@@ -46,19 +46,30 @@ struct FeedView: View {
                         user: userState.userInfo,
                         height: self.height - min(0, self.scrollViewContentOffset / 3)
                     )
+                        .background(Blur(style: .systemChromeMaterial))
                         .zIndex(2)
                     
-                    TrackableScrollView(.vertical, showIndicators: false, contentOffset: $scrollViewContentOffset) {
-                        VStack(spacing: 0) {
-                            ForEach(self.feedData!.results) { workout in
-                                WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false)
-                                    .background(Color.white)
-                                    .padding(.top)
+                    if self.routeState.current == .userFeed {
+                        TrackableScrollView(.vertical, showIndicators: false, contentOffset: $scrollViewContentOffset) {
+                            VStack(spacing: 0) {
+                                ForEach(self.feedData!.results) { workout in
+                                    WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false)
+                                        .background(Color.white)
+                                        .padding(.top)
+                                }
                             }
+                            .padding(.top, height)
                         }
-                        .padding(.top, height)
+                    } else {
+                        HStack {
+                            Spacer()
+                            Text("Subscribe to some peeps!")
+                            Spacer()
+                        }
                     }
                 }
+                
+                Spacer()
             } else {
                 Spacer()
                 HStack {
@@ -136,7 +147,7 @@ struct FeedViewHeader: View {
             
             Divider()
         }
-            .background(Color.white)
+            //.background(Color.white)
             .frame(height: height)
     }
 }
