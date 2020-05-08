@@ -34,20 +34,20 @@ struct WorkoutView: View {
     var body: some View {
         return VStack(alignment: .leading) {
             HStack {
-                VStack {
-                    UserIconShape().fill(Color.gray).padding()
-                }
-                    .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
-                    .scaledToFit()
-                    .clipShape(Circle())
-                    .frame(width: 45, height: 45)
+//                VStack {
+//                    UserIconShape().fill(Color.gray).padding()
+//                }
+//                    .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+//                    .scaledToFit()
+//                    .clipShape(Circle())
+//                    .frame(width: 45, height: 45)
                 
                 VStack(alignment: .leading) {
                     Text(workout.name)
                     
-                    Text(user?.getUserName() ?? "")
-                        .font(.caption)
-                        .foregroundColor(Color.gray)
+//                    Text(user?.getUserName() ?? "")
+//                        .font(.caption)
+//                        .foregroundColor(Color.gray)
                 }
             }
                 .padding(.leading)

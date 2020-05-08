@@ -17,8 +17,7 @@ struct FeedView: View {
     @State private var feedDataPublisher: AnyCancellable? = nil
     @State private var feedData: PaginatedResponse<Workout>? = nil
     
-    @State private var offsetObserver: NSKeyValueObservation? = nil
-    @State private var offset: CGPoint = CGPoint.zero
+    @State private var scrollViewContentOffset = CGFloat(0)
     @State private var height: CGFloat = 70
     
     var body: some View {
@@ -43,7 +42,7 @@ struct FeedView: View {
                     .background(Color.white)
                 
                 ZStack(alignment: .top) {
-                    ScrollView(showsIndicators: false) {
+                    TrackableScrollView(.vertical, showIndicators: false, contentOffset: $scrollViewContentOffset) {
                         VStack(spacing: 0) {
                             ForEach(self.feedData!.results) { workout in
                                 WorkoutView(user: self.userState.userInfo, workout: workout)
@@ -51,18 +50,10 @@ struct FeedView: View {
                                     .padding(.top)
                             }
                         }
-                        .offset(y: height)
-                    }
-                    .introspectScrollView { (uiScrollView: UIScrollView) in
-                        self.offset = uiScrollView.contentOffset
-                        self.offsetObserver = uiScrollView.observe(\UIScrollView.contentOffset,  options: .new) { (_, change) in
-                            DispatchQueue.main.async {
-                                self.offset = uiScrollView.contentOffset
-                            }
-                        }
+                        .padding(.top, height)
                     }
                     
-                    FeedViewHeader(user: userState.userInfo, height: self.height - min(0, self.offset.y))
+                    FeedViewHeader(user: userState.userInfo, height: self.height - min(0, self.scrollViewContentOffset / 3))
                 }
                 
             } else {
@@ -98,7 +89,7 @@ struct FeedViewHeader: View {
                 
                 UserIconShape()
                     .fill(Color.gray)
-                    .padding([.top, .leading, .trailing], 5)
+                    .padding()
                     .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
                     .scaledToFit()
                     .clipShape(Circle())
