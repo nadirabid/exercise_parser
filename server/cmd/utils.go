@@ -4,11 +4,14 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
+
+var space = regexp.MustCompile(`\s+`)
 
 func configureViperFromCmd(cmd *cobra.Command) (*viper.Viper, error) {
 	confFile, err := cmd.Flags().GetString("conf")

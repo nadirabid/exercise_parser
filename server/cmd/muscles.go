@@ -3,9 +3,7 @@ package cmd
 import (
 	"exercise_parser/models"
 	"fmt"
-	"regexp"
 	"sort"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -36,43 +34,31 @@ func printMuscles(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	space := regexp.MustCompile(`\s+`)
-
 	muscles := map[string]bool{}
 
 	for _, d := range dictionaries {
 		for _, m := range d.Muscles.Target {
-			m = strings.TrimSpace(m)
-			m = space.ReplaceAllString(m, " ")
-			m = strings.ToLower(m)
+			m = models.SanitizeMuscleString(m)
 			muscles[m] = true
 		}
 
 		for _, m := range d.Muscles.Synergists {
-			m = strings.TrimSpace(m)
-			m = space.ReplaceAllString(m, " ")
-			m = strings.ToLower(m)
+			m = models.SanitizeMuscleString(m)
 			muscles[m] = true
 		}
 
 		for _, m := range d.Muscles.Stabilizers {
-			m = strings.TrimSpace(m)
-			m = space.ReplaceAllString(m, " ")
-			m = strings.ToLower(m)
+			m = models.SanitizeMuscleString(m)
 			muscles[m] = true
 		}
 
 		for _, m := range d.Muscles.AntagonistStabilizers {
-			m = strings.TrimSpace(m)
-			m = space.ReplaceAllString(m, " ")
-			m = strings.ToLower(m)
+			m = models.SanitizeMuscleString(m)
 			muscles[m] = true
 		}
 
 		for _, m := range d.Muscles.DynamicStabilizers {
-			m = strings.TrimSpace(m)
-			m = space.ReplaceAllString(m, " ")
-			m = strings.ToLower(m)
+			m = models.SanitizeMuscleString(m)
 			muscles[m] = true
 		}
 	}

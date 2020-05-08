@@ -118,8 +118,6 @@ func handleGetWorkoutDictionary(c echo.Context) error {
 
 	r, err := paging(q, 0, 0, &dictionaries)
 
-	utils.PrettyPrint(dictionaries)
-
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}

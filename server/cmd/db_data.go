@@ -149,7 +149,58 @@ func seedExerciseDictionary(db *gorm.DB, seedDir string) error {
 		exerciseDictionary := &models.ExerciseDictionary{}
 		json.Unmarshal(byteValue, &exerciseDictionary)
 
-		if err := db.Where(models.ExerciseDictionary{Name: exerciseDictionary.Name}).FirstOrCreate(exerciseDictionary).Error; err != nil {
+		target := []string{}
+		for _, m := range exerciseDictionary.Muscles.Target {
+			m = models.SanitizeMuscleString(m)
+			m, err = models.MuscleStandardName(m)
+			if err != nil {
+				return err
+			}
+			target = append(target, m)
+		}
+		exerciseDictionary.Muscles.Target = target
+
+		synergists := []string{}
+		for _, m := range exerciseDictionary.Muscles.Synergists {
+			m = models.SanitizeMuscleString(m)
+			m, err = models.MuscleStandardName(m)
+			if err != nil {
+				return err
+			}
+			synergists = append(synergists, m)
+		}
+
+		stabilizers := []string{}
+		for _, m := range exerciseDictionary.Muscles.Stabilizers {
+			m = models.SanitizeMuscleString(m)
+			m, err = models.MuscleStandardName(m)
+			if err != nil {
+				return err
+			}
+			stabilizers = append(stabilizers, m)
+		}
+
+		antagonists := []string{}
+		for _, m := range exerciseDictionary.Muscles.AntagonistStabilizers {
+			m = models.SanitizeMuscleString(m)
+			m, err = models.MuscleStandardName(m)
+			if err != nil {
+				return err
+			}
+			antagonists = append(antagonists, m)
+		}
+
+		dynamic := []string{}
+		for _, m := range exerciseDictionary.Muscles.DynamicStabilizers {
+			m = models.SanitizeMuscleString(m)
+			m, err = models.MuscleStandardName(m)
+			if err != nil {
+				return err
+			}
+			dynamic = append(dynamic, m)
+		}
+
+		if err := db.Where(models.ExerciseDictionary{Name: exerciseDictionary.Name}).Assign(*exerciseDictionary).Save(exerciseDictionary).Error; err != nil {
 			return fmt.Errorf("unable to save exercise type: %s", err.Error())
 		}
 
@@ -158,7 +209,7 @@ func seedExerciseDictionary(db *gorm.DB, seedDir string) error {
 		relatedName.ExerciseDictionaryID = exerciseDictionary.ID
 		relatedName.Type = "model"
 
-		if err := db.Where(models.ExerciseRelatedName{Related: relatedName.Related}).FirstOrCreate(relatedName).Error; err != nil {
+		if err := db.Where(models.ExerciseRelatedName{Related: relatedName.Related}).Save(relatedName).Error; err != nil {
 			return fmt.Errorf("unable to save related name: %s", err.Error())
 		}
 
@@ -573,10 +624,37 @@ func migrate(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+var seedDictAndRelatedCmd = &cobra.Command{
+	Use:   "dict_and_related",
+	Short: "Seed the exercise dictionary and related names",
+	RunE:  seed,
+}
+
 var seedDictCmd = &cobra.Command{
 	Use:   "dict",
 	Short: "Seed the exercise dictionary",
-	RunE:  seed,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		// init viper
+		v, err := configureViperFromCmd(cmd)
+		if err != nil {
+			return err
+		}
+
+		// init db
+		db, err := models.NewDatabase(v)
+		if err != nil {
+			return err
+		}
+
+		// seed exercises
+		dir := v.GetString("resources.dir.exercises")
+
+		if err := seedExerciseDictionary(db, dir); err != nil {
+			return err
+		}
+
+		return nil
+	},
 }
 
 var dumpCmd = &cobra.Command{
@@ -641,7 +719,7 @@ func init() {
 	dropCmd.AddCommand(dropDictCmd)
 	dropCmd.AddCommand(dropUserTablesCmd)
 
-	seedCmd.AddCommand(seedDictCmd)
+	seedCmd.AddCommand(seedDictAndRelatedCmd)
 	seedCmd.AddCommand(seedFakeCmd)
 
 	seedFakeCmd.AddCommand(seedFakeWorkoutCmd)

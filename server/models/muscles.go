@@ -1,6 +1,7 @@
 package models
 
 import (
+	"exercise_parser/utils"
 	"fmt"
 	"regexp"
 	"strings"
@@ -90,6 +91,90 @@ const (
 	Pectorals                    = "pectorals"
 )
 
+var allMuscles = []string{
+	Abductor,
+	ExtensorCarpiUlnaris,
+	ExtensorPollicisBrevis,
+	EntensorPollicisLongus,
+	Anconeus,
+	Adductor,
+	AnteriorDeltoid,
+	Biceps,
+	BicepsFemoris,
+	Brachioradialis,
+	Coracobrachialis,
+	ExternalOblique,
+	FlexorCarpiRadialis,
+	FlexorCarpiUlnaris,
+	FlexorDigitorumSuperficialis,
+	ExtensorDigitorum,
+	GastrocnemiusLateralHead,
+	GastrocnemiusMedialHead,
+	Gastrocnemius,
+	GluteusMaximus,
+	GluteusMedius,
+	GluteusMinimus,
+	IliotibialBand,
+	Infraspinatus,
+	LateralDeltoid,
+	LatissimusDorsi,
+	LevatorScapulae,
+	Peroneus,
+	PosteriorDeltoid,
+	RectusAbdominis,
+	RectusFemoris,
+	RhomboidMajor,
+	RhomboidMinor,
+	Sartorius,
+	Semitendinosus,
+	SerratusAnterior,
+	Soleus,
+	Subscapularis,
+	Supraspinatus,
+	TeresMajor,
+	TeresMinor,
+	TransversusAbdominis,
+	TrapeziusLowerFibers,
+	TrapeziusUpperFibers,
+	TrapeziusMiddleFibers,
+	TricepsSurae,
+	VastusinterMedius,
+	VastusLateralis,
+	VastusMedialis,
+	TricepsLongHead,
+	TricepsLateralHead,
+	Iliocostalis,
+	Longissimus,
+	Spinalis,
+	PectoralisMinor,
+	PectoralisMajorClavicular,
+	PectoralisMajorSternal,
+	PsoasMajor,
+	Iliacus,
+	Iliopsoas,
+	ErectorSpinae,
+	LowerBack,
+	Forearm,
+	MiddleBack,
+	Abductors,
+	Deltoids,
+	Trapezius,
+	RotatorCuff,
+	Triceps,
+	Shoulder,
+	Arm,
+	Back,
+	Glutes,
+	Quadriceps,
+	Hamstrings,
+	Thigh,
+	Calves,
+	Legs,
+	Abdominals,
+	PectoralisMajor,
+	Pectorals,
+}
+
 var (
 	AbductorSynonyms                     = []string{"hip abductors", "tensor fasciae latae"}
 	ExtensorCarpiUlnarisSynonyms         = []string{"extensor carpi radialis", "extensor carpi ulnaris"}
@@ -177,179 +262,202 @@ var (
 	PectoralsSynonyms       = []string{}
 )
 
-func muscleSynonyms(muscle string) []string {
+func muscleSynonyms(muscle string) ([]string, error) {
 	switch muscle {
 	case Abductor:
-		return AbductorSynonyms
+		return AbductorSynonyms, nil
 	case ExtensorCarpiUlnaris:
-		return ExtensorCarpiUlnarisSynonyms
+		return ExtensorCarpiUlnarisSynonyms, nil
 	case ExtensorPollicisBrevis:
-		return ExtensorPollicisBrevisSynonyms
+		return ExtensorPollicisBrevisSynonyms, nil
 	case EntensorPollicisLongus:
-		return EntensorPollicisLongusSynonyms
+		return EntensorPollicisLongusSynonyms, nil
 	case Anconeus:
-		return AnconeusSynonyms
+		return AnconeusSynonyms, nil
 	case Adductor:
-		return AdductorSynonyms
+		return AdductorSynonyms, nil
 	case AnteriorDeltoid:
-		return AnteriorDeltoidSynonyms
+		return AnteriorDeltoidSynonyms, nil
 	case Biceps:
-		return BicepsSynonyms
+		return BicepsSynonyms, nil
 	case BicepsFemoris:
-		return BicepsFemorisSynonyms
+		return BicepsFemorisSynonyms, nil
 	case Brachioradialis:
-		return BrachioradialisSynonyms
+		return BrachioradialisSynonyms, nil
 	case Coracobrachialis:
-		return CoracobrachialisSynonyms
+		return CoracobrachialisSynonyms, nil
 	case ExternalOblique:
-		return ExternalObliqueSynonyms
+		return ExternalObliqueSynonyms, nil
 	case FlexorCarpiRadialis:
-		return FlexorCarpiRadialisSynonyms
+		return FlexorCarpiRadialisSynonyms, nil
 	case FlexorCarpiUlnaris:
-		return FlexorCarpiUlnariSynonyms
+		return FlexorCarpiUlnariSynonyms, nil
 	case FlexorDigitorumSuperficialis:
-		return FlexorDigitorumSuperficialisSynonyms
+		return FlexorDigitorumSuperficialisSynonyms, nil
 	case ExtensorDigitorum:
-		return ExtensorDigitorumSynonyms
+		return ExtensorDigitorumSynonyms, nil
 	case GastrocnemiusLateralHead:
-		return GastrocnemiusLateralHeadSynonyms
+		return GastrocnemiusLateralHeadSynonyms, nil
 	case GastrocnemiusMedialHead:
-		return GastrocnemiusMedialHeadSynonyms
+		return GastrocnemiusMedialHeadSynonyms, nil
 	case Gastrocnemius:
-		return GastrocnemiusSynonyms
+		return GastrocnemiusSynonyms, nil
 	case GluteusMaximus:
-		return GluteusMaximusSynonyms
+		return GluteusMaximusSynonyms, nil
 	case GluteusMedius:
-		return GluteusMediusSynonyms
+		return GluteusMediusSynonyms, nil
 	case GluteusMinimus:
-		return GluteusMinimusSynonyms
+		return GluteusMinimusSynonyms, nil
 	case IliotibialBand:
-		return IliotibialBandSynonyms
+		return IliotibialBandSynonyms, nil
 	case Infraspinatus:
-		return InfraspinatusSynonyms
+		return InfraspinatusSynonyms, nil
 	case LateralDeltoid:
-		return LateralDeltoidSynonyms
+		return LateralDeltoidSynonyms, nil
 	case LatissimusDorsi:
-		return LatissimusDorsiSynonyms
+		return LatissimusDorsiSynonyms, nil
 	case LevatorScapulae:
-		return LevatorScapulaeSynonyms
+		return LevatorScapulaeSynonyms, nil
 	case Peroneus:
-		return PeroneusSynonyms
+		return PeroneusSynonyms, nil
 	case PosteriorDeltoid:
-		return PosteriorDeltoidSynonyms
+		return PosteriorDeltoidSynonyms, nil
 	case RectusAbdominis:
-		return RectusAbdominisSynonyms
+		return RectusAbdominisSynonyms, nil
 	case RectusFemoris:
-		return RectusFemorisSynonyms
+		return RectusFemorisSynonyms, nil
 	case RhomboidMajor:
-		return RhomboidMajorSynonyms
+		return RhomboidMajorSynonyms, nil
 	case RhomboidMinor:
-		return RhomboidMinorSynonyms
+		return RhomboidMinorSynonyms, nil
 	case Sartorius:
-		return SartoriusSynonyms
+		return SartoriusSynonyms, nil
 	case Semitendinosus:
-		return SemitendinosusSynonyms
+		return SemitendinosusSynonyms, nil
 	case SerratusAnterior:
-		return SerratusAnteriorSynonyms
+		return SerratusAnteriorSynonyms, nil
 	case Soleus:
-		return SoleusSynonyms
+		return SoleusSynonyms, nil
 	case Subscapularis:
-		return SubscapularisSynonyms
+		return SubscapularisSynonyms, nil
 	case Supraspinatus:
-		return SupraspinatusSynonyms
+		return SupraspinatusSynonyms, nil
 	case TeresMajor:
-		return TeresMajorSynonyms
+		return TeresMajorSynonyms, nil
 	case TeresMinor:
-		return TeresMinorSynonyms
+		return TeresMinorSynonyms, nil
 	case TransversusAbdominis:
-		return TransversusAbdominisSynonyms
+		return TransversusAbdominisSynonyms, nil
 	case TrapeziusLowerFibers:
-		return TrapeziusLowerFibersSynonyms
+		return TrapeziusLowerFibersSynonyms, nil
 	case TrapeziusUpperFibers:
-		return TrapeziusUpperFibersSynonyms
+		return TrapeziusUpperFibersSynonyms, nil
 	case TrapeziusMiddleFibers:
-		return TrapeziusMiddleFibersSynonyms
+		return TrapeziusMiddleFibersSynonyms, nil
 	case TricepsSurae:
-		return TricepsSuraeSynonyms
+		return TricepsSuraeSynonyms, nil
 	case VastusinterMedius:
-		return VastusinterMediusSynonyms
+		return VastusinterMediusSynonyms, nil
 	case VastusLateralis:
-		return VastusLateralisSynonyms
+		return VastusLateralisSynonyms, nil
 	case VastusMedialis:
-		return VastusMedialisSynonyms
+		return VastusMedialisSynonyms, nil
 	case TricepsLongHead:
-		return TricepsLongHeadSynonyms
+		return TricepsLongHeadSynonyms, nil
 	case TricepsLateralHead:
-		return TricepsLateralHeadSynonyms
+		return TricepsLateralHeadSynonyms, nil
 	case Iliocostalis:
-		return IliocostalisSynonyms
+		return IliocostalisSynonyms, nil
 	case Longissimus:
-		return LongissimusSynonyms
+		return LongissimusSynonyms, nil
 	case Spinalis:
-		return SpinalisSynonyms
+		return SpinalisSynonyms, nil
 	case PectoralisMinor:
-		return PectoralisMinorSynonyms
+		return PectoralisMinorSynonyms, nil
 	case PectoralisMajorClavicular:
-		return PectoralisMajorClavicularSynonyms
+		return PectoralisMajorClavicularSynonyms, nil
 	case PectoralisMajorSternal:
-		return PectoralisMajorSternalSynonyms
+		return PectoralisMajorSternalSynonyms, nil
 	case PsoasMajor:
-		return PsoasMajorSynonyms
+		return PsoasMajorSynonyms, nil
 	case Iliacus:
-		return IliacusSynonyms
+		return IliacusSynonyms, nil
 	case Iliopsoas:
-		return IliopsoasSynonyms
+		return IliopsoasSynonyms, nil
 	case ErectorSpinae:
-		return ErectorSpinaeSynonyms
+		return ErectorSpinaeSynonyms, nil
 	case LowerBack:
-		return LowerBackSynonyms
+		return LowerBackSynonyms, nil
 	case Forearm:
-		return ForearmSynonyms
+		return ForearmSynonyms, nil
 	case MiddleBack:
-		return MiddleBackSynonyms
+		return MiddleBackSynonyms, nil
 	case Abductors:
-		return AbductorsSynonyms
+		return AbductorsSynonyms, nil
 	case Deltoids:
-		return DeltoidsSynonyms
+		return DeltoidsSynonyms, nil
 	case Trapezius:
-		return TrapeziusSynonyms
+		return TrapeziusSynonyms, nil
 	case RotatorCuff:
-		return RotatorCuffSynonyms
+		return RotatorCuffSynonyms, nil
 	case Triceps:
-		return TricepsSynonyms
+		return TricepsSynonyms, nil
 	case Shoulder:
-		return ShoulderSynonyms
+		return ShoulderSynonyms, nil
 	case Arm:
-		return ArmSynonyms
+		return ArmSynonyms, nil
 	case Back:
-		return BackSynonyms
+		return BackSynonyms, nil
 	case Glutes:
-		return GlutesSynonyms
+		return GlutesSynonyms, nil
 	case Quadriceps:
-		return QuadricepsSynonyms
+		return QuadricepsSynonyms, nil
 	case Hamstrings:
-		return HamstringsSynonyms
+		return HamstringsSynonyms, nil
 	case Thigh:
-		return ThighSynonyms
+		return ThighSynonyms, nil
 	case Calves:
-		return CalvesSynonyms
+		return CalvesSynonyms, nil
 	case Legs:
-		return LegsSynonyms
+		return LegsSynonyms, nil
 	case Abdominals:
-		return AbdominalsSynonyms
+		return AbdominalsSynonyms, nil
 	case PectoralisMajor:
-		return PectoralisMajorSynonyms
+		return PectoralisMajorSynonyms, nil
 	case Pectorals:
-		return PectoralsSynonyms
+		return PectoralsSynonyms, nil
 	default:
-		fmt.Printf("Unknown muscle: %s\n", muscle)
-		return []string{}
+		return []string{}, fmt.Errorf("Unknown muscle: %s\n", muscle)
 	}
+}
+
+func MuscleStandardName(muscle string) (string, error) {
+	m := SanitizeMuscleString(muscle)
+	if utils.SliceContainsString(allMuscles, m) {
+		return m, nil
+	}
+
+	for _, standardMuscleName := range allMuscles {
+		if m == standardMuscleName {
+			return standardMuscleName, nil
+		}
+
+		synonyms, err := muscleSynonyms(standardMuscleName)
+		if err != nil {
+			return "", err
+		}
+
+		if utils.SliceContainsString(synonyms, m) {
+			return standardMuscleName, nil
+		}
+	}
+
+	return "", fmt.Errorf("No freaking clue what this muscle is: %s", muscle)
 }
 
 var spaceRegexp = regexp.MustCompile(`\s+`)
 
-func sanitizeMuscleString(m string) string {
+func SanitizeMuscleString(m string) string {
 	m = strings.TrimSpace(m)
 	m = spaceRegexp.ReplaceAllString(m, " ")
 	m = strings.ToLower(m)
