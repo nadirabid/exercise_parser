@@ -89,6 +89,7 @@ const (
 	Abdominals                   = "abdominals"
 	PectoralisMajor              = "pectoralis major"
 	Pectorals                    = "pectorals"
+	Unsupported                  = "unsupported"
 )
 
 var allMuscles = []string{
@@ -176,7 +177,7 @@ var allMuscles = []string{
 }
 
 var (
-	AbductorSynonyms                     = []string{"hip abductors", "tensor fasciae latae"}
+	AbductorSynonyms                     = []string{"hip abductors", "tensor fasciae latae", "adductors, hip"}
 	ExtensorCarpiUlnarisSynonyms         = []string{"extensor carpi radialis", "extensor carpi ulnaris"}
 	ExtensorPollicisBrevisSynonyms       = []string{}
 	EntensorPollicisLongusSynonyms       = []string{}
@@ -188,10 +189,10 @@ var (
 	BrachioradialisSynonyms              = []string{"brachioradialis"}
 	CoracobrachialisSynonyms             = []string{}
 	ExternalObliqueSynonyms              = []string{"obliques"}
-	FlexorCarpiRadialisSynonyms          = []string{"flexor carpi radialis"}
+	FlexorCarpiRadialisSynonyms          = []string{"flexor carpi radialis", "pronators"}
 	FlexorCarpiUlnariSynonyms            = []string{"flexor carpi ulnaris"}
-	FlexorDigitorumSuperficialisSynonyms = []string{"wrist extensors", ""}
-	ExtensorDigitorumSynonyms            = []string{"wrist/finger flexors"}
+	FlexorDigitorumSuperficialisSynonyms = []string{"wrist extensors", "wrist flexors", "wrist/finger flexors"}
+	ExtensorDigitorumSynonyms            = []string{}
 	GastrocnemiusLateralHeadSynonyms     = []string{}
 	GastrocnemiusMedialHeadSynonyms      = []string{}
 	GastrocnemiusSynonyms                = []string{"gastrocnemius"}
@@ -260,6 +261,8 @@ var (
 	AbdominalsSynonyms      = []string{}
 	PectoralisMajorSynonyms = []string{"pectoralis major"}
 	PectoralsSynonyms       = []string{}
+
+	UnsupportedSynonyms = []string{"popliteus", "tibialis anterior"}
 )
 
 func muscleSynonyms(muscle string) ([]string, error) {
@@ -433,9 +436,6 @@ func muscleSynonyms(muscle string) ([]string, error) {
 
 func MuscleStandardName(muscle string) (string, error) {
 	m := SanitizeMuscleString(muscle)
-	if utils.SliceContainsString(allMuscles, m) {
-		return m, nil
-	}
 
 	for _, standardMuscleName := range allMuscles {
 		if m == standardMuscleName {
@@ -450,6 +450,10 @@ func MuscleStandardName(muscle string) (string, error) {
 		if utils.SliceContainsString(synonyms, m) {
 			return standardMuscleName, nil
 		}
+	}
+
+	if utils.SliceContainsString(UnsupportedSynonyms, m) {
+		return muscle, nil
 	}
 
 	return "", fmt.Errorf("No freaking clue what this muscle is: %s", muscle)

@@ -152,8 +152,13 @@ func seedExerciseDictionary(db *gorm.DB, seedDir string) error {
 		target := []string{}
 		for _, m := range exerciseDictionary.Muscles.Target {
 			m = models.SanitizeMuscleString(m)
+			if m == "" {
+				continue
+			}
+
 			m, err = models.MuscleStandardName(m)
 			if err != nil {
+				utils.PrettyPrint(exerciseDictionary)
 				return err
 			}
 			target = append(target, m)
@@ -163,44 +168,70 @@ func seedExerciseDictionary(db *gorm.DB, seedDir string) error {
 		synergists := []string{}
 		for _, m := range exerciseDictionary.Muscles.Synergists {
 			m = models.SanitizeMuscleString(m)
+			if m == "" {
+				continue
+			}
+
 			m, err = models.MuscleStandardName(m)
 			if err != nil {
+				utils.PrettyPrint(exerciseDictionary)
 				return err
 			}
 			synergists = append(synergists, m)
 		}
+		exerciseDictionary.Muscles.Synergists = synergists
 
 		stabilizers := []string{}
 		for _, m := range exerciseDictionary.Muscles.Stabilizers {
 			m = models.SanitizeMuscleString(m)
+			if m == "" {
+				continue
+			}
+
 			m, err = models.MuscleStandardName(m)
 			if err != nil {
+				utils.PrettyPrint(exerciseDictionary)
 				return err
 			}
 			stabilizers = append(stabilizers, m)
 		}
+		exerciseDictionary.Muscles.Stabilizers = stabilizers
 
 		antagonists := []string{}
 		for _, m := range exerciseDictionary.Muscles.AntagonistStabilizers {
 			m = models.SanitizeMuscleString(m)
+			if m == "" {
+				continue
+			}
+
 			m, err = models.MuscleStandardName(m)
 			if err != nil {
+				utils.PrettyPrint(exerciseDictionary)
 				return err
 			}
 			antagonists = append(antagonists, m)
 		}
+		exerciseDictionary.Muscles.AntagonistStabilizers = antagonists
 
 		dynamic := []string{}
 		for _, m := range exerciseDictionary.Muscles.DynamicStabilizers {
 			m = models.SanitizeMuscleString(m)
+			if m == "" {
+				continue
+			}
+
 			m, err = models.MuscleStandardName(m)
 			if err != nil {
+				utils.PrettyPrint(exerciseDictionary)
 				return err
 			}
 			dynamic = append(dynamic, m)
 		}
+		exerciseDictionary.Muscles.DynamicStabilizers = dynamic
 
-		if err := db.Where(models.ExerciseDictionary{Name: exerciseDictionary.Name}).Assign(*exerciseDictionary).Save(exerciseDictionary).Error; err != nil {
+		if err := db.
+			Where(models.ExerciseDictionary{URL: exerciseDictionary.URL}).
+			FirstOrInit(exerciseDictionary).Error; err != nil {
 			return fmt.Errorf("unable to save exercise type: %s", err.Error())
 		}
 
@@ -209,7 +240,7 @@ func seedExerciseDictionary(db *gorm.DB, seedDir string) error {
 		relatedName.ExerciseDictionaryID = exerciseDictionary.ID
 		relatedName.Type = "model"
 
-		if err := db.Where(models.ExerciseRelatedName{Related: relatedName.Related}).Save(relatedName).Error; err != nil {
+		if err := db.Where(models.ExerciseRelatedName{Related: relatedName.Related}).FirstOrInit(relatedName).Error; err != nil {
 			return fmt.Errorf("unable to save related name: %s", err.Error())
 		}
 
@@ -720,6 +751,7 @@ func init() {
 	dropCmd.AddCommand(dropUserTablesCmd)
 
 	seedCmd.AddCommand(seedDictAndRelatedCmd)
+	seedCmd.AddCommand(seedDictCmd)
 	seedCmd.AddCommand(seedFakeCmd)
 
 	seedFakeCmd.AddCommand(seedFakeWorkoutCmd)

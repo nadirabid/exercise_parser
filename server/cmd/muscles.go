@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"exercise_parser/models"
+	"exercise_parser/utils"
 	"fmt"
 	"sort"
 
@@ -19,15 +20,10 @@ func printMuscles(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	dictionaries := []models.ExerciseDictionary{}
+	muscleModels := []models.Muscles{}
 
 	err = db.
-		Preload("Classification").
-		Preload("Muscles").
-		Preload("Articulation").
-		Preload("Articulation.Dynamic").
-		Preload("Articulation.Static").
-		Find(&dictionaries).
+		Find(&muscleModels).
 		Error
 
 	if err != nil {
@@ -36,28 +32,28 @@ func printMuscles(cmd *cobra.Command, args []string) error {
 
 	muscles := map[string]bool{}
 
-	for _, d := range dictionaries {
-		for _, m := range d.Muscles.Target {
+	for _, d := range muscleModels {
+		for _, m := range d.Target {
 			m = models.SanitizeMuscleString(m)
 			muscles[m] = true
 		}
 
-		for _, m := range d.Muscles.Synergists {
+		for _, m := range d.Synergists {
 			m = models.SanitizeMuscleString(m)
 			muscles[m] = true
 		}
 
-		for _, m := range d.Muscles.Stabilizers {
+		for _, m := range d.Stabilizers {
 			m = models.SanitizeMuscleString(m)
 			muscles[m] = true
 		}
 
-		for _, m := range d.Muscles.AntagonistStabilizers {
+		for _, m := range d.AntagonistStabilizers {
 			m = models.SanitizeMuscleString(m)
 			muscles[m] = true
 		}
 
-		for _, m := range d.Muscles.DynamicStabilizers {
+		for _, m := range d.DynamicStabilizers {
 			m = models.SanitizeMuscleString(m)
 			muscles[m] = true
 		}
@@ -88,19 +84,135 @@ func printMuscles(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+func sanitizeMuscleNamesInDB(cmd *cobra.Command, args []string) error {
+	v, err := configureViperFromCmd(cmd)
+	if err != nil {
+		return err
+	}
+
+	db, err := models.NewDatabase(v)
+	if err != nil {
+		return err
+	}
+
+	muscleModels := []models.Muscles{}
+
+	err = db.
+		Find(&muscleModels).
+		Error
+
+	if err != nil {
+		return err
+	}
+
+	for _, muscleModel := range muscleModels {
+		target := []string{}
+		for _, m := range muscleModel.Target {
+			m = models.SanitizeMuscleString(m)
+			if m == "" {
+				continue
+			}
+
+			m, err = models.MuscleStandardName(m)
+			if err != nil {
+				utils.PrettyPrint(muscleModel)
+				return err
+			}
+			target = append(target, m)
+		}
+		muscleModel.Target = target
+
+		synergists := []string{}
+		for _, m := range muscleModel.Synergists {
+			m = models.SanitizeMuscleString(m)
+			if m == "" {
+				continue
+			}
+
+			m, err = models.MuscleStandardName(m)
+			if err != nil {
+				utils.PrettyPrint(muscleModel)
+				return err
+			}
+			synergists = append(synergists, m)
+		}
+		muscleModel.Synergists = synergists
+
+		stabilizers := []string{}
+		for _, m := range muscleModel.Stabilizers {
+			m = models.SanitizeMuscleString(m)
+			if m == "" {
+				continue
+			}
+
+			m, err = models.MuscleStandardName(m)
+			if err != nil {
+				utils.PrettyPrint(muscleModel)
+				return err
+			}
+			stabilizers = append(stabilizers, m)
+		}
+		muscleModel.Stabilizers = stabilizers
+
+		antagonists := []string{}
+		for _, m := range muscleModel.AntagonistStabilizers {
+			m = models.SanitizeMuscleString(m)
+			if m == "" {
+				continue
+			}
+
+			m, err = models.MuscleStandardName(m)
+			if err != nil {
+				utils.PrettyPrint(muscleModel)
+				return err
+			}
+			antagonists = append(antagonists, m)
+		}
+		muscleModel.AntagonistStabilizers = antagonists
+
+		dynamic := []string{}
+		for _, m := range muscleModel.DynamicStabilizers {
+			m = models.SanitizeMuscleString(m)
+			if m == "" {
+				continue
+			}
+
+			m, err = models.MuscleStandardName(m)
+			if err != nil {
+				utils.PrettyPrint(muscleModel)
+				return err
+			}
+			dynamic = append(dynamic, m)
+		}
+
+		if err := db.Save(&muscleModel).Error; err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 var printMusclesCmd = &cobra.Command{
-	Use:   "muscles",
+	Use:   "print",
 	Short: "Print all muscles",
 	RunE:  printMuscles,
 }
 
-var printCmd = &cobra.Command{
-	Use:   "print",
+var sanitizeMusclesCmd = &cobra.Command{
+	Use:   "sanitize",
+	Short: "Sanitize muscle names in db",
+	RunE:  sanitizeMuscleNamesInDB,
+}
+
+var muscleCmd = &cobra.Command{
+	Use:   "muscle",
 	Short: "Print various diagnostics info",
 }
 
 func init() {
-	rootCmd.AddCommand(printCmd)
+	rootCmd.AddCommand(muscleCmd)
 
-	printCmd.AddCommand(printMusclesCmd)
+	muscleCmd.AddCommand(printMusclesCmd)
+	muscleCmd.AddCommand(sanitizeMusclesCmd)
 }

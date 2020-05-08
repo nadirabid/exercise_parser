@@ -36,7 +36,7 @@ For local testing - to create a db copy:
 
 ```sh
 psql -d exercise_parser
-CREATE DATABASE exercise_parser_test WITH TEMPLATE exercise_parser OWNER exercise_parser;
+CREATE DATABASE exercise_parser_test WITH TEMPLATE exercise_parser;
 ```
 
 #### Examples
