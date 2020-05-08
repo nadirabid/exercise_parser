@@ -51,13 +51,16 @@ class EditableWorkoutState: ObservableObject {
 class RouteState: ObservableObject {
     @Published var current: Route
     
-    init(current: Route = .feed) {
+    init(current: Route = .userFeed) {
         self.current = current
     }
     
     enum Route {
-        case feed
+        case userFeed
+        case userMetrics
+        
         case editor
-        case subscribtion_feed
+        
+        case subscriptionFeed
     }
 }

@@ -219,6 +219,7 @@
 				64D41A7424639125003D231A /* SubscriptionFeedView.swift */,
 				640093052435CCAF007193B4 /* TimerView.swift */,
 				641E3FCE24316B27005C71A3 /* Transitions.swift */,
+				64F033302465E051009B90E6 /* TrackableScrollView.swift */,
 				6411FD9E242733D3003D49BF /* Utils.swift */,
 				64F0529C243FBD38004D24E6 /* ViewModifiers.swift */,
 				64FD08252421C5B1000F1479 /* WebAPI.swift */,
@@ -226,7 +227,6 @@
 				642675AD22C0A425008E07A1 /* Models */,
 				6494A01D22B6139B00C19543 /* Preview Content */,
 				6494A04522B6142D00C19543 /* Supporting Files */,
-				64F033302465E051009B90E6 /* TrackableScrollView.swift */,
 			);
 			path = client;
 			sourceTree = "<group>";

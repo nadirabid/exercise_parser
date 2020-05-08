@@ -12,13 +12,13 @@ import Combine
 
 struct FeedView: View {
     @EnvironmentObject var userState: UserState
-    @EnvironmentObject var route: RouteState
+    @EnvironmentObject var routeState: RouteState
     @EnvironmentObject var workoutAPI: WorkoutAPI
     @State private var feedDataPublisher: AnyCancellable? = nil
     @State private var feedData: PaginatedResponse<Workout>? = nil
     
     @State private var scrollViewContentOffset = CGFloat(0)
-    @State private var height: CGFloat = 70
+    @State private var height: CGFloat = 130
     
     var body: some View {
         return VStack(spacing: 0) {
@@ -42,20 +42,23 @@ struct FeedView: View {
                     .background(Color.white)
                 
                 ZStack(alignment: .top) {
+                    FeedViewHeader(
+                        user: userState.userInfo,
+                        height: self.height - min(0, self.scrollViewContentOffset / 3)
+                    )
+                        .zIndex(2)
+                    
                     TrackableScrollView(.vertical, showIndicators: false, contentOffset: $scrollViewContentOffset) {
                         VStack(spacing: 0) {
                             ForEach(self.feedData!.results) { workout in
-                                WorkoutView(user: self.userState.userInfo, workout: workout)
+                                WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false)
                                     .background(Color.white)
                                     .padding(.top)
                             }
                         }
                         .padding(.top, height)
                     }
-                    
-                    FeedViewHeader(user: userState.userInfo, height: self.height - min(0, self.scrollViewContentOffset / 3))
                 }
-                
             } else {
                 Spacer()
                 HStack {
@@ -76,6 +79,8 @@ struct FeedView: View {
 }
 
 struct FeedViewHeader: View {
+    @EnvironmentObject var routeState: RouteState
+    
     var user: User?
     var height: CGFloat = 70
     var offset: CGPoint = CGPoint.zero
@@ -93,7 +98,7 @@ struct FeedViewHeader: View {
                     .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
                     .scaledToFit()
                     .clipShape(Circle())
-                    .frame(width: 75, height: 75)
+                    .frame(width: 65, height: 65)
                     .padding(.trailing)
                 
                 VStack(alignment: .leading) {
@@ -106,6 +111,28 @@ struct FeedViewHeader: View {
             }
             
             Spacer()
+            
+            HStack(alignment: .center) {
+                Spacer()
+                
+                Button(action: { self.routeState.current = .userFeed }) {
+                    HeartIconShape()
+                        .fill(self.routeState.current == .userFeed ? appColor : Color.gray)
+                        .frame(width: 20, height: 20)
+                }
+                
+                Spacer()
+                Spacer()
+                
+                Button(action: { self.routeState.current = .userMetrics }) {
+                    ChartIconShape()
+                        .fill(self.routeState.current == .userMetrics ? appColor : Color.gray)
+                        .frame(width: 20, height: 20)
+                }
+                
+                Spacer()
+            }
+                .padding(.bottom)
             
             Divider()
         }
@@ -120,7 +147,7 @@ struct FeedView_Previews: PreviewProvider {
         return FeedView()
             .environmentObject(UserState())
             .environmentObject(EditableWorkoutState())
-            .environmentObject(RouteState(current: .feed))
+            .environmentObject(RouteState(current: .userFeed))
             .environmentObject(MockWorkoutAPI(userState: UserState()) as WorkoutAPI)
     }
 }

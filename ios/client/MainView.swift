@@ -24,9 +24,9 @@ struct MainView: View {
                 EditableWorkoutView()
             } else {
                 VStack(spacing: 0) {
-                    if route.current == .feed {
+                    if route.current == .userFeed || route.current == .userMetrics {
                         FeedView()
-                    } else if route.current == .subscribtion_feed {
+                    } else if route.current == .subscriptionFeed {
                         VStack(alignment: .center) {
                             Text("RYDEN")
                                 .foregroundColor(appColor)
@@ -46,9 +46,9 @@ struct MainView: View {
                             Spacer()
                             Spacer()
                             
-                            Button(action: { self.route.current = .feed }) {
+                            Button(action: { self.route.current = .userFeed }) {
                                 HomeIconShape()
-                                    .stroke(self.route.current == .feed ? appColor : Color.gray)
+                                    .fill(self.route.current == .userFeed ? appColor : Color.gray)
                                     .frame(height: 20)
                             }
                             
@@ -70,9 +70,9 @@ struct MainView: View {
                             
                             Spacer()
                             
-                            Button(action: { self.route.current = .subscribtion_feed }) {
+                            Button(action: { self.route.current = .subscriptionFeed }) {
                                 StreamIconShape()
-                                    .stroke(self.route.current == .subscribtion_feed ? appColor : Color.gray)
+                                    .fill(self.route.current == .subscriptionFeed ? appColor : Color.gray)
                                     .frame(height: 20)
                             }
                             

@@ -28,26 +28,31 @@ struct WorkoutDetail: View {
 struct WorkoutView: View {
     var user: User? = nil
     var workout: Workout
+    var showUserInfo: Bool = true
     
     @State private var viewPage = 0
     
     var body: some View {
         return VStack(alignment: .leading) {
             HStack {
-//                VStack {
-//                    UserIconShape().fill(Color.gray).padding()
-//                }
-//                    .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
-//                    .scaledToFit()
-//                    .clipShape(Circle())
-//                    .frame(width: 45, height: 45)
-                
-                VStack(alignment: .leading) {
-                    Text(workout.name)
+                if showUserInfo {
+                    VStack {
+                        UserIconShape().fill(Color.gray).padding()
+                    }
+                        .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                        .scaledToFit()
+                        .clipShape(Circle())
+                        .frame(width: 45, height: 45)
                     
-//                    Text(user?.getUserName() ?? "")
-//                        .font(.caption)
-//                        .foregroundColor(Color.gray)
+                    VStack(alignment: .leading) {
+                        Text(workout.name)
+                        
+                        Text(user?.getUserName() ?? "")
+                            .font(.caption)
+                            .foregroundColor(Color.gray)
+                    }
+                } else {
+                    Text(workout.name)
                 }
             }
                 .padding(.leading)

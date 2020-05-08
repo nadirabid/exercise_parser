@@ -363,3 +363,131 @@ struct StreamIconShape: Shape {
         return path.applying(transform)
     }
 }
+
+struct HeartIconShape: Shape {
+    let path: Path
+    
+    init() {
+        let bezierPath = UIBezierPath()
+        bezierPath.move(to: CGPoint(x: 458.4, y: 32.3))
+        bezierPath.addCurve(to: CGPoint(x: 256, y: 47.3), controlPoint1: CGPoint(x: 400.6, y: -16.3), controlPoint2: CGPoint(x: 311.3, y: -9))
+        bezierPath.addCurve(to: CGPoint(x: 53.6, y: 32.3), controlPoint1: CGPoint(x: 200.7, y: -9), controlPoint2: CGPoint(x: 111.4, y: -16.4))
+        bezierPath.addCurve(to: CGPoint(x: 43, y: 253.5), controlPoint1: CGPoint(x: -21.6, y: 95.6), controlPoint2: CGPoint(x: -10.6, y: 198.8))
+        bezierPath.addLine(to: CGPoint(x: 218.4, y: 432.2))
+        bezierPath.addCurve(to: CGPoint(x: 256, y: 448.1), controlPoint1: CGPoint(x: 228.4, y: 442.4), controlPoint2: CGPoint(x: 241.8, y: 448.1))
+        bezierPath.addCurve(to: CGPoint(x: 293.6, y: 432.3), controlPoint1: CGPoint(x: 270.3, y: 448.1), controlPoint2: CGPoint(x: 283.6, y: 442.5))
+        bezierPath.addLine(to: CGPoint(x: 469, y: 253.6))
+        bezierPath.addCurve(to: CGPoint(x: 458.4, y: 32.3), controlPoint1: CGPoint(x: 522.5, y: 198.9), controlPoint2: CGPoint(x: 533.7, y: 95.7))
+        bezierPath.close()
+        bezierPath.move(to: CGPoint(x: 434.8, y: 219.8))
+        bezierPath.addLine(to: CGPoint(x: 259.4, y: 398.5))
+        bezierPath.addCurve(to: CGPoint(x: 252.6, y: 398.5), controlPoint1: CGPoint(x: 257, y: 400.9), controlPoint2: CGPoint(x: 255, y: 400.9))
+        bezierPath.addLine(to: CGPoint(x: 77.2, y: 219.8))
+        bezierPath.addCurve(to: CGPoint(x: 84.5, y: 69.1), controlPoint1: CGPoint(x: 40.7, y: 182.6), controlPoint2: CGPoint(x: 33.3, y: 112.2))
+        bezierPath.addCurve(to: CGPoint(x: 221, y: 79.6), controlPoint1: CGPoint(x: 123.4, y: 36.4), controlPoint2: CGPoint(x: 183.4, y: 41.3))
+        bezierPath.addLine(to: CGPoint(x: 256, y: 115.3))
+        bezierPath.addLine(to: CGPoint(x: 291, y: 79.6))
+        bezierPath.addCurve(to: CGPoint(x: 427.5, y: 69), controlPoint1: CGPoint(x: 328.8, y: 41.1), controlPoint2: CGPoint(x: 388.8, y: 36.4))
+        bezierPath.addCurve(to: CGPoint(x: 434.8, y: 219.8), controlPoint1: CGPoint(x: 478.6, y: 112.1), controlPoint2: CGPoint(x: 471, y: 182.9))
+        bezierPath.close()
+        
+        self.path = Path(bezierPath.cgPath)
+    }
+    
+    func path(in rect: CGRect) -> Path {
+        let bounds = self.path.boundingRect
+        let scaleX = rect.size.width / bounds.width
+        let scaleY = rect.size.height / bounds.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+        
+        var transform  = CGAffineTransform.identity
+        
+        transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
+        transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
+        transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
+        
+        return path.applying(transform)
+    }
+}
+
+struct ChartIconShape: Shape {
+    let path: Path
+    
+    init() {
+        let bezierPath = UIBezierPath()
+        bezierPath.move(to: CGPoint(x: 332.8, y: 256))
+        bezierPath.addLine(to: CGPoint(x: 371.2, y: 256))
+        bezierPath.addCurve(to: CGPoint(x: 384, y: 243.2), controlPoint1: CGPoint(x: 377.6, y: 256), controlPoint2: CGPoint(x: 384, y: 249.6))
+        bezierPath.addLine(to: CGPoint(x: 384, y: 108.8))
+        bezierPath.addCurve(to: CGPoint(x: 371.2, y: 96), controlPoint1: CGPoint(x: 384, y: 102.4), controlPoint2: CGPoint(x: 377.6, y: 96))
+        bezierPath.addLine(to: CGPoint(x: 332.8, y: 96))
+        bezierPath.addCurve(to: CGPoint(x: 320, y: 108.8), controlPoint1: CGPoint(x: 326.4, y: 96), controlPoint2: CGPoint(x: 320, y: 102.4))
+        bezierPath.addLine(to: CGPoint(x: 320, y: 243.2))
+        bezierPath.addCurve(to: CGPoint(x: 332.8, y: 256), controlPoint1: CGPoint(x: 320, y: 249.6), controlPoint2: CGPoint(x: 326.4, y: 256))
+        bezierPath.close()
+        bezierPath.move(to: CGPoint(x: 428.8, y: 256))
+        bezierPath.addLine(to: CGPoint(x: 467.2, y: 256))
+        bezierPath.addCurve(to: CGPoint(x: 480, y: 243.2), controlPoint1: CGPoint(x: 473.6, y: 256), controlPoint2: CGPoint(x: 480, y: 249.6))
+        bezierPath.addLine(to: CGPoint(x: 480, y: 12.8))
+        bezierPath.addCurve(to: CGPoint(x: 467.2, y: 0), controlPoint1: CGPoint(x: 480, y: 6.4), controlPoint2: CGPoint(x: 473.6, y: 0))
+        bezierPath.addLine(to: CGPoint(x: 428.8, y: 0))
+        bezierPath.addCurve(to: CGPoint(x: 416, y: 12.8), controlPoint1: CGPoint(x: 422.4, y: 0), controlPoint2: CGPoint(x: 416, y: 6.4))
+        bezierPath.addLine(to: CGPoint(x: 416, y: 243.2))
+        bezierPath.addCurve(to: CGPoint(x: 428.8, y: 256), controlPoint1: CGPoint(x: 416, y: 249.6), controlPoint2: CGPoint(x: 422.4, y: 256))
+        bezierPath.close()
+        bezierPath.move(to: CGPoint(x: 140.8, y: 256))
+        bezierPath.addLine(to: CGPoint(x: 179.2, y: 256))
+        bezierPath.addCurve(to: CGPoint(x: 192, y: 243.2), controlPoint1: CGPoint(x: 185.6, y: 256), controlPoint2: CGPoint(x: 192, y: 249.6))
+        bezierPath.addLine(to: CGPoint(x: 192, y: 172.8))
+        bezierPath.addCurve(to: CGPoint(x: 179.2, y: 160), controlPoint1: CGPoint(x: 192, y: 166.4), controlPoint2: CGPoint(x: 185.6, y: 160))
+        bezierPath.addLine(to: CGPoint(x: 140.8, y: 160))
+        bezierPath.addCurve(to: CGPoint(x: 128, y: 172.8), controlPoint1: CGPoint(x: 134.4, y: 160), controlPoint2: CGPoint(x: 128, y: 166.4))
+        bezierPath.addLine(to: CGPoint(x: 128, y: 243.2))
+        bezierPath.addCurve(to: CGPoint(x: 140.8, y: 256), controlPoint1: CGPoint(x: 128, y: 249.6), controlPoint2: CGPoint(x: 134.4, y: 256))
+        bezierPath.close()
+        bezierPath.move(to: CGPoint(x: 236.8, y: 256))
+        bezierPath.addLine(to: CGPoint(x: 275.2, y: 256))
+        bezierPath.addCurve(to: CGPoint(x: 288, y: 243.2), controlPoint1: CGPoint(x: 281.6, y: 256), controlPoint2: CGPoint(x: 288, y: 249.6))
+        bezierPath.addLine(to: CGPoint(x: 288, y: 44.8))
+        bezierPath.addCurve(to: CGPoint(x: 275.2, y: 32), controlPoint1: CGPoint(x: 288, y: 38.4), controlPoint2: CGPoint(x: 281.6, y: 32))
+        bezierPath.addLine(to: CGPoint(x: 236.8, y: 32))
+        bezierPath.addCurve(to: CGPoint(x: 224, y: 44.8), controlPoint1: CGPoint(x: 230.4, y: 32), controlPoint2: CGPoint(x: 224, y: 38.4))
+        bezierPath.addLine(to: CGPoint(x: 224, y: 243.2))
+        bezierPath.addCurve(to: CGPoint(x: 236.8, y: 256), controlPoint1: CGPoint(x: 224, y: 249.6), controlPoint2: CGPoint(x: 230.4, y: 256))
+        bezierPath.close()
+        bezierPath.move(to: CGPoint(x: 496, y: 320))
+        bezierPath.addLine(to: CGPoint(x: 64, y: 320))
+        bezierPath.addLine(to: CGPoint(x: 64, y: 16))
+        bezierPath.addCurve(to: CGPoint(x: 48, y: 0), controlPoint1: CGPoint(x: 64, y: 7.16), controlPoint2: CGPoint(x: 56.84, y: 0))
+        bezierPath.addLine(to: CGPoint(x: 16, y: 0))
+        bezierPath.addCurve(to: CGPoint(x: 0, y: 16), controlPoint1: CGPoint(x: 7.16, y: 0), controlPoint2: CGPoint(x: 0, y: 7.16))
+        bezierPath.addLine(to: CGPoint(x: 0, y: 352))
+        bezierPath.addCurve(to: CGPoint(x: 32, y: 384), controlPoint1: CGPoint(x: 0, y: 369.67), controlPoint2: CGPoint(x: 14.33, y: 384))
+        bezierPath.addLine(to: CGPoint(x: 496, y: 384))
+        bezierPath.addCurve(to: CGPoint(x: 512, y: 368), controlPoint1: CGPoint(x: 504.84, y: 384), controlPoint2: CGPoint(x: 512, y: 376.84))
+        bezierPath.addLine(to: CGPoint(x: 512, y: 336))
+        bezierPath.addCurve(to: CGPoint(x: 496, y: 320), controlPoint1: CGPoint(x: 512, y: 327.16), controlPoint2: CGPoint(x: 504.84, y: 320))
+        bezierPath.close()
+        
+        self.path = Path(bezierPath.cgPath)
+    }
+    
+    func path(in rect: CGRect) -> Path {
+        let bounds = self.path.boundingRect
+        let scaleX = rect.size.width / bounds.width
+        let scaleY = rect.size.height / bounds.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+        
+        var transform  = CGAffineTransform.identity
+        
+        transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
+        transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
+        transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
+        
+        return path.applying(transform)
+    }
+}

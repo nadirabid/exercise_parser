@@ -67,13 +67,13 @@ public struct EditableWorkoutView: View {
 
         if exercises.count == 0 {
             self.state.reset()
-            self.route.current = .feed
+            self.route.current = .userFeed
             return
         }
 
         workoutAPI.createWorkout(workout: workout) { (_) in
             self.state.reset()
-            self.route.current = .feed
+            self.route.current = .userFeed
         }
     }
     
