@@ -46,10 +46,7 @@ struct ExerciseView : View {
     }
     
     var body: some View {
-        if exercise.data.distance > 0 {
-        print(exercise.data.distance > 0, exercise.data.displayDistanceValue.format(f: ".1"), exercise.data.displayDistanceValue, exercise.data.distance)
-        }
-        return HStack {
+        HStack {
             Text(exercise.name.capitalized)
                 .font(.subheadline)
                 .foregroundColor(self.valuesColor)
@@ -80,7 +77,7 @@ struct ExerciseView : View {
                               .foregroundColor(self.unitsColor)
                               .shouldItalicize(shouldItalicize)
                           
-                          Text(exercise.data.displayDistanceValue.format(f: ".1"))
+                        Text(exercise.data.displayDistanceValue.description)
                               .font(.headline)
                               .foregroundColor(self.valuesColor)
                               .shouldItalicize(shouldItalicize)

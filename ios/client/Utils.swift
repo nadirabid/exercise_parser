@@ -15,11 +15,13 @@ func secondsToElapsedTimeString(_ totalSeconds: Int) -> String {
     let minutes = totalSeconds / 60
     let hours = totalSeconds / (60*60)
     
-    if hours == 0 {
+    if hours == 0 && minutes == 0 {
+        return "\(seconds)s"
+    } else if hours == 0 {
         return "\(minutes)m \(seconds)s"
+    } else {
+        return "\(hours)h \(minutes)m"
     }
-    
-    return "\(hours)h \(minutes)m"
 }
 
 func dateToWorkoutName(_ d: Date) -> String {
