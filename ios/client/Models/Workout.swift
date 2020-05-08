@@ -142,9 +142,9 @@ struct ExerciseData: Codable {
         var m = Measurement(value: Double(distance), unit: UnitLength.meters)
         
         if distance <= 300 {
-            m = Measurement(value: Double(distance), unit: UnitLength.meters).converted(to: UnitLength.feet)
+            m = m.converted(to: UnitLength.feet)
         } else {
-            m = Measurement(value: Double(distance), unit: UnitLength.meters).converted(to: UnitLength.miles)
+            m = m.converted(to: UnitLength.miles)
         }
         
         return Float(round(m.value*100)/100)

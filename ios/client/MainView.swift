@@ -24,19 +24,19 @@ struct MainView: View {
                 EditableWorkoutView()
             } else {
                 VStack(spacing: 0) {
-                    VStack(alignment: .center) {
-                        Text("RYDEN")
-                            .foregroundColor(appColor)
-                            .fontWeight(.heavy)
-                            .font(.subheadline)
-                        
-                        Divider()
-                    }
-                        .background(Color.white)
-                    
                     if route.current == .feed {
                         FeedView()
                     } else if route.current == .subscribtion_feed {
+                        VStack(alignment: .center) {
+                            Text("RYDEN")
+                                .foregroundColor(appColor)
+                                .fontWeight(.heavy)
+                                .font(.subheadline)
+                            
+                            Divider()
+                        }
+                            .background(Color.white)
+                        
                         SubscriptionFeedView()
                     }
                     

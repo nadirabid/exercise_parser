@@ -97,6 +97,52 @@ struct UserIconShape: Shape {
     
     init() {
         let bezierPath = UIBezierPath()
+        bezierPath.move(to: CGPoint(x: 256, y: 288))
+        bezierPath.addCurve(to: CGPoint(x: 400, y: 144), controlPoint1: CGPoint(x: 335.5, y: 288), controlPoint2: CGPoint(x: 400, y: 223.5))
+        bezierPath.addCurve(to: CGPoint(x: 256, y: 0), controlPoint1: CGPoint(x: 400, y: 64.5), controlPoint2: CGPoint(x: 335.5, y: 0))
+        bezierPath.addCurve(to: CGPoint(x: 112, y: 144), controlPoint1: CGPoint(x: 176.5, y: 0), controlPoint2: CGPoint(x: 112, y: 64.5))
+        bezierPath.addCurve(to: CGPoint(x: 256, y: 288), controlPoint1: CGPoint(x: 112, y: 223.5), controlPoint2: CGPoint(x: 176.5, y: 288))
+        bezierPath.close()
+        bezierPath.move(to: CGPoint(x: 384, y: 320))
+        bezierPath.addLine(to: CGPoint(x: 328.9, y: 320))
+        bezierPath.addCurve(to: CGPoint(x: 256, y: 336), controlPoint1: CGPoint(x: 306.7, y: 330.2), controlPoint2: CGPoint(x: 282, y: 336))
+        bezierPath.addCurve(to: CGPoint(x: 183.1, y: 320), controlPoint1: CGPoint(x: 230, y: 336), controlPoint2: CGPoint(x: 205.4, y: 330.2))
+        bezierPath.addLine(to: CGPoint(x: 128, y: 320))
+        bezierPath.addCurve(to: CGPoint(x: 0, y: 448), controlPoint1: CGPoint(x: 57.3, y: 320), controlPoint2: CGPoint(x: 0, y: 377.3))
+        bezierPath.addLine(to: CGPoint(x: 0, y: 464))
+        bezierPath.addCurve(to: CGPoint(x: 48, y: 512), controlPoint1: CGPoint(x: 0, y: 490.5), controlPoint2: CGPoint(x: 21.5, y: 512))
+        bezierPath.addLine(to: CGPoint(x: 464, y: 512))
+        bezierPath.addCurve(to: CGPoint(x: 512, y: 464), controlPoint1: CGPoint(x: 490.5, y: 512), controlPoint2: CGPoint(x: 512, y: 490.5))
+        bezierPath.addLine(to: CGPoint(x: 512, y: 448))
+        bezierPath.addCurve(to: CGPoint(x: 384, y: 320), controlPoint1: CGPoint(x: 512, y: 377.3), controlPoint2: CGPoint(x: 454.7, y: 320))
+        bezierPath.close()
+
+        self.path = Path(bezierPath.cgPath)
+    }
+    
+    func path(in rect: CGRect) -> Path {
+        let bounds = self.path.boundingRect
+        let scaleX = rect.size.width / bounds.width
+        let scaleY = rect.size.height / bounds.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+        
+        var transform  = CGAffineTransform.identity
+        
+        transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
+        transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
+        transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
+        
+        return path.applying(transform)
+    }
+}
+
+struct HollowUserIconShape: Shape {
+    let path: Path
+    
+    init() {
+        let bezierPath = UIBezierPath()
         bezierPath.move(to: CGPoint(x: 313.6, y: 304))
         bezierPath.addCurve(to: CGPoint(x: 224, y: 320), controlPoint1: CGPoint(x: 284.9, y: 304), controlPoint2: CGPoint(x: 271.1, y: 320))
         bezierPath.addCurve(to: CGPoint(x: 134.4, y: 304), controlPoint1: CGPoint(x: 176.9, y: 320), controlPoint2: CGPoint(x: 163.2, y: 304))

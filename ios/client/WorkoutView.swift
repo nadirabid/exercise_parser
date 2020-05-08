@@ -34,7 +34,13 @@ struct WorkoutView: View {
     var body: some View {
         return VStack(alignment: .leading) {
             HStack {
-                CircleProfileImage().frame(width: 45, height: 45)
+                VStack {
+                    UserIconShape().fill(Color.gray).padding()
+                }
+                    .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                    .scaledToFit()
+                    .clipShape(Circle())
+                    .frame(width: 45, height: 45)
                 
                 VStack(alignment: .leading) {
                     Text(workout.name)
@@ -217,12 +223,32 @@ public struct WorkoutMetaMetricsView: View {
         return Int(round(result))
     }
     
-    var totalDistance: Float {
+    var totalDistanceUnits: String {
         let result = workout.exercises.reduce(Float.zero) { (r, e) in
-            return r + e.data.displayDistanceValue
+             return r + e.data.distance
         }
         
-        return result
+        if result <= 300 {
+            return UnitLength.feet.symbol
+        }
+        
+        return UnitLength.miles.symbol
+    }
+    
+    var totalDistance: Float {
+        let result = workout.exercises.reduce(Float.zero) { (r, e) in
+            return r + e.data.distance
+        }
+        
+        var m = Measurement(value: Double(result), unit: UnitLength.meters)
+        
+        if result <= 300 {
+            m = m.converted(to: UnitLength.feet)
+        } else {
+            m = m.converted(to: UnitLength.miles)
+        }
+        
+        return Float(round(m.value*100)/100)
     }
     
     public var body: some View {
@@ -245,7 +271,7 @@ public struct WorkoutMetaMetricsView: View {
             
             Divider()
             
-            WorkoutDetail(name: "Distance", value:"\(totalDistance) mi")
+            WorkoutDetail(name: "Distance", value:"\(totalDistance) \(totalDistanceUnits)")
         }
     }
 }
