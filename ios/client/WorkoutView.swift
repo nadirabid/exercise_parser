@@ -140,8 +140,6 @@ struct WorkoutMuscleMetricsView: View {
                 let muscles = Muscle.allCases.filter { muscle in
                     if muscleString == muscle.name.lowercased() {
                         return true
-                    } else if muscle.synonyms.map({ s in s.lowercased() }).contains(muscleString) {
-                        return true
                     }
                     
                     return false
@@ -170,8 +168,6 @@ struct WorkoutMuscleMetricsView: View {
             return muscleStrings.flatMap { (muscleString) -> [Muscle] in
                 let muscles = Muscle.allCases.filter { muscle in
                     if muscleString == muscle.name.lowercased() {
-                        return true
-                    } else if muscle.synonyms.map({ s in s.lowercased() }).contains(muscleString) {
                         return true
                     }
                     

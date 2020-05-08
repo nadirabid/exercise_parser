@@ -117,12 +117,6 @@ enum AnatomicalOrientation {
 
 extension Muscle {
 
-    static func getMuscleFromString(name: String) -> [Muscle] {
-        Muscle.allCases.filter { (muscle) -> Bool in
-            muscle.name == name || muscle.synonyms.contains(name)
-        }
-    }
-    
     var isMuscleGroup: Bool {
         return !components.isEmpty
     }
@@ -244,96 +238,6 @@ extension Muscle {
         case .Background: return "Background"
         }
     }
-
-    var synonyms: [String] {
-        switch self {
-        case .Abductor: return []
-        case .ExtensorCarpiUlnaris: return []
-        case .ExtensorPollicisBrevis: return []
-        case .EntensorPollicisLongus: return []
-        case .Anconeus: return []
-        case .Adductor: return ["Inner Thigh"]
-        case .AnteriorDeltoid: return ["Deltoid Anterior", "Deltoid, Anterior"]
-        case .Biceps: return ["Biceps brachii"]
-        case .BicepsFemoris: return []
-        case .Brachioradialis: return []
-        case .Coracobrachialis: return []
-        case .ExternalOblique: return ["External Oblique", "Obliques"]
-        case .FlexorCarpiRadialis: return []
-        case .FlexorCarpiUlnaris: return []
-        case .FlexorDigitorumSuperficialis: return []
-        case .ExtensorDigitorum: return []
-        case .GastrocnemiusLateralHead: return []
-        case .GastrocnemiusMedialHead: return []
-        case .Gastrocnemius: return ["Gastrocnemius"]
-        case .GluteusMaximus: return []
-        case .GluteusMedius: return []
-        case .GluteusMinimus: return []
-        case .IliotibialBand: return ["Semimembranosus"]
-        case .Infraspinatus: return []
-        case .LateralDeltoid: return ["Intermediate Deltoid", "Deltoid Lateral", "deltoid, lateral"]
-        case .LatissimusDorsi: return ["Lats", "Lat"]
-        case .LevatorScapulae: return []
-        case .Peroneus: return []
-        case .PosteriorDeltoid: return ["Deltoid Posterior"]
-        case .RectusAbdominis: return ["Rectus Abdominus"]
-        case .RectusFemoris: return []
-        case .RhomboidMajor: return ["Rhomboids"]
-        case .RhomboidMinor: return []
-        case .Sartorius: return []
-        case .Semitendinosus: return []
-        case .SerratusAnterior: return []
-        case .Soleus: return []
-        case .Subscapularis: return []
-        case .Supraspinatus: return []
-        case .TeresMajor: return []
-        case .TeresMinor: return []
-        case .TransversusAbdominis: return []
-        case .TrapeziusLowerFibers: return ["Trapezius (descending part)", "Trapezius Lower", "Lower Trapezius", "trapezius, lower"]
-        case .TrapeziusUpperFibers: return ["Trapezius (ascending part)", "Trapezius Upper", "Upper Trapezius)"]
-        case .TrapeziusMiddleFibers: return ["Trapezius (transverse part)", "Trapezius Middle", "Middle Trapezius", "trapezius, middle"]
-        case .TricepsSurae: return []
-        case .VastusinterMedius: return []
-        case .VastusLateralis: return []
-        case .VastusMedialis: return []
-        case .TricepsLongHead: return []
-        case .TricepsLateralHead: return []
-        case .Iliocostalis: return []
-        case .Longissimus: return []
-        case .Spinalis: return []
-        case .PectoralisMinor: return []
-        case .PectoralisMajorClavicular: return ["Pectoralis Major, Clavicular"]
-        case .PectoralisMajorSternal: return ["pectoralis major, sternal", "Pectoralis Sternocostal"]
-        case .PsoasMajor: return []
-        case .Iliacus: return []
-        case .Iliopsoas: return ["Inner hip muscles", "dorsal hip muscles", "hip flexors"]
-        case .ErectorSpinae: return []
-        case .LowerBack: return []
-        case .Forearm: return ["Forearms", "Wrist flexors", "Hand flexors"]
-        case .MiddleBack: return []
-        case .Abductors: return ["Abductor"]
-        case .Deltoids: return ["Deltoid"]
-        case .Trapezius: return ["Traps"]
-        case .RotatorCuff: return []
-        case .Triceps: return ["Triceps brachii", "Tricep"]
-        case .Shoulder: return ["Shoulders"]
-        case .Arm: return []
-        case .Back: return ["General Back", "Back General"]
-        case .Glutes: return []
-        case .Quadriceps: return ["Quadriceps Femoris"]
-        case .Hamstrings: return []
-        case .Thigh: return ["Thighs"]
-        case .Calves: return ["Calf"]
-        case .Legs: return ["Leg"]
-        case .Abdominals: return ["Abs", "Ab", "Core"]
-        case .PectoralisMajor: return []
-        case .Pectorals: return ["Pecs", "Pectoralis", "Chest"]
-        case .Unknown: return []
-        case .Body: return []
-        case .Background: return []
-        }
-    }
-
 }
 
 extension Muscle {
