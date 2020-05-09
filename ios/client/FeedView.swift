@@ -22,7 +22,7 @@ struct FeedView: View {
     @State private var weeklyMetric: WeeklyMetric? = nil
     
     @State private var scrollViewContentOffset = CGFloat(0)
-    @State private var height: CGFloat = CGFloat.zero
+    @State private var height: CGFloat = 140
     
     var body: some View {
         return VStack(spacing: 0) {
@@ -42,14 +42,14 @@ struct FeedView: View {
                         .fontWeight(.semibold)
                     Spacer()
                 }
-                .fixedSize(horizontal: false, vertical: true)
-                .background(Color.white)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .background(Color.white)
                 
                 ZStack(alignment: .top) {
                     Color.clear // make ZStack expand to fill the content
                     
                     FeedViewHeader(
-                        height: self.$height,
+                        height: self.height,
                         scrollViewContentOffset: self.scrollViewContentOffset,
                         weeklyMetric: self.weeklyMetric,
                         user: self.userState.userInfo
@@ -67,7 +67,7 @@ struct FeedView: View {
                                             .padding(.top)
                                     }
                                 }
-                                .padding(.top, self.height)
+                                    .padding(.top, self.height)
                             }
                         } else {
                             VStack {
@@ -94,25 +94,23 @@ struct FeedView: View {
                 }
             }
         }
-        .background(self.feedData == nil ? Color.white : feedColor)
-        .onAppear {
-            self.workoutAPI.getUserWorkouts { (response) in
-                self.feedData = response
+            .background(self.feedData == nil ? Color.white : feedColor)
+            .onAppear {
+                self.workoutAPI.getUserWorkouts { (response) in
+                    self.feedData = response
+                }
+                
+                self.metricAPI.getWeekly { (response) in
+                    self.weeklyMetric = response
+                }
             }
-            
-            self.metricAPI.getWeekly { (response) in
-                print(response)
-                self.weeklyMetric = response
-            }
-        }
     }
 }
 
 struct FeedViewHeader: View {
     @EnvironmentObject var routeState: RouteState
     
-    @Binding var height: CGFloat
-    
+    var height: CGFloat
     var scrollViewContentOffset: CGFloat
     var weeklyMetric: WeeklyMetric?
     var user: User?
@@ -179,57 +177,80 @@ struct FeedViewHeader: View {
     
     var calculatedHeight: CGFloat {
         if self.scrollViewContentOffset < 0 {
-            return self.height - min(0, self.scrollViewContentOffset / 3)
+            return self.height - (self.scrollViewContentOffset / 3)
         }
         
-        return self.height - self.scrollViewContentOffset
+        return max(self.height - self.scrollViewContentOffset, 50)
     }
     
-    func handleHeight(height: CGFloat) {
-        print(height)
-        if self.height == 0 {
-            self.height = height
+    var userIconRadius: CGFloat {
+        var radius: CGFloat = 65
+        
+        if self.scrollViewContentOffset < 0 {
+            radius -= (self.scrollViewContentOffset / 6)
+        } else {
+            radius -= self.scrollViewContentOffset
         }
+        
+        radius = min(max(35, radius), 75)
+        
+        return radius
+    }
+    
+    var userIconPadding: CGFloat {
+        let padding: CGFloat = 20
+        
+        return min(max(5, padding - self.scrollViewContentOffset / 4), 35)
     }
     
     var body: some View {
         return VStack(spacing: 0) {
-            HStack(alignment: .center) {
-                UserIconShape()
-                    .fill(Color.gray)
-                    .padding()
-                    .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
-                    .scaledToFit()
-                    .clipShape(Circle())
-                    .frame(width: 65, height: 65)
-                    .padding([.leading, .trailing])
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("This week")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .padding(.bottom, 3)
+            Spacer()
+            
+            if self.scrollViewContentOffset < 25 {
+                HStack(alignment: .center) {
+                    UserIconShape()
+                        .fill(Color.gray)
+                        .padding(userIconPadding)
+                        .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                        .scaledToFit()
+                        .clipShape(Circle())
+                        .frame(width: self.userIconRadius, height: self.userIconRadius)
+                        .padding([.leading, .trailing])
                     
-                    HStack(spacing: 10) {
-                        WorkoutDetail(
-                            name: "Time",
-                            value: self.secondsElapsed
-                        )
+                    VStack(alignment: .leading, spacing: 0) {
+                        if self.scrollViewContentOffset < 5 {
+                            Text("This week")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .animation(.easeInOut)
+                                .padding(.bottom, 3)
+                                .opacity(1)
+                                .animation(.easeInOut)
+                                .transition(.scale)
+                        }
                         
-                        Divider()
-                        
-                        WorkoutDetail(name: "Sets", value: self.sets)
-                        
-                        Divider()
-                        
-                        WorkoutDetail(name: "Reps", value: self.reps)
+                        HStack(spacing: 10) {
+                            WorkoutDetail(
+                                name: "Time",
+                                value: self.secondsElapsed
+                            )
+                            
+                            Divider()
+                            
+                            WorkoutDetail(name: "Sets", value: self.sets)
+                            
+                            Divider()
+                            
+                            WorkoutDetail(name: "Reps", value: self.reps)
+                        }
+                            .fixedSize()
                     }
-                        .fixedSize()
+                    
+                    Spacer()
                 }
-                
-                Spacer()
+                    .padding([.top, .bottom])
             }
-                .padding([.top, .bottom])
             
             HStack(alignment: .center) {
                 Spacer()
@@ -263,21 +284,7 @@ struct FeedViewHeader: View {
             
             Divider()
         }
-            .overlay(Color.clear.modifier(GeometryGetterMod(onHeightUpdate: self.handleHeight)))
             .frame(height: self.calculatedHeight)
-    }
-}
-
-struct GeometryGetterMod: ViewModifier {
-    var onHeightUpdate: (CGFloat) -> Void
-
-    func body(content: Content) -> some View {
-        return GeometryReader { (g) -> Color in // `(g) -> Content in` is what it could be, but it doesn't work
-            DispatchQueue.main.async { // to avoid warning
-                self.onHeightUpdate(g.frame(in: .global).height)
-            }
-            return Color.clear
-        }
     }
 }
 
