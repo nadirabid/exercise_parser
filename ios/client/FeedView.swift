@@ -24,6 +24,14 @@ struct FeedView: View {
     @State private var scrollViewContentOffset = CGFloat(0)
     @State private var height: CGFloat = 130
     
+    var calculatedHeight: CGFloat {
+        if self.scrollViewContentOffset < 0 {
+            return self.height - min(0, self.scrollViewContentOffset / 3)
+        }
+        
+        return self.height - self.scrollViewContentOffset
+    }
+    
     var body: some View {
         return VStack(spacing: 0) {
             if self.feedData == nil {
@@ -50,7 +58,7 @@ struct FeedView: View {
                         FeedViewHeader(
                             weeklyMetric: self.weeklyMetric,
                             user: self.userState.userInfo,
-                            height: self.height - min(0, self.scrollViewContentOffset / 3)
+                            height: self.calculatedHeight
                         )
                             .background(Color.white)
                             .zIndex(2)
@@ -115,9 +123,6 @@ struct FeedViewHeader: View {
     var weeklyMetric: WeeklyMetric?
     var user: User?
     var height: CGFloat = 70
-    var offset: CGPoint = CGPoint.zero
-    
-    @State private var test = CGFloat.zero
     
     var secondsElapsed: String {
         if let seconds = weeklyMetric?.secondsElapsed {
@@ -181,8 +186,6 @@ struct FeedViewHeader: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Spacer()
-            
             HStack(alignment: .center) {
                 UserIconShape()
                     .fill(Color.gray)
@@ -218,8 +221,7 @@ struct FeedViewHeader: View {
                 
                 Spacer()
             }
-            
-            Spacer()
+                .padding([.top, .bottom])
             
             HStack(alignment: .center) {
                 Spacer()
@@ -253,7 +255,7 @@ struct FeedViewHeader: View {
             
             Divider()
         }
-            .frame(height: height)
+            //.frame(height: height)
     }
 }
 

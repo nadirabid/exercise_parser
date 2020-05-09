@@ -27,16 +27,19 @@ struct TrackableScrollView<Content>: View where Content: View {
                 ZStack(alignment: self.axes == .vertical ? .top : .leading) {
                     GeometryReader { insideProxy in
                         Color.clear
-                            .preference(key: ScrollOffsetPreferenceKey.self, value: [self.calculateContentOffset(fromOutsideProxy: outsideProxy, insideProxy: insideProxy)])
+                            .preference(
+                                key: ScrollOffsetPreferenceKey.self,
+                                value: [self.calculateContentOffset(fromOutsideProxy: outsideProxy, insideProxy: insideProxy)]
+                            )
                     }
                     VStack {
                         self.content
                     }
                 }
             }
-            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-                self.contentOffset = value[0]
-            }
+                .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+                    self.contentOffset = value[0]
+                }
         }
     }
     
