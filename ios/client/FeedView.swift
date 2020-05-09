@@ -30,54 +30,64 @@ struct FeedView: View {
                     Spacer()
                 }
                 Spacer()
-            } else if self.feedData != nil && self.feedData?.results.count ?? 0 > 0  {
+            } else if self.feedData != nil {
                 HStack(alignment: .center) {
                     Spacer()
-                    Text("")
-                        .foregroundColor(appColor)
-                        .fontWeight(.heavy)
-                        .font(.subheadline)
+                    Text(self.userState.userInfo?.getUserName() ?? "")
+                        .font(.headline)
+                        .fontWeight(.semibold)
                     Spacer()
                 }
+                    .fixedSize(horizontal: false, vertical: true)
                     .background(Color.white)
                 
-                ZStack(alignment: .top) {
-                    FeedViewHeader(
-                        user: userState.userInfo,
-                        height: self.height - min(0, self.scrollViewContentOffset / 3)
-                    )
-                        .background(Blur(style: .systemChromeMaterial))
-                        .zIndex(2)
-                    
-                    if self.routeState.current == .userFeed {
-                        TrackableScrollView(.vertical, showIndicators: false, contentOffset: $scrollViewContentOffset) {
-                            VStack(spacing: 0) {
-                                ForEach(self.feedData!.results) { workout in
-                                    WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false)
-                                        .background(Color.white)
-                                        .padding(.top)
+                GeometryReader { geometry in
+                    ZStack(alignment: .top) {
+                        FeedViewHeader(
+                            user: self.userState.userInfo,
+                            height: self.height - min(0, self.scrollViewContentOffset / 3)
+                        )
+                            .background(Color.white)
+                            .zIndex(2)
+                        
+                        if self.routeState.current == .userFeed {
+                            if self.feedData?.results.count ?? 0 > 0 {
+                                TrackableScrollView(.vertical, showIndicators: false, contentOffset: self.$scrollViewContentOffset) {
+                                    VStack(spacing: 0) {
+                                        ForEach(self.feedData!.results) { workout in
+                                            WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false)
+                                                .background(Color.white)
+                                                .padding(.top)
+                                        }
+                                    }
+                                        .padding(.top, self.height)
                                 }
+                            } else {
+                                VStack {
+                                    Spacer()
+                                    HStack {
+                                        Spacer()
+                                        Text("There's nothing in your feed!")
+                                        Spacer()
+                                    }
+                                    Spacer()
+                                }
+                                    .fixedSize(horizontal: false, vertical: true)
                             }
-                            .padding(.top, height)
-                        }
-                    } else {
-                        HStack {
+                        } else {
                             Spacer()
-                            Text("Subscribe to some peeps!")
+                            
+                            HStack {
+                                Spacer()
+                                Text("Your metrics coming soon!")
+                                Spacer()
+                            }
+                            
                             Spacer()
                         }
                     }
+                        .frame(width: geometry.size.width, height: geometry.size.height, alignment: .top)
                 }
-                
-                Spacer()
-            } else {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Text("There's nothing in your feed!")
-                    Spacer()
-                }
-                Spacer()
             }
         }
         .background(self.feedData == nil ? Color.white : feedColor)
@@ -101,8 +111,6 @@ struct FeedViewHeader: View {
             Spacer()
             
             HStack(alignment: .center) {
-                Spacer()
-                
                 UserIconShape()
                     .fill(Color.gray)
                     .padding()
@@ -110,13 +118,27 @@ struct FeedViewHeader: View {
                     .scaledToFit()
                     .clipShape(Circle())
                     .frame(width: 65, height: 65)
-                    .padding(.trailing)
+                    .padding([.leading, .trailing])
                 
-                VStack(alignment: .leading) {
-                    Text(self.user?.getUserName() ?? "")
-                        .font(.headline)
-                        .foregroundColor(Color.gray)
+                VStack(alignment: .leading, spacing: 0) {
+                    
+ 
+                    HStack(spacing: 10) {
+                        WorkoutDetail(
+                            name: "Time",
+                            value: secondsToElapsedTimeString(7200)
+                        )
+                        
+                        Divider()
+                        
+                        WorkoutDetail(name: "Sets", value:"45")
+                        
+                        Divider()
+                        
+                        WorkoutDetail(name: "Reps", value:"200")
+                    }
                 }
+                    .fixedSize(horizontal: false, vertical: true)
                 
                 Spacer()
             }
@@ -128,7 +150,7 @@ struct FeedViewHeader: View {
                 
                 Button(action: { self.routeState.current = .userFeed }) {
                     HeartIconShape()
-                        .fill(self.routeState.current == .userFeed ? appColor : Color.gray)
+                        .fill(self.routeState.current == .userFeed ? secondaryAppColor : Color.gray)
                         .frame(width: 20, height: 20)
                 }
                 
@@ -137,7 +159,7 @@ struct FeedViewHeader: View {
                 
                 Button(action: { self.routeState.current = .userMetrics }) {
                     ChartIconShape()
-                        .fill(self.routeState.current == .userMetrics ? appColor : Color.gray)
+                        .fill(self.routeState.current == .userMetrics ? secondaryAppColor : Color.gray)
                         .frame(width: 20, height: 20)
                 }
                 
@@ -147,7 +169,6 @@ struct FeedViewHeader: View {
             
             Divider()
         }
-            //.background(Color.white)
             .frame(height: height)
     }
 }

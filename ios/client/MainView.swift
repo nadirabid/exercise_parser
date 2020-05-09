@@ -48,7 +48,7 @@ struct MainView: View {
                             
                             Button(action: { self.route.current = .userFeed }) {
                                 HomeIconShape()
-                                    .fill(self.route.current == .userFeed ? appColor : Color.gray)
+                                    .fill(self.route.current == .userFeed ? secondaryAppColor : Color.gray)
                                     .frame(height: 20)
                             }
                             
@@ -72,7 +72,7 @@ struct MainView: View {
                             
                             Button(action: { self.route.current = .subscriptionFeed }) {
                                 StreamIconShape()
-                                    .fill(self.route.current == .subscriptionFeed ? appColor : Color.gray)
+                                    .fill(self.route.current == .subscriptionFeed ? secondaryAppColor : Color.gray)
                                     .frame(height: 20)
                             }
                             
