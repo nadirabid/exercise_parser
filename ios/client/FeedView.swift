@@ -22,15 +22,7 @@ struct FeedView: View {
     @State private var weeklyMetric: WeeklyMetric? = nil
     
     @State private var scrollViewContentOffset = CGFloat(0)
-    @State private var height: CGFloat = 130
-    
-    var calculatedHeight: CGFloat {
-        if self.scrollViewContentOffset < 0 {
-            return self.height - min(0, self.scrollViewContentOffset / 3)
-        }
-        
-        return self.height - self.scrollViewContentOffset
-    }
+    @State private var height: CGFloat = CGFloat.zero
     
     var body: some View {
         return VStack(spacing: 0) {
@@ -50,56 +42,55 @@ struct FeedView: View {
                         .fontWeight(.semibold)
                     Spacer()
                 }
-                    .fixedSize(horizontal: false, vertical: true)
-                    .background(Color.white)
+                .fixedSize(horizontal: false, vertical: true)
+                .background(Color.white)
                 
-                GeometryReader { geometry in
-                    ZStack(alignment: .top) {
-                        FeedViewHeader(
-                            weeklyMetric: self.weeklyMetric,
-                            user: self.userState.userInfo,
-                            height: self.calculatedHeight
-                        )
-                            .background(Color.white)
-                            .zIndex(2)
-                        
-                        if self.routeState.current == .userFeed {
-                            if self.feedData?.results.count ?? 0 > 0 {
-                                TrackableScrollView(.vertical, showIndicators: false, contentOffset: self.$scrollViewContentOffset) {
-                                    VStack(spacing: 0) {
-                                        ForEach(self.feedData!.results) { workout in
-                                            WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false)
-                                                .background(Color.white)
-                                                .padding(.top)
-                                        }
+                ZStack(alignment: .top) {
+                    Color.clear // make ZStack expand to fill the content
+                    
+                    FeedViewHeader(
+                        height: self.$height,
+                        scrollViewContentOffset: self.scrollViewContentOffset,
+                        weeklyMetric: self.weeklyMetric,
+                        user: self.userState.userInfo
+                    )
+                        .zIndex(2)
+                        .background(Color.white)
+                    
+                    if self.routeState.current == .userFeed {
+                        if self.feedData?.results.count ?? 0 > 0 {
+                            TrackableScrollView(.vertical, showIndicators: false, contentOffset: self.$scrollViewContentOffset) {
+                                VStack(spacing: 0) {
+                                    ForEach(self.feedData!.results) { workout in
+                                        WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false)
+                                            .background(Color.white)
+                                            .padding(.top)
                                     }
-                                        .padding(.top, self.height)
                                 }
-                            } else {
-                                VStack {
-                                    Spacer()
-                                    HStack {
-                                        Spacer()
-                                        Text("There's nothing in your feed!")
-                                        Spacer()
-                                    }
-                                    Spacer()
-                                }
-                                    .fixedSize(horizontal: false, vertical: true)
+                                .padding(.top, self.height)
                             }
                         } else {
-                            Spacer()
-                            
-                            HStack {
+                            VStack {
                                 Spacer()
-                                Text("Your metrics coming soon!")
+                                HStack {
+                                    Spacer()
+                                    Text("There's nothing in your feed!")
+                                    Spacer()
+                                }
                                 Spacer()
                             }
-                            
+                        }
+                    } else {
+                        Spacer()
+                        
+                        HStack {
+                            Spacer()
+                            Text("Your metrics coming soon!")
                             Spacer()
                         }
+                        
+                        Spacer()
                     }
-                        .frame(width: geometry.size.width, height: geometry.size.height, alignment: .top)
                 }
             }
         }
@@ -120,9 +111,11 @@ struct FeedView: View {
 struct FeedViewHeader: View {
     @EnvironmentObject var routeState: RouteState
     
+    @Binding var height: CGFloat
+    
+    var scrollViewContentOffset: CGFloat
     var weeklyMetric: WeeklyMetric?
     var user: User?
-    var height: CGFloat = 70
     
     var secondsElapsed: String {
         if let seconds = weeklyMetric?.secondsElapsed {
@@ -184,8 +177,23 @@ struct FeedViewHeader: View {
         }
     }
     
+    var calculatedHeight: CGFloat {
+        if self.scrollViewContentOffset < 0 {
+            return self.height - min(0, self.scrollViewContentOffset / 3)
+        }
+        
+        return self.height - self.scrollViewContentOffset
+    }
+    
+    func handleHeight(height: CGFloat) {
+        print(height)
+        if self.height == 0 {
+            self.height = height
+        }
+    }
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        return VStack(spacing: 0) {
             HStack(alignment: .center) {
                 UserIconShape()
                     .fill(Color.gray)
@@ -201,23 +209,23 @@ struct FeedViewHeader: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                         .padding(.bottom, 3)
- 
+                    
                     HStack(spacing: 10) {
                         WorkoutDetail(
                             name: "Time",
-                            value: secondsElapsed
+                            value: self.secondsElapsed
                         )
                         
                         Divider()
                         
-                        WorkoutDetail(name: "Sets", value: sets)
+                        WorkoutDetail(name: "Sets", value: self.sets)
                         
                         Divider()
                         
-                        WorkoutDetail(name: "Reps", value: reps)
+                        WorkoutDetail(name: "Reps", value: self.reps)
                     }
+                        .fixedSize()
                 }
-                    .fixedSize(horizontal: false, vertical: true)
                 
                 Spacer()
             }
@@ -255,7 +263,21 @@ struct FeedViewHeader: View {
             
             Divider()
         }
-            //.frame(height: height)
+            .overlay(Color.clear.modifier(GeometryGetterMod(onHeightUpdate: self.handleHeight)))
+            .frame(height: self.calculatedHeight)
+    }
+}
+
+struct GeometryGetterMod: ViewModifier {
+    var onHeightUpdate: (CGFloat) -> Void
+
+    func body(content: Content) -> some View {
+        return GeometryReader { (g) -> Color in // `(g) -> Content in` is what it could be, but it doesn't work
+            DispatchQueue.main.async { // to avoid warning
+                self.onHeightUpdate(g.frame(in: .global).height)
+            }
+            return Color.clear
+        }
     }
 }
 
