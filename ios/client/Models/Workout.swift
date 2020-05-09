@@ -119,7 +119,7 @@ struct ExerciseData: Codable {
     let reps: Int
     let weight: Float
     let time: Int
-    let distance: Float32
+    let distance: Float
     
     var displayWeightUnits: String {
         return UnitMass.pounds.symbol

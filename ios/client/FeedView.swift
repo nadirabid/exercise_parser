@@ -13,9 +13,13 @@ import Combine
 struct FeedView: View {
     @EnvironmentObject var userState: UserState
     @EnvironmentObject var routeState: RouteState
+    
     @EnvironmentObject var workoutAPI: WorkoutAPI
+    @EnvironmentObject var metricAPI: MetricAPI
+    
     @State private var feedDataPublisher: AnyCancellable? = nil
     @State private var feedData: PaginatedResponse<Workout>? = nil
+    @State private var weeklyMetric: WeeklyMetric? = nil
     
     @State private var scrollViewContentOffset = CGFloat(0)
     @State private var height: CGFloat = 130
@@ -44,6 +48,7 @@ struct FeedView: View {
                 GeometryReader { geometry in
                     ZStack(alignment: .top) {
                         FeedViewHeader(
+                            weeklyMetric: self.weeklyMetric,
                             user: self.userState.userInfo,
                             height: self.height - min(0, self.scrollViewContentOffset / 3)
                         )
@@ -95,6 +100,11 @@ struct FeedView: View {
             self.workoutAPI.getUserWorkouts { (response) in
                 self.feedData = response
             }
+            
+            self.metricAPI.getWeekly { (response) in
+                print(response)
+                self.weeklyMetric = response
+            }
         }
     }
 }
@@ -102,12 +112,75 @@ struct FeedView: View {
 struct FeedViewHeader: View {
     @EnvironmentObject var routeState: RouteState
     
+    var weeklyMetric: WeeklyMetric?
     var user: User?
     var height: CGFloat = 70
     var offset: CGPoint = CGPoint.zero
     
+    @State private var test = CGFloat.zero
+    
+    var secondsElapsed: String {
+        if let seconds = weeklyMetric?.secondsElapsed {
+            return secondsToElapsedTimeString(seconds)
+        }
+        
+        return secondsToElapsedTimeString(0)
+    }
+    
+    var sets: String {
+        if let sets = weeklyMetric?.sets {
+            return sets.description
+        }
+        
+        return "0"
+    }
+    
+    var reps: String {
+        if let reps = weeklyMetric?.reps {
+            return reps.description
+        }
+        
+        return "0"
+    }
+    
+    var distance: String {
+        if let distance = weeklyMetric?.distance {
+            var m = Measurement(value: Double(distance), unit: UnitLength.meters)
+            
+            if distance <= 300 {
+                m = m.converted(to: UnitLength.feet)
+            } else {
+                m = m.converted(to: UnitLength.miles)
+            }
+            
+            return Float(round(m.value*100)/100).description
+        }
+        
+        return "0"
+    }
+    
+    var distanceUnits: String {
+        if let distance = weeklyMetric?.distance {
+            if distance <= 300 {
+                return UnitLength.feet.symbol
+            } else {
+                return UnitLength.miles.symbol
+            }
+        }
+        
+        return UnitLength.miles.symbol
+    }
+    
+    func calculateButtonBarPositionFrom(size: CGSize) -> CGFloat {
+        if routeState.current == .userFeed {
+            return 0
+        } else {
+            return size.width / 2
+        }
+    }
+    
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             Spacer()
             
             HStack(alignment: .center) {
@@ -129,16 +202,16 @@ struct FeedViewHeader: View {
                     HStack(spacing: 10) {
                         WorkoutDetail(
                             name: "Time",
-                            value: secondsToElapsedTimeString(7200)
+                            value: secondsElapsed
                         )
                         
                         Divider()
                         
-                        WorkoutDetail(name: "Sets", value:"45")
+                        WorkoutDetail(name: "Sets", value: sets)
                         
                         Divider()
                         
-                        WorkoutDetail(name: "Reps", value:"200")
+                        WorkoutDetail(name: "Reps", value: reps)
                     }
                 }
                     .fixedSize(horizontal: false, vertical: true)
@@ -169,6 +242,14 @@ struct FeedViewHeader: View {
                 Spacer()
             }
                 .padding(.bottom)
+            
+            GeometryReader { geometry in
+                Rectangle()
+                    .fill(secondaryAppColor)
+                    .position(x: self.calculateButtonBarPositionFrom(size: geometry.size))
+                    .frame(width: geometry.size.width / 2, height: 2)
+            }
+                .frame(height: 1)
             
             Divider()
         }

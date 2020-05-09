@@ -126,7 +126,7 @@ class UserAPI: ObservableObject {
                     let feedData = try! decoder.decode(PaginatedResponse<User>.self, from: data!)
                     completionHandler(feedData)
                 case .failure(let error):
-                    print("Failed to get workouts: ", error)
+                    print("Failed to get users: ", error)
                     if let data = response.data {
                         print("Failed with error message from server", String(data: data, encoding: .utf8)!)
                     }
@@ -362,10 +362,10 @@ class ExerciseDictionaryAPI: ObservableObject {
         ])
     }
     
-    func getDictionary(id: Int, _ completionHandler: @escaping (ExerciseDictionary) -> Void) -> DataRequest? {
+    func getDictionary(id: Int, _ completionHandler: @escaping (ExerciseDictionary) -> Void) {
         let url = "\(baseURL)/api/exercise/dictionary/\(id)"
         
-        return AF.request(url, method: .get, headers: headers)
+        AF.request(url, method: .get, headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
@@ -384,10 +384,10 @@ class ExerciseDictionaryAPI: ObservableObject {
             }
     }
     
-    func getWorkoutDictionaries(id: Int, _ completionHandler: @escaping (PaginatedResponse<ExerciseDictionary>) -> Void) -> DataRequest? {
+    func getWorkoutDictionaries(id: Int, _ completionHandler: @escaping (PaginatedResponse<ExerciseDictionary>) -> Void) {
         let url = "\(baseURL)/api/workout/\(id)/dictionary/"
         
-        return AF.request(url, method: .get, headers: headers)
+        AF.request(url, method: .get, headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
@@ -404,5 +404,56 @@ class ExerciseDictionaryAPI: ObservableObject {
                     }
                 }
             }
+    }
+}
+
+struct WeeklyMetric: Codable {
+    let sets: Int
+    let reps: Int
+    let distance: Float
+    let secondsElapsed: Int
+
+    enum CodingKeys: String, CodingKey {
+        case secondsElapsed = "seconds_elapsed"
+        case sets, reps, distance
+    }
+}
+
+class MetricAPI: ObservableObject {
+    private var userState: UserState
+    private let encoder = JSONEncoder()
+    
+    init(userState: UserState) {
+        self.userState = userState
+        self.encoder.dateEncodingStrategy = .iso8601
+    }
+    
+    var headers: HTTPHeaders {
+        return HTTPHeaders([
+            "Accept": "application/json",
+            "Authorization": "Bearer \(userState.jwt!.string)"
+        ])
+    }
+    
+    func getWeekly(_ completionHandler: @escaping (WeeklyMetric) -> Void) {
+        let url = "\(baseURL)/api/metric/weekly"
+        
+        AF.request(url, method: .get, headers: headers)
+            .validate(statusCode: 200..<300)
+            .response(queue: DispatchQueue.main) { (response) in
+                switch response.result {
+                case .success(let data):
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = decodeStrategy()
+                    
+                    let exerciseDictionary = try! decoder.decode(WeeklyMetric.self, from: data!)
+                    completionHandler(exerciseDictionary)
+                case .failure(let error):
+                    print("Failed to get metric: ", error)
+                    if let data = response.data {
+                        print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                    }
+                }
+        }
     }
 }

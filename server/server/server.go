@@ -144,11 +144,14 @@ func New(v *viper.Viper) error {
 
 	// returns workout
 	apiRoutes.GET("/workout/subscribedto", handleGetUserWorkoutSubscriptionFeed)
-	apiRoutes.GET("/workout", handleGetAllWorkout)
+	apiRoutes.GET("/workout", handleGetAllUserWorkout)
 	apiRoutes.GET("/workout/:id", handleGetWorkout)
 	apiRoutes.POST("/workout", handlePostWorkout)
 	apiRoutes.PUT("/workout", handlePutWorkout)
 	apiRoutes.DELETE("/workout/:id", handleDeleteWorkout)
+
+	// returns metrics
+	apiRoutes.GET("/metric/weekly", handleGetWeeklyMetrics)
 
 	return e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port")))
 }

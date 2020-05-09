@@ -21,8 +21,6 @@ func handleGetExercise(c echo.Context) error {
 
 	exercise := &models.Exercise{}
 	err = db.
-		Preload("WeightedExercise").
-		Preload("DistanceExercise").
 		Preload("ExerciseData").
 		Where("id = ?", id).
 		First(exercise).
@@ -117,8 +115,6 @@ func handleDeleteExercise(c echo.Context) error {
 	exercise := &models.Exercise{}
 
 	err = db.
-		Preload("WeightedExercise").
-		Preload("DistanceExercise").
 		Preload("ExerciseData").
 		Where("id = ?", id).
 		First(exercise).

@@ -89,6 +89,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 .environmentObject(WorkoutAPI(userState: userState))
                 .environmentObject(ExerciseAPI(userState: userState))
                 .environmentObject(ExerciseDictionaryAPI(userState: userState))
+                .environmentObject(MetricAPI(userState: userState))
             
             window.rootViewController = UIHostingController(rootView: rootView)
             window.rootViewController?.overrideUserInterfaceStyle = .light
