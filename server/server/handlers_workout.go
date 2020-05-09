@@ -23,8 +23,6 @@ func handleGetWorkout(c echo.Context) error {
 	workout := &models.Workout{}
 	err = db.
 		Preload("Exercises").
-		Preload("Exercises.WeightedExercise").
-		Preload("Exercises.DistanceExercise").
 		Preload("Exercises.ExerciseData").
 		Where("id = ?", id).
 		Where("user_id = ?", userID).
@@ -38,7 +36,7 @@ func handleGetWorkout(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, workout)
 }
 
-func handleGetAllWorkout(c echo.Context) error {
+func handleGetAllUserWorkout(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
 
@@ -59,8 +57,6 @@ func handleGetAllWorkout(c echo.Context) error {
 	q := db.
 		Preload("Location").
 		Preload("Exercises").
-		Preload("Exercises.WeightedExercise").
-		Preload("Exercises.DistanceExercise").
 		Preload("Exercises.ExerciseData").
 		Where("user_id = ?", userID).
 		Order("created_at desc")
@@ -193,8 +189,6 @@ func handlePutWorkout(c echo.Context) error {
 	existingWorkout := &models.Workout{}
 	err := tx.
 		Preload("Exercises").
-		Preload("Exercises.WeightedExercise").
-		Preload("Exercises.DistanceExercise").
 		Preload("Exercises.ExerciseData").
 		Where("id = ?", workout.ID).
 		Where("user_id = ?", userID).
@@ -242,8 +236,6 @@ func handleDeleteWorkout(c echo.Context) error {
 	workout := &models.Workout{}
 	tx.
 		Preload("Exercises").
-		Preload("Exercises.WeightedExercise").
-		Preload("Exercises.DistanceExercise").
 		Preload("Exercises.ExerciseData").
 		Where("id = ?", id).
 		Where("user_id = ?", userID).
