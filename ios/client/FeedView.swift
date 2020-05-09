@@ -121,7 +121,10 @@ struct FeedViewHeader: View {
                     .padding([.leading, .trailing])
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    
+                    Text("This week")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .padding(.bottom, 3)
  
                     HStack(spacing: 10) {
                         WorkoutDetail(
