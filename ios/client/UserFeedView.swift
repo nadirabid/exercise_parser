@@ -186,7 +186,7 @@ struct UserFeedViewHeader: View {
         var radius: CGFloat = 65
         
         if self.scrollViewContentOffset < 0 {
-            radius -= (self.scrollViewContentOffset / 6)
+            radius -= (self.scrollViewContentOffset / 12)
         } else {
             radius -= self.scrollViewContentOffset
         }
@@ -199,14 +199,14 @@ struct UserFeedViewHeader: View {
     var userIconPadding: CGFloat {
         let padding: CGFloat = 20
         
-        return min(max(5, padding - self.scrollViewContentOffset / 4), 35)
+        return min(max(5, padding - self.scrollViewContentOffset / 10), 35)
     }
     
     var body: some View {
         return VStack(spacing: 0) {
             Spacer()
             
-            if self.scrollViewContentOffset < 25 {
+            if self.scrollViewContentOffset < 40 {
                 HStack(alignment: .center) {
                     UserIconShape()
                         .fill(Color.gray)
@@ -248,7 +248,7 @@ struct UserFeedViewHeader: View {
                     
                     Spacer()
                 }
-                    .padding([.top, .bottom])
+                    .padding([.top, .bottom], min(15, 15 - self.scrollViewContentOffset / 6))
             }
             
             HStack(alignment: .center) {
