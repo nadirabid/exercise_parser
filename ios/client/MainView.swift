@@ -25,7 +25,7 @@ struct MainView: View {
             } else {
                 VStack(spacing: 0) {
                     if route.current == .userFeed || route.current == .userMetrics {
-                        FeedView()
+                        UserFeedView()
                     } else if route.current == .subscriptionFeed {
                         VStack(alignment: .center) {
                             Text("RYDEN")

@@ -10,7 +10,7 @@ import Alamofire
 import SwiftUI
 import Combine
 
-struct FeedView: View {
+struct UserFeedView: View {
     @EnvironmentObject var userState: UserState
     @EnvironmentObject var routeState: RouteState
     
@@ -48,7 +48,7 @@ struct FeedView: View {
                 ZStack(alignment: .top) {
                     Color.clear // make ZStack expand to fill the content
                     
-                    FeedViewHeader(
+                    UserFeedViewHeader(
                         height: self.height,
                         scrollViewContentOffset: self.scrollViewContentOffset,
                         weeklyMetric: self.weeklyMetric,
@@ -107,7 +107,7 @@ struct FeedView: View {
     }
 }
 
-struct FeedViewHeader: View {
+struct UserFeedViewHeader: View {
     @EnvironmentObject var routeState: RouteState
     
     var height: CGFloat
@@ -291,7 +291,7 @@ struct FeedViewHeader: View {
 #if DEBUG
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        return FeedView()
+        return UserFeedView()
             .environmentObject(UserState())
             .environmentObject(EditableWorkoutState())
             .environmentObject(RouteState(current: .userFeed))
