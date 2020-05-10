@@ -197,7 +197,7 @@ struct WorkoutMuscleMetricsView: View {
     }
     
     var body: some View {
-        return HStack(alignment: .center, spacing: 0) {
+        HStack(alignment: .center, spacing: 0) {
             AnteriorView(
                 activatedPrimaryMuscles: self.targetMuscles,
                 activiatedSecondaryMuscles: self.synergistMuscles

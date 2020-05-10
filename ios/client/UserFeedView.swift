@@ -81,15 +81,14 @@ struct UserFeedView: View {
                             }
                         }
                     } else {
-                        Spacer()
-                        
-                        HStack {
+                        VStack {
                             Spacer()
-                            Text("Your metrics coming soon!")
+                            
+                            AggregateMuscleMetricsView()
+                            
                             Spacer()
                         }
-                        
-                        Spacer()
+                            .padding(.top, self.height)
                     }
                 }
             }
@@ -285,6 +284,25 @@ struct UserFeedViewHeader: View {
             Divider()
         }
             .frame(height: self.calculatedHeight)
+    }
+}
+
+struct AggregateMuscleMetricsView: View {
+    var body: some View {
+        GeometryReader { geometry in
+            HStack(alignment: .center, spacing: 0) {
+                AnteriorView(
+                    activatedPrimaryMuscles: [],
+                    activiatedSecondaryMuscles: []
+                )
+                
+                PosteriorView(
+                    activatedPrimaryMuscles: [],
+                    activiatedSecondaryMuscles: []
+                )
+            }
+                .frame(width: geometry.size.width)
+        }
     }
 }
 
