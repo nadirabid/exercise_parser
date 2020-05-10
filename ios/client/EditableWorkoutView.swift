@@ -276,7 +276,6 @@ public struct DividerSpacer: View {
         return HStack(spacing: 0) {
             Spacer()
             Divider()
-            Spacer()
         }
     }
 }
@@ -317,76 +316,67 @@ public struct EditableWorkoutMetaMetricsView: View {
         return result
     }
     
+    var totalSets: Int {
+        let result = state.exerciseStates.reduce(Int.zero) { (r, s) in
+            if let e = s.exercise {
+                return r + e.data.sets
+            }
+            
+            return r
+        }
+        
+        return result
+    }
+    
+    var totalReps: Int {
+        let result = state.exerciseStates.reduce(Int.zero) { (r, s) in
+            if let e = s.exercise {
+                return r + e.data.reps
+            }
+            
+            return r
+        }
+        
+        return result
+    }
+    
     public var body: some View {
-        HStack(spacing: stretchToFillParent ? 0 : 10) {
+        HStack(spacing: 10) {
             if showDate {
                 WorkoutDetail(
                     name: self.state.date.abbreviatedMonthString,
                     value: self.state.date.dayString
                 )
+                
+                DividerSpacer()
             }
             
-            if showDate && (showTime || showWeight || showDistance || showExercises) {
-                if stretchToFillParent {
-                    DividerSpacer()
-                } else {
-                    Divider()
-                }
-            }
+            WorkoutDetail(
+                name: "Time",
+                value: secondsToElapsedTimeString(stopwatch.counter)
+            )
+                .fixedSize()
             
-            if showTime {
-                WorkoutDetail(
-                    name: "Time",
-                    value: secondsToElapsedTimeString(stopwatch.counter)
-                )
-                    .frame(width: 70, alignment: .leading)
-                    .fixedSize()
-            }
+            DividerSpacer()
             
-            if showTime && (showWeight || showDistance || showDistance) {
-                if stretchToFillParent {
-                    DividerSpacer()
-                } else {
-                    Divider()
-                }
-            }
+            WorkoutDetail(
+                name: "Sets",
+                value: "\(self.totalSets)"
+            )
             
-            if showExercises {
-                WorkoutDetail(
-                    name: "Exercises",
-                    value: "\(state.exerciseStates.count)"
-                )
-            }
+            DividerSpacer()
             
-            if showExercises && (showWeight || showDistance) {
-                 if stretchToFillParent {
-                     DividerSpacer()
-                 } else {
-                     Divider()
-                 }
-             }
-
-            if showWeight {
-                WorkoutDetail(
-                    name: "Weight",
-                    value: "\(totalWeight) lbs"
-                )
-            }
+            WorkoutDetail(
+                name: "Reps",
+                value: "\(self.totalReps)"
+            )
             
-            if showWeight && showDistance {
-                if stretchToFillParent {
-                    DividerSpacer()
-                } else {
-                    Divider()
-                }
-            }
+            DividerSpacer()
             
-            if showDistance {
-                WorkoutDetail(
-                    name: "Distance",
-                    value: "\(totalDistance) mi"
-                )
-            }
+            WorkoutDetail(
+                name: "Distance",
+                value: "\(totalDistance) mi"
+            )
         }
     }
 }

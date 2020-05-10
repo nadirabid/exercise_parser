@@ -256,6 +256,22 @@ public struct WorkoutMetaMetricsView: View {
         return Float(round(m.value*100)/100)
     }
     
+    var totalReps: Int {
+        let result = workout.exercises.reduce(Int.zero) { (r, e) in
+            return r + e.data.reps
+        }
+        
+        return result
+    }
+    
+    var totalSets: Int {
+        let result = workout.exercises.reduce(Int.zero) { (r, e) in
+            return r + e.data.sets
+        }
+        
+        return result
+    }
+    
     public var body: some View {
         HStack(spacing: 10) {
             WorkoutDetail(
@@ -270,13 +286,23 @@ public struct WorkoutMetaMetricsView: View {
                 value: secondsToElapsedTimeString(workout.secondsElapsed)
             )
             
-            Divider()
+            if totalSets > 0 {
+                Divider()
+                
+                WorkoutDetail(name: "Sets", value:"\(totalSets.description)")
+            }
             
-            WorkoutDetail(name: "Weight", value:"\(totalWeight) lbs")
+            if totalReps > 0 {
+                Divider()
+                
+                WorkoutDetail(name: "Reps", value:"\(totalReps.description)")
+            }
             
-            Divider()
-            
-            WorkoutDetail(name: "Distance", value:"\(totalDistance) \(totalDistanceUnits)")
+            if totalDistance > 0 {
+                Divider()
+                
+                WorkoutDetail(name: "Distance", value: "\(totalDistance) \(totalDistanceUnits)")
+            }
         }
     }
 }
