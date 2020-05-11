@@ -12,6 +12,14 @@ struct MainView: View {
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var userState: UserState
     
+    var isUserButtonPressed: Bool {
+        return self.route.current == .userFeed || self.route.current == .userMetrics
+    }
+    
+    var isSubscriptionButtonPressed: Bool {
+        return self.route.current == .subscriptionFeed
+    }
+    
     var body: some View {
         VStack {
             if userState.authorization < 1 {
@@ -46,9 +54,13 @@ struct MainView: View {
                             Spacer()
                             Spacer()
                             
-                            Button(action: { self.route.current = .userFeed }) {
+                            Button(action: {
+                                if !self.isUserButtonPressed {
+                                    self.route.current = .userFeed
+                                }
+                            }) {
                                 HomeIconShape()
-                                    .fill(self.route.current == .userFeed ? secondaryAppColor : Color.gray)
+                                    .fill(self.isUserButtonPressed ? secondaryAppColor : Color.gray)
                                     .frame(height: 20)
                             }
                             
@@ -70,9 +82,13 @@ struct MainView: View {
                             
                             Spacer()
                             
-                            Button(action: { self.route.current = .subscriptionFeed }) {
+                            Button(action: {
+                                if !self.isSubscriptionButtonPressed {
+                                    self.route.current = .subscriptionFeed
+                                }
+                            }) {
                                 StreamIconShape()
-                                    .fill(self.route.current == .subscriptionFeed ? secondaryAppColor : Color.gray)
+                                    .fill(self.isSubscriptionButtonPressed ? secondaryAppColor : Color.gray)
                                     .frame(height: 20)
                             }
                             
