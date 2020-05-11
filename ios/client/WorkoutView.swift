@@ -138,16 +138,16 @@ struct WorkoutMuscleMetricsView: View {
         workout.exercises.filter { $0.exerciseDictionaryID != nil }
     }
     
-    var targetMuscles: [Muscle] {
+    var targetMuscles: [MuscleActivation] {
         if dictionaries == nil {
             return []
         }
 
-        return self.resolvedExercises.flatMap { (e) -> [Muscle] in
+        return self.resolvedExercises.flatMap { (e) -> [MuscleActivation] in
             let dictionary = self.getDictionaryFor(exercise: e)
             let muscleStrings = dictionary?.muscles.target?.map { s in s.lowercased() } ?? []
             
-            return muscleStrings.flatMap { (muscleString) -> [Muscle] in
+            return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
                 let muscles = Muscle.allCases.filter { muscle in
                     if muscleString == muscle.name.lowercased() {
                         return true
@@ -156,27 +156,27 @@ struct WorkoutMuscleMetricsView: View {
                     return false
                 }
                 
-                return muscles.flatMap { muscle -> [Muscle] in
+                return muscles.flatMap { muscle -> [MuscleActivation] in
                     if muscle.isMuscleGroup {
-                        return muscle.components
+                        return muscle.components.map { MuscleActivation(muscle: $0) }
                     } else {
-                        return [muscle]
+                        return [MuscleActivation(muscle: muscle)]
                     }
                 }
             }
         }
     }
     
-    var synergistMuscles: [Muscle] {
+    var synergistMuscles: [MuscleActivation] {
         if dictionaries == nil {
             return []
         }
         
-        return self.resolvedExercises.flatMap { (e) -> [Muscle] in
+        return self.resolvedExercises.flatMap { (e) -> [MuscleActivation] in
             let dictionary = self.getDictionaryFor(exercise: e)
             let muscleStrings = dictionary?.muscles.synergists?.map { s in s.lowercased() } ?? []
  
-            return muscleStrings.flatMap { (muscleString) -> [Muscle] in
+            return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
                 let muscles = Muscle.allCases.filter { muscle in
                     if muscleString == muscle.name.lowercased() {
                         return true
@@ -185,11 +185,11 @@ struct WorkoutMuscleMetricsView: View {
                     return false
                 }
                 
-                return muscles.flatMap { muscle -> [Muscle] in
+                return muscles.flatMap { muscle -> [MuscleActivation] in
                     if muscle.isMuscleGroup {
-                        return muscle.components
+                        return muscle.components.map { MuscleActivation(muscle: $0) }
                     } else {
-                        return [muscle]
+                        return [MuscleActivation(muscle: muscle)]
                     }
                 }
             }

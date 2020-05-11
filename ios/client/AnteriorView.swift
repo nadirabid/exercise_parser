@@ -81,13 +81,13 @@ struct AnteriorShape: Shape {
 }
 
 struct AnteriorView: View {
-    var activatedPrimaryMuscles: [Muscle]
-    var activiatedSecondaryMuscles: [Muscle]
+    var activatedPrimaryMuscles: [MuscleActivation]
+    var activiatedSecondaryMuscles: [MuscleActivation]
     
     func muscleActivity(for muscle: Muscle) -> MuscleActivity {
-        if activatedPrimaryMuscles.contains(muscle) {
+        if activatedPrimaryMuscles.contains(where: { $0.muscle == muscle } ) {
             return .primary
-        } else if activiatedSecondaryMuscles.contains(muscle) {
+        } else if activiatedSecondaryMuscles.contains(where: { $0.muscle == muscle } ) {
             return .secondary
         }
 

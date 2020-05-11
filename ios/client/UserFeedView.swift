@@ -291,17 +291,43 @@ struct UserFeedViewHeader: View {
 struct AggregateMuscleMetricsView: View {
     var weeklyMetric: WeeklyMetricStats? = nil
     
+    var targetMuscles: [MuscleActivation] {
+        let muscles = weeklyMetric?.targetMuscles ?? []
+        
+        return muscles.reduce(into: []) { (result: inout [MuscleActivation], muscleStat) in
+            if let muscle = Muscle.from(name: muscleStat.muscle) {
+                result.append(MuscleActivation(
+                    muscle: muscle,
+                    activation: Float(muscleStat.reps) / Float(weeklyMetric!.reps)
+                ))
+            }
+        }
+    }
+    
+    var synergistMuscles: [MuscleActivation] {
+        let muscles = weeklyMetric?.synergistMuscles ?? []
+        
+        return muscles.reduce(into: []) { (result: inout [MuscleActivation], muscleStat) in
+            if let muscle = Muscle.from(name: muscleStat.muscle) {
+                result.append(MuscleActivation(
+                    muscle: muscle,
+                    activation: Float(muscleStat.reps) / Float(weeklyMetric!.reps)
+                ))
+            }
+        }
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             HStack(alignment: .center, spacing: 0) {
                 AnteriorView(
-                    activatedPrimaryMuscles: [],
-                    activiatedSecondaryMuscles: []
+                    activatedPrimaryMuscles: self.targetMuscles,
+                    activiatedSecondaryMuscles: self.synergistMuscles
                 )
                 
                 PosteriorView(
-                    activatedPrimaryMuscles: [],
-                    activiatedSecondaryMuscles: []
+                    activatedPrimaryMuscles: self.targetMuscles,
+                    activiatedSecondaryMuscles: self.synergistMuscles
                 )
             }
                 .frame(width: geometry.size.width)

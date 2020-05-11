@@ -108,6 +108,21 @@ enum MuscleActivity {
     case none
 }
 
+struct MuscleActivation {
+    let muscle: Muscle
+    let activation: Float
+    
+    init(muscle: Muscle) {
+        self.muscle = muscle
+        self.activation = 1 // value between 0 and 1
+    }
+    
+    init(muscle: Muscle, activation: Float) {
+        self.muscle = muscle
+        self.activation = activation
+    }
+}
+
 enum AnatomicalOrientation {
     case Anterior
     case Posterior
@@ -237,6 +252,11 @@ extension Muscle {
         case .Body: return "Body"
         case .Background: return "Background"
         }
+    }
+    
+    static func from(name: String) -> Muscle? {
+        let muscle = Muscle.allCases.first(where: { $0.name.lowercased() == name })
+        return muscle
     }
 }
 

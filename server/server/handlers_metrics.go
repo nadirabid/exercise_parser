@@ -18,7 +18,7 @@ type WeeklyMetric struct {
 	SynergistMuscles            []MuscleStat `json:"synergist_muscles"`
 	StabilizerMuscles           []MuscleStat `json:"stabilizer_muscles"`
 	DynamicStabilizerMuscles    []MuscleStat `json:"dynamic_stabilizer_muscles"`
-	AntagonistStabilizerMuscles []MuscleStat `json:"antagonis_stabilizer_muscles"`
+	AntagonistStabilizerMuscles []MuscleStat `json:"antagonist_stabilizer_muscles"`
 	Distance                    float32      `json:"distance"`
 	Sets                        int          `json:"sets"`
 	Reps                        int          `json:"reps"`

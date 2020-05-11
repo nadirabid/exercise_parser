@@ -407,24 +407,6 @@ class ExerciseDictionaryAPI: ObservableObject {
     }
 }
 
-struct MuscleStat: Codable {
-    let muscle: String
-    let reps: Int
-}
-
-struct WeeklyMetricStats: Codable {
-    let sets: Int
-    let reps: Int
-    let distance: Float
-    let secondsElapsed: Int
-    let muscles: [MuscleStat]
-
-    enum CodingKeys: String, CodingKey {
-        case secondsElapsed = "seconds_elapsed"
-        case sets, reps, distance, muscles
-    }
-}
-
 class MetricAPI: ObservableObject {
     private var userState: UserState
     private let encoder = JSONEncoder()
