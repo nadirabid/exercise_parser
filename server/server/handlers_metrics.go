@@ -173,14 +173,14 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 		}
 	}
 
-	// for muscle, reps := range repsByTargetMuscles {
-	// 	m := MuscleStat{
-	// 		Muscle: muscle,
-	// 		Reps:   reps,
-	// 	}
+	for muscle, reps := range repsByTargetMuscles {
+		m := MuscleStat{
+			Muscle: muscle,
+			Reps:   reps,
+		}
 
-	// 	weekly.TargetMuscles = append(weekly.TargetMuscles, m)
-	// }
+		weekly.TargetMuscles = append(weekly.TargetMuscles, m)
+	}
 
 	for muscle, reps := range repsBySynergistMuscles {
 		m := MuscleStat{
