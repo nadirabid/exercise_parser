@@ -19,9 +19,9 @@ struct UserFeedView: View {
     
     @State private var feedDataPublisher: AnyCancellable? = nil
     @State private var feedData: PaginatedResponse<Workout>? = nil
-    @State private var weeklyMetric: WeeklyMetric? = nil
+    @State private var weeklyMetric: WeeklyMetricStats? = nil
     
-    @State private var scrollViewContentOffset = CGFloat(0)
+    @State private var scrollViewContentOffset = CGFloat.zero
     @State private var height: CGFloat = 140
     
     var body: some View {
@@ -50,7 +50,8 @@ struct UserFeedView: View {
                     
                     UserFeedViewHeader(
                         height: self.height,
-                        scrollViewContentOffset: self.scrollViewContentOffset,
+                        scrollViewContentOffset: routeState.current == .userFeed ?
+                            self.scrollViewContentOffset : 0,
                         weeklyMetric: self.weeklyMetric,
                         user: self.userState.userInfo
                     )
@@ -84,7 +85,7 @@ struct UserFeedView: View {
                         VStack {
                             Spacer()
                             
-                            AggregateMuscleMetricsView()
+                            AggregateMuscleMetricsView(weeklyMetric: self.weeklyMetric)
                             
                             Spacer()
                         }
@@ -99,7 +100,7 @@ struct UserFeedView: View {
                     self.feedData = response
                 }
                 
-                self.metricAPI.getWeekly { (response) in
+                self.metricAPI.getWeeklyStats { (response) in
                     self.weeklyMetric = response
                 }
             }
@@ -111,7 +112,7 @@ struct UserFeedViewHeader: View {
     
     var height: CGFloat
     var scrollViewContentOffset: CGFloat
-    var weeklyMetric: WeeklyMetric?
+    var weeklyMetric: WeeklyMetricStats?
     var user: User?
     
     var secondsElapsed: String {
@@ -219,7 +220,7 @@ struct UserFeedViewHeader: View {
                     
                     VStack(alignment: .leading, spacing: 0) {
                         if self.scrollViewContentOffset < 5 {
-                            Text("This week")
+                            Text("Past 7 days")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                                 .animation(.easeInOut)
@@ -288,6 +289,8 @@ struct UserFeedViewHeader: View {
 }
 
 struct AggregateMuscleMetricsView: View {
+    var weeklyMetric: WeeklyMetricStats? = nil
+    
     var body: some View {
         GeometryReader { geometry in
             HStack(alignment: .center, spacing: 0) {

@@ -407,15 +407,21 @@ class ExerciseDictionaryAPI: ObservableObject {
     }
 }
 
-struct WeeklyMetric: Codable {
+struct MuscleStat: Codable {
+    let muscle: String
+    let reps: Int
+}
+
+struct WeeklyMetricStats: Codable {
     let sets: Int
     let reps: Int
     let distance: Float
     let secondsElapsed: Int
+    let muscles: [MuscleStat]
 
     enum CodingKeys: String, CodingKey {
         case secondsElapsed = "seconds_elapsed"
-        case sets, reps, distance
+        case sets, reps, distance, muscles
     }
 }
 
@@ -435,7 +441,7 @@ class MetricAPI: ObservableObject {
         ])
     }
     
-    func getWeekly(_ completionHandler: @escaping (WeeklyMetric) -> Void) {
+    func getWeeklyStats(_ completionHandler: @escaping (WeeklyMetricStats) -> Void) {
         let url = "\(baseURL)/api/metric/weekly"
         
         AF.request(url, method: .get, headers: headers)
@@ -446,7 +452,7 @@ class MetricAPI: ObservableObject {
                     let decoder = JSONDecoder()
                     decoder.dateDecodingStrategy = decodeStrategy()
                     
-                    let exerciseDictionary = try! decoder.decode(WeeklyMetric.self, from: data!)
+                    let exerciseDictionary = try! decoder.decode(WeeklyMetricStats.self, from: data!)
                     completionHandler(exerciseDictionary)
                 case .failure(let error):
                     print("Failed to get metric: ", error)
