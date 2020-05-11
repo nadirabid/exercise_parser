@@ -62,7 +62,13 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	weekly := WeeklyMetric{}
+	weekly := WeeklyMetric{
+		TargetMuscles:               []MuscleStat{},
+		SynergistMuscles:            []MuscleStat{},
+		StabilizerMuscles:           []MuscleStat{},
+		DynamicStabilizerMuscles:    []MuscleStat{},
+		AntagonistStabilizerMuscles: []MuscleStat{},
+	}
 	repsByDictionary := map[uint]int{}
 
 	for _, w := range workouts {
@@ -167,14 +173,14 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 		}
 	}
 
-	for muscle, reps := range repsByTargetMuscles {
-		m := MuscleStat{
-			Muscle: muscle,
-			Reps:   reps,
-		}
+	// for muscle, reps := range repsByTargetMuscles {
+	// 	m := MuscleStat{
+	// 		Muscle: muscle,
+	// 		Reps:   reps,
+	// 	}
 
-		weekly.TargetMuscles = append(weekly.TargetMuscles, m)
-	}
+	// 	weekly.TargetMuscles = append(weekly.TargetMuscles, m)
+	// }
 
 	for muscle, reps := range repsBySynergistMuscles {
 		m := MuscleStat{
