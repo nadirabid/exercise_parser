@@ -34,7 +34,6 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 	workouts := []models.Workout{}
 
 	err := db.
-		Debug(). // TODO: remove
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
 		Where("created_at > current_date - INTERVAL '7' day AND user_id = ?", userID).
@@ -49,7 +48,6 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 	dictionaries := []models.ExerciseDictionary{}
 
 	err = db.
-		Debug().
 		Preload("Muscles").
 		Select("DISTINCT ON (id) exercise_dictionaries.*").
 		Joins("JOIN exercises ON exercises.exercise_dictionary_id = exercise_dictionaries.id").
@@ -219,4 +217,166 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 	}
 
 	return ctx.JSON(http.StatusOK, weekly)
+}
+
+func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictionary) *models.Metric {
+	topLevelMetric := models.TopLevelMetric{}
+
+	repsByDictionary := map[uint]int{}
+
+	for _, e := range workout.Exercises {
+		if e.ExerciseDictionaryID != nil {
+			if _, ok := repsByDictionary[*e.ExerciseDictionaryID]; !ok {
+				repsByDictionary[*e.ExerciseDictionaryID] = 0
+			}
+
+			topLevelMetric.Sets += e.ExerciseData.Sets
+			topLevelMetric.Reps += e.ExerciseData.Reps
+			topLevelMetric.Distance += e.ExerciseData.Distance
+			repsByDictionary[*e.ExerciseDictionaryID] += e.ExerciseData.Sets
+		}
+	}
+
+	repsByTargetMuscles := map[string]int{}
+	repsBySynergistMuscles := map[string]int{}
+	repsByStabilizerMuscles := map[string]int{}
+	repsByDynamicStabilizerMuscles := map[string]int{}
+	repsByAntagonistStabilizerMuscles := map[string]int{}
+
+	for _, d := range dictionaries {
+		if reps, ok := repsByDictionary[d.ID]; ok {
+			// target
+			for _, muscleName := range d.Muscles.Target {
+				standardMuscleName, err := models.MuscleStandardName(muscleName)
+				if err != nil {
+					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
+					continue
+				}
+
+				if _, ok := repsByTargetMuscles[standardMuscleName]; !ok {
+					repsByTargetMuscles[standardMuscleName] = 0
+				}
+
+				repsByTargetMuscles[standardMuscleName] += reps
+			}
+
+			// synergist
+			for _, muscleName := range d.Muscles.Synergists {
+				standardMuscleName, err := models.MuscleStandardName(muscleName)
+				if err != nil {
+					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
+					continue
+				}
+
+				if _, ok := repsBySynergistMuscles[standardMuscleName]; !ok {
+					repsBySynergistMuscles[standardMuscleName] = 0
+				}
+
+				repsBySynergistMuscles[standardMuscleName] += reps
+			}
+
+			// stabilizers
+			for _, muscleName := range d.Muscles.Stabilizers {
+				standardMuscleName, err := models.MuscleStandardName(muscleName)
+				if err != nil {
+					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
+					continue
+				}
+
+				if _, ok := repsByStabilizerMuscles[standardMuscleName]; !ok {
+					repsByStabilizerMuscles[standardMuscleName] = 0
+				}
+
+				repsByStabilizerMuscles[standardMuscleName] += reps
+			}
+
+			// dynamic stabilizer
+			for _, muscleName := range d.Muscles.DynamicStabilizers {
+				standardMuscleName, err := models.MuscleStandardName(muscleName)
+				if err != nil {
+					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
+					continue
+				}
+
+				if _, ok := repsByDynamicStabilizerMuscles[standardMuscleName]; !ok {
+					repsByDynamicStabilizerMuscles[standardMuscleName] = 0
+				}
+
+				repsByDynamicStabilizerMuscles[standardMuscleName] += reps
+			}
+
+			// antagonist stabilizers
+			for _, muscleName := range d.Muscles.AntagonistStabilizers {
+				standardMuscleName, err := models.MuscleStandardName(muscleName)
+				if err != nil {
+					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
+					continue
+				}
+
+				if _, ok := repsByAntagonistStabilizerMuscles[standardMuscleName]; !ok {
+					repsByAntagonistStabilizerMuscles[standardMuscleName] = 0
+				}
+
+				repsByAntagonistStabilizerMuscles[standardMuscleName] += reps
+			}
+		}
+	}
+
+	muscleMetric := models.MuscleMetric{
+		TargetMuscles:               []MuscleStat{},
+		SynergistMuscles:            []MuscleStat{},
+		StabilizerMuscles:           []MuscleStat{},
+		DynamicStabilizerMuscles:    []MuscleStat{},
+		AntagonistStabilizerMuscles: []MuscleStat{},
+	}
+
+	for muscle, reps := range repsByTargetMuscles {
+		m := MuscleStat{
+			Muscle: muscle,
+			Reps:   reps,
+		}
+
+		muscleMetric.TargetMuscles = append(muscleMetric.TargetMuscles, m)
+	}
+
+	for muscle, reps := range repsBySynergistMuscles {
+		m := MuscleStat{
+			Muscle: muscle,
+			Reps:   reps,
+		}
+
+		muscleMetric.SynergistMuscles = append(muscleMetric.SynergistMuscles, m)
+	}
+
+	for muscle, reps := range repsByStabilizerMuscles {
+		m := MuscleStat{
+			Muscle: muscle,
+			Reps:   reps,
+		}
+
+		muscleMetric.StabilizerMuscles = append(muscleMetric.StabilizerMuscles, m)
+	}
+
+	for muscle, reps := range repsByDynamicStabilizerMuscles {
+		m := MuscleStat{
+			Muscle: muscle,
+			Reps:   reps,
+		}
+
+		muscleMetric.DynamicStabilizerMuscles = append(muscleMetric.DynamicStabilizerMuscles, m)
+	}
+
+	for muscle, reps := range repsByAntagonistStabilizerMuscles {
+		m := MuscleStat{
+			Muscle: muscle,
+			Reps:   reps,
+		}
+
+		muscleMetric.AntagonistStabilizerMuscles = append(muscleMetric.AntagonistStabilizerMuscles, m)
+	}
+
+	return &models.Metric{
+		TopLevel: topLevelMetric,
+		Muscle:   muscleMetric,
+	}
 }

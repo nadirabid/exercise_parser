@@ -288,8 +288,39 @@ struct UserFeedViewHeader: View {
     }
 }
 
+enum MetricsTimeRange: CaseIterable, Hashable {
+    case Last7Days
+    case Last30Days
+    case Last90Days
+    
+    var description: String {
+        switch self {
+        case .Last7Days: return "Last 7 Days"
+        case .Last30Days: return "Last 30 Days"
+        case .Last90Days: return "Last 90 Days"
+        }
+    }
+}
+
+extension MetricsTimeRange: Identifiable {
+    var id: MetricsTimeRange { self }
+}
+
 struct AggregateMuscleMetricsView: View {
     var weeklyMetric: WeeklyMetricStats? = nil
+    @State var metricsTimeRange: MetricsTimeRange = .Last7Days
+    
+    init(weeklyMetric: WeeklyMetricStats?) {
+        self.weeklyMetric = weeklyMetric
+        
+        UISegmentedControl.appearance().setTitleTextAttributes([
+                .font: UIFont.boldSystemFont(ofSize: 12)
+        ], for: .selected)
+
+        UISegmentedControl.appearance().setTitleTextAttributes([
+                .font: UIFont.boldSystemFont(ofSize: 12)
+        ], for: .normal)
+    }
     
     var targetMuscles: [MuscleActivation] {
         let muscles = weeklyMetric?.targetMuscles ?? []
@@ -319,6 +350,18 @@ struct AggregateMuscleMetricsView: View {
     
     var body: some View {
         GeometryReader { geometry in
+            Picker(selection: self.$metricsTimeRange, label: Text("Time range")) {
+                ForEach(MetricsTimeRange.allCases) { (range: MetricsTimeRange) in
+                    VStack {
+                        Text(range.description)
+                            .fontWeight(.semibold)
+                            .tag(range)
+                    }
+                }
+            }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
+            
             HStack(alignment: .center, spacing: 0) {
                 AnteriorView(
                     activatedTargetMuscles: self.targetMuscles,

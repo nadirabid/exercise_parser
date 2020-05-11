@@ -43,7 +43,6 @@ struct MainView: View {
                             
                             Divider()
                         }
-                            .background(Color.white)
                         
                         SubscriptionFeedView()
                     }
@@ -96,9 +95,7 @@ struct MainView: View {
                             Spacer()
                         }
                     }
-                        .background(Color.white)
                 }
-                    .background(feedColor)
             }
         }
     }

@@ -53,7 +53,7 @@ struct SubscriptionFeedView: View {
                 Spacer()
             }
         }
-        .background(self.feedData == nil ? Color.white : feedColor)
+        //.background(self.feedData == nil ? Color.white : feedColor)
         .onAppear {
             self.workoutAPI.getUserSubscriptionWorkouts { (response) in
                 self.feedData = response
