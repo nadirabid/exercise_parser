@@ -102,9 +102,12 @@ enum Muscle: Int64, CaseIterable {
     case Background = 2
 }
 
-enum MuscleActivity {
-    case primary
-    case secondary
+enum MuscleUsage {
+    case target
+    case synergist
+    case stabilizer
+    case dynamicStabilizer
+    case antagonistStabilizer
     case none
 }
 
