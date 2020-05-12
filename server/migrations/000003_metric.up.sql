@@ -31,12 +31,12 @@ CREATE TABLE IF NOT EXISTS metrics_muscle (
   created_at timestamp with time zone,
   updated_at timestamp with time zone,
   deleted_at timestamp with time zone,
-  muscle text NOT NULL,
+  name text NOT NULL,
   usage text NOT NULL,
   reps int,
   metric_id integer REFERENCES metrics(id) ON DELETE CASCADE
 );
 
-CREATE UNIQUE INDEX idx_usage_and_muscle ON metrics_muscle(muscle, usage);
+CREATE UNIQUE INDEX idx_usage_and_muscle ON metrics_muscle(name, usage);
 
 COMMIT;

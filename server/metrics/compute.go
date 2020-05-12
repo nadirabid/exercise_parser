@@ -158,9 +158,9 @@ func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictio
 
 	for muscle, reps := range repsByTargetMuscles {
 		m := models.MetricMuscle{
-			Muscle: muscle,
-			Reps:   reps,
-			Usage:  models.TargetMuscle,
+			Name:  muscle,
+			Reps:  reps,
+			Usage: models.TargetMuscle,
 		}
 
 		metricMuscles = append(metricMuscles, m)
@@ -168,9 +168,9 @@ func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictio
 
 	for muscle, reps := range repsBySynergistMuscles {
 		m := models.MetricMuscle{
-			Muscle: muscle,
-			Reps:   reps,
-			Usage:  models.SynergistMuscle,
+			Name:  muscle,
+			Reps:  reps,
+			Usage: models.SynergistMuscle,
 		}
 
 		metricMuscles = append(metricMuscles, m)
@@ -178,9 +178,9 @@ func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictio
 
 	for muscle, reps := range repsByStabilizerMuscles {
 		m := models.MetricMuscle{
-			Muscle: muscle,
-			Reps:   reps,
-			Usage:  models.StabilizerMuscle,
+			Name:  muscle,
+			Reps:  reps,
+			Usage: models.StabilizerMuscle,
 		}
 
 		metricMuscles = append(metricMuscles, m)
@@ -188,9 +188,9 @@ func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictio
 
 	for muscle, reps := range repsByDynamicStabilizerMuscles {
 		m := models.MetricMuscle{
-			Muscle: muscle,
-			Reps:   reps,
-			Usage:  models.DynamicStabilizerMuscle,
+			Name:  muscle,
+			Reps:  reps,
+			Usage: models.DynamicStabilizerMuscle,
 		}
 
 		metricMuscles = append(metricMuscles, m)
@@ -198,9 +198,9 @@ func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictio
 
 	for muscle, reps := range repsByAntagonistStabilizerMuscles {
 		m := models.MetricMuscle{
-			Muscle: muscle,
-			Reps:   reps,
-			Usage:  models.AntagonistStabilizerMuscle,
+			Name:  muscle,
+			Reps:  reps,
+			Usage: models.AntagonistStabilizerMuscle,
 		}
 
 		metricMuscles = append(metricMuscles, m)

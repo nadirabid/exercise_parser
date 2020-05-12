@@ -151,6 +151,7 @@ func New(v *viper.Viper) error {
 	apiRoutes.DELETE("/workout/:id", handleDeleteWorkout)
 
 	// returns metrics
+	apiRoutes.GET("/metric", handleGetMetrics)
 	apiRoutes.GET("/metric/weekly", handleGetWeeklyMetrics)
 
 	return e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port")))

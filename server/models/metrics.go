@@ -8,11 +8,12 @@ const (
 	AntagonistStabilizerMuscle = "AntagonistStabilizerMuscle"
 )
 
+// TODO: should metric be associated with workoutID or a time range?
 type Metric struct {
 	Model
 	Muscles   []MetricMuscle `json:"muscles"`
 	TopLevel  MetricTopLevel `json:"top_level"`
-	WorkoutID uint           `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
+	WorkoutID uint           `json:"-" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
 }
 
 func (Metric) TableName() string {
@@ -34,7 +35,7 @@ func (MetricTopLevel) TableName() string {
 
 type MetricMuscle struct {
 	HiddenModel
-	Muscle   string `json:"muscle"`
+	Name     string `json:"name"`
 	Usage    string `json:"usage"`
 	Reps     int    `json:"reps"`
 	MetricID uint   `json:"metric_id" gorm:"type:int REFERENCES metrics(id) ON DELETE CASCADE"`
