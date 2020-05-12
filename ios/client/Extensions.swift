@@ -70,7 +70,7 @@ extension Date {
     var timeOfDayString: String {
         //TODO: localize?
         let hour = Calendar.current.component(.hour, from: Date())
-
+        
         switch hour {
         case 6..<12 : return NSLocalizedString("Morning", comment: "Morning")
         case 12 : return NSLocalizedString("Noon", comment: "Noon")
@@ -148,3 +148,19 @@ extension UIBezierPath {
         return self
     }
 }
+
+extension Binding {
+    func onChange(_ handler: @escaping (Value, Value) -> Void) -> Binding<Value> {
+        return Binding(
+            get: {
+                self.wrappedValue
+            },
+            set: { selection in
+                let old = self.wrappedValue
+                self.wrappedValue = selection
+                handler(selection, old)
+            }
+        )
+    }
+}
+

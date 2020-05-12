@@ -102,13 +102,13 @@ enum Muscle: Int64, CaseIterable {
     case Background = 2
 }
 
-enum MuscleUsage {
-    case target
-    case synergist
-    case stabilizer
-    case dynamicStabilizer
-    case antagonistStabilizer
-    case none
+enum MuscleUsage: String {
+    case target = "TargetMuscle"
+    case synergist = "SynergistMuscle"
+    case stabilizer = "StabilizerMuscle"
+    case dynamicStabilizer = "DynamicStabilizer"
+    case antagonistStabilizer = "AntagonistStabilizer"
+    case none = "None"
 }
 
 struct MuscleActivation {

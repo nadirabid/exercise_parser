@@ -335,34 +335,43 @@ struct AggregateMuscleMetricsView: View {
     }
     
     var targetMuscles: [MuscleActivation] {
-        let muscles = weeklyMetric?.targetMuscles ?? []
+        let muscles = metric?.muscles.filter { $0.usage == MuscleUsage.target.rawValue } ?? []
         
-        return muscles.reduce(into: []) { (result: inout [MuscleActivation], muscleStat) in
-            if let muscle = Muscle.from(name: muscleStat.muscle) {
+        return muscles.reduce(into: []) { (result: inout [MuscleActivation], metricMuscle: MetricMuscle) in
+            if let muscle = Muscle.from(name: metricMuscle.name) {
                 result.append(MuscleActivation(
                     muscle: muscle,
-                    activation: Float(muscleStat.reps) / Float(weeklyMetric!.reps)
+                    activation: Float(metricMuscle.reps) / Float(metric!.topLevel.reps)
                 ))
             }
         }
     }
     
     var synergistMuscles: [MuscleActivation] {
-        let muscles = weeklyMetric?.synergistMuscles ?? []
+        let muscles = metric?.muscles.filter { $0.usage == MuscleUsage.synergist.rawValue } ?? []
         
-        return muscles.reduce(into: []) { (result: inout [MuscleActivation], muscleStat) in
-            if let muscle = Muscle.from(name: muscleStat.muscle) {
+        return muscles.reduce(into: []) { (result: inout [MuscleActivation], metricMuscle: MetricMuscle) in
+            if let muscle = Muscle.from(name: metricMuscle.name) {
                 result.append(MuscleActivation(
                     muscle: muscle,
-                    activation: Float(muscleStat.reps) / Float(weeklyMetric!.reps)
+                    activation: Float(metricMuscle.reps) / Float(metric!.topLevel.reps)
                 ))
             }
         }
     }
     
+    func metricsTimeRangeChangeHandler(metricsTimeRange: MetricsTimeRange, _: MetricsTimeRange) {
+        self.metricAPI.getForPast(days: metricsTimeRange.value) { (metric) in
+            self.metric = metric
+        }
+    }
+    
     var body: some View {
         GeometryReader { geometry in
-            Picker(selection: self.$metricsTimeRange, label: Text("Time range")) {
+            Picker(
+                selection: self.$metricsTimeRange.onChange(self.metricsTimeRangeChangeHandler),
+                label: Text("Time range")
+            ) {
                 ForEach(MetricsTimeRange.allCases) { (range: MetricsTimeRange) in
                     VStack {
                         Text(range.description)
