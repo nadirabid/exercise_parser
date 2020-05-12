@@ -300,6 +300,14 @@ enum MetricsTimeRange: CaseIterable, Hashable {
         case .Last90Days: return "Last 90 Days"
         }
     }
+    
+    var value: Int {
+        switch self {
+        case .Last7Days: return 7
+        case .Last30Days: return 30
+        case .Last90Days: return 90
+        }
+    }
 }
 
 extension MetricsTimeRange: Identifiable {
@@ -307,7 +315,11 @@ extension MetricsTimeRange: Identifiable {
 }
 
 struct AggregateMuscleMetricsView: View {
+    @EnvironmentObject var metricAPI: MetricAPI
+    
     var weeklyMetric: WeeklyMetricStats? = nil
+    
+    @State var metric: Metric? = nil
     @State var metricsTimeRange: MetricsTimeRange = .Last7Days
     
     init(weeklyMetric: WeeklyMetricStats?) {
@@ -374,6 +386,11 @@ struct AggregateMuscleMetricsView: View {
                 )
             }
                 .frame(width: geometry.size.width)
+        }
+        .onAppear {
+            self.metricAPI.getForPast(days: self.metricsTimeRange.value) { (metric) in
+                self.metric = metric
+            }
         }
     }
 }

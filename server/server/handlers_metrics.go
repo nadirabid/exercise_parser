@@ -238,7 +238,7 @@ func handleGetMetrics(c echo.Context) error {
 
 	metrics := []models.Metric{}
 
-	err = db.Debug().
+	err = db.
 		Preload("Muscles").
 		Preload("TopLevel").
 		Joins("JOIN workouts ON workouts.id = metrics.workout_id").
