@@ -22,7 +22,7 @@ struct SubscriptionFeedView: View {
     func getUserFor(workout: Workout) -> User? {
         return feedUsers?.results.first(where: { $0.id == workout.userID })
     }
-        
+    
     var body: some View {
         return VStack {
             if self.feedData == nil {
@@ -53,7 +53,7 @@ struct SubscriptionFeedView: View {
                 Spacer()
             }
         }
-        //.background(self.feedData == nil ? Color.white : feedColor)
+        .background(self.feedData == nil ? Color.white : feedColor)
         .onAppear {
             self.workoutAPI.getUserSubscriptionWorkouts { (response) in
                 self.feedData = response
