@@ -220,7 +220,7 @@ struct UserFeedViewHeader: View {
                     
                     VStack(alignment: .leading, spacing: 0) {
                         if self.scrollViewContentOffset < 5 {
-                            Text("Past 7 days")
+                            Text("Last 7 days")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                                 .animation(.easeInOut)
