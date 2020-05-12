@@ -42,8 +42,8 @@ struct UserFeedView: View {
                         .fontWeight(.semibold)
                     Spacer()
                 }
-                    .fixedSize(horizontal: false, vertical: true)
-                    .background(Color.white)
+                .fixedSize(horizontal: false, vertical: true)
+                .background(Color.white)
                 
                 ZStack(alignment: .top) {
                     Color.clear // make ZStack expand to fill the content
@@ -68,7 +68,7 @@ struct UserFeedView: View {
                                             .padding(.top)
                                     }
                                 }
-                                    .padding(.top, self.height)
+                                .padding(.top, self.height)
                             }
                         } else {
                             VStack {
@@ -89,21 +89,21 @@ struct UserFeedView: View {
                             
                             Spacer()
                         }
-                            .padding(.top, self.height)
+                        .padding(.top, self.height)
                     }
                 }
             }
         }
-            .background(self.feedData == nil ? Color.white : feedColor)
-            .onAppear {
-                self.workoutAPI.getUserWorkouts { (response) in
-                    self.feedData = response
-                }
-                
-                self.metricAPI.getWeeklyStats { (response) in
-                    self.weeklyMetric = response
-                }
+        .background(self.feedData == nil ? Color.white : feedColor)
+        .onAppear {
+            self.workoutAPI.getUserWorkouts { (response) in
+                self.feedData = response
             }
+            
+            self.metricAPI.getWeeklyStats { (response) in
+                self.weeklyMetric = response
+            }
+        }
     }
 }
 
@@ -244,12 +244,12 @@ struct UserFeedViewHeader: View {
                             
                             WorkoutDetail(name: "Reps", value: self.reps)
                         }
-                            .fixedSize()
+                        .fixedSize()
                     }
                     
                     Spacer()
                 }
-                    .padding([.top, .bottom], min(15, 15 - self.scrollViewContentOffset / 6))
+                .padding([.top, .bottom], min(15, 15 - self.scrollViewContentOffset / 6))
             }
             
             HStack(alignment: .center) {
@@ -272,7 +272,7 @@ struct UserFeedViewHeader: View {
                 
                 Spacer()
             }
-                .padding(.bottom)
+            .padding(.bottom)
             
             GeometryReader { geometry in
                 Rectangle()
@@ -280,11 +280,11 @@ struct UserFeedViewHeader: View {
                     .position(x: self.calculateButtonBarPositionFrom(size: geometry.size))
                     .frame(width: geometry.size.width / 2, height: 2)
             }
-                .frame(height: 1)
+            .frame(height: 1)
             
             Divider()
         }
-            .frame(height: self.calculatedHeight)
+        .frame(height: self.calculatedHeight)
     }
 }
 
@@ -326,11 +326,11 @@ struct AggregateMuscleMetricsView: View {
         self.weeklyMetric = weeklyMetric
         
         UISegmentedControl.appearance().setTitleTextAttributes([
-                .font: UIFont.boldSystemFont(ofSize: 12)
+            .font: UIFont.boldSystemFont(ofSize: 12)
         ], for: .selected)
-
+        
         UISegmentedControl.appearance().setTitleTextAttributes([
-                .font: UIFont.boldSystemFont(ofSize: 12)
+            .font: UIFont.boldSystemFont(ofSize: 12)
         ], for: .normal)
     }
     
@@ -371,8 +371,8 @@ struct AggregateMuscleMetricsView: View {
                     }
                 }
             }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
             
             HStack(alignment: .center, spacing: 0) {
                 AnteriorView(
@@ -385,7 +385,7 @@ struct AggregateMuscleMetricsView: View {
                     activatedSynergistMuscles: self.synergistMuscles
                 )
             }
-                .frame(width: geometry.size.width)
+            .frame(width: geometry.size.width)
         }
         .onAppear {
             self.metricAPI.getForPast(days: self.metricsTimeRange.value) { (metric) in
