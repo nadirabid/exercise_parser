@@ -242,9 +242,13 @@ func handleGetMetrics(c echo.Context) error {
 		Preload("Muscles").
 		Preload("TopLevel").
 		Joins("JOIN workouts ON workouts.id = metrics.workout_id").
-		Where("workouts.created_at > current_date - INTERVAL ? day AND user_id = ?", pastDays, userID).
+		Where(fmt.Sprintf("workouts.created_at > current_date - INTERVAL '%d' day AND workouts.user_id = ?", pastDays), userID).
 		Find(&metrics).
 		Error
+
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
 
 	response := models.Metric{
 		Muscles: []models.MetricMuscle{},
@@ -322,5 +326,5 @@ func handleGetMetrics(c echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	return ctx.JSON(http.StatusOK, metrics)
+	return ctx.JSON(http.StatusOK, response)
 }

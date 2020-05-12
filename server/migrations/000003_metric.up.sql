@@ -37,6 +37,6 @@ CREATE TABLE IF NOT EXISTS metrics_muscle (
   metric_id integer REFERENCES metrics(id) ON DELETE CASCADE
 );
 
-CREATE UNIQUE INDEX idx_usage_and_muscle ON metrics_muscle(name, usage);
+CREATE UNIQUE INDEX idx_metric_id_and_usage_and_muscle ON metrics_muscle(metric_id, name, usage);
 
 COMMIT;

@@ -2,15 +2,12 @@ package metrics
 
 import (
 	"exercise_parser/models"
-	"exercise_parser/utils"
 	"fmt"
 
 	"github.com/jinzhu/gorm"
 )
 
-func ComputeForWorkout(workoutID uint, db *gorm.DB) {
-	fmt.Printf("Compute for workout: %s\n", workoutID)
-
+func ComputeForWorkout(workoutID uint, db *gorm.DB) error {
 	workout := &models.Workout{}
 	err := db.
 		Preload("Exercises").
@@ -20,8 +17,7 @@ func ComputeForWorkout(workoutID uint, db *gorm.DB) {
 		Error
 
 	if err != nil {
-		fmt.Printf("Error: %s", err.Error())
-		return
+		return err
 	}
 
 	dictionaries := []models.ExerciseDictionary{}
@@ -36,19 +32,16 @@ func ComputeForWorkout(workoutID uint, db *gorm.DB) {
 		Error
 
 	if err != nil {
-		fmt.Printf("Error: %s\n", err.Error())
-		return
+		return err
 	}
 
 	m := computeMetric(workout, dictionaries)
 
-	utils.PrettyPrint(m)
-
-	if err := db.Debug().Create(m).Error; err != nil {
-		fmt.Printf("Error: %s\n", err.Error())
+	if err := db.Create(m).Error; err != nil {
+		return err
 	}
 
-	fmt.Printf("Compute completed for workout: %s\n", workoutID)
+	return err
 }
 
 func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictionary) *models.Metric {
@@ -56,6 +49,7 @@ func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictio
 
 	repsByDictionary := map[uint]int{}
 
+	topLevelMetric.SecondsElapsed += workout.SecondsElapsed
 	for _, e := range workout.Exercises {
 		if e.ExerciseDictionaryID != nil {
 			if _, ok := repsByDictionary[*e.ExerciseDictionaryID]; !ok {
