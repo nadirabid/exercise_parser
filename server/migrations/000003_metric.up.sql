@@ -10,39 +10,33 @@ CREATE TABLE IF NOT EXISTS metrics (
   workout_id integer REFERENCES workouts(id) ON DELETE CASCADE
 );
 
--- TopLevelMetric ----------------------------------------------
+-- MetricTopLevel ----------------------------------------------
 
-CREATE TABLE IF NOT EXISTS top_level_metrics (
+CREATE TABLE IF NOT EXISTS metrics_top_level (
   id SERIAL PRIMARY KEY,
   created_at timestamp with time zone,
   updated_at timestamp with time zone,
   deleted_at timestamp with time zone,
+  distance numeric,
   sets integer,
   reps integer,
   seconds_elapsed integer,
   metric_id integer REFERENCES metrics(id) ON DELETE CASCADE
 );
 
--- MuscleMetric ----------------------------------------------
+-- MetricMuscle ----------------------------------------------
 
-CREATE TABLE IF NOT EXISTS muscle_metrics (
+CREATE TABLE IF NOT EXISTS metrics_muscle (
   id SERIAL PRIMARY KEY,
   created_at timestamp with time zone,
   updated_at timestamp with time zone,
   deleted_at timestamp with time zone,
-  metric_id integer REFERENCES metrics(id) ON DELETE CASCADE
-)
-
--- MuscleStats ----------------------------------------------
-
-CREATE TABLE IF NOT EXISTS muscle_stats (
-  id SERIAL PRIMARY KEY,
-  created_at timestamp with time zone,
-  updated_at timestamp with time zone,
-  deleted_at timestamp with time zone,
-  muscle character varying(250)[],
+  muscle text NOT NULL,
+  usage text NOT NULL,
   reps int,
-  muscle_metric_id integer REFERENCES muscle_metric(id) ON DELETE CASCADE
+  metric_id integer REFERENCES metrics(id) ON DELETE CASCADE
 );
+
+CREATE UNIQUE INDEX idx_usage_and_muscle ON metrics_muscle(muscle, usage);
 
 COMMIT;

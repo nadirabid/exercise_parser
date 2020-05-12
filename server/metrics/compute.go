@@ -1,48 +1,27 @@
-package server
+package metrics
 
 import (
 	"exercise_parser/models"
+	"exercise_parser/utils"
 	"fmt"
-	"net/http"
 
-	"github.com/labstack/echo"
+	"github.com/jinzhu/gorm"
 )
 
-type MuscleStat struct {
-	Muscle string `json:"muscle"`
-	Reps   int    `json:"reps"`
-}
+func ComputeForWorkout(workoutID uint, db *gorm.DB) {
+	fmt.Printf("Compute for workout: %s\n", workoutID)
 
-type WeeklyMetric struct {
-	TargetMuscles               []MuscleStat `json:"target_muscles"`
-	SynergistMuscles            []MuscleStat `json:"synergist_muscles"`
-	StabilizerMuscles           []MuscleStat `json:"stabilizer_muscles"`
-	DynamicStabilizerMuscles    []MuscleStat `json:"dynamic_stabilizer_muscles"`
-	AntagonistStabilizerMuscles []MuscleStat `json:"antagonist_stabilizer_muscles"`
-	Distance                    float32      `json:"distance"`
-	Sets                        int          `json:"sets"`
-	Reps                        int          `json:"reps"`
-	SecondsElapsed              uint         `json:"seconds_elapsed"`
-}
-
-func handleGetWeeklyMetrics(c echo.Context) error {
-	ctx := c.(*Context)
-	db := ctx.db
-
-	userID := getUserIDFromContext(ctx)
-
-	workouts := []models.Workout{}
-
+	workout := &models.Workout{}
 	err := db.
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
-		Where("created_at > current_date - INTERVAL '7' day AND user_id = ?", userID).
-		Order("created_at desc").
-		Find(&workouts).
+		Where("id = ?", workoutID).
+		First(workout).
 		Error
 
 	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, err.Error())
+		fmt.Printf("Error: %s", err.Error())
+		return
 	}
 
 	dictionaries := []models.ExerciseDictionary{}
@@ -52,37 +31,41 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 		Select("DISTINCT ON (id) exercise_dictionaries.*").
 		Joins("JOIN exercises ON exercises.exercise_dictionary_id = exercise_dictionaries.id").
 		Joins("JOIN workouts ON workouts.id = exercises.workout_id").
-		Where("workouts.created_at > current_date - INTERVAL '7' day AND user_id = ?", userID).
+		Where("workouts.id = ?", workoutID).
 		Find(&dictionaries).
 		Error
 
 	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, err.Error())
+		fmt.Printf("Error: %s\n", err.Error())
+		return
 	}
 
-	weekly := WeeklyMetric{
-		TargetMuscles:               []MuscleStat{},
-		SynergistMuscles:            []MuscleStat{},
-		StabilizerMuscles:           []MuscleStat{},
-		DynamicStabilizerMuscles:    []MuscleStat{},
-		AntagonistStabilizerMuscles: []MuscleStat{},
+	m := computeMetric(workout, dictionaries)
+
+	utils.PrettyPrint(m)
+
+	if err := db.Debug().Create(m).Error; err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
 	}
+
+	fmt.Printf("Compute completed for workout: %s\n", workoutID)
+}
+
+func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictionary) *models.Metric {
+	topLevelMetric := models.MetricTopLevel{}
+
 	repsByDictionary := map[uint]int{}
 
-	for _, w := range workouts {
-		weekly.SecondsElapsed += w.SecondsElapsed
-
-		for _, e := range w.Exercises {
-			if e.ExerciseDictionaryID != nil {
-				if _, ok := repsByDictionary[*e.ExerciseDictionaryID]; !ok {
-					repsByDictionary[*e.ExerciseDictionaryID] = 0
-				}
-
-				weekly.Sets += e.ExerciseData.Sets
-				weekly.Reps += e.ExerciseData.Reps
-				weekly.Distance += e.ExerciseData.Distance
-				repsByDictionary[*e.ExerciseDictionaryID] += e.ExerciseData.Sets
+	for _, e := range workout.Exercises {
+		if e.ExerciseDictionaryID != nil {
+			if _, ok := repsByDictionary[*e.ExerciseDictionaryID]; !ok {
+				repsByDictionary[*e.ExerciseDictionaryID] = 0
 			}
+
+			topLevelMetric.Sets += e.ExerciseData.Sets
+			topLevelMetric.Reps += e.ExerciseData.Reps
+			topLevelMetric.Distance += e.ExerciseData.Distance
+			repsByDictionary[*e.ExerciseDictionaryID] += e.ExerciseData.Sets
 		}
 	}
 
@@ -171,50 +154,61 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 		}
 	}
 
+	metricMuscles := []models.MetricMuscle{}
+
 	for muscle, reps := range repsByTargetMuscles {
-		m := MuscleStat{
+		m := models.MetricMuscle{
 			Muscle: muscle,
 			Reps:   reps,
+			Usage:  models.TargetMuscle,
 		}
 
-		weekly.TargetMuscles = append(weekly.TargetMuscles, m)
+		metricMuscles = append(metricMuscles, m)
 	}
 
 	for muscle, reps := range repsBySynergistMuscles {
-		m := MuscleStat{
+		m := models.MetricMuscle{
 			Muscle: muscle,
 			Reps:   reps,
+			Usage:  models.SynergistMuscle,
 		}
 
-		weekly.SynergistMuscles = append(weekly.SynergistMuscles, m)
+		metricMuscles = append(metricMuscles, m)
 	}
 
 	for muscle, reps := range repsByStabilizerMuscles {
-		m := MuscleStat{
+		m := models.MetricMuscle{
 			Muscle: muscle,
 			Reps:   reps,
+			Usage:  models.StabilizerMuscle,
 		}
 
-		weekly.StabilizerMuscles = append(weekly.StabilizerMuscles, m)
+		metricMuscles = append(metricMuscles, m)
 	}
 
 	for muscle, reps := range repsByDynamicStabilizerMuscles {
-		m := MuscleStat{
+		m := models.MetricMuscle{
 			Muscle: muscle,
 			Reps:   reps,
+			Usage:  models.DynamicStabilizerMuscle,
 		}
 
-		weekly.DynamicStabilizerMuscles = append(weekly.DynamicStabilizerMuscles, m)
+		metricMuscles = append(metricMuscles, m)
 	}
 
 	for muscle, reps := range repsByAntagonistStabilizerMuscles {
-		m := MuscleStat{
+		m := models.MetricMuscle{
 			Muscle: muscle,
 			Reps:   reps,
+			Usage:  models.AntagonistStabilizerMuscle,
 		}
 
-		weekly.AntagonistStabilizerMuscles = append(weekly.AntagonistStabilizerMuscles, m)
+		metricMuscles = append(metricMuscles, m)
 	}
 
-	return ctx.JSON(http.StatusOK, weekly)
+	return &models.Metric{
+		WorkoutID: workout.ID,
+		TopLevel:  topLevelMetric,
+		Muscles:   metricMuscles,
+	}
 }

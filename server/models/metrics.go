@@ -1,8 +1,17 @@
 package models
 
+const (
+	TargetMuscle               = "TargetMuscle"
+	SynergistMuscle            = "SynergistMuscle"
+	StabilizerMuscle           = "StabilizerMuscle"
+	DynamicStabilizerMuscle    = "DynamicStabilizerMuscle"
+	AntagonistStabilizerMuscle = "AntagonistStabilizerMuscle"
+)
+
 type Metric struct {
-	Muscle    MuscleMetric   `json:"muscle"`
-	TopLevel  TopLevelMetric `json:"top_level"`
+	Model
+	Muscles   []MetricMuscle `json:"muscles"`
+	TopLevel  MetricTopLevel `json:"top_level"`
 	WorkoutID uint           `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
 }
 
@@ -10,7 +19,7 @@ func (Metric) TableName() string {
 	return "metrics"
 }
 
-type TopLevelMetric struct {
+type MetricTopLevel struct {
 	HiddenModel
 	Distance       float32 `json:"distance"`
 	Sets           int     `json:"sets"`
@@ -19,31 +28,18 @@ type TopLevelMetric struct {
 	MetricID       uint    `json:"metric_id" gorm:"type:int REFERENCES metrics(id) ON DELETE CASCADE"`
 }
 
-func (TopLevelMetric) TableName() string {
-	return "top_level_metrics"
+func (MetricTopLevel) TableName() string {
+	return "metrics_top_level"
 }
 
-type MuscleMetric struct {
+type MetricMuscle struct {
 	HiddenModel
-	TargetMuscles               []MuscleStat `json:"target_muscles"`
-	SynergistMuscles            []MuscleStat `json:"synergist_muscles"`
-	StabilizerMuscles           []MuscleStat `json:"stabilizer_muscles"`
-	DynamicStabilizerMuscles    []MuscleStat `json:"dynamic_stabilizer_muscles"`
-	AntagonistStabilizerMuscles []MuscleStat `json:"antagonist_stabilizer_muscles"`
-	MetricID                    uint         `json:"metric_id" gorm:"type:int REFERENCES metrics(id) ON DELETE CASCADE"`
+	Muscle   string `json:"muscle"`
+	Usage    string `json:"usage"`
+	Reps     int    `json:"reps"`
+	MetricID uint   `json:"metric_id" gorm:"type:int REFERENCES metrics(id) ON DELETE CASCADE"`
 }
 
-func (MuscleMetric) TableName() string {
-	return "muscle_metrics"
-}
-
-type MuscleStat struct {
-	HiddenModel
-	Muscle         string `json:"muscle"`
-	Reps           int    `json:"reps"`
-	MuscleMetricID uint   `json:"muscle_metric_id" gorm:"type:int REFERENCES muscle_metrics(id) ON DELETE CASCADE"`
-}
-
-func (MuscleStat) TableName() string {
-	return "muscle_stats"
+func (MetricMuscle) TableName() string {
+	return "metrics_muscle"
 }

@@ -1,6 +1,7 @@
 package server
 
 import (
+	"exercise_parser/metrics"
 	"exercise_parser/models"
 	"exercise_parser/utils"
 	"net/http"
@@ -152,6 +153,8 @@ func handlePostWorkout(c echo.Context) error {
 	if err := db.Create(workout).Error; err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
+
+	metrics.ComputeForWorkout(workout.ID, db)
 
 	return ctx.JSON(http.StatusOK, workout)
 }
