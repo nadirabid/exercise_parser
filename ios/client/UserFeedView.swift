@@ -77,7 +77,7 @@ struct UserFeedView: View {
                                 }
                                 .padding(.top, self.height)
                             }
-                                .background(self.feedData == nil ? Color.white : feedColor)
+                            .background(self.feedData == nil ? Color.white : feedColor)
                         } else {
                             VStack {
                                 Spacer()
@@ -91,7 +91,7 @@ struct UserFeedView: View {
                         }
                     } else {
                         AggregateMuscleMetricsView(weeklyMetric: self.weeklyMetric)
-                        .padding(.top, self.height)
+                            .padding(.top, self.height)
                     }
                 }
             }
