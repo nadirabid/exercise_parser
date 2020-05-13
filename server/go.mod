@@ -27,6 +27,7 @@ require (
 	github.com/lestrrat-go/jwx v0.9.1
 	github.com/lib/pq v1.3.0
 	github.com/mitchellh/mapstructure v1.1.2 // indirect
+	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/cast v1.3.0 // indirect

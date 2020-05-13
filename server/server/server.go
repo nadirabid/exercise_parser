@@ -9,7 +9,9 @@ import (
 
 	"github.com/jinzhu/gorm"
 	"github.com/lestrrat-go/jwx/jwt"
+	"github.com/rifflock/lfshook"
 	"github.com/sirupsen/logrus"
+
 	"golang.org/x/crypto/acme/autocert"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres" // dialect automatically used by gorm
@@ -79,7 +81,19 @@ func newEchoRequestLogger(logger *logrus.Logger) func(echo.Context, []byte, []by
 func New(v *viper.Viper) error {
 	// init logrus
 	logger := logrus.New()
+	logger.SetReportCaller(true)
 
+	loggingBaseDir := v.GetString("logging.base_dir")
+	pathMap := lfshook.PathMap{
+		logrus.ErrorLevel: fmt.Sprintf("%s/error.log", loggingBaseDir),
+	}
+
+	logger.Hooks.Add(lfshook.NewHook(
+		pathMap,
+		&logrus.JSONFormatter{},
+	))
+
+	logger.Error("ERROR TEST")
 	// init parser
 
 	if err := parser.Init(v); err != nil {

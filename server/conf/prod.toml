@@ -33,3 +33,6 @@ redirect_uri="https://rydenapp.com"
 
 [auth.pem]
 base64_keypair="___PEM___"
+
+[logging]
+base_dir="/var/log/ryden-server"
