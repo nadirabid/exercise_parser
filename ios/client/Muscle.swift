@@ -113,14 +113,14 @@ enum MuscleUsage: String {
 
 struct MuscleActivation {
     let muscle: Muscle
-    let activation: Float
+    let activation: Double
     
     init(muscle: Muscle) {
         self.muscle = muscle
         self.activation = 1 // value between 0 and 1
     }
     
-    init(muscle: Muscle, activation: Float) {
+    init(muscle: Muscle, activation: Double) {
         self.muscle = muscle
         self.activation = activation
     }

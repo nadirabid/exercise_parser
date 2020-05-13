@@ -320,6 +320,7 @@ struct AggregateMuscleMetricsView: View {
     var weeklyMetric: WeeklyMetricStats? = nil
     
     @State var metric: Metric? = nil
+    @State var flattenedMuscles: [MetricMuscle] = []
     @State var metricsTimeRange: MetricsTimeRange = .Last7Days
     
     init(weeklyMetric: WeeklyMetricStats?) {
@@ -334,35 +335,91 @@ struct AggregateMuscleMetricsView: View {
         ], for: .normal)
     }
     
+    func calculateActivation(_ reps: Int,  _ maxReps: Double, _ variance: Double) -> Double {
+        // exp((x+1)*4.5) / 10000
+        let x = Double(reps) / Double(maxReps)
+        let constant = 1 - (exp(2 * 4.5) / 10000)
+        let y = min(1.0, constant + exp((x + 1)*4.5) / 10000)
+        
+        print(x, constant, exp(9.0) / 10000, y)
+        
+        return y
+    }
+    
     var targetMuscles: [MuscleActivation] {
-        let muscles = metric?.muscles.filter { $0.usage == MuscleUsage.target.rawValue } ?? []
+        let muscles = flattenedMuscles.filter { $0.usage == MuscleUsage.target.rawValue } ?? []
+        
+        print("TARGET MUSCLES")
+        let minReps = Double(muscles.min(by: { $0.reps < $1.reps })?.reps ?? 0)
+        let maxReps = Double(muscles.max(by: { $0.reps < $1.reps })?.reps ?? 0)
+        let variance = (maxReps - minReps) / maxReps
         
         return muscles.reduce(into: []) { (result: inout [MuscleActivation], metricMuscle: MetricMuscle) in
+            
             if let muscle = Muscle.from(name: metricMuscle.name) {
+                print(muscle)
                 result.append(MuscleActivation(
                     muscle: muscle,
-                    activation: Float(metricMuscle.reps) / Float(metric!.topLevel.reps)
+                    activation: self.calculateActivation(metricMuscle.reps, maxReps, variance)
                 ))
             }
         }
     }
     
     var synergistMuscles: [MuscleActivation] {
-        let muscles = metric?.muscles.filter { $0.usage == MuscleUsage.synergist.rawValue } ?? []
+        let muscles = flattenedMuscles.filter { $0.usage == MuscleUsage.synergist.rawValue } ?? []
+        
+        let minReps = Double(muscles.min(by: { $0.reps < $1.reps })?.reps ?? 0)
+        let maxReps = Double(muscles.max(by: { $0.reps < $1.reps })?.reps ?? 0)
+        let variance = (maxReps - minReps) / maxReps
+        
+        print("SYNERGIST MUSCLES")
         
         return muscles.reduce(into: []) { (result: inout [MuscleActivation], metricMuscle: MetricMuscle) in
             if let muscle = Muscle.from(name: metricMuscle.name) {
                 result.append(MuscleActivation(
                     muscle: muscle,
-                    activation: Float(metricMuscle.reps) / Float(metric!.topLevel.reps)
+                    activation: self.calculateActivation(metricMuscle.reps, maxReps, variance)
                 ))
             }
         }
     }
     
     func metricsTimeRangeChangeHandler(metricsTimeRange: MetricsTimeRange, _: MetricsTimeRange) {
+        print("TIME RANGE CHANGED")
         self.metricAPI.getForPast(days: metricsTimeRange.value) { (metric) in
             self.metric = metric
+            self.updateMuscleMetrics(from: metric.muscles)
+        }
+    }
+    
+    func updateMuscleMetrics(from metrics: [MetricMuscle]) {
+        let flattenedMetrics = metrics.flatMap { (metric) -> [MetricMuscle] in
+            if let muscle = Muscle.from(name: metric.name) {
+                if muscle.isMuscleGroup {
+                    return muscle.components.map {
+                        MetricMuscle(name: $0.name, usage: metric.usage, reps: metric.reps)
+                    }
+                } else {
+                    return [metric]
+                }
+            }
+            
+            return []
+        }
+        
+        let groupedByUsage = Dictionary(grouping: flattenedMetrics, by: { $0.usage })
+        
+        self.flattenedMuscles = groupedByUsage.flatMap { (usage: String, metricsOfUsage: [MetricMuscle]) -> [MetricMuscle] in
+            let groupedByName = Dictionary(grouping: metrics, by: { $0.name })
+            
+            return groupedByName.map { (name: String, metricsOfUsageAndName: [MetricMuscle]) -> MetricMuscle in
+                let totalRepsForMuscleOfUsage = metricsOfUsageAndName.reduce(into: 0) { (result: inout Int, metric) in
+                    result += metric.reps
+                }
+                
+                return MetricMuscle(name: name, usage: usage, reps: totalRepsForMuscleOfUsage)
+            }
         }
     }
     
@@ -399,6 +456,7 @@ struct AggregateMuscleMetricsView: View {
         .onAppear {
             self.metricAPI.getForPast(days: self.metricsTimeRange.value) { (metric) in
                 self.metric = metric
+                self.updateMuscleMetrics(from: metric.muscles)
             }
         }
     }

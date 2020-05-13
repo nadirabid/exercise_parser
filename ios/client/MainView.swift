@@ -101,7 +101,6 @@ struct MainView: View {
     }
 }
 
-
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         let userState = UserState()

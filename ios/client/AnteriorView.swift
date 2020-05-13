@@ -10,13 +10,15 @@ import SwiftUI
 
 struct AnteriorShape: Shape {
     let muscle: Muscle
-    let activity: MuscleUsage
+    let usage: MuscleUsage
+    let activiation: Double
     let path: Path
     let absoluteSize: CGSize = CGSize(width: 658.16, height: 1125.9)
     
-    init(_ muscle: Muscle, with activity: MuscleUsage = .none) {
+    init(_ muscle: Muscle, _ activation: Double = 0, with usage: MuscleUsage = .none) {
         self.muscle = muscle
-        self.activity = activity
+        self.usage = usage
+        self.activiation = activation
         self.path = AnteriorPath.from(muscle: muscle)
     }
     
@@ -55,9 +57,11 @@ struct AnteriorShape: Shape {
         let bounds = self.path.boundingRect.applying(transform)
         let startRadius = 0.3 * max(bounds.width, bounds.height)
         
-        switch self.activity {
+        let opacity = self.activiation
+        
+        switch self.usage {
         case .target:
-            let colors = Gradient(colors: [secondaryAppColor.opacity(0.9), Color.yellow.opacity(0.9), appColor.opacity(0.9)])
+            let colors = Gradient(colors: [secondaryAppColor.opacity(opacity), Color.yellow.opacity(opacity), appColor.opacity(opacity)])
             radial = RadialGradient(
                 gradient: colors,
                 center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
@@ -65,7 +69,7 @@ struct AnteriorShape: Shape {
                 endRadius: max(bounds.width, bounds.height)
             )
         case .synergist:
-            let colors = Gradient(colors: [Color.green.opacity(0.9), Color.blue.opacity(0.9), Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)).opacity(0.9)])
+            let colors = Gradient(colors: [Color.green.opacity(opacity), Color.blue.opacity(opacity), Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)).opacity(opacity)])
             radial = RadialGradient(
                 gradient: colors,
                 center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
@@ -94,6 +98,16 @@ struct AnteriorView: View {
         return .none
     }
     
+    func muscleActivation(for muscle: Muscle) -> Double {
+        if let activation = activatedTargetMuscles.first(where: { $0.muscle == muscle }) {
+            return activation.activation
+        } else if let activation = activatedSynergistMuscles.first(where: { $0.muscle == muscle }) {
+            return activation.activation
+        }
+        
+        return 0
+    }
+    
     var body: some View {
         return GeometryReader { (geometry: GeometryProxy) in
             ZStack {
@@ -103,68 +117,68 @@ struct AnteriorView: View {
                     AnteriorShape(.Background)
                         .fill(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
                         
-                    AnteriorShape(.RectusAbdominis, with: self.muscleUsage(for: .RectusAbdominis))
+                    AnteriorShape(.RectusAbdominis, self.muscleActivation(for: .RectusAbdominis), with: self.muscleUsage(for: .RectusAbdominis))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.ExternalOblique, with: self.muscleUsage(for: .ExternalOblique))
+                    AnteriorShape(.ExternalOblique, self.muscleActivation(for: .ExternalOblique), with: self.muscleUsage(for: .ExternalOblique))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.LatissimusDorsi, with: self.muscleUsage(for: .LatissimusDorsi))
+                    AnteriorShape(.LatissimusDorsi, self.muscleActivation(for: .LatissimusDorsi), with: self.muscleUsage(for: .LatissimusDorsi))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.SerratusAnterior, with: self.muscleUsage(for: .SerratusAnterior))
+                    AnteriorShape(.SerratusAnterior, self.muscleActivation(for: .SerratusAnterior), with: self.muscleUsage(for: .SerratusAnterior))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.RectusFemoris, with: self.muscleUsage(for: .RectusFemoris))
+                    AnteriorShape(.RectusFemoris, self.muscleActivation(for: .RectusFemoris), with: self.muscleUsage(for: .RectusFemoris))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.VastusLateralis, with: self.muscleUsage(for: .VastusMedialis))
+                    AnteriorShape(.VastusLateralis, self.muscleActivation(for: .VastusLateralis), with: self.muscleUsage(for: .VastusMedialis))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.VastusMedialis, with: self.muscleUsage(for: .VastusMedialis))
+                    AnteriorShape(.VastusMedialis, self.muscleActivation(for: .VastusMedialis), with: self.muscleUsage(for: .VastusMedialis))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.Peroneus, with: self.muscleUsage(for: .Peroneus))
+                    AnteriorShape(.Peroneus, self.muscleActivation(for: .Peroneus), with: self.muscleUsage(for: .Peroneus))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.Soleus, with: self.muscleUsage(for: .Soleus))
+                    AnteriorShape(.Soleus, self.muscleActivation(for: .Soleus), with: self.muscleUsage(for: .Soleus))
                         .setGradient(geometry.size)
                 }
                 
                 ZStack {
-                    AnteriorShape(.TrapeziusUpperFibers, with: self.muscleUsage(for: .TrapeziusUpperFibers))
+                    AnteriorShape(.TrapeziusUpperFibers, self.muscleActivation(for: .TrapeziusUpperFibers), with: self.muscleUsage(for: .TrapeziusUpperFibers))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.PectoralisMajorClavicular, with: self.muscleUsage(for: .PectoralisMajorClavicular))
+                    AnteriorShape(.PectoralisMajorClavicular, self.muscleActivation(for: .PectoralisMajorClavicular), with: self.muscleUsage(for: .PectoralisMajorClavicular))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.PectoralisMajorSternal, with: self.muscleUsage(for: .PectoralisMajorSternal))
+                    AnteriorShape(.PectoralisMajorSternal, self.muscleActivation(for: .PectoralisMajorSternal), with: self.muscleUsage(for: .PectoralisMajorSternal))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.Biceps, with: self.muscleUsage(for: .Biceps))
+                    AnteriorShape(.Biceps, self.muscleActivation(for: .Biceps), with: self.muscleUsage(for: .Biceps))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.FlexorCarpiRadialis, with: self.muscleUsage(for: .FlexorCarpiRadialis))
+                    AnteriorShape(.FlexorCarpiRadialis, self.muscleActivation(for: .FlexorCarpiRadialis), with: self.muscleUsage(for: .FlexorCarpiRadialis))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.FlexorCarpiUlnaris, with: self.muscleUsage(for: .FlexorCarpiUlnaris))
+                    AnteriorShape(.FlexorCarpiUlnaris, self.muscleActivation(for: .FlexorCarpiUlnaris), with: self.muscleUsage(for: .FlexorCarpiUlnaris))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.FlexorDigitorumSuperficialis, with: self.muscleUsage(for: .FlexorDigitorumSuperficialis))
+                    AnteriorShape(.FlexorDigitorumSuperficialis, self.muscleActivation(for: .FlexorDigitorumSuperficialis), with: self.muscleUsage(for: .FlexorDigitorumSuperficialis))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.Brachioradialis, with: self.muscleUsage(for: .Brachioradialis))
+                    AnteriorShape(.Brachioradialis, self.muscleActivation(for: .Brachioradialis), with: self.muscleUsage(for: .Brachioradialis))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.Abductor, with: self.muscleUsage(for: .Abductor))
+                    AnteriorShape(.Abductor, self.muscleActivation(for: .Abductor), with: self.muscleUsage(for: .Abductor))
                         .setGradient(geometry.size)
                     
-                    AnteriorShape(.AnteriorDeltoid, with: self.muscleUsage(for: .AnteriorDeltoid))
+                    AnteriorShape(.AnteriorDeltoid, self.muscleActivation(for: .AnteriorDeltoid), with: self.muscleUsage(for: .AnteriorDeltoid))
                         .setGradient(geometry.size)
                 }
                 
                 ZStack {
-                    AnteriorShape(.LateralDeltoid, with: self.muscleUsage(for: .LateralDeltoid))
+                    AnteriorShape(.LateralDeltoid, self.muscleActivation(for: .LateralDeltoid), with: self.muscleUsage(for: .LateralDeltoid))
                         .setGradient(geometry.size)
                     
                     AnteriorShape(.Body)
