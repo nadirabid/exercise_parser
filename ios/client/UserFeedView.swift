@@ -22,7 +22,14 @@ struct UserFeedView: View {
     @State private var weeklyMetric: WeeklyMetricStats? = nil
     
     @State private var scrollViewContentOffset = CGFloat.zero
-    @State private var height: CGFloat = 140
+    
+    var height: CGFloat {
+        if self.routeState.current == .userFeed {
+            return 140
+        }
+        
+        return 50
+    }
     
     var body: some View {
         return VStack(spacing: 0) {
@@ -70,6 +77,7 @@ struct UserFeedView: View {
                                 }
                                 .padding(.top, self.height)
                             }
+                                .background(self.feedData == nil ? Color.white : feedColor)
                         } else {
                             VStack {
                                 Spacer()
@@ -82,19 +90,12 @@ struct UserFeedView: View {
                             }
                         }
                     } else {
-                        VStack {
-                            Spacer()
-                            
-                            AggregateMuscleMetricsView(weeklyMetric: self.weeklyMetric)
-                            
-                            Spacer()
-                        }
+                        AggregateMuscleMetricsView(weeklyMetric: self.weeklyMetric)
                         .padding(.top, self.height)
                     }
                 }
             }
         }
-        .background(self.feedData == nil ? Color.white : feedColor)
         .onAppear {
             self.workoutAPI.getUserWorkouts { (response) in
                 self.feedData = response
@@ -207,7 +208,7 @@ struct UserFeedViewHeader: View {
         return VStack(spacing: 0) {
             Spacer()
             
-            if self.scrollViewContentOffset < 40 {
+            if self.calculatedHeight > 100 {
                 HStack(alignment: .center) {
                     UserIconShape()
                         .fill(Color.gray)
