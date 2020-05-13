@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DeviceKit
 
 struct MainView: View {
     @EnvironmentObject var route: RouteState
@@ -18,6 +19,14 @@ struct MainView: View {
     
     var isSubscriptionButtonPressed: Bool {
         return self.route.current == .subscriptionFeed
+    }
+    
+    var navigationBarBottomPadding: CGFloat {
+        if (UIApplication.shared.delegate?.window??.safeAreaInsets.bottom ?? 0) > 0 {
+            return 0
+        }
+        
+        return 8
     }
     
     var body: some View {
@@ -95,6 +104,7 @@ struct MainView: View {
                             Spacer()
                         }
                     }
+                    .padding(.bottom, navigationBarBottomPadding)
                 }
             }
         }

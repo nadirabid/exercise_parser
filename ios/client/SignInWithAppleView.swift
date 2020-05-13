@@ -125,6 +125,7 @@ struct SignInDevView: View {
                 Button(action: { self.signIn() }) {
                     Text("Sign in")
                 }
+                .padding(.bottom)
             }
         }
     }

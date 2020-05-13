@@ -12,6 +12,7 @@
 		64038282241A35BF0000C17C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 64038281241A35BF0000C17C /* Alamofire */; };
 		6405131A241635E300DDC3D7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64051319241635E300DDC3D7 /* MapKit.framework */; };
 		6405131F24163A8900DDC3D7 /* SignInWithAppleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6405131E24163A8900DDC3D7 /* SignInWithAppleView.swift */; };
+		6406F555246C838000B9575E /* DeviceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6406F554246C838000B9575E /* DeviceKit */; };
 		640BC8A6241E0D5200B99E90 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640BC8A5241E0D5200B99E90 /* User.swift */; };
 		6411FD9F242733D3003D49BF /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6411FD9E242733D3003D49BF /* Utils.swift */; };
 		641A85692459271E00E6499F /* ChildSizeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641A85682459271E00E6499F /* ChildSizeReader.swift */; };
@@ -131,6 +132,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				64038282241A35BF0000C17C /* Alamofire in Frameworks */,
+				6406F555246C838000B9575E /* DeviceKit in Frameworks */,
 				6405131A241635E300DDC3D7 /* MapKit.framework in Frameworks */,
 				64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */,
 				64F499FC23E8031E003ADB62 /* Introspect in Frameworks */,
@@ -294,6 +296,7 @@
 				64F499FB23E8031E003ADB62 /* Introspect */,
 				64038281241A35BF0000C17C /* Alamofire */,
 				64A9956E241EE3DC006716CA /* JWTDecode */,
+				6406F554246C838000B9575E /* DeviceKit */,
 			);
 			productName = client;
 			productReference = 6494A01222B6139900C19543 /* client.app */;
@@ -371,6 +374,7 @@
 				64F499FA23E8031E003ADB62 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				64038280241A35BF0000C17C /* XCRemoteSwiftPackageReference "Alamofire" */,
 				64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
+				6406F553246C838000B9575E /* XCRemoteSwiftPackageReference "DeviceKit" */,
 			);
 			productRefGroup = 6494A01322B6139900C19543 /* Products */;
 			projectDirPath = "";
@@ -618,7 +622,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = client/client.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "client/Preview\\ Content";
 				DEVELOPMENT_TEAM = C3HW5VXXF5;
 				ENABLE_PREVIEWS = YES;
@@ -641,7 +645,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = client/client.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "client/Preview\\ Content";
 				DEVELOPMENT_TEAM = C3HW5VXXF5;
 				ENABLE_PREVIEWS = YES;
@@ -790,6 +794,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		6406F553246C838000B9575E /* XCRemoteSwiftPackageReference "DeviceKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devicekit/DeviceKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
 		64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/auth0/JWTDecode.swift.git";
@@ -813,6 +825,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 64038280241A35BF0000C17C /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		6406F554246C838000B9575E /* DeviceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6406F553246C838000B9575E /* XCRemoteSwiftPackageReference "DeviceKit" */;
+			productName = DeviceKit;
 		};
 		64A9956E241EE3DC006716CA /* JWTDecode */ = {
 			isa = XCSwiftPackageProductDependency;
