@@ -25,7 +25,7 @@ struct UserFeedView: View {
     
     var height: CGFloat {
         if self.routeState.current == .userFeed {
-            return 140
+            return 137
         }
         
         return 50
@@ -90,8 +90,7 @@ struct UserFeedView: View {
                             }
                         }
                     } else {
-                        AggregateMuscleMetricsView(weeklyMetric: self.weeklyMetric)
-                            .padding(.top, self.height)
+                        AggregateMuscleMetricsView().padding(.top, self.height)
                     }
                 }
             }
@@ -206,8 +205,6 @@ struct UserFeedViewHeader: View {
     
     var body: some View {
         return VStack(spacing: 0) {
-            Spacer()
-            
             if self.calculatedHeight > 100 {
                 HStack(alignment: .center) {
                     UserIconShape()
@@ -251,6 +248,10 @@ struct UserFeedViewHeader: View {
                     Spacer()
                 }
                 .padding([.top, .bottom], min(15, 15 - self.scrollViewContentOffset / 6))
+                
+                Spacer()
+            } else {
+                Spacer()
             }
             
             HStack(alignment: .center) {
@@ -318,15 +319,11 @@ extension MetricsTimeRange: Identifiable {
 struct AggregateMuscleMetricsView: View {
     @EnvironmentObject var metricAPI: MetricAPI
     
-    var weeklyMetric: WeeklyMetricStats? = nil
-    
     @State var metric: Metric? = nil
     @State var flattenedMuscles: [MetricMuscle] = []
     @State var metricsTimeRange: MetricsTimeRange = .Last7Days
     
-    init(weeklyMetric: WeeklyMetricStats?) {
-        self.weeklyMetric = weeklyMetric
-        
+    init() {
         UISegmentedControl.appearance().setTitleTextAttributes([
             .font: UIFont.boldSystemFont(ofSize: 12)
         ], for: .selected)
@@ -336,13 +333,56 @@ struct AggregateMuscleMetricsView: View {
         ], for: .normal)
     }
     
-    func calculateActivation(_ reps: Int,  _ maxReps: Double, _ variance: Double) -> Double {
-        // exp((x+1)*4.5) / 10000
-        let x = Double(reps) / Double(maxReps)
-        let constant = 1 - (exp(2 * 4.5) / 10000)
-        let y = min(1.0, constant + exp((x + 1)*4.5) / 10000)
+    var secondsElapsed: String {
+        if let seconds = metric?.topLevel.secondsElapsed {
+            return secondsToElapsedTimeString(seconds)
+        }
         
-        return y
+        return secondsToElapsedTimeString(0)
+    }
+    
+    var sets: String {
+        if let sets = metric?.topLevel.sets {
+            return sets.description
+        }
+        
+        return "0"
+    }
+    
+    var reps: String {
+        if let reps = metric?.topLevel.reps {
+            return reps.description
+        }
+        
+        return "0"
+    }
+    
+    var distance: String {
+        if let distance = metric?.topLevel.distance {
+            var m = Measurement(value: Double(distance), unit: UnitLength.meters)
+            
+            if distance <= 300 {
+                m = m.converted(to: UnitLength.feet)
+            } else {
+                m = m.converted(to: UnitLength.miles)
+            }
+            
+            return Float(round(m.value*100)/100).description
+        }
+        
+        return "0"
+    }
+    
+    var distanceUnits: String {
+        if let distance = metric?.topLevel.distance {
+            if distance <= 300 {
+                return UnitLength.feet.symbol
+            } else {
+                return UnitLength.miles.symbol
+            }
+        }
+        
+        return UnitLength.miles.symbol
     }
     
     var targetMuscles: [MuscleActivation] {
@@ -386,6 +426,15 @@ struct AggregateMuscleMetricsView: View {
         }
     }
     
+    func calculateActivation(_ reps: Int,  _ maxReps: Double, _ variance: Double) -> Double {
+        // exp((x+1)*4.5) / 10000
+        let x = Double(reps) / Double(maxReps)
+        let constant = 1 - (exp(2 * 4.5) / 10000)
+        let y = min(1.0, constant + exp((x + 1)*4.5) / 10000)
+        
+        return y
+    }
+    
     func updateMuscleMetrics(from metrics: [MetricMuscle]) {
         let flattenedMetrics = metrics.flatMap { (metric) -> [MetricMuscle] in
             if let muscle = Muscle.from(name: metric.name) {
@@ -416,35 +465,86 @@ struct AggregateMuscleMetricsView: View {
         }
     }
     
+    func calculateHeight(_ size: CGSize) -> CGFloat {
+        let halvedSize = CGSize(width: size.width / 2, height: size.height)
+        let anteriorSize = AnteriorShape.calculateSize(halvedSize)
+        let posteriorSize = PosteriorShape.calculateSize(halvedSize)
+        
+        return max(anteriorSize.height, posteriorSize.height)
+    }
+    
     var body: some View {
         GeometryReader { geometry in
-            Picker(
-                selection: self.$metricsTimeRange.onChange(self.metricsTimeRangeChangeHandler),
-                label: Text("Time range")
-            ) {
-                ForEach(MetricsTimeRange.allCases) { (range: MetricsTimeRange) in
-                    VStack {
-                        Text(range.description)
-                            .fontWeight(.semibold)
-                            .tag(range)
+            VStack(alignment: .leading) {
+                Picker(
+                    selection: self.$metricsTimeRange.onChange(self.metricsTimeRangeChangeHandler),
+                    label: Text("Time range")
+                ) {
+                    ForEach(MetricsTimeRange.allCases) { (range: MetricsTimeRange) in
+                        VStack {
+                            Text(range.description)
+                                .fontWeight(.semibold)
+                                .tag(range)
+                        }
                     }
                 }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-            
-            HStack(alignment: .center, spacing: 0) {
-                AnteriorView(
-                    activatedTargetMuscles: self.targetMuscles,
-                    activatedSynergistMuscles: self.synergistMuscles
-                )
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
                 
-                PosteriorView(
-                    activatedTargetMuscles: self.targetMuscles,
-                    activatedSynergistMuscles: self.synergistMuscles
-                )
+                HStack(spacing: 10) {
+                    VStack(alignment: .leading) {
+                        Text("Distance")
+                            .font(.caption)
+                            .fixedSize()
+                        Text("\(self.distance) \(self.distanceUnits)")
+                            .font(.title)
+                            .fixedSize()
+                    }
+                    
+                    Divider()
+                    
+                    VStack(alignment: .leading) {
+                        Text("Sets")
+                            .font(.caption)
+                            .fixedSize()
+                        Text("\(self.sets)")
+                            .font(.title)
+                            .fixedSize()
+                    }
+                    
+                    Divider()
+                    
+                    VStack(alignment: .leading) {
+                        Text("Reps")
+                            .font(.caption)
+                            .fixedSize()
+                        Text("\(self.reps)")
+                            .font(.title)
+                            .fixedSize()
+                    }
+                }
+                .fixedSize()
+                .padding()
+                
+                HStack(spacing: 0) {
+                    AnteriorView(
+                        activatedTargetMuscles: self.targetMuscles,
+                        activatedSynergistMuscles: self.synergistMuscles
+                    )
+                        .padding(.leading, 4)
+                        .padding(.trailing, 2)
+                    
+                    PosteriorView(
+                        activatedTargetMuscles: self.targetMuscles,
+                        activatedSynergistMuscles: self.synergistMuscles
+                    )
+                        .padding(.leading, 2)
+                        .padding(.trailing, 4)
+                }
+                .frame(width: geometry.size.width, height: self.calculateHeight(geometry.size))
+ 
+                Spacer()
             }
-            .frame(width: geometry.size.width)
         }
         .onAppear {
             self.metricAPI.getForPast(days: self.metricsTimeRange.value) { (metric) in

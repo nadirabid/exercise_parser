@@ -13,7 +13,8 @@ struct AnteriorShape: Shape {
     let usage: MuscleUsage
     let activiation: Double
     let path: Path
-    let absoluteSize: CGSize = CGSize(width: 658.16, height: 1125.9)
+    
+    static let absoluteSize: CGSize = CGSize(width: 658.16, height: 1125.9)
     
     init(_ muscle: Muscle, _ activation: Double = 0, with usage: MuscleUsage = .none) {
         self.muscle = muscle
@@ -23,11 +24,11 @@ struct AnteriorShape: Shape {
     }
     
     func path(in rect: CGRect) -> Path {
-        let scaleX = rect.size.width / absoluteSize.width
-        let scaleY = rect.size.height / absoluteSize.height
+        let scaleX = rect.size.width / AnteriorShape.absoluteSize.width
+        let scaleY = rect.size.height / AnteriorShape.absoluteSize.height
         
         let factor = min(scaleX, max(scaleY, 0.0))
-        let center = CGPoint(x: absoluteSize.width / 2, y: absoluteSize.height / 2)
+        let center = CGPoint(x: AnteriorShape.absoluteSize.width / 2, y: AnteriorShape.absoluteSize.height / 2)
         
         var transform  = CGAffineTransform.identity
         
@@ -42,11 +43,11 @@ struct AnteriorShape: Shape {
         var radial: RadialGradient
         let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
         
-        let scaleX = rect.size.width / absoluteSize.width
-        let scaleY = rect.size.height / absoluteSize.height
+        let scaleX = rect.size.width / AnteriorShape.absoluteSize.width
+        let scaleY = rect.size.height / AnteriorShape.absoluteSize.height
         
         let factor = min(scaleX, max(scaleY, 0.0))
-        let center = CGPoint(x: absoluteSize.width / 2, y: absoluteSize.height / 2)
+        let center = CGPoint(x: AnteriorShape.absoluteSize.width / 2, y: AnteriorShape.absoluteSize.height / 2)
         
         var transform  = CGAffineTransform.identity
         
@@ -82,6 +83,17 @@ struct AnteriorShape: Shape {
         
         return self.fill(radial)
     }
+    
+    static func calculateSize(_ size: CGSize) -> CGSize {
+        let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
+        
+        let scaleX = rect.size.width / AnteriorShape.absoluteSize.width
+        let scaleY = rect.size.height / AnteriorShape.absoluteSize.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        
+        return CGSize(width: AnteriorShape.absoluteSize.width*factor, height: AnteriorShape.absoluteSize.height*factor)
+    }
 }
 
 struct AnteriorView: View {
@@ -109,10 +121,8 @@ struct AnteriorView: View {
     }
     
     var body: some View {
-        return GeometryReader { (geometry: GeometryProxy) in
+        GeometryReader { (geometry: GeometryProxy) in
             ZStack {
-                Color.clear
-                
                 ZStack {
                     AnteriorShape(.Background)
                         .fill(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
@@ -185,7 +195,6 @@ struct AnteriorView: View {
                         .stroke(Color(#colorLiteral(red: 0.9134874683, green: 0.9134874683, blue: 0.9134874683, alpha: 1)), lineWidth: 0.7)
                 }
             }
-                .padding()
         }
     }
 }

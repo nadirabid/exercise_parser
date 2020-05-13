@@ -13,7 +13,8 @@ struct PosteriorShape: Shape {
     let usage: MuscleUsage
     let activiation: Double
     let path: Path
-    let absoluteSize: CGSize = CGSize(width: 480.75, height: 845.55)
+    
+    static let absoluteSize: CGSize = CGSize(width: 480.75, height: 845.55)
     
     init(_ muscle: Muscle, _ activation: Double = 0, with usage: MuscleUsage = .none) {
         self.muscle = muscle
@@ -23,11 +24,11 @@ struct PosteriorShape: Shape {
     }
     
     func path(in rect: CGRect) -> Path {
-        let scaleX = rect.size.width / absoluteSize.width
-        let scaleY = rect.size.height / absoluteSize.height
+        let scaleX = rect.size.width / PosteriorShape.absoluteSize.width
+        let scaleY = rect.size.height / PosteriorShape.absoluteSize.height
         
         let factor = min(scaleX, max(scaleY, 0.0))
-        let center = CGPoint(x: absoluteSize.width / 2, y: absoluteSize.height / 2)
+        let center = CGPoint(x: PosteriorShape.absoluteSize.width / 2, y: PosteriorShape.absoluteSize.height / 2)
         
         var transform  = CGAffineTransform.identity
         
@@ -42,11 +43,11 @@ struct PosteriorShape: Shape {
         var radial: RadialGradient
         let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
         
-        let scaleX = rect.size.width / absoluteSize.width
-        let scaleY = rect.size.height / absoluteSize.height
+        let scaleX = rect.size.width / PosteriorShape.absoluteSize.width
+        let scaleY = rect.size.height / PosteriorShape.absoluteSize.height
         
         let factor = min(scaleX, max(scaleY, 0.0))
-        let center = CGPoint(x: absoluteSize.width / 2, y: absoluteSize.height / 2)
+        let center = CGPoint(x: PosteriorShape.absoluteSize.width / 2, y: PosteriorShape.absoluteSize.height / 2)
         
         var transform  = CGAffineTransform.identity
         
@@ -81,6 +82,17 @@ struct PosteriorShape: Shape {
         }
         
         return self.fill(radial)
+    }
+    
+    static func calculateSize(_ size: CGSize) -> CGSize {
+        let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
+        
+        let scaleX = rect.size.width / PosteriorShape.absoluteSize.width
+        let scaleY = rect.size.height / PosteriorShape.absoluteSize.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        
+        return CGSize(width: PosteriorShape.absoluteSize.width*factor, height: PosteriorShape.absoluteSize.height*factor)
     }
 }
 
@@ -208,7 +220,6 @@ struct PosteriorView: View {
                 }
             }
         }
-            .padding()
     }
 }
 
