@@ -9,6 +9,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	"github.com/lestrrat-go/jwx/jwt"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/acme/autocert"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres" // dialect automatically used by gorm
@@ -27,6 +28,7 @@ type Context struct {
 	viper             *viper.Viper
 	jwt               *jwt.Token
 	appleClientSecret string
+	logger            *logrus.Logger
 }
 
 // DB returns the database object used in handlers
@@ -34,7 +36,7 @@ func (c *Context) DB() *gorm.DB {
 	return c.db
 }
 
-func newContext(v *viper.Viper, c echo.Context, db *gorm.DB) *Context {
+func newContext(v *viper.Viper, c echo.Context, db *gorm.DB, logger *logrus.Logger) *Context {
 	key, err := parseRsaPrivateKeyForTokenGeneration(v)
 	if err != nil {
 		panic(fmt.Sprintf("Failed to generate key: %s", err.Error()))
@@ -56,23 +58,28 @@ func newContext(v *viper.Viper, c echo.Context, db *gorm.DB) *Context {
 		v,
 		nil,
 		clientSecret,
+		logger,
 	}
 }
 
-func LogRequestResponse(c echo.Context, reqBody, resBody []byte) {
-	fmt.Println()
-	fmt.Println("########")
-	requestDump, err := httputil.DumpRequest(c.Request(), true)
-	if err != nil {
-		fmt.Println(err)
+func newEchoRequestLogger(logger *logrus.Logger) func(echo.Context, []byte, []byte) {
+	return func(c echo.Context, reqBody, resBody []byte) {
+		requestDump, err := httputil.DumpRequest(c.Request(), true)
+		if err != nil {
+			logger.Error(err.Error())
+		}
+
+		logger.Info(string(requestDump))
+		logger.Info(string(reqBody))
+		logger.Info(string(resBody))
 	}
-	fmt.Println(string(requestDump))
-	fmt.Println(string(reqBody))
-	fmt.Println(string(resBody))
 }
 
 // New returns Echo server
 func New(v *viper.Viper) error {
+	// init logrus
+	logger := logrus.New()
+
 	// init parser
 
 	if err := parser.Init(v); err != nil {
@@ -94,7 +101,7 @@ func New(v *viper.Viper) error {
 
 	e.Pre(middleware.RemoveTrailingSlash())
 
-	e.Use(middleware.BodyDump(LogRequestResponse))
+	e.Use(middleware.BodyDump(newEchoRequestLogger(logger)))
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{}))
 
@@ -104,7 +111,7 @@ func New(v *viper.Viper) error {
 
 	e.Use(func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			return h(newContext(v, c, db)) // TODO:Optimization - don't create new context everytime
+			return h(newContext(v, c, db, logger)) // TODO:Optimization - don't create new context everytime
 		}
 	})
 

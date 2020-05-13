@@ -4,7 +4,6 @@ import (
 	"exercise_parser/metrics"
 	"exercise_parser/models"
 	"exercise_parser/utils"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -156,11 +155,13 @@ func handlePostWorkout(c echo.Context) error {
 	}
 
 	go func() {
-		fmt.Printf("Compute metrics for workout: %s\n", workout.ID)
+		ctx.logger.Infof("Compute metrics for workout: %s\n", workout.ID)
+
 		if err := metrics.ComputeForWorkout(workout.ID, db); err != nil {
-			fmt.Println(err.Error())
+			ctx.logger.Error(err.Error())
 		}
-		fmt.Printf("Complete metrics for workout: %s\n", workout.ID)
+
+		ctx.logger.Infof("Complete metrics for workout: %s\n", workout.ID)
 	}()
 
 	return ctx.JSON(http.StatusOK, workout)

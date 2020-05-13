@@ -3,7 +3,6 @@ package server
 import (
 	"exercise_parser/models"
 	"exercise_parser/utils"
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -51,7 +50,6 @@ func handleSubscribeAllUsersToAllUsers(c echo.Context) error {
 				continue
 			}
 
-			fmt.Println(subscriber.ID, subscribeTo.ID)
 			s := &models.UserSubscription{
 				SubscriberID:   subscriber.ID,
 				SubscribedToID: subscribeTo.ID,

@@ -341,23 +341,18 @@ struct AggregateMuscleMetricsView: View {
         let constant = 1 - (exp(2 * 4.5) / 10000)
         let y = min(1.0, constant + exp((x + 1)*4.5) / 10000)
         
-        print(x, constant, exp(9.0) / 10000, y)
-        
         return y
     }
     
     var targetMuscles: [MuscleActivation] {
-        let muscles = flattenedMuscles.filter { $0.usage == MuscleUsage.target.rawValue } ?? []
+        let muscles = flattenedMuscles.filter { $0.usage == MuscleUsage.target.rawValue }
         
-        print("TARGET MUSCLES")
         let minReps = Double(muscles.min(by: { $0.reps < $1.reps })?.reps ?? 0)
         let maxReps = Double(muscles.max(by: { $0.reps < $1.reps })?.reps ?? 0)
         let variance = (maxReps - minReps) / maxReps
         
         return muscles.reduce(into: []) { (result: inout [MuscleActivation], metricMuscle: MetricMuscle) in
-            
             if let muscle = Muscle.from(name: metricMuscle.name) {
-                print(muscle)
                 result.append(MuscleActivation(
                     muscle: muscle,
                     activation: self.calculateActivation(metricMuscle.reps, maxReps, variance)
@@ -367,13 +362,11 @@ struct AggregateMuscleMetricsView: View {
     }
     
     var synergistMuscles: [MuscleActivation] {
-        let muscles = flattenedMuscles.filter { $0.usage == MuscleUsage.synergist.rawValue } ?? []
+        let muscles = flattenedMuscles.filter { $0.usage == MuscleUsage.synergist.rawValue }
         
         let minReps = Double(muscles.min(by: { $0.reps < $1.reps })?.reps ?? 0)
         let maxReps = Double(muscles.max(by: { $0.reps < $1.reps })?.reps ?? 0)
         let variance = (maxReps - minReps) / maxReps
-        
-        print("SYNERGIST MUSCLES")
         
         return muscles.reduce(into: []) { (result: inout [MuscleActivation], metricMuscle: MetricMuscle) in
             if let muscle = Muscle.from(name: metricMuscle.name) {
@@ -386,7 +379,6 @@ struct AggregateMuscleMetricsView: View {
     }
     
     func metricsTimeRangeChangeHandler(metricsTimeRange: MetricsTimeRange, _: MetricsTimeRange) {
-        print("TIME RANGE CHANGED")
         self.metricAPI.getForPast(days: metricsTimeRange.value) { (metric) in
             self.metric = metric
             self.updateMuscleMetrics(from: metric.muscles)

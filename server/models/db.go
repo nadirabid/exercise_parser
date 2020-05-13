@@ -6,6 +6,7 @@ import (
 	"github.com/golang-migrate/migrate"
 	_ "github.com/golang-migrate/migrate/database/postgres"
 	_ "github.com/golang-migrate/migrate/source/file"
+	"github.com/sirupsen/logrus"
 
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
@@ -70,4 +71,27 @@ func Migrate(v *viper.Viper) error {
 	fmt.Println("Migrations completed!!!")
 
 	return nil
+}
+
+// GormLogger is a custom logger for Gorm, making it use logrus.
+type GormLogger struct {
+	logger *logrus.Logger
+}
+
+// Print handles log events from Gorm for the custom logger.
+func (l *GormLogger) Print(v ...interface{}) {
+	switch v[0] {
+	case "sql":
+		l.logger.WithFields(
+			logrus.Fields{
+				"module":  "gorm",
+				"type":    "sql",
+				"rows":    v[5],
+				"src_ref": v[1],
+				"values":  v[4],
+			},
+		).Debug(v[3])
+	case "log":
+		l.logger.WithFields(logrus.Fields{"module": "gorm", "type": "log"}).Print(v[2])
+	}
 }
