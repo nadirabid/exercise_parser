@@ -29,10 +29,6 @@
               {
                   "sourceVolume": "awseb-logs-ryden-server",
                   "containerPath": "/var/log/supervisor"
-              },
-              {
-                  "sourceVolume": "awseb-logs-ryden-server",
-                  "containerPath": "/var/log/ryden-server"
               }
           ]
       }
