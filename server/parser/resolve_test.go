@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestWeightedExercise(t *testing.T) {
+func TestStrengthExercise(t *testing.T) {
 	delimiter := []string{
 		"-", "- ", " -", " - ",
 		",", ", ", " ,", " , ",
@@ -345,7 +345,7 @@ func TestWeightedExercise(t *testing.T) {
 	}
 }
 
-func TestDistanceExercise(t *testing.T) {
+func TestAerobicExercise(t *testing.T) {
 	running4 := map[string]string{"Exercise": "ran", "Time": "5", "TimeUnits": "mins"}
 
 	delimiter := []string{
@@ -358,28 +358,45 @@ func TestDistanceExercise(t *testing.T) {
 		"ft", "foot", "feet", "mi", "mile", "miles", "m", "meter", "meters", "kilometer", "kilometers", "km",
 	}
 
+	timeUnits := []string{
+		"sec", "secs", "seconds", "min", "mins", "minutes", "hr", "hrs", "hour", "hours",
+	}
+
 	t.Run("{Exercise:String} for {Time:Number} {TimeUnits}", func(t *testing.T) {
 		parsed := resolveAllTestUtil("ran for 5 mins")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, running4, parsed[0].Captures)
 	})
 
-	for _, d := range delimiter {
-		t.Run("{Exercise:String} (Delimiter) {Time:Number} {TimeUnits}", func(t *testing.T) {
-			parsed := resolveAllTestUtil(fmt.Sprintf("ran%s5 mins", d))
-			assert.Equal(t, len(parsed), 1)
-			assert.Equal(t, running4, parsed[0].Captures)
-		})
+	for _, timeUnit := range timeUnits {
+		running5 := map[string]string{"Exercise": "ran", "Time": "5", "TimeUnits": timeUnit}
+		stairmaster := map[string]string{
+			"Exercise":  "stairmaster",
+			"Level":     "7-9",
+			"Time":      "10-15",
+			"TimeUnits": timeUnit,
+		}
+
+		for _, d := range delimiter {
+			t.Run("{Exercise:String} (Delimiter) {Time:Number} {TimeUnits}", func(t *testing.T) {
+				parsed := resolveAllTestUtil(fmt.Sprintf("ran%s5 %s", d, timeUnit))
+				assert.Equal(t, len(parsed), 1)
+				assert.Equal(t, running5, parsed[0].Captures)
+			})
+
+			t.Run("{Time:Number}-{Time:Number}{TimeUnits} (Delimiter) {Exercise:String} (Delimiter) level {Level:Number}-{Level:Number}", func(t *testing.T) {
+				parsed := resolveAllTestUtil(fmt.Sprintf("10-15%s%sstairmaster%slevel 7-9", timeUnit, d, d))
+
+				assert.Equal(t, len(parsed), 1)
+				assert.Equal(t, stairmaster, parsed[0].Captures)
+			})
+		}
 	}
 
 	for _, u := range distanceUnits {
 		running1 := map[string]string{"Exercise": "running", "Distance": "1.55", "DistanceUnits": u}
 		running2 := map[string]string{"Exercise": "ran", "Distance": "5", "DistanceUnits": u, "Time": "10", "TimeUnits": "minutes"}
 		running3 := map[string]string{"Exercise": "ran", "Distance": "0.5", "DistanceUnits": u, "Time": "10", "TimeUnits": "minutes"}
-
-		fmt.Println(running1)
-		fmt.Println(running2)
-		fmt.Println(running3)
 
 		t.Run("{Exercise:String} {Distance:Number} {DistanceUnits}", func(t *testing.T) {
 			parsed := resolveAllTestUtil(fmt.Sprintf("running 1.55 %s", u))
