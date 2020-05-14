@@ -16,7 +16,7 @@ const KilogramUnit = "kilogram"
 
 func unitClassify(unitStr string) (string, error) {
 	switch unitStr {
-	case "sec", "secs", "second", "seconds":
+	case "s", "sec", "secs", "second", "seconds":
 		return SecondUnit, nil
 	case "min", "mins", "minute", "minutes":
 		return MinuteUnit, nil
