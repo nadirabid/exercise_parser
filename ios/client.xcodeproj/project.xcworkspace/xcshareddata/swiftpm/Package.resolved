@@ -29,15 +29,6 @@
         }
       },
       {
-        "package": "DeviceKit",
-        "repositoryURL": "https://github.com/devicekit/DeviceKit.git",
-        "state": {
-          "branch": null,
-          "revision": "446e3ab022af7bb0058be74c1298e1f7e1615607",
-          "version": "3.2.0"
-        }
-      },
-      {
         "package": "JWTDecode",
         "repositoryURL": "https://github.com/auth0/JWTDecode.swift.git",
         "state": {
