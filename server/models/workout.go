@@ -208,6 +208,36 @@ func evalRest(captures map[string]string) (int, error) {
 	return int(standardizedRestPeriod), nil
 }
 
+// return 0 if not specified
+func evalLevel(captures map[string]string) (int, error) {
+	levelStr, ok := captures["Level"]
+	if !ok {
+		return 0, nil
+	}
+
+	if strings.Contains(levelStr, "-") {
+		levelTokens := strings.Split(levelStr, "-")
+		if len(levelTokens) != 2 {
+			return 0, fmt.Errorf("Level contains -, but doesn't have two level numbers. Eg of expected: 10-12")
+		}
+
+		level1, err := strconv.Atoi(levelTokens[0])
+		level2, err := strconv.Atoi(levelTokens[1])
+
+		if err != nil {
+			return 0, err
+		}
+
+		return utils.MaxInt(level1, level2), nil
+	}
+
+	level, err := strconv.Atoi(levelStr)
+	if err != nil {
+		return 0, err
+	}
+	return level, nil
+}
+
 // returns 1 if not specified
 func evalReps(captures map[string]string) (int, error) {
 	repStr, ok := captures["Reps"]
