@@ -22,7 +22,7 @@ struct MapView: UIViewRepresentable {
             latitude: self.location.latitude,
             longitude: self.location.longitude
         )
-        let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+        let span = MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)
         let region = MKCoordinateRegion(center: coordinate, span: span)
         view.setRegion(region, animated: true)
         view.isZoomEnabled = false
