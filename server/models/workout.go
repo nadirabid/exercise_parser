@@ -184,6 +184,50 @@ func evalSets(captures map[string]string) (int, error) {
 	return sets, nil
 }
 
+// return 0 if not specified
+func evalRest(captures map[string]string) (int, error) {
+	restPeriodStr, ok := captures["RestPeriod"]
+	if !ok {
+		return 0, nil
+	}
+
+	restPeriodUnits := utils.GetStringOrDefault(captures["RestPeriodUnits"], "minutes")
+
+	if strings.Contains(restPeriodStr, "-") {
+		restPeriodTokens := strings.Split(restPeriodStr, "-")
+		if len(restPeriodTokens) != 2 {
+			return 0, fmt.Errorf("RestPeriod contains -, but doesn't have two rest period numbers. Eg of expected: 2-3")
+		}
+
+		restPeriod1, err := strconv.Atoi(restPeriodTokens[0])
+		restPeriod2, err := strconv.Atoi(restPeriodTokens[1])
+		if err != nil {
+			return 0, err
+		}
+
+		restPeriod := utils.MaxInt(restPeriod1, restPeriod2)
+
+		standardizedRestPeriod, err := parser.UnitStandardize(restPeriodUnits, float32(restPeriod))
+		if err != nil {
+			return 0, err
+		}
+
+		return int(standardizedRestPeriod), nil
+	}
+
+	restPeriod, err := strconv.Atoi(restPeriodStr)
+	if err != nil {
+		return 0, err
+	}
+
+	standardizedRestPeriod, err := parser.UnitStandardize(restPeriodUnits, float32(restPeriod))
+	if err != nil {
+		return 0, err
+	}
+
+	return int(standardizedRestPeriod), nil
+}
+
 // returns 1 if not specified
 func evalReps(captures map[string]string) (int, error) {
 	repStr, ok := captures["Reps"]
