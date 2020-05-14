@@ -319,6 +319,12 @@ func TestStrengthExercise(t *testing.T) {
 				assert.Equal(t, tricepCurls3, parsed[0].Captures)
 			})
 
+			t.Run("{Weight:Number}{WeightUnits} (Delimiter) {Exercise:String} {Sets:Number}x{Reps:Number}", func(t *testing.T) {
+				parsed := resolveAllTestUtil(fmt.Sprintf("25%s%stricep curls 3x3", u, d))
+				assert.Equal(t, len(parsed), 1)
+				assert.Equal(t, tricepCurls3, parsed[0].Captures)
+			})
+
 			t.Run("{Exercise:String} {Sets:Number}x{Reps:Number} {Delimiter) {Weight:Number} {WeightUnits}", func(t *testing.T) {
 				parsed := resolveAllTestUtil(fmt.Sprintf("tricep curls 3x3%s25%s", d, u))
 				assert.Equal(t, len(parsed), 1)

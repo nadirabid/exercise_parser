@@ -21,6 +21,9 @@ related_searches_bing="/go/src/exercise_parser/server/resources/related_searches
 related_searches_goog="/go/src/exercise_parser/server/resources/related_searches_goog"
 stop_words="/go/src/exercise_parser/server/resources/stop_words"
 
+[parser]
+stop_phrases="/go/src/exercise_parser/server/resources/parser/stop_phrases.txt"
+
 [middleware]
 auth=true
 
