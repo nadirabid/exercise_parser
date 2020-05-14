@@ -69,7 +69,7 @@ struct WorkoutView: View {
                 
                 VStack(spacing: 0) {
                     ForEach(self.workout.exercises) { exercise in
-                        if exercise.type != "unknown" {
+                        if exercise.resolutionType != "" {
                             ExerciseView(exercise: exercise)
                         } else {
                             ProcessingExerciseView(exercise: exercise)
