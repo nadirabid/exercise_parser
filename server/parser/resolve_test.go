@@ -376,12 +376,25 @@ func TestAerobicExercise(t *testing.T) {
 			"Time":      "10-15",
 			"TimeUnits": timeUnit,
 		}
+		stairmaster2 := map[string]string{
+			"Exercise":  "stairmaster",
+			"Level":     "7",
+			"Time":      "10",
+			"TimeUnits": timeUnit,
+		}
 
 		for _, d := range delimiter {
 			t.Run("{Exercise:String} (Delimiter) {Time:Number} {TimeUnits}", func(t *testing.T) {
 				parsed := resolveAllTestUtil(fmt.Sprintf("ran%s5 %s", d, timeUnit))
 				assert.Equal(t, len(parsed), 1)
 				assert.Equal(t, running5, parsed[0].Captures)
+			})
+
+			t.Run("{Time:Number}{TimeUnits} (Delimiter) {Exercise:String} (Delimiter) level {Level:Number}", func(t *testing.T) {
+				parsed := resolveAllTestUtil(fmt.Sprintf("10%s%sstairmaster%slevel 7", timeUnit, d, d))
+
+				assert.Equal(t, len(parsed), 1)
+				assert.Equal(t, stairmaster2, parsed[0].Captures)
 			})
 
 			t.Run("{Time:Number}-{Time:Number}{TimeUnits} (Delimiter) {Exercise:String} (Delimiter) level {Level:Number}-{Level:Number}", func(t *testing.T) {
