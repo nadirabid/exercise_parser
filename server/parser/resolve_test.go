@@ -359,7 +359,7 @@ func TestAerobicExercise(t *testing.T) {
 	}
 
 	timeUnits := []string{
-		"sec", "secs", "seconds", "min", "mins", "minutes", "hr", "hrs", "hour", "hours",
+		"s", "sec", "secs", "seconds", "min", "mins", "minutes", "hr", "hrs", "hour", "hours",
 	}
 
 	t.Run("{Exercise:String} for {Time:Number} {TimeUnits}", func(t *testing.T) {
