@@ -324,6 +324,23 @@ func TestWeightedExercise(t *testing.T) {
 				assert.Equal(t, len(parsed), 1)
 				assert.Equal(t, tricepCurls3, parsed[0].Captures)
 			})
+
+			t.Run("{Exercise:String} (Delimiter) {Weight:Number}{WeightUnits} dumbbell (Delimiter) {Sets:Number}x{Reps:Number} (Delimiter) {RestPeriod:Number}{RestPeriodUnits} ", func(t *testing.T) {
+				dumbbellBentOverRowWithRest := map[string]string{
+					"Exercise":        "dumbbell bent over row",
+					"Weight":          "36",
+					"WeightUnits":     u,
+					"Sets":            "3",
+					"Reps":            "15",
+					"RestPeriod":      "2-3",
+					"RestPeriodUnits": "min",
+				}
+
+				parsed := resolveAllTestUtil(fmt.Sprintf("Dumbbell Bent over row%s36%s dumbbell%s3x15%s2-3 min rest", d, u, d, d))
+
+				assert.Equal(t, len(parsed), 1)
+				assert.Equal(t, dumbbellBentOverRowWithRest, parsed[0].Captures)
+			})
 		}
 	}
 }
