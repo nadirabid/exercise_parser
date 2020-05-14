@@ -105,26 +105,6 @@ func (e *Exercise) Resolve() error {
 	e.ExerciseData.Distance = distance
 	e.ExerciseData.Time = time
 
-	// TODO: remove this when everyone is on new iOS build
-	if res.Type == "weighted" {
-		if e.WeightedExercise == nil {
-			e.WeightedExercise = &WeightedExercise{}
-		}
-
-		e.WeightedExercise.Sets = sets
-		e.WeightedExercise.Reps = reps
-		e.WeightedExercise.Weight = weight
-	} else if res.Type == "distance" {
-		if e.DistanceExercise == nil {
-			e.DistanceExercise = &DistanceExercise{}
-		}
-
-		e.DistanceExercise.Distance = distance
-		e.DistanceExercise.Time = time
-	} else {
-		return fmt.Errorf("unable to resolve raw expression: %v", e)
-	}
-
 	e.ResolutionType = "auto"
 
 	return nil

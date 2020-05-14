@@ -38,7 +38,7 @@ func newExpression(value string, captureDoesNotContain map[string][]string, asse
 	}
 }
 
-func weightedExerciseExpressions() []*expression {
+func exerciseExpresssions() []*expression {
 	// increasing specificity is in descending order
 
 	// Dumbbell Bent over row, 36lb dumbbell, 3x15, 2-3 min rest
@@ -68,15 +68,7 @@ func weightedExerciseExpressions() []*expression {
 
 		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(dumbbell|dumbbells|barbel|barbells)?\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, nil, nil),                                                                                                                               // {Exercise:String} (Delimiter) {Weight:Number}{WeightUnits} (Delimiter) {Sets:Number}x{Reps:Number}
 		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(dumbbell|dumbbells|barbel|barbells)?\s*(?:,|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:,|-|\s)\s*(?P<RestPeriod>\d+|\d+\-\d+)\s*(?P<RestPeriodUnits>sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)\s*rest$`, nil, nil), // {Exercise:String} (Delimiter) {Weight:Number}{WeightUnits} (Delimiter) {Sets:Number}x{Reps:Number} (Delimiter) {RestPeriod:Number} {RestPeriodUnits}
-	}
 
-	return expressions
-}
-
-func distanceExerciseExpressions() []*expression {
-	// increasing specificity is in descending order
-
-	expressions := []*expression{
 		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>(ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, map[string][]string{"Exercise": {"for"}}, nil), // {Exercise:String} (Delimiter) {Distance:Float}{DistanceUnits} :TODO - delimiter test
 		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?:for)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>(ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, nil, nil),                                         // {Exercise:String} for {Distance:Float}{DistanceUnits}
 
@@ -94,7 +86,6 @@ func distanceExerciseExpressions() []*expression {
 func resolveExpressions(exercise string, regexpSet []*expression) *parsedExercise {
 	exercise = strings.Trim(strings.ToLower(exercise), " ")
 
-	// evaluate in reverse order - best fit first
 	for i := len(regexpSet) - 1; i >= 0; i-- {
 		e := regexpSet[i]
 
@@ -154,9 +145,8 @@ func resolveExpressions(exercise string, regexpSet []*expression) *parsedExercis
 
 // Parser allows you to resolve raw exercise strings
 type Parser struct {
-	lemma                       *lemma
-	weightedExerciseExpressions []*expression
-	distanceExerciseExpressions []*expression
+	lemma               *lemma
+	exerciseExpressions []*expression
 }
 
 // Resolve returns the captures
@@ -165,18 +155,11 @@ func (p *Parser) Resolve(exercise string) (*Result, error) {
 
 	// resolve expression
 
-	weightedExercise := resolveExpressions(exercise, p.weightedExerciseExpressions)
-	distanceExercise := resolveExpressions(exercise, p.distanceExerciseExpressions)
+	resolved := resolveExpressions(exercise, p.exerciseExpressions)
 
-	if weightedExercise.Captures != nil {
+	if resolved.Captures != nil {
 		return &Result{
-			Type:     "weighted",
-			Captures: weightedExercise.Captures,
-		}, nil
-	} else if distanceExercise.Captures != nil {
-		return &Result{
-			Type:     "distance",
-			Captures: distanceExercise.Captures,
+			Captures: resolved.Captures,
 		}, nil
 	}
 
@@ -204,9 +187,8 @@ func Init(v *viper.Viper) error {
 		err = lemma.readLemmas(v.GetString("resources.dir.lemmas"))
 
 		parser = &Parser{
-			lemma:                       lemma,
-			weightedExerciseExpressions: weightedExerciseExpressions(),
-			distanceExerciseExpressions: distanceExerciseExpressions(),
+			lemma:               lemma,
+			exerciseExpressions: exerciseExpresssions(),
 		}
 	})
 

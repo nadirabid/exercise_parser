@@ -458,10 +458,9 @@ func TestDistanceExercise(t *testing.T) {
 }
 
 // TODO: this function is dangerous - we should use resolveExpression
+// reason for it is that we return ALL matches against ALL regex patterns - the one in used impl currently only returns the first match
 func resolveAllTestUtil(exercise string) []*parsedExercise {
-	distance := distanceExerciseExpressions()
-	weighted := weightedExerciseExpressions()
-	regexpSet := append(distance, weighted...)
+	regexpSet := exerciseExpresssions()
 
 	exercise = strings.Trim(strings.ToLower(exercise), " ")
 
