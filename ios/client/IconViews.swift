@@ -491,3 +491,53 @@ struct ChartIconShape: Shape {
         return path.applying(transform)
     }
 }
+
+struct QuestionIconShape: Shape {
+    let path: Path
+    
+    init() {
+        let bezierPath = UIBezierPath()
+        bezierPath.move(to: CGPoint(x: 176.02, y: 0))
+        bezierPath.addCurve(to: CGPoint(x: 3.91, y: 91.03), controlPoint1: CGPoint(x: 96.2, y: 0), controlPoint2: CGPoint(x: 44.5, y: 32.7))
+        bezierPath.addCurve(to: CGPoint(x: 9.09, y: 123.9), controlPoint1: CGPoint(x: -3.45, y: 101.61), controlPoint2: CGPoint(x: -1.18, y: 116.11))
+        bezierPath.addLine(to: CGPoint(x: 52.23, y: 156.61))
+        bezierPath.addCurve(to: CGPoint(x: 85.48, y: 152.46), controlPoint1: CGPoint(x: 62.6, y: 164.47), controlPoint2: CGPoint(x: 77.36, y: 162.63))
+        bezierPath.addCurve(to: CGPoint(x: 168.24, y: 103.01), controlPoint1: CGPoint(x: 110.53, y: 121.08), controlPoint2: CGPoint(x: 129.11, y: 103.01))
+        bezierPath.addCurve(to: CGPoint(x: 237.06, y: 152.64), controlPoint1: CGPoint(x: 199, y: 103.01), controlPoint2: CGPoint(x: 237.06, y: 122.81))
+        bezierPath.addCurve(to: CGPoint(x: 188.06, y: 203.81), controlPoint1: CGPoint(x: 237.06, y: 175.2), controlPoint2: CGPoint(x: 218.44, y: 186.78))
+        bezierPath.addCurve(to: CGPoint(x: 105.76, y: 310.21), controlPoint1: CGPoint(x: 152.64, y: 223.67), controlPoint2: CGPoint(x: 105.76, y: 248.38))
+        bezierPath.addLine(to: CGPoint(x: 105.76, y: 320))
+        bezierPath.addCurve(to: CGPoint(x: 129.76, y: 344), controlPoint1: CGPoint(x: 105.76, y: 333.25), controlPoint2: CGPoint(x: 116.51, y: 344))
+        bezierPath.addLine(to: CGPoint(x: 202.24, y: 344))
+        bezierPath.addCurve(to: CGPoint(x: 226.24, y: 320), controlPoint1: CGPoint(x: 215.49, y: 344), controlPoint2: CGPoint(x: 226.24, y: 333.25))
+        bezierPath.addLine(to: CGPoint(x: 226.24, y: 314.23))
+        bezierPath.addCurve(to: CGPoint(x: 351.5, y: 153.6), controlPoint1: CGPoint(x: 226.24, y: 271.37), controlPoint2: CGPoint(x: 351.5, y: 269.58))
+        bezierPath.addCurve(to: CGPoint(x: 176.02, y: 0), controlPoint1: CGPoint(x: 351.5, y: 66.26), controlPoint2: CGPoint(x: 260.9, y: 0))
+        bezierPath.close()
+        bezierPath.move(to: CGPoint(x: 166, y: 373.46))
+        bezierPath.addCurve(to: CGPoint(x: 96.73, y: 442.73), controlPoint1: CGPoint(x: 127.8, y: 373.46), controlPoint2: CGPoint(x: 96.73, y: 404.53))
+        bezierPath.addCurve(to: CGPoint(x: 166, y: 512), controlPoint1: CGPoint(x: 96.73, y: 480.93), controlPoint2: CGPoint(x: 127.8, y: 512))
+        bezierPath.addCurve(to: CGPoint(x: 235.27, y: 442.73), controlPoint1: CGPoint(x: 204.2, y: 512), controlPoint2: CGPoint(x: 235.27, y: 480.93))
+        bezierPath.addCurve(to: CGPoint(x: 166, y: 373.46), controlPoint1: CGPoint(x: 235.27, y: 404.53), controlPoint2: CGPoint(x: 204.2, y: 373.46))
+        bezierPath.close()
+        
+        self.path = Path(bezierPath.cgPath)
+    }
+    
+    func path(in rect: CGRect) -> Path {
+        let bounds = self.path.boundingRect
+        let scaleX = rect.size.width / bounds.width
+        let scaleY = rect.size.height / bounds.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+        
+        var transform  = CGAffineTransform.identity
+        
+        transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
+        transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
+        transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
+        
+        return path.applying(transform)
+    }
+}

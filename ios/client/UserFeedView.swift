@@ -76,15 +76,30 @@ struct UserFeedView: View {
                 }
                 Spacer()
             } else if self.feedData != nil {
-                HStack(alignment: .center) {
-                    Spacer()
-                    Text(self.userState.userInfo?.getUserName() ?? "")
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                    Spacer()
+                VStack(alignment: .center) {
+                    ZStack {
+                        HStack {
+                            Spacer()
+                            
+                            Text(self.userState.userInfo?.getUserName() ?? "")
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                            
+                            Spacer()
+                        }
+                        
+                        HStack {
+                            Spacer()
+                            
+                            Button(action: { self.routeState.showHelp = true }) {
+                                Image(systemName: "questionmark.circle")
+                                    .padding(.trailing)
+                                    .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                                    .font(.body)
+                            }
+                        }
+                    }
                 }
-                .fixedSize(horizontal: false, vertical: true)
-                .background(Color.white)
                 
                 ZStack(alignment: .top) {
                     Color.clear // make ZStack expand to fill the content

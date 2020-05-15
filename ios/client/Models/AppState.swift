@@ -50,9 +50,11 @@ class EditableWorkoutState: ObservableObject {
 
 class RouteState: ObservableObject {
     @Published var current: Route
+    @Published var showHelp: Bool
     
     init(current: Route = .userFeed) {
         self.current = current
+        self.showHelp = false
     }
     
     enum Route {
