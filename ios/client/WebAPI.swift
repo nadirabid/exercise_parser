@@ -177,10 +177,14 @@ class WorkoutAPI: ObservableObject {
             }
     }
     
-    func getUserSubscriptionWorkouts(_ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) {
+    func getUserSubscriptionWorkouts(page: Int = 0, pageSize: Int = 20, _ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) -> DataRequest? {
         let url = "\(baseURL)/api/workout/subscribedto"
+        let params: Parameters = [
+            "page": page.description,
+            "size": pageSize.description
+        ]
         
-        AF.request(url, method: .get, headers: headers)
+        return AF.request(url, method: .get, parameters: params, headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
@@ -295,8 +299,9 @@ class MockWorkoutAPI: WorkoutAPI {
         ]
     )
 
-    override func getUserSubscriptionWorkouts(_ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) {
+    override func getUserSubscriptionWorkouts(page: Int = 0, pageSize: Int = 20, _ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) -> DataRequest? {
         completionHandler(self.localFeedData)
+        return nil
     }
 }
 

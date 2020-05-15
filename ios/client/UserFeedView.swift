@@ -46,17 +46,13 @@ struct UserFeedView: View {
                 return
             }
             
-            print("INDEX", indexOfWorkout!, workouts.count - 1)
-            
             if indexOfWorkout! >= workouts.count - 1 {
                 if feedDataRequest != nil {
                     print("Data request already in progress!")
                     return
                 }
                 
-                print("Get new page: ", workoutsPage + 1)
-                self.feedDataRequest = self.workoutAPI.getUserWorkouts(page: workoutsPage + 1, pageSize: 10) { (response) in
-                    print("Got new page: ", response.page!)
+                self.feedDataRequest = self.workoutAPI.getUserWorkouts(page: workoutsPage + 1, pageSize: 20) { (response) in
                     
                     self.feedData = response
                     self.workoutsPage = response.page!
@@ -141,7 +137,7 @@ struct UserFeedView: View {
             }
         }
         .onAppear {
-            self.feedDataRequest = self.workoutAPI.getUserWorkouts(page: 0, pageSize: 10) { (response) in
+            self.feedDataRequest = self.workoutAPI.getUserWorkouts(page: 0, pageSize: 20) { (response) in
                 self.feedDataRequest = nil
                 self.feedData = response
                 self.workoutsPage = response.page!

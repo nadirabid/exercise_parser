@@ -9,12 +9,20 @@
 import Foundation
 import JWTDecode
 
-struct User: Codable {
+struct User: Codable, Hashable {
     let id: Int?
     let externalUserId: String
     let email: String?
     let givenName: String?
     let familyName: String?
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+    
+    static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.id == rhs.id
+    }
     
     private enum CodingKeys: String, CodingKey {
         case externalUserId = "external_user_id"
