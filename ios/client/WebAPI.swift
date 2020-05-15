@@ -151,10 +151,14 @@ class WorkoutAPI: ObservableObject {
         ])
     }
     
-    func getUserWorkouts(_ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) {
+    func getUserWorkouts(page: Int = 0, pageSize: Int = 20, _ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) -> DataRequest? {
         let url = "\(baseURL)/api/workout"
+        let params: Parameters = [
+            "page": page.description,
+            "size": pageSize.description
+        ]
         
-        AF.request(url, method: .get, headers: headers)
+        return AF.request(url, method: .get, parameters: params, headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {

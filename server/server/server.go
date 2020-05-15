@@ -93,7 +93,6 @@ func New(v *viper.Viper) error {
 		&logrus.JSONFormatter{},
 	))
 
-	logger.Error("ERROR TEST")
 	// init parser
 
 	if err := parser.Init(v); err != nil {

@@ -17,8 +17,11 @@ struct UserFeedView: View {
     @EnvironmentObject var workoutAPI: WorkoutAPI
     @EnvironmentObject var metricAPI: MetricAPI
     
-    @State private var feedDataPublisher: AnyCancellable? = nil
+    @State private var feedDataRequest: DataRequest? = nil
     @State private var feedData: PaginatedResponse<Workout>? = nil
+    @State private var workouts: [Workout] = []
+    @State private var workoutsPage: Int = 0
+    
     @State private var weeklyMetric: WeeklyMetricStats? = nil
     
     @State private var scrollViewContentOffset = CGFloat.zero
@@ -31,7 +34,43 @@ struct UserFeedView: View {
         return 50
     }
     
+    func handleWorkoutAppear(workout: Workout) {
+        if let feedData = feedData {
+            if workoutsPage == feedData.pages! {
+                return
+            }
+            
+            let indexOfWorkout = workouts.firstIndex(where: { $0.id! == workout.id! })
+            if indexOfWorkout == nil {
+                print("How the fuck are we displaying something not in the list!")
+                return
+            }
+            
+            print("INDEX", indexOfWorkout!, workouts.count - 1)
+            
+            if indexOfWorkout! >= workouts.count - 1 {
+                if feedDataRequest != nil {
+                    print("Data request already in progress!")
+                    return
+                }
+                
+                print("Get new page: ", workoutsPage + 1)
+                self.feedDataRequest = self.workoutAPI.getUserWorkouts(page: workoutsPage + 1, pageSize: 10) { (response) in
+                    print("Got new page: ", response.page!)
+                    
+                    self.feedData = response
+                    self.workoutsPage = response.page!
+                    self.workouts.append(contentsOf: response.results)
+                    self.feedDataRequest = nil
+                }
+            }
+        }
+    }
+    
     var body: some View {
+        UITableView.appearance().separatorColor = .clear
+        UITableView.appearance().backgroundColor = self.feedData == nil ? Color.white.uiColor() : feedColor.uiColor()
+        
         return VStack(spacing: 0) {
             if self.feedData == nil {
                 Spacer()
@@ -57,8 +96,7 @@ struct UserFeedView: View {
                     
                     UserFeedViewHeader(
                         height: self.height,
-                        scrollViewContentOffset: routeState.current == .userFeed ?
-                            self.scrollViewContentOffset : 0,
+                        scrollViewContentOffset: routeState.current == .userFeed ? self.scrollViewContentOffset : 0,
                         weeklyMetric: self.weeklyMetric,
                         user: self.userState.userInfo
                     )
@@ -66,18 +104,23 @@ struct UserFeedView: View {
                         .background(Color.white)
                     
                     if self.routeState.current == .userFeed {
-                        if self.feedData?.results.count ?? 0 > 0 {
-                            TrackableScrollView(.vertical, showIndicators: false, contentOffset: self.$scrollViewContentOffset) {
-                                VStack(spacing: 0) {
-                                    ForEach(self.feedData!.results) { workout in
-                                        WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false)
-                                            .background(Color.white)
-                                            .padding(.top)
-                                    }
+                        if self.workouts.count > 0 {
+                            List {
+                                ForEach(self.workouts) { workout in
+                                    WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false)
+                                        .background(Color.white)
+                                        .padding(.top)
+                                        .buttonStyle(PlainButtonStyle())
+                                        .animation(.none)
+                                        .onAppear {
+                                            self.handleWorkoutAppear(workout: workout)
+                                        }
                                 }
-                                .padding(.top, self.height)
+                                .listRowInsets(EdgeInsets())
+                                .background(self.feedData == nil ? Color.white : feedColor)
+                                .animation(.none)
                             }
-                            .background(self.feedData == nil ? Color.white : feedColor)
+                            .padding(.top, self.height)
                         } else {
                             VStack {
                                 Spacer()
@@ -88,16 +131,21 @@ struct UserFeedView: View {
                                 }
                                 Spacer()
                             }
+                            .padding(.top, self.height)
                         }
                     } else {
-                        AggregateMuscleMetricsView().padding(.top, self.height)
+                        AggregateMuscleMetricsView()
+                            .padding(.top, self.height)
                     }
                 }
             }
         }
         .onAppear {
-            self.workoutAPI.getUserWorkouts { (response) in
+            self.feedDataRequest = self.workoutAPI.getUserWorkouts(page: 0, pageSize: 10) { (response) in
+                self.feedDataRequest = nil
                 self.feedData = response
+                self.workoutsPage = response.page!
+                self.workouts.append(contentsOf: response.results)
             }
             
             self.metricAPI.getWeeklyStats { (response) in
@@ -542,7 +590,7 @@ struct AggregateMuscleMetricsView: View {
                         .padding(.trailing, 4)
                 }
                 .frame(width: geometry.size.width, height: self.calculateHeight(geometry.size))
- 
+                
                 Spacer()
             }
         }

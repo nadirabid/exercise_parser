@@ -87,12 +87,14 @@ struct WorkoutView: View {
                 CircleButton(isSelected: Binding<Bool>(get: { self.viewPage == 0 }, set: { _ in })) {
                     withAnimation(Animation.default.speed(2)) {
                         self.viewPage = 0
+                        print("changeViewTo0", self.viewPage)
                     }
                 }
                 
                 CircleButton(isSelected: Binding<Bool>(get: { self.viewPage == 1 }, set: { _ in })) {
                     withAnimation(Animation.default.speed(2)) {
                         self.viewPage = 1
+                        print("changeViewTo1", self.viewPage)
                     }
                 }
                 

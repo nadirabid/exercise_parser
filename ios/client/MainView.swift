@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import DeviceKit
 
 struct MainView: View {
     @EnvironmentObject var route: RouteState
