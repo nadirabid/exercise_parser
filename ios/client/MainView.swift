@@ -21,7 +21,7 @@ struct MainView: View {
     }
     
     var navigationBarBottomPadding: CGFloat {
-        if (UIApplication.shared.delegate?.window??.safeAreaInsets.bottom ?? 0) > 0 {
+        if (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0) > 0 {
             return 0
         }
         
