@@ -64,7 +64,6 @@ struct UserFeedView: View {
     }
     
     var body: some View {
-        UITableView.appearance().separatorColor = .clear
         UITableView.appearance().backgroundColor = self.feedData == nil ? Color.white.uiColor() : feedColor.uiColor()
         
         return VStack(spacing: 0) {
@@ -306,6 +305,7 @@ struct UserFeedViewHeader: View {
                         .fill(self.routeState.current == .userFeed ? secondaryAppColor : Color.gray)
                         .frame(width: 20, height: 20)
                 }
+                .padding([.leading, .trailing], 20)
                 
                 Spacer()
                 Spacer()
@@ -315,6 +315,7 @@ struct UserFeedViewHeader: View {
                         .fill(self.routeState.current == .userMetrics ? secondaryAppColor : Color.gray)
                         .frame(width: 20, height: 20)
                 }
+                .padding([.leading, .trailing], 20)
                 
                 Spacer()
             }

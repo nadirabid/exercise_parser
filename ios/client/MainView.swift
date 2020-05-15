@@ -21,7 +21,8 @@ struct MainView: View {
     }
     
     var navigationBarBottomPadding: CGFloat {
-        if (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0) > 0 {
+        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        if (keyWindow?.safeAreaInsets.bottom ?? 0) > 0 {
             return 0
         }
         
@@ -29,7 +30,9 @@ struct MainView: View {
     }
     
     var body: some View {
-        VStack {
+        UITableView.appearance().separatorColor = .clear
+        
+        return VStack {
             if userState.authorization < 1 {
                 #if targetEnvironment(simulator)
                 SignInDevView()

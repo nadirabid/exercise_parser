@@ -2,14 +2,6 @@ import Foundation
 import SwiftUI
 import Combine
 
-extension Date {
-
-    static func - (lhs: Date, rhs: Date) -> TimeInterval {
-        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
-    }
-
-}
-
 class Stopwatch: ObservableObject {
     var date: Date? = nil
     var stopDate: Date? = nil
