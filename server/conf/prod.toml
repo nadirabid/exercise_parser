@@ -39,3 +39,8 @@ base64_keypair="___PEM___"
 
 [logging]
 base_dir="/var/log/ryden-server"
+
+[backup]
+s3_bucket="ryden-resources-backup"
+s3_region="us-east-2"
+s3_related_names_base_key_name="related_names" 

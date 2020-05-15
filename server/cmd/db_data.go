@@ -312,7 +312,7 @@ func seed(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func dump(cmd *cobra.Command, args []string) error {
+func dumpRelatedNames(cmd *cobra.Command, args []string) error {
 	// init viper
 	v, err := configureViperFromCmd(cmd)
 	if err != nil {
@@ -691,7 +691,7 @@ var seedDictCmd = &cobra.Command{
 var dumpCmd = &cobra.Command{
 	Use:   "dump",
 	Short: "Dumps related names into JSON files",
-	RunE:  dump,
+	RunE:  dumpRelatedNames,
 }
 
 var seedFakeCmd = &cobra.Command{

@@ -39,3 +39,8 @@ base64_keypair="LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVB
 
 [logging]
 base_dir="output"
+
+[backup]
+s3_bucket="ryden-resources-backup"
+s3_region="us-east-2"
+s3_related_names_base_key_name="related_names" 
