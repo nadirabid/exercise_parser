@@ -72,15 +72,15 @@ func exerciseExpresssions() []*expression {
 
 		newExpression(`^(?P<Time>\d+|\d+\-\d+)\s*(?P<TimeUnits>s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*level\s*(?P<Level>(\d+|\d+\-\d+)$)`, nil, nil), // {Time:Number}{TimeUnits} (Delimiter) {Exercise} level {Level:Number}-{Level:Number}
 
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>(ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, map[string][]string{"Exercise": {"for"}}, nil), // {Exercise:String} (Delimiter) {Distance:Float}{DistanceUnits} :TODO - delimiter test
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?:for)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>(ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, nil, nil),                                          // {Exercise:String} for {Distance:Float}{DistanceUnits}
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>(ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, map[string][]string{"Exercise": {"for"}}, nil), // {Exercise:String} (Delimiter) {Distance:Float}{DistanceUnits} :TODO - delimiter test
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s+(?:for)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>(ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, nil, nil),                                          // {Exercise:String} for {Distance:Float}{DistanceUnits}
 
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Time>\d+)\s*(?P<TimeUnits>(s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, map[string][]string{"Exercise": {"for"}}, nil), // {Exercise:String} (Delimiter) {Time:Number}{TimeUnits}
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s+(?:for)\s+(?P<Time>\d+)\s*(?P<TimeUnits>(s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, nil, nil),                                          // {Exercise:String} for {Time:Number}{TimeUnits}
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Time>\d+)\s*(?P<TimeUnits>(s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, map[string][]string{"Exercise": {"for"}}, nil), // {Exercise:String} (Delimiter) {Time:Number}{TimeUnits}
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s+(?:for)\s+(?P<Time>\d+)\s*(?P<TimeUnits>(s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, nil, nil),                                          // {Exercise:String} for {Time:Number}{TimeUnits}
 
-		newExpression(`^(?P<Exercise>[a-zA-Z\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,+|-|\s)\s*(?:in)?\s*(?P<Time>\d+)\s*(?P<TimeUnits>(s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, nil, nil), // {Exercise:String} (Delimiter) {Distance:Float}{DistanceUnits} (Delimiter) {Time:Number}{TimeUnits} :TODO - add delimiter ttest
+		newExpression(`^(?P<Exercise>[a-zA-Z\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,+|-|\s)\s*(?:in)?\s*(?P<Time>\d+)\s*(?P<TimeUnits>(s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, nil, nil), // {Exercise:String} (Delimiter) {Distance:Float}{DistanceUnits} (Delimiter) {Time:Number}{TimeUnits} :TODO - add delimiter ttest
 
-		newExpression(`^(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,+|-|\s)\s*(?:of)?\s*(?P<Exercise>([a-zA-Z\s]+[a-zA-Z])$)`, nil, nil), // {Distance:Float}{DistanceUnits} (Delimiter) of? {Exercise:String} :TODO - delimiter test
+		newExpression(`^(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,+|-|\s)\s*(?:of)?\s*(?P<Exercise>([a-zA-Z\-\s]+[a-zA-Z])$)`, nil, nil), // {Distance:Float}{DistanceUnits} (Delimiter) of? {Exercise:String} :TODO - delimiter test
 	}
 
 	return expressions

@@ -28,7 +28,7 @@ struct HelpView: View {
             .padding([.leading, .trailing])
             
             VStack(alignment: .leading) {
-                Text("How it works")
+                Text("Workouts")
                     .font(.title)
                     .padding([.top])
                 
