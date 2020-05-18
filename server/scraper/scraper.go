@@ -4,29 +4,44 @@ import (
 	"exercise_parser/models"
 	"exercise_parser/utils"
 	"fmt"
+	"net"
+	"net/http"
 	"net/url"
+	netURL "net/url"
+	"regexp"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/fatih/color"
 	"github.com/spf13/viper"
 
+	"github.com/fatih/camelcase"
 	"github.com/gocolly/colly"
 )
 
+var warner = color.New(color.FgYellow)
+var errer = color.New(color.FgRed)
+var successer = color.New(color.FgGreen)
+
 // Scraper returns object that scrapes exrx.net
 type Scraper struct {
-	visitedURL       map[string]bool
-	visitedLock      sync.RWMutex
-	scraperWaitGroup sync.WaitGroup
-	outputDirector   string
+	visitedURL                  map[string]bool
+	visitedLock                 sync.RWMutex
+	scraperWaitGroup            sync.WaitGroup
+	exercisesOutputDirector     string
+	articulationsOutputDirector string
+	scrapedCount                int
 }
 
 // New returns a scraper object\
 func New(v *viper.Viper) *Scraper {
 	return &Scraper{
-		visitedURL:     make(map[string]bool),
-		outputDirector: v.GetString("resources.dir.exercises"),
+		visitedURL:                  make(map[string]bool),
+		exercisesOutputDirector:     v.GetString("resources.dir.exercises"),
+		articulationsOutputDirector: "resources/articulations",
+		scrapedCount:                0,
 	}
 }
 
@@ -37,7 +52,7 @@ func (s *Scraper) Start(url string) {
 		colly.AllowedDomains("exrx.net"),
 	)
 
-	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 100})
+	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 1})
 
 	c.OnHTML("main article", func(e *colly.HTMLElement) {
 		e.ForEach("a", func(_ int, el *colly.HTMLElement) {
@@ -58,24 +73,39 @@ func (s *Scraper) Start(url string) {
 			if strings.Contains(link, "/WeightExercises/") ||
 				strings.Contains(link, "/Aerobic/") ||
 				strings.Contains(link, "/Plyometrics/") {
+				//time.Sleep(time.Second)
 				s.scraperWaitGroup.Add(1)
 				go s.ScrapeExercisePage(link)
-			} else if !strings.Contains(link, "download_file") ||
-				!strings.Contains(link, "Questions") {
+			} else if !strings.Contains(link, "download_file") &&
+				!strings.Contains(link, "Questions") &&
+				!strings.Contains(link, "/Kinesiology/") &&
+				!strings.Contains(link, "/Articulations/") &&
+				!strings.Contains(link, "/Muscles/") &&
+				!strings.Contains(link, "/Nutrition/") &&
+				!strings.Contains(link, "/FlexFunction/") &&
+				!strings.Contains(link, "/Testing/") &&
+				!strings.Contains(link, "/Stretches/") &&
+				!strings.Contains(link, "/Calculators/") {
 				e.Request.Visit(link)
 			}
 		})
 	})
 
 	c.Visit(url)
+
 	s.scraperWaitGroup.Wait()
+
+	successer.Println("Completed: ", s.scrapedCount)
 }
 
 // ScrapeExercisePage will take the url and parse out the data
 func (s *Scraper) ScrapeExercisePage(url string) {
 	defer s.scraperWaitGroup.Done()
 
-	if strings.Contains(url, "Stills") || strings.Contains(url, "Lists") {
+	if strings.Contains(url, "Stills") ||
+		strings.Contains(url, "Lists") ||
+		strings.Contains(url, "Injury") ||
+		strings.Contains(url, "Tidbits") {
 		fmt.Println("Ignoring: ", url)
 		return
 	}
@@ -89,10 +119,29 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 		colly.CacheDir("./scraper/.cache"),
 	)
 
+	c.WithTransport(&http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		DialContext: (&net.Dialer{
+			Timeout:   30 * time.Second,
+			KeepAlive: 30 * time.Second,
+			DualStack: true,
+		}).DialContext,
+		MaxIdleConns:          1000,
+		IdleConnTimeout:       90 * time.Second,
+		TLSHandshakeTimeout:   10 * time.Second,
+		ExpectContinueTimeout: 1 * time.Second,
+	})
+
+	c.OnRequest(func(r *colly.Request) {
+		r.Headers.Set("User-Agent", randomString())
+		r.Headers.Set("Referer", randomString())
+	})
+
 	c.OnHTML("h1.page-title", func(e *colly.HTMLElement) {
 		exercise.Name = e.Text
 	})
 
+	// classification
 	c.OnHTML("main.col-sm-9.Add-Margin-Bottom .row .col-sm-6:nth-child(1)", func(e *colly.HTMLElement) {
 		e.ForEach("table tr", func(_ int, el *colly.HTMLElement) {
 			title := strings.Trim(el.ChildText("td:first-child"), " ")
@@ -112,17 +161,18 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 			case "Impact:":
 				exercise.Classification.Impact = el.ChildText("td:nth-child(2)")
 			default:
-				fmt.Printf("Unknown section %s at %s \n", title, url)
+				warner.Println(url, "Unknown classification section: ", title)
 			}
 		})
 	})
 
+	// classification variant
 	// Seems redundant but apparenlty sometimes the Classification table is in the right column
 	// See: https://exrx.net/WeightExercises/DeltoidPosterior/DBLyingRearDeltRow
 	c.OnHTML("main.col-sm-9.Add-Margin-Bottom .row .col-sm-6:nth-child(2)", func(e *colly.HTMLElement) {
 		e.ForEach("table tr", func(_ int, el *colly.HTMLElement) {
 			title := strings.Trim(el.ChildText("td:first-child"), " ")
-			fmt.Println("URL with strange pattern", url)
+			fmt.Println(url, "URL with strange pattern")
 			switch title {
 			case "Utility:":
 				exercise.Classification.Utility = el.ChildText("td:nth-child(2)")
@@ -139,129 +189,159 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 			case "Impact:":
 				exercise.Classification.Impact = el.ChildText("td:nth-child(2)")
 			default:
-				fmt.Printf("Unknown section %s at %s \n", title, url)
+				warner.Println(url, "Unknown classification (variant) section: ", title)
 			}
 		})
 	})
 
+	// muscles
 	c.OnHTML("main.col-sm-9.Add-Margin-Bottom .row .col-sm-6:nth-child(2)", func(e *colly.HTMLElement) {
 		if !strings.Contains(e.DOM.Find("h2").Text(), "Muscles") {
 			return
 		}
 
-		e.ForEach("p a", func(i int, el *colly.HTMLElement) {
-			muscles := e.DOM.
-				Find(fmt.Sprintf("ul:nth-of-type(%d) li a", i+1)).
-				Map(func(_ int, s *goquery.Selection) string {
-					return s.Text()
-				})
+		isMuscle := func(s string) bool {
+			switch s {
+			case "target":
+				return true
+			case "synergists":
+				return true
+			case "stabilizers":
+				return true
+			case "dynamicstabilizers":
+				return true
+			case "antagoniststabilizers":
+				return true
+			case "romcriteria":
+				return true
+			}
 
-			replacer := strings.NewReplacer(" ", "", "\t", "", "\n", "")
-			title := replacer.Replace(el.Text)
-			switch title {
-			case "Target":
-				exercise.Muscles.Target = muscles
-			case "Synergists":
-				exercise.Muscles.Synergists = muscles
-			case "Stabilizers":
-				exercise.Muscles.Stabilizers = muscles
-			case "DynamicStabilizers":
-				exercise.Muscles.DynamicStabilizers = muscles
-			case "AntagonistStabilizers":
-				exercise.Muscles.AntagonistStabilizers = muscles
-			case "ROMCriteria":
-				exercise.Muscles.ROMCriteria = muscles
-			default:
-				fmt.Printf("Unknow muscle section %s at %s\n", title, url)
+			return false
+		}
+
+		previousText := ""
+		nowProcessingMuscles := false
+
+		e.DOM.Children().Each(func(i int, s *goquery.Selection) {
+			if isMuscle(previousText) {
+				nowProcessingMuscles = true
+
+				muscles := s.
+					Find("li").
+					Map(func(_ int, s *goquery.Selection) string {
+						name := models.SanitizeMuscleString(s.Text())
+						return name
+					})
+
+				switch previousText {
+				case "target":
+					exercise.Muscles.Target = muscles
+				case "synergists":
+					exercise.Muscles.Synergists = muscles
+				case "stabilizers":
+					exercise.Muscles.Stabilizers = muscles
+				case "dynamicstabilizers":
+					exercise.Muscles.DynamicStabilizers = muscles
+				case "antagoniststabilizers":
+					exercise.Muscles.AntagonistStabilizers = muscles
+				case "romcriteria":
+					exercise.Muscles.ROMCriteria = muscles
+				}
+
+				previousText = ""
+			} else {
+				current := sanitizeString(s.Text())
+
+				if nowProcessingMuscles && !isMuscle(current) {
+					warner.Println(url, "Expected to see type of muscle usage - but didn't: ", netURL.QueryEscape(current))
+					previousText = ""
+					nowProcessingMuscles = false
+				} else if !isMuscle(current) {
+					previousText = ""
+				} else {
+					previousText = current
+				}
 			}
 		})
 	})
 
+	// articulation muscle redux
 	c.OnHTML("main.col-sm-9.Add-Margin-Bottom .row .col-sm-6:nth-child(2)", func(e *colly.HTMLElement) {
-		if !strings.Contains(e.DOM.Find("h2").First().Text(), "Force") {
+		if !strings.Contains(e.DOM.Find("h2").Text(), "Force") {
 			return
 		}
 
-		e.ForEach("p strong", func(i int, el *colly.HTMLElement) {
-			jointTypes := models.Joints{}
-			e.DOM.
-				Find(fmt.Sprintf("p + ul:nth-of-type(%d) > li", i+1)).
-				Each(func(_ int, s *goquery.Selection) {
-					name := s.Contents().
-						FilterFunction(func(_ int, s *goquery.Selection) bool {
-							if goquery.NodeName(s) == "#text" {
-								return true
-							}
+		isArticulation := func(s string) bool {
+			switch s {
+			case "dynamic", "static":
+				return true
+			default:
+				return false
+			}
+		}
 
-							return false
-						}).
-						Text()
+		previousText := ""
+		nowProcessingArticulation := false
+		dynamicArticulation := map[string]bool{}
+		staticArticulation := map[string]bool{}
 
-					replacer := strings.NewReplacer(" ", "", "\t", "", "\n", "")
-					name = replacer.Replace(name)
+		e.DOM.Children().Each(func(i int, sel *goquery.Selection) {
+			if isArticulation(previousText) {
+				nowProcessingArticulation = true
 
-					joints := s.
-						Find("ul li").
-						Map(func(_ int, s *goquery.Selection) string {
-							return s.Text()
-						})
-
-					if strings.Contains(name, "Ankle") {
-						jointTypes.Ankle = []string{}
-						jointTypes.Ankle = append(jointTypes.Ankle, joints...)
-					} else if strings.Contains(name, "Elbow") {
-						jointTypes.Elbow = []string{}
-						jointTypes.Elbow = append(jointTypes.Elbow, joints...)
-					} else if strings.Contains(name, "Finger") {
-						jointTypes.Finger = []string{}
-						jointTypes.Finger = append(jointTypes.Finger, joints...)
-					} else if strings.Contains(name, "Foot") {
-						jointTypes.Foot = []string{}
-						jointTypes.Foot = append(jointTypes.Foot, joints...)
-					} else if strings.Contains(name, "Forearm") {
-						jointTypes.Forearms = []string{}
-						jointTypes.Forearms = append(jointTypes.Forearms, joints...)
-					} else if strings.Contains(name, "Hip") {
-						jointTypes.Hip = []string{}
-						jointTypes.Hip = append(jointTypes.Hip, joints...)
-					} else if strings.Contains(name, "Scapula") {
-						jointTypes.Scapula = []string{}
-						jointTypes.Scapula = append(jointTypes.Scapula, joints...)
-					} else if strings.Contains(name, "ShoulderGridle") {
-						jointTypes.ShoulderGirdle = []string{}
-						jointTypes.ShoulderGirdle = append(jointTypes.ShoulderGirdle, joints...)
-					} else if strings.Contains(name, "Shoulder") {
-						jointTypes.Shoulder = []string{}
-						jointTypes.Shoulder = append(jointTypes.Shoulder, joints...)
-					} else if strings.Contains(name, "Spine") {
-						jointTypes.Spine = []string{}
-						jointTypes.Spine = append(jointTypes.Spine, joints...)
-					} else if strings.Contains(name, "Thumb") {
-						jointTypes.Thumb = []string{}
-						jointTypes.Thumb = append(jointTypes.Thumb, joints...)
-					} else if strings.Contains(name, "Wrist") {
-						jointTypes.Wrist = []string{}
-						jointTypes.Wrist = append(jointTypes.Wrist, joints...)
-					} else if strings.Contains(name, "Knee") {
-						jointTypes.Knee = []string{}
-						jointTypes.Knee = append(jointTypes.Knee, joints...)
-					} else {
-						fmt.Println("Unknown joint type: ", name)
+				var muscleNames []string
+				sel.Find("li a").Each(func(_ int, sel *goquery.Selection) {
+					articulationLink, _ := sel.Attr("href")
+					link, err := getURL(url, articulationLink)
+					if err != nil {
+						fmt.Println("Error: ", err.Error())
 					}
+
+					addMuscleNames := s.ScrapeArticulations(link)
+					muscleNames = append(muscleNames, addMuscleNames...)
 				})
 
-			section := el.Text
-			switch section {
-			case "Dynamic":
-				exercise.Articulation.Dynamic = jointTypes
-			case "Static":
-				exercise.Articulation.Static = jointTypes
-			default:
-				fmt.Printf("Unknow articulation section %s at %s\n", section, url)
+				switch previousText {
+				case "dynamic":
+					for _, m := range muscleNames {
+						dynamicArticulation[m] = true
+					}
+				case "static":
+					for _, m := range muscleNames {
+						staticArticulation[m] = true
+					}
+				}
+
+				previousText = ""
+			} else {
+				current := sanitizeString(sel.Text())
+
+				if nowProcessingArticulation && !isArticulation(current) {
+					warner.Println(url, "Expected to see type of articulation - but didn't: ", netURL.QueryEscape(current))
+					previousText = ""
+					nowProcessingArticulation = false
+				} else if !isArticulation(current) {
+					previousText = ""
+				} else {
+					previousText = current
+				}
 			}
 		})
+
+		dynamic := []string{}
+		for k, _ := range dynamicArticulation {
+			dynamic = append(dynamic, k)
+		}
+		exercise.Muscles.DynamicArticulation = dynamic
+
+		static := []string{}
+		for k, _ := range staticArticulation {
+			static = append(static, k)
+		}
+		exercise.Muscles.StaticArticulation = static
 	})
 
+	// rule to figure out if we wanna ignore this page based on content
 	c.OnHTML(".row.Breadcrumb-Container.Add-Margin-Top .col-sm-9", func(e *colly.HTMLElement) {
 		if strings.Contains(e.Text, "> Article") || strings.Contains(e.Text, "> Data") {
 			ignoreWrite = true
@@ -269,11 +349,11 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 	})
 
 	c.OnError(func(r *colly.Response, err error) {
-		fmt.Printf("Error loading %s: %s\n", url, err.Error())
+		errer.Println(url, "Error loading: ", err.Error())
 	})
 
 	if err := c.Visit(url); err != nil {
-		fmt.Println(err.Error())
+		errer.Println(url, err.Error())
 		return
 	}
 
@@ -284,9 +364,61 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 
 	fileName := strings.ToLower(strings.Join(strings.Split(exercise.Name, " "), "_"))
 
-	if err := utils.WriteToDir(exercise, fileName, s.outputDirector); err != nil {
-		fmt.Println(err.Error())
+	if err := utils.WriteToDir(exercise, fileName, s.exercisesOutputDirector); err != nil {
+		errer.Println(err.Error())
 	}
+
+	s.scrapedCount++
+	successer.Println(url, "Completed!")
+}
+
+func (s *Scraper) ScrapeArticulations(url string) []string {
+	c := colly.NewCollector(
+		colly.CacheDir("./scraper/.cache"),
+	)
+
+	c.WithTransport(&http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		DialContext: (&net.Dialer{
+			Timeout:   30 * time.Second,
+			KeepAlive: 30 * time.Second,
+			DualStack: true,
+		}).DialContext,
+		MaxIdleConns:          1000,
+		IdleConnTimeout:       90 * time.Second,
+		TLSHandshakeTimeout:   10 * time.Second,
+		ExpectContinueTimeout: 1 * time.Second,
+	})
+
+	c.OnRequest(func(r *colly.Request) {
+		r.Headers.Set("User-Agent", randomString())
+		r.Headers.Set("Referer", randomString())
+	})
+
+	var muscles []string
+
+	c.OnHTML("main article div.row > .col-sm-9", func(e *colly.HTMLElement) {
+		nameAttr, _ := e.DOM.Find("p a").Attr("name")
+		if !strings.Contains(url, nameAttr) { // only extract the part of the page the link points to
+			return
+		}
+
+		muscles = e.DOM.Find("ul li a").Map(func(_ int, s *goquery.Selection) string {
+			muscleLink, _ := s.Attr("href")
+			muscleName := strings.Replace(muscleLink, "../Muscles/", "", -1)
+
+			split := strings.ToLower(strings.Join(camelcase.Split(muscleName), " ")) // LikeThis -> like this
+
+			return split
+		})
+	})
+
+	if err := c.Visit(url); err != nil {
+		errer.Println(url, err.Error())
+		return []string{}
+	}
+
+	return muscles
 }
 
 func getURL(current string, path string) (string, error) {
@@ -301,4 +433,13 @@ func getURL(current string, path string) (string, error) {
 	}
 
 	return currentURL.ResolveReference(u).String(), nil
+}
+
+func sanitizeString(m string) string {
+	reg := regexp.MustCompile("[^a-zA-Z0-9]+")
+	m = reg.ReplaceAllString(m, "")
+
+	m = strings.ToLower(m)
+
+	return m
 }

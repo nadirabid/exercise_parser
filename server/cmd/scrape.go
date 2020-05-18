@@ -79,5 +79,8 @@ var scrapeCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(scrapeGoogCmd)
+	rootCmd.AddCommand(scrapeCmd)
+
+	scrapeCmd.AddCommand(scrapeExrxCmd)
+	scrapeCmd.AddCommand(scrapeGoogCmd)
 }
