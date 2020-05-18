@@ -177,13 +177,13 @@ var allMuscles = []string{
 }
 
 var (
-	AbductorSynonyms                     = []string{"hip abductors", "tensor fasciae latae", "adductors, hip"}
+	AbductorSynonyms                     = []string{"hip abductors", "tensor fasciae latae", "adductors, hip", "hip internal rotators"}
 	ExtensorCarpiUlnarisSynonyms         = []string{"extensor carpi radialis", "extensor carpi ulnaris"}
 	ExtensorPollicisBrevisSynonyms       = []string{}
 	EntensorPollicisLongusSynonyms       = []string{}
 	AnconeusSynonyms                     = []string{}
-	AdductorSynonyms                     = []string{"adductor brevis", "adductor longus", "adductor magnus", "adductors", "aductor brevis", "gracilis", "hip adductors"}
-	AnteriorDeltoidSynonyms              = []string{"deltoid, anterior"}
+	AdductorSynonyms                     = []string{"adductor brevis", "adductor longus", "adductor magnus", "adductors", "aductor brevis", "gracilis", "hip adductors", "adductors"}
+	AnteriorDeltoidSynonyms              = []string{"deltoid, anterior", "deltoid anterior"}
 	BicepsSynonyms                       = []string{"biceps brachii", "biceps brachii, short head", "brachialis"}
 	BicepsFemorisSynonyms                = []string{}
 	BrachioradialisSynonyms              = []string{"brachioradialis"}
@@ -191,7 +191,7 @@ var (
 	ExternalObliqueSynonyms              = []string{"obliques"}
 	FlexorCarpiRadialisSynonyms          = []string{"flexor carpi radialis", "pronators"}
 	FlexorCarpiUlnariSynonyms            = []string{"flexor carpi ulnaris"}
-	FlexorDigitorumSuperficialisSynonyms = []string{"wrist extensors", "wrist flexors", "wrist/finger flexors"}
+	FlexorDigitorumSuperficialisSynonyms = []string{"wrist extensors", "wrist flexors", "wristfinger flexors"}
 	ExtensorDigitorumSynonyms            = []string{}
 	GastrocnemiusLateralHeadSynonyms     = []string{}
 	GastrocnemiusMedialHeadSynonyms      = []string{}
@@ -201,11 +201,11 @@ var (
 	GluteusMinimusSynonyms               = []string{"gluteus minimus", "gluteus minimus, anterior fibers"}
 	IliotibialBandSynonyms               = []string{}
 	InfraspinatusSynonyms                = []string{"infraspinatus"}
-	LateralDeltoidSynonyms               = []string{"deltoid, lateral"}
+	LateralDeltoidSynonyms               = []string{"deltoid, lateral", "deltoid lateral"}
 	LatissimusDorsiSynonyms              = []string{"latissimus dorsi"}
 	LevatorScapulaeSynonyms              = []string{"levator scapulae"}
 	PeroneusSynonyms                     = []string{}
-	PosteriorDeltoidSynonyms             = []string{"deltoid, posterior"}
+	PosteriorDeltoidSynonyms             = []string{"deltoid, posterior", "deltoid posterior"}
 	RectusAbdominisSynonyms              = []string{"rectus abdominis"}
 	RectusFemorisSynonyms                = []string{"rectus femoris"}
 	RhomboidMajorSynonyms                = []string{}
@@ -219,9 +219,9 @@ var (
 	TeresMajorSynonyms                   = []string{"teres major"}
 	TeresMinorSynonyms                   = []string{"teres minor"}
 	TransversusAbdominisSynonyms         = []string{}
-	TrapeziusLowerFibersSynonyms         = []string{"trapezius, lower"}
-	TrapeziusUpperFibersSynonyms         = []string{"trapezius, upper", "trapezius, upper (part i)", "trapezius, upper (part ii)", "splenius", "sternocleidomastoid", "sternocleidomastoid, posterior fibers"}
-	TrapeziusMiddleFibersSynonyms        = []string{"trapezius, middle"}
+	TrapeziusLowerFibersSynonyms         = []string{"trapezius, lower", "trapezius lower"}
+	TrapeziusUpperFibersSynonyms         = []string{"trapezius, upper", "trapezius upper", "trapezius, upper part i", "trapezius, upper part ii", "splenius", "sternocleidomastoid", "sternocleidomastoid, posterior fibers"}
+	TrapeziusMiddleFibersSynonyms        = []string{"trapezius, middle", "trapezius middle"}
 	TricepsSuraeSynonyms                 = []string{}
 	VastusinterMediusSynonyms            = []string{}
 	VastusLateralisSynonyms              = []string{}
@@ -232,29 +232,29 @@ var (
 	LongissimusSynonyms                  = []string{}
 	SpinalisSynonyms                     = []string{}
 	PectoralisMinorSynonyms              = []string{"pectoralis minor"}
-	PectoralisMajorClavicularSynonyms    = []string{"pectoralis major, clavicular"}
-	PectoralisMajorSternalSynonyms       = []string{"pectoralis major (sternal head)", "pectoralis major, sternal"}
+	PectoralisMajorClavicularSynonyms    = []string{"pectoralis major, clavicular", "pectoralis clavicular"}
+	PectoralisMajorSternalSynonyms       = []string{"pectoralis major sternal head", "pectoralis sternal", "pectoralis major, sternal"}
 	PsoasMajorSynonyms                   = []string{"psoas major"}
 	IliacusSynonyms                      = []string{}
 
 	// MARK: Muscle groups
 
-	IliopsoasSynonyms       = []string{"iliopsoas", "gemellus inferior", "gemellus superior", "hip external rotators", "hip flexors", "obturator externus", "obturator internus", "pectineus", "piriformis", "quadratus femoris"}
+	IliopsoasSynonyms       = []string{"iliopsoas", "gemellus inferior", "gemellus superior", "hip external rotators", "hip exernal rotators", "hip flexors", "obturator externus", "obturator internus", "pectineus", "piriformis", "quadratus femoris"}
 	ErectorSpinaeSynonyms   = []string{"erector spinae", "erector spinae, cervicis & capitis fibers"}
 	LowerBackSynonyms       = []string{"quadratus lumborum"} // Does not map to FMA!
-	ForearmSynonyms         = []string{"wrist extensors"}
-	MiddleBackSynonyms      = []string{} // Does not map to FMA!
-	AbductorsSynonyms       = []string{} // Does not map to FMA!
+	ForearmSynonyms         = []string{"wrist extensors", "supinator", "brachialiswrist flexors"}
+	MiddleBackSynonyms      = []string{}                     // Does not map to FMA!
+	AbductorsSynonyms       = []string{"adductors, hip leg"} // Does not map to FMA!
 	DeltoidsSynonyms        = []string{}
 	TrapeziusSynonyms       = []string{}
 	RotatorCuffSynonyms     = []string{}
 	TricepsSynonyms         = []string{"triceps", "triceps brachii"}
 	ShoulderSynonyms        = []string{}
 	ArmSynonyms             = []string{}
-	BackSynonyms            = []string{"rhomboids"}
+	BackSynonyms            = []string{"rhomboids", "back, general", "general, back"}
 	GlutesSynonyms          = []string{}
 	QuadricepsSynonyms      = []string{"quadriceps"}
-	HamstringsSynonyms      = []string{"hamstrings"}
+	HamstringsSynonyms      = []string{"hamstrings", "hamstrings (above knees)", "hamstrings below knees", "hamstrings top half", "hamstrings bottom h alf"}
 	ThighSynonyms           = []string{}
 	CalvesSynonyms          = []string{"soleus"}
 	LegsSynonyms            = []string{}
@@ -462,6 +462,50 @@ func MuscleStandardName(muscle string) (string, error) {
 var spaceRegexp = regexp.MustCompile(`\s+`)
 
 func SanitizeMuscleString(m string) string {
+	reg := regexp.MustCompile("[^a-zA-Z0-9\\s,&]+")
+	m = reg.ReplaceAllString(m, "")
+
+	remove := []string{
+		"following leg",
+		"lead leg",
+		"see comments",
+		"extended leg",
+		"see notes",
+		"supporting leg",
+		"lifted leg",
+		"second leg",
+		"first leg",
+		"listed below",
+		"supporting arm",
+		"opposite leg",
+		"rear leg",
+		"bottom half",
+		"listed below",
+		"above knees",
+		"side of rotating direction",
+		"opposite arm",
+		"no significant stabilizers",
+		"no significant stabilizer",
+		"rotation 1",
+		"rotation",
+		"opposite",
+		"none",
+	}
+
+	unsupported := []string{
+		"longus capitis",
+		"longus colli",
+		"rectus capitus",
+	}
+
+	for _, r := range remove {
+		m = strings.Replace(m, r, "", -1)
+	}
+
+	for _, u := range unsupported {
+		m = strings.Replace(m, u, "", -1)
+	}
+
 	m = strings.TrimSpace(m)
 	m = spaceRegexp.ReplaceAllString(m, " ")
 	m = strings.ToLower(m)
