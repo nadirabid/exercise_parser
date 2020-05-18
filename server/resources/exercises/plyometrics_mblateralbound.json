@@ -1,0 +1,89 @@
+{
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Plyometrics/MBLateralBound",
+  "name": "Medicine Ball Lateral Bound",
+  "classification": {
+    "utility": "Plyometric",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "Medium",
+    "function": "Leg Ext (Lateral)",
+    "bearing": "",
+    "impact": "",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [
+      "gluteus maximus",
+      "adductors",
+      "soleus",
+      "deltoid lateral",
+      "gluteus minimus",
+      "sartorius",
+      "biceps brachii",
+      "gluteus medius",
+      "hamstrings",
+      "gastrocnemius",
+      "deltoid anterior",
+      "tensor fasciae latae",
+      "quadriceps",
+      "pectoralis clavicular"
+    ],
+    "static_articulation": [
+      "gluteus medius",
+      "gluteus minimus",
+      "tensor fasciae latae",
+      "sartorius",
+      "erector spinae",
+      "quadratus lumborum",
+      "trapezius lower",
+      "# rotation 1"
+    ],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

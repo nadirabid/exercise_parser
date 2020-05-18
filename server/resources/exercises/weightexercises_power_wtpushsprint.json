@@ -1,0 +1,93 @@
+{
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/WeightExercises/Power/WTPushSprint",
+  "name": "Weighted Drive Sled Sprint",
+  "classification": {
+    "utility": "Power",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "",
+    "function": "",
+    "bearing": "",
+    "impact": "",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [
+      "soleus",
+      "gluteus maximus",
+      "hamstrings",
+      "adductors",
+      "quadriceps",
+      "gastrocnemius"
+    ],
+    "static_articulation": [
+      "erector spinae",
+      "deltoid anterior",
+      "trapezius lower",
+      "levator scapulae",
+      "supraspinatus",
+      "trapezius middle",
+      "rectus abdominis",
+      "obliques",
+      "iliopsoas",
+      "pectoralis clavicular",
+      "serratus anterior",
+      "quadratus lumborum",
+      "gluteus medius",
+      "gluteus minimus",
+      "biceps brachii",
+      "triceps brachii",
+      "tensor fasciae latae",
+      "sartorius",
+      "deltoid lateral",
+      "trapezius upper"
+    ],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

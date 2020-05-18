@@ -1,0 +1,86 @@
+{
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Aerobic/Exercises/Sprint",
+  "name": "Sprint",
+  "classification": {
+    "utility": "",
+    "mechanics": "",
+    "force": "",
+    "intensity": "",
+    "function": "",
+    "bearing": "Weight",
+    "impact": "High",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [
+      "gastrocnemius",
+      "soleus",
+      "quadratus lumborum",
+      "gluteus maximus",
+      "quadriceps",
+      "iliopsoas",
+      "tensor fasciae latae",
+      "sartorius",
+      "pectineus",
+      "obliques",
+      "erector spinae",
+      "hamstrings",
+      "adductors"
+    ],
+    "static_articulation": [
+      "tensor fasciae latae",
+      "sartorius",
+      "# rotation 1",
+      "tibialis anterior",
+      "gluteus medius",
+      "gluteus minimus"
+    ],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/WeightExercises/BackGeneral/CBSeatedRow",
+  "name": "Cable Seated Row",
+  "classification": {
+    "utility": "Basic",
+    "mechanics": "Compound",
+    "force": "Pull",
+    "intensity": "",
+    "function": "",
+    "bearing": "",
+    "impact": "",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": [
+      "back, general"
+    ],
+    "synergists": [
+      "erector spinae",
+      "trapezius, middle",
+      "trapezius, lower",
+      "rhomboids",
+      "latissimus dorsi",
+      "teres major",
+      "deltoid, posterior",
+      "infraspinatus",
+      "teres minor",
+      "brachialis",
+      "brachioradialis",
+      "pectoralis major, sternal"
+    ],
+    "stabilizers": [
+      "hamstrings",
+      "gluteus maximus",
+      "adductor magnus"
+    ],
+    "dynamic_stabilizers": [
+      "biceps brachii",
+      "triceps, long head"
+    ],
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

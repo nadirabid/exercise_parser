@@ -1,0 +1,87 @@
+{
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Plyometrics/LyingLegRaiseThrowdownPartner",
+  "name": "Lying Leg Raise Throwdown (with partner)",
+  "classification": {
+    "utility": "Plyometric",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "Medium High",
+    "function": "Trunk Flexion",
+    "bearing": "",
+    "impact": "",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [
+      "iliopsoas",
+      "tensor fasciae latae",
+      "quadriceps",
+      "sartorius",
+      "adductors",
+      "pectineus"
+    ],
+    "static_articulation": [
+      "levator scapulae",
+      "brachialis",
+      "biceps brachii",
+      "quadriceps",
+      "obliques",
+      "triceps brachii",
+      "teres major",
+      "pectoralis sternal",
+      "pectoralis minor",
+      "brachioradialis",
+      "rectus abdominis",
+      "latissimus dorsi",
+      "deltoid posterior",
+      "rhomboids"
+    ],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

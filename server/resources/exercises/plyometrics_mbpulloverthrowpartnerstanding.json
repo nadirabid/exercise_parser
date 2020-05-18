@@ -1,0 +1,90 @@
+{
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Plyometrics/MBPulloverThrowPartnerStanding",
+  "name": "Medicine Ball Pullover Throw (with partner standing)",
+  "classification": {
+    "utility": "Plyometric",
+    "mechanics": "Isolated",
+    "force": "Push",
+    "intensity": "Low Medium",
+    "function": "Pulldown",
+    "bearing": "",
+    "impact": "",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [
+      "pectoralis sternal",
+      "teres major",
+      "levator scapulae",
+      "pectoralis minor",
+      "wrist flexors",
+      "latissimus dorsi",
+      "triceps brachii",
+      "rhomboids",
+      "deltoid posterior"
+    ],
+    "static_articulation": [
+      "hamstrings",
+      "sartorius",
+      "popliteus",
+      "pectineus",
+      "gastrocnemius",
+      "gluteus maximus",
+      "iliopsoas",
+      "rectus abdominis",
+      "triceps brachii",
+      "quadriceps",
+      "obliques",
+      "gracilis",
+      "adductors",
+      "tensor fasciae latae"
+    ],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

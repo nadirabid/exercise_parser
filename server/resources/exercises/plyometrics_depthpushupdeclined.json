@@ -1,0 +1,88 @@
+{
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Plyometrics/DepthPushUpDeclined",
+  "name": "Depth Push-up (feet elevated)",
+  "classification": {
+    "utility": "Plyometric",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "High",
+    "function": "Forward Push",
+    "bearing": "",
+    "impact": "",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [
+      "deltoid anterior",
+      "pectoralis minor",
+      "trapezius lower",
+      "pectoralis sternal",
+      "deltoid lateral",
+      "teres minor",
+      "teres major",
+      "triceps brachii",
+      "serratus anterior",
+      "rhomboids",
+      "biceps brachii",
+      "trapezius middle",
+      "deltoid posterior",
+      "latissimus dorsi",
+      "infraspinatus",
+      "levator scapulae",
+      "wrist flexors",
+      "pectoralis clavicular"
+    ],
+    "static_articulation": [
+      "rectus abdominis",
+      "obliques",
+      "quadriceps"
+    ],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

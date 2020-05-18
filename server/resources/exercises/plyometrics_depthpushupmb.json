@@ -1,0 +1,88 @@
+{
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Plyometrics/DepthPushupMB",
+  "name": "Depth Push-up (on Medicine Ball)",
+  "classification": {
+    "utility": "Plyometric",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "Medium High",
+    "function": "Forward Push",
+    "bearing": "",
+    "impact": "",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [
+      "pectoralis sternal",
+      "pectoralis clavicular",
+      "deltoid lateral",
+      "pectoralis minor",
+      "deltoid posterior",
+      "trapezius middle",
+      "deltoid anterior",
+      "biceps brachii",
+      "serratus anterior",
+      "levator scapulae",
+      "triceps brachii",
+      "infraspinatus",
+      "teres minor",
+      "teres major",
+      "wrist flexors",
+      "latissimus dorsi",
+      "trapezius lower",
+      "rhomboids"
+    ],
+    "static_articulation": [
+      "rectus abdominis",
+      "obliques",
+      "quadriceps"
+    ],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

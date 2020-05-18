@@ -1,0 +1,88 @@
+{
+  "id": 0,
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z",
+  "url": "https://exrx.net/Aerobic/Exercises/WalkingLunge",
+  "name": "Walking Lunge",
+  "classification": {
+    "utility": "",
+    "mechanics": "",
+    "force": "",
+    "intensity": "",
+    "function": "",
+    "bearing": "Weight",
+    "impact": "Low",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [
+      "popliteus",
+      "gastrocnemius",
+      "soleus",
+      "gluteus maximus",
+      "hamstrings",
+      "iliopsoas",
+      "sartorius",
+      "gracilis",
+      "adductors",
+      "tensor fasciae latae",
+      "quadriceps",
+      "pectineus"
+    ],
+    "static_articulation": [
+      "erector spinae",
+      "gluteus medius",
+      "tensor fasciae latae",
+      "sartorius",
+      "splenius",
+      "trapezius upper",
+      "# rotation 1",
+      "gluteus minimus",
+      "tibialis anterior"
+    ],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}
