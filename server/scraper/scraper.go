@@ -73,7 +73,7 @@ func (s *Scraper) Start(url string) {
 			if strings.Contains(link, "/WeightExercises/") ||
 				strings.Contains(link, "/Aerobic/") ||
 				strings.Contains(link, "/Plyometrics/") {
-				//time.Sleep(time.Second)
+				time.Sleep(time.Millisecond * 50)
 				s.scraperWaitGroup.Add(1)
 				go s.ScrapeExercisePage(link)
 			} else if !strings.Contains(link, "download_file") &&
@@ -105,6 +105,9 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 	if strings.Contains(url, "Stills") ||
 		strings.Contains(url, "Lists") ||
 		strings.Contains(url, "Injury") ||
+		strings.Contains(url, "RunnersEdge") ||
+		strings.Contains(url, "pdf") ||
+		strings.Contains(url, "#") ||
 		strings.Contains(url, "Tidbits") {
 		fmt.Println("Ignoring: ", url)
 		return
@@ -362,7 +365,10 @@ func (s *Scraper) ScrapeExercisePage(url string) {
 		return
 	}
 
-	fileName := strings.ToLower(strings.Join(strings.Split(exercise.Name, " "), "_"))
+	fileName := strings.Replace(url, "https://exrx.net/", "", -1)
+	fileName = strings.Replace(fileName, "http:__exrx.net", "", -1)
+	fileName = strings.Replace(fileName, "/", "_", -1)
+	fileName = strings.ToLower(fileName)
 
 	if err := utils.WriteToDir(exercise, fileName, s.exercisesOutputDirector); err != nil {
 		errer.Println(err.Error())
