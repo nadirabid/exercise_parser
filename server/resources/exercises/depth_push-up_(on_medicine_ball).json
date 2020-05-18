@@ -1,15 +1,15 @@
 {
   "url": "https://exrx.net/Plyometrics/DepthPushupMB",
-  "name": "Depth Push-up (on medicine ball)",
+  "name": "Depth Push-up (on Medicine Ball)",
   "classification": {
     "utility": "Plyometric",
     "mechanics": "Compound",
     "force": "Push",
-    "intensity": "High",
+    "intensity": "Medium High",
     "function": "Forward Push",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,31 +18,48 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "pectoralis clavicular",
+      "pectoralis minor",
+      "triceps brachii",
+      "infraspinatus",
+      "trapezius middle",
+      "rhomboids",
+      "biceps brachii",
+      "latissimus dorsi",
+      "teres major",
+      "serratus anterior",
+      "wrist flexors",
+      "deltoid posterior",
+      "pectoralis sternal",
+      "deltoid anterior",
+      "deltoid lateral",
+      "levator scapulae",
+      "teres minor",
+      "trapezius lower"
+    ],
+    "static_articulation": [
+      "quadriceps",
+      "rectus abdominis",
+      "obliques"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
       "ankle": null,
-      "elbow": [
-        "Extension"
-      ],
+      "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
       "hip": null,
-      "scapula": [
-        "Protraction"
-      ],
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Transverse Flexion / Flexion"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
       "spine": null,
       "thumb": null,
-      "wrist": [
-        "Flexion"
-      ],
+      "wrist": null,
       "knee": null,
       "articulation_id": 0
     },
@@ -53,15 +70,9 @@
       "foot": null,
       "forearms": null,
       "hip": null,
-      "scapula": [
-        "Protraction",
-        "Retraction"
-      ],
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Transverse Flexion / Flexion",
-        "Transverse Extension / Extension"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
       "spine": null,
       "thumb": null,
@@ -69,6 +80,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

@@ -9,31 +9,33 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Hamstrings"
+      "hamstrings"
     ],
     "synergists": [
-      "Gluteus Maximus",
-      "Adductor Magnus",
-      "Gastrocnemius",
-      "Sartorius",
-      "Gracilis",
-      "Popliteus"
+      "gluteus maximus",
+      "adductor magnus",
+      "gastrocnemius",
+      "sartorius",
+      "gracilis",
+      "popliteus"
     ],
     "stabilizers": [
-      "Erector Spinae"
+      "erector spinae"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": [
-      "Rectus Abdominis",
-      "Obliques",
-      "Tibialis Anterior"
+      "rectus abdominis",
+      "obliques",
+      "tibialis anterior"
     ],
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -70,6 +72,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

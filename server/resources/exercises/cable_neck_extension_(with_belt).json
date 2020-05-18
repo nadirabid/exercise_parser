@@ -9,35 +9,37 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Splenius"
+      "splenius"
     ],
     "synergists": [
-      "Trapezius, Upper",
-      "Levator Scapulae",
-      "Erector Spinae, Cervicis \u0026 Capitis Fibers",
-      "Sternocleidomastoid, Posterior Fibers"
+      "trapezius, upper",
+      "levator scapulae",
+      "erector spinae, cervicis \u0026 capitis fibers",
+      "sternocleidomastoid, posterior fibers"
     ],
     "stabilizers": [
-      "Pectoralis Major, Sternal",
-      "Pectoralis Major, Clavicular",
-      "Pectoralis Minor",
-      "Latissimus Dorsi",
-      "Rhomboids",
-      "Triceps Brachii",
-      "Erector Spinae",
-      "Gluteus Maximus"
+      "pectoralis major, sternal",
+      "pectoralis major, clavicular",
+      "pectoralis minor",
+      "latissimus dorsi",
+      "rhomboids",
+      "triceps brachii",
+      "erector spinae",
+      "gluteus maximus"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": [
-      "Rectus Abdominis",
-      "Obliques"
+      "rectus abdominis",
+      "obliques"
     ],
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -74,6 +76,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

@@ -9,7 +9,7 @@
     "function": "Trunk Extension",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,7 +18,23 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "deltoid lateral",
+      "trapezius middle",
+      "serratus anterior",
+      "erector spinae",
+      "quadratus lumborum",
+      "adductors",
+      "deltoid anterior",
+      "quadriceps",
+      "pectoralis clavicular",
+      "biceps brachii",
+      "trapezius lower",
+      "gluteus maximus",
+      "hamstrings"
+    ],
+    "static_articulation": [],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -27,25 +43,15 @@
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Extension"
-      ],
-      "scapula": [
-        "Upward Rotation"
-      ],
+      "hip": null,
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Flexion"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Extension"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
     "static": {
@@ -65,6 +71,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

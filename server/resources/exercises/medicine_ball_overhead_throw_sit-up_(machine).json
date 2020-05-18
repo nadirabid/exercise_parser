@@ -9,37 +9,39 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Rectus Abdominis"
+      "rectus abdominis"
     ],
     "synergists": [
-      "Iliopsoas",
-      "Tensor Fasciae Latae",
-      "Rectus Femoris",
-      "Sartorius",
-      "Pectineus",
-      "Adductor Longus",
-      "Aductor Brevis",
-      "Obliques",
-      "Latissimus Dorsi",
-      "Teres Major",
-      "Deltoid, Posterior",
-      "Rhomboids",
-      "Levator Scapulae",
-      "Pectoralis Major, Sternal",
-      "Pectoralis Minor",
-      "Triceps, Long Head"
+      "iliopsoas",
+      "tensor fasciae latae",
+      "rectus femoris",
+      "sartorius",
+      "pectineus",
+      "adductor longus",
+      "aductor brevis",
+      "obliques",
+      "latissimus dorsi",
+      "teres major",
+      "deltoid, posterior",
+      "rhomboids",
+      "levator scapulae",
+      "pectoralis major, sternal",
+      "pectoralis minor",
+      "triceps, long head"
     ],
     "stabilizers": [
-      "Tibialis Anterior"
+      "tibialis anterior"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -76,6 +78,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

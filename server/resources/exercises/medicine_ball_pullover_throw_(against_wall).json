@@ -9,7 +9,7 @@
     "function": "Pulldown",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,7 +18,31 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "latissimus dorsi",
+      "pectoralis sternal",
+      "levator scapulae",
+      "rhomboids",
+      "wrist flexors",
+      "deltoid posterior",
+      "teres major",
+      "triceps brachii",
+      "pectoralis minor"
+    ],
+    "static_articulation": [
+      "pectineus",
+      "rectus abdominis",
+      "obliques",
+      "triceps brachii",
+      "quadriceps",
+      "gluteus maximus",
+      "adductors",
+      "tensor fasciae latae",
+      "hamstrings",
+      "iliopsoas",
+      "sartorius"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -28,48 +52,33 @@
       "foot": null,
       "forearms": null,
       "hip": null,
-      "scapula": [
-        "Downward Rotation"
-      ],
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Extension"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
       "spine": null,
       "thumb": null,
-      "wrist": [
-        "Flexion"
-      ],
+      "wrist": null,
       "knee": null,
       "articulation_id": 0
     },
     "static": {
       "ankle": null,
-      "elbow": [
-        "Extension"
-      ],
+      "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Extension",
-        "Flexion"
-      ],
+      "hip": null,
       "scapula": null,
       "clavicle": null,
       "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Flexion"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

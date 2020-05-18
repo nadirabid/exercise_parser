@@ -9,23 +9,27 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
-    "target": null,
+    "target": [
+      "hip internal rotators (listed below)"
+    ],
     "synergists": [
-      "Gluteus Medius",
-      "Gluteus Minimus",
-      "Tensor Fasciae Latae"
+      "gluteus medius",
+      "gluteus minimus",
+      "tensor fasciae latae"
     ],
     "stabilizers": [
-      "Obliques",
-      "Hip Abductors"
+      "obliques",
+      "hip abductors (opposite leg)"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -62,6 +66,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

@@ -9,7 +9,7 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,43 +18,57 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "brachioradialis",
+      "iliopsoas",
+      "gluteus maximus",
+      "hamstrings",
+      "soleus",
+      "trapezius middle",
+      "obliques",
+      "gastrocnemius",
+      "deltoid anterior",
+      "biceps brachii",
+      "trapezius upper",
+      "brachialis",
+      "triceps brachii",
+      "quadratus lumborum",
+      "# rotation 1",
+      "adductors",
+      "deltoid lateral",
+      "pectoralis clavicular",
+      "supraspinatus",
+      "erector spinae",
+      "quadriceps",
+      "levator scapulae",
+      "serratus anterior",
+      "trapezius lower"
+    ],
+    "static_articulation": [
+      "quadratus lumborum",
+      "trapezius lower",
+      "wrist flexors",
+      "wrist extensors",
+      "erector spinae"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
-      "ankle": [
-        "Plantar Flexion"
-      ],
-      "elbow": [
-        "Flexion",
-        "Extension"
-      ],
+      "ankle": null,
+      "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Extension",
-        "Flextion "
-      ],
-      "scapula": [
-        "Elevation",
-        "Upward Rotation"
-      ],
+      "hip": null,
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Flexion",
-        "Abduction"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Rotation",
-        "Lateral Flexion"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
     "static": {
@@ -68,17 +82,12 @@
       "clavicle": null,
       "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Extension"
-      ],
+      "spine": null,
       "thumb": null,
-      "wrist": [
-        "Flexion",
-        "Extension"
-      ],
+      "wrist": null,
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

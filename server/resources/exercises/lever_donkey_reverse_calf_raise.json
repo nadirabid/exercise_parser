@@ -9,24 +9,28 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Tibialis Anterior"
+      "tibialis anterior"
     ],
-    "synergists": null,
+    "synergists": [
+      "none"
+    ],
     "stabilizers": [
-      "Serratus Anterior",
-      "Pectoralis Minor",
-      "Pectoralis Major, Sternal",
-      "Pectoralis Major, Clavicular",
-      "Triceps Brachii"
+      "serratus anterior",
+      "pectoralis minor",
+      "pectoralis major, sternal",
+      "pectoralis major, clavicular",
+      "triceps brachii"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -63,6 +67,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

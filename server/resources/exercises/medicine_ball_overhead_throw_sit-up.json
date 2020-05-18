@@ -9,7 +9,7 @@
     "function": "Trunk Flexion",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,31 +18,39 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "sartorius",
+      "pectineus",
+      "teres major",
+      "rhomboids",
+      "tensor fasciae latae",
+      "adductors",
+      "iliopsoas",
+      "pectoralis sternal",
+      "quadriceps",
+      "latissimus dorsi",
+      "deltoid posterior",
+      "triceps brachii",
+      "levator scapulae",
+      "pectoralis minor",
+      "sternocleidomastoid"
+    ],
+    "static_articulation": [],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
       "ankle": null,
-      "elbow": [
-        "Extension"
-      ],
+      "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Flexion"
-      ],
-      "scapula": [
-        "Downward Rotation"
-      ],
+      "hip": null,
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Extension"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Flexion"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
       "knee": null,
@@ -65,6 +73,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

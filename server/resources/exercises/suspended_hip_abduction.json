@@ -9,24 +9,28 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
-    "target": null,
+    "target": [
+      "hip abductors (listed below)"
+    ],
     "synergists": [
-      "Tensor Fasciae Latae",
-      "Gluteus Medius",
-      "Gluteus Minimus"
+      "tensor fasciae latae",
+      "gluteus medius",
+      "gluteus minimus"
     ],
     "stabilizers": [
-      "Gluteus Maximus",
-      "Hamstrings",
-      "Erector Spinae"
+      "gluteus maximus",
+      "hamstrings",
+      "erector spinae"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -63,6 +67,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

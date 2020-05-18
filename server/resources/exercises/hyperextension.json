@@ -9,22 +9,26 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Erector Spinae"
+      "erector spinae"
     ],
-    "synergists": null,
+    "synergists": [
+      "gluteus maximus",
+      "hamstrings",
+      "adductor magnus"
+    ],
     "stabilizers": [
-      "Gluteus Maximus",
-      "Hamstrings",
-      "Adductor Magnus"
+      "see comments"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -61,6 +65,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

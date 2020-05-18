@@ -9,31 +9,33 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Rectus Abdominis"
+      "rectus abdominis"
     ],
     "synergists": [
-      "Obliques"
+      "obliques"
     ],
     "stabilizers": [
-      "Latissimus Dorsi",
-      "Teres Major",
-      "Deltoid, Posterior",
-      "Triceps, Long Head",
-      "Rhomboids",
-      "Trapezius, Lower",
-      "Pectoralis Major, Sternal",
-      "Pectoralis Major, Clavicular",
-      "Pectoralis Minor",
-      "Serratus Anterior"
+      "latissimus dorsi",
+      "teres major",
+      "deltoid, posterior",
+      "triceps, long head",
+      "rhomboids",
+      "trapezius, lower",
+      "pectoralis major, sternal",
+      "pectoralis major, clavicular",
+      "pectoralis minor",
+      "serratus anterior"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -70,6 +72,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

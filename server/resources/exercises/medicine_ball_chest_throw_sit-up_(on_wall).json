@@ -5,11 +5,11 @@
     "utility": "Plyometric",
     "mechanics": "Compound",
     "force": "Push",
-    "intensity": "Medium High",
+    "intensity": "Medium",
     "function": "Trunk Flexion",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,35 +18,44 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "pectoralis clavicular",
+      "biceps brachii",
+      "levator scapulae",
+      "wrist flexors",
+      "obliques",
+      "sartorius",
+      "deltoid anterior",
+      "deltoid lateral",
+      "pectoralis minor",
+      "iliopsoas",
+      "quadriceps",
+      "serratus anterior",
+      "pectoralis sternal",
+      "triceps brachii",
+      "rectus abdominis",
+      "tensor fasciae latae",
+      "adductors",
+      "pectineus"
+    ],
+    "static_articulation": [],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
       "ankle": null,
-      "elbow": [
-        "Extension"
-      ],
+      "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Flexion"
-      ],
-      "scapula": [
-        "Protraction"
-      ],
+      "hip": null,
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Flexion / Transverse Flexion"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Flexion"
-      ],
+      "spine": null,
       "thumb": null,
-      "wrist": [
-        "Flexion"
-      ],
+      "wrist": null,
       "knee": null,
       "articulation_id": 0
     },
@@ -67,6 +76,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

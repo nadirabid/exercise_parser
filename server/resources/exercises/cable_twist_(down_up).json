@@ -9,45 +9,45 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
-    "target": [
-      "Obliques"
-    ],
+    "target": null,
     "synergists": [
-      "Tensor fasciae latae ",
-      "Gluteus medius",
-      "Gluteus minimus, anterior fibers ",
-      "Adductors, Hip",
-      "Psoas major",
-      "Quadratus lumborum ",
-      "Iliocastalis lumborum",
-      "Iliocastalis thoracis"
+      "tensor fasciae latae",
+      "gluteus medius",
+      "gluteus minimus, anterior fibers",
+      "adductors, hip",
+      "psoas major",
+      "quadratus lumborum",
+      "iliocastalis lumborum",
+      "iliocastalis thoracis"
     ],
     "stabilizers": [
-      "Rectus Abdominis",
-      "Erector Spinae",
-      "Pectoralis Major, Clavicular ",
-      "Deltoid, Anterior",
-      "Trapezius, Upper",
-      "Trapezius, Middle",
-      "Trapezius, Lower",
-      "Levator Scapulae",
-      "Rhomboids",
-      "Deltoid, Posterior",
-      "Deltoid, Lateral",
-      "Supraspinatus",
-      "Triceps, Long Head ",
-      "Quadriceps",
-      "Gluteus Maximus",
-      "Gastrocnemius",
-      "Soleus"
+      "rectus abdominis",
+      "erector spinae",
+      "pectoralis major, clavicular",
+      "deltoid, anterior",
+      "trapezius, upper",
+      "trapezius, middle",
+      "trapezius, lower",
+      "levator scapulae",
+      "rhomboids",
+      "deltoid, posterior",
+      "deltoid, lateral",
+      "supraspinatus",
+      "triceps, long head",
+      "quadriceps",
+      "gluteus maximus",
+      "gastrocnemius",
+      "soleus"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -84,6 +84,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

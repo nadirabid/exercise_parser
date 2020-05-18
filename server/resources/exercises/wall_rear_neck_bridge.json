@@ -9,26 +9,28 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Splenius"
+      "splenius"
     ],
     "synergists": [
-      "Trapezius, Upper",
-      "Levator Scapulae",
-      "Sternocleidomastoid, Posterior Fibers",
-      "Erector Spinae",
-      "Quadriceps"
+      "trapezius, upper",
+      "levator scapulae",
+      "sternocleidomastoid, posterior fibers",
+      "erector spinae",
+      "quadriceps"
     ],
     "stabilizers": [
-      "Gluteus Maximus"
+      "gluteus maximus"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -65,6 +67,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

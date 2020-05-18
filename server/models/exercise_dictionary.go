@@ -33,6 +33,8 @@ type Muscles struct {
 	DynamicStabilizers    pq.StringArray `json:"dynamic_stabilizers" gorm:"type:varchar(250)[]"`
 	AntagonistStabilizers pq.StringArray `json:"antagonist_stabilizers" gorm:"type:varchar(250)[]"`
 	ROMCriteria           pq.StringArray `json:"rom_criteria" gorm:"type:varchar(250)[]"`
+	DynamicArticulation   pq.StringArray `json:"dynamic_articulation" gorm:"type:varchar(250)[]"`
+	StaticArticulation    pq.StringArray `json:"static_articulation" gorm:"type:varchar(250)[]"`
 	ExerciseDictionaryID  uint           `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE CASCADE"`
 }
 
@@ -106,7 +108,7 @@ func (r *ExerciseRelatedName) UpdateTSV(db *gorm.DB) error {
 
 // ExerciseDictionary is a single exercise type
 type ExerciseDictionary struct {
-	Model
+	HiddenModel                   // TODO change BACK
 	URL            string         `json:"url"`
 	Name           string         `json:"name" gorm:"unique"`
 	Classification Classification `json:"classification"`

@@ -9,33 +9,35 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Latissimus Dorsi"
+      "latissimus dorsi"
     ],
     "synergists": [
-      "Brachialis",
-      "Brachioradialis",
-      "Biceps Brachii",
-      "Teres Major",
-      "Deltoid, Posterior",
-      "Infraspinatus",
-      "Teres Minor",
-      "Rhomboids",
-      "Levator Scapulae",
-      "Trapezius, Middle",
-      "Trapezius, Lower",
-      "Pectoralis Minor"
+      "brachialis",
+      "brachioradialis",
+      "biceps brachii",
+      "teres major",
+      "deltoid, posterior",
+      "infraspinatus",
+      "teres minor",
+      "rhomboids",
+      "levator scapulae",
+      "trapezius, middle",
+      "trapezius, lower",
+      "pectoralis minor"
     ],
     "stabilizers": null,
     "dynamic_stabilizers": [
-      "Triceps, Long Head"
+      "triceps, long head"
     ],
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -72,6 +74,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

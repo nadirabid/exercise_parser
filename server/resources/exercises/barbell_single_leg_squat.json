@@ -9,36 +9,34 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Gluteus Maximus"
+      "gluteus maximus"
     ],
     "synergists": [
-      "Quadriceps",
-      "Adductor Magnus",
-      "Soleus",
-      "Erector Spinae"
+      "quadriceps",
+      "adductor magnus",
+      "soleus",
+      "erector spinae (see notes)"
     ],
     "stabilizers": [
-      "Deltoid, Anterior",
-      "Pectoralis Major, Clavicular",
-      "Deltoid, Lateral",
-      "Trapezius, Upper",
-      "Trapezius, Middle",
-      "Trapezius, Lower",
-      "Serratus Anterior, Inferior Digitations",
-      "Levator Scapulae",
-      "Wrist Extensors"
+      "gluteus medius",
+      "gluteus minimus",
+      "quadratus lumborum",
+      "obliques",
+      "rectus abdominis"
     ],
     "dynamic_stabilizers": [
-      "Hamstrings",
-      "Gastrocnemius"
+      "hamstrings",
+      "gastrocnemius"
     ],
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -75,6 +73,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

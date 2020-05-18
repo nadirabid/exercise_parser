@@ -9,7 +9,7 @@
     "function": "Trunk Rotation",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,57 +18,57 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "biceps brachii",
+      "supraspinatus",
+      "infraspinatus",
+      "gluteus maximus",
+      "tensor fasciae latae",
+      "gluteus medius",
+      "gluteus minimus",
+      "deltoid anterior",
+      "pectoralis minor",
+      "trapezius lower",
+      "sartorius",
+      "quadriceps",
+      "latissimus dorsi",
+      "subscapularis",
+      "serratus anterior",
+      "sternocleidomastoid",
+      "pectoralis clavicular",
+      "teres minor",
+      "trapezius upper",
+      "splenius",
+      "gracilis",
+      "gastrocnemius",
+      "deltoid lateral",
+      "hamstrings",
+      "adductors",
+      "hip exernal rotators",
+      "soleus",
+      "levator scapulae",
+      "popliteus",
+      "tibialis anterior",
+      "teres major",
+      "deltoid posterior",
+      "erector spinae",
+      "pectoralis sternal",
+      "trapezius middle"
+    ],
+    "static_articulation": [
+      "erector spinae",
+      "trapezius upper",
+      "brachialis",
+      "biceps brachii",
+      "brachioradialis",
+      "splenius"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
-      "ankle": [
-        "Plantar Flexion"
-      ],
-      "elbow": null,
-      "finger": null,
-      "foot": [
-        "Plantar Flexion",
-        "Inversion",
-        "Eversion"
-      ],
-      "forearms": null,
-      "hip": [
-        "Extension",
-        "Internal Rotation",
-        "External Rotation"
-      ],
-      "scapula": [
-        "Protraction",
-        "Upward Rotation",
-        "Elevation"
-      ],
-      "clavicle": null,
-      "shoulder": [
-        "Transverse Flexion",
-        "Flexion",
-        "Internal Rotation",
-        "Abduction",
-        "External Rotation"
-      ],
-      "shoulder_girdle": null,
-      "spine": [
-        "Rotation"
-      ],
-      "thumb": null,
-      "wrist": null,
-      "knee": [
-        "Extension",
-        "Internal Rotation",
-        "External Rotation"
-      ],
-      "articulation_id": 0
-    },
-    "static": {
       "ankle": null,
-      "elbow": [
-        "Flexion"
-      ],
+      "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
@@ -77,14 +77,29 @@
       "clavicle": null,
       "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Extension"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
   }
 }

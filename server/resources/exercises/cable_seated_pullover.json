@@ -9,30 +9,32 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Latissimus Dorsi"
+      "latissimus dorsi"
     ],
     "synergists": [
-      "Pectoralis Major, Sternal",
-      "Triceps, Long Head",
-      "Teres Major",
-      "Deltoid, Posterior",
-      "Rhomboids",
-      "Levator Scapulae",
-      "Pectoralis Minor"
+      "pectoralis major, sternal",
+      "triceps, long head",
+      "teres major",
+      "deltoid, posterior",
+      "rhomboids",
+      "levator scapulae",
+      "pectoralis minor"
     ],
     "stabilizers": [
-      "Triceps Brachii",
-      "Pectoralis Major, Clavicular",
-      "Wrist Flexors"
+      "triceps brachii",
+      "pectoralis major, clavicular",
+      "wrist flexors"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -69,6 +71,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

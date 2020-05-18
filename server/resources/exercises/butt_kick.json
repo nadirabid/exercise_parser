@@ -1,0 +1,64 @@
+{
+  "url": "https://exrx.net/Aerobic/Exercises/ButtKick",
+  "name": "Butt Kick",
+  "classification": {
+    "utility": "",
+    "mechanics": "",
+    "force": "",
+    "intensity": "",
+    "function": "",
+    "bearing": "Weight",
+    "impact": "High",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": [
+      "quadriceps"
+    ],
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [],
+    "static_articulation": [],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

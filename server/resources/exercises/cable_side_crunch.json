@@ -9,35 +9,37 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Obliques"
+      "obliques"
     ],
     "synergists": [
-      "Quadratus lumborum",
-      "Psoas major",
-      "Iliocastalis lumborum",
-      "Iliocastalis thoracis"
+      "quadratus lumborum",
+      "psoas major",
+      "iliocastalis lumborum",
+      "iliocastalis thoracis"
     ],
     "stabilizers": [
-      "Latissimus Dorsi",
-      "Teres Major",
-      "Pectoralis Major, Sternal",
-      "Pectoralis Minor",
-      "Rhomboids",
-      "Levator Scapulae",
-      "Trapezius, Lower",
-      "Triceps, Long Head",
-      "Brachialis",
-      "Brachioradialis",
-      "Biceps Brachii"
+      "latissimus dorsi",
+      "teres major",
+      "pectoralis major, sternal",
+      "pectoralis minor",
+      "rhomboids",
+      "levator scapulae",
+      "trapezius, lower",
+      "triceps, long head",
+      "brachialis",
+      "brachioradialis",
+      "biceps brachii"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -74,6 +76,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

@@ -9,7 +9,7 @@
     "function": "Trunk Extension",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,7 +18,29 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "serratus anterior",
+      "quadratus lumborum",
+      "hamstrings",
+      "adductors",
+      "pectoralis clavicular",
+      "trapezius lower",
+      "biceps brachii",
+      "trapezius middle",
+      "erector spinae",
+      "gluteus maximus",
+      "quadriceps",
+      "deltoid anterior",
+      "deltoid lateral"
+    ],
+    "static_articulation": [
+      "# rotation 1",
+      "gluteus medius",
+      "gluteus minimus",
+      "tensor fasciae latae",
+      "sartorius"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -27,25 +49,15 @@
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Extension"
-      ],
-      "scapula": [
-        "Upward Rotation"
-      ],
+      "hip": null,
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Flexion"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Extension (see notes) "
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
     "static": {
@@ -54,21 +66,17 @@
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Abduction"
-      ],
+      "hip": null,
       "scapula": null,
       "clavicle": null,
       "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Lateral Flexion"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

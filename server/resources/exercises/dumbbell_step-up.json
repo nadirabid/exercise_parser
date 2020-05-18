@@ -1,5 +1,5 @@
 {
-  "url": "https://exrx.net/WeightExercises/GluteusMaximus/DBStepUp",
+  "url": "https://exrx.net/WeightExercises/Quadriceps/DBStepUp",
   "name": "Dumbbell Step-up",
   "classification": {
     "utility": "Basic or Auxiliary",
@@ -9,38 +9,40 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Gluteus Maximus"
+      "quadriceps"
     ],
     "synergists": [
-      "Quadriceps",
-      "Adductor Magnus",
-      "Soleus",
-      "Gastrocnemius"
+      "gluteus maximus",
+      "adductor magnus",
+      "soleus",
+      "gastrocnemius (second leg)"
     ],
     "stabilizers": [
-      "Erector Spinae",
-      "Trapezius, Upper",
-      "Trapezius, Middle",
-      "Levator Scapulae",
-      "Gluteus Medius",
-      "Gluteus Minimus",
-      "Quadratus Lumborum",
-      "Obliques"
+      "erector spinae",
+      "trapezius, upper",
+      "trapezius, middle",
+      "levator scapulae",
+      "gluteus medius",
+      "gluteus minimus",
+      "quadratus lumborum",
+      "obliques"
     ],
     "dynamic_stabilizers": [
-      "Hamstrings",
-      "Gastrocnemius"
+      "hamstrings",
+      "gastrocnemius (first leg)"
     ],
     "antagonist_stabilizers": [
-      "Rectus Abdominis",
-      "Obliques"
+      "rectus abdominis",
+      "obliques"
     ],
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -77,6 +79,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

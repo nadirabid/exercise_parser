@@ -1,0 +1,81 @@
+{
+  "url": "https://exrx.net/Plyometrics/SingleLegZigzagHop",
+  "name": "Single Leg Zigzag Hop",
+  "classification": {
+    "utility": "Plyometric",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "Medium",
+    "function": "Leg Ext (Lateral)",
+    "bearing": "",
+    "impact": "",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [
+      "adductors",
+      "gracilis",
+      "gastrocnemius",
+      "tensor fasciae latae",
+      "pectineus",
+      "gluteus medius",
+      "iliopsoas",
+      "gluteus maximus",
+      "hamstrings",
+      "quadriceps",
+      "sartorius",
+      "gluteus minimus",
+      "hip exernal rotators",
+      "soleus"
+    ],
+    "static_articulation": [
+      "splenius",
+      "erector spinae",
+      "trapezius upper"
+    ],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

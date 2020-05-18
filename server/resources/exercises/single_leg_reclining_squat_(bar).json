@@ -1,5 +1,5 @@
 {
-  "url": "https://exrx.net/WeightExercises/GluteusMaximus/BWSingleLegRecliningSquat",
+  "url": "https://exrx.net/WeightExercises/Quadriceps/BWSingleLegRecliningSquat",
   "name": "Single Leg Reclining Squat (bar)",
   "classification": {
     "utility": "Basic or Auxiliary",
@@ -9,35 +9,41 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Quadriceps"
+      "quadriceps"
     ],
     "synergists": [
-      "Gluteus Maximus",
-      "Adductor Magnus",
-      "Soleus",
-      "Latissimus Dorsi",
-      "Teres Major",
-      "Deltoid, Posterior",
-      "Pectoralis Major, Sternal"
+      "gluteus maximus",
+      "adductor magnus",
+      "soleus",
+      "latissimus dorsi",
+      "teres major",
+      "deltoid, posterior",
+      "pectoralis major, sternal"
     ],
     "stabilizers": [
-      "Iliopsoas",
-      "Tensor Fasciae Latae",
-      "Pectineus",
-      "Sartorius",
-      "Quadriceps"
+      "gluteus medius",
+      "gluteus minimus",
+      "quadratus lumborum",
+      "obliques",
+      "rectus abdominis",
+      "erector spinae",
+      "trapezius, middle",
+      "trapezius, lower",
+      "rhomboids"
     ],
     "dynamic_stabilizers": [
-      "Hamstrings",
-      "Gastrocnemius"
+      "hamstrings",
+      "gastrocnemius"
     ],
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -74,6 +80,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

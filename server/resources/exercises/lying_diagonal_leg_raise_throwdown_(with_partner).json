@@ -1,0 +1,85 @@
+{
+  "url": "https://exrx.net/Plyometrics/LyingDiagonalLegRaiseThrowdownPartner",
+  "name": "Lying Diagonal Leg Raise Throwdown (with partner)",
+  "classification": {
+    "utility": "Plyometric",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "Medium High",
+    "function": "Trunk Flexion",
+    "bearing": "",
+    "impact": "",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [
+      "sartorius",
+      "adductors",
+      "pectineus",
+      "iliopsoas",
+      "tensor fasciae latae",
+      "quadriceps"
+    ],
+    "static_articulation": [
+      "deltoid posterior",
+      "teres major",
+      "triceps brachii",
+      "obliques",
+      "# rotation 1",
+      "pectoralis minor",
+      "brachialis",
+      "brachioradialis",
+      "latissimus dorsi",
+      "levator scapulae",
+      "pectoralis sternal",
+      "rhomboids",
+      "quadriceps",
+      "rectus abdominis",
+      "biceps brachii"
+    ],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "url": "https://exrx.net/Plyometrics/LateralConeHops",
+  "name": "Lateral Cone Hop",
+  "classification": {
+    "utility": "Plyometric",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "Low Medium",
+    "function": "Leg Ext (Lateral)",
+    "bearing": "",
+    "impact": "",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [
+      "gluteus maximus",
+      "sartorius",
+      "pectineus",
+      "adductors",
+      "# rotation 1",
+      "soleus",
+      "iliopsoas",
+      "tensor fasciae latae",
+      "quadriceps",
+      "gluteus medius",
+      "gastrocnemius",
+      "tibialis anterior",
+      "hamstrings",
+      "gracilis",
+      "gluteus minimus",
+      "popliteus"
+    ],
+    "static_articulation": [
+      "erector spinae",
+      "quadratus lumborum",
+      "trapezius lower"
+    ],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

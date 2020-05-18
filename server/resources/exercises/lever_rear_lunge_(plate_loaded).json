@@ -1,5 +1,5 @@
 {
-  "url": "https://exrx.net/WeightExercises/GluteusMaximus/LVRearLunge",
+  "url": "https://exrx.net/WeightExercises/Quadriceps/LVRearLunge",
   "name": "Lever Rear Lunge (plate loaded)",
   "classification": {
     "utility": "Auxiliary",
@@ -9,34 +9,36 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Gluteus Maximus"
+      "quadriceps"
     ],
     "synergists": [
-      "Quadriceps",
-      "Adductor Magnus",
-      "Soleus"
+      "gluteus maximus",
+      "adductor magnus",
+      "soleus"
     ],
     "stabilizers": [
-      "Erector Spinae",
-      "Trapezius, Upper",
-      "Trapezius, Lower",
-      "Levator Scapulae",
-      "Gluteus Medius",
-      "Gluteus Minimus",
-      "Quadratus Lumborum",
-      "Obliques"
+      "erector spinae",
+      "trapezius, upper",
+      "trapezius, lower",
+      "levator scapulae",
+      "gluteus medius",
+      "gluteus minimus",
+      "quadratus lumborum",
+      "obliques"
     ],
     "dynamic_stabilizers": [
-      "Hamstrings",
-      "Gastrocnemius"
+      "hamstrings",
+      "gastrocnemius"
     ],
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -73,6 +75,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

@@ -9,7 +9,7 @@
     "function": "",
     "bearing": "Non-weight",
     "impact": "Low",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,37 +18,48 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "serratus anterior",
+      "brachioradialis",
+      "hamstrings",
+      "latissimus dorsi",
+      "pectoralis sternal",
+      "teres major",
+      "triceps brachii",
+      "quadriceps",
+      "biceps brachii",
+      "pectoralis minor",
+      "levator scapulae",
+      "rhomboids",
+      "adductors",
+      "pectoralis clavicular",
+      "trapezius lower",
+      "brachialis",
+      "gluteus maximus",
+      "deltoid anterior",
+      "deltoid lateral",
+      "deltoid posterior",
+      "trapezius middle"
+    ],
+    "static_articulation": [],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
       "ankle": null,
-      "elbow": [
-        "Extension",
-        "Flexion"
-      ],
+      "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Extension"
-      ],
-      "scapula": [
-        "Protraction",
-        "Retraction"
-      ],
+      "hip": null,
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Flexion",
-        "Extension"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
       "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
     "static": {
@@ -68,6 +79,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

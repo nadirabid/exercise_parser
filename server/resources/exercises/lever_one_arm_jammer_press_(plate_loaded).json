@@ -9,7 +9,7 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,42 +18,58 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "triceps brachii",
+      "quadriceps",
+      "gastrocnemius",
+      "pectoralis sternal",
+      "trapezius middle",
+      "obliques",
+      "erector spinae",
+      "sartorius",
+      "serratus anterior",
+      "iliopsoas",
+      "hamstrings",
+      "hip exernal rotators",
+      "popliteus",
+      "tensor fasciae latae",
+      "gluteus minimus",
+      "deltoid anterior",
+      "quadratus lumborum",
+      "soleus",
+      "deltoid lateral",
+      "gluteus medius",
+      "pectoralis minor",
+      "adductors",
+      "gracilis",
+      "biceps brachii",
+      "levator scapulae",
+      "gluteus maximus",
+      "pectoralis clavicular",
+      "trapezius lower"
+    ],
+    "static_articulation": [
+      "obliques",
+      "rectus abdominis"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
-      "ankle": [
-        "Plantar Flexion"
-      ],
-      "elbow": [
-        "Extension"
-      ],
+      "ankle": null,
+      "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Extension",
-        "Internal Rotation"
-      ],
-      "scapula": [
-        "Protraction",
-        "Upward Rotation"
-      ],
+      "hip": null,
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Flexion",
-        "Transverse Flexion"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Rotation"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension",
-        "Internal Rotation"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
     "static": {
@@ -67,14 +83,12 @@
       "clavicle": null,
       "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Flexion"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

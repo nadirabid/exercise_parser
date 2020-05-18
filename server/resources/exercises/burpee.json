@@ -9,7 +9,7 @@
     "function": "",
     "bearing": "Weight",
     "impact": "Low",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,62 +18,72 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "sternocleidomastoid",
+      "tensor fasciae latae",
+      "quadriceps",
+      "hamstrings",
+      "gastrocnemius",
+      "erector spinae",
+      "iliopsoas",
+      "pectineus",
+      "popliteus",
+      "soleus",
+      "gracilis",
+      "quadratus lumborum",
+      "trapezius lower",
+      "sartorius",
+      "adductors",
+      "gluteus maximus"
+    ],
+    "static_articulation": [
+      "levator scapulae",
+      "pectoralis sternal",
+      "biceps brachii",
+      "triceps brachii",
+      "serratus anterior",
+      "pectoralis minor",
+      "pectoralis clavicular",
+      "deltoid anterior",
+      "sternocleidomastoid"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
-      "ankle": [
-        "Plantar Flexion (1st buck)"
-      ],
+      "ankle": null,
       "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Flexion (2nd buck \u0026 pull in)",
-        "Extension (1st buck \u0026 kick back)"
-      ],
+      "hip": null,
       "scapula": null,
       "clavicle": null,
       "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Flexion (pull in)",
-        "Extension (kick back)"
-      ],
-      "thumb": null,
-      "wrist": null,
-      "knee": [
-        "Flexion (pull in)",
-        "Extension (1st buck)"
-      ],
-      "articulation_id": 0
-    },
-    "static": {
-      "ankle": null,
-      "elbow": [
-        "Extension"
-      ],
-      "finger": null,
-      "foot": null,
-      "forearms": null,
-      "hip": null,
-      "scapula": [
-        "Protraction"
-      ],
-      "clavicle": null,
-      "shoulder": [
-        "Transverse Flexion"
-      ],
-      "shoulder_girdle": null,
-      "spine": [
-        "Flexion (plank)"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
   }
 }

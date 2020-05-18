@@ -9,7 +9,7 @@
     "function": "",
     "bearing": "Weight",
     "impact": "Low",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,40 +18,60 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "quadriceps",
+      "sartorius",
+      "pectineus",
+      "trapezius lower",
+      "deltoid lateral",
+      "pectoralis sternal",
+      "serratus anterior",
+      "rhomboids",
+      "brachioradialis",
+      "iliopsoas",
+      "deltoid anterior",
+      "biceps brachii",
+      "pectoralis clavicular",
+      "trapezius middle",
+      "levator scapulae",
+      "gluteus maximus",
+      "adductors",
+      "soleus",
+      "triceps brachii",
+      "hamstrings",
+      "teres major",
+      "deltoid posterior",
+      "pectoralis minor",
+      "brachialis",
+      "tensor fasciae latae",
+      "gastrocnemius",
+      "latissimus dorsi"
+    ],
+    "static_articulation": [
+      "gluteus medius",
+      "gluteus minimus",
+      "tensor fasciae latae",
+      "sartorius",
+      "# rotation 1"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
-      "ankle": [
-        "Plantar Flexion"
-      ],
-      "elbow": [
-        "Extension",
-        "Flexion"
-      ],
+      "ankle": null,
+      "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Extension",
-        "Flexion"
-      ],
-      "scapula": [
-        "Upward Rotation",
-        "Downward Rotation"
-      ],
+      "hip": null,
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Flexion",
-        "Extension"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
       "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
     "static": {
@@ -60,21 +80,17 @@
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Abduction"
-      ],
+      "hip": null,
       "scapula": null,
       "clavicle": null,
       "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Lateral Flexion"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

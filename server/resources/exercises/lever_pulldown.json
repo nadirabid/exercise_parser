@@ -1,5 +1,5 @@
 {
-  "url": "https://exrx.net/WeightExercises/LatissimusDorsi/LVPulldown",
+  "url": "https://exrx.net/WeightExercises/LatissimusDorsi/LVPulldown2",
   "name": "Lever Pulldown",
   "classification": {
     "utility": "Basic",
@@ -9,30 +9,32 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Latissimus Dorsi"
+      "latissimus dorsi"
     ],
     "synergists": [
-      "Brachialis",
-      "Brachioradialis",
-      "Biceps Brachii",
-      "Teres Major",
-      "Rhomboids",
-      "Levator Scapulae",
-      "Pectoralis Minor",
-      "Trapezius, Lower",
-      "Pectoralis Major, Sternal"
+      "brachialis",
+      "brachioradialis",
+      "biceps brachii",
+      "teres major",
+      "rhomboids",
+      "levator scapulae",
+      "pectoralis minor",
+      "trapezius, lower",
+      "pectoralis major, sternal"
     ],
     "stabilizers": null,
     "dynamic_stabilizers": [
-      "Triceps, Long Head"
+      "triceps, long head"
     ],
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -69,6 +71,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

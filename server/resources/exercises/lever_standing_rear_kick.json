@@ -9,29 +9,31 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Gluteus Maximus"
+      "gluteus maximus"
     ],
     "synergists": [
-      "Quadriceps",
-      "Adductor Magnus"
+      "quadriceps",
+      "adductor magnus"
     ],
     "stabilizers": [
-      "\n\n\nObliques",
-      "Gluteus Medius",
-      "Gluteus Minimus",
-      "Quadratus Lumborum"
+      "obliques",
+      "gluteus medius",
+      "gluteus minimus",
+      "quadratus lumborum"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": [
-      "Hamstrings",
-      "Rectus Abdominis"
+      "hamstrings",
+      "rectus abdominis"
     ],
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -68,6 +70,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

@@ -9,40 +9,44 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
-    "target": null,
+    "target": [
+      "general, back"
+    ],
     "synergists": [
-      "Trapezius, Middle",
-      "Trapezius, Lower",
-      "Rhomboids",
-      "Latissimus Dorsi",
-      "Teres Major",
-      "Deltoid, Posterior",
-      "Infraspinatus",
-      "Teres Minor",
-      "Brachialis",
-      "Brachioradialis",
-      "Pectoralis Major, Sternal "
+      "trapezius, middle",
+      "trapezius, lower",
+      "rhomboids",
+      "latissimus dorsi",
+      "teres major",
+      "deltoid, posterior",
+      "infraspinatus",
+      "teres minor",
+      "brachialis",
+      "brachioradialis",
+      "pectoralis major, sternal"
     ],
     "stabilizers": [
-      "Erector Spinae",
-      "Hamstrings",
-      "Gluteus Maximus",
-      "Adductor Magnus",
-      "Quadriceps"
+      "erector spinae",
+      "hamstrings",
+      "gluteus maximus",
+      "adductor magnus",
+      "quadriceps"
     ],
     "dynamic_stabilizers": [
-      "Biceps Brachii",
-      "Triceps, Long Head "
+      "biceps brachii",
+      "triceps, long head"
     ],
     "antagonist_stabilizers": [
-      "Rectus Abdominis",
-      "Obliques"
+      "rectus abdominis",
+      "obliques"
     ],
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -79,6 +83,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

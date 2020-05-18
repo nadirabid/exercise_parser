@@ -9,7 +9,7 @@
     "function": "",
     "bearing": "Weight",
     "impact": "High",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,36 +18,45 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "quadriceps",
+      "hamstrings",
+      "adductors",
+      "gracilis",
+      "erector spinae",
+      "gastrocnemius",
+      "iliopsoas",
+      "soleus",
+      "tensor fasciae latae",
+      "pectineus",
+      "gluteus medius",
+      "sternocleidomastoid",
+      "splenius",
+      "levator scapulae",
+      "gluteus maximus",
+      "gluteus minimus",
+      "# rotation 1",
+      "sartorius"
+    ],
+    "static_articulation": [],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
-      "ankle": [
-        "Plantar Flexion"
-      ],
+      "ankle": null,
       "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Extension",
-        "Flexion",
-        "Abduction",
-        "Adduction"
-      ],
+      "hip": null,
       "scapula": null,
       "clavicle": null,
       "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Lateral Flexion",
-        "Rotation"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
     "static": {
@@ -67,6 +76,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

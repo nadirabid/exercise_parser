@@ -9,27 +9,29 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Pectoralis Major, Sternal"
+      "pectoralis major, sternal"
     ],
     "synergists": [
-      "Pectoralis Major, Clavicular",
-      "Deltoid, Anterior",
-      "Triceps Brachii"
+      "pectoralis major, clavicular",
+      "deltoid, anterior",
+      "triceps brachii"
     ],
     "stabilizers": [
-      "Pectoralis Minor",
-      "Serratus Anterior"
+      "pectoralis minor",
+      "serratus anterior"
     ],
     "dynamic_stabilizers": [
-      "Biceps Brachii, Short Head"
+      "biceps brachii, short head"
     ],
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -66,6 +68,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

@@ -9,7 +9,7 @@
     "function": "",
     "bearing": "Weight",
     "impact": "High",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,70 +18,90 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "popliteus",
+      "gastrocnemius",
+      "pectoralis sternal",
+      "teres major",
+      "deltoid anterior",
+      "deltoid lateral",
+      "adductors",
+      "tensor fasciae latae",
+      "pectineus",
+      "hamstrings",
+      "deltoid posterior",
+      "pectoralis clavicular",
+      "iliopsoas",
+      "sartorius",
+      "latissimus dorsi",
+      "tibialis anterior",
+      "quadriceps",
+      "triceps brachii",
+      "biceps brachii",
+      "gracilis"
+    ],
+    "static_articulation": [
+      "erector spinae",
+      "obliques",
+      "supraspinatus",
+      "pectoralis sternal",
+      "triceps brachii",
+      "soleus",
+      "adductors",
+      "iliopsoas",
+      "deltoid anterior",
+      "rhomboids",
+      "deltoid lateral",
+      "pectoralis minor",
+      "wrist flexors",
+      "wrist extensors",
+      "gluteus maximus",
+      "hamstrings",
+      "quadratus lumborum",
+      "trapezius lower",
+      "gastrocnemius",
+      "pectoralis clavicular",
+      "trapezius middle",
+      "latissimus dorsi",
+      "levator scapulae"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
-      "ankle": [
-        "Dorsal Flexion"
-      ],
+      "ankle": null,
       "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Flexion"
-      ],
+      "hip": null,
       "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Hyperextension",
-        "Flexion"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
       "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension",
-        "Flexion"
-      ],
-      "articulation_id": 0
-    },
-    "static": {
-      "ankle": [
-        "Plantar Flexion (eccentric) "
-      ],
-      "elbow": [
-        "Extension"
-      ],
-      "finger": null,
-      "foot": null,
-      "forearms": null,
-      "hip": [
-        "Extension"
-      ],
-      "scapula": [
-        "Retraction",
-        "Downward Rotation"
-      ],
-      "clavicle": null,
-      "shoulder": [
-        "Transverse Abduction"
-      ],
-      "shoulder_girdle": null,
-      "spine": [
-        "Extension",
-        "Rotation"
-      ],
-      "thumb": null,
-      "wrist": [
-        "Flexion",
-        "Extension"
-      ],
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
   }
 }

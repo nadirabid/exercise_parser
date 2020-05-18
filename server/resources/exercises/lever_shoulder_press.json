@@ -9,32 +9,34 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Deltoid, Anterior"
+      "deltoid, anterior"
     ],
     "synergists": [
-      "Deltoid, Lateral",
-      "Supraspinatus",
-      "Pectoralis Major, Clavicular",
-      "Triceps Brachii",
-      "Trapezius, Middle",
-      "Trapezius, Lower",
-      "Serratus Anterior, Inferior Digitations"
+      "deltoid, lateral",
+      "supraspinatus",
+      "pectoralis major, clavicular",
+      "triceps brachii",
+      "trapezius, middle",
+      "trapezius, lower",
+      "serratus anterior, inferior digitations"
     ],
     "stabilizers": [
-      "Trapezius, Upper",
-      "Levator Scapulae"
+      "trapezius, upper",
+      "levator scapulae"
     ],
     "dynamic_stabilizers": [
-      "Triceps, Long Head",
-      "Biceps Brachii"
+      "triceps, long head",
+      "biceps brachii"
     ],
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -71,6 +73,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

@@ -9,7 +9,7 @@
     "function": "",
     "bearing": "Weight",
     "impact": "High",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,71 +18,86 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "adductors",
+      "hamstrings",
+      "soleus",
+      "pectoralis clavicular",
+      "deltoid lateral",
+      "sternocleidomastoid",
+      "trapezius lower",
+      "gluteus maximus",
+      "pectoralis sternal",
+      "pectoralis minor",
+      "triceps brachii",
+      "iliopsoas",
+      "quadriceps",
+      "gastrocnemius",
+      "deltoid anterior",
+      "biceps brachii",
+      "serratus anterior",
+      "quadratus lumborum",
+      "pectineus",
+      "gracilis",
+      "popliteus",
+      "levator scapulae",
+      "erector spinae",
+      "tensor fasciae latae",
+      "sartorius"
+    ],
+    "static_articulation": [
+      "deltoid anterior",
+      "deltoid lateral",
+      "triceps brachii",
+      "pectoralis minor",
+      "pectoralis sternal",
+      "serratus anterior",
+      "levator scapulae",
+      "pectoralis clavicular",
+      "biceps brachii",
+      "quadratus lumborum",
+      "trapezius lower",
+      "quadriceps",
+      "sternocleidomastoid",
+      "erector spinae"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
-      "ankle": [
-        "Plantar Flexion (1st buck)"
-      ],
-      "elbow": [
-        "Extension (push-up)"
-      ],
-      "finger": null,
-      "foot": null,
-      "forearms": null,
-      "hip": [
-        "Flexion (2nd buck \u0026 pull in)",
-        "Extension (1st buck \u0026 kickback)"
-      ],
-      "scapula": [
-        "Protraction (push-up)"
-      ],
-      "clavicle": null,
-      "shoulder": [
-        "Transverse Flexion / Flexion (push-up)"
-      ],
-      "shoulder_girdle": null,
-      "spine": [
-        "Flexion (pull in)",
-        "Extension (kick back)"
-      ],
-      "thumb": null,
-      "wrist": null,
-      "knee": [
-        "Flexion (pull in)",
-        "Extension (1st buck)"
-      ],
-      "articulation_id": 0
-    },
-    "static": {
       "ankle": null,
-      "elbow": [
-        "Extension (kick back \u0026 pull in)"
-      ],
+      "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
       "hip": null,
-      "scapula": [
-        "Protraction (kick back \u0026 pull in)"
-      ],
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Transverse Flexion / Flexion (kick back \u0026 pull in)"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Flexion (plank)",
-        "Extension (squat stand)"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension (plank)"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
   }
 }

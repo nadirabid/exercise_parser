@@ -9,36 +9,38 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Deltoid, Lateral"
+      "deltoid, lateral"
     ],
     "synergists": [
-      "Deltoid, Anterior",
-      "Supraspinatus",
-      "Trapezius, Lower",
-      "Trapezius, Middle",
-      "Serratus Anterior, Inferior Digitations",
-      "Teres Minor",
-      "Infraspinatus"
+      "deltoid, anterior",
+      "supraspinatus",
+      "trapezius, lower",
+      "trapezius, middle",
+      "serratus anterior, inferior digitations",
+      "teres minor",
+      "infraspinatus"
     ],
     "stabilizers": [
-      "Erector Spinae",
-      "Gluteus Maximus",
-      "Hamstrings",
-      "Trapezius, Upper",
-      "Levator Scapulae",
-      "Wrist Extensors"
+      "erector spinae",
+      "gluteus maximus",
+      "hamstrings",
+      "trapezius, upper",
+      "levator scapulae",
+      "wrist extensors"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": [
-      "Rectus Abdominis",
-      "Obliques"
+      "rectus abdominis",
+      "obliques"
     ],
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -75,6 +77,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

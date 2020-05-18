@@ -1,0 +1,93 @@
+{
+  "url": "https://exrx.net/Plyometrics/ButtKickJumps",
+  "name": "Butt Kick Jumps",
+  "classification": {
+    "utility": "Plyometric",
+    "mechanics": "Compound",
+    "force": "Push",
+    "intensity": "Medium",
+    "function": "Leg Ext (Horizontal)",
+    "bearing": "",
+    "impact": "",
+    "exercise_dictionary_id": 0
+  },
+  "muscles": {
+    "target": null,
+    "synergists": null,
+    "stabilizers": null,
+    "dynamic_stabilizers": null,
+    "antagonist_stabilizers": null,
+    "rom_criteria": null,
+    "dynamic_articulation": [
+      "adductors",
+      "iliopsoas",
+      "tensor fasciae latae",
+      "gastrocnemius",
+      "deltoid anterior",
+      "deltoid lateral",
+      "biceps brachii",
+      "supraspinatus",
+      "trapezius middle",
+      "popliteus",
+      "soleus",
+      "pectoralis clavicular",
+      "serratus anterior",
+      "trapezius upper",
+      "rectus abdominis",
+      "obliques",
+      "quadriceps",
+      "pectoralis sternal",
+      "gluteus maximus",
+      "hamstrings",
+      "sartorius",
+      "pectineus",
+      "gracilis",
+      "pectoralis minor",
+      "levator scapulae",
+      "trapezius lower"
+    ],
+    "static_articulation": [
+      "quadratus lumborum",
+      "trapezius lower",
+      "erector spinae"
+    ],
+    "exercise_dictionary_id": 0
+  },
+  "articulation": {
+    "dynamic": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
+  }
+}

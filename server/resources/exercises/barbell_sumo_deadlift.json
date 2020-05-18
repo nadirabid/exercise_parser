@@ -1,5 +1,5 @@
 {
-  "url": "https://exrx.net/WeightExercises/ErectorSpinae/BBSumoDeadlift",
+  "url": "https://exrx.net/WeightExercises/GluteusMaximus/BBSumoDeadlift",
   "name": "Barbell Sumo Deadlift",
   "classification": {
     "utility": "Basic",
@@ -9,31 +9,36 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
-    "target": null,
+    "target": [
+      "gluteus maximus"
+    ],
     "synergists": [
-      "Erector Spinae"
+      "quadriceps",
+      "adductor magnus",
+      "soleus"
     ],
     "stabilizers": [
-      "Hamstrings",
-      "Gastrocnemius"
+      "erector spinae",
+      "trapezius, middle",
+      "trapezius, upper",
+      "levator scapulae",
+      "rhomboids"
     ],
     "dynamic_stabilizers": [
-      "Gluteus Maximus",
-      "Adductor Magnus",
-      "Quadriceps",
-      "Soleus"
+      "hamstrings",
+      "gastrocnemius"
     ],
     "antagonist_stabilizers": [
-      "Trapezius, Middle",
-      "Trapezius, Upper",
-      "Levator Scapulae",
-      "Rhomboids"
+      "rectus abdominis",
+      "obliques"
     ],
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -70,6 +75,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

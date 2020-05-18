@@ -9,7 +9,7 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,7 +18,33 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "trapezius middle",
+      "deltoid lateral",
+      "pectoralis minor",
+      "deltoid posterior",
+      "teres minor",
+      "latissimus dorsi",
+      "infraspinatus",
+      "trapezius lower",
+      "rhomboids",
+      "iliopsoas",
+      "quadratus lumborum",
+      "deltoid anterior",
+      "serratus anterior",
+      "brachioradialis",
+      "obliques",
+      "pectoralis clavicular",
+      "biceps brachii",
+      "levator scapulae",
+      "brachialis",
+      "erector spinae",
+      "pectoralis sternal",
+      "triceps brachii",
+      "teres major"
+    ],
+    "static_articulation": [],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -32,9 +58,7 @@
       "clavicle": null,
       "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Rotation"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
       "knee": null,
@@ -57,6 +81,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

@@ -9,7 +9,7 @@
     "function": "Forward Push",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,25 +18,35 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "deltoid anterior",
+      "biceps brachii",
+      "deltoid lateral",
+      "serratus anterior",
+      "pectoralis clavicular",
+      "pectoralis minor",
+      "levator scapulae",
+      "triceps brachii",
+      "pectoralis sternal"
+    ],
+    "static_articulation": [
+      "quadriceps",
+      "rectus abdominis",
+      "obliques"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
       "ankle": null,
-      "elbow": [
-        "Extension"
-      ],
+      "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
       "hip": null,
-      "scapula": [
-        "Protraction"
-      ],
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Transverse Flexion / Flexion"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
       "spine": null,
       "thumb": null,
@@ -55,16 +65,12 @@
       "clavicle": null,
       "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Flexion"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

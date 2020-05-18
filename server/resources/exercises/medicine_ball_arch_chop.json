@@ -9,7 +9,7 @@
     "function": "Trunk Extension",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,7 +18,34 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "hamstrings",
+      "gracilis",
+      "gluteus medius",
+      "gluteus minimus",
+      "iliopsoas",
+      "serratus anterior",
+      "popliteus",
+      "obliques",
+      "quadratus lumborum",
+      "erector spinae",
+      "deltoid anterior",
+      "hip exernal rotators",
+      "pectineus",
+      "gluteus maximus",
+      "sternocleidomastoid",
+      "trapezius lower",
+      "pectoralis clavicular",
+      "trapezius middle",
+      "sartorius",
+      "quadriceps",
+      "tensor fasciae latae",
+      "adductors",
+      "deltoid lateral",
+      "biceps brachii"
+    ],
+    "static_articulation": [],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -27,30 +54,15 @@
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Internal Rotation / Adduction",
-        "External Rotation / Abduction"
-      ],
-      "scapula": [
-        "Upward Rotation"
-      ],
+      "hip": null,
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Flexion"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Lateral Flexion",
-        "Rotation",
-        "Extension"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Internal Rotation",
-        "External Rotation",
-        "Extension"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
     "static": {
@@ -70,6 +82,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

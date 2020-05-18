@@ -9,7 +9,7 @@
     "function": "Trunk Rotation",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,43 +18,63 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "obliques",
+      "gracilis",
+      "gluteus medius",
+      "teres major",
+      "pectoralis clavicular",
+      "deltoid anterior",
+      "subscapularis",
+      "brachioradialis",
+      "tensor fasciae latae",
+      "rhomboids",
+      "triceps brachii",
+      "biceps brachii",
+      "popliteus",
+      "hip exernal rotators",
+      "gluteus maximus",
+      "serratus anterior",
+      "trapezius middle",
+      "deltoid lateral",
+      "iliopsoas",
+      "pectoralis sternal",
+      "infraspinatus",
+      "teres minor",
+      "hamstrings",
+      "adductors",
+      "quadratus lumborum",
+      "pectoralis minor",
+      "trapezius lower",
+      "latissimus dorsi",
+      "deltoid posterior",
+      "supraspinatus",
+      "sartorius",
+      "levator scapulae",
+      "gluteus minimus",
+      "pectineus",
+      "erector spinae",
+      "brachialis"
+    ],
+    "static_articulation": [],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
       "ankle": null,
-      "elbow": [
-        "Extension",
-        "Flexion"
-      ],
+      "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Internal Rotation / Adduction",
-        "External Rotation / Abduction"
-      ],
-      "scapula": [
-        "Protraction",
-        "Retraction"
-      ],
+      "hip": null,
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Transverse Extension / Extension",
-        "Transverse Flexion / Flexion",
-        "External Rotation",
-        "Internal Rotation"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Rotation"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Internal Rotation",
-        "External  Rotation"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
     "static": {
@@ -74,6 +94,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

@@ -9,38 +9,40 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Erector Spinae"
+      "erector spinae"
     ],
     "synergists": [
-      "Gluteus Maximus",
-      "Trapezius, Lower",
-      "Trapezius, Middle",
-      "Deltoid, Anterior",
-      "Deltoid, Lateral"
+      "gluteus maximus",
+      "trapezius, lower",
+      "trapezius, middle",
+      "deltoid, anterior",
+      "deltoid, lateral"
     ],
     "stabilizers": [
-      "Gluteus medius",
-      "Gluteus minimus",
-      "Piriformis",
-      "Obturator externus",
-      "Pectoralis Major, Sternal",
-      "Pectoralis Major, Clavicular",
-      "Serratus Anterior",
-      "Triceps Brachii"
+      "gluteus medius",
+      "gluteus minimus",
+      "piriformis",
+      "obturator externus",
+      "pectoralis major, sternal",
+      "pectoralis major, clavicular",
+      "serratus anterior",
+      "triceps brachii"
     ],
     "dynamic_stabilizers": [
-      "Hamstrings"
+      "hamstrings"
     ],
     "antagonist_stabilizers": [
-      "Rectus Abdominis",
-      "Obliques"
+      "rectus abdominis",
+      "obliques"
     ],
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -77,6 +79,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

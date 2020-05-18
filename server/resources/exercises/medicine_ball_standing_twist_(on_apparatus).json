@@ -9,7 +9,7 @@
     "function": "Trunk Rotation",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,46 +18,48 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "popliteus",
+      "quadratus lumborum",
+      "serratus anterior",
+      "gluteus minimus",
+      "hip exernal rotators",
+      "gluteus maximus",
+      "iliopsoas",
+      "adductors",
+      "pectineus",
+      "pectoralis clavicular",
+      "teres major",
+      "deltoid lateral",
+      "hamstrings",
+      "erector spinae",
+      "rhomboids",
+      "latissimus dorsi",
+      "biceps brachii",
+      "gluteus medius",
+      "obliques",
+      "pectoralis sternal",
+      "triceps brachii",
+      "sartorius",
+      "pectoralis minor",
+      "trapezius middle",
+      "trapezius lower",
+      "gracilis",
+      "tensor fasciae latae",
+      "deltoid anterior",
+      "levator scapulae"
+    ],
+    "static_articulation": [
+      "brachialis",
+      "biceps brachii",
+      "brachioradialis"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
       "ankle": null,
       "elbow": null,
-      "finger": null,
-      "foot": null,
-      "forearms": null,
-      "hip": [
-        "Internal Rotation / Adduction",
-        "External Rotation / Abduction"
-      ],
-      "scapula": [
-        "Protraction",
-        "Retraction"
-      ],
-      "clavicle": null,
-      "shoulder": [
-        "Transverse Flexion",
-        "Flexion",
-        "Adduction"
-      ],
-      "shoulder_girdle": null,
-      "spine": [
-        "Rotation"
-      ],
-      "thumb": null,
-      "wrist": null,
-      "knee": [
-        "Internal Rotation",
-        "External Rotation"
-      ],
-      "articulation_id": 0
-    },
-    "static": {
-      "ankle": null,
-      "elbow": [
-        "Flexion"
-      ],
       "finger": null,
       "foot": null,
       "forearms": null,
@@ -72,6 +74,23 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
   }
 }

@@ -9,30 +9,32 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Triceps Brachii"
+      "triceps brachii"
     ],
     "synergists": [
-      "Deltoid, Anterior",
-      "Pectoralis Major, Sternal ",
-      "Pectoralis Major, Clavicular ",
-      "Pectoralis Minor",
-      "Rhomboids",
-      "Levator Scapulae",
-      "Latissimus Dorsi"
+      "deltoid, anterior",
+      "pectoralis major, sternal",
+      "pectoralis major, clavicular",
+      "pectoralis minor",
+      "rhomboids",
+      "levator scapulae",
+      "latissimus dorsi"
     ],
     "stabilizers": [
-      "Trapezius, Lower"
+      "trapezius, lower"
     ],
     "dynamic_stabilizers": [
-      "Biceps Brachii"
+      "biceps brachii"
     ],
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -69,6 +71,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

@@ -1,5 +1,5 @@
 {
-  "url": "https://exrx.net/WeightExercises/LatissimusDorsi/LVUnderhandPulldown",
+  "url": "https://exrx.net/WeightExercises/LatissimusDorsi/LVUnderhandPulldownS",
   "name": "Lever Underhand Pulldown",
   "classification": {
     "utility": "Basic",
@@ -9,32 +9,34 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Latissimus Dorsi"
+      "latissimus dorsi"
     ],
     "synergists": [
-      "Brachialis",
-      "Brachioradialis",
-      "Teres Major",
-      "Deltoid, Posterior",
-      "Rhomboids",
-      "Levator Scapulae",
-      "Trapezius, Lower",
-      "Trapezius, Middle",
-      "Pectoralis Major, Sternal",
-      "Pectoralis Minor"
+      "brachialis",
+      "brachioradialis",
+      "teres major",
+      "deltoid, posterior",
+      "rhomboids",
+      "levator scapulae",
+      "trapezius, lower",
+      "trapezius, middle",
+      "pectoralis major, sternal",
+      "pectoralis minor"
     ],
     "stabilizers": null,
     "dynamic_stabilizers": [
-      "Biceps Brachii",
-      "Triceps, Long Head"
+      "biceps brachii",
+      "triceps, long head"
     ],
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -71,6 +73,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

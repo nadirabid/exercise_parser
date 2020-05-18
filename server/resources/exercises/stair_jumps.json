@@ -9,7 +9,7 @@
     "function": "Leg Ext (Vertical) \u0026 (Horizontal)",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,39 +18,54 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "biceps brachii",
+      "serratus anterior",
+      "pectoralis sternal",
+      "obliques",
+      "gluteus maximus",
+      "iliopsoas",
+      "soleus",
+      "deltoid lateral",
+      "pectoralis clavicular",
+      "trapezius lower",
+      "pectoralis minor",
+      "adductors",
+      "quadriceps",
+      "deltoid anterior",
+      "trapezius middle",
+      "tensor fasciae latae",
+      "sartorius",
+      "pectineus",
+      "levator scapulae",
+      "rectus abdominis",
+      "hamstrings",
+      "gastrocnemius",
+      "trapezius upper"
+    ],
+    "static_articulation": [
+      "erector spinae",
+      "quadratus lumborum",
+      "trapezius lower"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
-      "ankle": [
-        "Plantar Flexion"
-      ],
+      "ankle": null,
       "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Extension",
-        "Flexion"
-      ],
-      "scapula": [
-        "Elevation",
-        "Upward Rotation",
-        "Protraction"
-      ],
+      "hip": null,
+      "scapula": null,
       "clavicle": null,
-      "shoulder": [
-        "Flexion"
-      ],
+      "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Flexion"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
     "static": {
@@ -64,14 +79,12 @@
       "clavicle": null,
       "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Extension"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

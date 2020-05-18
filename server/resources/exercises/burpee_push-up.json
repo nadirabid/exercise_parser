@@ -9,7 +9,7 @@
     "function": "Forward Push",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": null,
@@ -18,69 +18,81 @@
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": [
+      "serratus anterior",
+      "pectoralis minor",
+      "triceps brachii",
+      "tibialis anterior",
+      "deltoid anterior",
+      "biceps brachii",
+      "levator scapulae",
+      "obliques",
+      "erector spinae",
+      "quadratus lumborum",
+      "tensor fasciae latae",
+      "sartorius",
+      "adductors",
+      "gluteus maximus",
+      "pectoralis clavicular",
+      "deltoid lateral",
+      "trapezius lower",
+      "iliopsoas",
+      "pectineus",
+      "hamstrings",
+      "pectoralis sternal",
+      "rectus abdominis",
+      "quadriceps"
+    ],
+    "static_articulation": [
+      "gluteus maximus",
+      "gastrocnemius",
+      "rectus abdominis",
+      "quadratus lumborum",
+      "trapezius lower",
+      "hamstrings",
+      "adductors",
+      "quadriceps",
+      "soleus",
+      "obliques",
+      "erector spinae"
+    ],
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
-      "ankle": [
-        "Plantar Flexion (2nd buck)"
-      ],
-      "elbow": [
-        "Extension"
-      ],
-      "finger": null,
-      "foot": null,
-      "forearms": null,
-      "hip": [
-        "Flexion (1st buck \u0026 pull in)",
-        "Extension (2nd buck \u0026 dive)"
-      ],
-      "scapula": [
-        "Protraction"
-      ],
-      "clavicle": null,
-      "shoulder": [
-        "Transverse Flexion / Flexion"
-      ],
-      "shoulder_girdle": null,
-      "spine": [
-        "Flexion (pull in)",
-        "Extension (dive)"
-      ],
-      "thumb": null,
-      "wrist": null,
-      "knee": [
-        "Flexion (pull in)",
-        "Extension (2nd buck)"
-      ],
-      "articulation_id": 0
-    },
-    "static": {
-      "ankle": [
-        "Plantar Flexion (squat stand)"
-      ],
+      "ankle": null,
       "elbow": null,
       "finger": null,
       "foot": null,
       "forearms": null,
-      "hip": [
-        "Extension (squat stand)"
-      ],
+      "hip": null,
       "scapula": null,
       "clavicle": null,
       "shoulder": null,
       "shoulder_girdle": null,
-      "spine": [
-        "Flexion (plank)",
-        "Extension (squat stand)"
-      ],
+      "spine": null,
       "thumb": null,
       "wrist": null,
-      "knee": [
-        "Extension (plank \u0026 squat stand)"
-      ],
+      "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "static": {
+      "ankle": null,
+      "elbow": null,
+      "finger": null,
+      "foot": null,
+      "forearms": null,
+      "hip": null,
+      "scapula": null,
+      "clavicle": null,
+      "shoulder": null,
+      "shoulder_girdle": null,
+      "spine": null,
+      "thumb": null,
+      "wrist": null,
+      "knee": null,
+      "articulation_id": 0
+    },
+    "exercise_dictionary_id": 0
   }
 }

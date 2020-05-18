@@ -9,23 +9,27 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Obliques"
+      "obliques"
     ],
     "synergists": [
-      "Quadratus lumborum",
-      "Psoas major",
-      "Iliocastalis lumborum",
-      "Iliocastalis thoracis"
+      "quadratus lumborum",
+      "psoas major",
+      "iliocastalis lumborum",
+      "iliocastalis thoracis"
     ],
-    "stabilizers": null,
+    "stabilizers": [
+      "no significant stabilizers"
+    ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -62,6 +66,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

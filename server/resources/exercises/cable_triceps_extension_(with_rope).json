@@ -2,29 +2,33 @@
   "url": "https://exrx.net/WeightExercises/Triceps/CBStandingTricepsExtensionRope",
   "name": "Cable Triceps Extension (with rope)",
   "classification": {
-    "utility": "Basic\nor Auxiliary",
+    "utility": "Basic or Auxiliary",
     "mechanics": "Isolated",
     "force": "Push",
     "intensity": "",
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Triceps Brachii"
+      "triceps brachii"
     ],
-    "synergists": null,
+    "synergists": [
+      "none"
+    ],
     "stabilizers": [
-      "Deltoid, Anterior",
-      "Pectoralis\nMajor, Clavicular\n",
-      "Wrist Flexors"
+      "deltoid, anterior",
+      "pectoralis major, clavicular",
+      "wrist flexors"
     ],
     "dynamic_stabilizers": null,
     "antagonist_stabilizers": null,
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -61,6 +65,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }

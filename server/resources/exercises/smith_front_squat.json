@@ -1,5 +1,5 @@
 {
-  "url": "https://exrx.net/WeightExercises/GluteusMaximus/SMFrontSquat",
+  "url": "https://exrx.net/WeightExercises/Quadriceps/SMFrontSquat",
   "name": "Smith Front Squat",
   "classification": {
     "utility": "Auxiliary",
@@ -9,38 +9,40 @@
     "function": "",
     "bearing": "",
     "impact": "",
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   },
   "muscles": {
     "target": [
-      "Gluteus Maximus"
+      "quadriceps"
     ],
     "synergists": [
-      "Quadriceps",
-      "Adductor Magnus",
-      "Soleus"
+      "gluteus maximus",
+      "adductor magnus",
+      "soleus"
     ],
     "stabilizers": [
-      "Erector Spinae",
-      "Deltoid, Anterior",
-      "Deltoid, Lateral",
-      "Pectoralis Major, Clavicular",
-      "Trapezius, Upper",
-      "Levator Scapulae",
-      "Trapezius, Middle",
-      "Trapezius, Lower",
-      "Serratus Anterior"
+      "erector spinae",
+      "deltoid, anterior",
+      "deltoid, lateral",
+      "pectoralis major, clavicular",
+      "trapezius, upper",
+      "levator scapulae",
+      "trapezius, middle",
+      "trapezius, lower",
+      "serratus anterior"
     ],
     "dynamic_stabilizers": [
-      "Hamstrings",
-      "Gastrocnemius"
+      "hamstrings",
+      "gastrocnemius"
     ],
     "antagonist_stabilizers": [
-      "Rectus Abdominis",
-      "Obliques"
+      "rectus abdominis",
+      "obliques"
     ],
     "rom_criteria": null,
-    "exercise_type_id": 0
+    "dynamic_articulation": null,
+    "static_articulation": null,
+    "exercise_dictionary_id": 0
   },
   "articulation": {
     "dynamic": {
@@ -77,6 +79,6 @@
       "knee": null,
       "articulation_id": 0
     },
-    "exercise_type_id": 0
+    "exercise_dictionary_id": 0
   }
 }
