@@ -149,7 +149,7 @@ func (ExerciseData) TableName() string {
 	return "exercise_data"
 }
 
-// returns 1 if not specified
+// returns 1 if not specified (always has to be greater than zero or metrics are fucked)
 func evalSets(captures map[string]string) (int, error) {
 	setStr, ok := captures["Sets"]
 	if !ok {
@@ -159,6 +159,10 @@ func evalSets(captures map[string]string) (int, error) {
 	sets, err := strconv.Atoi(setStr)
 	if err != nil {
 		return 0, nil
+	}
+
+	if sets < 1 {
+		return 1, fmt.Errorf("Sets has to be a positive number greater than zero")
 	}
 
 	return sets, nil
@@ -238,7 +242,7 @@ func evalLevel(captures map[string]string) (int, error) {
 	return level, nil
 }
 
-// returns 1 if not specified
+// returns 1 if not specified - (always has to be greater than zero or metrics are fucked)
 func evalReps(captures map[string]string) (int, error) {
 	repStr, ok := captures["Reps"]
 	if !ok {
@@ -265,6 +269,11 @@ func evalReps(captures map[string]string) (int, error) {
 	if err != nil {
 		return 0, err
 	}
+
+	if reps < 1 {
+		return 0, fmt.Errorf("Reps has to be positive number greater than zero")
+	}
+
 	return reps, nil
 }
 

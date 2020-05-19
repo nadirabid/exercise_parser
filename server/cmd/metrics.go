@@ -51,8 +51,9 @@ func recomputeMetricsForAllWorkouts(cmd *cobra.Command, args []string) error {
 	}
 
 	err = db.
-		Where(`workouts.id NOT IN (SELECT metrics.workout_id FROM metrics)`).
-		Delete(models.Workout{}).
+		Unscoped().
+		Where(`metrics.workout_id IN (SELECT workouts.id FROM workouts)`).
+		Delete(models.Metric{}).
 		Error
 
 	if err != nil {

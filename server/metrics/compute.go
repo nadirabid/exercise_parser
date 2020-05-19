@@ -56,9 +56,9 @@ func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictio
 			}
 
 			topLevelMetric.Sets += e.ExerciseData.Sets
-			topLevelMetric.Reps += e.ExerciseData.Reps
+			topLevelMetric.Reps += e.ExerciseData.Reps * e.ExerciseData.Sets
 			topLevelMetric.Distance += e.ExerciseData.Distance
-			repsByExerciseDictionary[*e.ExerciseDictionaryID] += e.ExerciseData.Sets
+			repsByExerciseDictionary[*e.ExerciseDictionaryID] += e.ExerciseData.Reps * e.ExerciseData.Sets
 		}
 	}
 

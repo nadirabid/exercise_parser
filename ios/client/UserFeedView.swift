@@ -479,6 +479,23 @@ struct AggregateMuscleMetricsView: View {
         }
     }
     
+    var dynamicArticulationMuscles: [MuscleActivation] {
+        let muscles = flattenedMuscles.filter { $0.usage == MuscleUsage.dynamicArticulation.rawValue }
+        
+        let minReps = Double(muscles.min(by: { $0.reps < $1.reps })?.reps ?? 0)
+        let maxReps = Double(muscles.max(by: { $0.reps < $1.reps })?.reps ?? 0)
+        let variance = (maxReps - minReps) / maxReps
+        
+        return muscles.reduce(into: []) { (result: inout [MuscleActivation], metricMuscle: MetricMuscle) in
+            if let muscle = Muscle.from(name: metricMuscle.name) {
+                result.append(MuscleActivation(
+                    muscle: muscle,
+                    activation: self.calculateActivation(metricMuscle.reps, maxReps, variance)
+                ))
+            }
+        }
+    }
+    
     func metricsTimeRangeChangeHandler(metricsTimeRange: MetricsTimeRange, _: MetricsTimeRange) {
         self.metricAPI.getForPast(days: metricsTimeRange.value) { (metric) in
             self.metric = metric
@@ -590,7 +607,7 @@ struct AggregateMuscleMetricsView: View {
                     AnteriorView(
                         activatedTargetMuscles: self.targetMuscles,
                         activatedSynergistMuscles: self.synergistMuscles,
-                        activatedDynamicArticulationMuscles: []
+                        activatedDynamicArticulationMuscles: self.dynamicArticulationMuscles
                     )
                         .padding(.leading, 4)
                         .padding(.trailing, 2)
@@ -598,7 +615,7 @@ struct AggregateMuscleMetricsView: View {
                     PosteriorView(
                         activatedTargetMuscles: self.targetMuscles,
                         activatedSynergistMuscles: self.synergistMuscles,
-                        activatedDynamicArticulationMuscles: []
+                        activatedDynamicArticulationMuscles: self.dynamicArticulationMuscles
                     )
                         .padding(.leading, 2)
                         .padding(.trailing, 4)
