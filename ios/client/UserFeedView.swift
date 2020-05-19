@@ -540,8 +540,7 @@ struct AggregateMuscleMetricsView: View {
     }
     
     var body: some View {
-        print(self.dynamicArticulationMuscles)
-        return GeometryReader { geometry in
+        GeometryReader { geometry in
             VStack(alignment: .leading) {
                 Picker(
                     selection: self.$metricsTimeRange.onChange(self.metricsTimeRangeChangeHandler),
