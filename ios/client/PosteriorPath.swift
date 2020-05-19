@@ -13,7 +13,6 @@ import SwiftUI
 struct PosteriorPath {
     static func from(muscle: Muscle) -> Path {
         switch muscle {
-        case .Background: return Path(bodybackgroundPath().cgPath)
         case .ExternalOblique: return Path(fma13335Path().cgPath)
         case .LatissimusDorsi: return Path(fma13357Path().cgPath)
         case .RhomboidMajor: return Path(fma13379Path().cgPath)
@@ -43,6 +42,7 @@ struct PosteriorPath {
         case .LateralDeltoid: return Path(fma83006Path().cgPath)
         case .PosteriorDeltoid: return Path(fma83007Path().cgPath)
         case .Body: return Path(bodyPath().cgPath)
+        case .Background: return Path(bodybackgroundPath().cgPath)
         default:
             print("Called unknown muscle", muscle)
             return Path()

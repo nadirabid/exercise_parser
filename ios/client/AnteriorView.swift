@@ -56,34 +56,37 @@ struct AnteriorShape: Shape {
         transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
         
         let bounds = self.path.boundingRect.applying(transform)
+        let radialCenter = UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height)
         let startRadius = 0.3 * max(bounds.width, bounds.height)
-        
-        let opacity = self.activiation
+        let endRadius = max(bounds.width, bounds.height)
         
         switch self.usage {
         case .target:
+            let opacity = self.activiation
             let colors = Gradient(colors: [secondaryAppColor.opacity(opacity), Color.yellow.opacity(opacity), appColor.opacity(opacity)])
             radial = RadialGradient(
                 gradient: colors,
-                center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
+                center: radialCenter,
                 startRadius: startRadius,
-                endRadius: max(bounds.width, bounds.height)
+                endRadius: endRadius
             )
         case .synergist:
+            let opacity = self.activiation * 0.9
             let colors = Gradient(colors: [Color.green.opacity(opacity), Color.blue.opacity(opacity), Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)).opacity(opacity)])
             radial = RadialGradient(
                 gradient: colors,
-                center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
+                center: radialCenter,
                 startRadius: startRadius,
-                endRadius: max(bounds.width, bounds.height)
+                endRadius: endRadius
             )
         case .dynamicArticulation:
+            let opacity = self.activiation * 0.7
             let colors = Gradient(colors: [secondaryAppColor.opacity(opacity), Color.yellow.opacity(opacity), appColor.opacity(opacity)])
             radial = RadialGradient(
                 gradient: colors,
-                center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
+                center: radialCenter,
                 startRadius: startRadius,
-                endRadius: max(bounds.width, bounds.height)
+                endRadius: endRadius
             )
         case .stabilizer, .dynamicStabilizer, .antagonistStabilizer, .staticArticulation, .none:
             radial = RadialGradient(gradient: Gradient(colors: [Color.clear]), center: UnitPoint.center, startRadius: 0, endRadius: 0)
