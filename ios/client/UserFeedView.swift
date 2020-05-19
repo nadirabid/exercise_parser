@@ -492,6 +492,8 @@ struct AggregateMuscleMetricsView: View {
                     muscle: muscle,
                     activation: self.calculateActivation(metricMuscle.reps, maxReps, variance)
                 ))
+            } else {
+                print("Unknown muscle: ", metricMuscle.name)
             }
         }
     }
@@ -513,7 +515,8 @@ struct AggregateMuscleMetricsView: View {
     }
     
     func updateMuscleMetrics(from metrics: [MetricMuscle]) {
-        let flattenedMetrics = metrics.flatMap { (metric) -> [MetricMuscle] in
+        // extract components
+        self.flattenedMuscles = metrics.flatMap { (metric) -> [MetricMuscle] in
             if let muscle = Muscle.from(name: metric.name) {
                 if muscle.isMuscleGroup {
                     return muscle.components.map {
@@ -526,20 +529,6 @@ struct AggregateMuscleMetricsView: View {
             
             return []
         }
-        
-        let groupedByUsage = Dictionary(grouping: flattenedMetrics, by: { $0.usage })
-        
-        self.flattenedMuscles = groupedByUsage.flatMap { (usage: String, metricsOfUsage: [MetricMuscle]) -> [MetricMuscle] in
-            let groupedByName = Dictionary(grouping: metrics, by: { $0.name })
-            
-            return groupedByName.map { (name: String, metricsOfUsageAndName: [MetricMuscle]) -> MetricMuscle in
-                let totalRepsForMuscleOfUsage = metricsOfUsageAndName.reduce(into: 0) { (result: inout Int, metric) in
-                    result += metric.reps
-                }
-                
-                return MetricMuscle(name: name, usage: usage, reps: totalRepsForMuscleOfUsage)
-            }
-        }
     }
     
     func calculateHeight(_ size: CGSize) -> CGFloat {
@@ -551,7 +540,8 @@ struct AggregateMuscleMetricsView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
+        print(self.dynamicArticulationMuscles)
+        return GeometryReader { geometry in
             VStack(alignment: .leading) {
                 Picker(
                     selection: self.$metricsTimeRange.onChange(self.metricsTimeRangeChangeHandler),

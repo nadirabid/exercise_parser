@@ -67,7 +67,7 @@ const (
 	PectoralisMajorSternal       = "pectoralis major (sternal)"
 	PsoasMajor                   = "psoas major"
 	Iliacus                      = "iliacus"
-	Iliopsoas                    = "oliopsoas"
+	Iliopsoas                    = "iliopsoas"
 	ErectorSpinae                = "erector spinae"
 	LowerBack                    = "lower back"
 	Forearm                      = "forearms"
@@ -239,7 +239,7 @@ var (
 
 	// MARK: Muscle groups
 
-	IliopsoasSynonyms       = []string{"iliopsoas", "gemellus inferior", "gemellus superior", "hip external rotators", "hip exernal rotators", "hip flexors", "obturator externus", "obturator internus", "pectineus", "piriformis", "quadratus femoris"}
+	IliopsoasSynonyms       = []string{"oliopsoas", "iliopsoas", "gemellus inferior", "gemellus superior", "hip external rotators", "hip exernal rotators", "hip flexors", "obturator externus", "obturator internus", "pectineus", "piriformis", "quadratus femoris"}
 	ErectorSpinaeSynonyms   = []string{"erector spinae", "erector spinae, cervicis & capitis fibers"}
 	LowerBackSynonyms       = []string{"quadratus lumborum"} // Does not map to FMA!
 	ForearmSynonyms         = []string{"wrist extensors", "supinator", "brachialiswrist flexors"}

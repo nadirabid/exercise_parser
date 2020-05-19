@@ -260,7 +260,8 @@ extension Muscle {
     }
     
     static func from(name: String) -> Muscle? {
-        let muscle = Muscle.allCases.first(where: { $0.name.lowercased() == name })
+        let lowercased = name.lowercased()
+        let muscle = Muscle.allCases.first(where: { $0.name.lowercased() == lowercased })
         return muscle
     }
 }

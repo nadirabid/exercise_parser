@@ -23,7 +23,7 @@ func ComputeForWorkout(workoutID uint, db *gorm.DB) error {
 
 	err = db.
 		Preload("Muscles").
-		Select("DISTINCT ON (id) exercise_dictionaries.*").
+		Select("DISTINCT ON (exercise_dictionaries.id) exercise_dictionaries.*").
 		Joins("JOIN exercises ON exercises.exercise_dictionary_id = exercise_dictionaries.id").
 		Joins("JOIN workouts ON workouts.id = exercises.workout_id").
 		Where("workouts.id = ?", workoutID).

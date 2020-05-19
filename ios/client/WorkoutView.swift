@@ -39,10 +39,10 @@ struct WorkoutView: View {
                     VStack {
                         UserIconShape().fill(Color.gray).padding()
                     }
-                        .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
-                        .scaledToFit()
-                        .clipShape(Circle())
-                        .frame(width: 45, height: 45)
+                    .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                    .scaledToFit()
+                    .clipShape(Circle())
+                    .frame(width: 45, height: 45)
                     
                     VStack(alignment: .leading) {
                         Text(workout.name)
@@ -55,7 +55,7 @@ struct WorkoutView: View {
                     Text(workout.name)
                 }
             }
-                .padding(.leading)
+            .padding(.leading)
             
             WorkoutMetaMetricsView(workout: workout)
                 .fixedSize(horizontal: true, vertical: true)
@@ -76,7 +76,7 @@ struct WorkoutView: View {
                         }
                     }
                 }
-                    .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
             } else {
                 WorkoutMuscleMetricsView(workout: self.workout)
             }
@@ -87,21 +87,19 @@ struct WorkoutView: View {
                 CircleButton(isSelected: Binding<Bool>(get: { self.viewPage == 0 }, set: { _ in })) {
                     withAnimation(Animation.default.speed(2)) {
                         self.viewPage = 0
-                        print("changeViewTo0", self.viewPage)
                     }
                 }
                 
                 CircleButton(isSelected: Binding<Bool>(get: { self.viewPage == 1 }, set: { _ in })) {
                     withAnimation(Animation.default.speed(2)) {
                         self.viewPage = 1
-                        print("changeViewTo1", self.viewPage)
                     }
                 }
                 
                 Spacer()
             }
         }
-            .padding([.top, .bottom])
+        .padding([.top, .bottom])
     }
 }
 
@@ -144,27 +142,21 @@ struct WorkoutMuscleMetricsView: View {
         if dictionaries == nil {
             return []
         }
-
+        
         return self.resolvedExercises.flatMap { (e) -> [MuscleActivation] in
             let dictionary = self.getDictionaryFor(exercise: e)
             let muscleStrings = dictionary?.muscles.target?.map { s in s.lowercased() } ?? []
             
             return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
-                let muscles = Muscle.allCases.filter { muscle in
-                    if muscleString == muscle.name.lowercased() {
-                        return true
-                    }
-                    
-                    return false
-                }
-                
-                return muscles.flatMap { muscle -> [MuscleActivation] in
+                if let muscle = Muscle.from(name: muscleString) {
                     if muscle.isMuscleGroup {
                         return muscle.components.map { MuscleActivation(muscle: $0) }
                     } else {
                         return [MuscleActivation(muscle: muscle)]
                     }
                 }
+                
+                return []
             }
         }
     }
@@ -177,23 +169,17 @@ struct WorkoutMuscleMetricsView: View {
         return self.resolvedExercises.flatMap { (e) -> [MuscleActivation] in
             let dictionary = self.getDictionaryFor(exercise: e)
             let muscleStrings = dictionary?.muscles.synergists?.map { s in s.lowercased() } ?? []
- 
+            
             return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
-                let muscles = Muscle.allCases.filter { muscle in
-                    if muscleString == muscle.name.lowercased() {
-                        return true
-                    }
-                    
-                    return false
-                }
-                
-                return muscles.flatMap { muscle -> [MuscleActivation] in
+               if let muscle = Muscle.from(name: muscleString) {
                     if muscle.isMuscleGroup {
                         return muscle.components.map { MuscleActivation(muscle: $0) }
                     } else {
                         return [MuscleActivation(muscle: muscle)]
                     }
                 }
+                
+                return []
             }
         }
     }
@@ -208,27 +194,23 @@ struct WorkoutMuscleMetricsView: View {
             let muscleStrings = dictionary?.muscles.dynamicArticulation?.map { s in s.lowercased() } ?? []
             
             return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
-                let muscles = Muscle.allCases.filter { muscle in
-                    if muscleString == muscle.name.lowercased() {
-                        return true
-                    }
-                    
-                    return false
-                }
-                
-                return muscles.flatMap { muscle -> [MuscleActivation] in
+                if let muscle = Muscle.from(name: muscleString) {
                     if muscle.isMuscleGroup {
-                        return muscle.components.map { MuscleActivation(muscle: $0) }
+                        return muscle.components.map {
+                            MuscleActivation(muscle: $0)
+                        }
                     } else {
                         return [MuscleActivation(muscle: muscle)]
                     }
                 }
+                
+                return []
             }
         }
     }
     
     var body: some View {
-        HStack(alignment: .center, spacing: 0) {
+        return HStack(alignment: .center, spacing: 0) {
             AnteriorView(
                 activatedTargetMuscles: self.targetMuscles,
                 activatedSynergistMuscles: self.synergistMuscles,
@@ -241,11 +223,11 @@ struct WorkoutMuscleMetricsView: View {
                 activatedDynamicArticulationMuscles: self.dynamicArticulationMuscles
             )
         }
-            .frame(height: 280)
-            .padding(.all, 0)
-            .onAppear {
-                self.loadWorkoutDictionaries()
-            }
+        .frame(height: 280)
+        .padding(.all, 0)
+        .onAppear {
+            self.loadWorkoutDictionaries()
+        }
     }
 }
 
@@ -263,7 +245,7 @@ public struct WorkoutMetaMetricsView: View {
     
     var totalDistanceUnits: String {
         let result = workout.exercises.reduce(Float.zero) { (r, e) in
-             return r + e.data.distance
+            return r + e.data.distance
         }
         
         if result <= 300 {
