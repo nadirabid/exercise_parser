@@ -242,15 +242,13 @@ func updateMusclesForDictionaries(cmd *cobra.Command, args []string) error {
 			return err
 		}
 
-		q := db.
-			Joins("JOIN exercise_dictionaries ON exercise_dictionaries.id = muscles.exercise_dictionary_id").
-			Where("exercise_dictionaries.url = ?", exerciseDictionary.URL)
+		q := db.Where("muscles.exercise_dictionary_id = ?", savedDictionary.ID)
 
 		m := &models.Muscles{
-			ExerciseDictionaryID: exerciseDictionary.ID,
+			ExerciseDictionaryID: savedDictionary.ID,
 		}
 
-		if err := q.FirstOrCreate(m).Error; err != nil {
+		if err := q.FirstOrInit(m).Error; err != nil {
 			return err
 		}
 
