@@ -6,6 +6,8 @@ const (
 	StabilizerMuscle           = "StabilizerMuscle"
 	DynamicStabilizerMuscle    = "DynamicStabilizerMuscle"
 	AntagonistStabilizerMuscle = "AntagonistStabilizerMuscle"
+	DynamicArticulationMuscle  = "DynamicArticulation"
+	StaticArticulationMuscle   = "StaticArticulation"
 )
 
 // TODO: should metric be associated with workoutID or a time range?

@@ -2,7 +2,6 @@ package metrics
 
 import (
 	"exercise_parser/models"
-	"fmt"
 
 	"github.com/jinzhu/gorm"
 )
@@ -47,19 +46,19 @@ func ComputeForWorkout(workoutID uint, db *gorm.DB) error {
 func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictionary) *models.Metric {
 	topLevelMetric := models.MetricTopLevel{}
 
-	repsByDictionary := map[uint]int{}
+	repsByExerciseDictionary := map[uint]int{}
 
 	topLevelMetric.SecondsElapsed += workout.SecondsElapsed
 	for _, e := range workout.Exercises {
 		if e.ExerciseDictionaryID != nil {
-			if _, ok := repsByDictionary[*e.ExerciseDictionaryID]; !ok {
-				repsByDictionary[*e.ExerciseDictionaryID] = 0
+			if _, ok := repsByExerciseDictionary[*e.ExerciseDictionaryID]; !ok {
+				repsByExerciseDictionary[*e.ExerciseDictionaryID] = 0
 			}
 
 			topLevelMetric.Sets += e.ExerciseData.Sets
 			topLevelMetric.Reps += e.ExerciseData.Reps
 			topLevelMetric.Distance += e.ExerciseData.Distance
-			repsByDictionary[*e.ExerciseDictionaryID] += e.ExerciseData.Sets
+			repsByExerciseDictionary[*e.ExerciseDictionaryID] += e.ExerciseData.Sets
 		}
 	}
 
@@ -68,82 +67,45 @@ func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictio
 	repsByStabilizerMuscles := map[string]int{}
 	repsByDynamicStabilizerMuscles := map[string]int{}
 	repsByAntagonistStabilizerMuscles := map[string]int{}
+	repsByDynamicArticulationMuscles := map[string]int{}
+	repsByStaticArticulationMuscles := map[string]int{}
 
+	// TODO: name standardization should be redudant now that they are standardized in the db
 	for _, d := range dictionaries {
-		if reps, ok := repsByDictionary[d.ID]; ok {
+		if reps, ok := repsByExerciseDictionary[d.ID]; ok {
 			// target
 			for _, muscleName := range d.Muscles.Target {
-				standardMuscleName, err := models.MuscleStandardName(muscleName)
-				if err != nil {
-					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
-					continue
-				}
-
-				if _, ok := repsByTargetMuscles[standardMuscleName]; !ok {
-					repsByTargetMuscles[standardMuscleName] = 0
-				}
-
-				repsByTargetMuscles[standardMuscleName] += reps
+				repsByTargetMuscles[muscleName] += reps
 			}
 
 			// synergist
 			for _, muscleName := range d.Muscles.Synergists {
-				standardMuscleName, err := models.MuscleStandardName(muscleName)
-				if err != nil {
-					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
-					continue
-				}
-
-				if _, ok := repsBySynergistMuscles[standardMuscleName]; !ok {
-					repsBySynergistMuscles[standardMuscleName] = 0
-				}
-
-				repsBySynergistMuscles[standardMuscleName] += reps
+				repsBySynergistMuscles[muscleName] += reps
 			}
 
 			// stabilizers
 			for _, muscleName := range d.Muscles.Stabilizers {
-				standardMuscleName, err := models.MuscleStandardName(muscleName)
-				if err != nil {
-					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
-					continue
-				}
-
-				if _, ok := repsByStabilizerMuscles[standardMuscleName]; !ok {
-					repsByStabilizerMuscles[standardMuscleName] = 0
-				}
-
-				repsByStabilizerMuscles[standardMuscleName] += reps
+				repsByStabilizerMuscles[muscleName] += reps
 			}
 
 			// dynamic stabilizer
 			for _, muscleName := range d.Muscles.DynamicStabilizers {
-				standardMuscleName, err := models.MuscleStandardName(muscleName)
-				if err != nil {
-					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
-					continue
-				}
-
-				if _, ok := repsByDynamicStabilizerMuscles[standardMuscleName]; !ok {
-					repsByDynamicStabilizerMuscles[standardMuscleName] = 0
-				}
-
-				repsByDynamicStabilizerMuscles[standardMuscleName] += reps
+				repsByDynamicStabilizerMuscles[muscleName] += reps
 			}
 
 			// antagonist stabilizers
 			for _, muscleName := range d.Muscles.AntagonistStabilizers {
-				standardMuscleName, err := models.MuscleStandardName(muscleName)
-				if err != nil {
-					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
-					continue
-				}
+				repsByAntagonistStabilizerMuscles[muscleName] += reps
+			}
 
-				if _, ok := repsByAntagonistStabilizerMuscles[standardMuscleName]; !ok {
-					repsByAntagonistStabilizerMuscles[standardMuscleName] = 0
-				}
+			// dynamic articulation
+			for _, muscleName := range d.Muscles.DynamicArticulation {
+				repsByDynamicArticulationMuscles[muscleName] += reps
+			}
 
-				repsByAntagonistStabilizerMuscles[standardMuscleName] += reps
+			// static articulation
+			for _, muscleName := range d.Muscles.StaticArticulation {
+				repsByStaticArticulationMuscles[muscleName] += reps
 			}
 		}
 	}
@@ -195,6 +157,26 @@ func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictio
 			Name:  muscle,
 			Reps:  reps,
 			Usage: models.AntagonistStabilizerMuscle,
+		}
+
+		metricMuscles = append(metricMuscles, m)
+	}
+
+	for muscle, reps := range repsByDynamicArticulationMuscles {
+		m := models.MetricMuscle{
+			Name:  muscle,
+			Reps:  reps,
+			Usage: models.DynamicArticulationMuscle,
+		}
+
+		metricMuscles = append(metricMuscles, m)
+	}
+
+	for muscle, reps := range repsByStaticArticulationMuscles {
+		m := models.MetricMuscle{
+			Name:  muscle,
+			Reps:  reps,
+			Usage: models.StaticArticulationMuscle,
 		}
 
 		metricMuscles = append(metricMuscles, m)
