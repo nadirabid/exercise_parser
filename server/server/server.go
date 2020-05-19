@@ -137,7 +137,8 @@ func New(v *viper.Viper) error {
 
 	// returns user
 	apiRoutes.GET("/user", handleGetUsers)
-	apiRoutes.POST("/user/me/subscribe/:subscribe_to_id", handlePostSubscribeToUser)
+	apiRoutes.PATCH("/user/me", handlePatchMeUser)
+	apiRoutes.POST("/user/me/subscribe/:subscribe_to_id", handlePostSubscribeMeToUser)
 	apiRoutes.POST("/user/subscribe/alltoall", handleSubscribeAllUsersToAllUsers)
 
 	// returns exercise

@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func handlePostSubscribeToUser(c echo.Context) error {
+func handlePostSubscribeMeToUser(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
 
@@ -97,4 +97,23 @@ func handleGetUsers(c echo.Context) error {
 	}
 
 	return ctx.JSON(http.StatusOK, r)
+}
+
+func handlePatchMeUser(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	updatedUser := &models.User{}
+
+	if err := ctx.Bind(updatedUser); err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	updatedUser.ID = getUserIDFromContext(ctx) // to make sure someone isn't trying to update another
+
+	if err := db.Save(updatedUser).Error; err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, updatedUser)
 }
