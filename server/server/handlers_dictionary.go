@@ -109,9 +109,6 @@ func handleGetWorkoutDictionary(c echo.Context) error {
 	q := db.
 		Preload("Classification").
 		Preload("Muscles").
-		Preload("Articulation").
-		Preload("Articulation.Dynamic").
-		Preload("Articulation.Static").
 		Joins("JOIN exercises ON exercises.exercise_dictionary_id = exercise_dictionaries.id").
 		Joins("JOIN workouts ON workouts.id = exercises.workout_id").
 		Where("workouts.id = ?", workoutID)

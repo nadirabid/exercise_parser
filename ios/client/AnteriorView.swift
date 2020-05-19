@@ -77,7 +77,15 @@ struct AnteriorShape: Shape {
                 startRadius: startRadius,
                 endRadius: max(bounds.width, bounds.height)
             )
-        case .stabilizer, .dynamicStabilizer, .antagonistStabilizer, .none:
+        case .dynamicArticulation:
+            let colors = Gradient(colors: [secondaryAppColor.opacity(opacity), Color.yellow.opacity(opacity), appColor.opacity(opacity)])
+            radial = RadialGradient(
+                gradient: colors,
+                center: UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height),
+                startRadius: startRadius,
+                endRadius: max(bounds.width, bounds.height)
+            )
+        case .stabilizer, .dynamicStabilizer, .antagonistStabilizer, .staticArticulation, .none:
             radial = RadialGradient(gradient: Gradient(colors: [Color.clear]), center: UnitPoint.center, startRadius: 0, endRadius: 0)
         }
         
@@ -99,12 +107,15 @@ struct AnteriorShape: Shape {
 struct AnteriorView: View {
     var activatedTargetMuscles: [MuscleActivation]
     var activatedSynergistMuscles: [MuscleActivation]
+    var activatedDynamicArticulationMuscles: [MuscleActivation]
     
     func muscleUsage(for muscle: Muscle) -> MuscleUsage {
         if activatedTargetMuscles.contains(where: { $0.muscle == muscle } ) {
             return .target
         } else if activatedSynergistMuscles.contains(where: { $0.muscle == muscle } ) {
             return .synergist
+        } else if activatedDynamicArticulationMuscles.contains(where: { $0.muscle == muscle }) {
+            return .dynamicArticulation
         }
 
         return .none
@@ -114,6 +125,8 @@ struct AnteriorView: View {
         if let activation = activatedTargetMuscles.first(where: { $0.muscle == muscle }) {
             return activation.activation
         } else if let activation = activatedSynergistMuscles.first(where: { $0.muscle == muscle }) {
+            return activation.activation
+        } else if let activation = activatedDynamicArticulationMuscles.first(where: { $0.muscle == muscle }) {
             return activation.activation
         }
         
@@ -203,7 +216,8 @@ struct AnteriorView_Previews: PreviewProvider {
     static var previews: some View {
         AnteriorView(
             activatedTargetMuscles: [],
-            activatedSynergistMuscles: []
+            activatedSynergistMuscles: [],
+            activatedDynamicArticulationMuscles: []
         )
     }
 }

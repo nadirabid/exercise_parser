@@ -589,14 +589,16 @@ struct AggregateMuscleMetricsView: View {
                 HStack(spacing: 0) {
                     AnteriorView(
                         activatedTargetMuscles: self.targetMuscles,
-                        activatedSynergistMuscles: self.synergistMuscles
+                        activatedSynergistMuscles: self.synergistMuscles,
+                        activatedDynamicArticulationMuscles: []
                     )
                         .padding(.leading, 4)
                         .padding(.trailing, 2)
                     
                     PosteriorView(
                         activatedTargetMuscles: self.targetMuscles,
-                        activatedSynergistMuscles: self.synergistMuscles
+                        activatedSynergistMuscles: self.synergistMuscles,
+                        activatedDynamicArticulationMuscles: []
                     )
                         .padding(.leading, 2)
                         .padding(.trailing, 4)

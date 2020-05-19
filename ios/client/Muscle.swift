@@ -103,11 +103,13 @@ enum Muscle: Int64, CaseIterable {
 }
 
 enum MuscleUsage: String {
-    case target = "TargetMuscle"
+    case target = "TargetMuscle" // i guess also known as agonist?
     case synergist = "SynergistMuscle"
     case stabilizer = "StabilizerMuscle"
     case dynamicStabilizer = "DynamicStabilizer"
     case antagonistStabilizer = "AntagonistStabilizer"
+    case dynamicArticulation = "DynamicArticulation"
+    case staticArticulation = "StaticArticulation"
     case none = "None"
 }
 

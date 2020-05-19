@@ -20,10 +20,14 @@ struct ExerciseDictionaryMuscles: Codable {
     let stabilizers: [String]?
     let dynamicStabilizers: [String]?
     let antagonistStabilizers: [String]?
+    let dynamicArticulation: [String]?
+    let staticArticulation: [String]?
     
     enum CodingKeys: String, CodingKey {
         case dynamicStabilizers = "dynamic_stabilizers"
         case antagonistStabilizers = "antagonist_stabilizers"
+        case dynamicArticulation = "dynamic_articulation"
+        case staticArticulation = "static_articulation"
         case target, synergists, stabilizers
     }
 }

@@ -198,16 +198,47 @@ struct WorkoutMuscleMetricsView: View {
         }
     }
     
+    var dynamicArticulationMuscles: [MuscleActivation] {
+        if dictionaries == nil {
+            return []
+        }
+        
+        return self.resolvedExercises.flatMap { (e) -> [MuscleActivation] in
+            let dictionary = self.getDictionaryFor(exercise: e)
+            let muscleStrings = dictionary?.muscles.dynamicArticulation?.map { s in s.lowercased() } ?? []
+            
+            return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
+                let muscles = Muscle.allCases.filter { muscle in
+                    if muscleString == muscle.name.lowercased() {
+                        return true
+                    }
+                    
+                    return false
+                }
+                
+                return muscles.flatMap { muscle -> [MuscleActivation] in
+                    if muscle.isMuscleGroup {
+                        return muscle.components.map { MuscleActivation(muscle: $0) }
+                    } else {
+                        return [MuscleActivation(muscle: muscle)]
+                    }
+                }
+            }
+        }
+    }
+    
     var body: some View {
-        HStack(alignment: .center, spacing: 0) {
+        return HStack(alignment: .center, spacing: 0) {
             AnteriorView(
                 activatedTargetMuscles: self.targetMuscles,
-                activatedSynergistMuscles: self.synergistMuscles
+                activatedSynergistMuscles: self.synergistMuscles,
+                activatedDynamicArticulationMuscles: self.dynamicArticulationMuscles
             )
             
             PosteriorView(
                 activatedTargetMuscles: self.targetMuscles,
-                activatedSynergistMuscles: self.synergistMuscles
+                activatedSynergistMuscles: self.synergistMuscles,
+                activatedDynamicArticulationMuscles: self.dynamicArticulationMuscles
             )
         }
             .frame(height: 280)
