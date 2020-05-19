@@ -4,8 +4,13 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
+
+var warner = color.New(color.FgYellow)
+var errer = color.New(color.FgRed)
+var successer = color.New(color.FgGreen)
 
 // rootCmd represents the root command
 var rootCmd = &cobra.Command{

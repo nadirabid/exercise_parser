@@ -114,7 +114,7 @@ type ExerciseDictionary struct {
 	Classification Classification `json:"classification"`
 	Muscles        Muscles        `json:"muscles"`
 	Articulation   Articulation   `json:"articulation"`
-	TSV            string         `json:"-" gorm:"type:tsvector"`
+	TSV            string         `json:"-" gorm:"type:tsvector"` // TODO - do we use this?
 }
 
 func (ExerciseDictionary) TableName() string {

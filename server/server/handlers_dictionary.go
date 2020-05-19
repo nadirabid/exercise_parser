@@ -107,7 +107,6 @@ func handleGetWorkoutDictionary(c echo.Context) error {
 	dictionaries := []models.ExerciseDictionary{}
 
 	q := db.
-		Debug().
 		Preload("Classification").
 		Preload("Muscles").
 		Preload("Articulation").

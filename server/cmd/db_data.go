@@ -137,6 +137,30 @@ func seedExerciseDictionary(db *gorm.DB, seedDir string) error {
 		return err
 	}
 
+	all := []models.ExerciseDictionary{}
+	if err := db.Find(&all).Error; err != nil {
+		return err
+	}
+
+	for _, d := range all {
+		updateField := map[string]string{}
+
+		url := strings.Split(d.URL, "#")[0]
+
+		if !strings.Contains(d.URL, "https") {
+			url = strings.Replace(url, "http", "https", -1)
+		}
+
+		updateField["url"] = url
+
+		if err := db.
+			Model(models.ExerciseDictionary{}).
+			Where(models.ExerciseDictionary{URL: d.URL}).
+			Update(updateField).Error; err != nil {
+			return err
+		}
+	}
+
 	for _, f := range files {
 		file, err := os.Open(filepath.Join(seedDir, f.Name()))
 		if err != nil {
@@ -149,12 +173,38 @@ func seedExerciseDictionary(db *gorm.DB, seedDir string) error {
 		exerciseDictionary := &models.ExerciseDictionary{}
 		json.Unmarshal(byteValue, &exerciseDictionary)
 
+		if !strings.Contains(exerciseDictionary.URL, "https") {
+			exerciseDictionary.URL = strings.Replace(exerciseDictionary.URL, "http", "https", -1)
+		}
+
+		fieldsToUpdate := map[string]string{
+			"url":  exerciseDictionary.URL,
+			"name": exerciseDictionary.Name,
+		}
+
+		if strings.Contains(exerciseDictionary.URL, "Injuries") || strings.Contains(exerciseDictionary.URL, "staging.") {
+			continue
+		}
+
 		sanitizeDictionaryMuscles(exerciseDictionary)
 
 		if err := db.
 			Where(models.ExerciseDictionary{URL: exerciseDictionary.URL}).
-			FirstOrInit(exerciseDictionary).Error; err != nil {
+			FirstOrCreate(exerciseDictionary).Error; err != nil {
+
+			if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
+				warner.Println("Not able to create dictionary due to unique constraint: ", exerciseDictionary.URL)
+				continue // don't fail out
+			}
+
 			return fmt.Errorf("unable to save exercise type: %s", err.Error())
+		}
+
+		if err := db.
+			Model(models.ExerciseDictionary{}).
+			Where(models.ExerciseDictionary{URL: exerciseDictionary.URL}).
+			Update(fieldsToUpdate).Error; err != nil {
+			return err
 		}
 
 		relatedName := &models.ExerciseRelatedName{}
@@ -162,7 +212,7 @@ func seedExerciseDictionary(db *gorm.DB, seedDir string) error {
 		relatedName.ExerciseDictionaryID = exerciseDictionary.ID
 		relatedName.Type = "model"
 
-		if err := db.Where(models.ExerciseRelatedName{Related: relatedName.Related}).FirstOrInit(relatedName).Error; err != nil {
+		if err := db.Where(models.ExerciseRelatedName{Related: relatedName.Related}).FirstOrCreate(relatedName).Error; err != nil {
 			return fmt.Errorf("unable to save related name: %s", err.Error())
 		}
 
@@ -202,7 +252,7 @@ func seed(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	fmt.Println("exercises seeding complete")
+	successer.Println("exercises seeding complete")
 
 	// seed related names
 	dir = v.GetString("resources.dir.related_names")
@@ -211,7 +261,7 @@ func seed(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	fmt.Println("related names seeding complete")
+	successer.Println("related names seeding complete")
 
 	// seed bing related searchs
 	dir = v.GetString("resources.dir.related_searches_bing")
@@ -220,7 +270,7 @@ func seed(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	fmt.Println("bing related searches seeding complete")
+	successer.Println("bing related searches seeding complete")
 
 	// seed goog related searchs
 	dir = v.GetString("resources.dir.related_searches_goog")
@@ -229,7 +279,7 @@ func seed(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	fmt.Println("goog related searches seeding complete")
+	successer.Println("goog related searches seeding complete")
 
 	return nil
 }

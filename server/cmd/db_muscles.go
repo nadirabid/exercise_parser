@@ -1,9 +1,14 @@
 package cmd
 
 import (
+	"encoding/json"
 	"exercise_parser/models"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"path/filepath"
 	"sort"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -179,7 +184,7 @@ func printMuscles(cmd *cobra.Command, args []string) error {
 
 	sort.Strings(musclesSlice)
 
-	fmt.Println("\n ALL MUSCLES \n")
+	successer.Println("\n ALL MUSCLES \n")
 
 	count := 0
 
@@ -190,7 +195,7 @@ func printMuscles(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	fmt.Println("\n Count:", count)
+	successer.Println("\n Count:", count)
 	return nil
 }
 
@@ -207,6 +212,56 @@ func updateMusclesForDictionaries(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	dir := v.GetString("resources.dir.exercises")
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		return err
+	}
+
+	for _, f := range files {
+		file, err := os.Open(filepath.Join(dir, f.Name()))
+		if err != nil {
+			return err
+		}
+
+		byteValue, _ := ioutil.ReadAll(file)
+		file.Close()
+
+		exerciseDictionary := &models.ExerciseDictionary{}
+		json.Unmarshal(byteValue, &exerciseDictionary)
+
+		sanitizeDictionaryMuscles(exerciseDictionary)
+
+		q := db.
+			Joins("JOIN exercise_dictionaries ON exercise_dictionaries.id = muscles.exercise_dictionary_id").
+			Where("exercise_dictionaries.url = ?", exerciseDictionary.URL)
+
+		m := &models.Muscles{}
+
+		if err := q.First(m).Error; err != nil {
+			if strings.Contains(err.Error(), "record not found") {
+				warner.Println("Unable to find dictionary with URL (probably a dupe with same name): ", exerciseDictionary.URL)
+				continue
+			}
+
+			return err
+		}
+
+		m.Target = exerciseDictionary.Muscles.Target
+		m.Synergists = exerciseDictionary.Muscles.Synergists
+		m.Stabilizers = exerciseDictionary.Muscles.Stabilizers
+		m.DynamicStabilizers = exerciseDictionary.Muscles.DynamicStabilizers
+		m.AntagonistStabilizers = exerciseDictionary.Muscles.AntagonistStabilizers
+		m.ROMCriteria = exerciseDictionary.Muscles.ROMCriteria
+		m.DynamicArticulation = exerciseDictionary.Muscles.DynamicArticulation
+		m.StaticArticulation = exerciseDictionary.Muscles.StaticArticulation
+
+		if err := db.Save(m).Error; err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 var updateMusclesCmd = &cobra.Command{

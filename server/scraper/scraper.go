@@ -61,6 +61,10 @@ func (s *Scraper) Start(url string) {
 				fmt.Println("Error: ", err.Error())
 			}
 
+			if !strings.Contains(link, "https") {
+				link = strings.Replace(link, "http", "https", -1)
+			}
+
 			s.visitedLock.Lock()
 			if _, ok := s.visitedURL[link]; ok {
 				s.visitedLock.Unlock()
