@@ -232,18 +232,25 @@ func updateMusclesForDictionaries(cmd *cobra.Command, args []string) error {
 
 		sanitizeDictionaryMuscles(exerciseDictionary)
 
-		q := db.
-			Joins("JOIN exercise_dictionaries ON exercise_dictionaries.id = muscles.exercise_dictionary_id").
-			Where("exercise_dictionaries.url = ?", exerciseDictionary.URL)
-
-		m := &models.Muscles{}
-
-		if err := q.First(m).Error; err != nil {
+		savedDictionary := &models.ExerciseDictionary{}
+		if err := db.Where("exercise_dictionaries.url = ?", exerciseDictionary.URL).First(savedDictionary).Error; err != nil {
 			if strings.Contains(err.Error(), "record not found") {
 				warner.Println("Unable to find dictionary with URL (probably a dupe with same name): ", exerciseDictionary.URL)
 				continue
 			}
 
+			return err
+		}
+
+		q := db.
+			Joins("JOIN exercise_dictionaries ON exercise_dictionaries.id = muscles.exercise_dictionary_id").
+			Where("exercise_dictionaries.url = ?", exerciseDictionary.URL)
+
+		m := &models.Muscles{
+			ExerciseDictionaryID: exerciseDictionary.ID,
+		}
+
+		if err := q.FirstOrCreate(m).Error; err != nil {
 			return err
 		}
 
