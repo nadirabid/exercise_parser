@@ -133,6 +133,10 @@ struct MainView: View {
                 }
             }
             
+            if route.editUserProfile {
+                EditorUserProfileView()
+            }
+            
             if route.showHelp {
                 Color.white.edgesIgnoringSafeArea(.all)
                 
