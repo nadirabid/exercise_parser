@@ -259,6 +259,8 @@ func handleGetMetrics(c echo.Context) error {
 	repsByStabilizerMuscles := map[string]int{}
 	repsByDynamicStabilizerMuscles := map[string]int{}
 	repsByAntagonistStabilizerMuscles := map[string]int{}
+	repsByDynamicArticulationMuscles := map[string]int{}
+	repsByStaticArticulationMuscles := map[string]int{}
 
 	for _, metric := range metrics {
 		response.TopLevel.Sets += metric.TopLevel.Sets
@@ -278,6 +280,8 @@ func handleGetMetrics(c echo.Context) error {
 				repsByDynamicStabilizerMuscles[muscle.Name] += muscle.Reps
 			case models.AntagonistStabilizerMuscle:
 				repsByAntagonistStabilizerMuscles[muscle.Name] += muscle.Reps
+			case models.DynamicArticulationMuscle:
+				repsByDynamicArticulationMuscles[muscle.Name] += muscle.Reps
 			}
 		}
 	}
@@ -319,6 +323,22 @@ func handleGetMetrics(c echo.Context) error {
 			Name:  name,
 			Reps:  reps,
 			Usage: models.AntagonistStabilizerMuscle,
+		})
+	}
+
+	for name, reps := range repsByDynamicArticulationMuscles {
+		response.Muscles = append(response.Muscles, models.MetricMuscle{
+			Name:  name,
+			Reps:  reps,
+			Usage: models.DynamicArticulationMuscle,
+		})
+	}
+
+	for name, reps := range repsByStaticArticulationMuscles {
+		response.Muscles = append(response.Muscles, models.MetricMuscle{
+			Name:  name,
+			Reps:  reps,
+			Usage: models.StaticArticulationMuscle,
 		})
 	}
 
