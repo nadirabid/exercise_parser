@@ -111,7 +111,11 @@ func handlePatchMeUser(c echo.Context) error {
 
 	updatedUser.ID = getUserIDFromContext(ctx) // to make sure someone isn't trying to update another
 
-	if err := db.Save(updatedUser).Error; err != nil {
+	// we do not want to change these value "empty" fields are ignored by gorm.Update
+	updatedUser.ExternalUserId = ""
+	updatedUser.Email = ""
+
+	if err := db.Model(updatedUser).Update(*updatedUser).Error; err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
