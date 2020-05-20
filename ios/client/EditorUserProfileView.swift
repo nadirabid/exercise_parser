@@ -17,6 +17,7 @@ struct EditorUserProfileView: View {
     
     @State private var givenName: String = ""
     @State private var familyName: String = ""
+    
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     @State var image: Image? = nil
@@ -37,6 +38,22 @@ struct EditorUserProfileView: View {
         }
     }
     
+    var disableSaveButton: Bool {
+        if givenName != userState.userInfo.givenName {
+            return false
+        }
+        
+        if familyName != userState.userInfo.familyName {
+            return false
+        }
+        
+        if image != nil {
+            return false
+        }
+        
+        return true
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             VStack {
@@ -52,6 +69,7 @@ struct EditorUserProfileView: View {
                         Text("Save").fontWeight(.semibold)
                     }
                     .padding(.trailing)
+                    .disabled(disableSaveButton)
                 }
                 
                 HStack {
@@ -60,24 +78,24 @@ struct EditorUserProfileView: View {
                     Button(action: { self.showingImagePicker = true }) {
                         if image != nil {
                             image!
+                                .renderingMode(.original)
                                 .resizable()
+                                .aspectRatio(contentMode: .fit)
                                 .clipShape(Circle())
-                                .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                .frame(height: 100)
+                                .padding(.all, 0)
+                                .frame(height: 130)
                         } else {
                             UserIconShape()
                                 .fill(Color.gray)
-                                .padding(30)
+                                .padding(50)
                                 .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
                                 .scaledToFit()
                                 .clipShape(Circle())
-                                .frame(height: 100)
+                                .frame(height: 130)
                                 .padding([.leading, .trailing])
                         }
                     }
-                    .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-                        ImagePicker(image: self.$inputImage)
-                    }
+                    
                     
                     Spacer()
                 }
@@ -109,6 +127,11 @@ struct EditorUserProfileView: View {
             
             self.givenName = self.userState.userInfo.givenName ?? ""
             self.familyName = self.userState.userInfo.familyName ?? ""
+        }
+        .sheet(isPresented: $showingImagePicker) {
+            ImagePickerView(sourceType: .photoLibrary) { image in
+                self.image = Image(uiImage: image)
+            }
         }
     }
 }
