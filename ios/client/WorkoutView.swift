@@ -30,12 +30,11 @@ struct WorkoutView: View {
     var workout: Workout
     var showUserInfo: Bool = true
     
-    @State private var viewPage = 0
     @State private var view = "waveform.path.ecg"
     var options = [ "waveform.path.ecg", "function" ]
     
     var body: some View {
-        UISegmentedControl.appearance().setTitleTextAttributes([ .foregroundColor: secondaryAppColor.uiColor() ], for: .selected)
+        //UISegmentedControl.appearance().setTitleTextAttributes([ .we ], for: .selected)
 
         return VStack(alignment: .leading) {
             HStack {
@@ -65,7 +64,7 @@ struct WorkoutView: View {
                 .fixedSize(horizontal: true, vertical: true)
                 .padding(.leading)
             
-            if viewPage == 0 {
+            if view == "waveform.path.ecg" {
                 if self.workout.location != nil {
                     MapView(location: self.workout.location!)
                         .frame(height: CGFloat(130.0))
@@ -102,23 +101,6 @@ struct WorkoutView: View {
                 
                 Spacer()
             }
-//            HStack(spacing: 8) {
-//                Spacer()
-//
-//                CircleButton(isSelected: Binding<Bool>(get: { self.viewPage == 0 }, set: { _ in })) {
-//                    withAnimation(Animation.default.speed(2)) {
-//                        self.viewPage = 0
-//                    }
-//                }
-//
-//                CircleButton(isSelected: Binding<Bool>(get: { self.viewPage == 1 }, set: { _ in })) {
-//                    withAnimation(Animation.default.speed(2)) {
-//                        self.viewPage = 1
-//                    }
-//                }
-//
-//                Spacer()
-//            }
         }
         .padding([.top, .bottom])
     }
