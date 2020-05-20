@@ -13,11 +13,11 @@ struct MainView: View {
     @EnvironmentObject var userState: UserState
     
     var isUserButtonPressed: Bool {
-        return self.route.current == .userFeed || self.route.current == .userMetrics
+        return self.route.peek() == .userFeed || self.route.peek() == .userMetrics
     }
     
     var isSubscriptionButtonPressed: Bool {
-        return self.route.current == .subscriptionFeed
+        return self.route.peek() == .subscriptionFeed
     }
     
     var navigationBarBottomPadding: CGFloat {
@@ -38,41 +38,15 @@ struct MainView: View {
                     #else
                     SignInView()
                     #endif
-                } else if route.current == .editor {
+                } else if route.peek() == .editor {
                     EditableWorkoutView()
+                } else if route.peek() == .userEdit {
+                    EditorUserProfileView()
                 } else {
                     VStack(spacing: 0) {
-                        if route.current == .userFeed || route.current == .userMetrics {
+                        if route.peek() == .userFeed || route.peek() == .userMetrics {
                             UserFeedView()
-                        } else if route.current == .subscriptionFeed {
-                            VStack(alignment: .center) {
-                                ZStack {
-                                    HStack {
-                                        Spacer()
-                                        
-                                        Text("RYDEN")
-                                            .foregroundColor(appColor)
-                                            .fontWeight(.heavy)
-                                            .font(.subheadline)
-                                        
-                                        Spacer()
-                                    }
-                                    
-                                    HStack {
-                                        Spacer()
-                                        
-                                        Button(action: { self.route.showHelp = true }) {
-                                            Image(systemName: "questionmark.circle")
-                                                .padding(.trailing)
-                                                .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
-                                                .font(.body)
-                                        }
-                                    }
-                                }
-                                
-                                Divider()
-                            }
-                            
+                        } else if route.peek() == .subscriptionFeed {
                             SubscriptionFeedView()
                         }
                         
@@ -84,7 +58,7 @@ struct MainView: View {
                                 
                                 Button(action: {
                                     if !self.isUserButtonPressed {
-                                        self.route.current = .userFeed
+                                        self.route.replaceCurrent(with: .userFeed)
                                     }
                                 }) {
                                     HomeIconShape()
@@ -94,7 +68,7 @@ struct MainView: View {
                                 
                                 Spacer()
                                 
-                                Button(action: { self.route.current = .editor }) {
+                                Button(action: { self.route.replaceCurrent(with: .editor) }) {
                                     ZStack {
                                         Circle()
                                             .stroke(appColor, lineWidth: 2)
@@ -112,7 +86,7 @@ struct MainView: View {
                                 
                                 Button(action: {
                                     if !self.isSubscriptionButtonPressed {
-                                        self.route.current = .subscriptionFeed
+                                        self.route.replaceCurrent(with: .subscriptionFeed)
                                     }
                                 }) {
                                     StreamIconShape()
@@ -127,10 +101,6 @@ struct MainView: View {
                         .padding(.bottom, navigationBarBottomPadding)
                     }
                 }
-            }
-            
-            if userState.authorization == 1 && route.editUserProfile {
-                EditorUserProfileView()
             }
             
             if route.showHelp {

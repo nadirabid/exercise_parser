@@ -10,19 +10,44 @@ import Foundation
 import SwiftUI
 
 class RouteState: ObservableObject {
-    @Published var current: Route
+    @Published private var routeStack: [Route]
     @Published var showHelp: Bool
-    @Published var editUserProfile: Bool
     
     init(current: Route = .userFeed) {
-        self.current = current
+        self.routeStack = []
         self.showHelp = false
-        self.editUserProfile = true
+        
+        self.push(route: current)
+    }
+    
+    func replaceCurrent(with route: Route) {
+        if !routeStack.isEmpty {
+            _ = routeStack.popLast()
+        }
+        
+        push(route: route)
+    }
+    
+    func push(route: Route) {
+        routeStack.append(route)
+    }
+    
+    func pop() {
+        if routeStack.count <= 1 {
+            return
+        }
+        
+        _ = routeStack.popLast()
+    }
+    
+    func peek() -> Route {
+        return routeStack.last!
     }
     
     enum Route {
         case userFeed
         case userMetrics
+        case userEdit
         
         case editor
         

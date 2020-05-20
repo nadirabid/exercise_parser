@@ -47,4 +47,3 @@ class EditableWorkoutState: ObservableObject {
         self.date = Date()
     }
 }
-

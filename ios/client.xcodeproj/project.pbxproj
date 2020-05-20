@@ -62,6 +62,8 @@
 		64D41A7524639125003D231A /* SubscriptionFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D41A7424639125003D231A /* SubscriptionFeedView.swift */; };
 		64D41A772463E783003D231A /* IconViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D41A762463E783003D231A /* IconViews.swift */; };
 		64E06CC82352F6E0005AC1D8 /* EditableWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */; };
+		64E5D6D22475B30B00E565D4 /* Promises in Frameworks */ = {isa = PBXBuildFile; productRef = 64E5D6D12475B30B00E565D4 /* Promises */; };
+		64E5D6D52475B35E00E565D4 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 64E5D6D42475B35E00E565D4 /* Kingfisher */; };
 		64EB72E524692FEE0074A7CC /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EB72E424692FEE0074A7CC /* Metrics.swift */; };
 		64ECDD402474B3AA0094973C /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ECDD3F2474B3AA0094973C /* ImagePickerView.swift */; };
 		64ED7EDC246E48730059377E /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ED7EDB246E48730059377E /* HelpView.swift */; };
@@ -164,9 +166,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64E5D6D52475B35E00E565D4 /* Kingfisher in Frameworks */,
 				64038282241A35BF0000C17C /* Alamofire in Frameworks */,
 				6405131A241635E300DDC3D7 /* MapKit.framework in Frameworks */,
 				64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */,
+				64E5D6D22475B30B00E565D4 /* Promises in Frameworks */,
 				64F499FC23E8031E003ADB62 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,6 +373,8 @@
 				64F499FB23E8031E003ADB62 /* Introspect */,
 				64038281241A35BF0000C17C /* Alamofire */,
 				64A9956E241EE3DC006716CA /* JWTDecode */,
+				64E5D6D12475B30B00E565D4 /* Promises */,
+				64E5D6D42475B35E00E565D4 /* Kingfisher */,
 			);
 			productName = client;
 			productReference = 6494A01222B6139900C19543 /* client.app */;
@@ -446,6 +452,8 @@
 				64F499FA23E8031E003ADB62 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				64038280241A35BF0000C17C /* XCRemoteSwiftPackageReference "Alamofire" */,
 				64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
+				64E5D6D02475B30B00E565D4 /* XCRemoteSwiftPackageReference "promises" */,
+				64E5D6D32475B35E00E565D4 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 6494A01322B6139900C19543 /* Products */;
 			projectDirPath = "";
@@ -890,6 +898,22 @@
 				minimumVersion = 2.4.1;
 			};
 		};
+		64E5D6D02475B30B00E565D4 /* XCRemoteSwiftPackageReference "promises" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/promises.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.8;
+			};
+		};
+		64E5D6D32475B35E00E565D4 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.14.0;
+			};
+		};
 		64F499FA23E8031E003ADB62 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/timbersoftware/SwiftUI-Introspect.git";
@@ -910,6 +934,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
 			productName = JWTDecode;
+		};
+		64E5D6D12475B30B00E565D4 /* Promises */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64E5D6D02475B30B00E565D4 /* XCRemoteSwiftPackageReference "promises" */;
+			productName = Promises;
+		};
+		64E5D6D42475B35E00E565D4 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64E5D6D32475B35E00E565D4 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		64F499FB23E8031E003ADB62 /* Introspect */ = {
 			isa = XCSwiftPackageProductDependency;

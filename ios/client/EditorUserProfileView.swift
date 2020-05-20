@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Promises
 import Combine
 
 struct EditorUserProfileView: View {
@@ -19,54 +20,65 @@ struct EditorUserProfileView: View {
     @State private var familyName: String = ""
     
     @State private var showingImagePicker = false
-    @State private var inputImage: UIImage?
-    @State var image: Image? = nil
-    @State var uiImage: UIImage? = nil
+    
+    @State private var image: Image? = nil
+    @State private var originalUIImage: UIImage? = nil
+    @State private var updatedUIImage: UIImage? = nil
 
     @State private var userCancellable: AnyCancellable? = nil
     
     func save() {
         let user = User(id: nil, externalUserId: nil, email: nil, givenName: givenName, familyName: familyName)
         
-        userAPI.patchMeUser(user: user) { _ in
-            self.routeState.editUserProfile = false
-            self.userState.userInfo = user
+        var savePromises: [Promise<Void>] = []
+        
+        if dataHasChanged {
+            savePromises.append(userAPI.patchMeUser(user: user).then { user in
+                self.userState.userInfo = user
+                
+                let p = Promise<Void>.pending()
+                p.fulfill(())
+                return p
+            })
+        }
+    
+        if imageHasChanged {
+            savePromises.append(userAPI.updateMeUserImage(self.updatedUIImage!))
         }
         
-        guard let data = uiImage?.jpegData(compressionQuality: 1.0) else {
-            return
-        }
-        
-        // TODO: before we switch the view check both requests succeeded
-        userAPI.updateMeUserImage(data: data) {
-            self.routeState.editUserProfile = false
+        all(savePromises).then { _ in
+            self.routeState.pop()
         }
     }
     
     func loadImage(for userID: Int) {
-        self.userAPI.getImage(for: userID) { data in
-            guard let uiImage = UIImage(data: data) else {
-                print("Couldn't load image!")
-                return
-            }
+        self.userAPI.getImage(for: userID).then { uiImage in
             self.image = Image(uiImage: uiImage)
         }
     }
     
-    var disableSaveButton: Bool {
+    var dataHasChanged: Bool {
         if givenName != userState.userInfo.givenName {
-            return false
+            return true
         }
         
         if familyName != userState.userInfo.familyName {
-            return false
+            return true
         }
         
-        if image != nil {
-            return false
+        return false
+    }
+    
+    var imageHasChanged: Bool {
+        if updatedUIImage != nil {
+            return true
         }
         
-        return true
+        return false
+    }
+    
+    var disableSaveButton: Bool {
+        return !dataHasChanged && !imageHasChanged
     }
     
     var body: some View {
@@ -76,7 +88,7 @@ struct EditorUserProfileView: View {
         return VStack(spacing: 0) {
             VStack {
                 HStack(alignment: .center) {
-                    Button(action: { self.routeState.editUserProfile = false }) {
+                    Button(action: { self.routeState.pop() }) {
                         Text("Cancel")
                     }
                     .padding(.leading)
@@ -158,7 +170,7 @@ struct EditorUserProfileView: View {
         }
         .sheet(isPresented: $showingImagePicker) {
             ImagePickerView(sourceType: .photoLibrary) { image in
-                self.uiImage = image
+                self.updatedUIImage = image
                 self.image = Image(uiImage: image)
             }
         }

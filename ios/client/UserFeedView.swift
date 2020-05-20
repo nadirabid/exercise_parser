@@ -27,7 +27,7 @@ struct UserFeedView: View {
     @State private var scrollViewContentOffset = CGFloat.zero
     
     var height: CGFloat {
-        if self.routeState.current == .userFeed {
+        if self.routeState.peek() == .userFeed {
             return 137
         }
         
@@ -67,6 +67,7 @@ struct UserFeedView: View {
         UITableView.appearance().separatorColor = .clear
         UITableView.appearance().backgroundColor = self.feedData == nil ? Color.white.uiColor() : feedColor.uiColor()
         
+        print("REMOVE", self.userState.userInfo)
         return VStack(spacing: 0) {
             if self.feedData == nil {
                 Spacer()
@@ -82,7 +83,7 @@ struct UserFeedView: View {
                         HStack {
                             Spacer()
                             
-                            Button(action: { self.routeState.editUserProfile = true }) {
+                            Button(action: { self.routeState.push(route: .userEdit) }) {
                                 Text(self.userState.userInfo.getUserName())
                                     .font(.headline)
                                     .fontWeight(.semibold)
@@ -110,14 +111,14 @@ struct UserFeedView: View {
                     
                     UserFeedViewHeader(
                         height: self.height,
-                        scrollViewContentOffset: routeState.current == .userFeed ? self.scrollViewContentOffset : 0,
+                        scrollViewContentOffset: routeState.peek() == .userFeed ? self.scrollViewContentOffset : 0,
                         weeklyMetric: self.weeklyMetric,
                         user: self.userState.userInfo
                     )
                         .zIndex(2)
                         .background(Color.white)
                     
-                    if self.routeState.current == .userFeed {
+                    if self.routeState.peek() == .userFeed {
                         if self.workouts.count > 0 {
                             List {
                                 ForEach(self.workouts) { workout in
@@ -233,7 +234,7 @@ struct UserFeedViewHeader: View {
     }
     
     func calculateButtonBarPositionFrom(size: CGSize) -> CGFloat {
-        if routeState.current == .userFeed {
+        if routeState.peek() == .userFeed {
             return 0
         } else {
             return size.width / 2
@@ -272,7 +273,7 @@ struct UserFeedViewHeader: View {
         VStack(spacing: 0) {
             if self.calculatedHeight > 100 {
                 HStack(alignment: .center) {
-                    Button(action: { self.routeState.editUserProfile = true }) {
+                    Button(action: { self.routeState.push(route: .userEdit) }) {
                         if self.userImage != nil {
                             userImage!
                                 .renderingMode(.original)
@@ -334,9 +335,9 @@ struct UserFeedViewHeader: View {
             HStack(alignment: .center) {
                 Spacer()
                 
-                Button(action: { self.routeState.current = .userFeed }) {
+                Button(action: { self.routeState.replaceCurrent(with: .userFeed) }) {
                     HeartIconShape()
-                        .fill(self.routeState.current == .userFeed ? secondaryAppColor : Color.gray)
+                        .fill(self.routeState.peek() == .userFeed ? secondaryAppColor : Color.gray)
                         .frame(width: 20, height: 20)
                 }
                 .padding([.leading, .trailing], 20)
@@ -344,9 +345,9 @@ struct UserFeedViewHeader: View {
                 Spacer()
                 Spacer()
                 
-                Button(action: { self.routeState.current = .userMetrics }) {
+                Button(action: { self.routeState.replaceCurrent(with: .userMetrics) }) {
                     ChartIconShape()
-                        .fill(self.routeState.current == .userMetrics ? secondaryAppColor : Color.gray)
+                        .fill(self.routeState.peek() == .userMetrics ? secondaryAppColor : Color.gray)
                         .frame(width: 20, height: 20)
                 }
                 .padding([.leading, .trailing], 20)
@@ -373,11 +374,7 @@ struct UserFeedViewHeader: View {
                 return
             }
             
-            self.userAPI.getImage(for: userID) { data in
-                guard let uiImage = UIImage(data: data) else {
-                    print("Couldn't load image!")
-                    return
-                }
+            self.userAPI.getImage(for: userID).then { uiImage in
                 self.userImage = Image(uiImage: uiImage)
             }
         }

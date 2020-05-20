@@ -62,7 +62,7 @@ struct SubscriptionFeedView: View {
                                 return !self.users.contains(where: { $0.id == workout.userID })
                             })
                             .map({ $0.userID })
-                        )
+                    )
                     
                     if userIDs.count == 0 {
                         return
@@ -79,52 +79,82 @@ struct SubscriptionFeedView: View {
     var body: some View {
         UITableView.appearance().separatorColor = .clear
         
-        return VStack {
-            if self.feedData == nil {
-                Spacer()
-                HStack {
-                    Spacer()
-                    ActivityIndicator(isAnimating: .constant(true), style: .large)
-                    Spacer()
-                }
-                Spacer()
-            } else if workouts.count > 0  {
-                List {
-                    ForEach(workouts) { workout in
-                        WorkoutView(user: self.getUserFor(workout: workout), workout: workout)
-                            .background(Color.white)
-                            .padding(.top)
-                            .buttonStyle(PlainButtonStyle())
-                            .animation(.none)
-                            .onAppear {
-                                self.handleWorkoutAppear(workout: workout)
-                            }
+        return VStack(spacing: 0) {
+            VStack(alignment: .center) {
+                ZStack {
+                    HStack {
+                        Spacer()
+                        
+                        Text("RYDEN")
+                            .foregroundColor(appColor)
+                            .fontWeight(.heavy)
+                            .font(.subheadline)
+                        
+                        Spacer()
                     }
-                    .listRowInsets(EdgeInsets())
-                    .background(self.feedData == nil ? Color.white : feedColor)
-                    .animation(.none)
+                    
+                    HStack {
+                        Spacer()
+                        
+                        Button(action: { self.route.showHelp = true }) {
+                            Image(systemName: "questionmark.circle")
+                                .padding(.trailing)
+                                .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                                .font(.body)
+                        }
+                    }
                 }
-            } else {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Text("Subscribe to some peeps!")
-                    Spacer()
-                }
-                Spacer()
-            }
-        }
-        .background(self.feedData == nil ? Color.white : feedColor)
-        .onAppear {
-            self.feedDataRequest = self.workoutAPI.getUserSubscriptionWorkouts(page: 0, pageSize: 20) { (response) in
-                self.feedDataRequest = nil
-                self.feedData = response
-                self.workoutsPage = response.page!
-                self.workouts.append(contentsOf: response.results)
                 
-                let userIDs = Set<Int>(response.results.map { $0.userID })
-                self.userAPI.getUsersByIDs(users: userIDs) { (response) in
-                    self.updateUsers(users: response.results)
+                Divider()
+            }
+            
+            VStack {
+                if self.feedData == nil {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        ActivityIndicator(isAnimating: .constant(true), style: .large)
+                        Spacer()
+                    }
+                    Spacer()
+                } else if workouts.count > 0  {
+                    List {
+                        ForEach(workouts) { workout in
+                            WorkoutView(user: self.getUserFor(workout: workout), workout: workout)
+                                .background(Color.white)
+                                .padding(.top)
+                                .buttonStyle(PlainButtonStyle())
+                                .animation(.none)
+                                .onAppear {
+                                    self.handleWorkoutAppear(workout: workout)
+                            }
+                        }
+                        .listRowInsets(EdgeInsets())
+                        .background(self.feedData == nil ? Color.white : feedColor)
+                        .animation(.none)
+                    }
+                } else {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Text("Subscribe to some peeps!")
+                        Spacer()
+                    }
+                    Spacer()
+                }
+            }
+            .background(self.feedData == nil ? Color.white : feedColor)
+            .onAppear {
+                self.feedDataRequest = self.workoutAPI.getUserSubscriptionWorkouts(page: 0, pageSize: 20) { (response) in
+                    self.feedDataRequest = nil
+                    self.feedData = response
+                    self.workoutsPage = response.page!
+                    self.workouts.append(contentsOf: response.results)
+                    
+                    let userIDs = Set<Int>(response.results.map { $0.userID })
+                    self.userAPI.getUsersByIDs(users: userIDs) { (response) in
+                        self.updateUsers(users: response.results)
+                    }
                 }
             }
         }
