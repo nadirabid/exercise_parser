@@ -126,6 +126,20 @@ func handlePatchMeUser(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, updatedUser)
 }
 
+func handleGetMeUserImage(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	user := &models.User{}
+	user.ID = getUserIDFromContext(ctx)
+
+	if err := db.Where(user).First(user).Error; err != nil {
+		ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return c.File(user.ImagePath)
+}
+
 func handlePostMeUserImage(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
@@ -142,11 +156,13 @@ func handlePostMeUserImage(c echo.Context) error {
 	defer file.Close()
 
 	if ctx.viper.GetString("images.storage_type") == "file" {
-		userImageDir := ctx.viper.GetString("images.files.user_image_dir")
+		userImageDir := ctx.viper.GetString("images.file.user_image_dir")
 		imageFilePath := fmt.Sprintf("%s/%s.jpg", userImageDir, uuid.NewV4())
 
 		if _, err := os.Stat(userImageDir); os.IsNotExist(err) {
-			os.Mkdir(userImageDir, os.ModePerm)
+			if err := os.MkdirAll(userImageDir, os.ModePerm); err != nil {
+				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+			}
 		}
 
 		bytes, err := ioutil.ReadAll(file)

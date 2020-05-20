@@ -21,20 +21,25 @@ struct EditorUserProfileView: View {
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     @State var image: Image? = nil
+    @State var uiImage: UIImage? = nil
 
     @State private var userCancellable: AnyCancellable? = nil
-    
-    func loadImage() {
-        guard let inputImage = inputImage else { return }
-        image = Image(uiImage: inputImage)
-    }
     
     func save() {
         let user = User(id: nil, externalUserId: nil, email: nil, givenName: givenName, familyName: familyName)
         
-        userAPI.patchMe(user: user) { _ in
+        userAPI.patchMeUser(user: user) { _ in
             self.routeState.editUserProfile = false
             self.userState.userInfo = user
+        }
+        
+        guard let data = uiImage?.jpegData(compressionQuality: 1.0) else {
+            return
+        }
+        
+        // TODO: before we switch the view check both requests succeeded
+        userAPI.updateMeUserImage(data: data) {
+            self.routeState.editUserProfile = false
         }
     }
     
@@ -130,6 +135,7 @@ struct EditorUserProfileView: View {
         }
         .sheet(isPresented: $showingImagePicker) {
             ImagePickerView(sourceType: .photoLibrary) { image in
+                self.uiImage = image
                 self.image = Image(uiImage: image)
             }
         }

@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import JWTDecode
+import UIKit
 
 class UserAPI: ObservableObject {
     private var userState: UserState
@@ -51,7 +52,7 @@ class UserAPI: ObservableObject {
             }
     }
     
-    func patchMe(user: User, _ completionHandler: @escaping (User) -> Void) {
+    func patchMeUser(user: User, _ completionHandler: @escaping (User) -> Void) {
         let url = "\(baseURL)/api/user/me"
         
         AF.request(url, method: .patch, parameters: user, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
@@ -68,6 +69,26 @@ class UserAPI: ObservableObject {
                     print("Failed to update user: ", error)
                     if let data = response.data {
                         print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                    }
+                }
+            }
+    }
+    
+    func updateMeUserImage(data: Data, _ completionHandler: @escaping () -> Void) {
+        let url = "\(baseURL)/api/user/me/image"
+        
+        _ = AF.upload(multipartFormData: { (multipart :MultipartFormData) in
+            multipart.append(data, withName: "file", fileName: "file", mimeType: "image/jpeg")
+        }, to: url)
+            .validate(statusCode: 200..<300)
+            .response(queue: DispatchQueue.main) { (response) in
+                switch response.result {
+                case .success(_):
+                    completionHandler()
+                case .failure(let error):
+                    print("Failed to upload image: ", error)
+                    if let data = response.data {
+                        print("Failed with error message from server: ", String(data: data, encoding: .utf8)!)
                     }
                 }
             }

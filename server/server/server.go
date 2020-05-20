@@ -114,7 +114,7 @@ func New(v *viper.Viper) error {
 
 	e.Pre(middleware.RemoveTrailingSlash())
 
-	e.Use(middleware.BodyDump(newEchoRequestLogger(logger)))
+	//e.Use(middleware.BodyDump(newEchoRequestLogger(logger)))
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{}))
 
@@ -138,6 +138,7 @@ func New(v *viper.Viper) error {
 	// returns user
 	apiRoutes.GET("/user", handleGetUsers)
 	apiRoutes.PATCH("/user/me", handlePatchMeUser)
+	apiRoutes.GET("/user/me/image", handleGetMeUserImage)
 	apiRoutes.POST("/user/me/image", handlePostMeUserImage)
 	apiRoutes.POST("/user/me/subscribe/:subscribe_to_id", handlePostSubscribeMeToUser)
 	apiRoutes.POST("/user/subscribe/alltoall", handleSubscribeAllUsersToAllUsers)
