@@ -1,0 +1,6 @@
+BEGIN;
+
+ALTER TABLE users 
+ADD COLUMN IF NOT EXISTS image_path text;
+
+COMMIT;
