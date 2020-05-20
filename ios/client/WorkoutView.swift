@@ -31,8 +31,12 @@ struct WorkoutView: View {
     var showUserInfo: Bool = true
     
     @State private var viewPage = 0
+    @State private var view = "waveform.path.ecg"
+    var options = [ "waveform.path.ecg", "function" ]
     
     var body: some View {
+        UISegmentedControl.appearance().setTitleTextAttributes([ .foregroundColor: secondaryAppColor.uiColor() ], for: .selected)
+
         return VStack(alignment: .leading) {
             HStack {
                 if showUserInfo {
@@ -81,23 +85,40 @@ struct WorkoutView: View {
                 WorkoutMuscleMetricsView(workout: self.workout)
             }
             
-            HStack(spacing: 8) {
+            HStack {
                 Spacer()
                 
-                CircleButton(isSelected: Binding<Bool>(get: { self.viewPage == 0 }, set: { _ in })) {
-                    withAnimation(Animation.default.speed(2)) {
-                        self.viewPage = 0
+                Picker(selection: self.$view, label: Text("Time range")) {
+                    ForEach(options, id: \.self) { o in
+                        VStack {
+                            Image(systemName: o)
+                                .font(.caption)
+                                .tag(o)
+                        }
                     }
                 }
-                
-                CircleButton(isSelected: Binding<Bool>(get: { self.viewPage == 1 }, set: { _ in })) {
-                    withAnimation(Animation.default.speed(2)) {
-                        self.viewPage = 1
-                    }
-                }
+                .pickerStyle(SegmentedPickerStyle())
+                .fixedSize()
                 
                 Spacer()
             }
+//            HStack(spacing: 8) {
+//                Spacer()
+//
+//                CircleButton(isSelected: Binding<Bool>(get: { self.viewPage == 0 }, set: { _ in })) {
+//                    withAnimation(Animation.default.speed(2)) {
+//                        self.viewPage = 0
+//                    }
+//                }
+//
+//                CircleButton(isSelected: Binding<Bool>(get: { self.viewPage == 1 }, set: { _ in })) {
+//                    withAnimation(Animation.default.speed(2)) {
+//                        self.viewPage = 1
+//                    }
+//                }
+//
+//                Spacer()
+//            }
         }
         .padding([.top, .bottom])
     }

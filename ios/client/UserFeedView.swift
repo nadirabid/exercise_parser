@@ -336,8 +336,9 @@ struct UserFeedViewHeader: View {
                 Spacer()
                 
                 Button(action: { self.routeState.replaceCurrent(with: .userFeed) }) {
-                    HeartIconShape()
-                        .fill(self.routeState.peek() == .userFeed ? secondaryAppColor : Color.gray)
+                    Image(systemName: "waveform.path.ecg")
+                        .font(.system(size: 20, weight: .bold, design: .default))
+                        .foregroundColor(self.routeState.peek() == .userFeed ? secondaryAppColor : Color.gray)
                         .frame(width: 20, height: 20)
                 }
                 .padding([.leading, .trailing], 20)

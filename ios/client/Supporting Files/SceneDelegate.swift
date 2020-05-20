@@ -10,6 +10,7 @@ import UIKit
 import SwiftUI
 import AuthenticationServices
 import JWTDecode
+import Kingfisher
 
 func checkIfJWTIsValid(_ token: String) -> Bool {
     if let jwt = try? decode(jwt: token) {
@@ -76,6 +77,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
             }
         }
+        
+        // MARK: Configure Cache
+        
+        ImageCache.default.diskStorage.config.expiration = .seconds(60*5)
+        ImageCache.default.memoryStorage.config.expiration = .seconds(60*5)
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
