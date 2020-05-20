@@ -11,7 +11,7 @@ import JWTDecode
 
 struct User: Codable, Hashable {
     let id: Int?
-    let externalUserId: String
+    let externalUserId: String?
     let email: String?
     let givenName: String?
     let familyName: String?
@@ -38,7 +38,7 @@ struct User: Codable, Hashable {
         } else if givenName != nil {
             return "\(givenName!)"
         } else {
-            return "-- --"
+            return ""
         }
     }
 }
@@ -47,5 +47,5 @@ class UserState: ObservableObject {
     // 1 = Authorized, -1 = Revoked
     @Published var authorization: Int = 0
     @Published var jwt: JWT? = nil
-    @Published var userInfo: User? = nil
+    @Published var userInfo: User = User(id: nil, externalUserId: nil, email: nil, givenName: nil, familyName: nil)
 }

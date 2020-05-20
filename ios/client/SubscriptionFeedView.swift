@@ -77,6 +77,8 @@ struct SubscriptionFeedView: View {
     }
     
     var body: some View {
+        UITableView.appearance().separatorColor = .clear
+        
         return VStack {
             if self.feedData == nil {
                 Spacer()

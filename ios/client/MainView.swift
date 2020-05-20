@@ -12,10 +12,6 @@ struct MainView: View {
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var userState: UserState
     
-    init() {
-        UITableView.appearance().separatorColor = .clear
-    }
-    
     var isUserButtonPressed: Bool {
         return self.route.current == .userFeed || self.route.current == .userMetrics
     }

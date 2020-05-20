@@ -136,11 +136,12 @@ enum AnatomicalOrientation {
 // MARK: extensions
 
 extension Muscle {
-
     var isMuscleGroup: Bool {
         return !components.isEmpty
     }
 
+    // MARK: muscle components
+    
     var components: [Muscle] {
         switch self {
         case .Iliopsoas: return [.PsoasMajor,.Iliacus]
@@ -170,6 +171,8 @@ extension Muscle {
         }
     }
 
+    // MARK: muscle names
+    
     var name: String {
         switch self {
         case .Abductor: return "Abductor"

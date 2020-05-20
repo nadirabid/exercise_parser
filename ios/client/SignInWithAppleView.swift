@@ -128,6 +128,9 @@ struct SignInDevView: View {
                 .padding(.bottom)
             }
         }
+        .onAppear {
+            self.signIn()
+        }
     }
 }
 

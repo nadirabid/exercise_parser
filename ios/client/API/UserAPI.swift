@@ -51,7 +51,7 @@ class UserAPI: ObservableObject {
             }
     }
     
-    func patchMeUser(user: User, _ completionHandler: @escaping (User) -> Void) {
+    func patchMe(user: User, _ completionHandler: @escaping (User) -> Void) {
         let url = "\(baseURL)/api/user/me"
         
         AF.request(url, method: .patch, parameters: user, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)

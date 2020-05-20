@@ -64,6 +64,7 @@ struct UserFeedView: View {
     }
     
     var body: some View {
+        UITableView.appearance().separatorColor = .clear
         UITableView.appearance().backgroundColor = self.feedData == nil ? Color.white.uiColor() : feedColor.uiColor()
         
         return VStack(spacing: 0) {
@@ -81,9 +82,12 @@ struct UserFeedView: View {
                         HStack {
                             Spacer()
                             
-                            Text(self.userState.userInfo?.getUserName() ?? "")
-                                .font(.headline)
-                                .fontWeight(.semibold)
+                            Button(action: { self.routeState.editUserProfile = true }) {
+                                Text(self.userState.userInfo.getUserName())
+                                    .font(.headline)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.primary)
+                            }
                             
                             Spacer()
                         }
@@ -265,14 +269,16 @@ struct UserFeedViewHeader: View {
         return VStack(spacing: 0) {
             if self.calculatedHeight > 100 {
                 HStack(alignment: .center) {
-                    UserIconShape()
-                        .fill(Color.gray)
-                        .padding(userIconPadding)
-                        .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
-                        .scaledToFit()
-                        .clipShape(Circle())
-                        .frame(width: self.userIconRadius, height: self.userIconRadius)
-                        .padding([.leading, .trailing])
+                    Button(action: { self.routeState.editUserProfile = true }) {
+                        UserIconShape()
+                            .fill(Color.gray)
+                            .padding(userIconPadding)
+                            .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                            .scaledToFit()
+                            .clipShape(Circle())
+                            .frame(width: self.userIconRadius, height: self.userIconRadius)
+                            .padding([.leading, .trailing])
+                    }
                     
                     VStack(alignment: .leading, spacing: 0) {
                         if self.scrollViewContentOffset < 5 {
