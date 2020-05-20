@@ -3,11 +3,15 @@ package server
 import (
 	"exercise_parser/models"
 	"exercise_parser/utils"
+	"fmt"
+	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 
 	"github.com/labstack/echo"
+	uuid "github.com/satori/go.uuid"
 )
 
 func handlePostSubscribeMeToUser(c echo.Context) error {
@@ -120,4 +124,50 @@ func handlePatchMeUser(c echo.Context) error {
 	}
 
 	return ctx.JSON(http.StatusOK, updatedUser)
+}
+
+func handlePostMeUserImage(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	fileHeader, err := ctx.FormFile("file")
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	file, err := fileHeader.Open()
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+	defer file.Close()
+
+	if ctx.viper.GetString("images.storage_type") == "file" {
+		userImageDir := ctx.viper.GetString("images.files.user_image_dir")
+		imageFilePath := fmt.Sprintf("%s/%s.jpg", userImageDir, uuid.NewV4())
+
+		if _, err := os.Stat(userImageDir); os.IsNotExist(err) {
+			os.Mkdir(userImageDir, os.ModePerm)
+		}
+
+		bytes, err := ioutil.ReadAll(file)
+		if err != nil {
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+
+		if err := ioutil.WriteFile(imageFilePath, bytes, 0644); err != nil {
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+
+		user := &models.User{}
+		user.ID = getUserIDFromContext(ctx)
+		user.ImagePath = imageFilePath
+
+		if err := db.Model(user).Update(*user).Error; err != nil {
+			return ctx.JSON(http.StatusInternalServerError, err.Error())
+		}
+	} else if ctx.viper.GetString("images.storage_type") == "s3" {
+		panic("NOT YET IMPLEMENTED")
+	}
+
+	return ctx.JSON(http.StatusOK, nil)
 }

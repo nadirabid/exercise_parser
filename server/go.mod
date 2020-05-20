@@ -12,6 +12,7 @@ require (
 	github.com/fatih/color v1.7.0
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/gocolly/colly v1.1.0
+	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/gogap/env_json v0.0.0-20150503135429-86150085ddbe // indirect
 	github.com/gogap/env_strings v0.0.1 // indirect
 	github.com/golang-migrate/migrate v3.5.4+incompatible
@@ -30,6 +31,7 @@ require (
 	github.com/mitchellh/mapstructure v1.1.2 // indirect
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
+	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/cast v1.3.0 // indirect
 	github.com/spf13/cobra v0.0.3

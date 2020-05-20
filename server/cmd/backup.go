@@ -27,9 +27,9 @@ func backupRelatedNames(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	region := v.GetString("backup.s3_region")
-	bucket := v.GetString("backup.s3_bucket")
-	baseKey := v.GetString("backup.s3_related_names_base_key_name")
+	region := v.GetString("backup.s3.region")
+	bucket := v.GetString("backup.s3.bucket")
+	baseKey := v.GetString("backup.s3.related_names_key_name")
 	relatedNamesSourceDir := v.GetString("resources.dir.related_names")
 
 	sess, err := session.NewSession(
