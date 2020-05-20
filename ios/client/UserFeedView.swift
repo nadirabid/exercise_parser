@@ -171,6 +171,9 @@ struct UserFeedView: View {
 
 struct UserFeedViewHeader: View {
     @EnvironmentObject var routeState: RouteState
+    @EnvironmentObject var userAPI: UserAPI
+    
+    @State private var userImage: Image? = nil
     
     var height: CGFloat
     var scrollViewContentOffset: CGFloat
@@ -266,18 +269,28 @@ struct UserFeedViewHeader: View {
     }
     
     var body: some View {
-        return VStack(spacing: 0) {
+        VStack(spacing: 0) {
             if self.calculatedHeight > 100 {
                 HStack(alignment: .center) {
                     Button(action: { self.routeState.editUserProfile = true }) {
-                        UserIconShape()
-                            .fill(Color.gray)
-                            .padding(userIconPadding)
-                            .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
-                            .scaledToFit()
-                            .clipShape(Circle())
-                            .frame(width: self.userIconRadius, height: self.userIconRadius)
-                            .padding([.leading, .trailing])
+                        if self.userImage != nil {
+                            userImage!
+                                .renderingMode(.original)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(Circle())
+                                .frame(width: userIconRadius, height: userIconRadius)
+                                .padding([.leading, .trailing])
+                        } else {
+                            UserIconShape()
+                                .fill(Color.gray)
+                                .padding(userIconPadding)
+                                .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                                .scaledToFit()
+                                .clipShape(Circle())
+                                .frame(width: userIconRadius, height: userIconRadius)
+                                .padding([.leading, .trailing])
+                        }
                     }
                     
                     VStack(alignment: .leading, spacing: 0) {
@@ -353,6 +366,21 @@ struct UserFeedViewHeader: View {
             Divider()
         }
         .frame(height: self.calculatedHeight)
+        .onAppear {
+            guard let userID = self.user?.id else {
+                // TODO: i'm here - how fuck is this possible
+                print("Couldn't get userID in order to load image")
+                return
+            }
+            
+            self.userAPI.getImage(for: userID) { data in
+                guard let uiImage = UIImage(data: data) else {
+                    print("Couldn't load image!")
+                    return
+                }
+                self.userImage = Image(uiImage: uiImage)
+            }
+        }
     }
 }
 

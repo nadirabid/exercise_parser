@@ -130,8 +130,13 @@ func handleGetMeUserImage(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
 
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
 	user := &models.User{}
-	user.ID = getUserIDFromContext(ctx)
+	user.ID = uint(id)
 
 	if err := db.Where(user).First(user).Error; err != nil {
 		ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))

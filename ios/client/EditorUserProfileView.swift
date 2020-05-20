@@ -43,6 +43,16 @@ struct EditorUserProfileView: View {
         }
     }
     
+    func loadImage(for userID: Int) {
+        self.userAPI.getImage(for: userID) { data in
+            guard let uiImage = UIImage(data: data) else {
+                print("Couldn't load image!")
+                return
+            }
+            self.image = Image(uiImage: uiImage)
+        }
+    }
+    
     var disableSaveButton: Bool {
         if givenName != userState.userInfo.givenName {
             return false
@@ -60,7 +70,10 @@ struct EditorUserProfileView: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
+        UITableView.appearance().separatorColor = .separator
+        UITableView.appearance().backgroundColor = .systemGroupedBackground
+        
+        return VStack(spacing: 0) {
             VStack {
                 HStack(alignment: .center) {
                     Button(action: { self.routeState.editUserProfile = false }) {
@@ -124,14 +137,24 @@ struct EditorUserProfileView: View {
         }
         .background(Color.white)
         .onAppear {
-            UITableView.appearance().separatorColor = .separator
             self.userCancellable = self.userState.$userInfo.sink { user in
                 self.givenName = user.givenName ?? ""
                 self.familyName = user.familyName ?? ""
+                
+                if self.userState.userInfo.id != user.id && user.id != nil {
+                    self.loadImage(for: user.id!)
+                }
             }
             
             self.givenName = self.userState.userInfo.givenName ?? ""
             self.familyName = self.userState.userInfo.familyName ?? ""
+            
+            guard let userID = self.userState.userInfo.id else {
+                print("Couldn't get userID in order to load image")
+                return
+            }
+            
+            self.loadImage(for: userID)
         }
         .sheet(isPresented: $showingImagePicker) {
             ImagePickerView(sourceType: .photoLibrary) { image in

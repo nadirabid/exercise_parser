@@ -14,7 +14,7 @@ import UIKit
 class UserAPI: ObservableObject {
     private var userState: UserState
     private let encoder = JSONEncoder()
-
+    
     init(userState: UserState) {
         self.userState = userState
         self.encoder.dateEncodingStrategy = .iso8601
@@ -49,13 +49,14 @@ class UserAPI: ObservableObject {
                         print("Failed with error message from server", String(data: data, encoding: .utf8)!)
                     }
                 }
-            }
+        }
     }
     
     func patchMeUser(user: User, _ completionHandler: @escaping (User) -> Void) {
         let url = "\(baseURL)/api/user/me"
         
-        AF.request(url, method: .patch, parameters: user, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
+        AF
+            .request(url, method: .patch, parameters: user, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {
@@ -74,12 +75,28 @@ class UserAPI: ObservableObject {
             }
     }
     
+    func getImage(for userID: Int, _ completionHandler: @escaping (Data) -> Void) {
+        let url = "\(baseURL)/api/user/\(userID)/image"
+        _ = AF
+            .download(url, headers: headers)
+            .validate(statusCode: 200..<300)
+            .responseData(queue: DispatchQueue.main) { (response) in
+                switch response.result {
+                case .success(let data):
+                    completionHandler(data)
+                case .failure(let error):
+                    print("Failed to download image: ", error)
+                }
+            }
+    }
+    
     func updateMeUserImage(data: Data, _ completionHandler: @escaping () -> Void) {
         let url = "\(baseURL)/api/user/me/image"
         
-        _ = AF.upload(multipartFormData: { (multipart :MultipartFormData) in
-            multipart.append(data, withName: "file", fileName: "file", mimeType: "image/jpeg")
-        }, to: url)
+        _ = AF
+            .upload(multipartFormData: { (multipart :MultipartFormData) in
+                multipart.append(data, withName: "file", fileName: "file", mimeType: "image/jpeg")
+            }, to: url)
             .validate(statusCode: 200..<300)
             .response(queue: DispatchQueue.main) { (response) in
                 switch response.result {

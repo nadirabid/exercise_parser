@@ -129,7 +129,7 @@ struct MainView: View {
                 }
             }
             
-            if route.editUserProfile {
+            if userState.authorization == 1 && route.editUserProfile {
                 EditorUserProfileView()
             }
             
