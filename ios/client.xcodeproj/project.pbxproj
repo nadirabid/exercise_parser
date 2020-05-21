@@ -42,6 +42,7 @@
 		64877727247491C400223A7E /* UIBezierPathExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64877726247491C400223A7E /* UIBezierPathExtensions.swift */; };
 		64877729247491DD00223A7E /* BindingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64877728247491DD00223A7E /* BindingExtensions.swift */; };
 		6487772B247496BA00223A7E /* RouteState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6487772A247496BA00223A7E /* RouteState.swift */; };
+		648E853324763C3C00D7F502 /* CircleButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648E853224763C3C00D7F502 /* CircleButtonView.swift */; };
 		6494A01622B6139900C19543 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A01522B6139900C19543 /* AppDelegate.swift */; };
 		6494A01822B6139900C19543 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A01722B6139900C19543 /* SceneDelegate.swift */; };
 		6494A01A22B6139900C19543 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A01922B6139900C19543 /* WorkoutView.swift */; };
@@ -127,6 +128,7 @@
 		64877726247491C400223A7E /* UIBezierPathExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtensions.swift; sourceTree = "<group>"; };
 		64877728247491DD00223A7E /* BindingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindingExtensions.swift; sourceTree = "<group>"; };
 		6487772A247496BA00223A7E /* RouteState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteState.swift; sourceTree = "<group>"; };
+		648E853224763C3C00D7F502 /* CircleButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButtonView.swift; sourceTree = "<group>"; };
 		6494A01222B6139900C19543 /* client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6494A01522B6139900C19543 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6494A01722B6139900C19543 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 				64F03332246623C9009B90E6 /* BlurView.swift */,
 				641A85682459271E00E6499F /* ChildSizeReader.swift */,
 				649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */,
+				648E853224763C3C00D7F502 /* CircleButtonView.swift */,
 				6498A98C24122355005BB19F /* Config.swift */,
 				64615A94242581AF0098ED5A /* EditableExerciseView.swift */,
 				64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */,
@@ -516,6 +519,7 @@
 				64877727247491C400223A7E /* UIBezierPathExtensions.swift in Sources */,
 				64877725247491A500223A7E /* CGExtensions.swift in Sources */,
 				6498A98D24122355005BB19F /* Config.swift in Sources */,
+				648E853324763C3C00D7F502 /* CircleButtonView.swift in Sources */,
 				6487771B2474911B00223A7E /* StringExtensions.swift in Sources */,
 				6411FD9F242733D3003D49BF /* Utils.swift in Sources */,
 				64ED7EDC246E48730059377E /* HelpView.swift in Sources */,
@@ -718,7 +722,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = client/client.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "client/Preview\\ Content";
 				DEVELOPMENT_TEAM = C3HW5VXXF5;
 				ENABLE_PREVIEWS = YES;
@@ -741,7 +745,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = client/client.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "client/Preview\\ Content";
 				DEVELOPMENT_TEAM = C3HW5VXXF5;
 				ENABLE_PREVIEWS = YES;

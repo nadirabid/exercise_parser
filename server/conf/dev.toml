@@ -50,7 +50,7 @@ region="us-east-2"
 related_names_key_name="backup/related_names" 
 
 [images]
-storage_type="s3"
+storage_type="file"
 [images.file]
 user_image_dir="resources/.cache/images/user"
 [images.s3]

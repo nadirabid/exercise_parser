@@ -29,13 +29,12 @@ struct WorkoutView: View {
     var user: User? = nil
     var workout: Workout
     var showUserInfo: Bool = true
-    
-    @State private var view = "waveform.path.ecg"
     var options = [ "waveform.path.ecg", "function" ]
     
+    @State private var userImage: Image? = nil
+    @State private var view = "waveform.path.ecg"
+    
     var body: some View {
-        //UISegmentedControl.appearance().setTitleTextAttributes([ .we ], for: .selected)
-
         return VStack(alignment: .leading) {
             HStack {
                 if showUserInfo {
@@ -103,20 +102,6 @@ struct WorkoutView: View {
             }
         }
         .padding([.top, .bottom])
-    }
-}
-
-struct CircleButton: View {
-    @Binding var isSelected: Bool
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: {
-            self.action()
-        }) { Circle()
-            .frame(width: 16, height: 16)
-            .foregroundColor(self.isSelected ? appColor : appColor.opacity(0.5))
-        }
     }
 }
 

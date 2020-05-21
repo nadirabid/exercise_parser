@@ -84,8 +84,6 @@ class UserAPI: ObservableObject {
         let url = "\(baseURL)/api/user/\(userID)/image"
         
         let cache = ImageCache.default
-        print("Cache timeout: ", cache.diskStorage.config.expiration)
-        print("Cache timeout: ", cache.memoryStorage.config.expiration)
         
         return Promise<UIImage> { (fulfill, reject) in
             if cache.isCached(forKey: url) {

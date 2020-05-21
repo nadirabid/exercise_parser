@@ -25,6 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        // MARK: confirm authentication state
         
         let userState = UserState()
         
@@ -78,11 +79,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
         
-        // MARK: Configure Cache
+        // MARK: configure cache
         
-        ImageCache.default.diskStorage.config.expiration = .seconds(1)
-        ImageCache.default.memoryStorage.config.expiration = .seconds(1)
+        ImageCache.default.diskStorage.config.expiration = .seconds(30*60)
+        ImageCache.default.memoryStorage.config.expiration = .seconds(30*60)
 
+        // MARK: setup scene
+        
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
