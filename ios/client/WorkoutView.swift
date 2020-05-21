@@ -26,9 +26,12 @@ struct WorkoutDetail: View {
 }
 
 struct WorkoutView: View {
+    @EnvironmentObject var userAPI: UserAPI
+    
     var user: User? = nil
     var workout: Workout
     var showUserInfo: Bool = true
+    var editable: Bool = false
     var options = [ "waveform.path.ecg", "function" ]
     
     @State private var userImage: Image? = nil
@@ -38,13 +41,22 @@ struct WorkoutView: View {
         return VStack(alignment: .leading) {
             HStack {
                 if showUserInfo {
-                    VStack {
-                        UserIconShape().fill(Color.gray).padding()
+                    if self.userImage != nil {
+                        userImage!
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipShape(Circle())
+                            .frame(width: 45, height: 45)
+                    } else {
+                        VStack {
+                            UserIconShape().fill(Color.gray).padding()
+                        }
+                        .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                        .scaledToFit()
+                        .clipShape(Circle())
+                        .frame(width: 45, height: 45)
                     }
-                    .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
-                    .scaledToFit()
-                    .clipShape(Circle())
-                    .frame(width: 45, height: 45)
                     
                     VStack(alignment: .leading) {
                         Text(workout.name)
@@ -55,6 +67,14 @@ struct WorkoutView: View {
                     }
                 } else {
                     Text(workout.name)
+                }
+                
+                if editable {
+                    Spacer()
+                    
+                    Image(systemName: "pencil.circle.fill")
+                        .foregroundColor(Color.secondary.opacity(0.5))
+                        .padding(.trailing)
                 }
             }
             .padding(.leading)
@@ -102,6 +122,13 @@ struct WorkoutView: View {
             }
         }
         .padding([.top, .bottom])
+        .onAppear {
+            if self.showUserInfo && self.user != nil {
+                self.userAPI.getImage(for: self.user!.id!).then { uiImage in
+                    self.userImage = Image(uiImage: uiImage)
+                }
+            }
+        }
     }
 }
 

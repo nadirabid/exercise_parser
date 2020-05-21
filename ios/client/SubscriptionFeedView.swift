@@ -34,7 +34,7 @@ struct SubscriptionFeedView: View {
     
     func handleWorkoutAppear(workout: Workout) {
         if let feedData = feedData {
-            if workoutsPage == feedData.pages! - 1 {
+            if workoutsPage == feedData.pages! - 1 { // last page - nothing to load
                 return
             }
             
@@ -44,7 +44,7 @@ struct SubscriptionFeedView: View {
                 return
             }
             
-            if indexOfWorkout! >= workouts.count - 1 {
+            if indexOfWorkout! >= workouts.count - 5 {
                 if feedDataRequest != nil {
                     print("Data request already in progress!")
                     return
@@ -99,7 +99,7 @@ struct SubscriptionFeedView: View {
                         Button(action: { self.route.showHelp = true }) {
                             Image(systemName: "questionmark.circle")
                                 .padding(.trailing)
-                                .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                                .foregroundColor(Color.secondary.opacity(0.2))
                                 .font(.body)
                         }
                     }

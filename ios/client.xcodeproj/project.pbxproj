@@ -62,7 +62,7 @@
 		64A9956F241EE3DC006716CA /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 64A9956E241EE3DC006716CA /* JWTDecode */; };
 		64D41A7524639125003D231A /* SubscriptionFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D41A7424639125003D231A /* SubscriptionFeedView.swift */; };
 		64D41A772463E783003D231A /* IconViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D41A762463E783003D231A /* IconViews.swift */; };
-		64E06CC82352F6E0005AC1D8 /* EditableWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */; };
+		64E06CC82352F6E0005AC1D8 /* CreateWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E06CC72352F6E0005AC1D8 /* CreateWorkoutView.swift */; };
 		64E5D6D22475B30B00E565D4 /* Promises in Frameworks */ = {isa = PBXBuildFile; productRef = 64E5D6D12475B30B00E565D4 /* Promises */; };
 		64E5D6D52475B35E00E565D4 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 64E5D6D42475B35E00E565D4 /* Kingfisher */; };
 		64EB72E524692FEE0074A7CC /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EB72E424692FEE0074A7CC /* Metrics.swift */; };
@@ -153,7 +153,7 @@
 		64A93D9424232DA000B73B95 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		64D41A7424639125003D231A /* SubscriptionFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionFeedView.swift; sourceTree = "<group>"; };
 		64D41A762463E783003D231A /* IconViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconViews.swift; sourceTree = "<group>"; };
-		64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableWorkoutView.swift; sourceTree = "<group>"; };
+		64E06CC72352F6E0005AC1D8 /* CreateWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWorkoutView.swift; sourceTree = "<group>"; };
 		64EB72E424692FEE0074A7CC /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		64ECDD3F2474B3AA0094973C /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		64ED7EDB246E48730059377E /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
@@ -285,12 +285,12 @@
 				6494A02322B6139B00C19543 /* Info.plist */,
 				64A93D9424232DA000B73B95 /* ActivityIndicator.swift */,
 				64F03332246623C9009B90E6 /* BlurView.swift */,
+				64E06CC72352F6E0005AC1D8 /* CreateWorkoutView.swift */,
 				641A85682459271E00E6499F /* ChildSizeReader.swift */,
 				649CBE8E22B6D84500D23DD6 /* CircleProfileImage.swift */,
 				648E853224763C3C00D7F502 /* CircleButtonView.swift */,
 				6498A98C24122355005BB19F /* Config.swift */,
 				64615A94242581AF0098ED5A /* EditableExerciseView.swift */,
-				64E06CC72352F6E0005AC1D8 /* EditableWorkoutView.swift */,
 				6487770724746DCE00223A7E /* EditorUserProfileView.swift */,
 				649A4916240670BC003206C3 /* ExerciseView.swift */,
 				64615A962425983F0098ED5A /* FancyLoader.swift */,
@@ -543,7 +543,7 @@
 				6402BBBD2414CBD80061FB58 /* AppState.swift in Sources */,
 				6405131F24163A8900DDC3D7 /* SignInWithAppleView.swift in Sources */,
 				64FD08262421C5B1000F1479 /* WebAPI.swift in Sources */,
-				64E06CC82352F6E0005AC1D8 /* EditableWorkoutView.swift in Sources */,
+				64E06CC82352F6E0005AC1D8 /* CreateWorkoutView.swift in Sources */,
 				6444E163245B59F40000D21D /* AnteriorView.swift in Sources */,
 				6494A01822B6139900C19543 /* SceneDelegate.swift in Sources */,
 				641A85692459271E00E6499F /* ChildSizeReader.swift in Sources */,
@@ -722,7 +722,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = client/client.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_ASSET_PATHS = "client/Preview\\ Content";
 				DEVELOPMENT_TEAM = C3HW5VXXF5;
 				ENABLE_PREVIEWS = YES;
@@ -745,7 +745,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = client/client.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_ASSET_PATHS = "client/Preview\\ Content";
 				DEVELOPMENT_TEAM = C3HW5VXXF5;
 				ENABLE_PREVIEWS = YES;

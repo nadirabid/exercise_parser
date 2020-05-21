@@ -99,7 +99,7 @@ struct UserFeedView: View {
                             Button(action: { self.routeState.showHelp = true }) {
                                 Image(systemName: "questionmark.circle")
                                     .padding(.trailing)
-                                    .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                                    .foregroundColor(Color.secondary.opacity(0.2))
                                     .font(.body)
                             }
                         }
@@ -122,7 +122,7 @@ struct UserFeedView: View {
                         if self.workouts.count > 0 {
                             List {
                                 ForEach(self.workouts) { workout in
-                                    WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false)
+                                    WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false, editable: true)
                                         .background(Color.white)
                                         .padding(.top)
                                         .buttonStyle(PlainButtonStyle())

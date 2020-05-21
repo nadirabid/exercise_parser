@@ -39,7 +39,7 @@ struct MainView: View {
                     SignInView()
                     #endif
                 } else if route.peek() == .editor {
-                    EditableWorkoutView()
+                    CreateWorkoutView()
                 } else if route.peek() == .userEdit {
                     EditorUserProfileView()
                 } else {
