@@ -67,7 +67,7 @@ struct UserFeedView: View {
         UITableView.appearance().separatorColor = .clear
         UITableView.appearance().backgroundColor = self.feedData == nil ? Color.white.uiColor() : feedColor.uiColor()
         
-        print("REMOVE", self.userState.userInfo)
+        print("FIX ISSUE WHEN STATE IS SLOW TO LOAD", self.userState.userInfo)
         return VStack(spacing: 0) {
             if self.feedData == nil {
                 Spacer()

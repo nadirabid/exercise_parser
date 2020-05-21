@@ -9,7 +9,11 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/labstack/echo"
 	uuid "github.com/satori/go.uuid"
 )
@@ -139,10 +143,33 @@ func handleGetMeUserImage(c echo.Context) error {
 	user.ID = uint(id)
 
 	if err := db.Where(user).First(user).Error; err != nil {
-		ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	return c.File(user.ImagePath)
+	if ctx.viper.GetString("images.storage_type") == "file" {
+		dir := ctx.viper.GetString("images.file.user_image_dir")
+		fullImagePath := fmt.Sprintf("%s/%s", dir, user.ImagePath)
+
+		return c.File(fullImagePath)
+	}
+
+	svc := s3.New(ctx.session)
+
+	bucket := ctx.viper.GetString("images.s3.bucket")
+	fullKeyName := fmt.Sprintf("%s/%s", ctx.viper.GetString("images.s3.user_image_key_name"), user.ImagePath)
+
+	req, _ := svc.GetObjectRequest(&s3.GetObjectInput{
+		Bucket: aws.String(bucket),
+		Key:    aws.String(fullKeyName),
+	})
+
+	url, err := req.Presign(time.Minute * 1)
+
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return ctx.Redirect(http.StatusFound, url)
 }
 
 func handlePostMeUserImage(c echo.Context) error {
@@ -160,9 +187,13 @@ func handlePostMeUserImage(c echo.Context) error {
 	}
 	defer file.Close()
 
+	user := &models.User{}
+	user.ID = getUserIDFromContext(ctx)
+	user.ImagePath = fmt.Sprintf("%s.jpg", uuid.NewV4().String())
+
 	if ctx.viper.GetString("images.storage_type") == "file" {
 		userImageDir := ctx.viper.GetString("images.file.user_image_dir")
-		imageFilePath := fmt.Sprintf("%s/%s.jpg", userImageDir, uuid.NewV4())
+		imageFilePath := fmt.Sprintf("%s/%s", userImageDir, user.ImagePath)
 
 		if _, err := os.Stat(userImageDir); os.IsNotExist(err) {
 			if err := os.MkdirAll(userImageDir, os.ModePerm); err != nil {
@@ -178,16 +209,23 @@ func handlePostMeUserImage(c echo.Context) error {
 		if err := ioutil.WriteFile(imageFilePath, bytes, 0644); err != nil {
 			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 		}
-
-		user := &models.User{}
-		user.ID = getUserIDFromContext(ctx)
-		user.ImagePath = imageFilePath
-
-		if err := db.Model(user).Update(*user).Error; err != nil {
-			return ctx.JSON(http.StatusInternalServerError, err.Error())
-		}
 	} else if ctx.viper.GetString("images.storage_type") == "s3" {
-		panic("NOT YET IMPLEMENTED")
+		bucket := ctx.viper.GetString("images.s3.bucket")
+		keyName := ctx.viper.GetString("images.s3.user_image_key_name")
+
+		_, err = ctx.uploader.Upload(&s3manager.UploadInput{
+			Bucket: aws.String(bucket),
+			Key:    aws.String(fmt.Sprintf("%s/%s", keyName, user.ImagePath)),
+			Body:   file,
+		})
+
+		if err != nil {
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+	}
+
+	if err := db.Model(user).Update(*user).Error; err != nil {
+		return ctx.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	return ctx.JSON(http.StatusOK, nil)

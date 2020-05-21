@@ -7,6 +7,9 @@ import (
 	"fmt"
 	"net/http/httputil"
 
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/jinzhu/gorm"
 	"github.com/lestrrat-go/jwx/jwt"
 	"github.com/rifflock/lfshook"
@@ -31,6 +34,9 @@ type Context struct {
 	jwt               *jwt.Token
 	appleClientSecret string
 	logger            *logrus.Logger
+	session           *session.Session
+	uploader          *s3manager.Uploader
+	downloader        *s3manager.Downloader
 }
 
 // DB returns the database object used in handlers
@@ -38,7 +44,17 @@ func (c *Context) DB() *gorm.DB {
 	return c.db
 }
 
-func newContext(v *viper.Viper, c echo.Context, db *gorm.DB, logger *logrus.Logger) *Context {
+func newContext(
+	v *viper.Viper,
+	c echo.Context,
+	db *gorm.DB,
+	logger *logrus.Logger,
+	sess *session.Session,
+	uploader *s3manager.Uploader,
+	downloader *s3manager.Downloader,
+) *Context {
+
+	// TODO: optimization - move this out of newContext
 	key, err := parseRsaPrivateKeyForTokenGeneration(v)
 	if err != nil {
 		panic(fmt.Sprintf("Failed to generate key: %s", err.Error()))
@@ -61,6 +77,9 @@ func newContext(v *viper.Viper, c echo.Context, db *gorm.DB, logger *logrus.Logg
 		nil,
 		clientSecret,
 		logger,
+		sess,
+		uploader,
+		downloader,
 	}
 }
 
@@ -79,7 +98,10 @@ func newEchoRequestLogger(logger *logrus.Logger) func(echo.Context, []byte, []by
 
 // New returns Echo server
 func New(v *viper.Viper) error {
-	// init logrus
+	var err error
+
+	// INIT LOGRUS
+
 	logger := logrus.New()
 	logger.SetReportCaller(true)
 
@@ -93,20 +115,38 @@ func New(v *viper.Viper) error {
 		&logrus.JSONFormatter{},
 	))
 
-	// init parser
+	// INIT S3
+
+	s3Region := v.GetString("s3.region")
+	var sess *session.Session
+	var uploader *s3manager.Uploader
+	var downloader *s3manager.Downloader
+
+	if v.GetBool("s3.enabled") {
+		sess = session.Must(session.NewSession(
+			&aws.Config{
+				Region: aws.String(s3Region),
+			},
+		))
+
+		uploader = s3manager.NewUploader(sess)
+		downloader = s3manager.NewDownloader(sess)
+	}
+
+	// INIT PARSER
 
 	if err := parser.Init(v); err != nil {
 		return err
 	}
 
-	// init database
+	// INIT DATABASE
 
 	db, err := models.NewDatabase(v)
 	if err != nil {
 		return err
 	}
 
-	// init server
+	// INIT SERVER
 
 	e := echo.New()
 
@@ -124,7 +164,15 @@ func New(v *viper.Viper) error {
 
 	e.Use(func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			return h(newContext(v, c, db, logger)) // TODO:Optimization - don't create new context everytime
+			return h(newContext(
+				v,
+				c,
+				db,
+				logger,
+				sess,
+				uploader,
+				downloader,
+			))
 		}
 	})
 

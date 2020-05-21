@@ -40,12 +40,19 @@ base64_keypair="LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVB
 [logging]
 base_dir="output"
 
+[s3]
+enabled="true"
+region="us-east-2"
+
 [backup.s3]
-bucket="ryden-resources"
+bucket="ryden-resources-development"
 region="us-east-2"
 related_names_key_name="backup/related_names" 
 
 [images]
-storage_type="file"
+storage_type="s3"
 [images.file]
 user_image_dir="resources/.cache/images/user"
+[images.s3]
+bucket="ryden-resources-development"
+user_image_key_name="images/user_profile"

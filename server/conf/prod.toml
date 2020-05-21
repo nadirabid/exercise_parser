@@ -40,6 +40,10 @@ base64_keypair="___PEM___"
 [logging]
 base_dir="/var/log/ryden-server"
 
+[s3]
+enabled="true"
+region="us-east-2"
+
 [backup.s3]
 bucket="ryden-resources"
 region="us-east-2"

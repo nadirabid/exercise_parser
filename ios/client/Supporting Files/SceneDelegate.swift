@@ -80,9 +80,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // MARK: Configure Cache
         
-        ImageCache.default.diskStorage.config.expiration = .seconds(60*5)
-        ImageCache.default.memoryStorage.config.expiration = .seconds(60*5)
-        
+        ImageCache.default.diskStorage.config.expiration = .seconds(1)
+        ImageCache.default.memoryStorage.config.expiration = .seconds(1)
+
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
