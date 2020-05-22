@@ -39,7 +39,7 @@ struct MainView: View {
                     SignInView()
                     #endif
                 } else if route.peek() == .editor {
-                    CreateWorkoutView()
+                    WorkoutCreteView()
                 } else if route.peek() == .userEdit {
                     EditorUserProfileView()
                 } else {
@@ -103,6 +103,10 @@ struct MainView: View {
                 }
             }
             
+            if route.editWorkout > 0 {
+                Text("HEREEEEE")
+            }
+            
             if route.showHelp {
                 Color.white.edgesIgnoringSafeArea(.all)
                 
@@ -143,7 +147,7 @@ struct MainView_Previews: PreviewProvider {
         return MainView()
             .environmentObject(RouteState())
             .environmentObject(UserState())
-            .environmentObject(EditableWorkoutState())
+            .environmentObject(WorkoutCreateState())
             .environmentObject(MockWorkoutAPI(userState: userState) as WorkoutAPI)
             .environmentObject(MockExerciseAPI(userState: userState) as ExerciseAPI)
             .environmentObject(AuthAPI())

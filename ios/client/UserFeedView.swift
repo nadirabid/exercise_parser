@@ -68,104 +68,113 @@ struct UserFeedView: View {
         UITableView.appearance().backgroundColor = self.feedData == nil ? Color.white.uiColor() : feedColor.uiColor()
         
         print("FIX ISSUE WHEN STATE IS SLOW TO LOAD", self.userState.userInfo)
-        return VStack(spacing: 0) {
-            if self.feedData == nil {
-                Spacer()
-                HStack {
+        return NavigationView {
+            VStack(spacing: 0) {
+                if self.feedData == nil {
                     Spacer()
-                    ActivityIndicator(isAnimating: .constant(true), style: .large)
+                    HStack {
+                        Spacer()
+                        ActivityIndicator(isAnimating: .constant(true), style: .large)
+                        Spacer()
+                    }
                     Spacer()
-                }
-                Spacer()
-            } else if self.feedData != nil {
-                VStack(alignment: .center) {
-                    ZStack {
-                        HStack {
-                            Spacer()
-                            
-                            Button(action: { self.routeState.push(route: .userEdit) }) {
-                                Text(self.userState.userInfo.getUserName())
-                                    .font(.headline)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.primary)
+                } else if self.feedData != nil {
+                    VStack(alignment: .center) {
+                        ZStack {
+                            HStack {
+                                Spacer()
+                                
+                                Button(action: { self.routeState.push(route: .userEdit) }) {
+                                    Text(self.userState.userInfo.getUserName())
+                                        .font(.headline)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.primary)
+                                }
+                                
+                                Spacer()
                             }
                             
-                            Spacer()
-                        }
-                        
-                        HStack {
-                            Spacer()
-                            
-                            Button(action: { self.routeState.showHelp = true }) {
-                                Image(systemName: "questionmark.circle")
-                                    .padding(.trailing)
-                                    .foregroundColor(Color.secondary.opacity(0.2))
-                                    .font(.body)
+                            HStack {
+                                Spacer()
+                                
+                                Button(action: { self.routeState.showHelp = true }) {
+                                    Image(systemName: "questionmark.circle")
+                                        .padding(.trailing)
+                                        .foregroundColor(Color.secondary.opacity(0.2))
+                                        .font(.body)
+                                }
                             }
                         }
                     }
+                    
+                    ZStack(alignment: .top) {
+                        Color.clear // make ZStack expand to fill the content
+                        
+                        UserFeedViewHeader(
+                            height: self.height,
+                            scrollViewContentOffset: routeState.peek() == .userFeed ? self.scrollViewContentOffset : 0,
+                            weeklyMetric: self.weeklyMetric,
+                            user: self.userState.userInfo
+                        )
+                            .zIndex(2)
+                            .background(Color.white)
+                        
+                        if self.routeState.peek() == .userFeed {
+                            if self.workouts.count > 0 {
+                                List {
+                                    ForEach(self.workouts) { workout in
+                                        WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false)
+                                            .background(Color.white)
+                                            .padding(.top)
+                                            .buttonStyle(PlainButtonStyle())
+                                            .animation(.none)
+                                            .onAppear {
+                                                self.handleWorkoutAppear(workout: workout)
+                                            }
+                                    }
+                                    .listRowInsets(EdgeInsets())
+                                    .background(self.feedData == nil ? Color.white : feedColor)
+                                    .animation(.none)
+                                }
+                                .padding(.top, self.height)
+                            } else {
+                                VStack {
+                                    Spacer()
+                                    HStack {
+                                        Spacer()
+                                        Text("There's nothing in your feed!")
+                                        Spacer()
+                                    }
+                                    Spacer()
+                                }
+                                .padding(.top, self.height)
+                            }
+                        } else {
+                            AggregateMuscleMetricsView()
+                                .padding(.top, self.height)
+                        }
+                    }
+                }
+            }
+            .onAppear {
+                // onAppear happens when user "returns" from NavigationLink
+                if self.feedDataRequest != nil {
+                    return
                 }
                 
-                ZStack(alignment: .top) {
-                    Color.clear // make ZStack expand to fill the content
-                    
-                    UserFeedViewHeader(
-                        height: self.height,
-                        scrollViewContentOffset: routeState.peek() == .userFeed ? self.scrollViewContentOffset : 0,
-                        weeklyMetric: self.weeklyMetric,
-                        user: self.userState.userInfo
-                    )
-                        .zIndex(2)
-                        .background(Color.white)
-                    
-                    if self.routeState.peek() == .userFeed {
-                        if self.workouts.count > 0 {
-                            List {
-                                ForEach(self.workouts) { workout in
-                                    WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false, editable: true)
-                                        .background(Color.white)
-                                        .padding(.top)
-                                        .buttonStyle(PlainButtonStyle())
-                                        .animation(.none)
-                                        .onAppear {
-                                            self.handleWorkoutAppear(workout: workout)
-                                        }
-                                }
-                                .listRowInsets(EdgeInsets())
-                                .background(self.feedData == nil ? Color.white : feedColor)
-                                .animation(.none)
-                            }
-                            .padding(.top, self.height)
-                        } else {
-                            VStack {
-                                Spacer()
-                                HStack {
-                                    Spacer()
-                                    Text("There's nothing in your feed!")
-                                    Spacer()
-                                }
-                                Spacer()
-                            }
-                            .padding(.top, self.height)
-                        }
-                    } else {
-                        AggregateMuscleMetricsView()
-                            .padding(.top, self.height)
-                    }
+                self.feedDataRequest = self.workoutAPI.getUserWorkouts(page: 0, pageSize: 20) { (response) in
+                    self.feedDataRequest = nil
+                    self.feedData = response
+                    self.workoutsPage = response.page!
+                    self.workouts.append(contentsOf: response.results)
+                }
+                
+                self.metricAPI.getWeeklyStats { (response) in
+                    self.weeklyMetric = response
                 }
             }
-        }
-        .onAppear {
-            self.feedDataRequest = self.workoutAPI.getUserWorkouts(page: 0, pageSize: 20) { (response) in
-                self.feedDataRequest = nil
-                self.feedData = response
-                self.workoutsPage = response.page!
-                self.workouts.append(contentsOf: response.results)
-            }
-            
-            self.metricAPI.getWeeklyStats { (response) in
-                self.weeklyMetric = response
-            }
+            .navigationBarTitle("Feed", displayMode: .large)
+            .navigationBarHidden(true)
         }
     }
 }
@@ -660,7 +669,7 @@ struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
         return UserFeedView()
             .environmentObject(UserState())
-            .environmentObject(EditableWorkoutState())
+            .environmentObject(WorkoutCreateState())
             .environmentObject(RouteState(current: .userFeed))
             .environmentObject(MockWorkoutAPI(userState: UserState()) as WorkoutAPI)
     }

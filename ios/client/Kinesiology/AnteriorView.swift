@@ -80,7 +80,7 @@ struct AnteriorShape: Shape {
                 endRadius: endRadius
             )
         case .dynamicArticulation:
-            let opacity = self.activiation * 0.6
+            let opacity = self.activiation * 0.5
             let colors = Gradient(colors: [secondaryAppColor.opacity(opacity), Color.yellow.opacity(opacity), appColor.opacity(opacity)])
             radial = RadialGradient(
                 gradient: colors,

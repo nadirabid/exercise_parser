@@ -91,7 +91,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             let rootView = MainView()
                 .environmentObject(userState)
-                .environmentObject(EditableWorkoutState())
+                .environmentObject(WorkoutCreateState())
                 .environmentObject(RouteState())
                 .environmentObject(AuthAPI())
                 .environmentObject(UserAPI(userState: userState))

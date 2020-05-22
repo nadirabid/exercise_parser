@@ -80,7 +80,7 @@ struct PosteriorShape: Shape {
                 endRadius: endRadius
             )
         case .dynamicArticulation:
-            let opacity = self.activiation * 0.6
+            let opacity = self.activiation * 0.5
             let colors = Gradient(colors: [secondaryAppColor.opacity(opacity), Color.yellow.opacity(opacity), appColor.opacity(opacity)])
             radial = RadialGradient(
                 gradient: colors,
@@ -94,8 +94,6 @@ struct PosteriorShape: Shape {
         
         return self.fill(radial)
     }
-    
-    
     
     static func calculateSize(_ size: CGSize) -> CGSize {
         let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)

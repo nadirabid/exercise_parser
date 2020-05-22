@@ -27,15 +27,16 @@ struct WorkoutDetail: View {
 
 struct WorkoutView: View {
     @EnvironmentObject var userAPI: UserAPI
+    @EnvironmentObject var routeState: RouteState
     
     var user: User? = nil
     var workout: Workout
     var showUserInfo: Bool = true
-    var editable: Bool = false
     var options = [ "waveform.path.ecg", "function" ]
     
     @State private var userImage: Image? = nil
     @State private var view = "waveform.path.ecg"
+    @State private var showingActionSheet = false
     
     var body: some View {
         return VStack(alignment: .leading) {
@@ -66,15 +67,17 @@ struct WorkoutView: View {
                             .foregroundColor(Color.gray)
                     }
                 } else {
-                    Text(workout.name)
-                }
-                
-                if editable {
-                    Spacer()
-                    
-                    Image(systemName: "pencil.circle.fill")
-                        .foregroundColor(Color.secondary.opacity(0.5))
+                    HStack {
+                        Text(workout.name)
+                        
+                        Spacer()
+                        
+                        Button(action: { self.showingActionSheet = true }) {
+                            Image(systemName:"ellipsis.circle")
+                                .foregroundColor(Color.secondary)
+                        }
                         .padding(.trailing)
+                    }
                 }
             }
             .padding(.leading)
@@ -122,6 +125,13 @@ struct WorkoutView: View {
             }
         }
         .padding([.top, .bottom])
+        .actionSheet(isPresented: $showingActionSheet) {
+            ActionSheet(title: Text(workout.name), buttons: [
+                .default(Text("Edit")) { self.routeState.editWorkout = self.workout.id! },
+                .destructive(Text("Delete")) { print("delete") },
+                .cancel()
+            ])
+        }
         .onAppear {
             if self.showUserInfo && self.user != nil {
                 self.userAPI.getImage(for: self.user!.id!).then { uiImage in
@@ -186,7 +196,7 @@ struct WorkoutMuscleMetricsView: View {
             let muscleStrings = dictionary?.muscles.synergists?.map { s in s.lowercased() } ?? []
             
             return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
-               if let muscle = Muscle.from(name: muscleString) {
+                if let muscle = Muscle.from(name: muscleString) {
                     if muscle.isMuscleGroup {
                         return muscle.components.map { MuscleActivation(muscle: $0) }
                     } else {

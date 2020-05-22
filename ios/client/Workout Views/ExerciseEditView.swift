@@ -12,10 +12,10 @@ import Alamofire
 
 typealias TextFieldHandler = ((UITextField) -> Void)
 
-public struct EditableExerciseView: View {
-    @EnvironmentObject var workoutState: EditableWorkoutState
+public struct ExerciseEditView: View {
+    @EnvironmentObject var workoutState: WorkoutCreateState
     @EnvironmentObject var exerciseAPI: ExerciseAPI
-    @ObservedObject var exerciseState: EditableExerciseState
+    @ObservedObject var exerciseState: ExerciseEditState
     @ObservedObject var suggestions: ExcerciseUserSuggestions
     
     private var isNewEntry: Bool
@@ -29,7 +29,7 @@ public struct EditableExerciseView: View {
     @State private var dragOffset = CGSize.zero
     
     init(
-        state: EditableExerciseState,
+        state: ExerciseEditState,
         isNewEntry: Bool = false,
         suggestions: ExcerciseUserSuggestions = ExcerciseUserSuggestions(),
         shouldResolveExercise: Bool = true,
@@ -205,12 +205,12 @@ struct ExerciseEditorView_Previews: PreviewProvider {
     
     static var previews: some View {
         ScrollView {
-            EditableExerciseView(state: EditableExerciseState(input: "3x3 tricep curls"))
-            EditableExerciseView(state: EditableExerciseState(input: "3x3 tricep curls"))
-            EditableExerciseView(state: EditableExerciseState(input: "3x3 tricep curls"), shouldResolveExercise: false)
-            EditableExerciseView(state: EditableExerciseState(input: "3x3 tricep curls"))
+            ExerciseEditView(state: ExerciseEditState(input: "3x3 tricep curls"))
+            ExerciseEditView(state: ExerciseEditState(input: "3x3 tricep curls"))
+            ExerciseEditView(state: ExerciseEditState(input: "3x3 tricep curls"), shouldResolveExercise: false)
+            ExerciseEditView(state: ExerciseEditState(input: "3x3 tricep curls"))
         }
             .environmentObject(MockExerciseAPI(userState: UserState()) as ExerciseAPI)
-            .environmentObject(EditableWorkoutState())
+            .environmentObject(WorkoutCreateState())
     }
 }

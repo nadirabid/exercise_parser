@@ -12,10 +12,12 @@ import SwiftUI
 class RouteState: ObservableObject {
     @Published private var routeStack: [Route]
     @Published var showHelp: Bool
+    @Published var editWorkout: Int
     
     init(current: Route = .userFeed) {
         self.routeStack = []
         self.showHelp = false
+        self.editWorkout = -1
         
         self.push(route: current)
     }

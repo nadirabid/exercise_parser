@@ -14,9 +14,9 @@ import MapKit
 import UIKit
 import Foundation
 
-public struct CreateWorkoutView: View {
+public struct WorkoutCreteView: View {
     @EnvironmentObject var route: RouteState
-    @EnvironmentObject var state: EditableWorkoutState
+    @EnvironmentObject var state: WorkoutCreateState
     @EnvironmentObject var workoutAPI: WorkoutAPI
 
     private var locationManager = LocationManager()
@@ -24,16 +24,12 @@ public struct CreateWorkoutView: View {
     private var suggestions = ExcerciseUserSuggestions()
 
     @State private var location: Location? = nil
-    @State private var workoutDataTaskPublisher: AnyCancellable? = nil
-    @State private var userEntryCancellable: AnyCancellable? = nil
     @State private var newEntryTextField: UITextField? = nil
     @State private var workoutNameTextField: UITextField? = nil
-    @State private var newEntryState: EditableExerciseState = EditableExerciseState(input: "")
-    @State private var contentOffset: CGPoint = .zero
+    @State private var newEntryState: ExerciseEditState = ExerciseEditState(input: "")
 
     init() {
         stopwatch.start()
-        UITableView.appearance().separatorStyle = .none
     }
 
     func pressPause() {
@@ -77,7 +73,7 @@ public struct CreateWorkoutView: View {
         }
     }
     
-    func removeExerciseStateElement(state: EditableExerciseState) {
+    func removeExerciseStateElement(state: ExerciseEditState) {
         self.state.exerciseStates.removeAll(where: { e in
             return e === state
         })
@@ -146,9 +142,7 @@ public struct CreateWorkoutView: View {
 
             EditableWorkoutMetaMetricsView(
                 stopwatch: stopwatch,
-                stretchToFillParent: !state.isStopped,
-                showDate: state.isStopped,
-                showExercises: !state.isStopped
+                showDate: state.isStopped
             )
                 .fixedSize(horizontal: state.isStopped, vertical: true)
                 .padding(state.isStopped ? [.leading] : [.top, .trailing, .leading])
@@ -171,9 +165,9 @@ public struct CreateWorkoutView: View {
             
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(self.state.exerciseStates, id: \.id) { (exerciseState: EditableExerciseState) in
+                    ForEach(self.state.exerciseStates, id: \.id) { (exerciseState: ExerciseEditState) in
                         VStack(spacing: 0) {
-                            EditableExerciseView(
+                            ExerciseEditView(
                                 state: exerciseState,
                                 suggestions: self.suggestions,
                                 onUserInputCommit: { _ in
@@ -199,7 +193,7 @@ public struct CreateWorkoutView: View {
 
                     if !self.state.isStopped {
                         VStack(spacing: 0) {
-                            EditableExerciseView(
+                            ExerciseEditView(
                                 state: self.newEntryState,
                                 isNewEntry: true,
                                 suggestions: self.suggestions,
@@ -207,7 +201,7 @@ public struct CreateWorkoutView: View {
                                     DispatchQueue.main.async {
                                         if !self.newEntryState.input.isEmpty {
                                             self.state.exerciseStates.append(self.newEntryState)
-                                            self.newEntryState = EditableExerciseState(input: "")
+                                            self.newEntryState = ExerciseEditState(input: "")
                                         }
                                         textField.becomeFirstResponder()
                                     }
@@ -281,15 +275,11 @@ public struct DividerSpacer: View {
 }
 
 public struct EditableWorkoutMetaMetricsView: View {
-    @EnvironmentObject var state: EditableWorkoutState
+    @EnvironmentObject var state: WorkoutCreateState
+    
     @ObservedObject var stopwatch: Stopwatch
     
-    var stretchToFillParent = true
     var showDate = true
-    var showTime = true
-    var showExercises = true
-    var showDistance = true
-    var showWeight = true
     
     var totalWeight: Int {
         let result = state.exerciseStates.reduce(Float.zero) { (r, s) in
@@ -382,15 +372,15 @@ public struct EditableWorkoutMetaMetricsView: View {
 }
 
 #if DEBUG
-struct WorkoutEditorView_Previews : PreviewProvider {
+struct CreateWorkoutView_Previews : PreviewProvider {
     static var previews: some View {
-        let workoutEditorState = EditableWorkoutState()
+        let workoutEditorState = WorkoutCreateState()
         workoutEditorState.exerciseStates = [
-            EditableExerciseState(input: "3x3 tricep curls"),
-            EditableExerciseState(input: "4 mins of running")
+            ExerciseEditState(input: "3x3 tricep curls"),
+            ExerciseEditState(input: "4 mins of running")
         ]
         
-        return CreateWorkoutView()
+        return WorkoutCreteView()
             .environmentObject(workoutEditorState)
             .environmentObject(RouteState(current: .editor))
             .environmentObject(MockWorkoutAPI(userState: UserState()) as WorkoutAPI)

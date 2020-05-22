@@ -10,32 +10,31 @@ import Foundation
 import Combine
 import SwiftUI
 
-class EditableExerciseState: ObservableObject {
+class ExerciseEditState: ObservableObject {
     var id = UUID()
     @Published var input: String
     @Published var exercise: Exercise?
-    var dataTaskPublisher: AnyCancellable?
     
     init(input: String) {
         self.input = input
     }
     
-    init(input: String, dataTaskPublisher: AnyCancellable?, exercise: Exercise?) {
+    init(exercise: Exercise) {
+        self.input = exercise.name
+        self.exercise = exercise
+    }
+    
+    init(input: String, exercise: Exercise?) {
         self.input = input
-        self.dataTaskPublisher = dataTaskPublisher
         self.exercise = exercise
     }
 }
 
-class EditableWorkoutState: ObservableObject {
+class WorkoutCreateState: ObservableObject {
     @Published var newEntry: String = ""
     @Published var workoutName: String = ""
-    @Published var exerciseStates: [EditableExerciseState] = []
+    @Published var exerciseStates: [ExerciseEditState] = []
     @Published var isStopped = false
-    
-    
-    @Published var totalWeight: Float = 0
-    @Published var totalDistance: Float = 0
     
     var date: Date = Date()
     
