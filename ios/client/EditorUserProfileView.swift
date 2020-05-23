@@ -27,6 +27,8 @@ struct EditorUserProfileView: View {
 
     @State private var userCancellable: AnyCancellable? = nil
     
+    @ObservedObject private var locationManager: LocationManager = LocationManager()
+    
     func save() {
         let user = User(id: nil, externalUserId: nil, email: nil, givenName: givenName, familyName: familyName)
         
@@ -143,6 +145,17 @@ struct EditorUserProfileView: View {
                     
                     HStack {
                         TextField("Last Name", text: $familyName)
+                    }
+                }
+                
+                Section(header: Text("Location")) {
+                    HStack {
+                        Text("Location Access")
+                        
+                        Spacer()
+                        
+                        Text(locationManager.statusString)
+                            .foregroundColor(Color.secondary)
                     }
                 }
             }
