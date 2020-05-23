@@ -122,7 +122,6 @@ func New(v *viper.Viper) error {
 
 	// INIT AUTH TOKEN KEYS
 
-	// TODO: optimization - move this out of newContext
 	tokenSigningKey, err := parseRsaPrivateKeyForTokenGeneration(v)
 	if err != nil {
 		panic(fmt.Sprintf("Failed to generate key: %s", err.Error()))
