@@ -197,6 +197,7 @@ public struct WorkoutCreateView: View {
                                 state: self.newEntryState,
                                 isNewEntry: true,
                                 suggestions: self.suggestions,
+                                becomeFirstResponderOnAppear: true,
                                 onUserInputCommit: { (textField: UITextField) in
                                     DispatchQueue.main.async {
                                         if !self.newEntryState.input.isEmpty {

@@ -20,7 +20,7 @@ class ExerciseEditState: ObservableObject {
     }
     
     init(exercise: Exercise) {
-        self.input = exercise.name
+        self.input = exercise.raw
         self.exercise = exercise
     }
     
@@ -44,5 +44,13 @@ class WorkoutCreateState: ObservableObject {
         self.exerciseStates = []
         self.isStopped = false
         self.date = Date()
+    }
+}
+
+class UserFeedState: ObservableObject {
+    @Published var workouts: Set<Workout>
+    
+    init() {
+        workouts = Set()
     }
 }

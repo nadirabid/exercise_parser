@@ -13,12 +13,13 @@ import Combine
 struct UserFeedView: View {
     @EnvironmentObject var userState: UserState
     @EnvironmentObject var routeState: RouteState
+    @EnvironmentObject var userFeedState: UserFeedState
     
     @EnvironmentObject var workoutAPI: WorkoutAPI
     @EnvironmentObject var metricAPI: MetricAPI
     
     @State private var feedDataRequest: DataRequest? = nil
-    @State private var feedData: PaginatedResponse<Workout>? = nil
+    @State private var workoutsPaginatedResponse: PaginatedResponse<Workout>? = nil
     @State private var workouts: [Workout] = []
     @State private var workoutsPage: Int = 0
     
@@ -35,8 +36,8 @@ struct UserFeedView: View {
     }
     
     func handleWorkoutAppear(workout: Workout) {
-        if let feedData = feedData {
-            if workoutsPage == feedData.pages! {
+        if let workoutsResponse = workoutsPaginatedResponse {
+            if workoutsPage == workoutsResponse.pages! {
                 return
             }
             
@@ -53,24 +54,39 @@ struct UserFeedView: View {
                 }
                 
                 self.feedDataRequest = self.workoutAPI.getUserWorkouts(page: workoutsPage + 1, pageSize: 20) { (response) in
-                    
-                    self.feedData = response
+                    self.workoutsPaginatedResponse = response
                     self.workoutsPage = response.page!
                     self.workouts.append(contentsOf: response.results)
                     self.feedDataRequest = nil
+                    
+                    for w in response.results {
+                        self.userFeedState.workouts.update(with: w)
+                    }
                 }
             }
         }
     }
     
+    func handleRemove(workout: Workout) {
+        self.userFeedState.workouts.remove(workout) // remove early (this might bite me
+        self.workoutAPI.deleteWorkout(workout: workout).catch { _ in
+            print("Failed to delete: ", workout)
+        }
+    }
+    
+    var feedWorkouts: [Workout] {
+        return Array(self.userFeedState.workouts.sorted { $0.date > $1.date })
+    }
+    
     var body: some View {
         UITableView.appearance().separatorColor = .clear
-        UITableView.appearance().backgroundColor = self.feedData == nil ? Color.white.uiColor() : feedColor.uiColor()
+        UITableView.appearance().backgroundColor = self.workoutsPaginatedResponse == nil ? Color.white.uiColor() : feedColor.uiColor()
         
         print("FIX ISSUE WHEN STATE IS SLOW TO LOAD", self.userState.userInfo)
+        
         return NavigationView {
             VStack(spacing: 0) {
-                if self.feedData == nil {
+                if self.workoutsPaginatedResponse == nil {
                     Spacer()
                     HStack {
                         Spacer()
@@ -78,7 +94,7 @@ struct UserFeedView: View {
                         Spacer()
                     }
                     Spacer()
-                } else if self.feedData != nil {
+                } else if self.workoutsPaginatedResponse != nil {
                     VStack(alignment: .center) {
                         ZStack {
                             HStack {
@@ -122,8 +138,8 @@ struct UserFeedView: View {
                         if self.routeState.peek() == .userFeed {
                             if self.workouts.count > 0 {
                                 List {
-                                    ForEach(self.workouts) { workout in
-                                        WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false)
+                                    ForEach(self.feedWorkouts, id: \.id) { workout in
+                                        WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false, onDelete: { self.handleRemove(workout: workout) })
                                             .background(Color.white)
                                             .padding(.top)
                                             .buttonStyle(PlainButtonStyle())
@@ -133,7 +149,7 @@ struct UserFeedView: View {
                                             }
                                     }
                                     .listRowInsets(EdgeInsets())
-                                    .background(self.feedData == nil ? Color.white : feedColor)
+                                    .background(self.workoutsPaginatedResponse == nil ? Color.white : feedColor)
                                     .animation(.none)
                                 }
                                 .padding(.top, self.height)
@@ -157,15 +173,20 @@ struct UserFeedView: View {
                 }
             }
             .onAppear {
-                // onAppear happens when user "returns" from NavigationLink
+                // onAppear also happens when user "returns" from NavigationLink
                 if self.feedDataRequest != nil {
                     return
                 }
                 
                 self.feedDataRequest = self.workoutAPI.getUserWorkouts(page: 0, pageSize: 20) { (response) in
                     self.feedDataRequest = nil
-                    self.feedData = response
+                    self.workoutsPaginatedResponse = response
                     self.workoutsPage = response.page!
+                    
+                    for w in response.results {
+                        self.userFeedState.workouts.update(with: w)
+                    }
+                    
                     self.workouts.append(contentsOf: response.results)
                 }
                 

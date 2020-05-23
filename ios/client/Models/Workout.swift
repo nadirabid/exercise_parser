@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-struct Workout: Codable, Identifiable {
+struct Workout: Codable, Identifiable, Hashable {
     let id: Int?
     let createdAt: String?
     let updatedAt: String?
@@ -40,6 +40,14 @@ struct Workout: Codable, Identifiable {
         self.userID = userID
         self.location = location
         self.secondsElapsed = secondsElapsed
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+    
+    static func == (lhs: Workout, rhs: Workout) -> Bool {
+        return lhs.id == rhs.id
     }
     
     private enum CodingKeys: String, CodingKey {

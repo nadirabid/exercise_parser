@@ -15,11 +15,13 @@ typealias TextFieldHandler = ((UITextField) -> Void)
 public struct ExerciseEditView: View {
     @EnvironmentObject var workoutState: WorkoutCreateState
     @EnvironmentObject var exerciseAPI: ExerciseAPI
+    
     @ObservedObject var exerciseState: ExerciseEditState
     @ObservedObject var suggestions: ExcerciseUserSuggestions
     
     private var isNewEntry: Bool
     private var shouldResolveExercise: Bool
+    private var becomeFirstResponderOnAppear: Bool
     private var userInputCommitHandler: TextFieldHandler
     private var textFieldChangeHandler: TextFieldHandler
     
@@ -33,6 +35,7 @@ public struct ExerciseEditView: View {
         isNewEntry: Bool = false,
         suggestions: ExcerciseUserSuggestions = ExcerciseUserSuggestions(),
         shouldResolveExercise: Bool = true,
+        becomeFirstResponderOnAppear: Bool = false,
         onUserInputCommit: @escaping TextFieldHandler = { _ in },
         onTextFieldChange: @escaping TextFieldHandler = { _ in }
     ) {
@@ -40,6 +43,7 @@ public struct ExerciseEditView: View {
         self.isNewEntry = isNewEntry
         self.suggestions = suggestions
         self.shouldResolveExercise = shouldResolveExercise
+        self.becomeFirstResponderOnAppear = becomeFirstResponderOnAppear
         self.userInputCommitHandler = onUserInputCommit
         self.textFieldChangeHandler = onTextFieldChange
     }
@@ -112,13 +116,15 @@ public struct ExerciseEditView: View {
                             textField.returnKeyType = .next
 
                             if self.isNewEntry {
-                                textField.becomeFirstResponder()
-                                
                                 self.cancellable = self.exerciseState.$input.sink { value in
                                     if value.isEmpty {
                                         self.suggestions.reset()
                                     }
                                 }
+                            }
+                            
+                            if self.becomeFirstResponderOnAppear {
+                                textField.becomeFirstResponder()
                             }
                             
                             self.textFieldChangeHandler(textField)
@@ -127,12 +133,9 @@ public struct ExerciseEditView: View {
                     }
             }
 
-            if exercise?.resolutionType != "auto" &&
-                !exerciseState.input.isEmpty &&
-                !isNewEntry {
+            if exercise?.resolutionType != "auto" && !exerciseState.input.isEmpty && !isNewEntry {
                 ProcessingExerciseView(exercise: workoutState.isStopped ? exercise : nil)
-            } else if exercise == nil ||
-                (!exerciseState.input.isEmpty && isNewEntry) {
+            } else if exercise == nil || (!exerciseState.input.isEmpty && isNewEntry) {
                 WaitingForExerciseView()
             } else {
                 ExerciseView(

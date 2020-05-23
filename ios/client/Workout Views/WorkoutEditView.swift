@@ -10,8 +10,6 @@ import SwiftUI
 
 import SwiftUI
 import Introspect
-import Combine
-import Alamofire
 import MapKit
 import UIKit
 import Foundation
@@ -19,6 +17,7 @@ import Foundation
 public struct WorkoutEditView: View {
     @EnvironmentObject var routeState: RouteState
     @EnvironmentObject var workoutState: WorkoutCreateState
+    @EnvironmentObject var userFeedState: UserFeedState
     @EnvironmentObject var workoutAPI: WorkoutAPI
     
     var workout: Workout
@@ -34,12 +33,6 @@ public struct WorkoutEditView: View {
     
     init(workout: Workout) {
         self.workout = workout
-        
-        self.workoutState.exerciseStates = workout.exercises.map({ (e) -> ExerciseEditState in
-            <#code#>
-        })
-        
-        self.stopwatch.start()
     }
     
     func pressPause() {
@@ -59,16 +52,14 @@ public struct WorkoutEditView: View {
         self.workoutState.isStopped = false
     }
     
-    func pressFinish() {
+    func pressSave() {
         let exercises: [Exercise] = workoutState.exerciseStates.map{ a in Exercise(raw: a.input) }
         let name = workoutState.workoutName.isEmpty ? dateToWorkoutName(self.workoutState.date) : workoutState.workoutName
         
         let workout = Workout(
+            id: self.workout.id,
             name: name,
-            date: self.workoutState.date,
-            exercises: exercises,
-            location: self.location,
-            secondsElapsed: stopwatch.counter
+            exercises: exercises
         )
         
         if exercises.count == 0 {
@@ -77,9 +68,13 @@ public struct WorkoutEditView: View {
             return
         }
         
-        workoutAPI.createWorkout(workout: workout) { (_) in
+        workoutAPI.updateWorkout(workout: workout).then { (updatedWorkout) in
+            self.userFeedState.workouts.update(with: updatedWorkout)
             self.workoutState.reset()
-            self.routeState.replaceCurrent(with: .userFeed)
+            
+            withAnimation(Animation.easeInOut.speed(1.5)) {
+                self.routeState.editWorkout = nil
+            }
         }
     }
     
@@ -89,89 +84,66 @@ public struct WorkoutEditView: View {
         })
     }
     
+    var enableSaveButton: Bool {
+        if workout.name != workoutState.workoutName {
+            return true
+        }
+        
+        if workout.exercises.count != workoutState.exerciseStates.count {
+            return true
+        }
+        
+        let newExerciseNames = Set(workoutState.exerciseStates.map { $0.input })
+        let oldExerciseNames = Set(workout.exercises.map { $0.raw })
+     
+        if newExerciseNames != oldExerciseNames {
+            return true
+        }
+        
+        return false
+    }
+    
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if workoutState.isStopped {
-                VStack(alignment: .center) {
-                    HStack {
-                        Spacer()
-                        
-                        Button(action: {
-                            withAnimation(Animation.easeInOut.speed(1.5)) {
-                                self.pressResume()
-                            }
-                        }) {
-                            Text("Resume")
-                                .font(.caption)
-                                .foregroundColor(Color.white)
-                                .background(GeometryReader { (geometry: GeometryProxy) in
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .size(
-                                            width: geometry.size.width + 10,
-                                            height: geometry.size.height + 10
-                                    )
-                                        .offset(x: -5, y: -5)
-                                        .fill(appColor)
-                                })
-                        }
-                        .padding(.trailing)
-                    }
-                    
-                    Divider()
-                }
-            }
+            Text("Workout name")
+                .font(.caption)
+                .padding([.leading, .top])
+                .padding(.bottom, 3)
+                .foregroundColor(Color.gray)
             
-            if workoutState.isStopped {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Workout name")
-                        .font(.caption)
-                        .padding([.leading, .top])
-                        .padding(.bottom, 3)
-                        .foregroundColor(Color.gray)
-                    
-                    TextField(dateToWorkoutName(self.workoutState.date), text: $workoutState.workoutName, onCommit: {
-                        self.workoutState.workoutName = self.workoutState.workoutName.trimmingCharacters(in: .whitespaces)
-                    })
-                        .padding([.leading, .trailing])
-                        .padding([.top, .bottom], 12)
-                        .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
-                        .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
-                        .introspectTextField { textField in
-                            if self.workoutNameTextField ==  nil { // only become first responder the first time
-                                textField.becomeFirstResponder()
-                            }
-                            self.workoutNameTextField = textField
+            TextField(dateToWorkoutName(self.workoutState.date), text: $workoutState.workoutName, onCommit: {
+                self.workoutState.workoutName = self.workoutState.workoutName.trimmingCharacters(in: .whitespaces)
+            })
+                .padding([.leading, .trailing])
+                .padding([.top, .bottom], 12)
+                .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
+                .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
+                .introspectTextField { textField in
+                    if self.workoutNameTextField ==  nil { // only become first responder the first time
+                        textField.becomeFirstResponder()
                     }
-                    
-                    Text("Breakdown")
-                        .font(.caption)
-                        .padding([.leading, .top])
-                        .padding(.bottom, 3)
-                        .foregroundColor(Color.gray)
+                    self.workoutNameTextField = textField
                 }
-            }
+            
+            Text("Breakdown")
+                .font(.caption)
+                .padding([.leading, .top])
+                .padding(.bottom, 3)
+                .foregroundColor(Color.gray)
             
             EditableWorkoutMetaMetricsView(
                 stopwatch: stopwatch,
-                showDate: workoutState.isStopped
+                showDate: true
             )
                 .fixedSize(horizontal: workoutState.isStopped, vertical: true)
-                .padding(workoutState.isStopped ? [.leading] : [.top, .trailing, .leading])
-                .padding(.bottom, workoutState.isStopped ? 5 : 20)
+                .padding([.trailing, .leading])
             
-            if workoutState.isStopped {
-                if self.location != nil {
-                    MapView(location: self.location!)
-                        .frame(height: 130)
-                }
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Exercises")
-                        .font(.caption)
-                        .padding([.leading, .top])
-                        .padding(.bottom, 3)
-                        .foregroundColor(Color.gray)
-                }
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Exercises")
+                    .font(.caption)
+                    .padding([.leading, .top])
+                    .padding(.bottom, 3)
+                    .foregroundColor(Color.gray)
             }
             
             ScrollView {
@@ -181,6 +153,7 @@ public struct WorkoutEditView: View {
                             ExerciseEditView(
                                 state: exerciseState,
                                 suggestions: self.suggestions,
+                                shouldResolveExercise: false,
                                 onUserInputCommit: { _ in
                                     DispatchQueue.main.async {
                                         if exerciseState.input.isEmpty {
@@ -188,43 +161,41 @@ public struct WorkoutEditView: View {
                                                 return ex === exerciseState
                                             })
                                         }
-                                        self.newEntryTextField?.becomeFirstResponder()
                                     }
-                            }
+                                }
                             )
                                 .padding([.top, .bottom], 6)
+                                .animation(.none)
                                 .transition(AnyTransition.slide.combined(with: AnyTransition.scale))
                             
-                            Divider().animation(Animation.easeInOut.speed(2))
+                            Divider().animation(.none)
                         }
-                        .modifier(DeletableViewModifier(disable: self.workoutState.isStopped, onClick: {
+                        .modifier(DeletableViewModifier(disable: self.workoutState.isStopped) {
                             self.removeExerciseStateElement(state: exerciseState)
-                        }))
+                        })
                     }
                     
-                    if !self.workoutState.isStopped {
-                        VStack(spacing: 0) {
-                            ExerciseEditView(
-                                state: self.newEntryState,
-                                isNewEntry: true,
-                                suggestions: self.suggestions,
-                                onUserInputCommit: { (textField: UITextField) in
-                                    DispatchQueue.main.async {
-                                        if !self.newEntryState.input.isEmpty {
-                                            self.workoutState.exerciseStates.append(self.newEntryState)
-                                            self.newEntryState = ExerciseEditState(input: "")
-                                        }
-                                        textField.becomeFirstResponder()
+                    VStack(spacing: 0) {
+                        ExerciseEditView(
+                            state: self.newEntryState,
+                            isNewEntry: true,
+                            suggestions: self.suggestions,
+                            becomeFirstResponderOnAppear: false,
+                            onUserInputCommit: { _ in
+                                DispatchQueue.main.async {
+                                    if !self.newEntryState.input.isEmpty {
+                                        self.workoutState.exerciseStates.append(self.newEntryState)
+                                        self.newEntryState = ExerciseEditState(input: "")
                                     }
+                                }
                             },
-                                onTextFieldChange: { (textField: UITextField) in
-                                    self.newEntryTextField = textField
+                            onTextFieldChange: { (textField: UITextField) in
+                                self.newEntryTextField = textField
                             }
-                            )
-                                .padding([.top, .bottom], 6)
-                            
-                            Divider().animation(Animation.easeInOut.speed(2))
-                        }
+                        )
+                            .padding([.top, .bottom], 6)
+                        
+                        Divider().animation(.none)
                     }
                 }
             }
@@ -232,46 +203,38 @@ public struct WorkoutEditView: View {
             Spacer()
             
             HStack(spacing: 0) {
-                if !workoutState.isStopped {
-                    Button(action: {
-                        withAnimation(Animation.easeInOut.speed(1.5)) {
-                            self.pressPause()
-                        }
-                    }) {
-                        HStack {
-                            Spacer()
-                            
-                            Text("Stop")
-                                .foregroundColor(Color.white)
-                                .fontWeight(.semibold)
-                            
-                            Spacer()
-                        }
-                        .padding()
-                        .background(appColor)
+                Button(action: {
+                    if self.enableSaveButton {
+                        self.pressSave()
+                    } else {
+                        self.routeState.editWorkout = nil
                     }
-                }
-                else {
-                    Button(action: {
-                        withAnimation(Animation.easeInOut.speed(1.5)) {
-                            self.pressFinish()
-                        }
-                    }) {
-                        HStack {
-                            Spacer()
-                            
-                            Text(workoutState.exerciseStates.count > 0 ? "Save" : "Cancel")
-                                .foregroundColor(Color.white)
-                                .fontWeight(.semibold)
-                            
-                            Spacer()
-                        }
-                        .padding()
-                        .background(appColor)
+                }) {
+                    HStack {
+                        Spacer()
+                        
+                        Text(self.enableSaveButton ? "Save" : "Cancel")
+                            .foregroundColor(Color.white)
+                            .fontWeight(.semibold)
+                        
+                        Spacer()
                     }
+                    .padding()
+                    .background(appColor)
                 }
             }
         }
+        .background(Color.white)
         .modifier(AdaptsToSoftwareKeyboard())
+        .onAppear {
+            self.workoutState.workoutName = self.workout.name
+            self.workoutState.exerciseStates = self.workout.exercises.map({ e in
+                let s = ExerciseEditState(exercise: e)
+                return s
+            })
+        }
+        .onDisappear {
+            self.workoutState.reset()
+        }
     }
 }

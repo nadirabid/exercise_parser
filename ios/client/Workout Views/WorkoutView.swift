@@ -32,6 +32,8 @@ struct WorkoutView: View {
     var user: User? = nil
     var workout: Workout
     var showUserInfo: Bool = true
+    var onDelete: () -> Void = {}
+    
     var options = [ "waveform.path.ecg", "function" ]
     
     @State private var userImage: Image? = nil
@@ -127,8 +129,8 @@ struct WorkoutView: View {
         .padding([.top, .bottom])
         .actionSheet(isPresented: $showingActionSheet) {
             ActionSheet(title: Text(workout.name), buttons: [
-                .default(Text("Edit")) { self.routeState.editWorkout = self.workout.id! },
-                .destructive(Text("Delete")) { print("delete") },
+                .default(Text("Edit")) { self.routeState.editWorkout = self.workout },
+                .destructive(Text("Delete")) { self.onDelete() },
                 .cancel()
             ])
         }

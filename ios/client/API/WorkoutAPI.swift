@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import JWTDecode
+import Promises
 
 class WorkoutAPI: ObservableObject {
     private var userState: UserState
@@ -96,6 +97,54 @@ class WorkoutAPI: ObservableObject {
                     }
                 }
             }
+    }
+    
+    func updateWorkout(workout: Workout) -> Promise<Workout> {
+        let url = "\(baseURL)/api/workout/\(workout.id!)"
+        
+        return Promise<Workout> { (fulfill, reject) in
+            AF
+                .request(url, method: .put, parameters: workout, encoder: JSONParameterEncoder(encoder: self.encoder), headers: self.headers)
+                .validate(statusCode: 200..<300)
+                .response(queue: DispatchQueue.main) { (response) in
+                    switch response.result {
+                    case .success(let data):
+                        let decoder = JSONDecoder()
+                        decoder.dateDecodingStrategy = decodeStrategy()
+                        
+                        let result = try! decoder.decode(Workout.self, from: data!)
+                        fulfill(result)
+                    case .failure(let error):
+                        print("Failed to update workout", error)
+                        if let data = response.data {
+                            print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                        }
+                        reject(error)
+                    }
+                }
+        }
+    }
+    
+    func deleteWorkout(workout: Workout) -> Promise<Void> {
+        let url = "\(baseURL)/api/workout/\(workout.id!)"
+        
+        return Promise<Void> { (fulfill, reject) in
+            AF
+                .request(url, method: .delete, headers: self.headers)
+                .validate(statusCode: 200..<300)
+                .response(queue: DispatchQueue.main) { (response) in
+                    switch response.result {
+                    case .success:
+                        fulfill(())
+                    case .failure(let error):
+                        print("Failed to delete workout", error)
+                        if let data = response.data {
+                            print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                        }
+                        reject(error)
+                    }
+                }
+        }
     }
 }
 
