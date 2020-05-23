@@ -75,7 +75,9 @@ struct WorkoutView: View {
                         Spacer()
                         
                         Button(action: { self.showingActionSheet = true }) {
-                            Image(systemName:"ellipsis.circle")
+                            Image(systemName:"ellipsis")
+                                .background(Color.white)
+                                .font(.headline)
                                 .foregroundColor(Color.secondary)
                         }
                         .padding(.trailing)

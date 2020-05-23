@@ -84,25 +84,6 @@ public struct WorkoutEditView: View {
         })
     }
     
-    var enableSaveButton: Bool {
-        if workout.name != workoutState.workoutName {
-            return true
-        }
-        
-        if workout.exercises.count != workoutState.exerciseStates.count {
-            return true
-        }
-        
-        let newExerciseNames = Set(workoutState.exerciseStates.map { $0.input })
-        let oldExerciseNames = Set(workout.exercises.map { $0.raw })
-     
-        if newExerciseNames != oldExerciseNames {
-            return true
-        }
-        
-        return false
-    }
-    
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Workout name")
@@ -153,7 +134,6 @@ public struct WorkoutEditView: View {
                             ExerciseEditView(
                                 state: exerciseState,
                                 suggestions: self.suggestions,
-                                shouldResolveExercise: false,
                                 onUserInputCommit: { _ in
                                     DispatchQueue.main.async {
                                         if exerciseState.input.isEmpty {
@@ -204,16 +184,12 @@ public struct WorkoutEditView: View {
             
             HStack(spacing: 0) {
                 Button(action: {
-                    if self.enableSaveButton {
-                        self.pressSave()
-                    } else {
-                        self.routeState.editWorkout = nil
-                    }
+                    self.pressSave()
                 }) {
                     HStack {
                         Spacer()
                         
-                        Text(self.enableSaveButton ? "Save" : "Cancel")
+                        Text("Save")
                             .foregroundColor(Color.white)
                             .fontWeight(.semibold)
                         
