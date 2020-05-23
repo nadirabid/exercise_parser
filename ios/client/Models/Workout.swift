@@ -42,6 +42,10 @@ struct Workout: Codable, Identifiable, Hashable {
         self.secondsElapsed = secondsElapsed
     }
     
+    func hasAtleastOneResolvedExercises() -> Bool {
+        return exercises.contains(where: { e in e.resolutionType == "auto" })
+    }
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.id)
     }

@@ -76,6 +76,10 @@ struct SubscriptionFeedView: View {
         }
     }
     
+    var feedWorkouts: [Workout] {
+        return self.workouts.filter { $0.hasAtleastOneResolvedExercises() }
+    }
+    
     var body: some View {
         UITableView.appearance().separatorColor = .clear
         
@@ -119,8 +123,8 @@ struct SubscriptionFeedView: View {
                     Spacer()
                 } else if workouts.count > 0  {
                     List {
-                        ForEach(workouts) { workout in
-                            WorkoutView(user: self.getUserFor(workout: workout), workout: workout)
+                        ForEach(feedWorkouts) { workout in
+                            WorkoutView(user: self.getUserFor(workout: workout), workout: workout, showUnresolved: false)
                                 .background(Color.white)
                                 .padding(.top)
                                 .buttonStyle(PlainButtonStyle())

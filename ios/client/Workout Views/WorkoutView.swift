@@ -32,6 +32,7 @@ struct WorkoutView: View {
     var user: User? = nil
     var workout: Workout
     var showUserInfo: Bool = true
+    var showUnresolved: Bool = true
     var onDelete: () -> Void = {}
     
     var options = [ "waveform.path.ecg", "function" ]
@@ -39,6 +40,14 @@ struct WorkoutView: View {
     @State private var userImage: Image? = nil
     @State private var view = "waveform.path.ecg"
     @State private var showingActionSheet = false
+    
+    var exercisesToDisplay: [Exercise] {
+        if showUnresolved {
+            return workout.exercises
+        } else {
+            return workout.exercises.filter({ $0.resolutionType == "auto" })
+        }
+    }
     
     var body: some View {
         return VStack(alignment: .leading) {
@@ -97,7 +106,7 @@ struct WorkoutView: View {
                 }
                 
                 VStack(spacing: 0) {
-                    ForEach(self.workout.exercises) { exercise in
+                    ForEach(exercisesToDisplay) { exercise in
                         if exercise.resolutionType != "" {
                             ExerciseView(exercise: exercise)
                         } else {

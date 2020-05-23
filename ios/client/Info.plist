@@ -32,7 +32,11 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>To save the locations of your work out. </string>
+	<string>To save the locations of your workout. </string>
+	<key>NSLocationUsageDescription</key>
+	<string>To save the locations of your workout. </string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>To save the locations of your workout.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
