@@ -288,6 +288,7 @@ func handleDeleteWorkout(c echo.Context) error {
 	w.ID = uint(id)
 
 	q := ctx.DB().
+		Unscoped().
 		Where("user_id = ?", userID).
 		Delete(w)
 
