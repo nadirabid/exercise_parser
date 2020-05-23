@@ -34,6 +34,10 @@ func ComputeForWorkout(workoutID uint, db *gorm.DB) error {
 		return err
 	}
 
+	if err := db.Unscoped().Where("workout_id = ?", workoutID).Delete(&models.Metric{}).Error; err != nil {
+		return err
+	}
+
 	m := computeMetric(workout, dictionaries)
 
 	if err := db.Create(m).Error; err != nil {

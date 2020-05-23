@@ -162,7 +162,6 @@ func (p *Parser) Resolve(exercise string) (*Result, error) {
 
 	extraCommas := regexp.MustCompile(`(,\s+,)+`)
 	exercise = extraCommas.ReplaceAllString(exercise, ",")
-	fmt.Println(exercise)
 
 	// resolve expression
 	resolved := resolveExpressions(exercise, p.exerciseExpressions)

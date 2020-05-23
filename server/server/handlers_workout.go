@@ -4,6 +4,7 @@ import (
 	"exercise_parser/metrics"
 	"exercise_parser/models"
 	"exercise_parser/utils"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -23,6 +24,7 @@ func handleGetWorkout(c echo.Context) error {
 
 	workout := &models.Workout{}
 	err = db.
+		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
 		Where("id = ?", id).
@@ -170,6 +172,47 @@ func handlePostWorkout(c echo.Context) error {
 func handlePutWorkout(c echo.Context) error {
 	ctx := c.(*Context)
 
+	workoutID, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	userID := getUserIDFromContext(ctx)
+
+	updatedWorkout := &models.Workout{}
+
+	if err := ctx.Bind(updatedWorkout); err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	for i, e := range updatedWorkout.Exercises {
+		if err := e.Resolve(); err != nil {
+			// This means we'll need to do post processing - potentially first requiring manual
+			// updates
+			e.Type = "unknown"
+		} else {
+			searchResults, err := models.SearchExerciseDictionary(ctx.viper, ctx.DB(), e.Name)
+			if err != nil {
+				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+			}
+
+			if len(searchResults) > 0 {
+				minSearchRank := float32(0.05)
+				topSearchResult := searchResults[0]
+
+				if topSearchResult.Rank >= minSearchRank {
+					// if we didn't make it ot this if condition - but we resolved properly above
+					// then that means we couldn't find a close enough match for the exercise
+					e.ExerciseDictionaryID = &topSearchResult.ExerciseDictionaryID
+				}
+			}
+		}
+
+		updatedWorkout.Exercises[i] = e
+	}
+
+	// start tx
+
 	tx := ctx.DB().Begin()
 	defer func() {
 		if r := recover(); r != nil {
@@ -177,31 +220,12 @@ func handlePutWorkout(c echo.Context) error {
 		}
 	}()
 
-	userID := getUserIDFromContext(ctx)
-
-	workout := &models.Workout{}
-
-	if err := ctx.Bind(workout); err != nil {
-		tx.Rollback()
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
-	}
-
-	workout.UserID = userID // to make sure user isn't overriding this value
-
-	for i, e := range workout.Exercises {
-		if err := e.Resolve(); err != nil {
-			tx.Rollback()
-			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-		}
-
-		workout.Exercises[i] = e
-	}
-
 	existingWorkout := &models.Workout{}
-	err := tx.
+	err = tx.
+		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
-		Where("id = ?", workout.ID).
+		Where("id = ?", uint(workoutID)).
 		Where("user_id = ?", userID).
 		First(existingWorkout).
 		Error
@@ -211,55 +235,65 @@ func handlePutWorkout(c echo.Context) error {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
 
+	fmt.Println("Existingworkout: ")
+	utils.PrettyPrint(existingWorkout)
+
 	for _, e := range existingWorkout.Exercises {
-		if !workout.HasExercise(e.ID) {
+		if !updatedWorkout.HasExercise(e.ID) {
+			fmt.Println("Deleted exercise: ", e.ID)
 			tx.Delete(&e)
 		}
 	}
 
-	tx.Model(workout).Update(workout)
+	// fields which we don't allow to be updated (at somepoint - we should have validators for this)
+	updatedWorkout.ID = existingWorkout.ID
+	updatedWorkout.Date = existingWorkout.Date
+	updatedWorkout.SecondsElapsed = existingWorkout.SecondsElapsed
+	updatedWorkout.UserID = existingWorkout.UserID
+	updatedWorkout.Location = nil
+
+	tx.Model(updatedWorkout).Update(*updatedWorkout)
 
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	return ctx.JSON(http.StatusOK, workout)
+	updatedWorkout.Location = existingWorkout.Location // set back before returning
+
+	go func() {
+		ctx.logger.Infof("Compute metrics for workout: %s\n", existingWorkout.ID)
+
+		if err := metrics.ComputeForWorkout(existingWorkout.ID, ctx.db); err != nil {
+			ctx.logger.Error(err.Error())
+		}
+
+		ctx.logger.Infof("Complete metrics for workout: %s\n", existingWorkout.ID)
+	}()
+
+	return ctx.JSON(http.StatusOK, updatedWorkout)
 }
 
 func handleDeleteWorkout(c echo.Context) error {
 	ctx := c.(*Context)
-	tx := ctx.DB().Begin()
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
-		}
-	}()
 
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		tx.Rollback()
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
 	userID := getUserIDFromContext(ctx)
 
-	workout := &models.Workout{}
-	tx.
-		Preload("Exercises").
-		Preload("Exercises.ExerciseData").
-		Where("id = ?", id).
+	w := &models.Workout{}
+	w.ID = uint(id)
+
+	q := ctx.DB().
 		Where("user_id = ?", userID).
-		First(workout).
-		Delete(workout)
+		Delete(w)
 
-	for _, e := range workout.Exercises {
-		tx.Where("id = ?", e.ID).Delete(&e)
-	}
-
-	if err := tx.Commit().Error; err != nil {
+	if err := q.Error; err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
 
-	return ctx.JSON(http.StatusOK, workout)
+	return ctx.JSON(http.StatusOK, w)
 }

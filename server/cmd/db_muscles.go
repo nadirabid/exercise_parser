@@ -172,6 +172,16 @@ func printMuscles(cmd *cobra.Command, args []string) error {
 			m = models.SanitizeMuscleString(m)
 			muscles[m] = true
 		}
+
+		for _, m := range d.DynamicArticulation {
+			m := models.SanitizeMuscleString(m)
+			muscles[m] = true
+		}
+
+		for _, m := range d.StaticArticulation {
+			m := models.SanitizeMuscleString(m)
+			muscles[m] = true
+		}
 	}
 
 	musclesSlice := []string{}

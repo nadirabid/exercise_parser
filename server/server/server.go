@@ -90,6 +90,7 @@ func newEchoRequestLogger(logger *logrus.Logger) func(echo.Context, []byte, []by
 			logger.Error(err.Error())
 		}
 
+		logger.Info("Request Info:")
 		logger.Info(string(requestDump))
 		logger.Info(string(reqBody))
 		logger.Info(string(resBody))
@@ -218,7 +219,7 @@ func New(v *viper.Viper) error {
 	apiRoutes.GET("/workout", handleGetAllUserWorkout)
 	apiRoutes.GET("/workout/:id", handleGetWorkout)
 	apiRoutes.POST("/workout", handlePostWorkout)
-	apiRoutes.PUT("/workout", handlePutWorkout)
+	apiRoutes.PUT("/workout/:id", handlePutWorkout)
 	apiRoutes.DELETE("/workout/:id", handleDeleteWorkout)
 
 	// returns metrics

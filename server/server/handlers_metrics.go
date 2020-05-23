@@ -100,7 +100,7 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 			for _, muscleName := range d.Muscles.Target {
 				standardMuscleName, err := models.MuscleStandardName(muscleName)
 				if err != nil {
-					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
+					ctx.logger.Errorf("Error: unknown muscle: %s\n", muscleName)
 					continue
 				}
 
@@ -115,7 +115,7 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 			for _, muscleName := range d.Muscles.Synergists {
 				standardMuscleName, err := models.MuscleStandardName(muscleName)
 				if err != nil {
-					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
+					ctx.logger.Errorf("Error: unknown muscle: %s\n", muscleName)
 					continue
 				}
 
@@ -130,7 +130,7 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 			for _, muscleName := range d.Muscles.Stabilizers {
 				standardMuscleName, err := models.MuscleStandardName(muscleName)
 				if err != nil {
-					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
+					ctx.logger.Errorf("Error: unknown muscle: %s\n", muscleName)
 					continue
 				}
 
@@ -145,7 +145,7 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 			for _, muscleName := range d.Muscles.DynamicStabilizers {
 				standardMuscleName, err := models.MuscleStandardName(muscleName)
 				if err != nil {
-					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
+					ctx.logger.Errorf("Error: unknown muscle: %s\n", muscleName)
 					continue
 				}
 
@@ -160,7 +160,7 @@ func handleGetWeeklyMetrics(c echo.Context) error {
 			for _, muscleName := range d.Muscles.AntagonistStabilizers {
 				standardMuscleName, err := models.MuscleStandardName(muscleName)
 				if err != nil {
-					fmt.Printf("Error: unknown muscle: %s\n", muscleName)
+					ctx.logger.Errorf("Error: unknown muscle: %s\n", muscleName)
 					continue
 				}
 

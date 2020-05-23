@@ -14,7 +14,7 @@ import MapKit
 import UIKit
 import Foundation
 
-public struct WorkoutCreteView: View {
+public struct WorkoutCreateView: View {
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var state: WorkoutCreateState
     @EnvironmentObject var workoutAPI: WorkoutAPI
@@ -380,7 +380,7 @@ struct CreateWorkoutView_Previews : PreviewProvider {
             ExerciseEditState(input: "4 mins of running")
         ]
         
-        return WorkoutCreteView()
+        return WorkoutCreateView()
             .environmentObject(workoutEditorState)
             .environmentObject(RouteState(current: .editor))
             .environmentObject(MockWorkoutAPI(userState: UserState()) as WorkoutAPI)
