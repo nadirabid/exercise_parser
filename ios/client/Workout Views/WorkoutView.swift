@@ -50,6 +50,12 @@ struct WorkoutView: View {
     }
     
     var body: some View {
+        if self.showUserInfo && self.user != nil && self.user!.imageExists != nil && self.user!.imageExists! && userImage == nil{
+            self.userAPI.getImage(for: self.user!.id!).then { uiImage in
+                self.userImage = Image(uiImage: uiImage)
+            }
+        }
+        
         return VStack(alignment: .leading) {
             HStack {
                 if showUserInfo {
@@ -144,15 +150,6 @@ struct WorkoutView: View {
                 .destructive(Text("Delete")) { self.onDelete() },
                 .cancel()
             ])
-        }
-        .onAppear {
-            if self.showUserInfo && self.user != nil && self.user!.imageExists != nil && self.user!.imageExists! {
-                self.userAPI.getImage(for: self.user!.id!).then { uiImage in
-                    self.userImage = Image(uiImage: uiImage)
-                }
-            } else if self.showUserInfo {
-                print("Not fetching image!!!", self.user)
-            }
         }
     }
 }
