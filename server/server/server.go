@@ -52,30 +52,16 @@ func newContext(
 	sess *session.Session,
 	uploader *s3manager.Uploader,
 	downloader *s3manager.Downloader,
+	tokenSigningKey *rsa.PrivateKey,
+	appleClientSecret string,
 ) *Context {
-
-	// TODO: optimization - move this out of newContext
-	key, err := parseRsaPrivateKeyForTokenGeneration(v)
-	if err != nil {
-		panic(fmt.Sprintf("Failed to generate key: %s", err.Error()))
-	}
-
-	clientSecret := ""
-
-	if v.GetBool("middleware.auth") {
-		clientSecret, err = generateAppleClientSecret(v)
-		if err != nil {
-			panic(fmt.Sprintf("Failed to generate client secret: %s", err.Error()))
-		}
-	}
-
 	return &Context{
 		c,
 		db,
-		key,
+		tokenSigningKey,
 		v,
 		nil,
-		clientSecret,
+		appleClientSecret,
 		logger,
 		sess,
 		uploader,
@@ -134,6 +120,22 @@ func New(v *viper.Viper) error {
 		downloader = s3manager.NewDownloader(sess)
 	}
 
+	// INIT AUTH TOKEN KEYS
+
+	// TODO: optimization - move this out of newContext
+	tokenSigningKey, err := parseRsaPrivateKeyForTokenGeneration(v)
+	if err != nil {
+		panic(fmt.Sprintf("Failed to generate key: %s", err.Error()))
+	}
+
+	appleClientSecret := ""
+	if v.GetBool("middleware.auth") {
+		appleClientSecret, err = generateAppleClientSecret(v)
+		if err != nil {
+			panic(fmt.Sprintf("Failed to generate client secret: %s", err.Error()))
+		}
+	}
+
 	// INIT PARSER
 
 	if err := parser.Init(v); err != nil {
@@ -173,6 +175,8 @@ func New(v *viper.Viper) error {
 				sess,
 				uploader,
 				downloader,
+				tokenSigningKey,
+				appleClientSecret,
 			))
 		}
 	})
