@@ -50,7 +50,11 @@ struct WorkoutView: View {
     }
     
     var body: some View {
-        if self.showUserInfo && self.user != nil && self.user!.imageExists != nil && self.user!.imageExists! && userImage == nil{
+        if self.showUserInfo &&
+            self.user != nil &&
+            self.user!.imageExists != nil &&
+            self.user!.imageExists! &&
+            userImage == nil {
             self.userAPI.getImage(for: self.user!.id!).then { uiImage in
                 self.userImage = Image(uiImage: uiImage)
             }
