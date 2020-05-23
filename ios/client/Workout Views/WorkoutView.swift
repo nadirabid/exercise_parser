@@ -146,10 +146,12 @@ struct WorkoutView: View {
             ])
         }
         .onAppear {
-            if self.showUserInfo && self.user != nil {
+            if self.showUserInfo && self.user != nil && self.user!.imageExists != nil && self.user!.imageExists! {
                 self.userAPI.getImage(for: self.user!.id!).then { uiImage in
                     self.userImage = Image(uiImage: uiImage)
                 }
+            } else if self.showUserInfo {
+                print("Not fetching image!!!", self.user)
             }
         }
     }
@@ -369,7 +371,8 @@ struct WorkoutView_Previews : PreviewProvider {
                 externalUserId: "test.user",
                 email: "test@user.com",
                 givenName: "Calev",
-                familyName: "Muzaffar"
+                familyName: "Muzaffar",
+                imageExists: nil
             ),
             workout: Workout(
                 id: 1,

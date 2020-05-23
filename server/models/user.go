@@ -11,6 +11,13 @@ type User struct {
 	ImagePath      string             `json:"-"`
 }
 
+// WrappedUser - this is for returning data through API with fields that don't necessarily
+// exist in the database
+type WrappedUser struct {
+	User
+	ImageExists bool `json:"image_exists"`
+}
+
 func (User) TableName() string {
 	return "users"
 }

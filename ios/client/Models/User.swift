@@ -15,6 +15,7 @@ struct User: Codable, Hashable {
     let email: String?
     let givenName: String?
     let familyName: String?
+    let imageExists: Bool?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.id)
@@ -29,6 +30,7 @@ struct User: Codable, Hashable {
         case email = "email"
         case givenName = "given_name"
         case familyName = "family_name"
+        case imageExists = "image_exists"
         case id
     }
     
@@ -47,5 +49,5 @@ class UserState: ObservableObject {
     // 1 = Authorized, -1 = Revoked
     @Published var authorization: Int = 0
     @Published var jwt: JWT? = nil
-    @Published var userInfo: User = User(id: nil, externalUserId: nil, email: nil, givenName: nil, familyName: nil)
+    @Published var userInfo: User = User(id: nil, externalUserId: nil, email: nil, givenName: nil, familyName: nil, imageExists: false)
 }

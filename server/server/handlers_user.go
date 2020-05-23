@@ -104,6 +104,17 @@ func handleGetUsers(c echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
+	wrappedUsers := []models.WrappedUser{}
+
+	for _, u := range users {
+		wrappedUsers = append(wrappedUsers, models.WrappedUser{
+			User:        u,
+			ImageExists: u.ImagePath != "",
+		})
+	}
+
+	r.Results = wrappedUsers
+
 	return ctx.JSON(http.StatusOK, r)
 }
 
@@ -127,7 +138,12 @@ func handlePatchMeUser(c echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	return ctx.JSON(http.StatusOK, updatedUser)
+	r := models.WrappedUser{
+		User:        *updatedUser,
+		ImageExists: updatedUser.ImagePath != "",
+	}
+
+	return ctx.JSON(http.StatusOK, r)
 }
 
 func handleGetMeUserImage(c echo.Context) error {

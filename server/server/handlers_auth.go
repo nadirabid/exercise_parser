@@ -20,8 +20,8 @@ import (
 )
 
 type TokenResponse struct {
-	Token string      `json:"token"`
-	User  models.User `json:"user"`
+	Token string             `json:"token"`
+	User  models.WrappedUser `json:"user"`
 }
 
 func handleUserRegistrationHelper(user *models.User, ctx *Context) (*TokenResponse, error) {
@@ -54,9 +54,14 @@ func handleUserRegistrationHelper(user *models.User, ctx *Context) (*TokenRespon
 		return nil, err
 	}
 
+	r := models.WrappedUser{
+		User:        *user,
+		ImageExists: user.ImagePath != "",
+	}
+
 	return &TokenResponse{
 		Token: string(payload),
-		User:  *user,
+		User:  r,
 	}, nil
 }
 

@@ -30,7 +30,7 @@ struct EditorUserProfileView: View {
     @ObservedObject private var locationManager: LocationManager = LocationManager()
     
     func save() {
-        let user = User(id: nil, externalUserId: nil, email: nil, givenName: givenName, familyName: familyName)
+        let user = User(id: nil, externalUserId: nil, email: nil, givenName: givenName, familyName: familyName, imageExists: nil)
         
         var savePromises: [Promise<Void>] = []
         

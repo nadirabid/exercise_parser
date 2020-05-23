@@ -76,7 +76,8 @@ struct SignInDevView: View {
             externalUserId: "fake.user.id",
             email: "fake@user.com",
             givenName: "Fake",
-            familyName: "User"
+            familyName: "User",
+            imageExists: nil
         )
         
         self.userAPI.userRegistrationAndLogin(identityToken: "not.a.token", data: data) { (jwt, user) in
@@ -199,7 +200,8 @@ struct SignInWithAppleView: UIViewRepresentable {
                 externalUserId: credentials.user,
                 email: credentials.email ?? "",
                 givenName: credentials.fullName?.givenName ?? "",
-                familyName: credentials.fullName?.familyName ?? ""
+                familyName: credentials.fullName?.familyName ?? "",
+                imageExists: nil
             )
             
             self.parent?.userAPI.userRegistrationAndLogin(identityToken: identityToken, data: data) { (jwt, user) in
