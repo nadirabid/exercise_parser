@@ -104,6 +104,8 @@ struct MainView: View {
             }
             
             if route.editWorkout != nil {
+                Color.white.edgesIgnoringSafeArea(.all)
+                
                 WorkoutEditView(workout: route.editWorkout!)
             }
             

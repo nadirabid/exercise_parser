@@ -86,6 +86,18 @@ public struct WorkoutEditView: View {
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            VStack {
+                HStack(alignment: .center) {
+                    Button(action: { self.routeState.editWorkout = nil }) {
+                        Text("Cancel")
+                    }
+                    .padding(.leading)
+                    
+                    Spacer()
+                }
+                Divider()
+            }
+            
             Text("Workout name")
                 .font(.caption)
                 .padding([.leading, .top])
@@ -104,7 +116,7 @@ public struct WorkoutEditView: View {
                         textField.becomeFirstResponder()
                     }
                     self.workoutNameTextField = textField
-                }
+            }
             
             Text("Breakdown")
                 .font(.caption)
@@ -142,7 +154,7 @@ public struct WorkoutEditView: View {
                                             })
                                         }
                                     }
-                                }
+                            }
                             )
                                 .padding([.top, .bottom], 6)
                                 .animation(.none)
@@ -168,10 +180,10 @@ public struct WorkoutEditView: View {
                                         self.newEntryState = ExerciseEditState(input: "")
                                     }
                                 }
-                            },
+                        },
                             onTextFieldChange: { (textField: UITextField) in
                                 self.newEntryTextField = textField
-                            }
+                        }
                         )
                             .padding([.top, .bottom], 6)
                         
@@ -200,7 +212,6 @@ public struct WorkoutEditView: View {
                 }
             }
         }
-        .background(Color.white)
         .modifier(AdaptsToSoftwareKeyboard())
         .onAppear {
             self.workoutState.workoutName = self.workout.name
