@@ -50,7 +50,7 @@ func (Location) TableName() string {
 type Exercise struct {
 	Model
 	Raw                  string            `json:"raw"`
-	Type                 string            `json:"type"`
+	Type                 string            `json:"type"` // TODO: remove (its now safe to do so)
 	ResolutionType       string            `json:"resolution_type"`
 	Name                 string            `json:"name"`
 	ExerciseDictionaryID *uint             `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`

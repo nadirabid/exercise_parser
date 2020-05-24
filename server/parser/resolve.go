@@ -10,6 +10,11 @@ import (
 	"github.com/spf13/viper"
 )
 
+const (
+	ParseTypeFull    = "Full"
+	ParseTypePartial = "Partial"
+)
+
 // Result holds the parsed captures from resolve
 type Result struct {
 	Type     string
@@ -17,9 +22,10 @@ type Result struct {
 }
 
 type parsedExercise struct {
-	Raw      string
-	Captures map[string]string
-	Regex    string
+	Raw       string
+	Captures  map[string]string
+	Regex     string
+	ParseType string
 }
 
 type expression struct {
@@ -40,8 +46,6 @@ func newExpression(value string, captureDoesNotContain map[string][]string, asse
 
 func exerciseExpresssions() []*expression {
 	// increasing specificity is in descending order
-
-	// Dumbbell Bent over row, 36lb dumbbell, 3x15, 2-3 min rest
 
 	expressions := []*expression{
 		newExpression(`^(?P<Reps>\d+|\d+\-\d+)\s*(?P<NotUnits>s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours|kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:,+|-|\s)\s*(?P<Exercise>([a-zA-Z\/\-\s]+[a-zA-Z])$)`, nil, []string{"NotUnits"}),                                                                                                    // {Reps:Number}-{Reps:Number} (Delimiter) {Exercise:String}
@@ -147,18 +151,25 @@ func resolveExpressions(exercise string, regexpSet []*expression) *parsedExercis
 	}
 }
 
-func recursiveResolveExpressions(exercise string, regexpSet []*expression) []*parsedExercise {
+func deepResolveExpressions(exercise string, regexpSet []*expression) []*parsedExercise {
+	// 1. try and resolve the entire thing
 	parsed := resolveExpressions(exercise, regexpSet)
 
 	if parsed.Captures != nil {
+		parsed.ParseType = ParseTypeFull
 		return []*parsedExercise{parsed}
 	}
 
-	tokens := strings.Split(exercise, ",")
+	// 2. try and resolve each token separated by commas
+	commaTokens := strings.Split(exercise, ",")
 	parsedTokens := []*parsedExercise{}
 
-	for _, t := range tokens {
-		parsedTokens = append(parsedTokens, resolveExpressions(t, regexpSet))
+	for _, t := range commaTokens {
+		parsed := resolveExpressions(t, regexpSet)
+		if parsed.Captures != nil {
+			parsed.ParseType = ParseTypePartial
+			parsedTokens = append(parsedTokens, parsed)
+		}
 	}
 
 	return parsedTokens
@@ -182,15 +193,20 @@ func (p *Parser) Resolve(exercise string) (*Result, error) {
 	exercise = extraCommas.ReplaceAllString(exercise, ",")
 
 	// resolve expression
-	resolved := resolveExpressions(exercise, p.exerciseExpressions)
+	resolvedExpressions := deepResolveExpressions(exercise, p.exerciseExpressions)
 
-	if resolved.Captures != nil {
-		return &Result{
-			Captures: resolved.Captures,
-		}, nil
+	if len(resolvedExpressions) == 0 {
+		return nil, fmt.Errorf("no matches found")
+	} else if len(resolvedExpressions) > 1 {
+		return nil, fmt.Errorf("multiple matches found")
 	}
 
-	return nil, fmt.Errorf("no match found")
+	resolved := resolvedExpressions[0]
+
+	return &Result{
+		Captures: resolved.Captures,
+		Type:     resolved.ParseType,
+	}, nil
 }
 
 func (p *Parser) lemmatize(s string) string {
