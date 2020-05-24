@@ -81,8 +81,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // MARK: configure cache
         
-        ImageCache.default.diskStorage.config.expiration = .seconds(30*60)
-        ImageCache.default.memoryStorage.config.expiration = .seconds(30*60)
+        
+        ImageCache.default.diskStorage.config.expiration = .seconds(5*60*60)
+        ImageCache.default.memoryStorage.config.expiration = .seconds(5*60*60)
 
         // MARK: setup scene
         
