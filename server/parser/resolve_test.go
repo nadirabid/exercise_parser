@@ -9,17 +9,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestStuff(t *testing.T) {
-	t.Run("Slow/fast push up variation 7x30", func(t *testing.T) {
-		parsed := resolveAllTestUtil("Slow/fast push up variation 7x30")
-		assert.Equal(t, len(parsed), 1)
-		assert.Equal(t, parsed[0].Captures, map[string]string{
-			"Exercise": "slow/fast push up variation",
-			"Reps":     "30",
-			"Sets":     "7",
-		})
-	})
-}
+// func TestStuff(t *testing.T) {
+// 	t.Run("12 walking lunges, left wnd right", func(t *testing.T) {
+// 		parsed := resolveAllTestUtil("12 walking lunges, left wnd right")
+// 		assert.Equal(t, len(parsed), 1)
+// 		assert.Equal(t, parsed[0].Captures, map[string]string{
+// 			"Exercise": "12 walking lunges, left wnd right",
+// 			"Reps":     "12",
+// 		})
+// 	})
+// }
 
 func TestStrengthExercise(t *testing.T) {
 	delimiter := []string{
@@ -36,6 +35,7 @@ func TestStrengthExercise(t *testing.T) {
 	kettlebellSwings4 := map[string]string{"Exercise": "kettlebell swings", "Reps": "10-12", "Weight": "25", "WeightUnits": "lbs"}
 	squatJumps1 := map[string]string{"Exercise": "squat jumps", "Reps": "20", "Sets": "5"}
 	tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
+	slowFastPushUps1 := map[string]string{"Exercise": "slow/fast push-ups", "Sets": "10", "Reps": "3"}
 
 	for _, d := range delimiter {
 		t.Run("{Reps:Number} (Delimiter) {Exercise:String}", func(t *testing.T) {
@@ -168,9 +168,9 @@ func TestStrengthExercise(t *testing.T) {
 
 		t.Run("{Exericse:String} (Delimiter) {Sets:Number}x{Reps:Number}", func(t *testing.T) {
 			// this one tests special characters ARE allows: "/" and "-"
-			parsed := resolveAllTestUtil(fmt.Sprintf("slow/fast push-ups%10x3", d))
+			parsed := resolveAllTestUtil(fmt.Sprintf("slow/fast push-ups%s10x3", d))
 			assert.Equal(t, len(parsed), 1)
-			assert.Equal(t, tricepCurls1, parsed[0].Captures)
+			assert.Equal(t, slowFastPushUps1, parsed[0].Captures)
 		})
 
 		t.Run("{Exercise:String} (Delimiter) {Sets:Number} by {Reps:Number}", func(t *testing.T) {
@@ -430,6 +430,12 @@ func TestAerobicExercise(t *testing.T) {
 			})
 		}
 	}
+
+	t.Run("{Distance:Float} {Exercise:String}", func(t *testing.T) {
+		parsed := resolveAllTestUtil("0.5 walk")
+		assert.Equal(t, len(parsed), 1)
+		assert.Equal(t, parsed[0].Captures, map[string]string{"Exercise": "walk", "Distance": "0.5"})
+	})
 
 	for _, u := range distanceUnits {
 		running1 := map[string]string{"Exercise": "running", "Distance": "1.55", "DistanceUnits": u}

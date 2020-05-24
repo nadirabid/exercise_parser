@@ -25,8 +25,8 @@ type parsedExercise struct {
 type expression struct {
 	value                 string
 	regexp                *regexp.Regexp
-	assertMissingCaptures []string
-	captureDoesNotContain map[string][]string
+	assertMissingCaptures []string            // make sure we don't have these captures in expression
+	captureDoesNotContain map[string][]string // what was this for again???
 }
 
 func newExpression(value string, captureDoesNotContain map[string][]string, assertMissingCaptures []string) *expression {
@@ -80,7 +80,8 @@ func exerciseExpresssions() []*expression {
 
 		newExpression(`^(?P<Exercise>[a-zA-Z\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,+|-|\s)\s*(?:in)?\s*(?P<Time>\d+)\s*(?P<TimeUnits>(s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, nil, nil), // {Exercise:String} (Delimiter) {Distance:Float}{DistanceUnits} (Delimiter) {Time:Number}{TimeUnits} :TODO - add delimiter ttest
 
-		newExpression(`^(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,+|-|\s)\s*(?:of)?\s*(?P<Exercise>([a-zA-Z\/\-\s]+[a-zA-Z])$)`, nil, nil), // {Distance:Float}{DistanceUnits} (Delimiter) of? {Exercise:String} :TODO - delimiter test
+		newExpression(`^(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,+|-|\s)\s*(?:of)?\s*(?P<Exercise>([a-zA-Z\/\-\s]+[a-zA-Z])$)`, nil, nil),             // {Distance:Float}{DistanceUnits} (Delimiter) of? {Exercise:String} :TODO - delimiter test
+		newExpression(`^(?P<Distance>[0-9]*[.][0-9]+)\s*(?P<NotDistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:of)?\s*(?P<Exercise>([a-zA-Z\/\-\s]+[a-zA-Z])$)`, nil, []string{"NotDistanceUnits"}), // {Distance:Float} of? {Exercise:String} :TODO - delimiter test
 	}
 
 	return expressions
@@ -144,6 +145,23 @@ func resolveExpressions(exercise string, regexpSet []*expression) *parsedExercis
 	return &parsedExercise{
 		Raw: exercise,
 	}
+}
+
+func recursiveResolveExpressions(exercise string, regexpSet []*expression) []*parsedExercise {
+	parsed := resolveExpressions(exercise, regexpSet)
+
+	if parsed.Captures != nil {
+		return []*parsedExercise{parsed}
+	}
+
+	tokens := strings.Split(exercise, ",")
+	parsedTokens := []*parsedExercise{}
+
+	for _, t := range tokens {
+		parsedTokens = append(parsedTokens, resolveExpressions(t, regexpSet))
+	}
+
+	return parsedTokens
 }
 
 // Parser allows you to resolve raw exercise strings
