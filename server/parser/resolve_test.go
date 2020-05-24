@@ -9,6 +9,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestStuff(t *testing.T) {
+	t.Run("Slow/fast push up variation 7x30", func(t *testing.T) {
+		parsed := resolveAllTestUtil("Slow/fast push up variation 7x30")
+		assert.Equal(t, len(parsed), 1)
+		assert.Equal(t, parsed[0].Captures, map[string]string{
+			"Exercise": "slow/fast push up variation",
+			"Reps":     "30",
+			"Sets":     "7",
+		})
+	})
+}
+
 func TestStrengthExercise(t *testing.T) {
 	delimiter := []string{
 		"-", "- ", " -", " - ",
@@ -150,6 +162,13 @@ func TestStrengthExercise(t *testing.T) {
 
 		t.Run("{Exericse:String} (Delimiter) {Sets:Number}x{Reps:Number}", func(t *testing.T) {
 			parsed := resolveAllTestUtil(fmt.Sprintf("tricep curls%s3x3", d))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, tricepCurls1, parsed[0].Captures)
+		})
+
+		t.Run("{Exericse:String} (Delimiter) {Sets:Number}x{Reps:Number}", func(t *testing.T) {
+			// this one tests special characters ARE allows: "/" and "-"
+			parsed := resolveAllTestUtil(fmt.Sprintf("slow/fast push-ups%10x3", d))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, tricepCurls1, parsed[0].Captures)
 		})
