@@ -205,7 +205,7 @@ func (p *Parser) Resolve(exercise string) ([]*ParsedExercise, error) {
 }
 
 func (p *Parser) RemoveStopPhrases(exercise string) string {
-	return p.stopPhrases.removeStopPhrases(exercise)
+	return strings.Trim(p.stopPhrases.removeStopPhrases(exercise), " ")
 }
 
 func (p *Parser) lemmatize(s string) string {
