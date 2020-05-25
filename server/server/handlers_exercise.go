@@ -2,6 +2,7 @@ package server
 
 import (
 	"exercise_parser/models"
+	"exercise_parser/parser"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -183,7 +184,8 @@ func handlePostRematchExercises(c echo.Context) error {
 	matchedExercises := []models.Exercise{}
 
 	for _, e := range exercises {
-		searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, e.Name)
+		searchTerm := parser.Get().RemoveStopPhrases(e.Name)
+		searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, searchTerm)
 		if err != nil {
 			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 		}
@@ -234,7 +236,8 @@ func handlePostReresolveExercises(c echo.Context) error {
 
 	for _, e := range exercises {
 		if err := e.Resolve(ctx.viper, ctx.DB()); err == nil {
-			searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, e.Name)
+			searchTerm := parser.Get().RemoveStopPhrases(e.Name)
+			searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, searchTerm)
 			if err != nil {
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}

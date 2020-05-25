@@ -69,6 +69,7 @@ func (Exercise) TableName() string {
 
 // Resolve will take the Raw exercise string and parse out the various fields
 // TODO: this really shouldn't be a method on the struct - frankly bad decisions
+// TODO: this needs some testing BADLY
 func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 	parsedExercises, err := parser.Get().Resolve(e.Raw)
 	if err != nil {
@@ -82,7 +83,7 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 
 		resolved := []*parser.ParsedExercise{}
 		for _, p := range parsedExercises {
-			parsedExerciseStr := p.Captures["Exercise"]
+			parsedExerciseStr := parser.Get().RemoveStopPhrases(p.Captures["Exercise"])
 			searchResults, err := SearchExerciseDictionary(v, db, parsedExerciseStr)
 			if err != nil {
 				return err

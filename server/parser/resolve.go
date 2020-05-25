@@ -204,6 +204,10 @@ func (p *Parser) Resolve(exercise string) ([]*ParsedExercise, error) {
 	return parsedExpressions, nil
 }
 
+func (p *Parser) RemoveStopPhrases(exercise string) string {
+	return p.stopPhrases.removeStopPhrases(exercise)
+}
+
 func (p *Parser) lemmatize(s string) string {
 	tokens := strings.Split(s, " ")
 	lemmas := make([]string, len(tokens), len(tokens))

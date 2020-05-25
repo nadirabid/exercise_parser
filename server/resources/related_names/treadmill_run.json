@@ -1,6 +1,9 @@
 {
-  "Name": "Treadmill Run",
+  "Name": "Run",
   "Related": [
-    " run"
+    "jog",
+    "outdoor run",
+    "ran",
+    "running"
   ]
 }

@@ -3,6 +3,7 @@ package server
 import (
 	"exercise_parser/metrics"
 	"exercise_parser/models"
+	"exercise_parser/parser"
 	"exercise_parser/utils"
 	"fmt"
 	"net/http"
@@ -132,7 +133,8 @@ func handlePostWorkout(c echo.Context) error {
 			// updates
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
 		} else {
-			searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, e.Name)
+			searchTerm := parser.Get().RemoveStopPhrases(e.Name)
+			searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, searchTerm)
 			if err != nil {
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}
@@ -191,7 +193,8 @@ func handlePutWorkout(c echo.Context) error {
 			// updates
 			e.Type = "unknown"
 		} else {
-			searchResults, err := models.SearchExerciseDictionary(ctx.viper, ctx.DB(), e.Name)
+			searchTerm := parser.Get().RemoveStopPhrases(e.Name)
+			searchResults, err := models.SearchExerciseDictionary(ctx.viper, ctx.DB(), searchTerm)
 			if err != nil {
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}
