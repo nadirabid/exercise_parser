@@ -2,6 +2,7 @@ package server
 
 import (
 	"exercise_parser/models"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -44,10 +45,9 @@ func handleResolveExercise(c echo.Context) error {
 	}
 
 	if err := exercise.Resolve(); err != nil {
+		fmt.Println("err", err)
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
-
-	// TODO: should we also do a match to dictionary???
 
 	return ctx.JSON(http.StatusOK, exercise)
 }
@@ -252,9 +252,9 @@ func handlePostReresolveExercises(c echo.Context) error {
 			}
 
 			resolvedExercises = append(resolvedExercises, e)
+		} else {
+			ctx.logger.Errorf("Failed to parse exercise %s with error: ", e.Raw, err)
 		}
-
-		// TODO: log the ones we failed to resolve?
 	}
 
 	r := models.ListResponse{

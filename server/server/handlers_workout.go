@@ -130,7 +130,7 @@ func handlePostWorkout(c echo.Context) error {
 		if err := e.Resolve(); err != nil {
 			// This means we'll need to do post processing - potentially first requiring manual
 			// updates
-			e.Type = "unknown"
+			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
 		} else {
 			searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, e.Name)
 			if err != nil {

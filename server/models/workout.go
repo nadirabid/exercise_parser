@@ -50,7 +50,7 @@ func (Location) TableName() string {
 type Exercise struct {
 	Model
 	Raw                  string            `json:"raw"`
-	Type                 string            `json:"type"` // TODO: remove (its now safe to do so)
+	Type                 string            `json:"type"` // now using this for parser.ParseType
 	ResolutionType       string            `json:"resolution_type"`
 	Name                 string            `json:"name"`
 	ExerciseDictionaryID *uint             `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
@@ -308,7 +308,29 @@ func evalTime(captures map[string]string) (uint, error) {
 
 	timeUnit := utils.GetStringOrDefault(captures["TimeUnits"], "minutes")
 
-	time, err := strconv.ParseFloat(timeStr, 32)
+	if strings.Contains(timeStr, "-") {
+		timeTokens := strings.Split(timeStr, "-")
+		if len(timeTokens) != 2 {
+			return 0, fmt.Errorf("Time contains -, but doesn't have two numbers. Eg of expected: 10-15")
+		}
+
+		time1, err := strconv.Atoi(timeTokens[0])
+		time2, err := strconv.Atoi(timeTokens[1])
+
+		if err != nil {
+			return 0, err
+		}
+
+		standardizedTime, err := parser.UnitStandardize(timeUnit, float32(utils.MaxInt(time1, time2)))
+
+		if err != nil {
+			return 0, err
+		}
+
+		return uint(standardizedTime), nil
+	}
+
+	time, err := strconv.Atoi(timeStr)
 	if err != nil {
 		return 0, err
 	}

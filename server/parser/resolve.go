@@ -189,7 +189,7 @@ func (p *Parser) Resolve(exercise string) (*Result, error) {
 	// remove stop phrases
 	exercise = p.stopPhrases.removeStopPhrases(exercise)
 
-	extraCommas := regexp.MustCompile(`(,\s+,)+`)
+	extraCommas := regexp.MustCompile(`(,\s*,)+`)
 	exercise = extraCommas.ReplaceAllString(exercise, ",")
 
 	// resolve expression
