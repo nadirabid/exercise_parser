@@ -127,7 +127,7 @@ func handlePostWorkout(c echo.Context) error {
 		// 1. parse the user exercise string into parts
 		// 2. resolve the individual parts (i.e the exercise to a known exercise)
 
-		if err := e.Resolve(); err != nil {
+		if err := e.Resolve(ctx.viper, db); err != nil {
 			// This means we'll need to do post processing - potentially first requiring manual
 			// updates
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
@@ -186,7 +186,7 @@ func handlePutWorkout(c echo.Context) error {
 	}
 
 	for i, e := range updatedWorkout.Exercises {
-		if err := e.Resolve(); err != nil {
+		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
 			// This means we'll need to do post processing - potentially first requiring manual
 			// updates
 			e.Type = "unknown"

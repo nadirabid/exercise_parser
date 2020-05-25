@@ -7,6 +7,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/jinzhu/gorm"
+	"github.com/spf13/viper"
 )
 
 // Workout model
@@ -65,13 +68,16 @@ func (Exercise) TableName() string {
 }
 
 // Resolve will take the Raw exercise string and parse out the various fields
-func (e *Exercise) Resolve() error {
+// TODO: this really shouldn't be a method on the struct - frankly bad decisions
+func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 	parsed, err := parser.Get().Resolve(e.Raw)
 	if err != nil {
 		return err
 	}
 
 	if len(parsed) > 1 {
+		// now things get freaky
+
 		return fmt.Errorf("multiple matches")
 	}
 

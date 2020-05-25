@@ -44,7 +44,7 @@ func handleResolveExercise(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	if err := exercise.Resolve(); err != nil {
+	if err := exercise.Resolve(ctx.viper, ctx.DB()); err != nil {
 		fmt.Println("err", err)
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
@@ -62,7 +62,7 @@ func handlePostExercise(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	if err := exercise.Resolve(); err != nil {
+	if err := exercise.Resolve(ctx.viper, ctx.DB()); err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
@@ -84,6 +84,7 @@ func handlePutExercise(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
+	// TODO: remove all this stuff
 	if exercise.Type == "weighted" && exercise.WeightedExercise != nil {
 		return ctx.JSON(http.StatusNotAcceptable, newErrorMessage("type is weighted but weighted fields are not supplied"))
 	}
@@ -134,7 +135,7 @@ func handleGetUnresolvedExercises(c echo.Context) error {
 
 	exercises := []models.Exercise{}
 
-	q := db.Preload("ExerciseData").Where("type = ?", "unknown")
+	q := db.Preload("ExerciseData").Where("resolution_type = ?", "")
 
 	r, err := paging(q, 0, 0, &exercises)
 
@@ -151,7 +152,9 @@ func handleGetUnmatchedExercises(c echo.Context) error {
 
 	exercises := []models.Exercise{}
 
-	q := db.Preload("ExerciseData").Where("exercise_dictionary_id IS NULL and type != ?", "unknown")
+	q := db.
+		Preload("ExerciseData").
+		Where("exercise_dictionary_id IS NULL and resolution_type != ?", "")
 
 	r, err := paging(q, 0, 0, &exercises)
 
@@ -169,7 +172,7 @@ func handlePostRematchExercises(c echo.Context) error {
 	exercises := []models.Exercise{}
 
 	err := db.
-		Where("exercise_dictionary_id IS NULL and type != ?", "unknown").
+		Where("exercise_dictionary_id IS NULL and resolution_type != ?", "").
 		Find(&exercises).
 		Error
 
@@ -230,7 +233,7 @@ func handlePostReresolveExercises(c echo.Context) error {
 	resolvedExercises := []models.Exercise{}
 
 	for _, e := range exercises {
-		if err := e.Resolve(); err == nil {
+		if err := e.Resolve(ctx.viper, ctx.DB()); err == nil {
 			searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, e.Name)
 			if err != nil {
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
