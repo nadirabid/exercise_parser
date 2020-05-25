@@ -66,12 +66,18 @@ func (Exercise) TableName() string {
 
 // Resolve will take the Raw exercise string and parse out the various fields
 func (e *Exercise) Resolve() error {
-	res, err := parser.Get().Resolve(e.Raw)
+	parsed, err := parser.Get().Resolve(e.Raw)
 	if err != nil {
 		return err
 	}
 
-	e.Type = res.Type
+	if len(parsed) > 1 {
+		return fmt.Errorf("multiple matches")
+	}
+
+	res := parsed[0]
+
+	e.Type = res.ParseType
 	e.Name = res.Captures["Exercise"]
 
 	sets, err := evalSets(res.Captures)

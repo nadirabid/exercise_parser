@@ -10,26 +10,28 @@ import (
 )
 
 func TestDeepMatch(t *testing.T) {
-	t.Run("{Reps:Number} {Exercise:String}, left wnd right", func(t *testing.T) {
-		expected := map[string]string{"Exercise": "walking lunges", "Reps": "12"}
+	// the start of a brave new world
+	t.Run("{MaybeExercise:String} {Sets:Number}x{Reps:Number} {MaybeExercise:String}", func(t *testing.T) {
+		expected1 := map[string]string{"Exercise": "pull-ups", "Sets": "5", "Reps": "4"}
+		expected2 := map[string]string{"Exercise": "conar mcgregor style", "Sets": "5", "Reps": "4"}
 
-		parsed := deepResolveExpressionsTestUtil(t, "12 walking lunges, left wnd right")
+		parsed := deepResolveExpressionsTestUtil(t, "Pull-ups 5x4 conar mcgregor style")
 
-		assert.Equal(t, expected, parsed.Captures)
+		assert.Len(t, parsed, 2)
+		assert.Equal(t, expected1, parsed[0].Captures)
+		assert.Equal(t, expected2, parsed[1].Captures)
 	})
 }
 
-func deepResolveExpressionsTestUtil(t *testing.T, exercise string) *parsedExercise {
+func deepResolveExpressionsTestUtil(t *testing.T, exercise string) []*ParsedExercise {
 	expressions := exerciseExpresssions()
 
 	parsedExercises := deepResolveExpressions(exercise, expressions)
 
-	assert.Len(t, parsedExercises, 1)
-
-	return parsedExercises[0]
+	return parsedExercises
 }
 
-func DisableTestStrengthExerciseFullMatch(t *testing.T) {
+func TestStrengthExerciseFullMatch(t *testing.T) {
 	delimiter := []string{
 		"-", "- ", " -", " - ",
 		",", ", ", " ,", " , ",
@@ -47,6 +49,13 @@ func DisableTestStrengthExerciseFullMatch(t *testing.T) {
 	slowFastPushUps1 := map[string]string{"Exercise": "slow/fast push-ups", "Sets": "10", "Reps": "3"}
 
 	for _, d := range delimiter {
+		t.Run("{Reps:Number} (Delimiter) {Exercise:String}, left wnd right", func(t *testing.T) {
+			expected := map[string]string{"Exercise": "walking lunges, left wnd right", "Reps": "12"}
+			parsed := resolveAllTestUtil(fmt.Sprintf("12%swalking lunges, left wnd right", d))
+			assert.Len(t, parsed, 1)
+			assert.Equal(t, expected, parsed[0].Captures)
+		})
+
 		t.Run("{Reps:Number} (Delimiter) {Exercise:String}", func(t *testing.T) {
 			parsed := resolveAllTestUtil(fmt.Sprintf("50%skettlebell swings", d))
 			assert.Equal(t, len(parsed), 1)
@@ -379,7 +388,7 @@ func DisableTestStrengthExerciseFullMatch(t *testing.T) {
 	}
 }
 
-func DisableTestAerobicExerciseFullMatch(t *testing.T) {
+func TestAerobicExerciseFullMatch(t *testing.T) {
 	delimiter := []string{
 		"-", "- ", " -", " - ",
 		",", ", ", " ,", " , ",
@@ -535,12 +544,12 @@ func DisableTestAerobicExerciseFullMatch(t *testing.T) {
 
 // TODO: this function is dangerous - we should use resolveExpression
 // reason for it is that we return ALL matches against ALL regex patterns - the one in used impl currently only returns the first match
-func resolveAllTestUtil(exercise string) []*parsedExercise {
+func resolveAllTestUtil(exercise string) []*ParsedExercise {
 	regexpSet := exerciseExpresssions()
 
 	exercise = strings.Trim(strings.ToLower(exercise), " ")
 
-	allParsed := []*parsedExercise{}
+	allParsed := []*ParsedExercise{}
 
 	// evaluate in reverse order - best fit first
 	for i := len(regexpSet) - 1; i >= 0; i-- {
@@ -587,7 +596,7 @@ func resolveAllTestUtil(exercise string) []*parsedExercise {
 		}
 
 		if matchSuccessful {
-			allParsed = append(allParsed, &parsedExercise{
+			allParsed = append(allParsed, &ParsedExercise{
 				Raw:      exercise,
 				Captures: captures,
 				Regex:    e.value,
