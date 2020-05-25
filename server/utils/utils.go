@@ -21,6 +21,15 @@ func PrettyPrint(v interface{}) (err error) {
 	return
 }
 
+func PrettyStringify(v interface{}) string {
+	b, err := prettyjson.Marshal(v)
+	if err != nil {
+		return "<COULD_NOT_STRINGIFY>"
+	}
+
+	return string(b)
+}
+
 // WriteToDir saves struct to specified folers as JSON files
 func WriteToDir(s interface{}, fileName string, dir string) error {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {

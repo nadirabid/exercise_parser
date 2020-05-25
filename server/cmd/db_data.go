@@ -586,7 +586,7 @@ func seedFakeWorkoutData(cmd *cobra.Command, args []string) error {
 		Raw: "3x3 fake exercise",
 	}
 
-	if err := e.Resolve(); err != nil {
+	if err := e.Resolve(v, db); err != nil {
 		return err
 	}
 
@@ -594,7 +594,7 @@ func seedFakeWorkoutData(cmd *cobra.Command, args []string) error {
 		Raw: "4 mins of fake exercise",
 	}
 
-	if err := e2.Resolve(); err != nil {
+	if err := e2.Resolve(v, db); err != nil {
 		return err
 	}
 

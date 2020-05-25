@@ -70,18 +70,43 @@ func (Exercise) TableName() string {
 // Resolve will take the Raw exercise string and parse out the various fields
 // TODO: this really shouldn't be a method on the struct - frankly bad decisions
 func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
-	parsed, err := parser.Get().Resolve(e.Raw)
+	parsedExercises, err := parser.Get().Resolve(e.Raw)
 	if err != nil {
 		return err
 	}
 
-	if len(parsed) > 1 {
-		// now things get freaky
+	var res *parser.ParsedExercise
 
-		return fmt.Errorf("multiple matches")
+	if len(parsedExercises) > 1 {
+		// now things get freaky - and fuckin slowwww =(
+
+		resolved := []*parser.ParsedExercise{}
+		for _, p := range parsedExercises {
+			parsedExerciseStr := p.Captures["Exercise"]
+			searchResults, err := SearchExerciseDictionary(v, db, parsedExerciseStr)
+			if err != nil {
+				return err
+			}
+
+			if len(searchResults) > 0 {
+				minSearchRank := float32(0.05)
+				topSearchResult := searchResults[0]
+
+				if topSearchResult.Rank > minSearchRank {
+					resolved = append(resolved, p)
+				}
+			}
+		}
+
+		if len(resolved) != 1 {
+			utils.PrettyPrint(resolved)
+			return fmt.Errorf("couldn't distinguish between multiple parse results: %s", utils.PrettyStringify(parsedExercises))
+		}
+
+		res = resolved[0]
+	} else {
+		res = parsedExercises[0]
 	}
-
-	res := parsed[0]
 
 	e.Type = res.ParseType
 	e.Name = res.Captures["Exercise"]
