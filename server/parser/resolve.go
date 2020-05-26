@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	ParseTypeFull    = "Full"
-	ParseTypePartial = "Partial"
+	ParseTypeFull    = "full"
+	ParseTypePartial = "partial"
 )
 
 type ParsedExercise struct {
@@ -38,13 +38,11 @@ func newExpression(value string, captureDoesNotContain map[string][]string, asse
 	}
 }
 
-func exerciseExpresssions() []*expression {
-	// increasing specificity is in descending order
-
+func activityExpressions() []*expression {
 	expressions := []*expression{
-		newExpression(`^(?P<Reps>\d+|\d+\-\d+)\s*(?P<NotUnits>s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours|kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:,+|-|\s)\s*(?P<Exercise>([a-zA-Z,\/\-\s]+[a-zA-Z])$)`, nil, []string{"NotUnits"}),                                                                                                    // {Reps:Number}-{Reps:Number} (Delimiter) {Exercise:String}
-		newExpression(`^(?P<Reps>\d+|\d+\-\d+)\s*(?P<NotUnits>s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours|kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`, nil, []string{"NotUnits"}), // {Reps:Number}-{Reps:Number} (Delimiter) {Exercise:String} - {Weight:Number}{WeightUnits}
-		newExpression(`^(?P<Reps>\d+)\s*(?P<NotUnits>s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours|kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*sets$`, nil, []string{"NotUnits"}),                                                                          // {Reps:Number} (Delimiter) {Exercise:String} (Delimiter) {Sets:Number} sets
+		newExpression(`^(?P<Reps>\d+|\d+\-\d+)\s*(?P<NotUnits>s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours|kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km|k)?\s*(?:,+|-|\s)\s*(?P<Exercise>([a-zA-Z,\/\-\s]+[a-zA-Z])$)`, nil, []string{"NotUnits"}),                                                                                                    // {Reps:Number}-{Reps:Number} (Delimiter) {Exercise:String}
+		newExpression(`^(?P<Reps>\d+|\d+\-\d+)\s*(?P<NotUnits>s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours|kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km|k)?\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`, nil, []string{"NotUnits"}), // {Reps:Number}-{Reps:Number} (Delimiter) {Exercise:String} - {Weight:Number}{WeightUnits}
+		newExpression(`^(?P<Reps>\d+)\s*(?P<NotUnits>s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours|kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds|ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km|k)?\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*sets$`, nil, []string{"NotUnits"}),                                                                          // {Reps:Number} (Delimiter) {Exercise:String} (Delimiter) {Sets:Number} sets
 
 		newExpression(`^(?P<Sets>\d+)\s*(?:sets\sof|x|by|\s)\s*(?P<Reps>\d+)\s*(?:sets\sof|reps\sof|sets|reps|of|\s)\s*(?P<Exercise>([a-zA-Z,\/\-\s]+[a-zA-Z])$)`, nil, nil),                                                             // {Sets:Number} (sets of|x|by|space) {Reps:Number} (?:sets of|reps of|sets|reps|of|space) {Exercise:String}
 		newExpression(`^(?P<Sets>\d+)\s*(?:x|\s)\s*(?P<Reps>\d+)\s*(?:x|at|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)?\s*(?:of|\s)\s*(?P<Exercise>([a-zA-Z,\/\-\s]+[a-zA-Z])$)`, nil, nil), // {Sets:Number}x{Reps:Number}x{Weight:Number}{WeightUnits} of {Exercise:String}
@@ -71,16 +69,24 @@ func exerciseExpresssions() []*expression {
 
 		newExpression(`^(?P<Time>\d+|\d+\-\d+)\s*(?P<TimeUnits>s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*level\s*(?P<Level>(\d+|\d+\-\d+)$)`, nil, nil), // {Time:Number}{TimeUnits} (Delimiter) {Exercise} level {Level:Number}-{Level:Number}
 
-		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>(ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, map[string][]string{"Exercise": {"for"}}, nil), // {Exercise:String} (Delimiter) {Distance:Float}{DistanceUnits} :TODO - delimiter test
-		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s+(?:for)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>(ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)$)`, nil, nil),                                          // {Exercise:String} for {Distance:Float}{DistanceUnits}
+		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>(ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km|k)$)`, map[string][]string{"Exercise": {"for"}}, nil), // {Exercise:String} (Delimiter) {Distance:Float}{DistanceUnits} :TODO - delimiter test
+		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s+(?:for)\s+(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>(ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km|k)$)`, nil, nil),                                          // {Exercise:String} for {Distance:Float}{DistanceUnits}
 
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Time>\d+)\s*(?P<TimeUnits>(s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, map[string][]string{"Exercise": {"for"}}, nil), // {Exercise:String} (Delimiter) {Time:Number}{TimeUnits}
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s+(?:for)\s+(?P<Time>\d+)\s*(?P<TimeUnits>(s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, nil, nil),                                          // {Exercise:String} for {Time:Number}{TimeUnits}
 
-		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,+|-|\s)\s*(?:in)?\s*(?P<Time>\d+)\s*(?P<TimeUnits>(s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, nil, nil), // {Exercise:String} (Delimiter) {Distance:Float}{DistanceUnits} (Delimiter) {Time:Number}{TimeUnits} :TODO - add delimiter ttest
+		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km|k)\s*(?:,+|-|\s)\s*(?:in)?\s*(?P<Time>\d+)\s*(?P<TimeUnits>(s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)$)`, nil, nil), // {Exercise:String} (Delimiter) {Distance:Float}{DistanceUnits} (Delimiter) {Time:Number}{TimeUnits} :TODO - add delimiter ttest
 
-		newExpression(`^(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)\s*(?:,+|-|\s)\s*(?:of)?\s*(?P<Exercise>([a-zA-Z,\/\-\s]+[a-zA-Z])$)`, nil, nil),             // {Distance:Float}{DistanceUnits} (Delimiter) of? {Exercise:String} :TODO - delimiter test
-		newExpression(`^(?P<Distance>[0-9]*[.][0-9]+)\s*(?P<NotDistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km)?\s*(?:of)?\s*(?P<Exercise>([a-zA-Z,\/\-\s]+[a-zA-Z])$)`, nil, []string{"NotDistanceUnits"}), // {Distance:Float} of? {Exercise:String} :TODO - delimiter test
+		newExpression(`^(?P<Distance>([0-9]*[.])?[0-9]+)\s*(?P<DistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km|k)\s*(?:,+|-|\s)\s*(?:of)?\s*(?P<Exercise>([a-zA-Z,\/\-\s]+[a-zA-Z])$)`, nil, nil),             // {Distance:Float}{DistanceUnits} (Delimiter) of? {Exercise:String} :TODO - delimiter test
+		newExpression(`^(?P<Distance>[0-9]*[.][0-9]+)\s*(?P<NotDistanceUnits>ft|foot|feet|mi|mile|miles|m|meter|meters|kilometer|kilometers|km|k)?\s*(?:of)?\s*(?P<Exercise>([a-zA-Z,\/\-\s]+[a-zA-Z])$)`, nil, []string{"NotDistanceUnits"}), // {Distance:Float} of? {Exercise:String} :TODO - delimiter test
+	}
+
+	return expressions
+}
+
+func activityExerciseExpressions() []*expression {
+	expressions := []*expression{
+		newExpression(`^(?P<Exercise1>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*with\s*(?P<Exercise2>([a-zA-Z,\/\-\s]+[a-zA-Z])$)`, nil, nil),
 	}
 
 	return expressions
@@ -182,9 +188,10 @@ func deepResolveExpressions(exercise string, regexpSet []*expression) []*ParsedE
 
 // Parser allows you to resolve raw exercise strings
 type Parser struct {
-	lemma               *lemma
-	stopPhrases         *stopPhrases
-	exerciseExpressions []*expression
+	lemma                       *lemma
+	stopPhrases                 *stopPhrases
+	activityExpressions         []*expression
+	activityExerciseExpressions []*expression
 }
 
 // Resolve returns the captures
@@ -196,13 +203,35 @@ func (p *Parser) Resolve(exercise string) ([]*ParsedExercise, error) {
 	exercise = extraCommas.ReplaceAllString(exercise, ",")
 
 	// resolve expression
-	parsedExpressions := deepResolveExpressions(exercise, p.exerciseExpressions)
+	parsedExpressions := deepResolveExpressions(exercise, p.activityExpressions)
 
 	if len(parsedExpressions) == 0 {
 		return nil, fmt.Errorf("no matches found")
 	}
 
 	return parsedExpressions, nil
+}
+
+func (p *Parser) ResolveExercise(exercise string) ([]string, error) {
+	result := []string{}
+
+	for _, e := range p.activityExerciseExpressions {
+		match := e.regexp.FindStringSubmatch(exercise)
+		if match == nil {
+			continue
+		}
+
+		for i, name := range e.regexp.SubexpNames() {
+			// Ignore the whole regexp match and unnamed groups
+			if i == 0 || name == "" {
+				continue
+			}
+
+			result = append(result, match[i])
+		}
+	}
+
+	return result, nil
 }
 
 func (p *Parser) RemoveStopPhrases(exercise string) string {
@@ -232,9 +261,10 @@ func Init(v *viper.Viper) error {
 		stopPhrases := newStopPhrases(v)
 
 		parser = &Parser{
-			lemma:               lemma,
-			stopPhrases:         stopPhrases,
-			exerciseExpressions: exerciseExpresssions(),
+			lemma:                       lemma,
+			stopPhrases:                 stopPhrases,
+			activityExpressions:         activityExpressions(),
+			activityExerciseExpressions: activityExerciseExpressions(),
 		}
 	})
 

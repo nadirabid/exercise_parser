@@ -24,7 +24,7 @@ func TestDeepMatch(t *testing.T) {
 }
 
 func deepResolveExpressionsTestUtil(t *testing.T, exercise string) []*ParsedExercise {
-	expressions := exerciseExpresssions()
+	expressions := activityExpressions()
 
 	parsedExercises := deepResolveExpressions(exercise, expressions)
 
@@ -403,7 +403,7 @@ func TestAerobicExerciseFullMatch(t *testing.T) {
 	}
 
 	distanceUnits := []string{
-		"ft", "foot", "feet", "mi", "mile", "miles", "m", "meter", "meters", "kilometer", "kilometers", "km",
+		"ft", "foot", "feet", "mi", "mile", "miles", "m", "meter", "meters", "kilometer", "kilometers", "km", "k",
 	}
 
 	timeUnits := []string{
@@ -552,7 +552,7 @@ func TestAerobicExerciseFullMatch(t *testing.T) {
 // TODO: this function is dangerous - we should use resolveExpression
 // reason for it is that we return ALL matches against ALL regex patterns - the one in used impl currently only returns the first match
 func resolveAllTestUtil(exercise string) []*ParsedExercise {
-	regexpSet := exerciseExpresssions()
+	regexpSet := activityExpressions()
 
 	exercise = strings.Trim(strings.ToLower(exercise), " ")
 
