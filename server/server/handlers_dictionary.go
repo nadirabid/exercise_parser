@@ -123,6 +123,35 @@ func handleGetWorkoutDictionary(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, r)
 }
 
+func handleGetWorkoutDictionary2(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.DB()
+
+	workoutID, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	dictionaries := []models.ExerciseDictionary{}
+
+	q := db.
+		Preload("Classification").
+		Preload("Muscles").
+		Select("DISTINCT ON (exercise_dictionaries.id) exercise_dictionaries.*").
+		Joins("JOIN resolved_exercise_dictionaries ON resolved_exercise_dictionaries.exercise_dictionary_id = exercise_dictionaries.id").
+		Joins("JOIN exercises ON exercises.id = resolved_exercise_dictionaries.exercise_id").
+		Joins("JOIN workouts ON workouts.id = exercises.workout_id").
+		Where("workouts.id = ?", workoutID)
+
+	r, err := paging(q, 0, 0, &dictionaries)
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, r)
+}
+
 func handleGetDictionaryRelatedName(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
