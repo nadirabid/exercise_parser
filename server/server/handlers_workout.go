@@ -187,6 +187,8 @@ func handlePutWorkout(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
+	utils.PrettyPrint(updatedWorkout)
+
 	for i, e := range updatedWorkout.Exercises {
 		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
 			// This means we'll need to do post processing - potentially first requiring manual
@@ -244,7 +246,7 @@ func handlePutWorkout(c echo.Context) error {
 	for _, e := range existingWorkout.Exercises {
 		if !updatedWorkout.HasExercise(e.ID) {
 			fmt.Println("Deleted exercise: ", e.ID)
-			tx.Delete(&e)
+			tx.Unscoped().Delete(&e)
 		}
 	}
 
