@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
+	"path/filepath"
+	"runtime"
 
 	prettyjson "github.com/hokaccha/go-prettyjson"
 )
@@ -81,4 +84,14 @@ func MaxFloat32(a, b float32) float32 {
 		return a
 	}
 	return b
+}
+
+var (
+	_, b, _, _ = runtime.Caller(0)
+	basePath   = filepath.Dir(b)
+)
+
+func GetAbsolutePath(relativePath string) string {
+	// basePath == the directory of this file - so we gotta go up one
+	return path.Join(basePath, "..", relativePath)
 }
