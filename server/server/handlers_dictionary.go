@@ -25,13 +25,7 @@ func handleGetExerciseDictionaryList(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	q := db.
-		Preload("Classification").
-		Preload("Muscles").
-		Preload("Articulation").
-		Preload("Articulation.Dynamic").
-		Preload("Articulation.Static").
-		Order("name asc")
+	q := db.Preload("Muscles").Order("name asc")
 
 	listResponse, err := paging(q, page, size, &results)
 
@@ -54,11 +48,7 @@ func handleGetDictionary(c echo.Context) error {
 	d := &models.ExerciseDictionary{}
 
 	err = db.
-		Preload("Classification").
 		Preload("Muscles").
-		Preload("Articulation").
-		Preload("Articulation.Dynamic").
-		Preload("Articulation.Static").
 		Where("id = ?", id).
 		First(d).
 		Error
@@ -107,35 +97,6 @@ func handleGetWorkoutDictionary(c echo.Context) error {
 	dictionaries := []models.ExerciseDictionary{}
 
 	q := db.
-		Preload("Classification").
-		Preload("Muscles").
-		Select("DISTINCT ON (exercise_dictionaries.id) exercise_dictionaries.*").
-		Joins("JOIN exercises ON exercises.exercise_dictionary_id = exercise_dictionaries.id").
-		Joins("JOIN workouts ON workouts.id = exercises.workout_id").
-		Where("workouts.id = ?", workoutID)
-
-	r, err := paging(q, 0, 0, &dictionaries)
-
-	if err != nil {
-		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
-	}
-
-	return ctx.JSON(http.StatusOK, r)
-}
-
-func handleGetWorkoutDictionary2(c echo.Context) error {
-	ctx := c.(*Context)
-	db := ctx.DB()
-
-	workoutID, err := strconv.Atoi(ctx.Param("id"))
-	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
-	}
-
-	dictionaries := []models.ExerciseDictionary{}
-
-	q := db.
-		Preload("Classification").
 		Preload("Muscles").
 		Select("DISTINCT ON (exercise_dictionaries.id) exercise_dictionaries.*").
 		Joins("JOIN resolved_exercise_dictionaries ON resolved_exercise_dictionaries.exercise_dictionary_id = exercise_dictionaries.id").

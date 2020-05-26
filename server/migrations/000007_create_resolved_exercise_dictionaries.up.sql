@@ -16,4 +16,21 @@ SELECT id, exercise_dictionary_id
 FROM exercises
 WHERE exercises.exercise_dictionary_id IS NOT NULL;
 
+---- Update type (aka ParseType) to full if it was parsed based on existance of ExericeData ---
+
+UPDATE exercises SET type = 'full'
+FROM exercise_data
+WHERE exercises.id = exercise_data.exercise_id;
+
+UPDATE exercises SET type = ''
+WHERE exercises.type <> 'full';
+
+---- Update resolution_type with new standardized values ----
+
+UPDATE exercises SET resolution_type = 'auto.single'
+WHERE exercises.resolution_type = 'auto';
+
+UPDATE exercises SET resolution_type = 'manual.single'
+WHERE exercises.resolution_type = 'manual';
+
 COMMIT;

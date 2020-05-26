@@ -111,9 +111,9 @@ type ExerciseDictionary struct {
 	Model
 	URL            string         `json:"url"`
 	Name           string         `json:"name" gorm:"unique"`
-	Classification Classification `json:"classification"`
+	Classification Classification `json:"-"`
 	Muscles        Muscles        `json:"muscles"`
-	Articulation   Articulation   `json:"articulation"`
+	Articulation   Articulation   `json:"-"`
 	TSV            string         `json:"-" gorm:"type:tsvector"` // TODO - do we use this?
 }
 

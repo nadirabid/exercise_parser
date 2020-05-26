@@ -191,9 +191,7 @@ func handlePutWorkout(c echo.Context) error {
 
 	for i, e := range updatedWorkout.Exercises {
 		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
-			// This means we'll need to do post processing - potentially first requiring manual
-			// updates
-			e.Type = "unknown"
+			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
 		} else {
 			searchTerm := parser.Get().RemoveStopPhrases(e.Name)
 			searchResults, err := models.SearchExerciseDictionary(ctx.viper, ctx.DB(), searchTerm)
