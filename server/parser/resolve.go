@@ -53,6 +53,7 @@ func exerciseExpresssions() []*expression {
 		newExpression(`^(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, nil, nil), // {Weight:Number}{WeightUnits} (Delimiter) {Exercise:String} {Sets:Number}x{Reps:Number}
 
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Reps>\d+$)`, nil, nil),                                                // {Exercise:String} (Delimiter) {Reps:Number}
+		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Reps>\d+)\s*reps$`, nil, nil),                                         // {Exercise:String} (Delimiter) {Reps:Number} reps
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s+(?P<Reps>\d+$)`, nil, nil),                                // {Exercise:String} (Delimiter) {Sets:Number} {Reps:Number}
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, nil, nil),                        // {Exercise:String} (Delimiter) {Sets:Number}x{Reps:Number}
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:by)\s*(?P<Reps>\d+$)`, nil, nil),                       // {Exercise:String} (Delimiter) {Sets:Number} by {Reps:Number}

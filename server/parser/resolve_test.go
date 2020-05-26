@@ -237,6 +237,13 @@ func TestStrengthExerciseFullMatch(t *testing.T) {
 				assert.Equal(t, len(parsed), 1)
 				assert.Equal(t, jumpRope1, parsed[0].Captures)
 			})
+
+			t.Run("{Exercise:String} (Delimiter) {Reps:Number} reps", func(t *testing.T) {
+				expected := map[string]string{"Exercise": "tricep curls", "Reps": "30"}
+				parsed := resolveAllTestUtil(fmt.Sprintf("tricep curls%s30reps", d))
+				assert.Len(t, parsed, 1)
+				assert.Equal(t, expected, parsed[0].Captures)
+			})
 		}
 	}
 
