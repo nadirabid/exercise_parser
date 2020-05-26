@@ -92,7 +92,7 @@ func activityExerciseExpressions() []*expression {
 	return expressions
 }
 
-func resolveExpressions(exercise string, regexpSet []*expression) *ParsedActivity {
+func resolveActivityExpressions(exercise string, regexpSet []*expression) *ParsedActivity {
 	exercise = strings.Trim(strings.ToLower(exercise), " ")
 
 	for i := len(regexpSet) - 1; i >= 0; i-- {
@@ -152,9 +152,9 @@ func resolveExpressions(exercise string, regexpSet []*expression) *ParsedActivit
 	}
 }
 
-func deepResolveExpressions(exercise string, regexpSet []*expression) []*ParsedActivity {
+func deepResolveActivityExpressions(exercise string, regexpSet []*expression) []*ParsedActivity {
 	// 1. try and resolve the entire thing
-	parsed := resolveExpressions(exercise, regexpSet)
+	parsed := resolveActivityExpressions(exercise, regexpSet)
 
 	if parsed.Captures != nil {
 		parsed.ParseType = ParseTypeFull
@@ -167,7 +167,7 @@ func deepResolveExpressions(exercise string, regexpSet []*expression) []*ParsedA
 
 	for i := len(tokens) - 1; i >= 0; i-- { // if we go all the way down to 0 - that would mean we're matching the whole thing which is something that should have happened above
 		combined := strings.Join(tokens[:i], " ")
-		parsed := resolveExpressions(combined, regexpSet)
+		parsed := resolveActivityExpressions(combined, regexpSet)
 		if parsed.Captures != nil {
 			parsed.ParseType = ParseTypePartial
 			parsedTokens = append(parsedTokens, parsed)
@@ -176,7 +176,7 @@ func deepResolveExpressions(exercise string, regexpSet []*expression) []*ParsedA
 
 	for i := 0; i < len(tokens); i++ {
 		combined := strings.Join(tokens[i:], " ")
-		parsed := resolveExpressions(combined, regexpSet)
+		parsed := resolveActivityExpressions(combined, regexpSet)
 		if parsed.Captures != nil {
 			parsed.ParseType = ParseTypePartial
 			parsedTokens = append(parsedTokens, parsed)
@@ -203,7 +203,7 @@ func (p *Parser) ResolveActivity(exercise string) ([]*ParsedActivity, error) {
 	exercise = extraCommas.ReplaceAllString(exercise, ",")
 
 	// resolve expression
-	parsedExpressions := deepResolveExpressions(exercise, p.activityExpressions)
+	parsedExpressions := deepResolveActivityExpressions(exercise, p.activityExpressions)
 
 	if len(parsedExpressions) == 0 {
 		return nil, fmt.Errorf("no matches found")
@@ -255,13 +255,10 @@ var onceParser sync.Once
 func Init(v *viper.Viper) error {
 	var err error
 	onceParser.Do(func() {
-		lemma := newLemma()
-		err = lemma.readLemmas(v.GetString("resources.dir.lemmas"))
-
 		stopPhrases := newStopPhrases(v)
 
 		parser = &Parser{
-			lemma:                       lemma,
+			lemma:                       nil,
 			stopPhrases:                 stopPhrases,
 			activityExpressions:         activityExpressions(),
 			activityExerciseExpressions: activityExerciseExpressions(),

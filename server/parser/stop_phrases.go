@@ -2,6 +2,7 @@ package parser
 
 import (
 	"bufio"
+	"exercise_parser/utils"
 	"os"
 	"strings"
 
@@ -13,7 +14,8 @@ type stopPhrases struct {
 }
 
 func newStopPhrases(v *viper.Viper) *stopPhrases {
-	file, err := os.Open(v.GetString("parser.stop_phrases"))
+	filePath := utils.GetAbsolutePath(v.GetString("parser.stop_phrases"))
+	file, err := os.Open(filePath)
 	if err != nil {
 		panic(err.Error())
 	}
