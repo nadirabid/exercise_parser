@@ -24,6 +24,23 @@ type ExerciseDictionarySearchResult struct {
 	Related                []ExerciseRelatedNameSearchResult `json:"related"`
 }
 
+func SearchExerciseDictionaryWithRank(viper *viper.Viper, db *gorm.DB, name string, rank float32) ([]*ExerciseDictionarySearchResult, error) {
+	results, err := SearchExerciseDictionary(viper, db, name)
+	if err != nil {
+		return results, err
+	}
+
+	filtered := []*ExerciseDictionarySearchResult{}
+
+	for _, r := range results {
+		if r.Rank > rank {
+			filtered = append(filtered, r)
+		}
+	}
+
+	return filtered, nil
+}
+
 // SearchExerciseDictionary will search for ExcerciseDictionary entity from the provided exercise name
 func SearchExerciseDictionary(viper *viper.Viper, db *gorm.DB, name string) ([]*ExerciseDictionarySearchResult, error) {
 	searchTerms := strings.Join(strings.Split(name, " "), " & ")

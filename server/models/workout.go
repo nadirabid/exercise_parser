@@ -79,24 +79,23 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 
 	var res *parser.ParsedExercise
 
+	// TODO: actually update the ExerciseID
 	if len(parsedExercises) > 1 {
 		// now things get freaky - and fuckin slowwww =(
 
 		resolved := []*parser.ParsedExercise{}
+		exerciseDictionaries := []*ExerciseDictionary{}
 		for _, p := range parsedExercises {
 			parsedExerciseStr := parser.Get().RemoveStopPhrases(p.Captures["Exercise"])
-			searchResults, err := SearchExerciseDictionary(v, db, parsedExerciseStr)
+			searchResults, err := SearchExerciseDictionaryWithRank(v, db, parsedExerciseStr, 0.05)
 			if err != nil {
 				return err
-			}
-
-			if len(searchResults) > 0 {
-				minSearchRank := float32(0.05)
-				topSearchResult := searchResults[0]
-
-				if topSearchResult.Rank > minSearchRank {
-					resolved = append(resolved, p)
-				}
+			} else if len(searchResults) > 0 {
+				resolved = append(resolved, p)
+				d := &ExerciseDictionary{}
+				d.ID = searchResults[0].ExerciseDictionaryID
+				d.Name = searchResults[0].ExerciseDictionaryName
+				exerciseDictionaries = append(exerciseDictionaries, d)
 			}
 		}
 
@@ -105,9 +104,45 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 			return fmt.Errorf("couldn't distinguish between multiple parse results: %s", utils.PrettyStringify(parsedExercises))
 		}
 
+		e.ExerciseDictionaries = exerciseDictionaries
 		res = resolved[0]
 	} else {
 		res = parsedExercises[0]
+		parsedExerciseStr := parser.Get().RemoveStopPhrases(res.Captures["Exercise"])
+		exerciseDictionaries := []*ExerciseDictionary{}
+
+		searchResults, err := SearchExerciseDictionaryWithRank(v, db, parsedExerciseStr, 0.05)
+		if err != nil {
+			return err
+		} else if len(searchResults) > 0 {
+			d := &ExerciseDictionary{}
+			d.ID = searchResults[0].ExerciseDictionaryID
+			d.Name = searchResults[0].ExerciseDictionaryName
+			exerciseDictionaries = append(exerciseDictionaries, d)
+		} else {
+			// now things get slow again as we try and find an exercise or exercises in the expression (but STRONGer match)
+
+			subExercises, err := parser.Get().ResolveExercise(parsedExerciseStr)
+			if err != nil {
+				return err
+			}
+
+			for _, e := range subExercises {
+				searchResults, err := SearchExerciseDictionaryWithRank(v, db, e, 0.065)
+				if err != nil {
+					return err
+				} else if len(searchResults) > 0 {
+					d := &ExerciseDictionary{}
+					d.ID = searchResults[0].ExerciseDictionaryID
+					d.Name = searchResults[0].ExerciseDictionaryName
+					exerciseDictionaries = append(exerciseDictionaries, d)
+				}
+			}
+		}
+
+		if len(exerciseDictionaries) > 0 {
+			e.ExerciseDictionaries = exerciseDictionaries
+		}
 	}
 
 	e.Type = res.ParseType
