@@ -52,15 +52,16 @@ func (Location) TableName() string {
 // Exercise model
 type Exercise struct {
 	Model
-	Raw                  string            `json:"raw"`
-	Type                 string            `json:"type"` // now using this for parser.ParseType
-	ResolutionType       string            `json:"resolution_type"`
-	Name                 string            `json:"name"`
-	ExerciseDictionaryID *uint             `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
-	ExerciseData         ExerciseData      `json:"data"`
-	WeightedExercise     *WeightedExercise `json:"weighted_exercise"`
-	DistanceExercise     *DistanceExercise `json:"distance_exercise"`
-	WorkoutID            uint              `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
+	Raw                  string                `json:"raw"`
+	Type                 string                `json:"type"` // now using this for parser.ParseType
+	ResolutionType       string                `json:"resolution_type"`
+	Name                 string                `json:"name"`
+	ExerciseDictionaryID *uint                 `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
+	ExerciseData         ExerciseData          `json:"data"`
+	WeightedExercise     *WeightedExercise     `json:"weighted_exercise"`
+	DistanceExercise     *DistanceExercise     `json:"distance_exercise"`
+	WorkoutID            uint                  `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
+	ExerciseDictionaries []*ExerciseDictionary `json:"exercise_dictionaries" gorm:"many2many:resolved_exercise_dictionaries;"`
 }
 
 func (Exercise) TableName() string {
