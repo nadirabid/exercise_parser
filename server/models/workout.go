@@ -72,18 +72,18 @@ func (Exercise) TableName() string {
 // TODO: this really shouldn't be a method on the struct - frankly bad decisions
 // TODO: this needs some testing BADLY
 func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
-	parsedExercises, err := parser.Get().Resolve(e.Raw)
+	parsedExercises, err := parser.Get().ResolveActivity(e.Raw)
 	if err != nil {
 		return err
 	}
 
-	var res *parser.ParsedExercise
+	var res *parser.ParsedActivity
 
 	// TODO: actually update the ExerciseID
 	if len(parsedExercises) > 1 {
 		// now things get freaky - and fuckin slowwww =(
 
-		resolved := []*parser.ParsedExercise{}
+		resolved := []*parser.ParsedActivity{}
 		exerciseDictionaries := []*ExerciseDictionary{}
 		for _, p := range parsedExercises {
 			parsedExerciseStr := parser.Get().RemoveStopPhrases(p.Captures["Exercise"])

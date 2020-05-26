@@ -15,7 +15,7 @@ const (
 	ParseTypePartial = "partial"
 )
 
-type ParsedExercise struct {
+type ParsedActivity struct {
 	Raw       string
 	Captures  map[string]string
 	Regex     string
@@ -92,7 +92,7 @@ func activityExerciseExpressions() []*expression {
 	return expressions
 }
 
-func resolveExpressions(exercise string, regexpSet []*expression) *ParsedExercise {
+func resolveExpressions(exercise string, regexpSet []*expression) *ParsedActivity {
 	exercise = strings.Trim(strings.ToLower(exercise), " ")
 
 	for i := len(regexpSet) - 1; i >= 0; i-- {
@@ -139,7 +139,7 @@ func resolveExpressions(exercise string, regexpSet []*expression) *ParsedExercis
 		}
 
 		if matchSuccessful {
-			return &ParsedExercise{
+			return &ParsedActivity{
 				Raw:      exercise,
 				Captures: captures,
 				Regex:    e.value,
@@ -147,23 +147,23 @@ func resolveExpressions(exercise string, regexpSet []*expression) *ParsedExercis
 		}
 	}
 
-	return &ParsedExercise{
+	return &ParsedActivity{
 		Raw: exercise,
 	}
 }
 
-func deepResolveExpressions(exercise string, regexpSet []*expression) []*ParsedExercise {
+func deepResolveExpressions(exercise string, regexpSet []*expression) []*ParsedActivity {
 	// 1. try and resolve the entire thing
 	parsed := resolveExpressions(exercise, regexpSet)
 
 	if parsed.Captures != nil {
 		parsed.ParseType = ParseTypeFull
-		return []*ParsedExercise{parsed}
+		return []*ParsedActivity{parsed}
 	}
 
 	// 2. try and resolve each token seperated by spaces as largest combination (must match to beginning or end - not middle)
 	tokens := regexp.MustCompile("[\\s]+").Split(exercise, -1) // move out??
-	parsedTokens := []*ParsedExercise{}
+	parsedTokens := []*ParsedActivity{}
 
 	for i := len(tokens) - 1; i >= 0; i-- { // if we go all the way down to 0 - that would mean we're matching the whole thing which is something that should have happened above
 		combined := strings.Join(tokens[:i], " ")
@@ -194,8 +194,8 @@ type Parser struct {
 	activityExerciseExpressions []*expression
 }
 
-// Resolve returns the captures
-func (p *Parser) Resolve(exercise string) ([]*ParsedExercise, error) {
+// ResolveActivity returns the captures
+func (p *Parser) ResolveActivity(exercise string) ([]*ParsedActivity, error) {
 	// remove stop phrases
 	// exercise = p.stopPhrases.removeStopPhrases(exercise) // I don't think this belongs here - remove at the time we resolve it to a known exercise
 

@@ -23,7 +23,7 @@ func TestDeepMatch(t *testing.T) {
 	})
 }
 
-func deepResolveExpressionsTestUtil(t *testing.T, exercise string) []*ParsedExercise {
+func deepResolveExpressionsTestUtil(t *testing.T, exercise string) []*ParsedActivity {
 	expressions := activityExpressions()
 
 	parsedExercises := deepResolveExpressions(exercise, expressions)
@@ -551,12 +551,12 @@ func TestAerobicExerciseFullMatch(t *testing.T) {
 
 // TODO: this function is dangerous - we should use resolveExpression
 // reason for it is that we return ALL matches against ALL regex patterns - the one in used impl currently only returns the first match
-func resolveAllTestUtil(exercise string) []*ParsedExercise {
+func resolveAllTestUtil(exercise string) []*ParsedActivity {
 	regexpSet := activityExpressions()
 
 	exercise = strings.Trim(strings.ToLower(exercise), " ")
 
-	allParsed := []*ParsedExercise{}
+	allParsed := []*ParsedActivity{}
 
 	// evaluate in reverse order - best fit first
 	for i := len(regexpSet) - 1; i >= 0; i-- {
@@ -603,7 +603,7 @@ func resolveAllTestUtil(exercise string) []*ParsedExercise {
 		}
 
 		if matchSuccessful {
-			allParsed = append(allParsed, &ParsedExercise{
+			allParsed = append(allParsed, &ParsedActivity{
 				Raw:      exercise,
 				Captures: captures,
 				Regex:    e.value,
