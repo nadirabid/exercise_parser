@@ -210,7 +210,7 @@ func New(v *viper.Viper) error {
 	apiRoutes.GET("/dictionary", handleGetExerciseDictionaryList)
 	apiRoutes.GET("/dictionary/search", handleGetSearchDictionary)
 	apiRoutes.GET("/dictionary/:id", handleGetDictionary)
-	apiRoutes.GET("/workout/:id/dictionary", handleGetWorkoutDictionary)
+	apiRoutes.GET("/workout/:id/dictionary", handleGetWorkoutDictionary2)
 
 	// returns related names
 	apiRoutes.POST("/exercise/dictionary/related", handlePostDictionaryRelatedName)

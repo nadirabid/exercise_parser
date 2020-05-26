@@ -53,8 +53,8 @@ func (Location) TableName() string {
 type Exercise struct {
 	Model
 	Raw                  string                `json:"raw"`
-	Type                 string                `json:"type"` // now using this for parser.ParseType
-	ResolutionType       string                `json:"resolution_type"`
+	Type                 string                `json:"type"`            // using this for parser.ParseType - probably rename to Exercise.ParseType
+	ResolutionType       string                `json:"resolution_type"` // using this to determine if exercise dictionaries were matched
 	Name                 string                `json:"name"`
 	ExerciseDictionaryID *uint                 `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
 	ExerciseData         ExerciseData          `json:"data"`
@@ -67,6 +67,12 @@ type Exercise struct {
 func (Exercise) TableName() string {
 	return "exercises"
 }
+
+const (
+	AutoSingleResolutionType   = "auto.single"
+	AutoCompoundResolutionType = "auto.compound"
+	ManualSingleResolutionType = "manual.single"
+)
 
 // Resolve will take the Raw exercise string and parse out the various fields
 // TODO: this really shouldn't be a method on the struct - frankly bad decisions
@@ -105,6 +111,7 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 		}
 
 		e.ExerciseDictionaries = exerciseDictionaries
+		e.ResolutionType = AutoSingleResolutionType
 		res = resolved[0]
 	} else {
 		res = parsedExercises[0]
@@ -142,6 +149,7 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 
 		if len(exerciseDictionaries) > 0 {
 			e.ExerciseDictionaries = exerciseDictionaries
+			e.ResolutionType = AutoCompoundResolutionType
 		}
 	}
 
@@ -178,8 +186,6 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 	e.ExerciseData.Weight = weight
 	e.ExerciseData.Distance = distance
 	e.ExerciseData.Time = time
-
-	e.ResolutionType = "auto"
 
 	return nil
 }
