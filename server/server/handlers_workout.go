@@ -244,10 +244,7 @@ func handlePutWorkout(c echo.Context) error {
 	utils.PrettyPrint(existingWorkout)
 
 	for _, e := range existingWorkout.Exercises {
-		if !updatedWorkout.HasExercise(e.ID) {
-			fmt.Println("Deleted exercise: ", e.ID)
-			tx.Unscoped().Delete(&e)
-		}
+		tx.Model(&e).Association("ExerciseDictionaries").Clear()
 	}
 
 	// fields which we don't allow to be updated (at somepoint - we should have validators for this)

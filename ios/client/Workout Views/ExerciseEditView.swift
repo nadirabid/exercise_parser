@@ -59,7 +59,11 @@ public struct ExerciseEditView: View {
         }
 
         // we do this just for viewing purposes
-        let exercise = Exercise(raw: exerciseState.input)
+        var exercise = Exercise(raw: exerciseState.input)
+        if let oldExercise = self.exerciseState.exercise {
+            exercise = Exercise(id: oldExercise.id, raw: exerciseState.input)
+        }
+        
         self.exerciseState.exercise = exercise
 
         self.resolveExerciseRequest = exerciseAPI.resolveExercise(exercise: exercise) { resolvedExercise in

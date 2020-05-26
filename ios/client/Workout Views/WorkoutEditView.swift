@@ -53,7 +53,7 @@ public struct WorkoutEditView: View {
     }
     
     func pressSave() {
-        let exercises: [Exercise] = workoutState.exerciseStates.map{ a in Exercise(raw: a.input) }
+        let exercises: [Exercise] = workoutState.exerciseStates.map{ a in a.exercise! }
         let name = workoutState.workoutName.isEmpty ? dateToWorkoutName(self.workoutState.date) : workoutState.workoutName
         
         let workout = Workout(
