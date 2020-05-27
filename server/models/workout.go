@@ -69,9 +69,10 @@ func (Exercise) TableName() string {
 }
 
 const (
-	AutoSingleResolutionType   = "auto.single"
-	AutoCompoundResolutionType = "auto.compound"
-	ManualSingleResolutionType = "manual.single"
+	// for backwards compatibility reason this all has to be "auto" right now
+	AutoSingleResolutionType   = "auto" // -> "auto.single"
+	AutoCompoundResolutionType = "auto" // -> "auto.compound"
+	ManualSingleResolutionType = "auto" // -> "manual.single"
 )
 
 // Resolve will take the Raw exercise string and parse out the various fields

@@ -26,7 +26,7 @@ WHERE exercises.name = 'full';
 
 ---- Update resolution_type based on exercise_dictionary_id ----
 
-UPDATE exercises SET resolution_type = 'auto.single'
+UPDATE exercises SET resolution_type = 'auto'
 WHERE exercises.exercise_dictionary_id IS NOT NULL;
 
 UPDATE exercises SET resolution_type = ''
