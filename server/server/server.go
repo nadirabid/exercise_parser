@@ -1,6 +1,7 @@
 package server
 
 import (
+	"compress/gzip"
 	"crypto/rsa"
 	"exercise_parser/models"
 	"exercise_parser/parser"
@@ -162,6 +163,10 @@ func New(v *viper.Viper) error {
 
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
+	}))
+
+	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{
+		Level: gzip.BestCompression,
 	}))
 
 	e.Use(func(h echo.HandlerFunc) echo.HandlerFunc {
