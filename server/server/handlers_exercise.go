@@ -136,7 +136,7 @@ func handleGetUnresolvedExercises(c echo.Context) error {
 
 	exercises := []models.Exercise{}
 
-	q := db.Preload("ExerciseData").Where("resolution_type = ?", "") // TODO: - FIX THIS
+	q := db.Preload("ExerciseData").Where("type = ?", "")
 
 	r, err := paging(q, 0, 0, &exercises)
 
@@ -155,7 +155,7 @@ func handleGetUnmatchedExercises(c echo.Context) error {
 
 	q := db.
 		Preload("ExerciseData").
-		Where("exercise_dictionary_id IS NULL and resolution_type != ?", "") // TODO: - FIX THIS
+		Where("type != ? AND resolution_type = ?", "", "")
 
 	r, err := paging(q, 0, 0, &exercises)
 
@@ -173,7 +173,7 @@ func handlePostRematchExercises(c echo.Context) error {
 	exercises := []models.Exercise{}
 
 	err := db.
-		Where("exercise_dictionary_id IS NULL and resolution_type != ?", ""). // TODO: - FIX THIS
+		Where("type != ? AND resolution_type = ?", "", "").
 		Find(&exercises).
 		Error
 
@@ -224,7 +224,7 @@ func handlePostReresolveExercises(c echo.Context) error {
 	exercises := []models.Exercise{}
 
 	err := db.
-		Where("type = ?", "unknown"). // TODO: FIX THIS
+		Where("type = ?", "").
 		Find(&exercises).
 		Error
 

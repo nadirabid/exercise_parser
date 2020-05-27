@@ -113,6 +113,9 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 		e.ExerciseDictionaries = exerciseDictionaries
 		e.ResolutionType = AutoSingleResolutionType
 		res = resolved[0]
+
+		// for backwards compatibility
+		e.ExerciseDictionaryID = &exerciseDictionaries[0].ID
 	} else {
 		res = parsedExercises[0]
 		parsedExerciseStr := parser.Get().RemoveStopPhrases(res.Captures["Exercise"])
@@ -150,6 +153,9 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 		if len(exerciseDictionaries) > 0 {
 			e.ExerciseDictionaries = exerciseDictionaries
 			e.ResolutionType = AutoCompoundResolutionType
+
+			// for backwards compatibility
+			e.ExerciseDictionaryID = &exerciseDictionaries[0].ID
 		}
 	}
 
