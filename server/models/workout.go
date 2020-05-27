@@ -157,7 +157,7 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 			}
 
 			// we gotta match all exercises
-			if len(subExercises) == len(exerciseDictionaries) {
+			if len(subExercises) == len(exerciseDictionaries) && len(exerciseDictionaries) > 0 {
 				e.ExerciseDictionaries = exerciseDictionaries
 				e.ResolutionType = AutoCompoundResolutionType
 

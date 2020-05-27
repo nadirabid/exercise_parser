@@ -22,7 +22,7 @@ func unitClassify(unitStr string) (string, error) {
 		return MinuteUnit, nil
 	case "m", "meter", "meters":
 		return MeterUnit, nil
-	case "km", "kilometer", "kilometers":
+	case "k", "km", "kilometer", "kilometers":
 		return KilometerUnit, nil
 	case "ft", "foot", "feet":
 		return FeetUnit, nil
