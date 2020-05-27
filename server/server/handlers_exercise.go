@@ -3,7 +3,6 @@ package server
 import (
 	"exercise_parser/models"
 	"exercise_parser/parser"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -46,7 +45,7 @@ func handleResolveExercise(c echo.Context) error {
 	}
 
 	if err := exercise.Resolve(ctx.viper, ctx.DB()); err != nil {
-		fmt.Println("err", err)
+		ctx.logger.Errorf("Couldn't resolve: %s. Error: %s", exercise.Raw, err.Error())
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 

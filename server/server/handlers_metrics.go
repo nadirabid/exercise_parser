@@ -27,6 +27,7 @@ type WeeklyMetric struct {
 	SecondsElapsed              uint         `json:"seconds_elapsed"`
 }
 
+// TODO: weekly metrics stuff can now be removed (we can use generic handler below instead)
 func handleGetWeeklyMetrics(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.db

@@ -16,14 +16,11 @@ struct UserFeedView: View {
     @EnvironmentObject var userFeedState: UserFeedState
     
     @EnvironmentObject var workoutAPI: WorkoutAPI
-    @EnvironmentObject var metricAPI: MetricAPI
     
     @State private var feedDataRequest: DataRequest? = nil
     @State private var workoutsPaginatedResponse: PaginatedResponse<Workout>? = nil
     @State private var workouts: [Workout] = []
     @State private var workoutsPage: Int = 0
-    
-    @State private var weeklyMetric: WeeklyMetricStats? = nil
     
     @State private var scrollViewContentOffset = CGFloat.zero
     
@@ -129,7 +126,6 @@ struct UserFeedView: View {
                         UserFeedViewHeader(
                             height: self.height,
                             scrollViewContentOffset: routeState.peek() == .userFeed ? self.scrollViewContentOffset : 0,
-                            weeklyMetric: self.weeklyMetric,
                             user: self.userState.userInfo
                         )
                             .zIndex(2)
@@ -189,10 +185,6 @@ struct UserFeedView: View {
                     
                     self.workouts.append(contentsOf: response.results)
                 }
-                
-                self.metricAPI.getWeeklyStats { (response) in
-                    self.weeklyMetric = response
-                }
             }
             .navigationBarTitle("Feed", displayMode: .large)
             .navigationBarHidden(true)
@@ -203,16 +195,17 @@ struct UserFeedView: View {
 struct UserFeedViewHeader: View {
     @EnvironmentObject var routeState: RouteState
     @EnvironmentObject var userAPI: UserAPI
+    @EnvironmentObject var metricAPI: MetricAPI
     
     @State private var userImage: Image? = nil
+    @State private var metric: Metric? = nil
     
     var height: CGFloat
     var scrollViewContentOffset: CGFloat
-    var weeklyMetric: WeeklyMetricStats?
     var user: User?
     
     var secondsElapsed: String {
-        if let seconds = weeklyMetric?.secondsElapsed {
+        if let seconds = metric?.topLevel.secondsElapsed {
             return secondsToElapsedTimeString(seconds)
         }
         
@@ -220,7 +213,7 @@ struct UserFeedViewHeader: View {
     }
     
     var sets: String {
-        if let sets = weeklyMetric?.sets {
+        if let sets = metric?.topLevel.sets {
             return sets.description
         }
         
@@ -228,7 +221,7 @@ struct UserFeedViewHeader: View {
     }
     
     var reps: String {
-        if let reps = weeklyMetric?.reps {
+        if let reps = metric?.topLevel.reps {
             return reps.description
         }
         
@@ -236,7 +229,7 @@ struct UserFeedViewHeader: View {
     }
     
     var distance: String {
-        if let distance = weeklyMetric?.distance {
+        if let distance = metric?.topLevel.distance {
             var m = Measurement(value: Double(distance), unit: UnitLength.meters)
             
             if distance <= 300 {
@@ -252,7 +245,7 @@ struct UserFeedViewHeader: View {
     }
     
     var distanceUnits: String {
-        if let distance = weeklyMetric?.distance {
+        if let distance = metric?.topLevel.distance {
             if distance <= 300 {
                 return UnitLength.feet.symbol
             } else {
@@ -338,8 +331,8 @@ struct UserFeedViewHeader: View {
                         
                         HStack(spacing: 10) {
                             WorkoutDetail(
-                                name: "Time",
-                                value: self.secondsElapsed
+                                name: "Distance",
+                                value: "\(distance) \(distanceUnits)"
                             )
                             
                             Divider()
@@ -403,6 +396,10 @@ struct UserFeedViewHeader: View {
                 // TODO: i'm here - how fuck is this possible
                 print("Couldn't get userID in order to load image")
                 return
+            }
+            
+            self.metricAPI.getForPast(days: MetricsTimeRange.Last7Days.value) { (metric) in
+                self.metric = metric
             }
             
             self.userAPI.getImage(for: userID).then { uiImage in
