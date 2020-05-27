@@ -16,6 +16,7 @@ type stopPhrases struct {
 func newStopPhrases(v *viper.Viper) *stopPhrases {
 	filePath := utils.GetAbsolutePath(v.GetString("parser.stop_phrases"))
 	file, err := os.Open(filePath)
+
 	if err != nil {
 		panic(err.Error())
 	}

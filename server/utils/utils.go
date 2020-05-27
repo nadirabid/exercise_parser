@@ -93,5 +93,10 @@ var (
 
 func GetAbsolutePath(relativePath string) string {
 	// basePath == the directory of this file - so we gotta go up one
+
+	if relativePath[0] == '/' {
+		return relativePath
+	}
+
 	return path.Join(basePath, "..", relativePath)
 }
