@@ -16,11 +16,10 @@ SELECT id, exercise_dictionary_id
 FROM exercises
 WHERE exercises.exercise_dictionary_id IS NOT NULL;
 
----- Update type (aka ParseType) to full if it was parsed based on existance of ExericeData ---
+---- Update type (aka ParseType) to full if exercise_dictionary_id is not null ---
 
 UPDATE exercises SET type = 'full'
-FROM exercise_data
-WHERE exercises.id = exercise_data.exercise_id;
+WHERE exercises.exercise_dictionary_id IS NOT NULL;
 
 UPDATE exercises SET type = ''
 WHERE exercises.type <> 'full';
