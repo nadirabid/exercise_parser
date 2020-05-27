@@ -43,7 +43,7 @@ struct Workout: Codable, Identifiable, Hashable {
     }
     
     func hasAtleastOneResolvedExercises() -> Bool {
-        return exercises.contains(where: { e in e.resolutionType == "auto" })
+        return exercises.contains(where: { e in e.resolutionType != "" })
     }
     
     func hash(into hasher: inout Hasher) {
@@ -75,7 +75,6 @@ struct Exercise: Codable, Identifiable {
     let name: String
     let type: String
     let raw: String
-    let exerciseDictionaryID: Int?
     let data: ExerciseData
     let resolutionType: String
     
@@ -91,7 +90,6 @@ struct Exercise: Codable, Identifiable {
         self.name = name
         self.type = type
         self.raw = raw
-        self.exerciseDictionaryID = nil
         self.data = data
         self.resolutionType = ""
     }
@@ -101,7 +99,7 @@ struct Exercise: Codable, Identifiable {
         createdAt: String? = nil,
         updatedAt: String? = nil,
         name: String = "",
-        type: String = "unknown",
+        type: String = "",
         raw: String = "",
         resolutionType: String = "",
         data: ExerciseData = ExerciseData(sets: 0, reps: 0, weight: 0, time: 0, distance: 0)
@@ -112,7 +110,6 @@ struct Exercise: Codable, Identifiable {
         self.name = name
         self.type = type
         self.raw = raw
-        self.exerciseDictionaryID = nil
         self.resolutionType = resolutionType
         self.data = data
     }
@@ -120,7 +117,6 @@ struct Exercise: Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
         case updatedAt = "updated_at"
-        case exerciseDictionaryID = "exercise_dictionary_id"
         case resolutionType = "resolution_type"
         case id, name, type, raw, data
     }

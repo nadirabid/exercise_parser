@@ -102,6 +102,8 @@ func handleGetUserWorkoutSubscriptionFeed(c echo.Context) error {
 
 	listResponse, err := paging(q, page, size, &workouts)
 
+	utils.PrettyPrint(listResponse)
+
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
@@ -133,6 +135,7 @@ func handlePostWorkout(c echo.Context) error {
 			// updates
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
 		} else {
+			// TODO: this can go away after everyone starts using Exercise.ExerciseDictionaries
 			searchTerm := parser.Get().RemoveStopPhrases(e.Name)
 			searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, searchTerm)
 			if err != nil {
@@ -193,6 +196,7 @@ func handlePutWorkout(c echo.Context) error {
 		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
 		} else {
+			// TODO: this can go away after everyone starts using Exercise.ExerciseDictionaries
 			searchTerm := parser.Get().RemoveStopPhrases(e.Name)
 			searchResults, err := models.SearchExerciseDictionary(ctx.viper, ctx.DB(), searchTerm)
 			if err != nil {
@@ -242,7 +246,9 @@ func handlePutWorkout(c echo.Context) error {
 	utils.PrettyPrint(existingWorkout)
 
 	for _, e := range existingWorkout.Exercises {
+		// clear out old related data
 		tx.Model(&e).Association("ExerciseDictionaries").Clear()
+		tx.Unscoped().Where("exercise_id = ?", e.ID).Delete(&models.ExerciseData{})
 	}
 
 	// fields which we don't allow to be updated (at somepoint - we should have validators for this)

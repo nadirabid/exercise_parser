@@ -45,7 +45,7 @@ struct WorkoutView: View {
         if showUnresolved {
             return workout.exercises
         } else {
-            return workout.exercises.filter({ $0.resolutionType == "auto" })
+            return workout.exercises.filter({ $0.resolutionType != "" })
         }
     }
     
@@ -170,23 +170,14 @@ struct WorkoutMuscleMetricsView: View {
             self.dictionaries = response.results
         }
     }
-    
-    func getDictionaryFor(exercise: Exercise) -> ExerciseDictionary? {
-        dictionaries?.first { $0.id == exercise.exerciseDictionaryID }
-    }
-    
-    var resolvedExercises: [Exercise] {
-        workout.exercises.filter { $0.exerciseDictionaryID != nil }
-    }
-    
+
     var targetMuscles: [MuscleActivation] {
         if dictionaries == nil {
             return []
         }
         
-        return self.resolvedExercises.flatMap { (e) -> [MuscleActivation] in
-            let dictionary = self.getDictionaryFor(exercise: e)
-            let muscleStrings = dictionary?.muscles.target?.map { s in s.lowercased() } ?? []
+        return self.dictionaries!.flatMap { (dictionary) -> [MuscleActivation] in
+            let muscleStrings = dictionary.muscles.target?.map { s in s.lowercased() } ?? []
             
             return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
                 if let muscle = Muscle.from(name: muscleString) {
@@ -207,9 +198,8 @@ struct WorkoutMuscleMetricsView: View {
             return []
         }
         
-        return self.resolvedExercises.flatMap { (e) -> [MuscleActivation] in
-            let dictionary = self.getDictionaryFor(exercise: e)
-            let muscleStrings = dictionary?.muscles.synergists?.map { s in s.lowercased() } ?? []
+        return self.dictionaries!.flatMap { (dictionary) -> [MuscleActivation] in
+            let muscleStrings = dictionary.muscles.synergists?.map { s in s.lowercased() } ?? []
             
             return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
                 if let muscle = Muscle.from(name: muscleString) {
@@ -230,16 +220,13 @@ struct WorkoutMuscleMetricsView: View {
             return []
         }
         
-        return self.resolvedExercises.flatMap { (e) -> [MuscleActivation] in
-            let dictionary = self.getDictionaryFor(exercise: e)
-            let muscleStrings = dictionary?.muscles.dynamicArticulation?.map { s in s.lowercased() } ?? []
+        return self.dictionaries!.flatMap { (dictionary) -> [MuscleActivation] in
+            let muscleStrings = dictionary.muscles.dynamicArticulation?.map { s in s.lowercased() } ?? []
             
             return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
                 if let muscle = Muscle.from(name: muscleString) {
                     if muscle.isMuscleGroup {
-                        return muscle.components.map {
-                            MuscleActivation(muscle: $0)
-                        }
+                        return muscle.components.map { MuscleActivation(muscle: $0) }
                     } else {
                         return [MuscleActivation(muscle: muscle)]
                     }
@@ -387,7 +374,7 @@ struct WorkoutView_Previews : PreviewProvider {
                         createdAt: "",
                         updatedAt: "",
                         name: "Curls",
-                        type: "weighted",
+                        type: "auto.single",
                         raw: "1x3 curls",
                         data: ExerciseData(sets: 1, reps: 3, weight: 0, time: 0, distance: 0)
                     ),
@@ -395,7 +382,7 @@ struct WorkoutView_Previews : PreviewProvider {
                         id: 2,
                         createdAt: "",
                         updatedAt: "",
-                        type: "unknown",
+                        type: "",
                         raw: "1x3 curls"
                     ),
                     Exercise(
@@ -403,7 +390,7 @@ struct WorkoutView_Previews : PreviewProvider {
                         createdAt: "",
                         updatedAt: "",
                         name: "Benchpress",
-                        type: "weighted",
+                        type: "auto.single",
                         raw: "4 sets of 3 of benchpress",
                         data: ExerciseData(sets: 4, reps: 3, weight: 0, time: 0, distance: 0)
                     )
