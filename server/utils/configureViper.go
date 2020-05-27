@@ -1,17 +1,10 @@
 package utils
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/spf13/viper"
 )
 
 func ConfigureViper(confFile string) (*viper.Viper, error) {
-	fmt.Println(confFile)
-	path, _ := os.Getwd()
-	fmt.Println(path)
-
 	v := viper.New()
 
 	// psql env bindings
