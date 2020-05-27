@@ -154,7 +154,7 @@ public struct WorkoutEditView: View {
                                             })
                                         }
                                     }
-                            }
+                                }
                             )
                                 .padding([.top, .bottom], 6)
                                 .animation(.none)

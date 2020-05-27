@@ -111,7 +111,7 @@ public struct ExerciseEditView: View {
                 )
                     .font(.body) // TODO: does this do anything?
                     .onAppear {
-                        if !self.isNewEntry && self.exercise?.resolutionType == "" {
+                        if !self.isNewEntry && (self.exercise == nil || self.exercise?.resolutionType == "") {
                             self.resolveRawExercise()
                         }
                     }
