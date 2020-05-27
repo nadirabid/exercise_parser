@@ -5,7 +5,6 @@ import (
 	"exercise_parser/models"
 	"exercise_parser/parser"
 	"exercise_parser/utils"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -88,21 +87,15 @@ func handleGetUserWorkoutSubscriptionFeed(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	// userID := getUserIDFromContext(ctx)
-
 	workouts := []models.Workout{}
 
 	q := db.
 		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
-		// Joins("JOIN user_subscriptions ON user_subscriptions.subscribed_to_id = workouts.user_id").
-		// Where("user_subscriptions.subscriber_id = ? OR workouts.user_id = ?", userID, userID).
 		Order("created_at desc")
 
 	listResponse, err := paging(q, page, size, &workouts)
-
-	utils.PrettyPrint(listResponse)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
@@ -190,8 +183,6 @@ func handlePutWorkout(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	utils.PrettyPrint(updatedWorkout)
-
 	for i, e := range updatedWorkout.Exercises {
 		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
@@ -241,9 +232,6 @@ func handlePutWorkout(c echo.Context) error {
 		tx.Rollback()
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
-
-	fmt.Println("Existingworkout: ")
-	utils.PrettyPrint(existingWorkout)
 
 	for _, e := range existingWorkout.Exercises {
 		// clear out old related data
