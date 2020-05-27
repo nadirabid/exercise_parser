@@ -30,8 +30,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let userState = UserState()
         
         // this check of "is user authenticated" needs to be abstracted
+        
         if let userID = UserDefaults.standard.object(forKey: "userId") as? String {
             let appleIDProvider = ASAuthorizationAppleIDProvider()
+            
             appleIDProvider.getCredentialState(forUserID: userID) { (state, error) in
                 DispatchQueue.main.async {
                     switch state

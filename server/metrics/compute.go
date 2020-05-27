@@ -11,6 +11,7 @@ func ComputeForWorkout(workoutID uint, db *gorm.DB) error {
 	err := db.
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
+		Preload("Exercises.ExerciseDictionaries").
 		Where("id = ?", workoutID).
 		First(workout).
 		Error
@@ -24,9 +25,9 @@ func ComputeForWorkout(workoutID uint, db *gorm.DB) error {
 	err = db.
 		Preload("Muscles").
 		Select("DISTINCT ON (exercise_dictionaries.id) exercise_dictionaries.*").
-		Joins("JOIN exercises ON exercises.exercise_dictionary_id = exercise_dictionaries.id").
+		Joins("JOIN resolved_exercise_dictionaries ON resolved_exercise_dictionaries.exercise_dictionary_id = exercise_dictionaries.id").
+		Joins("JOIN exercises ON exercises.id = resolved_exercise_dictionaries.exercise_id").
 		Joins("JOIN workouts ON workouts.id = exercises.workout_id").
-		Where("workouts.id = ?", workoutID).
 		Find(&dictionaries).
 		Error
 
@@ -54,15 +55,12 @@ func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictio
 
 	topLevelMetric.SecondsElapsed += workout.SecondsElapsed
 	for _, e := range workout.Exercises {
-		if e.ExerciseDictionaryID != nil {
-			if _, ok := repsByExerciseDictionary[*e.ExerciseDictionaryID]; !ok {
-				repsByExerciseDictionary[*e.ExerciseDictionaryID] = 0
-			}
+		topLevelMetric.Sets += e.ExerciseData.Sets
+		topLevelMetric.Reps += e.ExerciseData.Reps * e.ExerciseData.Sets
+		topLevelMetric.Distance += e.ExerciseData.Distance
 
-			topLevelMetric.Sets += e.ExerciseData.Sets
-			topLevelMetric.Reps += e.ExerciseData.Reps * e.ExerciseData.Sets
-			topLevelMetric.Distance += e.ExerciseData.Distance
-			repsByExerciseDictionary[*e.ExerciseDictionaryID] += e.ExerciseData.Reps * e.ExerciseData.Sets
+		for _, d := range e.ExerciseDictionaries {
+			repsByExerciseDictionary[d.ID] += e.ExerciseData.Reps * e.ExerciseData.Sets
 		}
 	}
 
