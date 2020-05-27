@@ -67,7 +67,7 @@ public struct ExerciseEditView: View {
         self.exerciseState.exercise = exercise
 
         self.resolveExerciseRequest = exerciseAPI.resolveExercise(exercise: exercise) { resolvedExercise in
-            print("RESPONSE", resolvedExercise)
+            print("RESPONSEEEEEE", resolvedExercise)
             self.exerciseState.exercise = resolvedExercise
         }
     }
@@ -111,7 +111,7 @@ public struct ExerciseEditView: View {
                 )
                     .font(.body) // TODO: does this do anything?
                     .onAppear {
-                        if !self.isNewEntry && (self.exercise == nil || self.exercise?.resolutionType == "") {
+                        if !self.isNewEntry && (self.exercise == nil || self.exercise?.type == "") {
                             self.resolveRawExercise()
                         }
                     }
@@ -138,7 +138,7 @@ public struct ExerciseEditView: View {
                     }
             }
 
-            if exercise?.resolutionType == "" && !exerciseState.input.isEmpty && !isNewEntry {
+            if exercise?.type == "" && !exerciseState.input.isEmpty && !isNewEntry {
                 ProcessingExerciseView(exercise: workoutState.isStopped ? exercise : nil)
             } else if exercise == nil || (!exerciseState.input.isEmpty && isNewEntry) {
                 WaitingForExerciseView()

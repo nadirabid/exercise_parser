@@ -2,7 +2,6 @@ package server
 
 import (
 	"exercise_parser/models"
-	"exercise_parser/parser"
 	"net/http"
 	"strconv"
 
@@ -183,28 +182,15 @@ func handlePostRematchExercises(c echo.Context) error {
 	matchedExercises := []models.Exercise{}
 
 	for _, e := range exercises {
-		searchTerm := parser.Get().RemoveStopPhrases(e.Name)
-		searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, searchTerm)
-		if err != nil {
-			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-		}
-
-		if len(searchResults) > 0 {
-			minSearchRank := float32(0.05)
-			topSearchResult := searchResults[0]
-
-			if topSearchResult.Rank >= minSearchRank {
-				// if we didn't make it ot this if condition - but we resolved properly above
-				// then that means we couldn't find a close enough match for the exercise
-				e.ExerciseDictionaryID = &topSearchResult.ExerciseDictionaryID
+		if err := e.Resolve(ctx.viper, db); err != nil {
+			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
+		} else {
+			if err := db.Save(&e).Error; err != nil {
+				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}
-		}
 
-		if err := db.Save(&e).Error; err != nil {
-			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+			matchedExercises = append(matchedExercises, e)
 		}
-
-		matchedExercises = append(matchedExercises, e)
 	}
 
 	r := models.ListResponse{
@@ -234,31 +220,14 @@ func handlePostReresolveExercises(c echo.Context) error {
 	resolvedExercises := []models.Exercise{}
 
 	for _, e := range exercises {
-		if err := e.Resolve(ctx.viper, ctx.DB()); err == nil {
-			searchTerm := parser.Get().RemoveStopPhrases(e.Name)
-			searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, searchTerm)
-			if err != nil {
-				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-			}
-
-			if len(searchResults) > 0 {
-				minSearchRank := float32(0.05)
-				topSearchResult := searchResults[0]
-
-				if topSearchResult.Rank >= minSearchRank {
-					// if we didn't make it ot this if condition - but we resolved properly above
-					// then that means we couldn't find a close enough match for the exercise
-					e.ExerciseDictionaryID = &topSearchResult.ExerciseDictionaryID
-				}
-			}
-
+		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
+			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
+		} else {
 			if err := db.Save(&e).Error; err != nil {
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}
 
 			resolvedExercises = append(resolvedExercises, e)
-		} else {
-			ctx.logger.Errorf("Failed to parse exercise %s with error: ", e.Raw, err)
 		}
 	}
 

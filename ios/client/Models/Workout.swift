@@ -43,7 +43,7 @@ struct Workout: Codable, Identifiable, Hashable {
     }
     
     func hasAtleastOneResolvedExercises() -> Bool {
-        return exercises.contains(where: { e in e.resolutionType != "" })
+        return exercises.contains(where: { e in e.type != "" })
     }
     
     func hash(into hasher: inout Hasher) {

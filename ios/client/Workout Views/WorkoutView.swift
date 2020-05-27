@@ -45,7 +45,7 @@ struct WorkoutView: View {
         if showUnresolved {
             return workout.exercises
         } else {
-            return workout.exercises.filter({ $0.resolutionType != "" })
+            return workout.exercises.filter({ $0.type != "" })
         }
     }
     
@@ -117,7 +117,7 @@ struct WorkoutView: View {
                 
                 VStack(spacing: 0) {
                     ForEach(exercisesToDisplay) { exercise in
-                        if exercise.resolutionType != "" {
+                        if exercise.type != "" {
                             ExerciseView(exercise: exercise)
                         } else {
                             ProcessingExerciseView(exercise: exercise)

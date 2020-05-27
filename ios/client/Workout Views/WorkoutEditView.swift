@@ -180,10 +180,10 @@ public struct WorkoutEditView: View {
                                         self.newEntryState = ExerciseEditState(input: "")
                                     }
                                 }
-                        },
+                            },
                             onTextFieldChange: { (textField: UITextField) in
                                 self.newEntryTextField = textField
-                        }
+                            }
                         )
                             .padding([.top, .bottom], 6)
                         
