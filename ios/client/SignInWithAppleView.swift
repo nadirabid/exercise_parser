@@ -32,18 +32,21 @@ struct SignInView: View {
                     .foregroundColor(secondaryAppColor)
                     .font(.caption)
                     .fontWeight(.heavy)
+                    .fixedSize()
                 
                 Text("RYDEN")
                     .font(.largeTitle)
                     .fontWeight(.heavy)
                     .tracking(10)
                     .foregroundColor(Color.white)
+                    .fixedSize()
                 
                 HStack(alignment: .center) {
                     Text("FORM")
                         .foregroundColor(secondaryAppColor)
                         .font(.callout)
                         .fontWeight(.heavy)
+                        .fixedSize()
                     
                     Text("&")
                         .foregroundColor(secondaryAppColor)
@@ -54,6 +57,7 @@ struct SignInView: View {
                         .foregroundColor(secondaryAppColor)
                         .font(.callout)
                         .fontWeight(.heavy)
+                        .fixedSize()
                 }
                 
                 Spacer()
