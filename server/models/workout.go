@@ -130,6 +130,12 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 			d.ID = searchResults[0].ExerciseDictionaryID
 			d.Name = searchResults[0].ExerciseDictionaryName
 			exerciseDictionaries = append(exerciseDictionaries, d)
+
+			e.ExerciseDictionaries = exerciseDictionaries
+			e.ResolutionType = AutoCompoundResolutionType
+
+			// for backwards compatibility
+			e.ExerciseDictionaryID = &exerciseDictionaries[0].ID
 		} else {
 			// now things get slow again as we try and find an exercise or exercises in the expression (but STRONGer match)
 
@@ -149,14 +155,15 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 					exerciseDictionaries = append(exerciseDictionaries, d)
 				}
 			}
-		}
 
-		if len(exerciseDictionaries) > 0 {
-			e.ExerciseDictionaries = exerciseDictionaries
-			e.ResolutionType = AutoCompoundResolutionType
+			// we gotta match all exercises
+			if len(subExercises) == len(exerciseDictionaries) {
+				e.ExerciseDictionaries = exerciseDictionaries
+				e.ResolutionType = AutoCompoundResolutionType
 
-			// for backwards compatibility
-			e.ExerciseDictionaryID = &exerciseDictionaries[0].ID
+				// for backwards compatibility
+				e.ExerciseDictionaryID = &exerciseDictionaries[0].ID
+			}
 		}
 	}
 
