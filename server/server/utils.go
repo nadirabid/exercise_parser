@@ -20,7 +20,7 @@ import (
 )
 
 type errorMessage struct {
-	Error string
+	Error string `json:"error"`
 }
 
 func newErrorMessage(m string) *errorMessage {
@@ -138,7 +138,7 @@ func generateAppleClientSecret(v *viper.Viper) (string, error) {
 
 	t.Set(jwt.AudienceKey, "https://appleid.apple.com")
 	t.Set(jwt.IssuedAtKey, now.Unix())
-	t.Set(jwt.ExpirationKey, now.Add(time.Minute).Unix())
+	t.Set(jwt.ExpirationKey, now.Add(time.Hour*24*300).Unix()) // we rely on the assumption that we'll restart before 300 days to avoid expiry issues
 	t.Set(jwt.IssuerKey, v.GetString("auth.apple.team_id"))
 	t.Set(jwt.SubjectKey, v.GetString("auth.apple.client_id"))
 
