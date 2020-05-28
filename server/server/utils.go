@@ -79,6 +79,8 @@ func getUserIDFromContext(ctx *Context) uint {
 	return uint(userID)
 }
 
+const JWTKeySubjectRoles = "sub.roles"
+
 func generateFakeUserJWT(fakeUser models.User) *jwt.Token {
 	now := time.Unix(time.Now().Unix(), 0)
 
@@ -90,6 +92,7 @@ func generateFakeUserJWT(fakeUser models.User) *jwt.Token {
 	t.Set(jwt.IssuedAtKey, now.Unix())
 	t.Set(jwt.IssuerKey, "https://ryden.app")
 	t.Set(jwt.SubjectKey, fmt.Sprint(fakeUser.ID))
+	t.Set(JWTKeySubjectRoles, fakeUser.Roles)
 
 	return t
 }

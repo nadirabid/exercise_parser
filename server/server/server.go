@@ -190,7 +190,7 @@ func New(v *viper.Viper) error {
 
 	apiRoutes := e.Group("/api")
 
-	apiRoutes.Use(JWTAuthMiddleware)
+	apiRoutes.Use(MiddlewareJWTAuth)
 
 	// returns user
 	apiRoutes.GET("/user", handleGetUsers)
@@ -202,25 +202,25 @@ func New(v *viper.Viper) error {
 
 	// returns exercise
 	apiRoutes.POST("/exercise/resolve", handleResolveExercise)
-	apiRoutes.GET("/exercise/unresolved", handleGetUnresolvedExercises)
-	apiRoutes.POST("/exercise/unresolved/resolve", handlePostReresolveExercises)
-	apiRoutes.GET("/exercise/unmatched", handleGetUnmatchedExercises)
-	apiRoutes.POST("/exercise/unmatched/rematch", handlePostRematchExercises)
+	apiRoutes.GET("/exercise/unresolved", MiddlewareRoles(handleGetUnresolvedExercises, "admin"))
+	apiRoutes.POST("/exercise/unresolved/resolve", MiddlewareRoles(handlePostReresolveExercises))
+	apiRoutes.GET("/exercise/unmatched", MiddlewareRoles(handleGetUnmatchedExercises))
+	apiRoutes.POST("/exercise/unmatched/rematch", MiddlewareRoles(handlePostRematchExercises))
 	apiRoutes.GET("/exercise/:id", handleGetExercise)
 	apiRoutes.POST("/exercise", handlePostExercise)
 	apiRoutes.PUT("/exercise/:id", handlePutExercise)
 	apiRoutes.DELETE("/exercise/:id", handleDeleteExercise)
 
 	// returns dictionary
-	apiRoutes.GET("/dictionary", handleGetExerciseDictionaryList)
-	apiRoutes.GET("/dictionary/search", handleGetSearchDictionary)
+	apiRoutes.GET("/dictionary", MiddlewareRoles(handleGetExerciseDictionaryList))
+	apiRoutes.GET("/dictionary/search", MiddlewareRoles(handleGetSearchDictionary))
 	apiRoutes.GET("/dictionary/:id", handleGetDictionary)
 	apiRoutes.GET("/workout/:id/dictionary", handleGetWorkoutDictionary)
 
 	// returns related names
-	apiRoutes.POST("/exercise/dictionary/related", handlePostDictionaryRelatedName)
-	apiRoutes.PUT("/exercise/dictionary/related/:id", handlePutDictionaryRelatedName)
-	apiRoutes.GET("/exercise/dictionary/:id/related", handleGetDictionaryRelatedName)
+	apiRoutes.POST("/exercise/dictionary/related", MiddlewareRoles(handlePostDictionaryRelatedName))
+	apiRoutes.PUT("/exercise/dictionary/related/:id", MiddlewareRoles(handlePutDictionaryRelatedName))
+	apiRoutes.GET("/exercise/dictionary/:id/related", MiddlewareRoles(handleGetDictionaryRelatedName))
 
 	// returns workout
 	apiRoutes.GET("/workout/subscribedto", handleGetUserWorkoutSubscriptionFeed)
@@ -232,7 +232,7 @@ func New(v *viper.Viper) error {
 
 	// returns metrics
 	apiRoutes.GET("/metric", handleGetMetrics)
-	apiRoutes.GET("/metric/weekly", handleGetWeeklyMetrics)
+	apiRoutes.GET("/metric/weekly", handleGetWeeklyMetrics) // TODO: remove this dude when everyone is using app 24 build
 
 	return e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port")))
 }

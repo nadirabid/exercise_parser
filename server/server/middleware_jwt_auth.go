@@ -11,7 +11,7 @@ import (
 	"github.com/lestrrat-go/jwx/jwt"
 )
 
-func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+func MiddlewareJWTAuth(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := c.(*Context)
 
