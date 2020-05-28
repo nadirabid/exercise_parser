@@ -3,7 +3,7 @@ on:
     branches:
       - master
     paths:
-      - 'web/**'
+      - 'web/console/**'
 
 name: Web Deploy to Amplify
 
