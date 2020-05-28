@@ -3,10 +3,10 @@ frontend:
   phases:
     build:
       commands:
-        - cd web
+        - cd web/console
         - npm install
         - npm run build
   artifacts:
-    baseDirectory: web/build
+    baseDirectory: web/console/build
     files:
       - '**/*'
