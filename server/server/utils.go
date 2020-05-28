@@ -1,7 +1,9 @@
 package server
 
 import (
+	"bytes"
 	"crypto/ecdsa"
+	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/base64"
@@ -92,9 +94,17 @@ func generateFakeUserJWT(fakeUser models.User) *jwt.Token {
 	t.Set(jwt.IssuedAtKey, now.Unix())
 	t.Set(jwt.IssuerKey, "https://ryden.app")
 	t.Set(jwt.SubjectKey, fmt.Sprint(fakeUser.ID))
-	t.Set(JWTKeySubjectRoles, fakeUser.Roles)
+	t.Set(JWTKeySubjectRoles, []string(fakeUser.Roles))
 
-	return t
+	// lets sign it and reparse it so its 100% consistent w/ how values are stored in jwt when parsed from string header
+
+	alg := jwa.RS256
+	key, _ := rsa.GenerateKey(rand.Reader, 2048)
+	signed, _ := t.Sign(alg, key)
+
+	reparsedT, _ := jwt.Parse(bytes.NewReader(signed), jwt.WithVerify(jwa.RS256, &key.PublicKey))
+
+	return reparsedT
 }
 
 // we use this instead of jwt.Token.Sign because we wan't to set the Key ID (kid) in the JWT header

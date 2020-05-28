@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
-	"github.com/lib/pq"
 )
 
 func MiddlewareRoles(next echo.HandlerFunc, hasRoles ...string) echo.HandlerFunc {
@@ -14,10 +13,10 @@ func MiddlewareRoles(next echo.HandlerFunc, hasRoles ...string) echo.HandlerFunc
 		jwt := ctx.jwt
 
 		if value, ok := jwt.Get(JWTKeySubjectRoles); ok {
-			roles := []string(value.(pq.StringArray))
+			roles := value.([]interface{})
 
 			for _, r := range roles {
-				if utils.SliceContainsString(roles, r) {
+				if utils.SliceContainsString(hasRoles, r.(string)) {
 					return next(c)
 				}
 			}

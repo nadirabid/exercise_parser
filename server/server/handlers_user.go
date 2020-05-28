@@ -80,14 +80,14 @@ func handleGetUsers(c echo.Context) error {
 	usersTokens := strings.Split(usersQuery, ",")
 
 	if len(usersTokens) == 0 {
-		return ctx.JSON(http.StatusBadRequest, newErrorMessage("Query params users is empty"))
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage("query params users is empty"))
 	}
 
 	usersID := []uint{}
 	for _, u := range usersTokens {
 		id, err := strconv.Atoi(u)
 		if err != nil {
-			return ctx.JSON(http.StatusBadRequest, newErrorMessage("Query parameter must be valid comma sperated integers"))
+			return ctx.JSON(http.StatusBadRequest, newErrorMessage("query parameter must be valid comma sperated integers"))
 		}
 
 		usersID = append(usersID, uint(id))

@@ -47,7 +47,7 @@ func handleUserRegistrationHelper(user *models.User, ctx *Context) (*TokenRespon
 	t.Set(jwt.IssuedAtKey, now.Unix())
 	t.Set(jwt.IssuerKey, "https://ryden.app")
 	t.Set(jwt.SubjectKey, fmt.Sprint(user.ID))
-	t.Set(JWTKeySubjectRoles, user.Roles)
+	t.Set(JWTKeySubjectRoles, []string(user.Roles))
 
 	payload, err := t.Sign(jwa.RS256, ctx.key)
 
