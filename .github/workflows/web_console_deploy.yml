@@ -5,7 +5,7 @@ on:
     paths:
       - 'web/console/**'
 
-name: Web Deploy to Amplify
+name: Web Console App Deploy to Amplify
 
 jobs:
   deploy:
@@ -18,4 +18,4 @@ jobs:
         env:
           WEBHOOK_TOKEN: ${{ secrets.WEBHOOK_TOKEN }}
         run: |
-          curl -X POST -d {} "https://webhooks.amplify.us-east-2.amazonaws.com/prod/webhooks?id=ea816ced-4425-40f7-99f5-a6aaba32015a&token=$WEBHOOK_TOKEN&operation=startbuild" -H "Content-Type:application/json"
+          curl -X POST -d {} "https://webhooks.amplify.us-east-2.amazonaws.com/prod/webhooks?id=f040bf02-0f19-4e20-979a-b3e61e4a5a48&token=h3iypOEFj25plFSI32bPKvc2AImr6p7DUIn5XR1nQ&operation=startbuild" -H "Content-Type:application/json"
