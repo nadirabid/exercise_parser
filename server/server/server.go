@@ -192,24 +192,24 @@ func New(v *viper.Viper) error {
 	// returns exercise
 	apiRoutes.POST("/exercise/resolve", handleResolveExercise)
 	apiRoutes.GET("/exercise/unresolved", MiddlewareRoles(handleGetUnresolvedExercises, "admin"))
-	apiRoutes.POST("/exercise/unresolved/resolve", MiddlewareRoles(handlePostReresolveExercises))
-	apiRoutes.GET("/exercise/unmatched", MiddlewareRoles(handleGetUnmatchedExercises))
-	apiRoutes.POST("/exercise/unmatched/rematch", MiddlewareRoles(handlePostRematchExercises))
+	apiRoutes.POST("/exercise/unresolved/resolve", MiddlewareRoles(handlePostReresolveExercises, "admin"))
+	apiRoutes.GET("/exercise/unmatched", MiddlewareRoles(handleGetUnmatchedExercises, "admin"))
+	apiRoutes.POST("/exercise/unmatched/rematch", MiddlewareRoles(handlePostRematchExercises, "admin"))
 	apiRoutes.GET("/exercise/:id", handleGetExercise)
 	apiRoutes.POST("/exercise", handlePostExercise)
 	apiRoutes.PUT("/exercise/:id", handlePutExercise)
 	apiRoutes.DELETE("/exercise/:id", handleDeleteExercise)
 
 	// returns dictionary
-	apiRoutes.GET("/dictionary", MiddlewareRoles(handleGetExerciseDictionaryList))
-	apiRoutes.GET("/dictionary/search", MiddlewareRoles(handleGetSearchDictionary))
+	apiRoutes.GET("/dictionary", MiddlewareRoles(handleGetExerciseDictionaryList, "admin"))
+	apiRoutes.GET("/dictionary/search", MiddlewareRoles(handleGetSearchDictionary, "admin"))
 	apiRoutes.GET("/dictionary/:id", handleGetDictionary)
 	apiRoutes.GET("/workout/:id/dictionary", handleGetWorkoutDictionary)
 
 	// returns related names
-	apiRoutes.POST("/exercise/dictionary/related", MiddlewareRoles(handlePostDictionaryRelatedName))
-	apiRoutes.PUT("/exercise/dictionary/related/:id", MiddlewareRoles(handlePutDictionaryRelatedName))
-	apiRoutes.GET("/exercise/dictionary/:id/related", MiddlewareRoles(handleGetDictionaryRelatedName))
+	apiRoutes.POST("/exercise/dictionary/related", MiddlewareRoles(handlePostDictionaryRelatedName, "admin"))
+	apiRoutes.PUT("/exercise/dictionary/related/:id", MiddlewareRoles(handlePutDictionaryRelatedName, "admin"))
+	apiRoutes.GET("/exercise/dictionary/:id/related", MiddlewareRoles(handleGetDictionaryRelatedName, "admin"))
 
 	// returns workout
 	apiRoutes.GET("/workout/subscribedto", handleGetUserWorkoutSubscriptionFeed)

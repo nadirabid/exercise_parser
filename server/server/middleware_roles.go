@@ -12,6 +12,10 @@ func MiddlewareRoles(next echo.HandlerFunc, hasRoles ...string) echo.HandlerFunc
 		ctx := c.(*Context)
 		jwt := ctx.jwt
 
+		if len(hasRoles) == 0 {
+			return next(c)
+		}
+
 		if value, ok := jwt.Get(JWTKeySubjectRoles); ok {
 			roles := value.([]interface{})
 
