@@ -146,12 +146,17 @@ func handleAppleAuthCallback(c echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(fmt.Sprintf("Unable to parser referrer URL: %s", referrer)))
 	}
 
+	appleClientSecret, err := generateAppleClientSecret(ctx.viper)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage("couldnt validate client secret"))
+	}
+
 	resp, err := http.PostForm("https://appleid.apple.com/auth/token", url.Values{
 		"grant_type":    {"authorization_code"},
 		"code":          {appleAuthCode},
 		"redirect_uri":  {referrerURL.Query().Get("redirect_uri")},
 		"client_id":     {ctx.viper.GetString("auth.apple.client_id")},
-		"client_secret": {ctx.appleClientSecret},
+		"client_secret": {appleClientSecret},
 	})
 
 	if err != nil {

@@ -29,15 +29,14 @@ import (
 // Context is an extention of echo.Context
 type Context struct {
 	echo.Context
-	db                *gorm.DB
-	key               *rsa.PrivateKey
-	viper             *viper.Viper
-	jwt               *jwt.Token
-	appleClientSecret string
-	logger            *logrus.Logger
-	session           *session.Session
-	uploader          *s3manager.Uploader
-	downloader        *s3manager.Downloader
+	db         *gorm.DB
+	key        *rsa.PrivateKey
+	viper      *viper.Viper
+	jwt        *jwt.Token
+	logger     *logrus.Logger
+	session    *session.Session
+	uploader   *s3manager.Uploader
+	downloader *s3manager.Downloader
 }
 
 // DB returns the database object used in handlers
@@ -54,7 +53,7 @@ func newContext(
 	uploader *s3manager.Uploader,
 	downloader *s3manager.Downloader,
 	tokenSigningKey *rsa.PrivateKey,
-	appleClientSecret string,
+
 ) *Context {
 	return &Context{
 		c,
@@ -62,7 +61,6 @@ func newContext(
 		tokenSigningKey,
 		v,
 		nil,
-		appleClientSecret,
 		logger,
 		sess,
 		uploader,
@@ -128,14 +126,6 @@ func New(v *viper.Viper) error {
 		panic(fmt.Sprintf("Failed to generate key: %s", err.Error()))
 	}
 
-	appleClientSecret := ""
-	if v.GetBool("middleware.auth") {
-		appleClientSecret, err = generateAppleClientSecret(v)
-		if err != nil {
-			panic(fmt.Sprintf("Failed to generate client secret: %s", err.Error()))
-		}
-	}
-
 	// INIT PARSER
 
 	if err := parser.Init(v); err != nil {
@@ -180,7 +170,6 @@ func New(v *viper.Viper) error {
 				uploader,
 				downloader,
 				tokenSigningKey,
-				appleClientSecret,
 			))
 		}
 	})
