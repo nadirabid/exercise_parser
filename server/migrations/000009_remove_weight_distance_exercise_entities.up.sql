@@ -1,0 +1,6 @@
+BEGIN;
+
+DROP TABLE IF EXISTS weighted_exercises CASCADE;
+DROP TABLE IF EXISTS distance_exercises CASCADE;
+
+COMMIT;

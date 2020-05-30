@@ -58,8 +58,6 @@ type Exercise struct {
 	Name                 string                `json:"name"`
 	ExerciseDictionaryID *uint                 `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
 	ExerciseData         ExerciseData          `json:"data"`
-	WeightedExercise     *WeightedExercise     `json:"weighted_exercise"`
-	DistanceExercise     *DistanceExercise     `json:"distance_exercise"`
 	WorkoutID            uint                  `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
 	ExerciseDictionaries []*ExerciseDictionary `json:"exercise_dictionaries" gorm:"many2many:resolved_exercise_dictionaries;"`
 }
@@ -202,31 +200,6 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 	e.ExerciseData.Time = time
 
 	return nil
-}
-
-// WeightedExercise model
-type WeightedExercise struct {
-	HiddenModel
-	Sets       int     `json:"sets"`
-	Reps       int     `json:"reps"`
-	Weight     float32 `json:"weight"`
-	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
-}
-
-func (WeightedExercise) TableName() string {
-	return "weighted_exercises"
-}
-
-// DistanceExercise model
-type DistanceExercise struct {
-	HiddenModel
-	Time       uint    `json:"time"`
-	Distance   float32 `json:"distance"`
-	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
-}
-
-func (DistanceExercise) TableName() string {
-	return "distance_exercises"
 }
 
 type ExerciseData struct {

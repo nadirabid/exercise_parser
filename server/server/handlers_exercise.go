@@ -83,15 +83,6 @@ func handlePutExercise(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	// TODO: remove all this stuff
-	if exercise.Type == "weighted" && exercise.WeightedExercise != nil {
-		return ctx.JSON(http.StatusNotAcceptable, newErrorMessage("type is weighted but weighted fields are not supplied"))
-	}
-
-	if exercise.Type == "distance" && exercise.DistanceExercise != nil {
-		return ctx.JSON(http.StatusNotAcceptable, newErrorMessage("type is distance but distance fields are not supplied"))
-	}
-
 	exercise.ResolutionType = models.ManualSingleResolutionType
 
 	// we don't resolve exercise - this endpoint is meant to be for a "manual resolve"
