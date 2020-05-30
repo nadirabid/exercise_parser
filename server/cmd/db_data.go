@@ -225,11 +225,9 @@ func seedSpecialExerciseDictionaries(cmd *cobra.Command, args []string) error {
 	dictionaries = append(dictionaries, rest)
 
 	for _, d := range dictionaries {
-		errer.Println("dict iteration")
 		if err := db.
 			Where(models.ExerciseDictionary{URL: d.URL}).
 			FirstOrCreate(d).Error; err != nil {
-			errer.Println("HERE WE GO")
 			if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 				warner.Println("Didn't create dictionary - it already exists", d.URL)
 			} else {
