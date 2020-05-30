@@ -137,30 +137,6 @@ func seedExerciseDictionary(db *gorm.DB, seedDir string) error {
 		return err
 	}
 
-	all := []models.ExerciseDictionary{}
-	if err := db.Find(&all).Error; err != nil {
-		return err
-	}
-
-	for _, d := range all {
-		updateField := map[string]string{}
-
-		url := strings.Split(d.URL, "#")[0]
-
-		if !strings.Contains(d.URL, "https") {
-			url = strings.Replace(url, "http", "https", -1)
-		}
-
-		updateField["url"] = url
-
-		if err := db.
-			Model(models.ExerciseDictionary{}).
-			Where(models.ExerciseDictionary{URL: d.URL}).
-			Update(updateField).Error; err != nil {
-			return err
-		}
-	}
-
 	for _, f := range files {
 		file, err := os.Open(filepath.Join(seedDir, f.Name()))
 		if err != nil {
@@ -224,6 +200,60 @@ func seedExerciseDictionary(db *gorm.DB, seedDir string) error {
 	return nil
 }
 
+// some "special types of exercises" that the client would treat uniquely
+func seedSpecialExerciseDictionaries(cmd *cobra.Command, args []string) error {
+	// init viper
+	v, err := configureViperFromCmd(cmd)
+	if err != nil {
+		return err
+	}
+
+	// init db
+	db, err := models.NewDatabase(v)
+	if err != nil {
+		return err
+	}
+
+	dictionaries := []*models.ExerciseDictionary{}
+
+	// Rest / cooldown /break or whatever
+	rest := &models.ExerciseDictionary{
+		URL:  "/dictionary/rest",
+		Name: "Rest",
+	}
+
+	dictionaries = append(dictionaries, rest)
+
+	for _, d := range dictionaries {
+		errer.Println("dict iteration")
+		if err := db.
+			Where(models.ExerciseDictionary{URL: d.URL}).
+			FirstOrCreate(d).Error; err != nil {
+			errer.Println("HERE WE GO")
+			if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
+				warner.Println("Didn't create dictionary - it already exists", d.URL)
+			} else {
+				return err
+			}
+		}
+
+		relatedName := &models.ExerciseRelatedName{}
+		relatedName.Related = sanitizeRelatedName(d.Name)
+		relatedName.ExerciseDictionaryID = d.ID
+		relatedName.Type = "model"
+
+		if err := db.Where(models.ExerciseRelatedName{Related: relatedName.Related}).FirstOrCreate(relatedName).Error; err != nil {
+			return fmt.Errorf("unable to save related name: %s", err.Error())
+		}
+
+		if err := relatedName.UpdateTSV(db); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // NOTE: i'm seeding from locally stored files, because we're going to be seeding more
 // than we should be hitting (by means of scrapping). allows for rapid nuking of the database
 // without compromising on speed
@@ -253,6 +283,13 @@ func seed(cmd *cobra.Command, args []string) error {
 	}
 
 	successer.Println("exercises seeding complete")
+
+	// seed special exercises
+	if err := seedSpecialExerciseDictionaries(cmd, args); err != nil {
+		return err
+	}
+
+	successer.Println("special exercises seeding complete")
 
 	// seed related names
 	dir = v.GetString("resources.dir.related_names")
@@ -368,8 +405,6 @@ func dropUserTables(cmd *cobra.Command, args []string) error {
 		&models.Workout{},
 		&models.Location{},
 		&models.Exercise{},
-		&models.WeightedExercise{},
-		&models.DistanceExercise{},
 	).Error; err != nil {
 		return fmt.Errorf("couldn't drop table: %s", err.Error())
 	}
@@ -660,6 +695,12 @@ var seedDictCmd = &cobra.Command{
 	},
 }
 
+var seedSpecialDictCmd = &cobra.Command{
+	Use:   "dict_special",
+	Short: "Seed special exercise dictionaries",
+	RunE:  seedSpecialExerciseDictionaries,
+}
+
 var dumpCmd = &cobra.Command{
 	Use:   "dump",
 	Short: "Dumps related names into JSON files",
@@ -724,6 +765,7 @@ func init() {
 
 	seedCmd.AddCommand(seedDictAndRelatedCmd)
 	seedCmd.AddCommand(seedDictCmd)
+	seedCmd.AddCommand(seedSpecialDictCmd)
 	seedCmd.AddCommand(seedFakeCmd)
 
 	seedFakeCmd.AddCommand(seedFakeWorkoutCmd)

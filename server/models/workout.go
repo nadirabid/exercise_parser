@@ -67,10 +67,11 @@ func (Exercise) TableName() string {
 }
 
 const (
-	// for backwards compatibility reason this all has to be "auto" right now
-	AutoSingleResolutionType   = "auto" // -> "auto.single"
-	AutoCompoundResolutionType = "auto" // -> "auto.compound"
-	ManualSingleResolutionType = "auto" // -> "manual.single"
+	AutoSingleResolutionType        = "auto.single"
+	AutoCompoundResolutionType      = "auto.compound"
+	AutoSpecialRestResolutionType   = "auto.special.rest" // this seems like a bady way of doing things
+	ManualSingleResolutionType      = "manual.single"
+	FailedPermanentlyResolutionType = "failed.permanently"
 )
 
 // Resolve will take the Raw exercise string and parse out the various fields
@@ -84,8 +85,8 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 
 	var res *parser.ParsedActivity
 
-	// TODO: actually update the ExerciseID
-	if len(parsedExercises) > 1 {
+	// TODO: this if block is the ugliest piece of code in code history (i'm sorry)
+	if len(parsedExercises) > 1 { // we got multiple matches from parser
 		// now things get freaky - and fuckin slowwww =(
 
 		resolved := []*parser.ParsedActivity{}
@@ -115,7 +116,7 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 
 		// for backwards compatibility
 		e.ExerciseDictionaryID = &exerciseDictionaries[0].ID
-	} else {
+	} else { // we got 1 match from parser
 		res = parsedExercises[0]
 		parsedExerciseStr := parser.Get().RemoveStopPhrases(res.Captures["Exercise"])
 		exerciseDictionaries := []*ExerciseDictionary{}
@@ -127,10 +128,17 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 			d := &ExerciseDictionary{}
 			d.ID = searchResults[0].ExerciseDictionaryID
 			d.Name = searchResults[0].ExerciseDictionaryName
+
 			exerciseDictionaries = append(exerciseDictionaries, d)
 
 			e.ExerciseDictionaries = exerciseDictionaries
-			e.ResolutionType = AutoCompoundResolutionType
+
+			utils.PrettyPrint(exerciseDictionaries)
+			if strings.EqualFold(d.Name, "Rest") {
+				e.ResolutionType = AutoSpecialRestResolutionType
+			} else {
+				e.ResolutionType = AutoCompoundResolutionType
+			}
 
 			// for backwards compatibility
 			e.ExerciseDictionaryID = &exerciseDictionaries[0].ID

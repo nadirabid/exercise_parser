@@ -12,6 +12,14 @@ enum ExerciseViewDisplayType {
     case primary, secondary, tertiary
 }
 
+enum ExerciseResolutionType: String {
+    case AutoSingleResolutionType = "auto.single"
+    case AutoCompoundResolutionType = "auto.compound"
+    case AutoSpecialRestResolutionType = "auto.special.rest"
+    case ManualSingleResolutionType = "manual.single"
+    case FailedPermanentlyResolutionType = "failed.permanently"
+}
+
 struct ExerciseView : View {
     var exercise: Exercise
     var displayType: ExerciseViewDisplayType = .primary
@@ -45,12 +53,24 @@ struct ExerciseView : View {
         }
     }
     
+    var shouldShowRestIcon: Bool {
+        print(exercise.resolutionType)
+        return exercise.resolutionType == ExerciseResolutionType.AutoSpecialRestResolutionType.rawValue
+    }
+    
     var body: some View {
         HStack {
             Text(exercise.name.capitalized)
                 .font(.subheadline)
                 .foregroundColor(self.valuesColor)
                 .shouldItalicize(shouldItalicize)
+            
+            if shouldShowRestIcon {
+                Image(systemName: "wind")
+                    .padding(.trailing)
+                    .foregroundColor(Color.secondary)
+                    .font(.caption)
+            }
             
             Spacer()
             
