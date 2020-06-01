@@ -360,7 +360,11 @@ struct WorkoutView_Previews : PreviewProvider {
                 email: "test@user.com",
                 givenName: "Calev",
                 familyName: "Muzaffar",
-                imageExists: nil
+                imageExists: nil,
+                birthdate: nil,
+                weight: nil,
+                height: nil,
+                isMale: true
             ),
             workout: Workout(
                 id: 1,

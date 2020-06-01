@@ -40,10 +40,11 @@ struct MetricsTopLevel: Codable {
     let sets: Int
     let reps: Int
     let secondsElapsed: Int
+    let calories: Int
     
     enum CodingKeys: String, CodingKey {
         case secondsElapsed = "seconds_elapsed"
-        case sets, reps, distance
+        case sets, reps, distance, calories
     }
 }
 

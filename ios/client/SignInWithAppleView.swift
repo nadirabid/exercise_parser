@@ -81,7 +81,11 @@ struct SignInDevView: View {
             email: "fake@user.com",
             givenName: "Fake",
             familyName: "User",
-            imageExists: nil
+            imageExists: nil,
+            birthdate: nil,
+            weight: nil,
+            height: nil,
+            isMale: true
         )
         
         self.userAPI.userRegistrationAndLogin(identityToken: "not.a.token", data: data) { (jwt, user) in
@@ -205,7 +209,11 @@ struct SignInWithAppleView: UIViewRepresentable {
                 email: credentials.email ?? "",
                 givenName: credentials.fullName?.givenName ?? "",
                 familyName: credentials.fullName?.familyName ?? "",
-                imageExists: nil
+                imageExists: nil,
+                birthdate: nil,
+                weight: nil,
+                height: nil,
+                isMale: true
             )
             
             self.parent?.userAPI.userRegistrationAndLogin(identityToken: identityToken, data: data) { (jwt, user) in

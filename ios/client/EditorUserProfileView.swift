@@ -16,21 +16,40 @@ struct EditorUserProfileView: View {
     
     @EnvironmentObject var userAPI: UserAPI
     
+    // picker vars
+    @State private var showBirthdatePicker = false
+    @State private var showHeightPicker = false
+    @State private var showingImagePicker = false
+    
+    // form vars
     @State private var givenName: String = ""
     @State private var familyName: String = ""
-    
-    @State private var showingImagePicker = false
+    @State private var weight: String = ""
+    @State private var birthdate: Date = Date()
+    @State private var heightFeet: Int = 0
+    @State private var heightInches: Int = 0
     
     @State private var image: Image? = nil
     @State private var originalUIImage: UIImage? = nil
     @State private var updatedUIImage: UIImage? = nil
-
+    
     @State private var userCancellable: AnyCancellable? = nil
     
     @ObservedObject private var locationManager: LocationManager = LocationManager()
     
     func save() {
-        let user = User(id: nil, externalUserId: nil, email: nil, givenName: givenName, familyName: familyName, imageExists: nil)
+        let user = User(
+            id: nil,
+            externalUserId: nil,
+            email: nil,
+            givenName: givenName,
+            familyName: familyName,
+            imageExists: nil,
+            birthdate: nil,
+            weight: nil,
+            height: nil,
+            isMale: true
+        )
         
         var savePromises: [Promise<Void>] = []
         
@@ -43,7 +62,7 @@ struct EditorUserProfileView: View {
                 return p
             })
         }
-    
+        
         if imageHasChanged {
             savePromises.append(userAPI.updateMeUserImage(self.updatedUIImage!))
         }
@@ -81,6 +100,10 @@ struct EditorUserProfileView: View {
     
     var disableSaveButton: Bool {
         return !dataHasChanged && !imageHasChanged
+    }
+    
+    var heightStringInFeet: String {
+        return "\(heightFeet)\' \(heightInches)\""
     }
     
     var body: some View {
@@ -148,6 +171,45 @@ struct EditorUserProfileView: View {
                     }
                 }
                 
+                Section(header: Text("Measurements (for improved calorie estimation)")) {
+                    HStack {
+                        TextField("Weight", text: $weight)
+                            .keyboardType(.numberPad)
+                    }
+                    
+                    Button(action: {
+                        self.showBirthdatePicker = false
+                        self.showHeightPicker.toggle()
+                    }) {
+                        HStack {
+                            Text("Height")
+                            
+                            Spacer()
+                            
+                            Text(heightStringInFeet)
+                                .foregroundColor(Color.secondary)
+                        }
+                        .background(Color(UIColor.systemBackground))
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Button(action: {
+                        self.showHeightPicker = false
+                        self.showBirthdatePicker.toggle()
+                    }) {
+                        HStack {
+                            Text("Birthdate")
+                            
+                            Spacer()
+                            
+                            Text(birthdate.monthDayYearString)
+                                .foregroundColor(Color.secondary)
+                        }
+                        .background(Color(UIColor.systemBackground))
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+                
                 Section(header: Text("Location")) {
                     HStack {
                         Text("Location Access")
@@ -157,9 +219,57 @@ struct EditorUserProfileView: View {
                         Text(locationManager.statusString)
                             .foregroundColor(Color.secondary)
                     }
+                    .animation(.none)
                 }
             }
+            .animation(.default)
+            
+            if showBirthdatePicker {
+                HStack {
+                    Spacer()
+                    
+                    DatePicker(selection: self.$birthdate, in: ...Date(), displayedComponents: .date) {
+                        EmptyView()
+                    }
+                    .fixedSize()
+                    
+                    Spacer()
+                }
+                .edgesIgnoringSafeArea(.bottom)
+                .background(Color(UIColor.systemGray4))
+                .transition(.move(edge: .bottom))
+                .animation(.default)
+                .zIndex(2)
+            } else if showHeightPicker {
+                HStack(spacing: 0) {
+                    Spacer()
+                    
+                    Picker(selection: $heightFeet, label: EmptyView()) {
+                        ForEach(0..<10) {
+                            Text("\($0) ft")
+                        }
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .clipped()
+                    
+                    Picker(selection: $heightInches, label: EmptyView()) {
+                        ForEach(0..<13) {
+                            Text("\($0) in")
+                        }
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .clipped()
+                    
+                    Spacer()
+                }
+                .edgesIgnoringSafeArea(.bottom)
+                .background(Color(UIColor.systemGray4))
+                .transition(.move(edge: .bottom))
+                .animation(.default)
+                .zIndex(2)
+            }
         }
+        .edgesIgnoringSafeArea(.bottom)
         .background(Color.white)
         .onAppear {
             self.userCancellable = self.userState.$userInfo.sink { user in
@@ -173,6 +283,7 @@ struct EditorUserProfileView: View {
             
             self.givenName = self.userState.userInfo.givenName ?? ""
             self.familyName = self.userState.userInfo.familyName ?? ""
+            self.birthdate = self.userState.userInfo.birthdate ?? Date()
             
             guard let userID = self.userState.userInfo.id else {
                 print("Couldn't get userID in order to load image")
