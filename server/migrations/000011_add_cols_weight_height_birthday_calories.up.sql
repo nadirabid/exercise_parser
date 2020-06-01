@@ -7,6 +7,6 @@ ADD COLUMN IF NOT EXISTS height integer,
 ADD COLUMN IF NOT EXISTS is_male boolean;
 
 ALTER TABLE metrics_top_level 
-ADD COLUMN IF NOT EXSTS calories integer;
+ADD COLUMN IF NOT EXISTS calories integer;
 
 COMMIT;
