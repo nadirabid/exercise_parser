@@ -106,7 +106,6 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 		}
 
 		if len(resolved) != 1 {
-			utils.PrettyPrint(resolved)
 			return fmt.Errorf("couldn't distinguish between multiple parse results: %s", utils.PrettyStringify(parsedExercises))
 		}
 
@@ -133,7 +132,6 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 
 			e.ExerciseDictionaries = exerciseDictionaries
 
-			utils.PrettyPrint(exerciseDictionaries)
 			if strings.EqualFold(d.Name, "Rest") {
 				e.ResolutionType = AutoSpecialRestResolutionType
 			} else {

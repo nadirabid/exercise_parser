@@ -51,6 +51,7 @@ func metFromDictionaryUrl(dictionaryURL string, intensity int) float32 {
 		}
 	case
 		"https://exrx.net/Aerobic/Exercises/Jog",
+		"https://exrx.net/Aerobic/Exercises/TreadmillRun",
 		"https://exrx.net/Aerobic/Exercises/Run":
 		if intensity == 1 {
 			return 6.0 // 12029

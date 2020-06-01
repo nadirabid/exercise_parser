@@ -3,6 +3,7 @@ package metrics
 import (
 	"exercise_parser/calories"
 	"exercise_parser/models"
+	"exercise_parser/utils"
 
 	"github.com/jinzhu/gorm"
 )
@@ -34,6 +35,7 @@ func ComputeForWorkout(workoutID uint, db *gorm.DB) error {
 		Joins("JOIN resolved_exercise_dictionaries ON resolved_exercise_dictionaries.exercise_dictionary_id = exercise_dictionaries.id").
 		Joins("JOIN exercises ON exercises.id = resolved_exercise_dictionaries.exercise_id").
 		Joins("JOIN workouts ON workouts.id = exercises.workout_id").
+		Where("workouts.id = ?", workoutID).
 		Find(&dictionaries)
 
 	if err := q.Error; err != nil {
@@ -48,6 +50,8 @@ func ComputeForWorkout(workoutID uint, db *gorm.DB) error {
 	if err != nil {
 		return err
 	}
+
+	utils.PrettyPrint(m.TopLevel)
 
 	if err := db.Create(m).Error; err != nil {
 		return err

@@ -247,6 +247,7 @@ func handleDeleteWorkout(c echo.Context) error {
 	q := ctx.DB().
 		Unscoped().
 		Where("user_id = ?", userID).
+		Set("gorm:association_autoupdate", false).
 		Delete(w)
 
 	if err := q.Error; err != nil {

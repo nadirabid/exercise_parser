@@ -16,7 +16,7 @@ type User struct {
 	Subscriptions  []UserSubscription `json:"subscriptions"`
 	ImagePath      string             `json:"-"`
 	Roles          pq.StringArray     `json:"roles"`
-	Birthdate      time.Time          `json:"birthdate"`
+	Birthdate      *time.Time         `json:"birthdate"`
 	Weight         float32            `json:"weight"`
 	Height         float32            `json:"height"`
 	IsMale         bool               `json:"is_male"`

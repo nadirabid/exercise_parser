@@ -18,7 +18,7 @@ func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictio
 		if e.ExerciseDictionaryID != nil {
 			d, ok := dictionaries[*e.ExerciseDictionaryID]
 			if !ok {
-				return 0, fmt.Errorf("dictionary id %s not found", e.ExerciseDictionaryID)
+				return 0, fmt.Errorf("dictionary id %d not found", e.ExerciseDictionaryID)
 			}
 
 			met = metFromDictionaryUrl(d.URL, metIntensityFromExercise(e))
@@ -41,11 +41,13 @@ func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictio
 		}
 
 		height := user.Height
-		age := age.Age(user.Birthdate)
+		ageYears := float32(0.0)
+		if user.Birthdate != nil {
+			ageYears = float32(age.Age(*user.Birthdate))
+		}
 
-		if height != 0 && age != 0 {
-			totalCalories = float64(calculateCalsFromCorrectedMET(met, weight, height, age, time, user.IsMale))
-
+		if height != 0 && ageYears != 0 {
+			totalCalories = float64(calculateCalsFromCorrectedMET(met, weight, height, ageYears, time, user.IsMale))
 		} else {
 			totalCalories = float64(calculatedCalsFromStandardMET(met, weight, time))
 		}
@@ -90,6 +92,6 @@ func calculateSecondsFromSetsAndReps(sets, reps int) float32 {
 	return float32((reps * 4) * ((sets - 1) * 90))
 }
 
-func calculateSecondsFromDistance(distanceKm float32) float32 {
-	return float32(math.Round(float64((60*5 + 37.5) * distanceKm))) // assume 9 min mile (5 min 37.5 sec per km)
+func calculateSecondsFromDistance(distanceMeters float32) float32 {
+	return (60*5 + 37.5) * (distanceMeters / 1000) // assume 9 min mile (5 min 37.5 sec per km)
 }
