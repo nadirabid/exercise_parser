@@ -16,22 +16,26 @@ struct EditorUserProfileView: View {
     
     @EnvironmentObject var userAPI: UserAPI
     
-    // picker vars
+    // MARK: picker vars
     @State private var showBirthdatePicker = false
     @State private var showHeightPicker = false
     @State private var showingImagePicker = false
     
-    // form vars
+    // MARK: form vars
     @State private var givenName: String = ""
     @State private var familyName: String = ""
     @State private var weight: String = ""
     @State private var birthdate: Date = Date()
     @State private var heightFeet: Int = 0
     @State private var heightInches: Int = 0
-    
     @State private var image: Image? = nil
     @State private var originalUIImage: UIImage? = nil
     @State private var updatedUIImage: UIImage? = nil
+    
+    // MARK: text fields
+    @State private var firstNameTextField: UITextField?
+    @State private var lastNameTextField: UITextField?
+    @State private var weightTextField: UITextField?
     
     @State private var userCancellable: AnyCancellable? = nil
     
@@ -75,6 +79,20 @@ struct EditorUserProfileView: View {
     func loadImage(for userID: Int) {
         self.userAPI.getImage(for: userID).then { uiImage in
             self.image = Image(uiImage: uiImage)
+        }
+    }
+    
+    func resignFirstResponderAllTextFields() {
+        if self.firstNameTextField?.isFirstResponder == true {
+            self.firstNameTextField?.resignFirstResponder()
+        }
+        
+        if self.lastNameTextField?.isFirstResponder == true {
+            self.lastNameTextField?.resignFirstResponder()
+        }
+        
+        if self.weightTextField?.isFirstResponder == true {
+            self.weightTextField?.resignFirstResponder()
         }
     }
     
@@ -130,7 +148,9 @@ struct EditorUserProfileView: View {
                 HStack {
                     Spacer()
                     
-                    Button(action: { self.showingImagePicker = true }) {
+                    Button(action: {
+                        self.showingImagePicker = true
+                    }) {
                         if image != nil {
                             image!
                                 .renderingMode(.original)
@@ -163,21 +183,46 @@ struct EditorUserProfileView: View {
             Form {
                 Section(header: Text("General")) {
                     HStack {
-                        TextField("First Name", text: $givenName)
+                        TextField("First Name", text: $givenName, onEditingChanged: { changed in
+                            if changed {
+                                self.showBirthdatePicker = false
+                                self.showHeightPicker = false
+                            }
+                        })
+                            .introspectTextField { (textField: UITextField) in
+                                self.firstNameTextField = textField
+                        }
                     }
                     
                     HStack {
-                        TextField("Last Name", text: $familyName)
+                        TextField("Last Name", text: $familyName, onEditingChanged: { changed in
+                            if changed {
+                                self.showBirthdatePicker = false
+                                self.showHeightPicker = false
+                            }
+                        })
+                            .introspectTextField { (textField: UITextField) in
+                                self.lastNameTextField = textField
+                        }
                     }
                 }
                 
                 Section(header: Text("Measurements (for improved calorie estimation)")) {
                     HStack {
-                        TextField("Weight", text: $weight)
+                        TextField("Weight", text: $weight, onEditingChanged: { changed in
+                            if changed {
+                                self.showBirthdatePicker = false
+                                self.showHeightPicker = false
+                            }
+                        })
                             .keyboardType(.numberPad)
+                            .introspectTextField { (textField: UITextField) in
+                                self.weightTextField = textField
+                        }
                     }
                     
                     Button(action: {
+                        self.resignFirstResponderAllTextFields()
                         self.showBirthdatePicker = false
                         self.showHeightPicker.toggle()
                     }) {
@@ -194,6 +239,7 @@ struct EditorUserProfileView: View {
                     .buttonStyle(PlainButtonStyle())
                     
                     Button(action: {
+                        self.resignFirstResponderAllTextFields()
                         self.showHeightPicker = false
                         self.showBirthdatePicker.toggle()
                     }) {
