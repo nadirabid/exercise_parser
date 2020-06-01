@@ -1,6 +1,10 @@
 package models
 
-import "github.com/lib/pq"
+import (
+	"time"
+
+	"github.com/lib/pq"
+)
 
 // User model
 type User struct {
@@ -12,6 +16,10 @@ type User struct {
 	Subscriptions  []UserSubscription `json:"subscriptions"`
 	ImagePath      string             `json:"-"`
 	Roles          pq.StringArray     `json:"roles"`
+	Birthdate      time.Time          `json:"birthdate"`
+	Weight         float32            `json:"weight"`
+	Height         float32            `json:"height"`
+	IsMale         bool               `json:"is_male"`
 }
 
 // WrappedUser - this is for returning data through API with fields that don't necessarily
