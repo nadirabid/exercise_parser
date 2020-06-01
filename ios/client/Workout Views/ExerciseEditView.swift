@@ -67,7 +67,6 @@ public struct ExerciseEditView: View {
         self.exerciseState.exercise = exercise
 
         self.resolveExerciseRequest = exerciseAPI.resolveExercise(exercise: exercise) { resolvedExercise in
-            print("RESPONSEEEEEE", resolvedExercise)
             self.exerciseState.exercise = resolvedExercise
         }
     }

@@ -54,7 +54,6 @@ struct ExerciseView : View {
     }
     
     var shouldShowRestIcon: Bool {
-        print(exercise.resolutionType)
         return exercise.resolutionType == ExerciseResolutionType.AutoSpecialRestResolutionType.rawValue
     }
     
