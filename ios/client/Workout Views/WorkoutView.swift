@@ -362,8 +362,8 @@ struct WorkoutView_Previews : PreviewProvider {
                 familyName: "Muzaffar",
                 imageExists: nil,
                 birthdate: nil,
-                weight: nil,
-                height: nil,
+                weight: 0,
+                height: 0,
                 isMale: true
             ),
             workout: Workout(

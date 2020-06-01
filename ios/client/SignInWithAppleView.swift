@@ -83,8 +83,8 @@ struct SignInDevView: View {
             familyName: "User",
             imageExists: nil,
             birthdate: nil,
-            weight: nil,
-            height: nil,
+            weight: 0,
+            height: 0,
             isMale: true
         )
         
@@ -211,8 +211,8 @@ struct SignInWithAppleView: UIViewRepresentable {
                 familyName: credentials.fullName?.familyName ?? "",
                 imageExists: nil,
                 birthdate: nil,
-                weight: nil,
-                height: nil,
+                weight: 0,
+                height: 0,
                 isMale: true
             )
             

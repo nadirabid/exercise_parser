@@ -24,8 +24,8 @@ struct EditorUserProfileView: View {
     // MARK: form vars
     @State private var givenName: String = ""
     @State private var familyName: String = ""
-    @State private var weight: String = ""
-    @State private var birthdate: Date = Date()
+    @State private var weight: Double? = nil
+    @State private var birthdate: Date? = nil
     @State private var heightFeet: Int = 0
     @State private var heightInches: Int = 0
     @State private var image: Image? = nil
@@ -49,9 +49,9 @@ struct EditorUserProfileView: View {
             givenName: givenName,
             familyName: familyName,
             imageExists: nil,
-            birthdate: nil,
-            weight: nil,
-            height: nil,
+            birthdate: birthdate,
+            weight: weightKg,
+            height: heightCm,
             isMale: true
         )
         
@@ -96,12 +96,41 @@ struct EditorUserProfileView: View {
         }
     }
     
+    var weightKg: Float {
+        if let val = self.weight {
+            let m = Measurement(value: val, unit: UnitMass.pounds)
+            return Float(m.converted(to: UnitMass.kilograms).value)
+        }
+        
+        return 0
+    }
+    
+    var heightCm: Float {
+        let feet = Double(heightFeet)
+        let inches = Double(heightInches)
+        let total = (feet * 12) + inches
+        let m = Measurement(value: total, unit: UnitLength.inches)
+        return Float(m.converted(to: UnitLength.centimeters).value)
+    }
+    
     var dataHasChanged: Bool {
         if givenName != userState.userInfo.givenName {
             return true
         }
         
         if familyName != userState.userInfo.familyName {
+            return true
+        }
+        
+        if weightKg > 0 && weightKg != userState.userInfo.weight {
+            return true
+        }
+        
+        if heightCm > 0 && heightCm != userState.userInfo.height {
+            return true
+        }
+        
+        if birthdate != nil && birthdate != userState.userInfo.birthdate {
             return true
         }
         
@@ -127,6 +156,19 @@ struct EditorUserProfileView: View {
     var body: some View {
         UITableView.appearance().separatorColor = .separator
         UITableView.appearance().backgroundColor = .systemGroupedBackground
+        
+        let birthdateBinding = Binding<Date>(get: { self.birthdate ?? Date () }) { (date) in
+            self.birthdate = date
+        }
+        
+        let weightBinding = Binding<String>(get: {
+            if let weight = self.weight {
+                return "\(weight.rounded(.up))"
+            }
+            return ""
+        }) { (weight) in
+            self.weight = Double(weight)
+        }
         
         return VStack(spacing: 0) {
             VStack {
@@ -209,7 +251,7 @@ struct EditorUserProfileView: View {
                 
                 Section(header: Text("Measurements (for improved calorie estimation)")) {
                     HStack {
-                        TextField("Weight", text: $weight, onEditingChanged: { changed in
+                        TextField("Weight (lbs)", text: weightBinding, onEditingChanged: { changed in
                             if changed {
                                 self.showBirthdatePicker = false
                                 self.showHeightPicker = false
@@ -248,7 +290,7 @@ struct EditorUserProfileView: View {
                             
                             Spacer()
                             
-                            Text(birthdate.monthDayYearString)
+                            Text(birthdateBinding.wrappedValue.monthDayYearString)
                                 .foregroundColor(Color.secondary)
                         }
                         .background(Color(UIColor.systemBackground))
@@ -274,7 +316,7 @@ struct EditorUserProfileView: View {
                 HStack {
                     Spacer()
                     
-                    DatePicker(selection: self.$birthdate, in: ...Date(), displayedComponents: .date) {
+                    DatePicker(selection: birthdateBinding, in: ...Date(), displayedComponents: .date) {
                         EmptyView()
                     }
                     .fixedSize()
@@ -329,7 +371,15 @@ struct EditorUserProfileView: View {
             
             self.givenName = self.userState.userInfo.givenName ?? ""
             self.familyName = self.userState.userInfo.familyName ?? ""
-            self.birthdate = self.userState.userInfo.birthdate ?? Date()
+            self.birthdate = self.userState.userInfo.birthdate
+            
+            let mWeight = Measurement(value: Double(self.userState.userInfo.weight), unit: UnitMass.kilograms).converted(to: UnitMass.pounds)
+            self.weight = mWeight.value
+            
+            let mHeight = Measurement(value: Double(self.userState.userInfo.height), unit: UnitLength.centimeters).converted(to: UnitLength.inches)
+            
+            self.heightInches = Int(mHeight.value.truncatingRemainder(dividingBy: 12))
+            self.heightFeet = Int(mHeight.value / 12)
             
             guard let userID = self.userState.userInfo.id else {
                 print("Couldn't get userID in order to load image")

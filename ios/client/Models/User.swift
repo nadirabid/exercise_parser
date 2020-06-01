@@ -17,8 +17,8 @@ struct User: Codable, Hashable {
     let familyName: String?
     let imageExists: Bool?
     let birthdate: Date?
-    let weight: Float?
-    let height: Float?
+    let weight: Float
+    let height: Float
     let isMale: Bool
     
     func hash(into hasher: inout Hasher) {
@@ -54,5 +54,5 @@ class UserState: ObservableObject {
     // 1 = Authorized, -1 = Revoked
     @Published var authorization: Int = 0
     @Published var jwt: JWT? = nil
-    @Published var userInfo: User = User(id: nil, externalUserId: nil, email: nil, givenName: nil, familyName: nil, imageExists: false, birthdate: nil, weight: nil, height: nil, isMale: true)
+    @Published var userInfo: User = User(id: nil, externalUserId: nil, email: nil, givenName: nil, familyName: nil, imageExists: false, birthdate: nil, weight: 0, height: 0, isMale: true)
 }
