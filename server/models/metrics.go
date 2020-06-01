@@ -28,6 +28,7 @@ type MetricTopLevel struct {
 	Sets           int     `json:"sets"`
 	Reps           int     `json:"reps"`
 	SecondsElapsed uint    `json:"seconds_elapsed"`
+	Calories       int     `json:"calories"`
 	MetricID       uint    `json:"metric_id" gorm:"type:int REFERENCES metrics(id) ON DELETE CASCADE"`
 }
 

@@ -1,0 +1,12 @@
+BEGIN;
+
+ALTER TABLE users
+DROP COLUMN IF EXISTS birthdate,
+DROP COLUMN IF EXISTS weight,
+DROP COLUMN IF EXISTS height,
+DROP COLUMN IF EXISTS is_male;
+
+ALTER TABLE metrics_top_level
+DROP COLUMN IF EXSTS calories;
+
+COMMIT;
