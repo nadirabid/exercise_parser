@@ -1,6 +1,7 @@
 package metrics
 
 import (
+	"exercise_parser/calories"
 	"exercise_parser/models"
 
 	"github.com/jinzhu/gorm"
@@ -8,30 +9,34 @@ import (
 
 func ComputeForWorkout(workoutID uint, db *gorm.DB) error {
 	workout := &models.Workout{}
-	err := db.
+	q := db.
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
 		Preload("Exercises.ExerciseDictionaries").
 		Where("id = ?", workoutID).
-		First(workout).
-		Error
+		First(workout)
 
-	if err != nil {
+	if err := q.Error; err != nil {
+		return err
+	}
+
+	user := &models.User{}
+
+	if err := db.First(user).Error; err != nil {
 		return err
 	}
 
 	dictionaries := []models.ExerciseDictionary{}
 
-	err = db.
+	q = db.
 		Preload("Muscles").
 		Select("DISTINCT ON (exercise_dictionaries.id) exercise_dictionaries.*").
 		Joins("JOIN resolved_exercise_dictionaries ON resolved_exercise_dictionaries.exercise_dictionary_id = exercise_dictionaries.id").
 		Joins("JOIN exercises ON exercises.id = resolved_exercise_dictionaries.exercise_id").
 		Joins("JOIN workouts ON workouts.id = exercises.workout_id").
-		Find(&dictionaries).
-		Error
+		Find(&dictionaries)
 
-	if err != nil {
+	if err := q.Error; err != nil {
 		return err
 	}
 
@@ -39,21 +44,35 @@ func ComputeForWorkout(workoutID uint, db *gorm.DB) error {
 		return err
 	}
 
-	m := computeMetric(workout, dictionaries)
+	m, err := computeMetric(user, workout, dictionaries)
+	if err != nil {
+		return err
+	}
 
 	if err := db.Create(m).Error; err != nil {
 		return err
 	}
 
-	return err
+	return nil
 }
 
-func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictionary) *models.Metric {
+func computeMetric(user *models.User, workout *models.Workout, dictionaries []models.ExerciseDictionary) (*models.Metric, error) {
 	topLevelMetric := models.MetricTopLevel{}
 
-	repsByExerciseDictionary := map[uint]int{}
+	dictionariesByID := make(map[uint]*models.ExerciseDictionary)
+	for _, d := range dictionaries {
+		dictionariesByID[d.ID] = &d
+	}
 
+	calories, err := calories.CalculateFromUserWorkout(user, workout, dictionariesByID)
+	if err != nil {
+		return nil, err
+	}
+
+	topLevelMetric.Calories = calories
 	topLevelMetric.SecondsElapsed += workout.SecondsElapsed
+
+	repsByExerciseDictionary := map[uint]int{}
 	for _, e := range workout.Exercises {
 		topLevelMetric.Sets += e.ExerciseData.Sets
 		topLevelMetric.Reps += e.ExerciseData.Reps * e.ExerciseData.Sets
@@ -188,5 +207,5 @@ func computeMetric(workout *models.Workout, dictionaries []models.ExerciseDictio
 		WorkoutID: workout.ID,
 		TopLevel:  topLevelMetric,
 		Muscles:   metricMuscles,
-	}
+	}, nil
 }
