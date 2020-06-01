@@ -329,13 +329,13 @@ public struct WorkoutMetaMetricsView: View {
                 value: secondsToElapsedTimeString(workout.secondsElapsed)
             )
             
-            if totalSets > 0 {
+            if totalSets > 1 {
                 Divider()
                 
                 WorkoutDetail(name: "Sets", value:"\(totalSets.description)")
             }
             
-            if totalReps > 0 {
+            if totalReps > 1 {
                 Divider()
                 
                 WorkoutDetail(name: "Reps", value:"\(totalReps.description)")
