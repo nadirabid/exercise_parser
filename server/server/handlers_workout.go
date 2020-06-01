@@ -3,7 +3,6 @@ package server
 import (
 	"exercise_parser/metrics"
 	"exercise_parser/models"
-	"exercise_parser/parser"
 	"exercise_parser/utils"
 	"net/http"
 	"strconv"
@@ -127,30 +126,12 @@ func handlePostWorkout(c echo.Context) error {
 			// This means we'll need to do post processing - potentially first requiring manual
 			// updates
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
-		} else {
-			// TODO: this can go away after everyone starts using Exercise.ExerciseDictionaries
-			searchTerm := parser.Get().RemoveStopPhrases(e.Name)
-			searchResults, err := models.SearchExerciseDictionary(ctx.viper, db, searchTerm)
-			if err != nil {
-				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-			}
-
-			if len(searchResults) > 0 {
-				minSearchRank := float32(0.05)
-				topSearchResult := searchResults[0]
-
-				if topSearchResult.Rank >= minSearchRank {
-					// if we didn't make it ot this if condition - but we resolved properly above
-					// then that means we couldn't find a close enough match for the exercise
-					e.ExerciseDictionaryID = &topSearchResult.ExerciseDictionaryID
-				}
-			}
 		}
 
 		workout.Exercises[i] = e
 	}
 
-	if err := db.Create(workout).Error; err != nil {
+	if err := db.Set("gorm:association_autoupdate", false).Create(workout).Error; err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
@@ -186,24 +167,6 @@ func handlePutWorkout(c echo.Context) error {
 	for i, e := range updatedWorkout.Exercises {
 		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
-		} else {
-			// TODO: this can go away after everyone starts using Exercise.ExerciseDictionaries
-			searchTerm := parser.Get().RemoveStopPhrases(e.Name)
-			searchResults, err := models.SearchExerciseDictionary(ctx.viper, ctx.DB(), searchTerm)
-			if err != nil {
-				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
-			}
-
-			if len(searchResults) > 0 {
-				minSearchRank := float32(0.05)
-				topSearchResult := searchResults[0]
-
-				if topSearchResult.Rank >= minSearchRank {
-					// if we didn't make it ot this if condition - but we resolved properly above
-					// then that means we couldn't find a close enough match for the exercise
-					e.ExerciseDictionaryID = &topSearchResult.ExerciseDictionaryID
-				}
-			}
 		}
 
 		updatedWorkout.Exercises[i] = e
@@ -246,7 +209,7 @@ func handlePutWorkout(c echo.Context) error {
 	updatedWorkout.UserID = existingWorkout.UserID
 	updatedWorkout.Location = nil
 
-	tx.Model(updatedWorkout).Update(*updatedWorkout)
+	tx.Model(updatedWorkout).Set("gorm:association_autoupdate", false).Update(*updatedWorkout)
 
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
