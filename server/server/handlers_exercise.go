@@ -1,6 +1,7 @@
 package server
 
 import (
+	"exercise_parser/metrics"
 	"exercise_parser/models"
 	"net/http"
 	"strconv"
@@ -172,6 +173,8 @@ func handlePostRematchExercises(c echo.Context) error {
 
 	matchedExercises := []models.Exercise{}
 
+	workoutsToRecomputeMetrics := map[uint]bool{}
+
 	for _, e := range exercises {
 		if err := e.Resolve(ctx.viper, db); err != nil {
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
@@ -181,8 +184,21 @@ func handlePostRematchExercises(c echo.Context) error {
 			}
 
 			matchedExercises = append(matchedExercises, e)
+			workoutsToRecomputeMetrics[e.WorkoutID] = true
 		}
 	}
+
+	go func() {
+		for workoutID, _ := range workoutsToRecomputeMetrics {
+			ctx.logger.Infof("Compute metrics for workout: %s\n", workoutID)
+
+			if err := metrics.ComputeForWorkout(workoutID, ctx.db); err != nil {
+				ctx.logger.Error(err.Error())
+			}
+
+			ctx.logger.Infof("Complete metrics for workout: %s\n", workoutID)
+		}
+	}()
 
 	r := models.ListResponse{
 		Size:    len(matchedExercises),
@@ -209,6 +225,7 @@ func handlePostReresolveExercises(c echo.Context) error {
 	}
 
 	resolvedExercises := []models.Exercise{}
+	workoutsToRecomputeMetrics := map[uint]bool{}
 
 	for _, e := range exercises {
 		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
@@ -219,8 +236,21 @@ func handlePostReresolveExercises(c echo.Context) error {
 			}
 
 			resolvedExercises = append(resolvedExercises, e)
+			workoutsToRecomputeMetrics[e.WorkoutID] = true
 		}
 	}
+
+	go func() {
+		for workoutID, _ := range workoutsToRecomputeMetrics {
+			ctx.logger.Infof("Compute metrics for workout: %s\n", workoutID)
+
+			if err := metrics.ComputeForWorkout(workoutID, ctx.db); err != nil {
+				ctx.logger.Error(err.Error())
+			}
+
+			ctx.logger.Infof("Complete metrics for workout: %s\n", workoutID)
+		}
+	}()
 
 	r := models.ListResponse{
 		Size:    len(resolvedExercises),
