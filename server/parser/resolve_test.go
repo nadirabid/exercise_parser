@@ -421,6 +421,27 @@ func TestAerobicActivityFullMatch(t *testing.T) {
 		assert.Equal(t, expected, parsed[0].Captures)
 	})
 
+	// varied: time, distance, delimiter
+	for _, timeUnit := range timeUnits {
+		for _, distUnit := range distanceUnits {
+			for _, del := range delimiter {
+				t.Run("{Distance:Float} {DistanceUnits} in {Time:mm:ss} (Delimiter) {Exercise:String}", func(t *testing.T) {
+					expected := map[string]string{"Exercise": "rowing", "Time": "5:27", "Distance": "1", "DistanceUnits": distUnit}
+					parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("1%s in 5:27%srowing", distUnit, del))
+					assert.Len(t, parsed, 1)
+					assert.Equal(t, expected, parsed[0].Captures)
+				})
+
+				t.Run("{Distance:Float} {DistanceUnits} in {Time:Number}{TimeUnits} (Delimiter) {Exercise:String}", func(t *testing.T) {
+					expected := map[string]string{"Exercise": "rowing", "Time": "5", "TimeUnits": timeUnit, "Distance": "1", "DistanceUnits": distUnit}
+					parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("1%s in 5%s%srowing", distUnit, timeUnit, del))
+					assert.Len(t, parsed, 1)
+					assert.Equal(t, expected, parsed[0].Captures)
+				})
+			}
+		}
+	}
+
 	for _, timeUnit := range timeUnits {
 		for _, d := range delimiter {
 			t.Run("{Exercise:String} (Delimiter) {Time:Number} {TimeUnits}", func(t *testing.T) {
@@ -623,7 +644,7 @@ func resolveAllActivityExpressionsTestUtil(exercise string) []*ParsedActivity {
 func TestParserResolveExercise(t *testing.T) {
 	// TODO: how to better deal with resolving these paths ???
 
-	v, err := utils.ConfigureViper(utils.GetAbsolutePath("/conf/dev.toml"))
+	v, err := utils.ConfigureViper(utils.GetAbsolutePath("conf/dev.toml"))
 	if err != nil {
 		t.Log(err.Error())
 		t.FailNow()
