@@ -18,7 +18,7 @@ type Exercise struct {
 	Type                 string                `json:"type"`            // using this for parser.ParseType - probably rename to Exercise.ParseType
 	ResolutionType       string                `json:"resolution_type"` // using this to determine if exercise dictionaries were matched
 	Name                 string                `json:"name"`
-	ExerciseDictionaryID *uint                 `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"`
+	ExerciseDictionaryID *uint                 `json:"exercise_dictionary_id" gorm:"type:int REFERENCES exercise_dictionaries(id) ON DELETE SET NULL"` // TODO - get rid of this?
 	ExerciseData         ExerciseData          `json:"data"`
 	WorkoutID            uint                  `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
 	ExerciseDictionaries []*ExerciseDictionary `json:"exercise_dictionaries" gorm:"many2many:resolved_exercise_dictionaries;"`

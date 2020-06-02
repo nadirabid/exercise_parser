@@ -179,6 +179,8 @@ func handlePostRematchExercises(c echo.Context) error {
 		if err := e.Resolve(ctx.viper, db); err != nil {
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
 		} else {
+			e.ExerciseData.ExerciseID = e.ID // for security
+
 			if err := db.Set("gorm:association_autoupdate", false).Save(&e).Error; err != nil {
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}
@@ -231,6 +233,8 @@ func handlePostReresolveExercises(c echo.Context) error {
 		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
 		} else {
+			e.ExerciseData.ExerciseID = e.ID // for security
+
 			if err := db.Set("gorm:association_autoupdate", false).Save(&e).Error; err != nil {
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}

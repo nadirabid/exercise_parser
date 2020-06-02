@@ -3,7 +3,6 @@ package metrics
 import (
 	"exercise_parser/calories"
 	"exercise_parser/models"
-	"exercise_parser/utils"
 
 	"github.com/jinzhu/gorm"
 )
@@ -50,8 +49,6 @@ func ComputeForWorkout(workoutID uint, db *gorm.DB) error {
 	if err != nil {
 		return err
 	}
-
-	utils.PrettyPrint(m.TopLevel)
 
 	if err := db.Create(m).Error; err != nil {
 		return err

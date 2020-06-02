@@ -164,14 +164,6 @@ func handlePutWorkout(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	for i, e := range updatedWorkout.Exercises {
-		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
-			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
-		}
-
-		updatedWorkout.Exercises[i] = e
-	}
-
 	// start tx
 
 	tx := ctx.DB().Begin()
@@ -202,30 +194,45 @@ func handlePutWorkout(c echo.Context) error {
 		tx.Unscoped().Where("exercise_id = ?", e.ID).Delete(&models.ExerciseData{})
 	}
 
+	for i, e := range updatedWorkout.Exercises {
+		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
+			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
+		} else {
+			e.WorkoutID = updatedWorkout.ID  // for security
+			e.ExerciseData.ExerciseID = e.ID // for security
+
+			if err := tx.Set("gorm:association_autoupdate", false).Save(&e).Error; err != nil {
+				ctx.logger.Error(utils.PrettyStringify(e))
+				ctx.logger.Error(err.Error())
+				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+			}
+		}
+
+		updatedWorkout.Exercises[i] = e
+	}
+
 	// fields which we don't allow to be updated (at somepoint - we should have validators for this)
 	updatedWorkout.ID = existingWorkout.ID
 	updatedWorkout.Date = existingWorkout.Date
 	updatedWorkout.SecondsElapsed = existingWorkout.SecondsElapsed
 	updatedWorkout.UserID = existingWorkout.UserID
-	updatedWorkout.Location = nil
+	updatedWorkout.Location = existingWorkout.Location
 
-	tx.Model(updatedWorkout).Set("gorm:association_autoupdate", false).Update(*updatedWorkout)
+	tx.Set("gorm:association_autoupdate", false).Model(updatedWorkout).Update(*updatedWorkout)
 
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	updatedWorkout.Location = existingWorkout.Location // set back before returning
-
 	go func() {
 		ctx.logger.Infof("Compute metrics for workout: %s\n", existingWorkout.ID)
 
 		if err := metrics.ComputeForWorkout(existingWorkout.ID, ctx.db); err != nil {
 			ctx.logger.Error(err.Error())
+		} else {
+			ctx.logger.Infof("Complete metrics for workout: %s\n", existingWorkout.ID)
 		}
-
-		ctx.logger.Infof("Complete metrics for workout: %s\n", existingWorkout.ID)
 	}()
 
 	return ctx.JSON(http.StatusOK, updatedWorkout)

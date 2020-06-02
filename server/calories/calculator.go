@@ -22,7 +22,6 @@ func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictio
 			}
 
 			met = metFromDictionaryUrl(d.URL, metIntensityFromExercise(e))
-			fmt.Println(metIntensityFromExercise(e))
 		}
 
 		time := float32(e.ExerciseData.Time)
