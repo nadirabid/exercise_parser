@@ -47,9 +47,9 @@ func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictio
 		}
 
 		if height != 0 && ageYears != 0 {
-			totalCalories = float64(calculateCalsFromCorrectedMET(met, weight, height, ageYears, time, user.IsMale))
+			totalCalories += float64(calculateCalsFromCorrectedMET(met, weight, height, ageYears, time, user.IsMale))
 		} else {
-			totalCalories = float64(calculatedCalsFromStandardMET(met, weight, time))
+			totalCalories += float64(calculatedCalsFromStandardMET(met, weight, time))
 		}
 	}
 
