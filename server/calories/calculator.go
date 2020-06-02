@@ -22,6 +22,7 @@ func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictio
 			}
 
 			met = metFromDictionaryUrl(d.URL, metIntensityFromExercise(e))
+			fmt.Println(metIntensityFromExercise(e))
 		}
 
 		time := float32(e.ExerciseData.Time)
@@ -69,10 +70,10 @@ func calculatedCalsFromStandardMET(met float32, weightKg float32, timeSeconds fl
 
 func calculateCalsFromCorrectedMET(met, weightKg, heightCm, ageYr, timeSeconds float32, male bool) float32 {
 	if male {
-		return calculatedCalsFromStandardMET(met, weightKg, timeSeconds) * calculateMaleBMR(weightKg, heightCm, ageYr)
+		return met * calculateMaleBMR(weightKg, heightCm, ageYr) * (timeSeconds / (24 * 60 * 60))
 	}
 
-	return calculatedCalsFromStandardMET(met, weightKg, timeSeconds) * calculateFemaleBMR(weightKg, heightCm, ageYr)
+	return met * calculateFemaleBMR(weightKg, heightCm, ageYr) * (timeSeconds / (24 * 60 * 60))
 }
 
 func calculateMaleBMR(weightKg float32, heightCm float32, ageYr float32) float32 {

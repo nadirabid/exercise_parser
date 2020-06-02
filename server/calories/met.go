@@ -104,5 +104,25 @@ func metFromDictionaryUrl(dictionaryURL string, intensity int) float32 {
 }
 
 func metIntensityFromExercise(e models.Exercise) int {
-	return 2
+	time := e.ExerciseData.Time
+
+	if time == 0 {
+		return 2
+	}
+
+	distanceIntensity := 0
+
+	if e.ExerciseData.Distance > 0 {
+		distanceIntensity = int(e.ExerciseData.Distance/1000) * 50 / int(time/60) // (km * 50) / mins
+	}
+
+	repsIntensity := 0
+
+	if e.ExerciseData.Reps > 1 && e.ExerciseData.Sets > 1 {
+		m := 1.5
+		totalReps := e.ExerciseData.Reps * e.ExerciseData.Sets
+		repsIntensity = totalReps / int(float64(time/60)*m)
+	}
+
+	return distanceIntensity + repsIntensity
 }
