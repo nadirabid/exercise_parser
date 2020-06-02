@@ -65,7 +65,7 @@ func handlePostExercise(c echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
-	if err := db.Create(exercise).Error; err != nil {
+	if err := db.Set("gorm:association_autoupdate", false).Create(exercise).Error; err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
@@ -87,7 +87,7 @@ func handlePutExercise(c echo.Context) error {
 
 	// we don't resolve exercise - this endpoint is meant to be for a "manual resolve"
 
-	if err := db.Save(exercise).Error; err != nil {
+	if err := db.Set("gorm:association_autoupdate", false).Save(exercise).Error; err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 
@@ -176,7 +176,7 @@ func handlePostRematchExercises(c echo.Context) error {
 		if err := e.Resolve(ctx.viper, db); err != nil {
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
 		} else {
-			if err := db.Save(&e).Error; err != nil {
+			if err := db.Set("gorm:association_autoupdate", false).Save(&e).Error; err != nil {
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}
 
@@ -214,7 +214,7 @@ func handlePostReresolveExercises(c echo.Context) error {
 		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
 		} else {
-			if err := db.Save(&e).Error; err != nil {
+			if err := db.Set("gorm:association_autoupdate", false).Save(&e).Error; err != nil {
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}
 
