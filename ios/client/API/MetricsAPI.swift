@@ -25,30 +25,7 @@ class MetricAPI: ObservableObject {
             "Authorization": "Bearer \(userState.jwt!.string)"
         ])
     }
-    
-    func getWeeklyStats(_ completionHandler: @escaping (WeeklyMetricStats) -> Void) {
-        let url = "\(baseURL)/api/metric/weekly"
-        
-        AF.request(url, method: .get, headers: headers)
-            .validate(statusCode: 200..<300)
-            .response(queue: DispatchQueue.main) { (response) in
-                switch response.result {
-                case .success(let data):
-                    let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = decodeStrategy()
-                    
-                    let result = try! decoder.decode(WeeklyMetricStats.self, from: data!)
-                    completionHandler(result)
-                case .failure(let error):
-                    print("Failed to get metric: ", error)
-                    if let data = response.data {
-                        print("Failed with error message from server", String(data: data, encoding: .utf8)!)
-                    }
-                }
-        }
-    }
-    
-    
+
     func getForPast(days: Int, _ completionHandler: @escaping (Metric) -> Void) {
         let url = "\(baseURL)/api/metric"
         let params: Parameters = [

@@ -268,6 +268,7 @@ func handleGetMetrics(c echo.Context) error {
 		response.TopLevel.Reps += metric.TopLevel.Reps
 		response.TopLevel.Distance += metric.TopLevel.Distance
 		response.TopLevel.SecondsElapsed += metric.TopLevel.SecondsElapsed
+		response.TopLevel.Calories += metric.TopLevel.Calories
 
 		for _, muscle := range metric.Muscles {
 			switch muscle.Usage {

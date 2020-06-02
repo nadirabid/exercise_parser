@@ -79,8 +79,6 @@ struct UserFeedView: View {
         UITableView.appearance().separatorColor = .clear
         UITableView.appearance().backgroundColor = self.workoutsPaginatedResponse == nil ? Color.white.uiColor() : feedColor.uiColor()
         
-        print("FIX ISSUE WHEN STATE IS SLOW TO LOAD", self.userState.userInfo)
-        
         return NavigationView {
             VStack(spacing: 0) {
                 if self.workoutsPaginatedResponse == nil {
@@ -470,7 +468,23 @@ struct AggregateMuscleMetricsView: View {
     
     var reps: String {
         if let reps = metric?.topLevel.reps {
+            if reps >= 1000 {
+                let kReps = Float(round((Float(reps)/1000) * 10) / 10)
+                return "\(kReps)k"
+            }
             return reps.description
+        }
+        
+        return "0"
+    }
+    
+    var calories: String {
+        if let calories = metric?.topLevel.calories {
+            if calories >= 1000 {
+                let kCals = Float(round((Float(calories)/1000) * 10) / 10)
+                return "\(kCals)k"
+            }
+            return calories.description
         }
         
         return "0"
@@ -486,7 +500,7 @@ struct AggregateMuscleMetricsView: View {
                 m = m.converted(to: UnitLength.miles)
             }
             
-            return Float(round(m.value*100)/100).description
+            return Float(round(m.value*10)/10).description
         }
         
         return "0"
@@ -644,6 +658,17 @@ struct AggregateMuscleMetricsView: View {
                             .font(.caption)
                             .fixedSize()
                         Text("\(self.reps)")
+                            .font(.title)
+                            .fixedSize()
+                    }
+                    
+                    Divider()
+                    
+                    VStack(alignment: .leading) {
+                        Text("Calories")
+                            .font(.caption)
+                            .fixedSize()
+                        Text("\(self.calories)")
                             .font(.title)
                             .fixedSize()
                     }
