@@ -28,7 +28,7 @@ func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictio
 
 		if time == 0 {
 			time += calculateSecondsFromDistance(e.ExerciseData.Distance)
-			time += calculateSecondsFromSetsAndReps(e.ExerciseData.Sets, e.ExerciseData.Reps)
+			time += calculateSecondsFromSetsAndReps(e.ExerciseData.Sets, e.ExerciseData.Reps, e.ExerciseData.Weight)
 		}
 
 		weight := user.Weight
@@ -85,11 +85,12 @@ func calculateFemaleBMR(weightKg float32, heightCm float32, ageYr float32) float
 
 // TODO: if we can add a notion of "heigher/lower/average weight used for a given user"  - the time estimate could be better
 // When you don't have time for a given exercise - use this to estimate an on average lower bound time estimate
-func calculateSecondsFromSetsAndReps(sets, reps int) float32 {
+func calculateSecondsFromSetsAndReps(sets, reps int, weight float32) float32 {
 	// assume each rep takes 4 seconds
 	// assume eeach break between sets is 90 seconds
 
-	return float32((reps * 4) * ((sets - 1) * 90))
+	setsMultiplier := int(10 + (weight / 5))
+	return float32((reps * 4) + (sets * setsMultiplier))
 }
 
 func calculateSecondsFromDistance(distanceMeters float32) float32 {
