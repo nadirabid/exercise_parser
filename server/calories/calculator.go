@@ -89,7 +89,7 @@ func calculateSecondsFromSetsAndReps(sets, reps int, weight float32) float32 {
 	// assume each rep takes 4 seconds
 	// assume eeach break between sets is 90 seconds
 
-	setsMultiplier := int(10 + (weight / 5))
+	setsMultiplier := int(40 + (weight / 2))
 	return float32((reps * 4) + (sets * setsMultiplier))
 }
 
