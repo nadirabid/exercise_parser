@@ -43,6 +43,14 @@ const (
 func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 	parsedExercises, err := parser.Get().ResolveActivity(e.Raw)
 	if err != nil {
+		// try and determine some feedback we can give to the user as to what went wrong
+		r, err := parser.Get().ResolveCorrective(e.Raw)
+		if err != nil {
+			return err
+		}
+
+		e.CorrectiveCode = r.CorrectiveCode
+
 		return err
 	}
 

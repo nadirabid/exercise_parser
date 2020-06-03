@@ -109,6 +109,15 @@ const (
 	CorrectiveCodeMissingExerciseAndReps = 3
 )
 
+func DetermineIfHasExerciseFromCorrectiveCode(correctiveCode int) bool {
+	if correctiveCode == CorrectiveCodeMissingExercise ||
+		correctiveCode == CorrectiveCodeMissingExerciseAndReps {
+		return false
+	}
+
+	return true
+}
+
 func correctiveActivityExpressions() []*expression {
 	expressions := []*expression{
 		newCorrectiveExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, "specify an exercise", CorrectiveCodeMissingExercise),        // {Sets:Number}x{Reps:Number}
@@ -285,7 +294,7 @@ func (p *Parser) ResolveExercise(exercise string) ([]string, error) {
 	return result, nil
 }
 
-func (p *Parser) ResolveCorrective(activity string) *ParsedActivity {
+func (p *Parser) ResolveCorrective(activity string) (*ParsedActivity, error) {
 	extraCommas := regexp.MustCompile(`(,\s*,)+`)
 	activity = extraCommas.ReplaceAllString(activity, ",")
 
@@ -302,13 +311,11 @@ func (p *Parser) ResolveCorrective(activity string) *ParsedActivity {
 				Captures:       captures,
 				Regex:          e.value,
 				CorrectiveCode: e.correctiveMessageCode,
-			}
+			}, nil
 		}
 	}
 
-	return &ParsedActivity{
-		Raw: activity,
-	}
+	return nil, fmt.Errorf("can't help user with feedback as to what went wrong")
 }
 
 func (p *Parser) RemoveStopPhrases(exercise string) string {
