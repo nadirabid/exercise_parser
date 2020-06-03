@@ -243,6 +243,13 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 				assert.Equal(t, len(parsed), 1)
 				assert.Equal(t, weightedPullups1, parsed[0].Captures)
 			})
+
+			t.Run("{Exercise:String} (Delimiter) {Weight:Number}{WeightUnits} (Delimiter) {Sets:Number}x{Reps:Number}x{IgnoredWeight:Number}", func(t *testing.T) {
+				expected := map[string]string{"Exercise": "weighted pull-ups", "Weight": "25", "WeightUnits": u, "Sets": "2", "Reps": "8"}
+				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("Weighted pull-ups%s25%sdumbbell%s2x8x300", d, u, d)) // 300 should be ignored
+				assert.Len(t, parsed, 1)
+				assert.Equal(t, expected, parsed[0].Captures)
+			})
 		}
 
 		jumpRope1 := map[string]string{"Exercise": "jumping rope", "Reps": "200"}
@@ -598,47 +605,9 @@ func resolveAllActivityExpressionsTestUtil(exercise string) []*ParsedActivity {
 	for i := len(regexpSet) - 1; i >= 0; i-- {
 		e := regexpSet[i]
 
-		match := e.regexp.FindStringSubmatch(exercise)
-		if match == nil {
-			continue
-		}
+		captures := e.captures(exercise)
 
-		captures := make(map[string]string)
-
-		matchSuccessful := true
-
-		for i, name := range e.regexp.SubexpNames() {
-			// Ignore the whole regexp match and unnamed groups
-			if i == 0 || name == "" {
-				continue
-			}
-
-			if e.captureDoesNotContain != nil {
-				for _, c := range e.captureDoesNotContain {
-					for _, s := range c {
-						if strings.Contains(match[i], s) {
-							matchSuccessful = false
-						}
-					}
-				}
-			}
-
-			assertMissingCapture := e.assertMissingCaptures != nil && utils.SliceContainsString(e.assertMissingCaptures, name)
-
-			if assertMissingCapture && match[i] != "" {
-				matchSuccessful = false
-			} else if assertMissingCapture {
-				continue // ignore capture
-			}
-
-			if !matchSuccessful {
-				break
-			}
-
-			captures[name] = match[i]
-		}
-
-		if matchSuccessful {
+		if captures != nil {
 			allParsed = append(allParsed, &ParsedActivity{
 				Raw:      exercise,
 				Captures: captures,

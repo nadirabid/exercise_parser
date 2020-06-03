@@ -27,6 +27,55 @@ type expression struct {
 	regexp                *regexp.Regexp
 	assertMissingCaptures []string            // make sure we don't have these captures in expression
 	captureDoesNotContain map[string][]string // what was this for again???
+	correctiveMessage     string
+}
+
+func (e *expression) captures(exercise string) map[string]string {
+	match := e.regexp.FindStringSubmatch(exercise)
+	if match == nil {
+		return nil
+	}
+
+	captures := make(map[string]string)
+
+	matchSuccessful := true
+
+	for i, name := range e.regexp.SubexpNames() {
+		// Ignore the whole regexp match and unnamed groups
+		if i == 0 || name == "" {
+			continue
+		}
+
+		if e.captureDoesNotContain != nil {
+			for _, c := range e.captureDoesNotContain {
+				for _, s := range c {
+					if strings.Contains(match[i], s) {
+						matchSuccessful = false
+					}
+				}
+			}
+		}
+
+		assertMissingCapture := e.assertMissingCaptures != nil && utils.SliceContainsString(e.assertMissingCaptures, name)
+
+		if assertMissingCapture && match[i] != "" {
+			matchSuccessful = false
+		} else if assertMissingCapture {
+			continue // ignore capture
+		}
+
+		if !matchSuccessful {
+			break
+		}
+
+		captures[name] = match[i]
+	}
+
+	if !matchSuccessful {
+		return nil
+	}
+
+	return captures
 }
 
 func newExpression(value string, captureDoesNotContain map[string][]string, assertMissingCaptures []string) *expression {
@@ -35,7 +84,26 @@ func newExpression(value string, captureDoesNotContain map[string][]string, asse
 		regexp.MustCompile(value),
 		assertMissingCaptures,
 		captureDoesNotContain,
+		"",
 	}
+}
+
+func newCorrectiveExpression(value string, correctiveMessage string) *expression {
+	return &expression{
+		value:             value,
+		correctiveMessage: correctiveMessage,
+	}
+}
+
+func correctiveActivityExpressions() []*expression {
+	expressions := []*expression{
+		newCorrectiveExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, "specify an exercise"),
+		newCorrectiveExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)\s*reps`, "specify an exercise"),
+		newCorrectiveExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])$`, "specify quantity"),
+		newCorrectiveExpression(`^(?P<Sets>\d+)\s+rounds`, "specify exercise and reps"),
+	}
+
+	return expressions
 }
 
 func activityExpressions() []*expression {
@@ -65,6 +133,7 @@ func activityExpressions() []*expression {
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:,+|-|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`, nil, nil), // {Exercise:String} (Delimiter) {Sets:Number}x{Reps:Number} (Delimiter) {Weight:Number}{WeightUnits}
 
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(dumbbell|dumbbells|barbel|barbells)?\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, nil, nil),                                                                                                                                // {Exercise:String} (Delimiter) {Weight:Number}{WeightUnits} (Delimiter) {Sets:Number}x{Reps:Number}
+		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(dumbbell|dumbbells|barbel|barbells)?\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?:\d+$)`, nil, nil),                                                                                                              // {Exercise:String} (Delimiter) {Weight:Number}{WeightUnits} (Delimiter) {Sets:Number}x{Reps:Number}x{IgnoredWeight:Number}
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(dumbbell|dumbbells|barbel|barbells)?\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:,+|-|\s)\s*(?P<RestPeriod>\d+|\d+\-\d+)\s*(?P<RestPeriodUnits>sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)\s*rest$`, nil, nil), // {Exercise:String} (Delimiter) {Weight:Number}{WeightUnits} (Delimiter) {Sets:Number}x{Reps:Number} (Delimiter) {RestPeriod:Number} {RestPeriodUnits}
 
 		newExpression(`^(?P<Time>\d+|\d+\-\d+)\s*(?P<TimeUnits>s|sec|secs|seconds|min|mins|minutes|hr|hrs|hour|hours)\s*(?:,+|-|\s)\s*(?:of)?\s*(?P<Exercise>([a-zA-Z,\/\-\s]+[a-zA-Z])$)`, nil, nil),                                       // {Time:Number}{TimeUnits} (Delimiter) of? {Exercise}
@@ -101,47 +170,9 @@ func resolveActivityExpressions(exercise string, regexpSet []*expression) *Parse
 	for i := len(regexpSet) - 1; i >= 0; i-- {
 		e := regexpSet[i]
 
-		match := e.regexp.FindStringSubmatch(exercise)
-		if match == nil {
-			continue
-		}
+		captures := e.captures(exercise)
 
-		captures := make(map[string]string)
-
-		matchSuccessful := true
-
-		for i, name := range e.regexp.SubexpNames() {
-			// Ignore the whole regexp match and unnamed groups
-			if i == 0 || name == "" {
-				continue
-			}
-
-			if e.captureDoesNotContain != nil {
-				for _, c := range e.captureDoesNotContain {
-					for _, s := range c {
-						if strings.Contains(match[i], s) {
-							matchSuccessful = false
-						}
-					}
-				}
-			}
-
-			assertMissingCapture := e.assertMissingCaptures != nil && utils.SliceContainsString(e.assertMissingCaptures, name)
-
-			if assertMissingCapture && match[i] != "" {
-				matchSuccessful = false
-			} else if assertMissingCapture {
-				continue // ignore capture
-			}
-
-			if !matchSuccessful {
-				break
-			}
-
-			captures[name] = match[i]
-		}
-
-		if matchSuccessful {
+		if captures != nil {
 			return &ParsedActivity{
 				Raw:      exercise,
 				Captures: captures,
