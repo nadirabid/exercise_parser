@@ -4,8 +4,14 @@ left and right
 left wnd right
 slow/fast
 variation
+rep
+sets
 reps
 today
 yesterday
 start
 done
+light
+intense
+fast
+slow

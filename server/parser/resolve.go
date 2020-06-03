@@ -251,7 +251,7 @@ type Parser struct {
 	stopPhrases                   *stopPhrases
 	activityExpressions           []*expression
 	correctiveActivityExpressions []*expression
-	activityExerciseExpressions   []*expression
+	exerciseExpressions           []*expression
 }
 
 // ResolveActivity returns the captures
@@ -275,7 +275,7 @@ func (p *Parser) ResolveActivity(activity string) ([]*ParsedActivity, error) {
 func (p *Parser) ResolveExercise(exercise string) ([]string, error) {
 	result := []string{}
 
-	for _, e := range p.activityExerciseExpressions {
+	for _, e := range p.exerciseExpressions {
 		match := e.regexp.FindStringSubmatch(exercise)
 		if match == nil {
 			continue
@@ -300,7 +300,7 @@ func (p *Parser) ResolveCorrective(activity string) (*ParsedActivity, error) {
 
 	activity = strings.Trim(strings.ToLower(activity), " ")
 
-	for i := 0; i < len(p.correctiveActivityExpressions); i-- {
+	for i := 0; i < len(p.correctiveActivityExpressions)-1; i++ {
 		e := p.correctiveActivityExpressions[i]
 
 		captures := e.captures(activity)
@@ -346,7 +346,7 @@ func Init(v *viper.Viper) error {
 			stopPhrases:                   stopPhrases,
 			activityExpressions:           activityExpressions(),
 			correctiveActivityExpressions: correctiveActivityExpressions(),
-			activityExerciseExpressions:   activityExerciseExpressions(),
+			exerciseExpressions:           activityExerciseExpressions(),
 		}
 	})
 

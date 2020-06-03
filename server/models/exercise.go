@@ -45,13 +45,22 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 	if err != nil {
 		// try and determine some feedback we can give to the user as to what went wrong
 		r, err := parser.Get().ResolveCorrective(e.Raw)
-		if err != nil {
-			return err
+		if err == nil {
+			// TODO: we should update resolution type once everone is on build 1.2
+			e.CorrectiveCode = r.CorrectiveCode
+			return nil
 		}
 
-		e.CorrectiveCode = r.CorrectiveCode
-
 		return err
+	} else if len(parsedExercises) > 1 {
+		r, err := parser.Get().ResolveCorrective(e.Raw)
+		if err == nil {
+			// TODO: we should update resolution type once everone is on build 1.2
+			e.CorrectiveCode = r.CorrectiveCode
+			return nil
+		}
+
+		// since we have multiple matches - we'll continue to see if we can determine what the parsed results are about
 	}
 
 	var res *parser.ParsedActivity
@@ -64,6 +73,7 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 		exerciseDictionaries := []*ExerciseDictionary{}
 		for _, p := range parsedExercises {
 			parsedExerciseStr := parser.Get().RemoveStopPhrases(p.Captures["Exercise"])
+
 			searchResults, err := SearchExerciseDictionaryWithRank(v, db, parsedExerciseStr, 0.05)
 			if err != nil {
 				return err
@@ -138,6 +148,14 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 
 				// for backwards compatibility
 				e.ExerciseDictionaryID = &exerciseDictionaries[0].ID
+			} else {
+				// first double check that its not a corrective expression - reason we do this check pessemistically is because we want happy path to be quick
+				r, err := parser.Get().ResolveCorrective(e.Raw)
+				if err == nil {
+					// TODO: we should update resolution type once everone is on build 1.2
+					e.CorrectiveCode = r.CorrectiveCode
+					return nil
+				}
 			}
 		}
 	}
