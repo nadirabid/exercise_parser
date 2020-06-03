@@ -297,7 +297,6 @@ func (p *Parser) ResolveExercise(exercise string) ([]string, error) {
 func (p *Parser) ResolveCorrective(activity string) (*ParsedActivity, error) {
 	extraCommas := regexp.MustCompile(`(,\s*,)+`)
 	activity = extraCommas.ReplaceAllString(activity, ",")
-
 	activity = strings.Trim(strings.ToLower(activity), " ")
 
 	for i := 0; i < len(p.correctiveActivityExpressions)-1; i++ {

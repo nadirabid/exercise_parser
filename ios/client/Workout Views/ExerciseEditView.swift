@@ -137,11 +137,13 @@ public struct ExerciseEditView: View {
                     }
             }
 
-            if exercise?.type == "" && !exerciseState.input.isEmpty && !isNewEntry {
+            if exercise != nil && exercise!.correctiveCode > 0 {
+                CorrectiveExerciseView(exercise: exercise!, showRawString: workoutState.isStopped)
+            } else if exercise?.type == "" && !exerciseState.input.isEmpty && !isNewEntry {
                 ProcessingExerciseView(exercise: workoutState.isStopped ? exercise : nil)
             } else if exercise == nil || (!exerciseState.input.isEmpty && isNewEntry) {
                 WaitingForExerciseView()
-            } else {
+            } else { 
                 ExerciseView(
                     exercise: exercise!,
                     displayType: self.exerciseViewDisplayType

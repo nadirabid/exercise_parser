@@ -155,6 +155,7 @@ struct ExerciseView : View {
 
 struct CorrectiveExerciseView: View {
     var exercise: Exercise
+    var showRawString: Bool = true
     
     var correctiveMessage: String {
         return ExerciseCorrectiveCode.from(code: exercise.correctiveCode).message
@@ -163,8 +164,10 @@ struct CorrectiveExerciseView: View {
     var body: some View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
-                Text(exercise.raw)
-                    .font(.subheadline)
+                if showRawString {
+                    Text(exercise.raw)
+                        .font(.subheadline)
+                }
                 
                 HStack {
                     Image(systemName: "exclamationmark.circle")
