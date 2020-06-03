@@ -153,6 +153,36 @@ struct ExerciseView : View {
     }
 }
 
+struct CorrectiveExerciseView: View {
+    var exercise: Exercise
+    
+    var correctiveMessage: String {
+        return ExerciseCorrectiveCode.from(code: exercise.correctiveCode).message
+    }
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
+                Text(exercise.raw)
+                    .font(.subheadline)
+                
+                HStack {
+                    Image(systemName: "exclamationmark.circle")
+                        .padding(.all, 0)
+                        .foregroundColor(Color.secondary)
+                        .font(.caption)
+                    
+                    Text(correctiveMessage)
+                        .font(.caption)
+                        .foregroundColor(Color.secondary)
+                }
+            }
+            
+            Spacer()
+        }
+    }
+}
+
 struct ProcessingExerciseView: View {
     var exercise: Exercise?
     
@@ -166,7 +196,7 @@ struct ProcessingExerciseView: View {
                 
                 Text("Taking time to process")
                     .font(.caption)
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(Color.secondary)
             }
             
             Spacer()
@@ -237,6 +267,27 @@ struct ActivityView_Previews: PreviewProvider {
             )
             
             Divider()
+            
+            CorrectiveExerciseView(
+                exercise: Exercise(
+                    raw: "running 5 miles",
+                    correctiveCode: ExerciseCorrectiveCode.MissingExerciseAndReps.rawValue
+                )
+            )
+            
+            Divider()
+            
+            ProcessingExerciseView(
+                exercise: Exercise(
+                    id: 0,
+                    createdAt: "",
+                    updatedAt: "",
+                    name: "Running",
+                    type: "distance",
+                    raw: "running 4 miles",
+                    data: ExerciseData(sets: 1, reps: 0, weight: 0, time: 0, distance: 6.44)
+                )
+            )
         }
     }
 }

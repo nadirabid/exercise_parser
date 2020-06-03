@@ -43,9 +43,19 @@ struct WorkoutView: View {
     
     var exercisesToDisplay: [Exercise] {
         if showUnresolved {
-            return workout.exercises
+            return workout.exercises.sorted(by: {
+                if $0.type != $1.type {
+                    return $0.type > $1.type
+                } else if $0.resolutionType != $0.resolutionType {
+                    return $0.type > $1.type
+                } else if $0.id != nil && $1.id != nil {
+                    return $0.id! < $1.id!
+                } else {
+                    return $0.name < $1.name
+                }
+            })
         } else {
-            return workout.exercises.filter({ $0.type != "" })
+            return workout.exercises.filter({ $0.type != "" && !$0.resolutionType.contains("failed") })
         }
     }
     
@@ -119,6 +129,8 @@ struct WorkoutView: View {
                     ForEach(exercisesToDisplay) { exercise in
                         if exercise.type != "" {
                             ExerciseView(exercise: exercise)
+                        } else if exercise.correctiveCode > 0 {
+                            CorrectiveExerciseView(exercise: exercise)
                         } else {
                             ProcessingExerciseView(exercise: exercise)
                         }
@@ -388,6 +400,10 @@ struct WorkoutView_Previews : PreviewProvider {
                         updatedAt: "",
                         type: "",
                         raw: "1x3 curls"
+                    ),
+                    Exercise(
+                        raw: "3 reps",
+                        correctiveCode: ExerciseCorrectiveCode.MissingExerciseAndReps.rawValue
                     ),
                     Exercise(
                         id: 3,

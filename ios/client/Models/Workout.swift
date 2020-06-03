@@ -77,6 +77,19 @@ struct Exercise: Codable, Identifiable {
     let raw: String
     let data: ExerciseData
     let resolutionType: String
+    let correctiveCode: Int
+    
+    init(raw: String, correctiveCode: Int) {
+        self.id = nil
+        self.createdAt = nil
+        self.updatedAt = nil
+        self.name = ""
+        self.type = ""
+        self.raw = raw
+        self.data = ExerciseData(sets: 0, reps: 0, weight: 0, time: 0, distance: 0)
+        self.resolutionType = ""
+        self.correctiveCode = correctiveCode
+    }
     
     init(
         name: String,
@@ -92,6 +105,7 @@ struct Exercise: Codable, Identifiable {
         self.raw = raw
         self.data = data
         self.resolutionType = ""
+        self.correctiveCode = 0
     }
     
     init(
@@ -112,13 +126,44 @@ struct Exercise: Codable, Identifiable {
         self.raw = raw
         self.resolutionType = resolutionType
         self.data = data
+        self.correctiveCode = 0
     }
     
     enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
         case updatedAt = "updated_at"
         case resolutionType = "resolution_type"
+        case correctiveCode = "corrective_code"
         case id, name, type, raw, data
+    }
+}
+
+enum ExerciseCorrectiveCode: Int, CaseIterable {
+    case Unknown = -1
+    case None = 0
+    case MissingExercise = 1
+    case MissingQuantity = 2
+    case MissingExerciseAndReps = 3
+}
+
+extension ExerciseCorrectiveCode {
+    var message: String {
+        switch self {
+        case .None: return "Processed exercise successfully"
+        case .MissingExercise: return "Add the exercise name"
+        case .MissingQuantity: return "Add quantity (eg. time, sets, reps and/or distance)"
+        case .MissingExerciseAndReps: return "Add exercise and reps"
+        case .Unknown: return "No idea"
+        }
+    }
+    
+    static func from(code: Int) -> ExerciseCorrectiveCode {
+        let value = ExerciseCorrectiveCode.allCases.first(where: {$0.rawValue == code})
+        if let v = value {
+            return v
+        }
+        
+        return .Unknown
     }
 }
 
