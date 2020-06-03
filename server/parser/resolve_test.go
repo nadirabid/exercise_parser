@@ -9,6 +9,76 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func first(p []*ParsedActivity) *ParsedActivity {
+	return p[0]
+}
+
+// Corrective
+
+func TestCorrectiveActivityExpressions(t *testing.T) {
+	t.Run("{Sets:Number}x{Reps:Number}", func(t *testing.T) {
+		parsed := resolveAllCorrectiveActivityExpressionsTestUtil("3x35")
+		assert.Len(t, parsed, 1)
+		assert.Equal(t, first(parsed).CorrectiveCode, CorrectiveCodeMissingExercise)
+
+		expected := map[string]string{"Sets": "3", "Reps": "35"}
+		assert.Equal(t, expected, first(parsed).Captures)
+	})
+
+	t.Run("{Sets}x{Reps:Number} reps", func(t *testing.T) {
+		parsed := resolveAllCorrectiveActivityExpressionsTestUtil("3x35 reps")
+		assert.Len(t, parsed, 1)
+		assert.Equal(t, parsed[0].CorrectiveCode, CorrectiveCodeMissingExercise)
+
+		expected := map[string]string{"Sets": "3", "Reps": "35"}
+		assert.Equal(t, expected, first(parsed).Captures)
+	})
+
+	t.Run("{Exercise:String}", func(t *testing.T) {
+		parsed := resolveAllCorrectiveActivityExpressionsTestUtil("fast running")
+		assert.Len(t, parsed, 1)
+		assert.Equal(t, parsed[0].CorrectiveCode, CorrectiveCodeMissingQuantity)
+
+		expected := map[string]string{"Exercise": "fast running"}
+		assert.Equal(t, expected, first(parsed).Captures)
+	})
+
+	t.Run("{Sets:Number} rounds", func(t *testing.T) {
+		parsed := resolveAllCorrectiveActivityExpressionsTestUtil("5 rounds")
+		assert.Len(t, parsed, 1)
+		assert.Equal(t, parsed[0].CorrectiveCode, CorrectiveCodeMissingExerciseAndReps)
+
+		expected := map[string]string{"Sets": "5"}
+		assert.Equal(t, expected, first(parsed).Captures)
+	})
+}
+
+func resolveAllCorrectiveActivityExpressionsTestUtil(exercise string) []*ParsedActivity {
+	regexpSet := correctiveActivityExpressions()
+
+	exercise = strings.Trim(strings.ToLower(exercise), " ")
+
+	allParsed := []*ParsedActivity{}
+
+	// evaluate in reverse order - best fit first
+	for i := len(regexpSet) - 1; i >= 0; i-- {
+		e := regexpSet[i]
+
+		captures := e.captures(exercise)
+
+		if captures != nil {
+			allParsed = append(allParsed, &ParsedActivity{
+				Raw:            exercise,
+				Captures:       captures,
+				Regex:          e.value,
+				CorrectiveCode: e.correctiveMessageCode,
+			})
+		}
+	}
+
+	return allParsed
+}
+
 // Deep Resolve
 
 func TestDeepResolveActivityExpressions(t *testing.T) {

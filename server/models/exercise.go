@@ -22,6 +22,7 @@ type Exercise struct {
 	ExerciseData         ExerciseData          `json:"data"`
 	WorkoutID            uint                  `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
 	ExerciseDictionaries []*ExerciseDictionary `json:"exercise_dictionaries" gorm:"many2many:resolved_exercise_dictionaries;"`
+	CorrectiveCode       int                   `json:"corrective_code"`
 }
 
 func (Exercise) TableName() string {
@@ -31,7 +32,7 @@ func (Exercise) TableName() string {
 const (
 	AutoSingleResolutionType        = "auto.single"
 	AutoCompoundResolutionType      = "auto.compound"
-	AutoSpecialRestResolutionType   = "auto.special.rest" // this seems like a bady way of doing things
+	AutoSpecialRestResolutionType   = "auto.special.rest" // this seems like a bady way of doing things (right now its for the ios client to distinguish this from rest of exericses to display it uniquely)
 	ManualSingleResolutionType      = "manual.single"
 	FailedPermanentlyResolutionType = "failed.permanently"
 )

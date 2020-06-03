@@ -7,3 +7,5 @@ variation
 reps
 today
 yesterday
+start
+done

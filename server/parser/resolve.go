@@ -11,15 +11,17 @@ import (
 )
 
 const (
-	ParseTypeFull    = "full"
-	ParseTypePartial = "partial"
+	ParseTypeFull       = "full"
+	ParseTypePartial    = "partial"
+	ParseTypeCorrective = "corrective"
 )
 
 type ParsedActivity struct {
-	Raw       string
-	Captures  map[string]string
-	Regex     string
-	ParseType string
+	Raw            string
+	Captures       map[string]string
+	Regex          string
+	ParseType      string
+	CorrectiveCode int
 }
 
 type expression struct {
@@ -27,11 +29,13 @@ type expression struct {
 	regexp                *regexp.Regexp
 	assertMissingCaptures []string            // make sure we don't have these captures in expression
 	captureDoesNotContain map[string][]string // what was this for again???
+
 	correctiveMessage     string
+	correctiveMessageCode int // WARNING: do not change these values - the client will use it to show an associated message to the user
 }
 
-func (e *expression) captures(exercise string) map[string]string {
-	match := e.regexp.FindStringSubmatch(exercise)
+func (e *expression) captures(strExpressionToParse string) map[string]string {
+	match := e.regexp.FindStringSubmatch(strExpressionToParse)
 	if match == nil {
 		return nil
 	}
@@ -85,22 +89,32 @@ func newExpression(value string, captureDoesNotContain map[string][]string, asse
 		assertMissingCaptures,
 		captureDoesNotContain,
 		"",
+		CorrectiveCodeNone,
 	}
 }
 
-func newCorrectiveExpression(value string, correctiveMessage string) *expression {
+func newCorrectiveExpression(value string, correctiveMessage string, correctiveMessageCode int) *expression {
 	return &expression{
-		value:             value,
-		correctiveMessage: correctiveMessage,
+		value:                 value,
+		regexp:                regexp.MustCompile(value),
+		correctiveMessage:     correctiveMessage,
+		correctiveMessageCode: correctiveMessageCode,
 	}
 }
+
+const (
+	CorrectiveCodeNone                   = 0
+	CorrectiveCodeMissingExercise        = 1
+	CorrectiveCodeMissingQuantity        = 2
+	CorrectiveCodeMissingExerciseAndReps = 3
+)
 
 func correctiveActivityExpressions() []*expression {
 	expressions := []*expression{
-		newCorrectiveExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, "specify an exercise"),
-		newCorrectiveExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)\s*reps`, "specify an exercise"),
-		newCorrectiveExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])$`, "specify quantity"),
-		newCorrectiveExpression(`^(?P<Sets>\d+)\s+rounds`, "specify exercise and reps"),
+		newCorrectiveExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, "specify an exercise", CorrectiveCodeMissingExercise),        // {Sets:Number}x{Reps:Number}
+		newCorrectiveExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*reps$`, "specify an exercise", CorrectiveCodeMissingExercise), // {Sets:Number}x{Reps:Number} reps
+		newCorrectiveExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+[a-zA-Z])$`, "specify quantity", CorrectiveCodeMissingQuantity),          // {Exercise:String}
+		newCorrectiveExpression(`^(?P<Sets>\d+)\s+rounds$`, "specify exercise and reps or time", CorrectiveCodeMissingExerciseAndReps),  // {Sets:Number} rounds
 	}
 
 	return expressions
@@ -164,17 +178,17 @@ func activityExerciseExpressions() []*expression {
 	return expressions
 }
 
-func resolveActivityExpressions(exercise string, regexpSet []*expression) *ParsedActivity {
-	exercise = strings.Trim(strings.ToLower(exercise), " ")
+func resolveActivityExpressions(activity string, regexpSet []*expression) *ParsedActivity {
+	activity = strings.Trim(strings.ToLower(activity), " ")
 
 	for i := len(regexpSet) - 1; i >= 0; i-- {
 		e := regexpSet[i]
 
-		captures := e.captures(exercise)
+		captures := e.captures(activity)
 
 		if captures != nil {
 			return &ParsedActivity{
-				Raw:      exercise,
+				Raw:      activity,
 				Captures: captures,
 				Regex:    e.value,
 			}
@@ -182,13 +196,13 @@ func resolveActivityExpressions(exercise string, regexpSet []*expression) *Parse
 	}
 
 	return &ParsedActivity{
-		Raw: exercise,
+		Raw: activity,
 	}
 }
 
-func deepResolveActivityExpressions(exercise string, regexpSet []*expression) []*ParsedActivity {
+func deepResolveActivityExpressions(activity string, regexpSet []*expression) []*ParsedActivity {
 	// 1. try and resolve the entire thing
-	parsed := resolveActivityExpressions(exercise, regexpSet)
+	parsed := resolveActivityExpressions(activity, regexpSet)
 
 	if parsed.Captures != nil {
 		parsed.ParseType = ParseTypeFull
@@ -196,7 +210,7 @@ func deepResolveActivityExpressions(exercise string, regexpSet []*expression) []
 	}
 
 	// 2. try and resolve each token seperated by spaces as largest combination (must match to beginning or end - not middle)
-	tokens := regexp.MustCompile("[\\s]+").Split(exercise, -1) // move out??
+	tokens := regexp.MustCompile("[\\s]+").Split(activity, -1) // move out??
 	parsedTokens := []*ParsedActivity{}
 
 	for i := len(tokens) - 1; i > 0; i-- { // if we go all the way down to 0 - that would mean we're matching the whole thing which is something that should have happened above
@@ -224,22 +238,23 @@ func deepResolveActivityExpressions(exercise string, regexpSet []*expression) []
 
 // Parser allows you to resolve raw exercise strings
 type Parser struct {
-	lemma                       *lemma
-	stopPhrases                 *stopPhrases
-	activityExpressions         []*expression
-	activityExerciseExpressions []*expression
+	lemma                         *lemma
+	stopPhrases                   *stopPhrases
+	activityExpressions           []*expression
+	correctiveActivityExpressions []*expression
+	activityExerciseExpressions   []*expression
 }
 
 // ResolveActivity returns the captures
-func (p *Parser) ResolveActivity(exercise string) ([]*ParsedActivity, error) {
+func (p *Parser) ResolveActivity(activity string) ([]*ParsedActivity, error) {
 	// remove stop phrases
 	// exercise = p.stopPhrases.removeStopPhrases(exercise) // I don't think this belongs here - remove at the time we resolve it to a known exercise
 
 	extraCommas := regexp.MustCompile(`(,\s*,)+`)
-	exercise = extraCommas.ReplaceAllString(exercise, ",")
+	activity = extraCommas.ReplaceAllString(activity, ",")
 
 	// resolve expression
-	parsedExpressions := deepResolveActivityExpressions(exercise, p.activityExpressions)
+	parsedExpressions := deepResolveActivityExpressions(activity, p.activityExpressions)
 
 	if len(parsedExpressions) == 0 {
 		return nil, fmt.Errorf("no matches found")
@@ -270,6 +285,32 @@ func (p *Parser) ResolveExercise(exercise string) ([]string, error) {
 	return result, nil
 }
 
+func (p *Parser) ResolveCorrective(activity string) *ParsedActivity {
+	extraCommas := regexp.MustCompile(`(,\s*,)+`)
+	activity = extraCommas.ReplaceAllString(activity, ",")
+
+	activity = strings.Trim(strings.ToLower(activity), " ")
+
+	for i := 0; i < len(p.correctiveActivityExpressions); i-- {
+		e := p.correctiveActivityExpressions[i]
+
+		captures := e.captures(activity)
+
+		if captures != nil {
+			return &ParsedActivity{
+				Raw:            activity,
+				Captures:       captures,
+				Regex:          e.value,
+				CorrectiveCode: e.correctiveMessageCode,
+			}
+		}
+	}
+
+	return &ParsedActivity{
+		Raw: activity,
+	}
+}
+
 func (p *Parser) RemoveStopPhrases(exercise string) string {
 	return strings.Trim(p.stopPhrases.removeStopPhrases(exercise), " ")
 }
@@ -294,10 +335,11 @@ func Init(v *viper.Viper) error {
 		stopPhrases := newStopPhrases(v)
 
 		parser = &Parser{
-			lemma:                       nil,
-			stopPhrases:                 stopPhrases,
-			activityExpressions:         activityExpressions(),
-			activityExerciseExpressions: activityExerciseExpressions(),
+			lemma:                         nil,
+			stopPhrases:                   stopPhrases,
+			activityExpressions:           activityExpressions(),
+			correctiveActivityExpressions: correctiveActivityExpressions(),
+			activityExerciseExpressions:   activityExerciseExpressions(),
 		}
 	})
 
