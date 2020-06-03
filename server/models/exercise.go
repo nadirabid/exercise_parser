@@ -72,7 +72,7 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 		}
 
 		e.ExerciseDictionaries = exerciseDictionaries
-		e.ResolutionType = AutoSingleResolutionType
+		e.ResolutionType = AutoCompoundResolutionType
 		res = resolved[0]
 
 		// for backwards compatibility
@@ -97,7 +97,7 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 			if strings.EqualFold(d.Name, "Rest") {
 				e.ResolutionType = AutoSpecialRestResolutionType
 			} else {
-				e.ResolutionType = AutoCompoundResolutionType
+				e.ResolutionType = AutoSingleResolutionType
 			}
 
 			// for backwards compatibility
