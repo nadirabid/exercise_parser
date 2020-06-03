@@ -168,21 +168,23 @@ func deepResolveActivityExpressions(exercise string, regexpSet []*expression) []
 	tokens := regexp.MustCompile("[\\s]+").Split(exercise, -1) // move out??
 	parsedTokens := []*ParsedActivity{}
 
-	for i := len(tokens) - 1; i >= 0; i-- { // if we go all the way down to 0 - that would mean we're matching the whole thing which is something that should have happened above
+	for i := len(tokens) - 1; i > 0; i-- { // if we go all the way down to 0 - that would mean we're matching the whole thing which is something that should have happened above
 		combined := strings.Join(tokens[:i], " ")
 		parsed := resolveActivityExpressions(combined, regexpSet)
 		if parsed.Captures != nil {
 			parsed.ParseType = ParseTypePartial
 			parsedTokens = append(parsedTokens, parsed)
+			break
 		}
 	}
 
-	for i := 0; i < len(tokens); i++ {
+	for i := 1; i < len(tokens); i++ {
 		combined := strings.Join(tokens[i:], " ")
 		parsed := resolveActivityExpressions(combined, regexpSet)
 		if parsed.Captures != nil {
 			parsed.ParseType = ParseTypePartial
 			parsedTokens = append(parsedTokens, parsed)
+			break
 		}
 	}
 

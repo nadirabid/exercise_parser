@@ -4,3 +4,6 @@ left and right
 left wnd right
 slow/fast
 variation
+reps
+today
+yesterday

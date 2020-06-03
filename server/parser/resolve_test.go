@@ -23,6 +23,17 @@ func TestDeepResolveActivityExpressions(t *testing.T) {
 		assert.Equal(t, expected1, parsed[0].Captures)
 		assert.Equal(t, expected2, parsed[1].Captures)
 	})
+
+	t.Run("{MaybeExercise:String} {Distance} {DistanceUnits} {MaybeExercise:String}", func(t *testing.T) {
+		expected1 := map[string]string{"Exercise": "ran", "Distance": "5", "DistanceUnits": "miles"}
+		expected2 := map[string]string{"Exercise": "today", "Distance": "5", "DistanceUnits": "miles"}
+
+		parsed := deepResolveActivityExpressionsTestUtil(t, "ran 5 miles today")
+
+		assert.Len(t, parsed, 2)
+		assert.Equal(t, expected1, parsed[0].Captures)
+		assert.Equal(t, expected2, parsed[1].Captures)
+	})
 }
 
 func deepResolveActivityExpressionsTestUtil(t *testing.T, exercise string) []*ParsedActivity {
