@@ -12,11 +12,20 @@ import SwiftUI
 
 class ExerciseEditState: ObservableObject {
     var id = UUID()
+    
     @Published var input: String
     @Published var exercise: Exercise?
     
+    @Published var circuitID: Int? = nil
+    @Published var circuitRounds: Int = 1
+    
     init(input: String) {
         self.input = input
+    }
+    
+    init(input: String, circuitID: Int) {
+        self.input = input
+        self.circuitID = circuitID
     }
     
     init(exercise: Exercise) {
@@ -33,7 +42,9 @@ class ExerciseEditState: ObservableObject {
 class WorkoutCreateState: ObservableObject {
     @Published var newEntry: String = ""
     @Published var workoutName: String = ""
-    @Published var exerciseStates: [ExerciseEditState] = []
+    @Published var exerciseStates: [ExerciseEditState] = [
+        ExerciseEditState(input: "3x3 tricep curls")
+    ]
     @Published var isStopped = false
     
     var date: Date = Date()

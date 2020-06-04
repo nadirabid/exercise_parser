@@ -57,7 +57,7 @@ public struct ExerciseEditView: View {
             resolveExerciseRequest = nil
             req.cancel()
         }
-
+        
         // we do this just for viewing purposes
         var exercise = Exercise(raw: exerciseState.input)
         if let oldExercise = self.exerciseState.exercise {
@@ -65,21 +65,21 @@ public struct ExerciseEditView: View {
         }
         
         self.exerciseState.exercise = exercise
-
+        
         self.resolveExerciseRequest = exerciseAPI.resolveExercise(exercise: exercise) { resolvedExercise in
             self.exerciseState.exercise = resolvedExercise
         }
     }
-
+    
     private var defaultText: String {
         self.suggestions.current?.raw ?? "Enter Exercise"
     }
-
+    
     private var exercise: Exercise? {
         if isNewEntry {
             return suggestions.current
         }
-
+        
         return exerciseState.exercise
     }
     
@@ -94,31 +94,32 @@ public struct ExerciseEditView: View {
     }
     
     public var body: some View {
-        return VStack(alignment: .leading, spacing: 0) {
-            if !workoutState.isStopped {
-                TextField(
-                    exercise?.raw ?? "Enter your exercise",
-                    text: $exerciseState.input,
-                    onCommit: {
-                        if !self.exerciseState.input.isEmpty && !self.isNewEntry {
-                            self.resolveRawExercise()
-                        }
-                        
-                        self.userInputCommitHandler(self.textField!)
-                        self.suggestions.reset()
+        HStack(alignment: .center) {
+            if self.exerciseState.circuitID != nil {
+                Circle().fill(appColor).frame(width: 4, height: 4, alignment: .leading)
+            }
+            
+            VStack(alignment: .leading, spacing: 0) {
+                if !workoutState.isStopped {
+                    TextField(
+                        exercise?.raw ?? "Enter your exercise",
+                        text: $exerciseState.input,
+                        onCommit: {
+                            if !self.exerciseState.input.isEmpty && !self.isNewEntry {
+                                self.resolveRawExercise()
+                            }
+                            
+                            self.userInputCommitHandler(self.textField!)
+                            self.suggestions.reset()
                     }
-                )
-                    .font(.body) // TODO: does this do anything?
-                    .onAppear {
-                        if !self.isNewEntry && (self.exercise == nil || self.exercise?.type == "") {
-                            self.resolveRawExercise()
-                        }
+                    )
+                        .onAppear {
+                            if !self.isNewEntry && (self.exercise == nil || self.exercise?.type == "") {
+                                self.resolveRawExercise()
+                            }
                     }
                     .introspectTextField { (textField: UITextField) in
                         if self.textField != textField {
-                            textField.autocorrectionType = UITextAutocorrectionType.no
-                            textField.returnKeyType = .next
-
                             if self.isNewEntry {
                                 self.cancellable = self.exerciseState.$input.sink { value in
                                     if value.isEmpty {
@@ -135,22 +136,23 @@ public struct ExerciseEditView: View {
                         }
                         self.textField = textField
                     }
-            }
-
-            if exercise != nil && exercise!.correctiveCode > 0 {
-                CorrectiveExerciseView(exercise: exercise!, showRawString: workoutState.isStopped)
-            } else if exercise?.type == "" && !exerciseState.input.isEmpty && !isNewEntry {
-                ProcessingExerciseView(exercise: workoutState.isStopped ? exercise : nil)
-            } else if exercise == nil || (!exerciseState.input.isEmpty && isNewEntry) {
-                WaitingForExerciseView()
-            } else { 
-                ExerciseView(
-                    exercise: exercise!,
-                    displayType: self.exerciseViewDisplayType
-                )
+                }
+                
+                if exercise != nil && exercise!.correctiveCode > 0 {
+                    CorrectiveExerciseView(exercise: exercise!, showRawString: workoutState.isStopped)
+                } else if exercise?.type == "" && !exerciseState.input.isEmpty && !isNewEntry {
+                    ProcessingExerciseView(exercise: workoutState.isStopped ? exercise : nil)
+                } else if exercise == nil || (!exerciseState.input.isEmpty && isNewEntry) {
+                    WaitingForExerciseView()
+                } else {
+                    ExerciseView(
+                        exercise: exercise!,
+                        displayType: self.exerciseViewDisplayType
+                    )
+                }
             }
         }
-            .padding([.leading, .trailing])
+        .padding([.leading, .trailing])
     }
 }
 
@@ -190,7 +192,7 @@ class ExcerciseUserSuggestions: ObservableObject {
         self.timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { timer in
             DispatchQueue.main.async {
                 self.index = (self.index + 1) % (self.options.count + 2)
-
+                
                 if self.index < self.options.count {
                     self.current = self.options[self.index]
                 } else {
@@ -207,7 +209,6 @@ class ExcerciseUserSuggestions: ObservableObject {
 }
 
 struct ExerciseEditorView_Previews: PreviewProvider {
-    
     static var previews: some View {
         ScrollView {
             ExerciseEditView(state: ExerciseEditState(input: "3x3 tricep curls"))
@@ -215,7 +216,7 @@ struct ExerciseEditorView_Previews: PreviewProvider {
             ExerciseEditView(state: ExerciseEditState(input: "3x3 tricep curls"), shouldResolveExercise: false)
             ExerciseEditView(state: ExerciseEditState(input: "3x3 tricep curls"))
         }
-            .environmentObject(MockExerciseAPI(userState: UserState()) as ExerciseAPI)
-            .environmentObject(WorkoutCreateState())
+        .environmentObject(MockExerciseAPI(userState: UserState()) as ExerciseAPI)
+        .environmentObject(WorkoutCreateState())
     }
 }

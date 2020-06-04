@@ -38,7 +38,7 @@ struct AdaptsToSoftwareKeyboard: ViewModifier {
         .sink(receiveValue: { (height) in
             self.isKeyboardDisplayed = true
             
-            withAnimation(Animation.easeInOut.speed(speed)) {
+            withAnimation(Animation.spring().speed(speed)) {
                 self.currentHeight = height
             }
         })
@@ -53,7 +53,7 @@ struct AdaptsToSoftwareKeyboard: ViewModifier {
         .sink(receiveValue: { (height) in
             self.isKeyboardDisplayed = false
             
-            withAnimation(Animation.easeInOut.speed(speed)) {
+            withAnimation(Animation.spring().speed(speed)) {
                 self.currentHeight = height
             }
         })

@@ -18,20 +18,31 @@ public struct WorkoutCreateView: View {
     @EnvironmentObject var route: RouteState
     @EnvironmentObject var state: WorkoutCreateState
     @EnvironmentObject var workoutAPI: WorkoutAPI
-
+    
     private var locationManager = LocationManager()
     private var stopwatch = Stopwatch()
     private var suggestions = ExcerciseUserSuggestions()
-
+    
     @State private var location: Location? = nil
     @State private var newEntryTextField: UITextField? = nil
     @State private var workoutNameTextField: UITextField? = nil
     @State private var newEntryState: ExerciseEditState = ExerciseEditState(input: "")
-
+    
+    @State private var isCircuitEnabled = false
+    @State private var circuitIDCounter = 0
+    @State private var showRoundsPicker = false
+    @State private var circuitRounds: Int = 3
+    
+    @State private var testStates: [ExerciseEditState] = [
+        ExerciseEditState(input: "3x3 tricep curls", circuitID: 1),
+        ExerciseEditState(input: "4 mins of running", circuitID: 1),
+        ExerciseEditState(input: "bench press 3x4 - 45lbs", circuitID: 1)
+    ]
+    
     init() {
         stopwatch.start()
     }
-
+    
     func pressPause() {
         #if targetEnvironment(simulator)
         self.location = Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
@@ -39,7 +50,7 @@ public struct WorkoutCreateView: View {
         let coord: CLLocationCoordinate2D? = locationManager.lastLocation?.coordinate
         self.location = coord != nil ? Location(latitude: coord!.latitude, longitude: coord!.longitude) : nil
         #endif
-
+        
         self.stopwatch.stop()
         self.state.isStopped = true
     }
@@ -52,7 +63,7 @@ public struct WorkoutCreateView: View {
     func pressFinish() {
         let exercises: [Exercise] = state.exerciseStates.map{ a in Exercise(raw: a.input) }
         let name = state.workoutName.isEmpty ? dateToWorkoutName(self.state.date) : state.workoutName
-
+        
         let workout = Workout(
             name: name,
             date: self.state.date,
@@ -60,13 +71,13 @@ public struct WorkoutCreateView: View {
             location: self.location,
             secondsElapsed: stopwatch.counter
         )
-
+        
         if exercises.count == 0 {
             self.state.reset()
             self.route.replaceCurrent(with: .userFeed)
             return
         }
-
+        
         workoutAPI.createWorkout(workout: workout) { (_) in
             self.state.reset()
             self.route.replaceCurrent(with: .userFeed)
@@ -77,6 +88,12 @@ public struct WorkoutCreateView: View {
         self.state.exerciseStates.removeAll(where: { e in
             return e === state
         })
+    }
+    
+    func shouldShowPaddedDividerForLastEnteredExercise(i: Int) -> Bool {
+        return i == state.exerciseStates.count - 1 &&
+            state.exerciseStates[i].circuitID != nil &&
+            self.isCircuitEnabled
     }
     
     public var body: some View {
@@ -99,12 +116,12 @@ public struct WorkoutCreateView: View {
                                         .size(
                                             width: geometry.size.width + 10,
                                             height: geometry.size.height + 10
-                                        )
+                                    )
                                         .offset(x: -5, y: -5)
                                         .fill(appColor)
                                 })
                         }
-                            .padding(.trailing)
+                        .padding(.trailing)
                     }
                     Divider()
                 }
@@ -130,7 +147,7 @@ public struct WorkoutCreateView: View {
                                 textField.becomeFirstResponder()
                             }
                             self.workoutNameTextField = textField
-                        }
+                    }
                     
                     Text("Breakdown")
                         .font(.caption)
@@ -139,7 +156,7 @@ public struct WorkoutCreateView: View {
                         .foregroundColor(Color.gray)
                 }
             }
-
+            
             EditableWorkoutMetaMetricsView(
                 stopwatch: stopwatch,
                 showDate: state.isStopped
@@ -147,13 +164,13 @@ public struct WorkoutCreateView: View {
                 .fixedSize(horizontal: state.isStopped, vertical: true)
                 .padding(state.isStopped ? [.leading] : [.top, .trailing, .leading])
                 .padding(.bottom, state.isStopped ? 5 : 20)
-
+            
             if state.isStopped {
                 if self.location != nil {
                     MapView(location: self.location!)
                         .frame(height: 130)
                 }
-
+                
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Exercises")
                         .font(.caption)
@@ -165,16 +182,41 @@ public struct WorkoutCreateView: View {
             
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(self.state.exerciseStates, id: \.id) { (exerciseState: ExerciseEditState) in
+                    VStack(alignment: .leading, spacing: 0) {
+                        HStack(alignment: .center) {
+                            Text(circuitRounds.description)
+                                .fontWeight(.semibold)
+                                .font(.callout)
+                                .allowsTightening(true)
+                                .foregroundColor(Color.white)
+                                .padding(5)
+                                .frame(width: 30)
+                                .fixedSize()
+                                .background(
+                                    Circle().fill(appColor)
+                            )
+                            
+                            Text("rounds")
+                                .fontWeight(.medium)
+                            
+                            Spacer()
+                        }
+                        .padding([.leading, .trailing])
+                        .padding([.top, .bottom], 5)
+                        
+                        Divider().animation(.none)
+                    }
+
+                    ForEach(0..<self.state.exerciseStates.count) { i in
                         VStack(spacing: 0) {
                             ExerciseEditView(
-                                state: exerciseState,
+                                state: self.state.exerciseStates[i],
                                 suggestions: self.suggestions,
                                 onUserInputCommit: { _ in
                                     DispatchQueue.main.async {
-                                        if exerciseState.input.isEmpty {
+                                        if self.state.exerciseStates[i].input.isEmpty {
                                             self.state.exerciseStates.removeAll(where: { ex in
-                                                return ex === exerciseState
+                                                return ex === self.state.exerciseStates[i]
                                             })
                                         }
                                         self.newEntryTextField?.becomeFirstResponder()
@@ -182,21 +224,27 @@ public struct WorkoutCreateView: View {
                                 }
                             )
                                 .padding([.top, .bottom], 6)
-                            
-                            Divider().animation(.none)
-                        }
-                            .modifier(DeletableViewModifier(disable: self.state.isStopped, onClick: {
-                                self.removeExerciseStateElement(state: exerciseState)
-                            }))
-                    }
+                                .padding(.leading)
 
+                            if self.shouldShowPaddedDividerForLastEnteredExercise(i: i) {
+                                Divider().animation(.none).padding(.leading)
+                            } else {
+                                Divider().animation(.none)
+                            }
+                        }
+                        .modifier(DeletableViewModifier(disable: self.state.isStopped, onClick: {
+                            self.removeExerciseStateElement(state: self.state.exerciseStates[i])
+                        }))
+                    }
+                    
                     if !self.state.isStopped {
                         VStack(spacing: 0) {
+                            if self.isCircuitEnabled {
                             ExerciseEditView(
                                 state: self.newEntryState,
                                 isNewEntry: true,
                                 suggestions: self.suggestions,
-                                becomeFirstResponderOnAppear: true,
+                                becomeFirstResponderOnAppear: false,
                                 onUserInputCommit: { (textField: UITextField) in
                                     DispatchQueue.main.async {
                                         if !self.newEntryState.input.isEmpty {
@@ -211,6 +259,28 @@ public struct WorkoutCreateView: View {
                                 }
                             )
                                 .padding([.top, .bottom], 6)
+                                .padding(.leading)
+                            } else {
+                                ExerciseEditView(
+                                    state: self.newEntryState,
+                                    isNewEntry: true,
+                                    suggestions: self.suggestions,
+                                    becomeFirstResponderOnAppear: false,
+                                    onUserInputCommit: { (textField: UITextField) in
+                                        DispatchQueue.main.async {
+                                            if !self.newEntryState.input.isEmpty {
+                                                self.state.exerciseStates.append(self.newEntryState)
+                                                self.newEntryState = ExerciseEditState(input: "")
+                                            }
+                                            textField.becomeFirstResponder()
+                                        }
+                                    },
+                                    onTextFieldChange: { (textField: UITextField) in
+                                        self.newEntryTextField = textField
+                                    }
+                                )
+                                    .padding([.top, .bottom], 6)
+                            }
                             
                             Divider()
                         }
@@ -220,25 +290,71 @@ public struct WorkoutCreateView: View {
             
             Spacer()
             
-            HStack(spacing: 0) {
+            VStack(spacing: 0) {
+                Divider()
+                
                 if !state.isStopped {
-                    Button(action: {
-                        withAnimation(Animation.easeInOut.speed(1.5)) {
-                            self.pressPause()
+                    HStack {
+                        Spacer()
+                        
+                        Button(action: {}) {
+                            HStack {
+                                Image(systemName:"delete.left")
+                                    .font(.system(size: 20, weight: .medium, design: .default))
+                                    .foregroundColor(Color.secondary)
+                                
+                                Text("Delete")
+                                    .font(.caption)
+                                    .foregroundColor(Color.secondary)
+                            }
                         }
-                    }) {
-                        HStack {
-                            Spacer()
+                        
+                        Spacer()
+                        Spacer()
+                        
+                        Button(action: {
+                            withAnimation(Animation.easeInOut.speed(1.5)) {
+                                self.pressPause()
+                            }
+                        }) {
+                            Image(systemName:"stop.circle")
+                                .font(.system(size: 24, weight: .medium, design: .default))
+                                .foregroundColor(Color.secondary)
                             
                             Text("Stop")
-                                .foregroundColor(Color.white)
-                                .fontWeight(.semibold)
-                            
-                            Spacer()
+                                .font(.caption)
+                                .foregroundColor(Color.secondary)
                         }
-                            .padding()
-                            .background(appColor)
+                        
+                        Spacer()
+                        Spacer()
+                        
+                        Button(action: {
+                            withAnimation(Animation.easeInOut.speed(1.5)) {
+                                self.isCircuitEnabled.toggle()
+                                
+                                if self.isCircuitEnabled {
+                                    self.newEntryState.circuitID = self.circuitIDCounter
+                                } else {
+                                    self.newEntryState.circuitID = nil
+                                }
+                            }
+                        }) {
+                            HStack {
+                                Image(systemName: "arrow.2.circlepath")
+                                    .font(.system(size: 19, weight: .medium, design: .default))
+                                    .foregroundColor(self.isCircuitEnabled ? appColor : Color.secondary)
+                                
+                                Text("Circuit")
+                                    .font(.caption)
+                                    .foregroundColor(self.isCircuitEnabled ? appColor : Color.secondary)
+                            }
+                        }
+                        
+                        Spacer()
                     }
+                    .padding(.all, 13)
+                    .background(Color(UIColor.systemGray6))
                 }
                 else {
                     Button(action: {
@@ -255,13 +371,32 @@ public struct WorkoutCreateView: View {
                             
                             Spacer()
                         }
-                            .padding()
-                            .background(appColor)
+                        .padding()
+                        .background(appColor)
                     }
                 }
             }
+            
+            if showRoundsPicker {
+                HStack(spacing: 0) {
+                    Picker(selection: self.$circuitRounds, label: EmptyView()) {
+                        ForEach(2..<15) {
+                            Text("\($0) rounds")
+                        }
+                        .padding()
+                    }
+                    .pickerStyle(WheelPickerStyle())
+                    .labelsHidden()
+                    .frame(width: UIScreen.main.bounds.width)
+                }
+                .background(Color(UIColor.systemGray4))
+                .transition(.move(edge: .bottom))
+                .animation(.default)
+                .zIndex(2)
+                .edgesIgnoringSafeArea(.bottom)
+            }
         }
-            .modifier(AdaptsToSoftwareKeyboard())
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 
