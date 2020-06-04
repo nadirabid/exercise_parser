@@ -182,9 +182,8 @@ public struct WorkoutCreateView: View {
                                 }
                             )
                                 .padding([.top, .bottom], 6)
-                                .transition(AnyTransition.slide.combined(with: AnyTransition.scale))
                             
-                            Divider().animation(Animation.easeInOut.speed(2))
+                            Divider().animation(.none)
                         }
                             .modifier(DeletableViewModifier(disable: self.state.isStopped, onClick: {
                                 self.removeExerciseStateElement(state: exerciseState)
@@ -212,12 +211,12 @@ public struct WorkoutCreateView: View {
                                 }
                             )
                                 .padding([.top, .bottom], 6)
-
-                            Divider().animation(Animation.easeInOut.speed(2))
+                            
+                            Divider()
                         }
                     }
                 }
-            }
+            }.animation(.none)
             
             Spacer()
             

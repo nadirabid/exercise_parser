@@ -148,8 +148,6 @@ public struct ExerciseEditView: View {
                     exercise: exercise!,
                     displayType: self.exerciseViewDisplayType
                 )
-                    .transition(self.isNewEntry ? AnyTransition.moveUpAndFade() : AnyTransition.identity)
-                    .id("exercise_\(exercise!.raw)")
             }
         }
             .padding([.leading, .trailing])
@@ -189,16 +187,14 @@ class ExcerciseUserSuggestions: ObservableObject {
     ]
     
     init() {
-        self.timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
+        self.timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { timer in
             DispatchQueue.main.async {
                 self.index = (self.index + 1) % (self.options.count + 2)
 
-                withAnimation(Animation.easeInOut.speed(2)) {
-                    if self.index < self.options.count {
-                        self.current = self.options[self.index]
-                    } else {
-                        self.current = nil
-                    }
+                if self.index < self.options.count {
+                    self.current = self.options[self.index]
+                } else {
+                    self.current = nil
                 }
             }
         }
