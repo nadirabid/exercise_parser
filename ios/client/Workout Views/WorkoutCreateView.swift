@@ -31,7 +31,6 @@ public struct WorkoutCreateView: View {
     @State private var isCircuitEnabled = false
     @State private var circuitIDCounter = 0
     @State private var showRoundsPickerForCircuitID: Int? = nil
-    @State private var circuitRounds: Int = 1
     
     @State private var keyboardHeight: CGFloat = 0
     @State private var keyboardAnimationDuration: Double = 0
@@ -127,6 +126,25 @@ public struct WorkoutCreateView: View {
             // IMPORTANT: This height will _include_ the SafeAreaInset height.
             keyboardHeight = keyboardFrame.height
         }
+    }
+    
+    @State private var _circuitRounds: Int = 2
+    var circuitRounds: Binding<Int> {
+        return Binding<Int>(
+            get: { () -> Int in
+                return self._circuitRounds
+            },
+            set: { (value) in
+                self._circuitRounds = value
+                
+                if self.showRoundsPickerForCircuitID != nil && self.showRoundsPickerForCircuitID! >= 0 {
+                    let exerciseStates = self.state.exerciseStates.filter { $0.circuitID == self.showRoundsPickerForCircuitID }
+                    for exerciseState in exerciseStates {
+                        exerciseState.circuitRounds = value
+                    }
+                }
+            }
+        )
     }
     
     public var body: some View {
@@ -239,6 +257,7 @@ public struct WorkoutCreateView: View {
                                                     .padding(4)
                                                     .frame(width: 30)
                                                     .fixedSize()
+                                                    .animation(.none)
                                                     .background(
                                                         VStack {
                                                             if self.showRoundsPickerForCircuitID == exerciseState.circuitID {
@@ -258,8 +277,6 @@ public struct WorkoutCreateView: View {
                                     }
                                     .padding([.leading, .trailing])
                                     .padding([.top, .bottom], 11)
-                                    
-                                    //Divider().animation(.none).padding(.leading)
                                 }
                             }
                             
@@ -314,7 +331,7 @@ public struct WorkoutCreateView: View {
                                                 }
                                             }
                                         }) {
-                                            Text((self.circuitRounds + 2).description)
+                                            Text(self.circuitRounds.wrappedValue.description)
                                                 .fontWeight(.semibold)
                                                 .font(.callout)
                                                 .allowsTightening(true)
@@ -322,6 +339,7 @@ public struct WorkoutCreateView: View {
                                                 .padding(4)
                                                 .frame(width: 30)
                                                 .fixedSize()
+                                                .animation(.none)
                                                 .background(
                                                     VStack {
                                                         if self.showRoundsPickerForCircuitID == -1 {
@@ -355,7 +373,7 @@ public struct WorkoutCreateView: View {
                                     DispatchQueue.main.async {
                                         if !self.newEntryState.input.isEmpty {
                                             if self.isCircuitEnabled {
-                                                self.newEntryState.circuitRounds = self.circuitRounds + 2
+                                                self.newEntryState.circuitRounds = self.circuitRounds.wrappedValue
                                             }
                                             
                                             self.state.exerciseStates.append(self.newEntryState)
@@ -491,8 +509,8 @@ public struct WorkoutCreateView: View {
                 
                 if self.showRoundsPickerForCircuitID != nil && keyboardHeight == 0 {
                     ZStack {
-                        Picker(selection: self.$circuitRounds, label: EmptyView()) {
-                            ForEach(2..<15) {
+                        Picker(selection: self.circuitRounds, label: EmptyView()) {
+                            ForEach(2..<13, id: \.self) {
                                 Text("\($0) rounds")
                             }
                             .padding()
@@ -501,7 +519,7 @@ public struct WorkoutCreateView: View {
                         .labelsHidden()
                         .frame(width: UIScreen.main.bounds.width)
                     }
-                    .background(Color(UIColor.systemGray4))
+                    .background(Color(UIColor.systemGray5))
                     .transition(.move(edge: .bottom))
                     .animation(Animation.linear(duration: keyboardAnimationDuration))
                     .zIndex(2)

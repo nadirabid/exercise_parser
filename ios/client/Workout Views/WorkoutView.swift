@@ -18,9 +18,12 @@ struct WorkoutDetail: View {
                 .font(.caption)
                 .fontWeight(.heavy)
                 .fixedSize()
+            
             Text(self.value)
                 .font(.callout)
+                .allowsTightening(true)
                 .fixedSize()
+                .animation(.none)
         }
     }
 }
