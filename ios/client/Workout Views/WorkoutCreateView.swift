@@ -505,12 +505,11 @@ public struct WorkoutCreateView: View {
                     .transition(.move(edge: .bottom))
                     .animation(Animation.linear(duration: keyboardAnimationDuration))
                     .zIndex(2)
-                    .edgesIgnoringSafeArea(.bottom)
                 }
             }
         }
-        .edgesIgnoringSafeArea(.bottom)
         .keyboardObserving()
+        .edgesIgnoringSafeArea(self.showRoundsPickerForCircuitID != nil ? [.bottom] : [])
         .onReceive(
             NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification).receive(on: RunLoop.main),
             perform: updateKeyboardHeight
