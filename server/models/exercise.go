@@ -23,6 +23,8 @@ type Exercise struct {
 	WorkoutID            uint                  `json:"workout_id" gorm:"type:int REFERENCES workouts(id) ON DELETE CASCADE"`
 	ExerciseDictionaries []*ExerciseDictionary `json:"exercise_dictionaries" gorm:"many2many:resolved_exercise_dictionaries;"`
 	CorrectiveCode       int                   `json:"corrective_code"`
+	CircuitID            *int                  `json:"circuit_id"`
+	CircuitRounds        int                   `json:"circuit_rounds"`
 }
 
 func (Exercise) TableName() string {
