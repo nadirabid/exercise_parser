@@ -27,6 +27,7 @@
 		64615A95242581AF0098ED5A /* ExerciseEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64615A94242581AF0098ED5A /* ExerciseEditView.swift */; };
 		64615A972425983F0098ED5A /* FancyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64615A962425983F0098ED5A /* FancyLoader.swift */; };
 		6474049D2489FBBD005C8DAF /* UIRespondExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6474049C2489FBBD005C8DAF /* UIRespondExtensions.swift */; };
+		6474049F248A0AA8005C8DAF /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6474049E248A0AA8005C8DAF /* ViewExtensions.swift */; };
 		6484887B24786DA10093B3C5 /* WorkoutEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6484887A24786DA10093B3C5 /* WorkoutEditView.swift */; };
 		6487770824746DCE00223A7E /* EditorUserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6487770724746DCE00223A7E /* EditorUserProfileView.swift */; };
 		6487770E247489A100223A7E /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6487770D247489A100223A7E /* AuthAPI.swift */; };
@@ -115,6 +116,7 @@
 		64615A94242581AF0098ED5A /* ExerciseEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseEditView.swift; sourceTree = "<group>"; };
 		64615A962425983F0098ED5A /* FancyLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyLoader.swift; sourceTree = "<group>"; };
 		6474049C2489FBBD005C8DAF /* UIRespondExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRespondExtensions.swift; sourceTree = "<group>"; };
+		6474049E248A0AA8005C8DAF /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		6484887A24786DA10093B3C5 /* WorkoutEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEditView.swift; sourceTree = "<group>"; };
 		6487770724746DCE00223A7E /* EditorUserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorUserProfileView.swift; sourceTree = "<group>"; };
 		6487770D247489A100223A7E /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				6487771E2474915400223A7E /* TextExtensions.swift */,
 				64877726247491C400223A7E /* UIBezierPathExtensions.swift */,
 				6474049C2489FBBD005C8DAF /* UIRespondExtensions.swift */,
+				6474049E248A0AA8005C8DAF /* ViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -535,6 +538,7 @@
 				6498A98D24122355005BB19F /* Config.swift in Sources */,
 				648E853324763C3C00D7F502 /* CircleButtonView.swift in Sources */,
 				6487771B2474911B00223A7E /* StringExtensions.swift in Sources */,
+				6474049F248A0AA8005C8DAF /* ViewExtensions.swift in Sources */,
 				6411FD9F242733D3003D49BF /* Utils.swift in Sources */,
 				64ED7EDC246E48730059377E /* HelpView.swift in Sources */,
 				640BC8A6241E0D5200B99E90 /* User.swift in Sources */,
