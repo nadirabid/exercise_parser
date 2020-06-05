@@ -30,7 +30,7 @@ public struct WorkoutCreateView: View {
     
     @State private var isCircuitEnabled = false
     @State private var circuitIDCounter = 0
-    @State private var showRoundsPicker = false
+    @State private var showRoundsPickerForCircuitID: Int? = nil
     @State private var circuitRounds: Int = 1
     
     @State private var testStates: [ExerciseEditState] = [
@@ -91,12 +91,12 @@ public struct WorkoutCreateView: View {
     }
     
     func shouldShowPaddedDividerForLastEnteredExercise(_ exerciseState: ExerciseEditState) -> Bool {
-        if state.exerciseStates.last == exerciseState && exerciseState.circuitID != nil && self.isCircuitEnabled {
+        if exerciseState.circuitID != nil && state.exerciseStates.last == exerciseState && self.isCircuitEnabled {
             return true
         }
         
         let i = state.exerciseStates.firstIndex(of: exerciseState)
-        if state.exerciseStates.last != exerciseState && exerciseState.circuitID != nil && state.exerciseStates[state.exerciseStates.index(after: i!)].circuitID != exerciseState.circuitID  {
+        if exerciseState.circuitID != nil && state.exerciseStates.last != exerciseState && state.exerciseStates[state.exerciseStates.index(after: i!)].circuitID == exerciseState.circuitID  {
             return true
         }
         
@@ -114,7 +114,6 @@ public struct WorkoutCreateView: View {
         
         return nil
     }
-
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -207,17 +206,35 @@ public struct WorkoutCreateView: View {
                             if self.shouldShowRoundsBeforeExercise(exerciseState) != nil {
                                 VStack(alignment: .leading, spacing: 0) {
                                     HStack(alignment: .center) {
-                                        Text(self.shouldShowRoundsBeforeExercise(exerciseState)!.description)
-                                            .fontWeight(.semibold)
-                                            .font(.callout)
-                                            .allowsTightening(true)
-                                            .foregroundColor(Color.white)
-                                            .padding(5)
-                                            .frame(width: 30)
-                                            .fixedSize()
-                                            .background(
-                                                Circle().fill(appColor)
-                                        )
+                                        Button(action: {
+                                            if self.showRoundsPickerForCircuitID == exerciseState.circuitID {
+                                                self.showRoundsPickerForCircuitID = nil
+                                            } else {
+                                                self.showRoundsPickerForCircuitID = exerciseState.circuitID
+                                                
+                                                if let activeTextField = UIResponder.currentFirst() as? UITextField {
+                                                    activeTextField.resignFirstResponder()
+                                                }
+                                            }
+                                        }) {
+                                                Text(self.shouldShowRoundsBeforeExercise(exerciseState)!.description)
+                                                    .fontWeight(.semibold)
+                                                    .font(.callout)
+                                                    .allowsTightening(true)
+                                                    .foregroundColor(self.showRoundsPickerForCircuitID == exerciseState.circuitID ? Color.white : Color.black)
+                                                    .padding(4)
+                                                    .frame(width: 30)
+                                                    .fixedSize()
+                                                    .background(
+                                                        VStack {
+                                                            if self.showRoundsPickerForCircuitID == exerciseState.circuitID {
+                                                                Circle().fill(appColor)
+                                                            } else {
+                                                                Circle().stroke(appColor, lineWidth: 2)
+                                                            }
+                                                        }
+                                                    )
+                                        }
                                         
                                         Text("rounds")
                                             .fontWeight(.medium)
@@ -225,23 +242,34 @@ public struct WorkoutCreateView: View {
                                         Spacer()
                                     }
                                     .padding([.leading, .trailing])
-                                    .padding([.top, .bottom], 5)
+                                    .padding([.top, .bottom], 11)
                                     
                                     Divider().animation(.none).padding(.leading)
                                 }
                             }
                             
                             VStack(spacing: 0) {
-                                ExerciseEditView(state: exerciseState,suggestions: self.suggestions) { _ in
-                                    DispatchQueue.main.async {
-                                        if exerciseState.input.isEmpty {
-                                            self.state.exerciseStates.removeAll(where: { ex in
-                                                return ex === exerciseState
-                                            })
+                                ExerciseEditView(
+                                    state: exerciseState,
+                                    suggestions: self.suggestions,
+                                    onUserInputCommit: { _ in
+                                        DispatchQueue.main.async {
+                                            if exerciseState.input.isEmpty {
+                                                self.state.exerciseStates.removeAll(where: { ex in
+                                                    return ex === exerciseState
+                                                })
+                                            }
+                                            self.newEntryTextField?.becomeFirstResponder()
                                         }
-                                        self.newEntryTextField?.becomeFirstResponder()
+                                    },
+                                    onEditingChanged: { changed in
+                                        DispatchQueue.main.async {
+                                            if changed {
+                                                self.showRoundsPickerForCircuitID = nil
+                                            }
+                                        }
                                     }
-                                }
+                                )
                                 .padding([.top, .bottom], 6)
                                 .padding(.leading, exerciseState.circuitID == nil ? 0 : nil)
                                 
@@ -260,33 +288,55 @@ public struct WorkoutCreateView: View {
                             if isCircuitEnabled && self.state.exerciseStates.last?.circuitID == nil {
                                 VStack(alignment: .leading, spacing: 0) {
                                     HStack(alignment: .center) {
-                                        Text((self.circuitRounds + 2).description)
-                                            .fontWeight(.semibold)
-                                            .font(.callout)
-                                            .allowsTightening(true)
-                                            .foregroundColor(Color.white)
-                                            .padding(5)
-                                            .frame(width: 30)
-                                            .fixedSize()
-                                            .background(Circle().fill(appColor))
+                                        Button(action: {
+                                            if self.showRoundsPickerForCircuitID == -1 {
+                                                self.showRoundsPickerForCircuitID = nil
+                                            } else {
+                                                self.showRoundsPickerForCircuitID = -1
+                                                
+                                                if let activeTextField = UIResponder.currentFirst() as? UITextField {
+                                                    activeTextField.resignFirstResponder()
+                                                }
+                                            }
+                                        }) {
+                                            Text((self.circuitRounds + 2).description)
+                                                .fontWeight(.semibold)
+                                                .font(.callout)
+                                                .allowsTightening(true)
+                                                .foregroundColor(self.showRoundsPickerForCircuitID == -1 ? Color.white : Color.black)
+                                                .padding(4)
+                                                .frame(width: 30)
+                                                .fixedSize()
+                                                .background(
+                                                    VStack {
+                                                        if self.showRoundsPickerForCircuitID == -1 {
+                                                            Circle().fill(appColor)
+                                                        } else {
+                                                            Circle().stroke(appColor, lineWidth: 2)
+                                                        }
+                                                    }
+                                                )
+                                        }
                                         
-                                        Text("rounds")
+                                        Text("Rounds Circuit")
                                             .fontWeight(.medium)
                                         
                                         Spacer()
                                     }
                                     .padding([.leading, .trailing])
-                                    .padding([.top, .bottom], 5)
+                                    .padding([.top, .bottom], 11)
                                     
                                     Divider().animation(.none).padding(.leading)
                                 }
+                                .transition(.scale)
+                                .animation(.default)
                             }
                             
                             ExerciseEditView(
                                 state: self.newEntryState,
                                 isNewEntry: true,
                                 suggestions: self.suggestions,
-                                becomeFirstResponderOnAppear: false,
+                                becomeFirstResponderOnAppear: true,
                                 onUserInputCommit: { (textField: UITextField) in
                                     DispatchQueue.main.async {
                                         if !self.newEntryState.input.isEmpty {
@@ -308,6 +358,13 @@ public struct WorkoutCreateView: View {
                                 },
                                 onTextFieldChange: { (textField: UITextField) in
                                     self.newEntryTextField = textField
+                                },
+                                onEditingChanged: { changed in
+                                    DispatchQueue.main.async {
+                                        if changed {
+                                            self.showRoundsPickerForCircuitID = nil
+                                        }
+                                    }
                                 }
                             )
                                 .padding([.top, .bottom], 6)
@@ -318,8 +375,6 @@ public struct WorkoutCreateView: View {
                     }
                 }
             }.animation(.none)
-            
-            Spacer()
             
             VStack(spacing: 0) {
                 Divider()
@@ -352,14 +407,14 @@ public struct WorkoutCreateView: View {
                                     if self.isCircuitEnabled {
                                         self.newEntryState.circuitID = self.circuitIDCounter
                                     } else {
-                                        self.showRoundsPicker = false
+                                        self.showRoundsPickerForCircuitID = nil
                                         self.newEntryState.circuitID = nil
                                         
                                         self.newEntryTextField?.becomeFirstResponder()
                                     }
                                     
                                     if self.isCircuitEnabled && self.state.exerciseStates.last?.circuitID == nil {
-                                        self.showRoundsPicker = true
+                                        self.showRoundsPickerForCircuitID = -1
                                         self.newEntryTextField?.resignFirstResponder()
                                     }
                                 }
@@ -376,12 +431,12 @@ public struct WorkoutCreateView: View {
                             
                             Spacer()
                             
-                            if self.showRoundsPicker {
+                            if self.showRoundsPickerForCircuitID != nil {
                                 Divider()
                                 Spacer()
                                 
                                 Button(action: {
-                                    self.showRoundsPicker = false
+                                    self.showRoundsPickerForCircuitID = nil
                                     self.newEntryTextField?.becomeFirstResponder()
                                 }) {
                                     Image(systemName: "arrow.turn.right.down")
@@ -420,7 +475,7 @@ public struct WorkoutCreateView: View {
                 }
             }
             
-            if showRoundsPicker {
+            if self.showRoundsPickerForCircuitID != nil {
                 ZStack {
                     Picker(selection: self.$circuitRounds, label: EmptyView()) {
                         ForEach(2..<15) {
@@ -434,14 +489,53 @@ public struct WorkoutCreateView: View {
                 }
                 .background(Color(UIColor.systemGray4))
                 .transition(.move(edge: .bottom))
-                .animation(Animation.spring().speed(2.2))
+                .animation(Animation.linear.speed(2))
                 .zIndex(2)
                 .edgesIgnoringSafeArea(.bottom)
             }
         }
         .edgesIgnoringSafeArea(.bottom)
-        .modifier(AdaptsToSoftwareKeyboard())
+        .keyboardObserving()
     }
+}
+
+struct KeyboardObserving: ViewModifier {
+
+  @State var keyboardHeight: CGFloat = 0
+  @State var keyboardAnimationDuration: Double = 0
+
+  func body(content: Content) -> some View {
+    content
+      .padding([.bottom], keyboardHeight)
+      .edgesIgnoringSafeArea((keyboardHeight > 0) ? [.bottom] : [])
+      .animation(.easeOut(duration: keyboardAnimationDuration))
+      .onReceive(
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification)
+          .receive(on: RunLoop.main),
+        perform: updateKeyboardHeight
+      )
+  }
+
+  func updateKeyboardHeight(_ notification: Notification) {
+    guard let info = notification.userInfo else { return }
+    // Get the duration of the keyboard animation
+    keyboardAnimationDuration = (info[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) ?? 0.25
+
+    guard let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+    // If the top of the frame is at the bottom of the screen, set the height to 0.
+    if keyboardFrame.origin.y == UIScreen.main.bounds.height {
+      keyboardHeight = 0
+    } else {
+      // IMPORTANT: This height will _include_ the SafeAreaInset height.
+      keyboardHeight = keyboardFrame.height
+    }
+  }
+}
+
+extension View {
+  func keyboardObserving() -> some View {
+    self.modifier(KeyboardObserving())
+  }
 }
 
 public struct DividerSpacer: View {

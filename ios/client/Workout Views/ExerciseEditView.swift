@@ -11,6 +11,7 @@ import SwiftUI
 import Alamofire
 
 typealias TextFieldHandler = ((UITextField) -> Void)
+typealias EditingChangedHandler = ((Bool) -> Void)
 
 public struct ExerciseEditView: View {
     @EnvironmentObject var workoutState: WorkoutCreateState
@@ -24,6 +25,7 @@ public struct ExerciseEditView: View {
     private var becomeFirstResponderOnAppear: Bool
     private var userInputCommitHandler: TextFieldHandler
     private var textFieldChangeHandler: TextFieldHandler
+    private var editingChangedHandler: EditingChangedHandler
     
     @State private var resolveExerciseRequest: DataRequest?
     @State private var textField: UITextField? = nil
@@ -37,7 +39,8 @@ public struct ExerciseEditView: View {
         shouldResolveExercise: Bool = true,
         becomeFirstResponderOnAppear: Bool = false,
         onUserInputCommit: @escaping TextFieldHandler = { _ in },
-        onTextFieldChange: @escaping TextFieldHandler = { _ in }
+        onTextFieldChange: @escaping TextFieldHandler = { _ in },
+        onEditingChanged: @escaping EditingChangedHandler = { _ in }
     ) {
         self.exerciseState = state
         self.isNewEntry = isNewEntry
@@ -46,6 +49,7 @@ public struct ExerciseEditView: View {
         self.becomeFirstResponderOnAppear = becomeFirstResponderOnAppear
         self.userInputCommitHandler = onUserInputCommit
         self.textFieldChangeHandler = onTextFieldChange
+        self.editingChangedHandler = onEditingChanged
     }
     
     private func resolveRawExercise() {
@@ -104,6 +108,9 @@ public struct ExerciseEditView: View {
                     TextField(
                         exercise?.raw ?? "Enter your exercise",
                         text: $exerciseState.input,
+                        onEditingChanged: { changed in
+                            self.editingChangedHandler(changed)
+                        },
                         onCommit: {
                             if !self.exerciseState.input.isEmpty && !self.isNewEntry {
                                 self.resolveRawExercise()
@@ -111,31 +118,32 @@ public struct ExerciseEditView: View {
                             
                             self.userInputCommitHandler(self.textField!)
                             self.suggestions.reset()
-                    }
+                        }
                     )
                         .onAppear {
                             if !self.isNewEntry && (self.exercise == nil || self.exercise?.type == "") {
                                 self.resolveRawExercise()
                             }
-                    }
-                    .introspectTextField { (textField: UITextField) in
-                        if self.textField != textField {
-                            if self.isNewEntry {
-                                self.cancellable = self.exerciseState.$input.sink { value in
-                                    if value.isEmpty {
-                                        self.suggestions.reset()
+                        }
+                        .introspectTextField { (textField: UITextField) in
+                            if self.textField != textField {
+                                if self.isNewEntry {
+                                    self.cancellable = self.exerciseState.$input.sink { value in
+                                        if value.isEmpty {
+                                            self.suggestions.reset()
+                                        }
                                     }
                                 }
+                                
+                                if self.becomeFirstResponderOnAppear {
+                                    textField.becomeFirstResponder()
+                                }
+                                
+                                self.textFieldChangeHandler(textField)
                             }
-                            
-                            if self.becomeFirstResponderOnAppear {
-                                textField.becomeFirstResponder()
-                            }
-                            
-                            self.textFieldChangeHandler(textField)
+                            self.textField = textField
                         }
-                        self.textField = textField
-                    }
+                        .animation(.none)
                 }
                 
                 if exercise != nil && exercise!.correctiveCode > 0 {
@@ -153,6 +161,7 @@ public struct ExerciseEditView: View {
             }
         }
         .padding([.leading, .trailing])
+        .animation(.none)
     }
 }
 
