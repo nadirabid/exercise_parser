@@ -79,7 +79,10 @@ struct Exercise: Codable, Identifiable {
     let resolutionType: String
     let correctiveCode: Int
     
-    init(raw: String, correctiveCode: Int) {
+    let circuitID: Int?
+    let circuitRounds: Int
+    
+    init(raw: String, correctiveCode: Int = 0, circuitID: Int? = nil, circuitRounds: Int = 1) {
         self.id = nil
         self.createdAt = nil
         self.updatedAt = nil
@@ -89,6 +92,8 @@ struct Exercise: Codable, Identifiable {
         self.data = ExerciseData(sets: 0, reps: 0, weight: 0, time: 0, distance: 0)
         self.resolutionType = ""
         self.correctiveCode = correctiveCode
+        self.circuitID = circuitID
+        self.circuitRounds = circuitRounds
     }
     
     init(
@@ -106,6 +111,8 @@ struct Exercise: Codable, Identifiable {
         self.data = data
         self.resolutionType = ""
         self.correctiveCode = 0
+        self.circuitID = nil
+        self.circuitRounds = 1
     }
     
     init(
@@ -127,6 +134,8 @@ struct Exercise: Codable, Identifiable {
         self.resolutionType = resolutionType
         self.data = data
         self.correctiveCode = 0
+        self.circuitID = nil
+        self.circuitRounds = 1
     }
     
     enum CodingKeys: String, CodingKey {
@@ -134,6 +143,8 @@ struct Exercise: Codable, Identifiable {
         case updatedAt = "updated_at"
         case resolutionType = "resolution_type"
         case correctiveCode = "corrective_code"
+        case circuitID = "circuit_id"
+        case circuitRounds = "circuit_rounds"
         case id, name, type, raw, data
     }
 }

@@ -1,0 +1,7 @@
+BEGIN;
+
+ALTER TABLE exercises
+DROP COLUMN IF EXISTS circuit_id,
+DROP COLUMN IF EXISTS circuit_rounds;
+
+COMMIT;
