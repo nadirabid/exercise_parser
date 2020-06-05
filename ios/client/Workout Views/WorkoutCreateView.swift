@@ -31,7 +31,7 @@ public struct WorkoutCreateView: View {
     @State private var isCircuitEnabled = false
     @State private var circuitIDCounter = 0
     @State private var showRoundsPicker = false
-    @State private var circuitRounds: Int = 3
+    @State private var circuitRounds: Int = 1
     
     @State private var testStates: [ExerciseEditState] = [
         ExerciseEditState(input: "3x3 tricep curls", circuitID: 1),
@@ -90,11 +90,31 @@ public struct WorkoutCreateView: View {
         })
     }
     
-    func shouldShowPaddedDividerForLastEnteredExercise(i: Int) -> Bool {
-        return i == state.exerciseStates.count - 1 &&
-            state.exerciseStates[i].circuitID != nil &&
-            self.isCircuitEnabled
+    func shouldShowPaddedDividerForLastEnteredExercise(_ exerciseState: ExerciseEditState) -> Bool {
+        if state.exerciseStates.last == exerciseState && exerciseState.circuitID != nil && self.isCircuitEnabled {
+            return true
+        }
+        
+        let i = state.exerciseStates.firstIndex(of: exerciseState)
+        if state.exerciseStates.last != exerciseState && exerciseState.circuitID != nil && state.exerciseStates[state.exerciseStates.index(after: i!)].circuitID != exerciseState.circuitID  {
+            return true
+        }
+        
+        return false
     }
+    
+    func shouldShowRoundsBeforeExercise(_ exerciseState: ExerciseEditState) -> Int? { // non nil return is interpreted as true
+        if state.exerciseStates.first == exerciseState && exerciseState.circuitID != nil {
+            return exerciseState.circuitRounds
+        }
+        
+        if exerciseState.circuitID != nil && state.exerciseStates.first(where: { $0.circuitID == exerciseState.circuitID }) == exerciseState {
+            return exerciseState.circuitRounds
+        }
+        
+        return nil
+    }
+
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -182,64 +202,86 @@ public struct WorkoutCreateView: View {
             
             ScrollView {
                 VStack(spacing: 0) {
-                    VStack(alignment: .leading, spacing: 0) {
-                        HStack(alignment: .center) {
-                            Text(circuitRounds.description)
-                                .fontWeight(.semibold)
-                                .font(.callout)
-                                .allowsTightening(true)
-                                .foregroundColor(Color.white)
-                                .padding(5)
-                                .frame(width: 30)
-                                .fixedSize()
-                                .background(
-                                    Circle().fill(appColor)
-                            )
-                            
-                            Text("rounds")
-                                .fontWeight(.medium)
-                            
-                            Spacer()
-                        }
-                        .padding([.leading, .trailing])
-                        .padding([.top, .bottom], 5)
-                        
-                        Divider().animation(.none)
-                    }
-
-                    ForEach(0..<self.state.exerciseStates.count) { i in
+                    ForEach(self.state.exerciseStates, id: \.id) { exerciseState in
                         VStack(spacing: 0) {
-                            ExerciseEditView(
-                                state: self.state.exerciseStates[i],
-                                suggestions: self.suggestions,
-                                onUserInputCommit: { _ in
+                            if self.shouldShowRoundsBeforeExercise(exerciseState) != nil {
+                                VStack(alignment: .leading, spacing: 0) {
+                                    HStack(alignment: .center) {
+                                        Text(self.shouldShowRoundsBeforeExercise(exerciseState)!.description)
+                                            .fontWeight(.semibold)
+                                            .font(.callout)
+                                            .allowsTightening(true)
+                                            .foregroundColor(Color.white)
+                                            .padding(5)
+                                            .frame(width: 30)
+                                            .fixedSize()
+                                            .background(
+                                                Circle().fill(appColor)
+                                        )
+                                        
+                                        Text("rounds")
+                                            .fontWeight(.medium)
+                                        
+                                        Spacer()
+                                    }
+                                    .padding([.leading, .trailing])
+                                    .padding([.top, .bottom], 5)
+                                    
+                                    Divider().animation(.none).padding(.leading)
+                                }
+                            }
+                            
+                            VStack(spacing: 0) {
+                                ExerciseEditView(state: exerciseState,suggestions: self.suggestions) { _ in
                                     DispatchQueue.main.async {
-                                        if self.state.exerciseStates[i].input.isEmpty {
+                                        if exerciseState.input.isEmpty {
                                             self.state.exerciseStates.removeAll(where: { ex in
-                                                return ex === self.state.exerciseStates[i]
+                                                return ex === exerciseState
                                             })
                                         }
                                         self.newEntryTextField?.becomeFirstResponder()
                                     }
                                 }
-                            )
                                 .padding([.top, .bottom], 6)
-                                .padding(.leading)
-
-                            if self.shouldShowPaddedDividerForLastEnteredExercise(i: i) {
-                                Divider().animation(.none).padding(.leading)
-                            } else {
-                                Divider().animation(.none)
+                                .padding(.leading, exerciseState.circuitID == nil ? 0 : nil)
+                                
+                                Divider()
+                                    .padding(.leading, self.shouldShowPaddedDividerForLastEnteredExercise(exerciseState) ? nil : 0)
+                                    .animation(.none)
                             }
+                            .modifier(DeletableViewModifier(disable: self.state.isStopped, onClick: {
+                                self.removeExerciseStateElement(state: exerciseState)
+                            }))
                         }
-                        .modifier(DeletableViewModifier(disable: self.state.isStopped, onClick: {
-                            self.removeExerciseStateElement(state: self.state.exerciseStates[i])
-                        }))
                     }
                     
                     if !self.state.isStopped {
                         VStack(spacing: 0) {
-                            if self.isCircuitEnabled {
+                            if isCircuitEnabled && self.state.exerciseStates.last?.circuitID == nil {
+                                VStack(alignment: .leading, spacing: 0) {
+                                    HStack(alignment: .center) {
+                                        Text((self.circuitRounds + 2).description)
+                                            .fontWeight(.semibold)
+                                            .font(.callout)
+                                            .allowsTightening(true)
+                                            .foregroundColor(Color.white)
+                                            .padding(5)
+                                            .frame(width: 30)
+                                            .fixedSize()
+                                            .background(Circle().fill(appColor))
+                                        
+                                        Text("rounds")
+                                            .fontWeight(.medium)
+                                        
+                                        Spacer()
+                                    }
+                                    .padding([.leading, .trailing])
+                                    .padding([.top, .bottom], 5)
+                                    
+                                    Divider().animation(.none).padding(.leading)
+                                }
+                            }
+                            
                             ExerciseEditView(
                                 state: self.newEntryState,
                                 isNewEntry: true,
@@ -248,8 +290,18 @@ public struct WorkoutCreateView: View {
                                 onUserInputCommit: { (textField: UITextField) in
                                     DispatchQueue.main.async {
                                         if !self.newEntryState.input.isEmpty {
+                                            if self.isCircuitEnabled {
+                                                self.newEntryState.circuitRounds = self.circuitRounds + 2
+                                            }
+                                            
                                             self.state.exerciseStates.append(self.newEntryState)
                                             self.newEntryState = ExerciseEditState(input: "")
+                                            
+                                            if self.isCircuitEnabled {
+                                                self.newEntryState.circuitID = self.circuitIDCounter
+                                            } else if self.state.exerciseStates.last?.circuitID == nil {
+                                                self.circuitIDCounter += 1
+                                            }
                                         }
                                         textField.becomeFirstResponder()
                                     }
@@ -259,28 +311,7 @@ public struct WorkoutCreateView: View {
                                 }
                             )
                                 .padding([.top, .bottom], 6)
-                                .padding(.leading)
-                            } else {
-                                ExerciseEditView(
-                                    state: self.newEntryState,
-                                    isNewEntry: true,
-                                    suggestions: self.suggestions,
-                                    becomeFirstResponderOnAppear: false,
-                                    onUserInputCommit: { (textField: UITextField) in
-                                        DispatchQueue.main.async {
-                                            if !self.newEntryState.input.isEmpty {
-                                                self.state.exerciseStates.append(self.newEntryState)
-                                                self.newEntryState = ExerciseEditState(input: "")
-                                            }
-                                            textField.becomeFirstResponder()
-                                        }
-                                    },
-                                    onTextFieldChange: { (textField: UITextField) in
-                                        self.newEntryTextField = textField
-                                    }
-                                )
-                                    .padding([.top, .bottom], 6)
-                            }
+                                .padding(.leading, self.isCircuitEnabled ? nil : 0)
                             
                             Divider()
                         }
@@ -294,67 +325,79 @@ public struct WorkoutCreateView: View {
                 Divider()
                 
                 if !state.isStopped {
-                    HStack {
-                        Spacer()
-                        
-                        Button(action: {}) {
-                            HStack {
-                                Image(systemName:"delete.left")
-                                    .font(.system(size: 20, weight: .medium, design: .default))
-                                    .foregroundColor(Color.secondary)
-                                
-                                Text("Delete")
-                                    .font(.caption)
-                                    .foregroundColor(Color.secondary)
-                            }
-                        }
-                        
-                        Spacer()
-                        Spacer()
-                        
-                        Button(action: {
-                            withAnimation(Animation.easeInOut.speed(1.5)) {
-                                self.pressPause()
-                            }
-                        }) {
-                            Image(systemName:"stop.circle")
-                                .font(.system(size: 24, weight: .medium, design: .default))
-                                .foregroundColor(Color.secondary)
+                        HStack {
+                            Spacer()
                             
-                            Text("Stop")
-                                .font(.caption)
-                                .foregroundColor(Color.secondary)
-                        }
-                        
-                        Spacer()
-                        Spacer()
-                        
-                        Button(action: {
-                            withAnimation(Animation.easeInOut.speed(1.5)) {
-                                self.isCircuitEnabled.toggle()
+                            Button(action: {
+                                withAnimation(Animation.easeInOut.speed(1.5)) {
+                                    self.pressPause()
+                                }
+                            }) {
+                                Image(systemName:"stop.circle")
+                                    .font(.system(size: 15, weight: .medium, design: .default))
+                                    .foregroundColor(Color.secondary)
                                 
-                                if self.isCircuitEnabled {
-                                    self.newEntryState.circuitID = self.circuitIDCounter
-                                } else {
-                                    self.newEntryState.circuitID = nil
+                                Text("Stop")
+                                    .foregroundColor(Color.secondary)
+                            }
+                            
+                            Spacer()
+                            Divider()
+                            Spacer()
+                            
+                            Button(action: {
+                                withAnimation(Animation.easeInOut.speed(1.5)) {
+                                    self.isCircuitEnabled.toggle()
+                                    
+                                    if self.isCircuitEnabled {
+                                        self.newEntryState.circuitID = self.circuitIDCounter
+                                    } else {
+                                        self.showRoundsPicker = false
+                                        self.newEntryState.circuitID = nil
+                                        
+                                        self.newEntryTextField?.becomeFirstResponder()
+                                    }
+                                    
+                                    if self.isCircuitEnabled && self.state.exerciseStates.last?.circuitID == nil {
+                                        self.showRoundsPicker = true
+                                        self.newEntryTextField?.resignFirstResponder()
+                                    }
+                                }
+                            }) {
+                                HStack {
+                                    Image(systemName: "repeat")
+                                        .font(.system(size: 12, weight: .medium, design: .default))
+                                        .foregroundColor(self.isCircuitEnabled ? appColor : Color.secondary)
+                                    
+                                    Text("Circuit")
+                                        .foregroundColor(self.isCircuitEnabled ? appColor : Color.secondary)
                                 }
                             }
-                        }) {
-                            HStack {
-                                Image(systemName: "arrow.2.circlepath")
-                                    .font(.system(size: 19, weight: .medium, design: .default))
-                                    .foregroundColor(self.isCircuitEnabled ? appColor : Color.secondary)
+                            
+                            Spacer()
+                            
+                            if self.showRoundsPicker {
+                                Divider()
+                                Spacer()
                                 
-                                Text("Circuit")
-                                    .font(.caption)
-                                    .foregroundColor(self.isCircuitEnabled ? appColor : Color.secondary)
+                                Button(action: {
+                                    self.showRoundsPicker = false
+                                    self.newEntryTextField?.becomeFirstResponder()
+                                }) {
+                                    Image(systemName: "arrow.turn.right.down")
+                                        .font(.system(size: 12, weight: .medium, design: .default))
+                                        .foregroundColor(Color.secondary)
+                                    
+                                    Text("Enter")
+                                        .foregroundColor(Color.secondary)
+                                }
+                                
+                                Spacer()
                             }
                         }
-                        
-                        Spacer()
-                    }
-                    .padding(.all, 13)
-                    .background(Color(UIColor.systemGray6))
+                        .padding(.all, 13)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .background(Color(UIColor.systemGray6))
                 }
                 else {
                     Button(action: {
@@ -378,7 +421,7 @@ public struct WorkoutCreateView: View {
             }
             
             if showRoundsPicker {
-                HStack(spacing: 0) {
+                ZStack {
                     Picker(selection: self.$circuitRounds, label: EmptyView()) {
                         ForEach(2..<15) {
                             Text("\($0) rounds")
@@ -391,12 +434,13 @@ public struct WorkoutCreateView: View {
                 }
                 .background(Color(UIColor.systemGray4))
                 .transition(.move(edge: .bottom))
-                .animation(.default)
+                .animation(Animation.spring().speed(2.2))
                 .zIndex(2)
                 .edgesIgnoringSafeArea(.bottom)
             }
         }
         .edgesIgnoringSafeArea(.bottom)
+        .modifier(AdaptsToSoftwareKeyboard())
     }
 }
 

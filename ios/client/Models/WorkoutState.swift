@@ -10,7 +10,7 @@ import Foundation
 import Combine
 import SwiftUI
 
-class ExerciseEditState: ObservableObject {
+class ExerciseEditState: ObservableObject, Equatable {
     var id = UUID()
     
     @Published var input: String
@@ -36,6 +36,10 @@ class ExerciseEditState: ObservableObject {
     init(input: String, exercise: Exercise?) {
         self.input = input
         self.exercise = exercise
+    }
+    
+    static func == (lhs: ExerciseEditState, rhs: ExerciseEditState) -> Bool {
+        lhs.id == rhs.id
     }
 }
 
