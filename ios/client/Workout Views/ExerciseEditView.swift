@@ -99,10 +99,6 @@ public struct ExerciseEditView: View {
     
     public var body: some View {
         HStack(alignment: .center) {
-            if self.exerciseState.circuitID != nil {
-                Circle().fill(appColor).frame(width: 4, height: 4, alignment: .leading)
-            }
-            
             VStack(alignment: .leading, spacing: 0) {
                 if !workoutState.isStopped {
                     TextField(
@@ -161,7 +157,6 @@ public struct ExerciseEditView: View {
             }
         }
         .padding([.leading, .trailing])
-        .animation(.none)
     }
 }
 

@@ -33,6 +33,9 @@ public struct WorkoutCreateView: View {
     @State private var showRoundsPickerForCircuitID: Int? = nil
     @State private var circuitRounds: Int = 1
     
+    @State private var keyboardHeight: CGFloat = 0
+    @State private var keyboardAnimationDuration: Double = 0
+    
     // FIX: Nadir update - circuit counter for existing counters
     
     init() {
@@ -109,6 +112,21 @@ public struct WorkoutCreateView: View {
         }
         
         return nil
+    }
+    
+    func updateKeyboardHeight(_ notification: Notification) {
+        guard let info = notification.userInfo else { return }
+
+        keyboardAnimationDuration = (info[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) ?? 0.25
+
+        guard let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        // If the top of the frame is at the bottom of the screen, set the height to 0.
+        if keyboardFrame.origin.y == UIScreen.main.bounds.height {
+            keyboardHeight = 0
+        } else {
+            // IMPORTANT: This height will _include_ the SafeAreaInset height.
+            keyboardHeight = keyboardFrame.height
+        }
     }
     
     public var body: some View {
@@ -226,13 +244,14 @@ public struct WorkoutCreateView: View {
                                                             if self.showRoundsPickerForCircuitID == exerciseState.circuitID {
                                                                 Circle().fill(appColor)
                                                             } else {
-                                                                Circle().stroke(appColor, lineWidth: 2)
+                                                                Circle().stroke(appColor, lineWidth: 1)
                                                             }
                                                         }
                                                     )
                                         }
                                         
-                                        Text("rounds")
+                                        Text("Rounds Circuit")
+                                            .font(.footnote)
                                             .fontWeight(.medium)
                                         
                                         Spacer()
@@ -240,7 +259,7 @@ public struct WorkoutCreateView: View {
                                     .padding([.leading, .trailing])
                                     .padding([.top, .bottom], 11)
                                     
-                                    Divider().animation(.none).padding(.leading)
+                                    //Divider().animation(.none).padding(.leading)
                                 }
                             }
                             
@@ -308,21 +327,20 @@ public struct WorkoutCreateView: View {
                                                         if self.showRoundsPickerForCircuitID == -1 {
                                                             Circle().fill(appColor)
                                                         } else {
-                                                            Circle().stroke(appColor, lineWidth: 2)
+                                                            Circle().stroke(appColor, lineWidth: 1)
                                                         }
                                                     }
                                                 )
                                         }
                                         
                                         Text("Rounds Circuit")
+                                            .font(.footnote)
                                             .fontWeight(.medium)
                                         
                                         Spacer()
                                     }
                                     .padding([.leading, .trailing])
                                     .padding([.top, .bottom], 11)
-                                    
-                                    Divider().animation(.none).padding(.leading)
                                 }
                                 .transition(.scale)
                                 .animation(.default)
@@ -348,8 +366,9 @@ public struct WorkoutCreateView: View {
                                             } else if self.state.exerciseStates.last?.circuitID == nil {
                                                 self.circuitIDCounter += 1
                                             }
+                                            
+                                            textField.becomeFirstResponder()
                                         }
-                                        textField.becomeFirstResponder()
                                     }
                                 },
                                 onTextFieldChange: { (textField: UITextField) in
@@ -370,7 +389,8 @@ public struct WorkoutCreateView: View {
                         }
                     }
                 }
-            }.animation(.none)
+            }
+            .animation(.none)
             
             VStack(spacing: 0) {
                 Divider()
@@ -448,7 +468,6 @@ public struct WorkoutCreateView: View {
                         }
                         .padding(.all, 13)
                         .fixedSize(horizontal: false, vertical: true)
-                        .background(Color(UIColor.systemGray6))
                 }
                 else {
                     Button(action: {
@@ -469,29 +488,33 @@ public struct WorkoutCreateView: View {
                         .background(appColor)
                     }
                 }
-            }
-            
-            if self.showRoundsPickerForCircuitID != nil {
-                ZStack {
-                    Picker(selection: self.$circuitRounds, label: EmptyView()) {
-                        ForEach(2..<15) {
-                            Text("\($0) rounds")
+                
+                if self.showRoundsPickerForCircuitID != nil && keyboardHeight == 0 {
+                    ZStack {
+                        Picker(selection: self.$circuitRounds, label: EmptyView()) {
+                            ForEach(2..<15) {
+                                Text("\($0) rounds")
+                            }
+                            .padding()
                         }
-                        .padding()
+                        .pickerStyle(WheelPickerStyle())
+                        .labelsHidden()
+                        .frame(width: UIScreen.main.bounds.width)
                     }
-                    .pickerStyle(WheelPickerStyle())
-                    .labelsHidden()
-                    .frame(width: UIScreen.main.bounds.width)
+                    .background(Color(UIColor.systemGray4))
+                    .transition(.move(edge: .bottom))
+                    .animation(Animation.linear(duration: keyboardAnimationDuration))
+                    .zIndex(2)
+                    .edgesIgnoringSafeArea(.bottom)
                 }
-                .background(Color(UIColor.systemGray4))
-                .transition(.move(edge: .bottom))
-                .animation(Animation.linear.speed(2))
-                .zIndex(2)
-                .edgesIgnoringSafeArea(.bottom)
             }
         }
         .edgesIgnoringSafeArea(.bottom)
         .keyboardObserving()
+        .onReceive(
+            NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification).receive(on: RunLoop.main),
+            perform: updateKeyboardHeight
+        )
     }
 }
 

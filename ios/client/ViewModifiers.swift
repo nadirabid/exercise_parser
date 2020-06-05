@@ -10,7 +10,6 @@ import Combine
 import SwiftUI
 
 struct KeyboardObserving: ViewModifier {
-
   @State var keyboardHeight: CGFloat = 0
   @State var keyboardAnimationDuration: Double = 0
 
@@ -20,8 +19,7 @@ struct KeyboardObserving: ViewModifier {
       .edgesIgnoringSafeArea((keyboardHeight > 0) ? [.bottom] : [])
       .animation(.easeOut(duration: keyboardAnimationDuration))
       .onReceive(
-        NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification)
-          .receive(on: RunLoop.main),
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification).receive(on: RunLoop.main),
         perform: updateKeyboardHeight
       )
   }
