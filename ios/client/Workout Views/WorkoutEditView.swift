@@ -215,6 +215,8 @@ public struct WorkoutEditView: View {
                                         isActive: self.showRoundsPickerForCircuitID == exerciseState.circuitID
                                     )
                                         .padding(.leading)
+                                        .padding(.top, 6)
+                                        .padding(.bottom, 4)
                                 }
                             }
                             
@@ -271,6 +273,8 @@ public struct WorkoutEditView: View {
                                     isActive: self.showRoundsPickerForCircuitID == -1
                                 )
                                     .padding(.leading)
+                                    .padding(.top, 6)
+                                    .padding(.bottom, 4)
                             }
                         }
                         

@@ -308,7 +308,8 @@ public struct WorkoutMetaMetricsView: View {
     
     var totalWeight: Int {
         let result = workout.exercises.reduce(Float.zero) { (r, e) in
-            let total =  e.data.displayWeightValue * Float(e.data.reps) * Float(e.data.sets)
+            let circuitRounds = Float(e.circuitRounds > 1 ? e.circuitRounds : 1)
+            let total =  e.data.displayWeightValue * Float(e.data.reps) * Float(e.data.sets) * circuitRounds
             return total + r
         }
         
@@ -317,7 +318,8 @@ public struct WorkoutMetaMetricsView: View {
     
     var totalDistanceUnits: String {
         let result = workout.exercises.reduce(Float.zero) { (r, e) in
-            return r + e.data.distance
+            let circuitRounds = Float(e.circuitRounds > 1 ? e.circuitRounds : 1)
+            return r + e.data.distance * Float(circuitRounds)
         }
         
         if result <= 300 {
@@ -329,7 +331,8 @@ public struct WorkoutMetaMetricsView: View {
     
     var totalDistance: Float {
         let result = workout.exercises.reduce(Float.zero) { (r, e) in
-            return r + e.data.distance
+            let circuitRounds = Float(e.circuitRounds > 1 ? e.circuitRounds : 1)
+            return r + e.data.distance * circuitRounds
         }
         
         var m = Measurement(value: Double(result), unit: UnitLength.meters)
@@ -345,7 +348,12 @@ public struct WorkoutMetaMetricsView: View {
     
     var totalReps: Int {
         let result = workout.exercises.reduce(Int.zero) { (r, e) in
-            return r + e.data.reps
+            if e.data.reps <= 1 {
+                return r
+            }
+            
+            let circuitRounds = e.circuitRounds > 1 ? e.circuitRounds : 1
+            return r + e.data.reps * e.data.sets * circuitRounds
         }
         
         return result
@@ -353,7 +361,12 @@ public struct WorkoutMetaMetricsView: View {
     
     var totalSets: Int {
         let result = workout.exercises.reduce(Int.zero) { (r, e) in
-            return r + e.data.sets
+            if e.data.sets <= 1 {
+                return r
+            }
+            
+            let circuitRounds = e.circuitRounds > 1 ? e.circuitRounds : 1
+            return r + e.data.sets * circuitRounds
         }
         
         return result

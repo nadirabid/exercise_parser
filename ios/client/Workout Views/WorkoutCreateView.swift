@@ -231,6 +231,8 @@ public struct WorkoutCreateView: View {
                                                 isActive: self.showRoundsPickerForCircuitID == exerciseState.circuitID
                                             )
                                                 .padding(.leading)
+                                                .padding(.top, 6)
+                                                .padding(.bottom, 4)
                                         }
                                         .disabled(self.workoutState.isStopped)
                                     }
@@ -290,6 +292,8 @@ public struct WorkoutCreateView: View {
                                                 isActive: self.showRoundsPickerForCircuitID == -1
                                             )
                                                 .padding(.leading)
+                                                .padding(.top, 6)
+                                                .padding(.bottom, 4)
                                         }
                                         .disabled(self.workoutState.isStopped)
                                     }
@@ -534,7 +538,6 @@ public struct CircuitRoundsButtonView: View {
                 
                 Spacer()
             }
-            .padding([.top, .bottom], 2)
         }
         .transition(.scale)
         .animation(.default)
@@ -549,8 +552,10 @@ public struct EditableWorkoutMetaMetricsView: View {
     
     var totalWeight: Int {
         let result = state.exerciseStates.reduce(Float.zero) { (r, s) in
+            let circuitRounds = Float(s.circuitRounds > 1 ? s.circuitRounds : 1)
+            
             if let e = s.exercise {
-                let weight = e.data.displayWeightValue * Float(e.data.sets) * Float(e.data.reps)
+                let weight = e.data.displayWeightValue * Float(e.data.sets) * Float(e.data.reps) * circuitRounds
                 return weight + r
             }
             
@@ -562,8 +567,10 @@ public struct EditableWorkoutMetaMetricsView: View {
     
     var totalDistance: Float {
         let result = state.exerciseStates.reduce(Float.zero) { (r, s) in
+            let circuitRounds = Float(s.circuitRounds > 1 ? s.circuitRounds : 1)
+            
             if let e = s.exercise {
-                return r + e.data.displayDistanceValue
+                return r + e.data.displayDistanceValue * circuitRounds
             }
             
             return r
@@ -574,8 +581,14 @@ public struct EditableWorkoutMetaMetricsView: View {
     
     var totalSets: Int {
         let result = state.exerciseStates.reduce(Int.zero) { (r, s) in
+            let circuitRounds = s.circuitRounds > 1 ? s.circuitRounds : 1
+            
             if let e = s.exercise {
-                return r + e.data.sets
+                if e.data.sets <= 1 { // all exercises would have one set
+                    return r
+                }
+                
+                return r + e.data.sets * circuitRounds
             }
             
             return r
@@ -586,8 +599,14 @@ public struct EditableWorkoutMetaMetricsView: View {
     
     var totalReps: Int {
         let result = state.exerciseStates.reduce(Int.zero) { (r, s) in
+            let circuitRounds = s.circuitRounds > 1 ? s.circuitRounds : 1
+            
             if let e = s.exercise {
-                return r + e.data.reps
+                if e.data.reps <= 1 { // all exercises would have one rep
+                    return r
+                }
+                
+                return r + e.data.reps * e.data.sets * circuitRounds
             }
             
             return r
