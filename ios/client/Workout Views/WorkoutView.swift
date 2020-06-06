@@ -45,7 +45,7 @@ struct WorkoutView: View {
     @State private var showingActionSheet = false
     
     func shouldShowRoundsBeforeExercise(_ exercise: Exercise) -> Bool {
-        let firstExerciseOfCircuitID = workout.exercises.first(where: { $0.circuitID == exercise.circuitID })
+        let firstExerciseOfCircuitID = exercisesToDisplay.first(where: { $0.circuitID == exercise.circuitID })
         if exercise.circuitID != nil && firstExerciseOfCircuitID != nil && exercise.id == firstExerciseOfCircuitID!.id {
             return true
         }

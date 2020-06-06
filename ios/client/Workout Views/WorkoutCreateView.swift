@@ -534,7 +534,7 @@ public struct CircuitRoundsButtonView: View {
                 
                 Spacer()
             }
-            .padding([.top, .bottom], 11)
+            .padding([.top, .bottom], 2)
         }
         .transition(.scale)
         .animation(.default)
