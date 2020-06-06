@@ -33,11 +33,7 @@ struct MainView: View {
         ZStack {
             VStack {
                 if userState.authorization < 1 {
-                    #if targetEnvironment(simulator)
-                    SignInDevView()
-                    #else
                     SignInView()
-                    #endif
                 } else if route.peek() == .editor {
                     WorkoutCreateView()
                 } else if route.peek() == .userEdit {

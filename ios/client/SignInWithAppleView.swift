@@ -22,8 +22,84 @@ struct SignInView: View {
     @EnvironmentObject var userState: UserState
     @EnvironmentObject var userAPI: AuthAPI
     
+    func confirmAuthenticationState() {
+        let userState = self.userState
+        
+        if let userID = UserDefaults.standard.object(forKey: "userId") as? String {
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            
+            appleIDProvider.getCredentialState(forUserID: userID) { (state, error) in
+                DispatchQueue.main.async {
+                    switch state
+                    {
+                    case .authorized: // valid user id
+                        userState.authorization = 1
+                        break
+                    case .revoked: // user revoked authorization
+                        userState.authorization = -1
+                        break
+                    case .notFound: //not found
+                        userState.authorization = 0
+                        break
+                    default:
+                        break
+                    }
+                    
+                    if let userJSON = UserDefaults.standard.object(forKey: "userInfo") as? String {
+                        let decoder = JSONDecoder()
+                        decoder.dateDecodingStrategy = .iso8601
+                        
+                        if let user = try? decoder.decode(User.self, from: userJSON.data(using: .utf8) ?? Data()) {
+                            userState.userInfo = user
+                        } else {
+                            userState.authorization = 0
+                        }
+                    } else {
+                        // userInfo doesn't exist - this won't really happen because
+                        // if we're authed then we also stored the user info as part of sign in
+                        // NOTE: (1 month later) it fucking happend
+                        userState.authorization = 0
+                    }
+                    
+                    if userState.authorization == 1 {
+                        if let token = UserDefaults.standard.object(forKey: "token") as? String {
+                            if let jwt = try? decode(jwt: token), !jwt.expired {
+                                userState.jwt = jwt
+                                return
+                            }
+                        }
+                        
+                        // token is invalid so show sign in page
+                        userState.authorization = 0
+                    }
+                }
+            }
+        }
+    }
+    
+    func simulatorFakeSignIn() {
+        let data = User(
+            id: nil,
+            externalUserId: "fake.user.id",
+            email: "fake@user.com",
+            givenName: "Fake",
+            familyName: "User",
+            imageExists: nil,
+            birthdate: nil,
+            weight: 0,
+            height: 0,
+            isMale: true
+        )
+        
+        self.userAPI.userRegistrationAndLogin(identityToken: "not.a.token", data: data) { (jwt, user) in
+            self.userState.userInfo = user
+            self.userState.jwt = jwt
+            self.userState.authorization = 1
+        }
+    }
+    
     var body: some View {
-        return ZStack{
+        ZStack{
             appColor .edgesIgnoringSafeArea(.all)
             VStack {
                 Spacer()
@@ -67,78 +143,12 @@ struct SignInView: View {
                     .padding(.bottom)
             }
         }
-    }
-}
-
-struct SignInDevView: View {
-    @EnvironmentObject var userState: UserState
-    @EnvironmentObject var userAPI: AuthAPI
-    
-    func signIn() {
-        let data = User(
-            id: nil,
-            externalUserId: "fake.user.id",
-            email: "fake@user.com",
-            givenName: "Fake",
-            familyName: "User",
-            imageExists: nil,
-            birthdate: nil,
-            weight: 0,
-            height: 0,
-            isMale: true
-        )
-        
-        self.userAPI.userRegistrationAndLogin(identityToken: "not.a.token", data: data) { (jwt, user) in
-            self.userState.userInfo = user
-            self.userState.jwt = jwt
-            self.userState.authorization = 1
-        }
-    }
-    
-    var body: some View {
-        return ZStack{
-            appColor .edgesIgnoringSafeArea(.all)
-            VStack {
-                Spacer()
-                
-                Text("FOR THE ATHLETES")
-                    .foregroundColor(secondaryAppColor)
-                    .font(.caption)
-                    .fontWeight(.heavy)
-                
-                Text("RYDEN")
-                    .font(.largeTitle)
-                    .fontWeight(.heavy)
-                    .tracking(10)
-                    .foregroundColor(Color.white)
-                
-                HStack(alignment: .center) {
-                    Text("FORM")
-                        .foregroundColor(secondaryAppColor)
-                        .font(.callout)
-                        .fontWeight(.heavy)
-                    
-                    Text("&")
-                        .foregroundColor(secondaryAppColor)
-                        .font(.subheadline)
-                        .fontWeight(.heavy)
-                    
-                    Text("WILL")
-                        .foregroundColor(secondaryAppColor)
-                        .font(.callout)
-                        .fontWeight(.heavy)
-                }
-                
-                Spacer()
-                
-                Button(action: { self.signIn() }) {
-                    Text("Sign in")
-                }
-                .padding(.bottom)
-            }
-        }
         .onAppear {
-            self.signIn()
+            #if targetEnvironment(simulator)
+            self.simulatorFakeSignIn()
+            #else
+            self.confirmAuthenticationState()
+            #endif
         }
     }
 }
@@ -217,10 +227,14 @@ struct SignInWithAppleView: UIViewRepresentable {
             )
             
             self.parent?.userAPI.userRegistrationAndLogin(identityToken: identityToken, data: data) { (jwt, user) in
-                let userJSON = try! JSONEncoder().encode(user)
+                let encoder = JSONEncoder()
+                encoder.dateEncodingStrategy = .iso8601
+                let userJSON = try! encoder.encode(user)
                 
                 defaults.set(jwt.string, forKey: "token")
                 defaults.set(String(data: userJSON, encoding: .utf8), forKey: "userInfo")
+                
+                print("here we go")
                 
                 self.parent?.userState.userInfo = user
                 self.parent?.userState.jwt = jwt
