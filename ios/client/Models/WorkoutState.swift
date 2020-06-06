@@ -31,6 +31,8 @@ class ExerciseEditState: ObservableObject, Equatable {
     init(exercise: Exercise) {
         self.input = exercise.raw
         self.exercise = exercise
+        self.circuitID = exercise.circuitID
+        self.circuitRounds = exercise.circuitRounds
     }
     
     init(input: String, exercise: Exercise?) {
@@ -46,9 +48,7 @@ class ExerciseEditState: ObservableObject, Equatable {
 class WorkoutCreateState: ObservableObject {
     @Published var newEntry: String = ""
     @Published var workoutName: String = ""
-    @Published var exerciseStates: [ExerciseEditState] = [
-        ExerciseEditState(input: "3x3 tricep curls")
-    ]
+    @Published var exerciseStates: [ExerciseEditState] = []
     @Published var isStopped = false
     
     var date: Date = Date()

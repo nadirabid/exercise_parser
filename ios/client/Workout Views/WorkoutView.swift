@@ -44,6 +44,15 @@ struct WorkoutView: View {
     @State private var view = "waveform.path.ecg"
     @State private var showingActionSheet = false
     
+    func shouldShowRoundsBeforeExercise(_ exercise: Exercise) -> Bool {
+        let firstExerciseOfCircuitID = workout.exercises.first(where: { $0.circuitID == exercise.circuitID })
+        if exercise.circuitID != nil && firstExerciseOfCircuitID != nil && exercise.id == firstExerciseOfCircuitID!.id {
+            return true
+        }
+        
+        return false
+    }
+    
     var exercisesToDisplay: [Exercise] {
         if showUnresolved {
             return workout.exercises.sorted(by: {
@@ -129,13 +138,23 @@ struct WorkoutView: View {
                 }
                 
                 VStack(spacing: 0) {
-                    ForEach(exercisesToDisplay) { exercise in
-                        if exercise.type != "" {
-                            ExerciseView(exercise: exercise)
-                        } else if exercise.correctiveCode > 0 {
-                            CorrectiveExerciseView(exercise: exercise)
-                        } else {
-                            ProcessingExerciseView(exercise: exercise)
+                    ForEach(exercisesToDisplay) { (exercise: Exercise) in
+                        VStack(spacing: 0) {
+                            if self.shouldShowRoundsBeforeExercise(exercise) {
+                                CircuitRoundsButtonView(circuitRounds: exercise.circuitRounds, isActive: false)
+                                    .padding(.leading, -2)
+                            }
+                            
+                            if exercise.type != "" {
+                                ExerciseView(exercise: exercise)
+                                    .padding(.leading, exercise.circuitID == nil ? 0 : nil)
+                            } else if exercise.correctiveCode > 0 {
+                                CorrectiveExerciseView(exercise: exercise)
+                                    .padding(.leading, exercise.circuitID == nil ? 0 : nil)
+                            } else {
+                                ProcessingExerciseView(exercise: exercise)
+                                    .padding(.leading, exercise.circuitID == nil ? 0 : nil)
+                            }
                         }
                     }
                 }

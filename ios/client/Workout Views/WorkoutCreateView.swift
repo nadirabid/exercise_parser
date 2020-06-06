@@ -252,6 +252,7 @@ public struct WorkoutCreateView: View {
                                         circuitRounds: self.shouldShowRoundsBeforeExercise(exerciseState)!,
                                         isActive: self.showRoundsPickerForCircuitID == exerciseState.circuitID
                                     )
+                                        .padding(.leading)
                                 }
                             }
                             
@@ -308,6 +309,7 @@ public struct WorkoutCreateView: View {
                                         circuitRounds: self.circuitRounds.wrappedValue,
                                         isActive: self.showRoundsPickerForCircuitID == -1
                                     )
+                                        .padding(.leading)
                                 }
                             }
                             
@@ -458,13 +460,14 @@ public struct WorkoutCreateView: View {
                 }
                 
                 if self.showRoundsPickerForCircuitID != nil && keyboardHeight == 0 {
-                    CircuitRoundsPicker(
+                    CircuitRoundsPickerView(
                         circuitRounds: self.circuitRounds,
                         keyboardAnimationDuration: keyboardAnimationDuration
                     )
                 }
             }
         }
+        .keyboardObserving()
         .edgesIgnoringSafeArea(self.showRoundsPickerForCircuitID != nil ? [.bottom] : [])
         .onReceive(
             NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification).receive(on: RunLoop.main),
@@ -473,7 +476,7 @@ public struct WorkoutCreateView: View {
     }
 }
 
-public struct CircuitRoundsPicker: View {
+public struct CircuitRoundsPickerView: View {
     public var circuitRounds: Binding<Int>
     var keyboardAnimationDuration: Double = 0.25
     
@@ -504,8 +507,8 @@ public struct CircuitRoundsButtonView: View {
         return VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .center) {
                 Text(self.circuitRounds.description)
-                    .fontWeight(.semibold)
-                    .font(.callout)
+                    .font(.footnote)
+                    .fontWeight(.medium)
                     .allowsTightening(true)
                     .foregroundColor(self.isActive ? Color.white : Color.black)
                     .padding(4)
@@ -529,7 +532,6 @@ public struct CircuitRoundsButtonView: View {
                 
                 Spacer()
             }
-            .padding([.leading, .trailing])
             .padding([.top, .bottom], 11)
         }
         .transition(.scale)

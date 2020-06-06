@@ -82,39 +82,6 @@ struct Exercise: Codable, Identifiable {
     let circuitID: Int?
     let circuitRounds: Int
     
-    init(raw: String, correctiveCode: Int = 0, circuitID: Int? = nil, circuitRounds: Int = 1) {
-        self.id = nil
-        self.createdAt = nil
-        self.updatedAt = nil
-        self.name = ""
-        self.type = ""
-        self.raw = raw
-        self.data = ExerciseData(sets: 0, reps: 0, weight: 0, time: 0, distance: 0)
-        self.resolutionType = ""
-        self.correctiveCode = correctiveCode
-        self.circuitID = circuitID
-        self.circuitRounds = circuitRounds
-    }
-    
-    init(
-        name: String,
-        type: String,
-        raw: String,
-        data: ExerciseData = ExerciseData(sets: 0, reps: 0, weight: 0, time: 0, distance: 0)
-    ) {
-        self.id = nil
-        self.createdAt = nil
-        self.updatedAt = nil
-        self.name = name
-        self.type = type
-        self.raw = raw
-        self.data = data
-        self.resolutionType = ""
-        self.correctiveCode = 0
-        self.circuitID = nil
-        self.circuitRounds = 1
-    }
-    
     init(
         id: Int? = nil,
         createdAt: String? = nil,
@@ -123,7 +90,10 @@ struct Exercise: Codable, Identifiable {
         type: String = "",
         raw: String = "",
         resolutionType: String = "",
-        data: ExerciseData = ExerciseData(sets: 0, reps: 0, weight: 0, time: 0, distance: 0)
+        data: ExerciseData = ExerciseData(sets: 0, reps: 0, weight: 0, time: 0, distance: 0),
+        correctiveCode: Int = 0,
+        circuitID: Int? = nil,
+        circuitRounds: Int = 1
     ) {
         self.id = id
         self.createdAt = createdAt
@@ -134,8 +104,8 @@ struct Exercise: Codable, Identifiable {
         self.resolutionType = resolutionType
         self.data = data
         self.correctiveCode = 0
-        self.circuitID = nil
-        self.circuitRounds = 1
+        self.circuitID = circuitID
+        self.circuitRounds = circuitRounds
     }
     
     enum CodingKeys: String, CodingKey {

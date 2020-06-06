@@ -45,8 +45,9 @@ public struct WorkoutEditView: View {
     }
   
     func pressSave() {
-        let exercises: [Exercise] = workoutState.exerciseStates.map{ s in
-            return Exercise(raw: s.input, circuitID: s.circuitID, circuitRounds: s.circuitRounds)
+        let exercises: [Exercise] = workoutState.exerciseStates.map { (s: ExerciseEditState) in
+            print(s.exercise!.id, s.circuitID, s.circuitRounds)
+            return Exercise(id: s.exercise!.id, raw: s.input, circuitID: s.circuitID, circuitRounds: s.circuitRounds)
         }
         
         let name = workoutState.workoutName.isEmpty ? dateToWorkoutName(self.workoutState.date) : workoutState.workoutName
@@ -214,6 +215,7 @@ public struct WorkoutEditView: View {
                                         circuitRounds: self.shouldShowRoundsBeforeExercise(exerciseState)!,
                                         isActive: self.showRoundsPickerForCircuitID == exerciseState.circuitID
                                     )
+                                        .padding(.leading)
                                 }
                             }
                             
@@ -269,6 +271,7 @@ public struct WorkoutEditView: View {
                                     circuitRounds: self.circuitRounds.wrappedValue,
                                     isActive: self.showRoundsPickerForCircuitID == -1
                                 )
+                                    .padding(.leading)
                             }
                         }
                         
@@ -397,7 +400,7 @@ public struct WorkoutEditView: View {
             }
             
             if self.showRoundsPickerForCircuitID != nil && keyboardHeight == 0 {
-                CircuitRoundsPicker(
+                CircuitRoundsPickerView(
                     circuitRounds: self.circuitRounds,
                     keyboardAnimationDuration: keyboardAnimationDuration
                 )
@@ -412,8 +415,7 @@ public struct WorkoutEditView: View {
         .onAppear {
                 self.workoutState.workoutName = self.workout.name
                 self.workoutState.exerciseStates = self.workout.exercises.map({ e in
-                    let s = ExerciseEditState(exercise: e)
-                    return s
+                    return ExerciseEditState(exercise: e)
                 })
         }
         .onDisappear {

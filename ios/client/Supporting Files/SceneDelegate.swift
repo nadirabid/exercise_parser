@@ -12,14 +12,6 @@ import AuthenticationServices
 import JWTDecode
 import Kingfisher
 
-func checkIfJWTIsValid(_ token: String) -> Bool {
-    if let jwt = try? decode(jwt: token) {
-        return jwt.expired
-    }
-    
-    return false
-}
-
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
