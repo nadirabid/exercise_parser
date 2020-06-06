@@ -57,6 +57,15 @@ struct ExerciseView : View {
         return exercise.resolutionType == ExerciseResolutionType.AutoSpecialRestResolutionType.rawValue
     }
     
+    var valueFont: Font {
+        switch displayType {
+        case .primary:
+            return Font.system(size: 15)
+        case .secondary, .tertiary:
+            return .footnote
+        }
+    }
+    
     var body: some View {
         HStack {
             Text(exercise.name.capitalized)
@@ -76,32 +85,34 @@ struct ExerciseView : View {
             HStack {
                 if exercise.data.time > 0 {
                     VStack(alignment: .trailing, spacing: 1.0) {
-                         Text("time")
-                             .font(.caption)
-                             .foregroundColor(self.unitsColor)
-                             .shouldItalicize(shouldItalicize)
-                         
-                         Text(secondsToElapsedTimeString(exercise.data.time))
-                             .font(.headline)
-                             .foregroundColor(self.valuesColor)
-                             .shouldItalicize(shouldItalicize)
-                     }
-                         .padding(.leading, 2.0)
+                        Text("time")
+                            .font(.caption)
+                            .foregroundColor(self.unitsColor)
+                            .shouldItalicize(shouldItalicize)
+                        
+                        Text(secondsToElapsedTimeString(exercise.data.time))
+                            .font(valueFont)
+                            .fontWeight(.semibold)
+                            .foregroundColor(self.valuesColor)
+                            .shouldItalicize(shouldItalicize)
+                    }
+                    .padding(.leading, 2.0)
                 }
                 
                 if exercise.data.distance > 0 {
                     VStack(alignment: .trailing, spacing: 1.0) {
                         Text(exercise.data.displayDistanceUnits)
-                              .font(.caption)
-                              .foregroundColor(self.unitsColor)
-                              .shouldItalicize(shouldItalicize)
-                          
+                            .font(.caption)
+                            .foregroundColor(self.unitsColor)
+                            .shouldItalicize(shouldItalicize)
+                        
                         Text(exercise.data.displayDistanceValue.description)
-                              .font(.headline)
-                              .foregroundColor(self.valuesColor)
-                              .shouldItalicize(shouldItalicize)
-                      }
-                          .padding(.leading, 2.0)
+                            .font(valueFont)
+                            .fontWeight(.semibold)
+                            .foregroundColor(self.valuesColor)
+                            .shouldItalicize(shouldItalicize)
+                    }
+                    .padding(.leading, 2.0)
                 }
                 
                 if exercise.data.sets > 1 {
@@ -112,11 +123,12 @@ struct ExerciseView : View {
                             .shouldItalicize(shouldItalicize)
                         
                         Text("\(exercise.data.sets)")
-                            .font(.headline)
+                            .font(valueFont)
+                            .fontWeight(.semibold)
                             .foregroundColor(self.valuesColor)
                             .shouldItalicize(shouldItalicize)
                     }
-                        .padding(.leading, 2.0)
+                    .padding(.leading, 2.0)
                 }
                 
                 if exercise.data.reps > 1 {
@@ -127,26 +139,28 @@ struct ExerciseView : View {
                             .shouldItalicize(shouldItalicize)
                         
                         Text("\(exercise.data.reps)")
-                            .font(.headline)
+                            .font(valueFont)
+                            .fontWeight(.semibold)
                             .foregroundColor(self.valuesColor)
                             .shouldItalicize(shouldItalicize)
                     }
-                        .padding(.leading, 2.0)
+                    .padding(.leading, 2.0)
                 }
                 
                 if exercise.data.weight > 0 {
                     VStack(alignment: .trailing, spacing: 1.0) {
-                           Text(exercise.data.displayWeightUnits)
-                               .font(.caption)
-                               .foregroundColor(self.unitsColor)
-                               .shouldItalicize(shouldItalicize)
-                           
-                           Text(exercise.data.displayWeightValue.format(f: ".0"))
-                               .font(.headline)
-                               .foregroundColor(self.valuesColor)
-                               .shouldItalicize(shouldItalicize)
-                       }
-                           .padding(.leading, 2.0)
+                        Text(exercise.data.displayWeightUnits)
+                            .font(.caption)
+                            .foregroundColor(self.unitsColor)
+                            .shouldItalicize(shouldItalicize)
+                        
+                        Text(exercise.data.displayWeightValue.format(f: ".0"))
+                            .font(valueFont)
+                            .fontWeight(.semibold)
+                            .foregroundColor(self.valuesColor)
+                            .shouldItalicize(shouldItalicize)
+                    }
+                    .padding(.leading, 2.0)
                 }
             }
         }

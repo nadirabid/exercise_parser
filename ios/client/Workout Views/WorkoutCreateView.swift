@@ -51,11 +51,13 @@ public struct WorkoutCreateView: View {
         
         self.stopwatch.stop()
         self.workoutState.isStopped = true
+        self.showRoundsPickerForCircuitID = nil
     }
     
     func pressResume() {
         self.stopwatch.start()
         self.workoutState.isStopped = false
+        self.workoutNameTextField = nil // so that on the next pause we know to call becomeFirstResponder
     }
     
     func pressFinish() {
@@ -135,7 +137,7 @@ public struct WorkoutCreateView: View {
         return Binding<Int>(
             get: { () -> Int in
                 return self._circuitRounds
-        },
+            },
             set: { (value) in
                 self._circuitRounds = value
                 
@@ -145,41 +147,12 @@ public struct WorkoutCreateView: View {
                         exerciseState.circuitRounds = value
                     }
                 }
-        }
+            }
         )
     }
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if workoutState.isStopped {
-                VStack(alignment: .center) {
-                    HStack {
-                        Spacer()
-                        
-                        Button(action: {
-                            withAnimation(Animation.easeInOut.speed(1.5)) {
-                                self.pressResume()
-                            }
-                        }) {
-                            Text("Resume")
-                                .font(.caption)
-                                .foregroundColor(Color.white)
-                                .background(GeometryReader { (geometry: GeometryProxy) in
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .size(
-                                            width: geometry.size.width + 10,
-                                            height: geometry.size.height + 10
-                                    )
-                                        .offset(x: -5, y: -5)
-                                        .fill(appColor)
-                                })
-                        }
-                        .padding(.trailing)
-                    }
-                    Divider()
-                }
-            }
-            
             if workoutState.isStopped {
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Workout name")
@@ -200,7 +173,7 @@ public struct WorkoutCreateView: View {
                                 textField.becomeFirstResponder()
                             }
                             self.workoutNameTextField = textField
-                    }
+                        }
                     
                     Text("Breakdown")
                         .font(.caption)
@@ -255,6 +228,7 @@ public struct WorkoutCreateView: View {
                                     )
                                         .padding(.leading)
                                 }
+                                .disabled(self.workoutState.isStopped)
                             }
                             
                             VStack(spacing: 0) {
@@ -270,7 +244,7 @@ public struct WorkoutCreateView: View {
                                             }
                                             self.newEntryTextField?.becomeFirstResponder()
                                         }
-                                },
+                                    },
                                     onEditingChanged: { changed in
                                         if changed {
                                             DispatchQueue.main.async {
@@ -278,7 +252,7 @@ public struct WorkoutCreateView: View {
                                                 self.showRoundsPickerForCircuitID = nil
                                             }
                                         }
-                                }
+                                    }
                                 )
                                     .padding([.top, .bottom], 6)
                                     .padding(.leading, exerciseState.circuitID == nil ? 0 : nil)
@@ -313,6 +287,7 @@ public struct WorkoutCreateView: View {
                                     )
                                         .padding(.leading)
                                 }
+                                .disabled(self.workoutState.isStopped)
                             }
                             
                             ExerciseEditView(
@@ -339,10 +314,10 @@ public struct WorkoutCreateView: View {
                                             textField.becomeFirstResponder()
                                         }
                                     }
-                            },
+                                },
                                 onTextFieldChange: { (textField: UITextField) in
                                     self.newEntryTextField = textField
-                            },
+                                },
                                 onEditingChanged: { changed in
                                     if changed {
                                         DispatchQueue.main.async {
@@ -350,7 +325,7 @@ public struct WorkoutCreateView: View {
                                             self.showRoundsPickerForCircuitID = nil
                                         }
                                     }
-                            }
+                                }
                             )
                                 .padding([.top, .bottom], 6)
                                 .padding(.leading, self.isCircuitEnabled ? nil : 0)
@@ -445,18 +420,31 @@ public struct WorkoutCreateView: View {
                 }
                 else {
                     HStack {
+                        Spacer()
+                        
                         Button(action: {
-                            withAnimation(Animation.easeInOut.speed(1.5)) {
+                            withAnimation(Animation.easeInOut.speed(2)) {
                                 self.pressFinish()
                             }
                         }) {
-                            Image(systemName:"waveform.path.ecg")
-                                .font(.system(size: 15, weight: .medium, design: .default))
-                                .foregroundColor(Color.secondary)
-                            
                             Text(workoutState.exerciseStates.count > 0 ? "Save" : "Cancel")
                                 .foregroundColor(Color.secondary)
                         }
+                        
+                        Spacer()
+                        Divider()
+                        Spacer()
+                        
+                        Button(action: {
+                            withAnimation(Animation.easeInOut.speed(2)) {
+                                self.pressResume()
+                            }
+                        }) {
+                            Text("Resume")
+                                .foregroundColor(Color.secondary)
+                        }
+                        
+                        Spacer()
                     }
                     .padding(.all, 13)
                     .fixedSize(horizontal: false, vertical: true)
