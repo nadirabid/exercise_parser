@@ -151,7 +151,7 @@ public struct WorkoutEditView: View {
                 Divider()
             }
             
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Workout name")
                         .font(.caption)
@@ -231,7 +231,7 @@ public struct WorkoutEditView: View {
                                             }
                                         }
                                     },
-                                    onEditingChanged: { changed in
+                                    onEditingChanged: { changed, _ in
                                         if changed {
                                             DispatchQueue.main.async {
                                                 self.showRoundsPickerForCircuitID = nil
@@ -302,7 +302,7 @@ public struct WorkoutEditView: View {
                             onTextFieldChange: { (textField: UITextField) in
                                 self.newEntryTextField = textField
                             },
-                            onEditingChanged: { changed in
+                            onEditingChanged: { changed, _ in
                                 if changed {
                                     DispatchQueue.main.async {
                                         self.isNewEntryTextFieldFirstResponder = true

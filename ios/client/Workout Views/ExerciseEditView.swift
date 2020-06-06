@@ -11,7 +11,7 @@ import SwiftUI
 import Alamofire
 
 typealias TextFieldHandler = ((UITextField) -> Void)
-typealias EditingChangedHandler = ((Bool) -> Void)
+typealias EditingChangedHandler = ((Bool, UITextField?) -> Void)
 
 public struct ExerciseEditView: View {
     @EnvironmentObject var workoutState: WorkoutCreateState
@@ -40,7 +40,7 @@ public struct ExerciseEditView: View {
         becomeFirstResponderOnAppear: Bool = false,
         onUserInputCommit: @escaping TextFieldHandler = { _ in },
         onTextFieldChange: @escaping TextFieldHandler = { _ in },
-        onEditingChanged: @escaping EditingChangedHandler = { _ in }
+        onEditingChanged: @escaping EditingChangedHandler = { _, _ in }
     ) {
         self.exerciseState = state
         self.isNewEntry = isNewEntry
@@ -105,7 +105,7 @@ public struct ExerciseEditView: View {
                         exercise?.raw ?? "Enter your exercise",
                         text: $exerciseState.input,
                         onEditingChanged: { changed in
-                            self.editingChangedHandler(changed)
+                            self.editingChangedHandler(changed, self.textField)
                         },
                         onCommit: {
                             if !self.exerciseState.input.isEmpty && !self.isNewEntry {

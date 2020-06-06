@@ -92,7 +92,7 @@ struct AdaptsToSoftwareKeyboard: ViewModifier {
 }
 
 public struct DeletableViewModifier: ViewModifier {
-    var disable: Bool
+    var disable: Bool = false // TODO: this is currently broken - it just fucks up the animation right now
     var onClick: () -> Void = {}
     
     @State private var dragOffset = CGFloat.zero

@@ -37,6 +37,8 @@ public struct WorkoutCreateView: View {
     @State private var keyboardHeight: CGFloat = 0
     @State private var keyboardAnimationDuration: Double = 0
     
+    @State private var uiScrollView: UIScrollView? = nil
+    
     init() {
         stopwatch.start()
     }
@@ -52,12 +54,12 @@ public struct WorkoutCreateView: View {
         self.stopwatch.stop()
         self.workoutState.isStopped = true
         self.showRoundsPickerForCircuitID = nil
+        self.workoutNameTextField = nil // so that on the next pause we know to call becomeFirstResponder
     }
     
     func pressResume() {
         self.stopwatch.start()
         self.workoutState.isStopped = false
-        self.workoutNameTextField = nil // so that on the next pause we know to call becomeFirstResponder
     }
     
     func pressFinish() {
@@ -153,189 +155,196 @@ public struct WorkoutCreateView: View {
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if workoutState.isStopped {
+            ScrollView(self.workoutState.isStopped ? [.vertical] : [], showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("Workout name")
-                        .font(.caption)
-                        .padding([.leading, .top])
-                        .padding(.bottom, 3)
-                        .foregroundColor(Color.gray)
-                    
-                    TextField(dateToWorkoutName(self.workoutState.date), text: $workoutState.workoutName, onCommit: {
-                        self.workoutState.workoutName = self.workoutState.workoutName.trimmingCharacters(in: .whitespaces)
-                    })
-                        .padding([.leading, .trailing])
-                        .padding([.top, .bottom], 12)
-                        .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
-                        .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
-                        .introspectTextField { textField in
-                            if self.workoutNameTextField ==  nil { // only become first responder the first time
-                                textField.becomeFirstResponder()
-                            }
-                            self.workoutNameTextField = textField
-                        }
-                    
-                    Text("Breakdown")
-                        .font(.caption)
-                        .padding([.leading, .top])
-                        .padding(.bottom, 3)
-                        .foregroundColor(Color.gray)
-                }
-            }
-            
-            EditableWorkoutMetaMetricsView(
-                stopwatch: stopwatch,
-                showDate: workoutState.isStopped
-            )
-                .fixedSize(horizontal: workoutState.isStopped, vertical: true)
-                .padding(workoutState.isStopped ? [.leading] : [.top, .trailing, .leading])
-                .padding(.bottom, workoutState.isStopped ? 5 : 20)
-            
-            if workoutState.isStopped {
-                if self.location != nil {
-                    MapView(location: self.location!)
-                        .frame(height: 130)
-                }
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Exercises")
-                        .font(.caption)
-                        .padding([.leading, .top])
-                        .padding(.bottom, 3)
-                        .foregroundColor(Color.gray)
-                }
-            }
-            
-            ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(self.workoutState.exerciseStates, id: \.id) { exerciseState in
-                        VStack(spacing: 0) {
-                            if self.shouldShowRoundsBeforeExercise(exerciseState) != nil {
-                                Button(action: {
-                                    if self.showRoundsPickerForCircuitID == exerciseState.circuitID {
-                                        self.showRoundsPickerForCircuitID = nil
-                                    } else {
-                                        self.showRoundsPickerForCircuitID = exerciseState.circuitID
-                                        
-                                        if let activeTextField = UIResponder.currentFirst() as? UITextField {
-                                            activeTextField.resignFirstResponder()
-                                        }
-                                    }
-                                }) {
-                                    CircuitRoundsButtonView(
-                                        circuitRounds: self.shouldShowRoundsBeforeExercise(exerciseState)!,
-                                        isActive: self.showRoundsPickerForCircuitID == exerciseState.circuitID
-                                    )
-                                        .padding(.leading)
-                                }
-                                .disabled(self.workoutState.isStopped)
-                            }
+                    if workoutState.isStopped {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("Workout name")
+                                .font(.caption)
+                                .padding([.leading, .top])
+                                .padding(.bottom, 3)
+                                .foregroundColor(Color.gray)
                             
-                            VStack(spacing: 0) {
-                                ExerciseEditView(
-                                    state: exerciseState,
-                                    suggestions: self.suggestions,
-                                    onUserInputCommit: { _ in
-                                        DispatchQueue.main.async {
-                                            if exerciseState.input.isEmpty {
-                                                self.workoutState.exerciseStates.removeAll(where: { ex in
-                                                    return ex === exerciseState
-                                                })
-                                            }
-                                            self.newEntryTextField?.becomeFirstResponder()
-                                        }
-                                    },
-                                    onEditingChanged: { changed in
-                                        if changed {
-                                            DispatchQueue.main.async {
-                                                self.isNewEntryTextFieldFirstResponder = false
+                            TextField(dateToWorkoutName(self.workoutState.date), text: $workoutState.workoutName, onCommit: {
+                                self.workoutState.workoutName = self.workoutState.workoutName.trimmingCharacters(in: .whitespaces)
+                            })
+                                .padding([.leading, .trailing])
+                                .padding([.top, .bottom], 12)
+                                .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
+                                .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
+                                .introspectTextField { textField in
+                                    if self.workoutNameTextField ==  nil { // only become first responder the first time
+                                        textField.becomeFirstResponder()
+                                    }
+                                    self.workoutNameTextField = textField
+                                }
+                            
+                            Text("Breakdown")
+                                .font(.caption)
+                                .padding([.leading, .top])
+                                .padding(.bottom, 3)
+                                .foregroundColor(Color.gray)
+                        }
+                    }
+                    
+                    EditableWorkoutMetaMetricsView(
+                        stopwatch: stopwatch,
+                        showDate: workoutState.isStopped
+                    )
+                        .fixedSize(horizontal: workoutState.isStopped, vertical: true)
+                        .padding(workoutState.isStopped ? [.leading] : [.top, .trailing, .leading])
+                        .padding(.bottom, workoutState.isStopped ? 5 : 20)
+                    
+                    if workoutState.isStopped {
+                        if self.location != nil {
+                            MapView(location: self.location!)
+                                .frame(height: 130)
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("Exercises")
+                                .font(.caption)
+                                .padding([.leading, .top])
+                                .padding(.bottom, 3)
+                                .foregroundColor(Color.gray)
+                        }
+                    }
+                    
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 0) {
+                            ForEach(self.workoutState.exerciseStates, id: \.id) { exerciseState in
+                                VStack(spacing: 0) {
+                                    if self.shouldShowRoundsBeforeExercise(exerciseState) != nil {
+                                        Button(action: {
+                                            if self.showRoundsPickerForCircuitID == exerciseState.circuitID {
                                                 self.showRoundsPickerForCircuitID = nil
+                                            } else {
+                                                self.showRoundsPickerForCircuitID = exerciseState.circuitID
+                                                
+                                                if let activeTextField = UIResponder.currentFirst() as? UITextField {
+                                                    activeTextField.resignFirstResponder()
+                                                }
                                             }
+                                        }) {
+                                            CircuitRoundsButtonView(
+                                                circuitRounds: self.shouldShowRoundsBeforeExercise(exerciseState)!,
+                                                isActive: self.showRoundsPickerForCircuitID == exerciseState.circuitID
+                                            )
+                                                .padding(.leading)
                                         }
+                                        .disabled(self.workoutState.isStopped)
                                     }
-                                )
-                                    .padding([.top, .bottom], 6)
-                                    .padding(.leading, exerciseState.circuitID == nil ? 0 : nil)
-                                
-                                Divider()
-                                    .padding(.leading, self.shouldShowPaddedDividerForLastEnteredExercise(exerciseState) ? nil : 0)
-                                    .animation(.none)
-                            }
-                            .modifier(DeletableViewModifier(disable: self.workoutState.isStopped, onClick: {
-                                self.removeExerciseStateElement(state: exerciseState)
-                            }))
-                        }
-                    }
-                    
-                    if !self.workoutState.isStopped {
-                        VStack(spacing: 0) {
-                            if isCircuitEnabled && self.workoutState.exerciseStates.last?.circuitID == nil {
-                                Button(action: {
-                                    if self.showRoundsPickerForCircuitID == -1 {
-                                        self.showRoundsPickerForCircuitID = nil
-                                    } else {
-                                        self.showRoundsPickerForCircuitID = -1
+                                    
+                                    VStack(spacing: 0) {
+                                        ExerciseEditView(
+                                            state: exerciseState,
+                                            suggestions: self.suggestions,
+                                            onUserInputCommit: { _ in
+                                                DispatchQueue.main.async {
+                                                    if exerciseState.input.isEmpty {
+                                                        self.workoutState.exerciseStates.removeAll(where: { ex in
+                                                            return ex === exerciseState
+                                                        })
+                                                    }
+                                                    self.newEntryTextField?.becomeFirstResponder()
+                                                }
+                                            },
+                                            onEditingChanged: { (changed, textField) in
+                                                if changed {
+                                                    DispatchQueue.main.async {
+                                                        self.isNewEntryTextFieldFirstResponder = false
+                                                        self.showRoundsPickerForCircuitID = nil
+                                                    }
+                                                }
+                                            }
+                                        )
+                                            .padding([.top, .bottom], 6)
+                                            .padding(.leading, exerciseState.circuitID == nil ? 0 : nil)
                                         
-                                        if let activeTextField = UIResponder.currentFirst() as? UITextField {
-                                            activeTextField.resignFirstResponder()
-                                        }
+                                        Divider()
+                                            .padding(.leading, self.shouldShowPaddedDividerForLastEnteredExercise(exerciseState) ? nil : 0)
+                                            .animation(.none)
                                     }
-                                }) {
-                                    CircuitRoundsButtonView(
-                                        circuitRounds: self.circuitRounds.wrappedValue,
-                                        isActive: self.showRoundsPickerForCircuitID == -1
-                                    )
-                                        .padding(.leading)
+                                    .modifier(DeletableViewModifier(onClick: {
+                                        self.removeExerciseStateElement(state: exerciseState)
+                                    }))
                                 }
-                                .disabled(self.workoutState.isStopped)
                             }
                             
-                            ExerciseEditView(
-                                state: self.newEntryState,
-                                isNewEntry: true,
-                                suggestions: self.suggestions,
-                                becomeFirstResponderOnAppear: true,
-                                onUserInputCommit: { (textField: UITextField) in
-                                    if !self.newEntryState.input.isEmpty {
-                                        DispatchQueue.main.async {
-                                            if self.isCircuitEnabled {
-                                                self.newEntryState.circuitRounds = self.circuitRounds.wrappedValue
+                            if !self.workoutState.isStopped {
+                                VStack(spacing: 0) {
+                                    if isCircuitEnabled && self.workoutState.exerciseStates.last?.circuitID == nil {
+                                        Button(action: {
+                                            if self.showRoundsPickerForCircuitID == -1 {
+                                                self.showRoundsPickerForCircuitID = nil
+                                            } else {
+                                                self.showRoundsPickerForCircuitID = -1
+                                                
+                                                if let activeTextField = UIResponder.currentFirst() as? UITextField {
+                                                    activeTextField.resignFirstResponder()
+                                                }
                                             }
-                                            
-                                            self.workoutState.exerciseStates.append(self.newEntryState)
-                                            self.newEntryState = ExerciseEditState(input: "")
-                                            
-                                            if self.isCircuitEnabled {
-                                                self.newEntryState.circuitID = self.circuitIDCounter
-                                            } else if self.workoutState.exerciseStates.last?.circuitID == nil {
-                                                self.circuitIDCounter += 1
+                                        }) {
+                                            CircuitRoundsButtonView(
+                                                circuitRounds: self.circuitRounds.wrappedValue,
+                                                isActive: self.showRoundsPickerForCircuitID == -1
+                                            )
+                                                .padding(.leading)
+                                        }
+                                        .disabled(self.workoutState.isStopped)
+                                    }
+                                    
+                                    ExerciseEditView(
+                                        state: self.newEntryState,
+                                        isNewEntry: true,
+                                        suggestions: self.suggestions,
+                                        becomeFirstResponderOnAppear: true,
+                                        onUserInputCommit: { (textField: UITextField) in
+                                            if !self.newEntryState.input.isEmpty {
+                                                DispatchQueue.main.async {
+                                                    if self.isCircuitEnabled {
+                                                        self.newEntryState.circuitRounds = self.circuitRounds.wrappedValue
+                                                    }
+                                                    
+                                                    self.workoutState.exerciseStates.append(self.newEntryState)
+                                                    self.newEntryState = ExerciseEditState(input: "")
+                                                    
+                                                    if self.isCircuitEnabled {
+                                                        self.newEntryState.circuitID = self.circuitIDCounter
+                                                    } else if self.workoutState.exerciseStates.last?.circuitID == nil {
+                                                        self.circuitIDCounter += 1
+                                                    }
+                                                    
+                                                    textField.becomeFirstResponder()
+                                                }
                                             }
-                                            
-                                            textField.becomeFirstResponder()
+                                        },
+                                        onTextFieldChange: { (textField: UITextField) in
+                                            self.newEntryTextField = textField
+                                        },
+                                        onEditingChanged: { changed, textField in
+                                            if changed {
+                                                DispatchQueue.main.async {
+                                                    self.isNewEntryTextFieldFirstResponder = true
+                                                    self.showRoundsPickerForCircuitID = nil
+                                                }
+                                            }
                                         }
-                                    }
-                                },
-                                onTextFieldChange: { (textField: UITextField) in
-                                    self.newEntryTextField = textField
-                                },
-                                onEditingChanged: { changed in
-                                    if changed {
-                                        DispatchQueue.main.async {
-                                            self.isNewEntryTextFieldFirstResponder = true
-                                            self.showRoundsPickerForCircuitID = nil
-                                        }
-                                    }
+                                    )
+                                        .padding([.top, .bottom], 6)
+                                        .padding(.leading, self.isCircuitEnabled ? nil : 0)
+                                    
+                                    Divider()
                                 }
-                            )
-                                .padding([.top, .bottom], 6)
-                                .padding(.leading, self.isCircuitEnabled ? nil : 0)
-                            
-                            Divider()
+                            }
                         }
                     }
+                    .introspectScrollView(customize: { (view: UIScrollView) in
+                        self.uiScrollView = view
+                    })
+                    .animation(.none)
                 }
             }
-            .animation(.none)
             
             VStack(spacing: 0) {
                 Divider()
@@ -429,6 +438,7 @@ public struct WorkoutCreateView: View {
                         }) {
                             Text(workoutState.exerciseStates.count > 0 ? "Save" : "Cancel")
                                 .foregroundColor(Color.secondary)
+                                .animation(.none)
                         }
                         
                         Spacer()
@@ -442,6 +452,7 @@ public struct WorkoutCreateView: View {
                         }) {
                             Text("Resume")
                                 .foregroundColor(Color.secondary)
+                                .animation(.none)
                         }
                         
                         Spacer()
