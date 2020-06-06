@@ -46,7 +46,6 @@ public struct WorkoutEditView: View {
   
     func pressSave() {
         let exercises: [Exercise] = workoutState.exerciseStates.map { (s: ExerciseEditState) in
-            print(s.exercise!.id, s.circuitID, s.circuitRounds)
             return Exercise(id: s.exercise!.id, raw: s.input, circuitID: s.circuitID, circuitRounds: s.circuitRounds)
         }
         
