@@ -22,7 +22,6 @@ public struct WorkoutEditView: View {
     
     var workout: Workout
     
-    private var locationManager = LocationManager()
     private var stopwatch = Stopwatch()
     private var suggestions = ExcerciseUserSuggestions()
     

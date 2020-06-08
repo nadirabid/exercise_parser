@@ -30,8 +30,7 @@ struct SignInView: View {
             
             appleIDProvider.getCredentialState(forUserID: userID) { (state, error) in
                 DispatchQueue.main.async {
-                    switch state
-                    {
+                    switch state {
                     case .authorized: // valid user id
                         userState.authorization = 1
                         break
@@ -233,8 +232,6 @@ struct SignInWithAppleView: UIViewRepresentable {
                 
                 defaults.set(jwt.string, forKey: "token")
                 defaults.set(String(data: userJSON, encoding: .utf8), forKey: "userInfo")
-                
-                print("here we go")
                 
                 self.parent?.userState.userInfo = user
                 self.parent?.userState.jwt = jwt

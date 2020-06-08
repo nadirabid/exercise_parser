@@ -19,10 +19,6 @@ public struct WorkoutCreateView: View {
     @EnvironmentObject var workoutState: WorkoutCreateState
     @EnvironmentObject var workoutAPI: WorkoutAPI
     
-    private var locationManager = LocationManager()
-    private var stopwatch = Stopwatch()
-    private var suggestions = ExcerciseUserSuggestions()
-    
     @State private var location: Location? = nil
     @State private var newEntryTextField: UITextField? = nil
     @State private var workoutNameTextField: UITextField? = nil
@@ -39,8 +35,21 @@ public struct WorkoutCreateView: View {
     
     @State private var uiScrollView: UIScrollView? = nil
     
+    private var locationManager = LocationManager()
+    private var stopwatch = Stopwatch()
+    private var suggestions = ExcerciseUserSuggestions()
+    private var disabled: Bool = false
+    
     init() {
         stopwatch.start()
+    }
+    
+    init(disabled: Bool = false) {
+        if !disabled {
+            stopwatch.start()
+        }
+        
+        self.disabled = disabled
     }
     
     func pressPause() {
@@ -479,6 +488,7 @@ public struct WorkoutCreateView: View {
             NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification).receive(on: RunLoop.main),
             perform: updateKeyboardHeight
         )
+        .disabled(disabled)
     }
 }
 
@@ -529,7 +539,7 @@ public struct CircuitRoundsButtonView: View {
                                 Circle().stroke(appColor, lineWidth: 1)
                             }
                         }
-                )
+                    )
                 
                 Text("Rounds Circuit")
                     .font(.footnote)

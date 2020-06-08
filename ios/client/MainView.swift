@@ -35,7 +35,8 @@ struct MainView: View {
                 if userState.authorization < 1 {
                     SignInView()
                 } else if route.peek() == .editor {
-                    WorkoutCreateView()
+                    //WorkoutCreateView()
+                    WorkoutTypeSelectorView()
                 } else if route.peek() == .userEdit {
                     EditorUserProfileView()
                 } else {
@@ -64,15 +65,17 @@ struct MainView: View {
                                 
                                 Spacer()
                                 
-                                Button(action: { self.route.replaceCurrent(with: .editor) }) {
+                                Button(action: {
+                                    self.route.replaceCurrent(with: .editor)
+                                }) {
                                     ZStack {
                                         Circle()
-                                            .stroke(appColor, lineWidth: 2)
+                                            .stroke(Color.gray, lineWidth: 2)
                                             .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
                                             .frame(width: 40, height: 40)
                                         
                                         Circle()
-                                            .fill(appColor)
+                                            .fill(Color.gray)
                                             .shadow(color: Color.gray.opacity(0.3), radius: 1.0)
                                             .frame(width: 20, height: 20)
                                     }

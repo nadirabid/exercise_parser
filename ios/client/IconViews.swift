@@ -541,3 +541,186 @@ struct QuestionIconShape: Shape {
         return path.applying(transform)
     }
 }
+
+struct DumbbellIconShape: Shape {
+    static let absoluteSize: CGSize = CGSize(width: 640, height: 512)
+    
+    func path(in rect: CGRect) -> Path {
+        let scaleX = rect.size.width / DumbbellIconShape.absoluteSize.width
+        let scaleY = rect.size.height / DumbbellIconShape.absoluteSize.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        let center = CGPoint(x: DumbbellIconShape.absoluteSize.width / 2, y: DumbbellIconShape.absoluteSize.height / 2)
+        
+        var transform  = CGAffineTransform.identity
+        
+        transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
+        transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
+        transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
+        
+        let uiBezierPath = UIBezierPath()
+        uiBezierPath.move(to: CGPoint(x: 104, y: 96))
+        uiBezierPath.addLine(to: CGPoint(x: 56, y: 96))
+        uiBezierPath.addCurve(to: CGPoint(x: 32, y: 120), controlPoint1: CGPoint(x: 42.7, y: 96), controlPoint2: CGPoint(x: 32, y: 106.7))
+        uiBezierPath.addLine(to: CGPoint(x: 32, y: 224))
+        uiBezierPath.addLine(to: CGPoint(x: 8, y: 224))
+        uiBezierPath.addCurve(to: CGPoint(x: 0, y: 232), controlPoint1: CGPoint(x: 3.6, y: 224), controlPoint2: CGPoint(x: 0, y: 227.6))
+        uiBezierPath.addLine(to: CGPoint(x: 0, y: 280))
+        uiBezierPath.addCurve(to: CGPoint(x: 8, y: 288), controlPoint1: CGPoint(x: 0, y: 284.4), controlPoint2: CGPoint(x: 3.6, y: 288))
+        uiBezierPath.addLine(to: CGPoint(x: 32, y: 288))
+        uiBezierPath.addLine(to: CGPoint(x: 32, y: 392))
+        uiBezierPath.addCurve(to: CGPoint(x: 56, y: 416), controlPoint1: CGPoint(x: 32, y: 405.3), controlPoint2: CGPoint(x: 42.7, y: 416))
+        uiBezierPath.addLine(to: CGPoint(x: 104, y: 416))
+        uiBezierPath.addCurve(to: CGPoint(x: 128, y: 392), controlPoint1: CGPoint(x: 117.3, y: 416), controlPoint2: CGPoint(x: 128, y: 405.3))
+        uiBezierPath.addLine(to: CGPoint(x: 128, y: 120))
+        uiBezierPath.addCurve(to: CGPoint(x: 104, y: 96), controlPoint1: CGPoint(x: 128, y: 106.7), controlPoint2: CGPoint(x: 117.3, y: 96))
+        uiBezierPath.close()
+        uiBezierPath.move(to: CGPoint(x: 632, y: 224))
+        uiBezierPath.addLine(to: CGPoint(x: 608, y: 224))
+        uiBezierPath.addLine(to: CGPoint(x: 608, y: 120))
+        uiBezierPath.addCurve(to: CGPoint(x: 584, y: 96), controlPoint1: CGPoint(x: 608, y: 106.7), controlPoint2: CGPoint(x: 597.3, y: 96))
+        uiBezierPath.addLine(to: CGPoint(x: 536, y: 96))
+        uiBezierPath.addCurve(to: CGPoint(x: 512, y: 120), controlPoint1: CGPoint(x: 522.7, y: 96), controlPoint2: CGPoint(x: 512, y: 106.7))
+        uiBezierPath.addLine(to: CGPoint(x: 512, y: 392))
+        uiBezierPath.addCurve(to: CGPoint(x: 536, y: 416), controlPoint1: CGPoint(x: 512, y: 405.3), controlPoint2: CGPoint(x: 522.7, y: 416))
+        uiBezierPath.addLine(to: CGPoint(x: 584, y: 416))
+        uiBezierPath.addCurve(to: CGPoint(x: 608, y: 392), controlPoint1: CGPoint(x: 597.3, y: 416), controlPoint2: CGPoint(x: 608, y: 405.3))
+        uiBezierPath.addLine(to: CGPoint(x: 608, y: 288))
+        uiBezierPath.addLine(to: CGPoint(x: 632, y: 288))
+        uiBezierPath.addCurve(to: CGPoint(x: 640, y: 280), controlPoint1: CGPoint(x: 636.4, y: 288), controlPoint2: CGPoint(x: 640, y: 284.4))
+        uiBezierPath.addLine(to: CGPoint(x: 640, y: 232))
+        uiBezierPath.addCurve(to: CGPoint(x: 632, y: 224), controlPoint1: CGPoint(x: 640, y: 227.6), controlPoint2: CGPoint(x: 636.4, y: 224))
+        uiBezierPath.close()
+        uiBezierPath.move(to: CGPoint(x: 456, y: 32))
+        uiBezierPath.addLine(to: CGPoint(x: 408, y: 32))
+        uiBezierPath.addCurve(to: CGPoint(x: 384, y: 56), controlPoint1: CGPoint(x: 394.7, y: 32), controlPoint2: CGPoint(x: 384, y: 42.7))
+        uiBezierPath.addLine(to: CGPoint(x: 384, y: 224))
+        uiBezierPath.addLine(to: CGPoint(x: 256, y: 224))
+        uiBezierPath.addLine(to: CGPoint(x: 256, y: 56))
+        uiBezierPath.addCurve(to: CGPoint(x: 232, y: 32), controlPoint1: CGPoint(x: 256, y: 42.7), controlPoint2: CGPoint(x: 245.3, y: 32))
+        uiBezierPath.addLine(to: CGPoint(x: 184, y: 32))
+        uiBezierPath.addCurve(to: CGPoint(x: 160, y: 56), controlPoint1: CGPoint(x: 170.7, y: 32), controlPoint2: CGPoint(x: 160, y: 42.7))
+        uiBezierPath.addLine(to: CGPoint(x: 160, y: 456))
+        uiBezierPath.addCurve(to: CGPoint(x: 184, y: 480), controlPoint1: CGPoint(x: 160, y: 469.3), controlPoint2: CGPoint(x: 170.7, y: 480))
+        uiBezierPath.addLine(to: CGPoint(x: 232, y: 480))
+        uiBezierPath.addCurve(to: CGPoint(x: 256, y: 456), controlPoint1: CGPoint(x: 245.3, y: 480), controlPoint2: CGPoint(x: 256, y: 469.3))
+        uiBezierPath.addLine(to: CGPoint(x: 256, y: 288))
+        uiBezierPath.addLine(to: CGPoint(x: 384, y: 288))
+        uiBezierPath.addLine(to: CGPoint(x: 384, y: 456))
+        uiBezierPath.addCurve(to: CGPoint(x: 408, y: 480), controlPoint1: CGPoint(x: 384, y: 469.3), controlPoint2: CGPoint(x: 394.7, y: 480))
+        uiBezierPath.addLine(to: CGPoint(x: 456, y: 480))
+        uiBezierPath.addCurve(to: CGPoint(x: 480, y: 456), controlPoint1: CGPoint(x: 469.3, y: 480), controlPoint2: CGPoint(x: 480, y: 469.3))
+        uiBezierPath.addLine(to: CGPoint(x: 480, y: 56))
+        uiBezierPath.addCurve(to: CGPoint(x: 456, y: 32), controlPoint1: CGPoint(x: 480, y: 42.7), controlPoint2: CGPoint(x: 469.3, y: 32))
+        uiBezierPath.close()
+        
+        let path = Path(uiBezierPath.cgPath)
+        return path.applying(transform)
+    }
+}
+
+struct RunningIconShape: Shape {
+    static let absoluteSize: CGSize = CGSize(width: 416, height: 512)
+
+    func path(in rect: CGRect) -> Path {
+        let scaleX = rect.size.width / RunningIconShape.absoluteSize.width
+        let scaleY = rect.size.height / RunningIconShape.absoluteSize.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        let center = CGPoint(x: RunningIconShape.absoluteSize.width / 2, y: RunningIconShape.absoluteSize.height / 2)
+        
+        var transform  = CGAffineTransform.identity
+        
+        transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
+        transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
+        transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
+        
+        let uiBezierPath = UIBezierPath()
+        uiBezierPath.move(to: CGPoint(x: 272, y: 96))
+        uiBezierPath.addCurve(to: CGPoint(x: 320, y: 48), controlPoint1: CGPoint(x: 298.5, y: 96), controlPoint2: CGPoint(x: 320, y: 74.5))
+        uiBezierPath.addCurve(to: CGPoint(x: 272, y: 0), controlPoint1: CGPoint(x: 320, y: 21.5), controlPoint2: CGPoint(x: 298.5, y: 0))
+        uiBezierPath.addCurve(to: CGPoint(x: 224, y: 48), controlPoint1: CGPoint(x: 245.5, y: 0), controlPoint2: CGPoint(x: 224, y: 21.5))
+        uiBezierPath.close()
+        uiBezierPath.move(to: CGPoint(x: 113.7, y: 317.5))
+        uiBezierPath.addLine(to: CGPoint(x: 98.9, y: 352))
+        uiBezierPath.addLine(to: CGPoint(x: 32, y: 352))
+        uiBezierPath.addCurve(to: CGPoint(x: 0, y: 384), controlPoint1: CGPoint(x: 14.3, y: 352), controlPoint2: CGPoint(x: 0, y: 366.3))
+        uiBezierPath.addCurve(to: CGPoint(x: 32, y: 416), controlPoint1: CGPoint(x: 0, y: 401.7), controlPoint2: CGPoint(x: 14.3, y: 416))
+        uiBezierPath.addLine(to: CGPoint(x: 109.5, y: 416))
+        uiBezierPath.addCurve(to: CGPoint(x: 153.6, y: 386.9), controlPoint1: CGPoint(x: 128.7, y: 416), controlPoint2: CGPoint(x: 146, y: 404.6))
+        uiBezierPath.addLine(to: CGPoint(x: 162.4, y: 366.4))
+        uiBezierPath.addCurve(to: CGPoint(x: 124.4, y: 323.8), controlPoint1: CGPoint(x: 145, y: 356.2), controlPoint2: CGPoint(x: 132.3, y: 341))
+        uiBezierPath.close()
+        uiBezierPath.move(to: CGPoint(x: 384, y: 224))
+        uiBezierPath.addLine(to: CGPoint(x: 340, y: 224))
+        uiBezierPath.addLine(to: CGPoint(x: 313.9, y: 170.7))
+        uiBezierPath.addCurve(to: CGPoint(x: 252.1, y: 119.8), controlPoint1: CGPoint(x: 301.4, y: 145.2), controlPoint2: CGPoint(x: 278.5, y: 126.5))
+        uiBezierPath.addLine(to: CGPoint(x: 181.1, y: 98.7))
+        uiBezierPath.addCurve(to: CGPoint(x: 100.2, y: 115.8), controlPoint1: CGPoint(x: 152.8, y: 91.9), controlPoint2: CGPoint(x: 123.3, y: 153.7))
+        uiBezierPath.addLine(to: CGPoint(x: 60.5, y: 146.2))
+        uiBezierPath.addCurve(to: CGPoint(x: 54.6, y: 191.1), controlPoint1: CGPoint(x: 46.5, y: 157), controlPoint2: CGPoint(x: 43.9, y: 177))
+        uiBezierPath.addCurve(to: CGPoint(x: 99.5, y: 197), controlPoint1: CGPoint(x: 65.4, y: 205.1), controlPoint2: CGPoint(x: 85.5, y: 207.7))
+        uiBezierPath.addLine(to: CGPoint(x: 139.2, y: 166.6))
+        uiBezierPath.addCurve(to: CGPoint(x: 164.4, y: 160.4), controlPoint1: CGPoint(x: 146.8, y: 160.7), controlPoint2: CGPoint(x: 156.6, y: 158.6))
+        uiBezierPath.addLine(to: CGPoint(x: 179.1, y: 164.8))
+        uiBezierPath.addCurve(to: CGPoint(x: 205.4, y: 245.1), controlPoint1: CGPoint(x: 166.5, y: 194.3), controlPoint2: CGPoint(x: 177.8, y: 228.8))
+        uiBezierPath.addLine(to: CGPoint(x: 290.4, y: 295.3))
+        uiBezierPath.addCurve(to: CGPoint(x: 311.4, y: 335.4), controlPoint1: CGPoint(x: 285.1, y: 312.2), controlPoint2: CGPoint(x: 294.5, y: 330.1))
+        uiBezierPath.addLine(to: CGPoint(x: 343, y: 234.3))
+        uiBezierPath.addCurve(to: CGPoint(x: 321.4, y: 179.9), controlPoint1: CGPoint(x: 348.9, y: 213.6), controlPoint2: CGPoint(x: 340.1, y: 191.2))
+        uiBezierPath.addLine(to: CGPoint(x: 260.2, y: 143.8))
+        uiBezierPath.addCurve(to: CGPoint(x: 303.3, y: 170.7), controlPoint1: CGPoint(x: 268.2, y: 160.1), controlPoint2: CGPoint(x: 285.1, y: 170.7))
+        uiBezierPath.addLine(to: CGPoint(x: 384, y: 170.7))
+        uiBezierPath.addCurve(to: CGPoint(x: 416, y: 138.7), controlPoint1: CGPoint(x: 401.7, y: 170.7), controlPoint2: CGPoint(x: 416, y: 156.4))
+        uiBezierPath.addCurve(to: CGPoint(x: 384, y: 106.7), controlPoint1: CGPoint(x: 416, y: 121), controlPoint2: CGPoint(x: 401.7, y: 106.7))
+        uiBezierPath.close()
+        
+        let path = Path(uiBezierPath.cgPath)
+        return path.applying(transform)
+    }
+}
+
+struct ClipboardIconShape: Shape {
+    static let absoluteSize: CGSize = CGSize(width: 384, height: 512)
+
+    func path(in rect: CGRect) -> Path {
+        let scaleX = rect.size.width / ClipboardIconShape.absoluteSize.width
+        let scaleY = rect.size.height / ClipboardIconShape.absoluteSize.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        let center = CGPoint(x: ClipboardIconShape.absoluteSize.width / 2, y: ClipboardIconShape.absoluteSize.height / 2)
+        
+        var transform  = CGAffineTransform.identity
+        
+        transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
+        transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
+        transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
+        
+        let uiBezierPath = UIBezierPath()
+        uiBezierPath.move(to: CGPoint(x: 384, y: 112))
+        uiBezierPath.addLine(to: CGPoint(x: 384, y: 464))
+        uiBezierPath.addCurve(to: CGPoint(x: 336, y: 512), controlPoint1: CGPoint(x: 384, y: 490.5), controlPoint2: CGPoint(x: 362.5, y: 512))
+        uiBezierPath.addLine(to: CGPoint(x: 48, y: 512))
+        uiBezierPath.addCurve(to: CGPoint(x: 0, y: 464), controlPoint1: CGPoint(x: 21.5, y: 512), controlPoint2: CGPoint(x: 0, y: 490.5))
+        uiBezierPath.addLine(to: CGPoint(x: 0, y: 112))
+        uiBezierPath.addCurve(to: CGPoint(x: 48, y: 64), controlPoint1: CGPoint(x: 0, y: 85.5), controlPoint2: CGPoint(x: 21.5, y: 64))
+        uiBezierPath.addLine(to: CGPoint(x: 128, y: 64))
+        uiBezierPath.addCurve(to: CGPoint(x: 192, y: 0), controlPoint1: CGPoint(x: 128, y: 28.7), controlPoint2: CGPoint(x: 156.7, y: 0))
+        uiBezierPath.addCurve(to: CGPoint(x: 256, y: 64), controlPoint1: CGPoint(x: 227.3, y: 0), controlPoint2: CGPoint(x: 256, y: 28.7))
+        uiBezierPath.addLine(to: CGPoint(x: 336, y: 64))
+        uiBezierPath.addCurve(to: CGPoint(x: 384, y: 112), controlPoint1: CGPoint(x: 362.5, y: 64), controlPoint2: CGPoint(x: 384, y: 85.5))
+        uiBezierPath.close()
+        uiBezierPath.move(to: CGPoint(x: 192, y: 40))
+        uiBezierPath.addCurve(to: CGPoint(x: 168, y: 64), controlPoint1: CGPoint(x: 178.7, y: 40), controlPoint2: CGPoint(x: 168, y: 50.7))
+        uiBezierPath.addCurve(to: CGPoint(x: 192, y: 88), controlPoint1: CGPoint(x: 168, y: 77.3), controlPoint2: CGPoint(x: 178.7, y: 88))
+        uiBezierPath.move(to: CGPoint(x: 288, y: 202))
+        uiBezierPath.addLine(to: CGPoint(x: 288, y: 182))
+        uiBezierPath.addLine(to: CGPoint(x: 102, y: 182))
+        uiBezierPath.addLine(to: CGPoint(x: 102, y: 202))
+        uiBezierPath.addLine(to: CGPoint(x: 282, y: 202))
+        uiBezierPath.close()
+
+        let path = Path(uiBezierPath.cgPath)
+        return path.applying(transform)
+    }
+}
