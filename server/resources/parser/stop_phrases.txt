@@ -15,3 +15,7 @@ light
 intense
 fast
 slow
+morning
+evening
+night
+lunch
