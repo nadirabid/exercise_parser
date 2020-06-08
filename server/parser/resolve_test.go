@@ -502,6 +502,13 @@ func TestAerobicActivityFullMatch(t *testing.T) {
 		"s", "sec", "secs", "seconds", "min", "mins", "minutes", "hr", "hrs", "hour", "hours",
 	}
 
+	t.Run("{Exercise:String} {Time}{TimeUnits} {Distance}{DistanceUnits}", func(t *testing.T) {
+		expected := map[string]string{"Exercise": "morning walk", "Time": "35", "TimeUnits": "minutes", "Distance": "1.2", "DistanceUnits": "miles"}
+		parsed := resolveAllActivityExpressionsTestUtil("Morning walk 35 minutes 1.2 miles")
+		assert.Len(t, parsed, 1)
+		assert.Equal(t, expected, first(parsed).Captures)
+	})
+
 	t.Run("{Exercise:String} for {Time:Number} {TimeUnits}", func(t *testing.T) {
 		expected := map[string]string{"Exercise": "ran", "Time": "5", "TimeUnits": "mins"}
 		parsed := resolveAllActivityExpressionsTestUtil("ran for 5 mins")

@@ -12,7 +12,7 @@ import Combine
 import MapKit
 import SwiftUI
 
-struct MapView: UIViewRepresentable {
+struct WorkoutMapView: UIViewRepresentable {
     var location: Location
     
     func makeUIView(context: Context) -> MKMapView {
@@ -97,7 +97,7 @@ extension LocationManager: CLLocationManagerDelegate {
 #if DEBUG
 struct MapView_Previews : PreviewProvider {
     static var previews: some View {
-        MapView(location: Location(latitude: 37.34711392, longitude: -121.88290191))
+        WorkoutMapView(location: Location(latitude: 37.34711392, longitude: -121.88290191))
     }
 }
 #endif

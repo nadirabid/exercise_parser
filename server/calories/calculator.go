@@ -8,6 +8,8 @@ import (
 	"github.com/bearbin/go-age"
 )
 
+// TODO: update calories based on ROUNDS
+
 // Calculate calories from workout
 func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictionaries map[uint]*models.ExerciseDictionary) (int, error) {
 	totalCalories := 0.0
