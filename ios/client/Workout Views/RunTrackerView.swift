@@ -10,21 +10,12 @@ import SwiftUI
 import MapKit
 
 struct RunTrackerView: View {
-    private var locationManager = LocationManager()
-    
-    var location: Location? {
-        let coord: CLLocationCoordinate2D? = locationManager.lastLocation?.coordinate
-        return coord != nil ? Location(latitude: coord!.latitude, longitude: coord!.longitude) : nil
-    }
-    
+    @State var directions: [CLLocation] = [CLLocation(latitude: 27.2041206, longitude: 84.6093928), CLLocation(latitude: 20.7712763, longitude: 73.7317739)]
     var body: some View {
-        
-        return VStack {
-            if self.location != nil {
-                MapView(location: self.location!)
-                    .frame(height: 130)
-            }
+        VStack {
+            RunTrackerMapView()
         }
+        .edgesIgnoringSafeArea(.top)
     }
 }
 

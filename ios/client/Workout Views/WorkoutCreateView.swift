@@ -206,7 +206,7 @@ public struct WorkoutCreateView: View {
                     
                     if workoutState.isStopped {
                         if self.location != nil {
-                            MapView(location: self.location!)
+                            WorkoutMapView(location: self.location!)
                                 .frame(height: 130)
                         }
                         

@@ -15,7 +15,7 @@ enum WorkoutType {
 }
 
 struct WorkoutTypeSelectorView: View {
-    @State var workoutType: WorkoutType = .workout
+    @State var workoutType: WorkoutType = .run
     
     var body: some View {
         ZStack {
@@ -66,17 +66,19 @@ struct WorkoutTypeSelectorButtonsView: View {
                     Spacer()
                     
                     RunningIconShape()
+                        .fill(workoutType == .run ? appColor : Color.secondary)
                         .frame(width: 50, height: 20)
                     
                     Spacer()
                     
                     DumbbellIconShape()
-                        .fill(appColor)
+                        .fill(workoutType == .workout ? appColor : Color.secondary)
                         .frame(width: 50, height: 20)
                     
                     Spacer()
                     
                     ClipboardIconShape()
+                        .fill(workoutType == .routine ? appColor : Color.secondary)
                         .frame(width: 50, height: 20)
                     
                     Spacer()
@@ -111,6 +113,6 @@ struct WorkoutTypeSelectorButtonsView: View {
 
 struct WorkoutSelectorButtonsView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutTypeSelectorButtonsView().padding()
+        WorkoutTypeSelectorButtonsView(workoutType: .routine).padding()
     }
 }

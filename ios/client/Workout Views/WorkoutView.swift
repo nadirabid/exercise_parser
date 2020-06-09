@@ -139,7 +139,7 @@ struct WorkoutView: View {
             
             if view == "waveform.path.ecg" {
                 if self.workout.location != nil {
-                    MapView(location: self.workout.location!)
+                    WorkoutMapView(location: self.workout.location!)
                         .frame(height: CGFloat(130.0))
                 }
                 
