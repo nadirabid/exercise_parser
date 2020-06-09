@@ -282,7 +282,7 @@ public struct WorkoutCreateView: View {
                                 }
                             }
                             
-                            if !self.workoutState.isStopped {
+                            if !self.workoutState.isStopped && !self.disabled {
                                 VStack(spacing: 0) {
                                     if isCircuitEnabled && self.workoutState.exerciseStates.last?.circuitID == nil {
                                         Button(action: {

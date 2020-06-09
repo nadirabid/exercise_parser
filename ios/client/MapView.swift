@@ -23,13 +23,11 @@ struct RunTrackerMapView: UIViewRepresentable {
         view.userTrackingMode = .follow
         
         self.locationManager.startUpdatingLocation()
-
         
         return view
     }
     
     func updateUIView(_ view: MKMapView, context: Context) {
-        print("here")
         view.delegate = context.coordinator
 
         if let currentLocation = locationManager.lastLocation?.coordinate {

@@ -15,45 +15,96 @@ enum WorkoutType {
 }
 
 struct WorkoutTypeSelectorView: View {
-    @State var workoutType: WorkoutType = .run
+    @State var workoutType: WorkoutType = .workout
+    @State var workoutTypeConfirmed = false
+    
+    var blurRadius: CGFloat {
+        if workoutTypeConfirmed {
+            return 0
+        } else {
+            return 2
+        }
+    }
     
     var body: some View {
         ZStack {
-            if workoutType == .workout {
-                ZStack {
-                    WorkoutCreateView(disabled: true)
-                        .blur(radius: 1.5)
-                 
+            ZStack {
+                if workoutType == .workout {
+                    WorkoutCreateView(disabled: !workoutTypeConfirmed)
+                        .blur(radius: blurRadius)
+                        .transition(
+                            .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
+                        )
+                        .animation(.default)
+                } else if workoutType == .run {
+                    RunTrackerView()
+                        .blur(radius: blurRadius)
+                        .transition(
+                            .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
+                        )
+                        .animation(.default)
+                }
+             
+                if !workoutTypeConfirmed {
                     VStack(spacing: 0) {
                         Spacer()
                         
-                        HStack {
+                        HStack(spacing: 0) {
                             Spacer()
                             
-                            Text("00").font(.largeTitle)
-                            Text("h").font(.title)
-                            Text("00").font(.largeTitle)
-                            Text("m").font(.title)
-                            Text("00").font(.largeTitle)
-                            Text("s").font(.title)
+                            Text("00")
+                                .font(.largeTitle)
+                                .foregroundColor(appColor)
+                            Text("h")
+                                .font(.headline)
+                                .foregroundColor(appColor)
+                            Text("00")
+                                .font(.largeTitle)
+                                .foregroundColor(appColor)
+                            Text("m")
+                                .font(.headline)
+                                .foregroundColor(appColor)
+                            Text("00")
+                                .font(.largeTitle)
+                                .foregroundColor(appColor)
+                            Text("s")
+                                .font(.headline)
+                                .foregroundColor(appColor)
                             
                             Spacer()
                         }
                         
+                        if workoutType == .workout {
+                            Text("WORKOUT")
+                                .font(.caption)
+                                .fontWeight(.medium)
+                                .foregroundColor(appColor)
+                        } else if workoutType == .run {
+                            Text("RUN")
+                                .font(.caption)
+                                .fontWeight(.medium)
+                                .foregroundColor(appColor)
+                        }
+                        
+                        Spacer()
                         Spacer()
                     }
                 }
-            } else if workoutType == .run {
-                RunTrackerView()
             }
             
-            WorkoutTypeSelectorButtonsView(workoutType: workoutType)
+            if !workoutTypeConfirmed {
+                WorkoutTypeSelectorButtonsView(
+                    workoutType: $workoutType,
+                    workoutTypeConfirmed: $workoutTypeConfirmed
+                )
+            }
         }
     }
 }
 
 struct WorkoutTypeSelectorButtonsView: View {
-    var workoutType: WorkoutType
+    @Binding var workoutType: WorkoutType
+    @Binding var workoutTypeConfirmed: Bool
     
     var body: some View {
         VStack {
@@ -65,23 +116,35 @@ struct WorkoutTypeSelectorButtonsView: View {
                 HStack {
                     Spacer()
                     
-                    RunningIconShape()
-                        .fill(workoutType == .run ? appColor : Color.secondary)
-                        .frame(width: 50, height: 20)
+                    Button(action: {
+                        self.workoutType = .workout
+                    }) {
+                        DumbbellIconShape()
+                            .fill(workoutType == .workout ? appColor : Color.secondary)
+                            .frame(width: 50, height: 20)
+                    }
                     
                     Spacer()
                     
-                    DumbbellIconShape()
-                        .fill(workoutType == .workout ? appColor : Color.secondary)
-                        .frame(width: 50, height: 20)
+                    Button(action: {
+                        self.workoutType = .run
+                    }) {
+                        RunningIconShape()
+                            .fill(workoutType == .run ? appColor : Color.secondary)
+                            .frame(width: 50, height: 20)
+                    }
                     
                     Spacer()
                     
-                    ClipboardIconShape()
-                        .fill(workoutType == .routine ? appColor : Color.secondary)
-                        .frame(width: 50, height: 20)
-                    
-                    Spacer()
+//                    Button(action: {
+//                        self.workoutType = .routine
+//                    }) {
+//                        ClipboardIconShape()
+//                            .fill(workoutType == .routine ? appColor : Color.secondary)
+//                            .frame(width: 50, height: 20)
+//                    }
+//
+//                    Spacer()
                 }
                 .fixedSize(horizontal: false, vertical: true)
                 .padding([.bottom, .top])
@@ -89,7 +152,9 @@ struct WorkoutTypeSelectorButtonsView: View {
                 HStack {
                     Spacer()
                     
-                    Button(action: {}) {
+                    Button(action: {
+                        self.workoutTypeConfirmed = true
+                    }) {
                         Text("START")
                             .font(.footnote)
                             .fontWeight(.bold)
@@ -101,18 +166,34 @@ struct WorkoutTypeSelectorButtonsView: View {
                                     .foregroundColor(appColor)
                             )
                     }
-                    .padding([.bottom, .top])
+                        .padding([.bottom, .top])
                     
                     Spacer()
                 }
             }
                 .background(Color(UIColor.systemBackground))
+                .padding(.bottom)
+                .padding(.bottom)
         }
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
 struct WorkoutSelectorButtonsView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutTypeSelectorButtonsView(workoutType: .routine).padding()
+        let workoutType = Binding<WorkoutType>(
+            get: { WorkoutType.routine },
+            set: { _ in }
+        )
+        
+        let workoutTypeConfirmed = Binding<Bool>(
+            get: { false },
+            set: { _ in }
+        )
+        
+        return WorkoutTypeSelectorButtonsView(
+            workoutType: workoutType,
+            workoutTypeConfirmed: workoutTypeConfirmed
+        ).padding()
     }
 }

@@ -10,10 +10,9 @@ import SwiftUI
 import MapKit
 
 struct RunTrackerView: View {
-    @State var directions: [CLLocation] = [CLLocation(latitude: 27.2041206, longitude: 84.6093928), CLLocation(latitude: 20.7712763, longitude: 73.7317739)]
     var body: some View {
         VStack {
-            RunTrackerMapView(trackUserPath: true)
+            RunTrackerMapView(trackUserPath: false)
         }
         .edgesIgnoringSafeArea(.top)
     }
