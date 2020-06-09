@@ -12,22 +12,45 @@ import Combine
 import MapKit
 import SwiftUI
 
+// MARK: run tracker view
+
 struct RunTrackerMapView: UIViewRepresentable {
-    @ObservedObject var locationManager: RunTrackerLocationManager = RunTrackerLocationManager()
+    var trackUserPath: Bool
+    @ObservedObject private var locationManager: RunTrackerLocationManager = RunTrackerLocationManager()
     
     func makeUIView(context: Context) -> MKMapView {
-        return MKMapView()
+        let view = MKMapView()
+        view.userTrackingMode = .follow
+        
+        if let currentLocation = locationManager.lastLocation?.coordinate {
+            let span = MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)
+            let region = MKCoordinateRegion(center: currentLocation, span: span)
+            view.setRegion(region, animated: true)
+        }
+        
+        if self.trackUserPath {
+            self.locationManager.startUpdatingLocation()
+        } else {
+            self.locationManager.stopUpdatingLocation()
+        }
+        
+        return view
     }
     
     func updateUIView(_ view: MKMapView, context: Context) {
         view.delegate = context.coordinator
 
-        let l = MKPolyline(coordinates: locationManager.pathCoordinates, count: locationManager.pathCoordinates.count)
+        if let currentLocation = locationManager.lastLocation?.coordinate {
+            let span = MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)
+            let region = MKCoordinateRegion(center: currentLocation, span: span)
+            view.setRegion(region, animated: true)
+        }
 
         if !view.overlays.isEmpty {
             view.removeOverlays(view.overlays)
         }
         
+        let l = MKPolyline(coordinates: locationManager.pathCoordinates, count: locationManager.pathCoordinates.count)
         view.addOverlay(l)
     }
     
@@ -45,39 +68,9 @@ struct RunTrackerMapView: UIViewRepresentable {
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             let renderer = MKPolylineRenderer(overlay: overlay)
             renderer.strokeColor = secondaryAppColor.uiColor()
-            renderer.lineWidth = 5
+            renderer.lineWidth = 7
             return renderer
         }
-    }
-}
-
-struct WorkoutMapView: UIViewRepresentable {
-    var location: Location
-    
-    func makeUIView(context: Context) -> MKMapView {
-        let view = MKMapView(frame: .zero)
-        
-        let coordinate = CLLocationCoordinate2D(
-            latitude: self.location.latitude,
-            longitude: self.location.longitude
-        )
-        let span = MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)
-        let region = MKCoordinateRegion(center: coordinate, span: span)
-        view.setRegion(region, animated: true)
-        view.isZoomEnabled = false
-        view.isScrollEnabled = false
-        view.isUserInteractionEnabled = false
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        view.addAnnotation(annotation)
-        
-        return view
-    }
-    
-    func updateUIView(_ view: MKMapView, context: Context) {
-        
     }
 }
 
@@ -85,9 +78,19 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
     override init() {
         super.init()
         self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        self.locationManager.activityType = .fitness
+        self.locationManager.showsBackgroundLocationIndicator = true
+        self.locationManager.distanceFilter = 5
         self.locationManager.requestAlwaysAuthorization()
+    }
+    
+    func startUpdatingLocation() {
         self.locationManager.startUpdatingLocation()
+    }
+    
+    func stopUpdatingLocation() {
+        self.locationManager.stopUpdatingLocation()
     }
 
     @Published var locationStatus: CLAuthorizationStatus? {
@@ -133,6 +136,38 @@ extension RunTrackerLocationManager: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         self.lastLocation = location
         self.pathCoordinates.append(location.coordinate)
+    }
+}
+
+// MARK: workout map view
+
+struct WorkoutMapView: UIViewRepresentable {
+    var location: Location
+    
+    func makeUIView(context: Context) -> MKMapView {
+        let view = MKMapView(frame: .zero)
+        
+        let coordinate = CLLocationCoordinate2D(
+            latitude: self.location.latitude,
+            longitude: self.location.longitude
+        )
+        let span = MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)
+        let region = MKCoordinateRegion(center: coordinate, span: span)
+        view.setRegion(region, animated: true)
+        view.isZoomEnabled = false
+        view.isScrollEnabled = false
+        view.isUserInteractionEnabled = false
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        view.addAnnotation(annotation)
+        
+        return view
+    }
+    
+    func updateUIView(_ view: MKMapView, context: Context) {
+        
     }
 }
 
