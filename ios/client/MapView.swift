@@ -22,22 +22,14 @@ struct RunTrackerMapView: UIViewRepresentable {
         let view = MKMapView()
         view.userTrackingMode = .follow
         
-        if let currentLocation = locationManager.lastLocation?.coordinate {
-            let span = MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)
-            let region = MKCoordinateRegion(center: currentLocation, span: span)
-            view.setRegion(region, animated: true)
-        }
-        
-        if self.trackUserPath {
-            self.locationManager.startUpdatingLocation()
-        } else {
-            self.locationManager.stopUpdatingLocation()
-        }
+        self.locationManager.startUpdatingLocation()
+
         
         return view
     }
     
     func updateUIView(_ view: MKMapView, context: Context) {
+        print("here")
         view.delegate = context.coordinator
 
         if let currentLocation = locationManager.lastLocation?.coordinate {
@@ -50,8 +42,10 @@ struct RunTrackerMapView: UIViewRepresentable {
             view.removeOverlays(view.overlays)
         }
         
-        let l = MKPolyline(coordinates: locationManager.pathCoordinates, count: locationManager.pathCoordinates.count)
-        view.addOverlay(l)
+        if self.trackUserPath {
+            let l = MKPolyline(coordinates: locationManager.pathCoordinates, count: locationManager.pathCoordinates.count)
+            view.addOverlay(l)
+        }
     }
     
     func makeCoordinator() -> Coordinator {
@@ -75,6 +69,10 @@ struct RunTrackerMapView: UIViewRepresentable {
 }
 
 class RunTrackerLocationManager: NSObject, ObservableObject {
+    @Published var pathCoordinates: [CLLocationCoordinate2D] = []
+    let objectWillChange = PassthroughSubject<Void, Never>()
+    private let locationManager = CLLocationManager()
+    
     override init() {
         super.init()
         self.locationManager.delegate = self
@@ -104,8 +102,6 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
             objectWillChange.send()
         }
     }
-    
-    @Published var pathCoordinates: [CLLocationCoordinate2D] = []
 
     var statusString: String {
         guard let status = locationStatus else {
@@ -121,10 +117,6 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
         default: return "Weird"
         }
     }
-
-    let objectWillChange = PassthroughSubject<Void, Never>()
-
-    private let locationManager = CLLocationManager()
 }
 
 extension RunTrackerLocationManager: CLLocationManagerDelegate {
