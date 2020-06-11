@@ -495,7 +495,7 @@ func TestAerobicActivityFullMatch(t *testing.T) {
 	}
 
 	distanceUnits := []string{
-		"ft", "foot", "feet", "mi", "mile", "miles", "m", "meter", "meters", "kilometer", "kilometers", "km", "k",
+		"ft", "foot", "feet", "mi", "mils", "mile", "miles", "m", "meter", "meters", "kilometer", "kilometers", "km", "k",
 	}
 
 	timeUnits := []string{
