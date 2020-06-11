@@ -25,6 +25,7 @@ type Exercise struct {
 	CorrectiveCode       int                   `json:"corrective_code"`
 	CircuitID            *int                  `json:"circuit_id"`
 	CircuitRounds        int                   `json:"circuit_rounds"`
+	Locations            []Location            `json:"locations"`
 }
 
 func (Exercise) TableName() string {
