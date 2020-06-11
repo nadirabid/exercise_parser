@@ -19,3 +19,7 @@ morning
 evening
 night
 lunch
+start
+stop
+/leg
+/arm
