@@ -27,67 +27,64 @@ struct RunTrackerView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
+            VStack {
                 RunTrackerMapView(
                     trackUserPath: false,
                     locationManager: self.locationManager
                 )
+                    .animation(.none)
                 
-                VStack {
-                    Spacer()
+                VStack(alignment: .leading, spacing: 0) {
+                    RunTrackerMetaMetricsView(stopwatch: self.stopwatch, isStopped: self.isStopped, width: geometry.size.width)
                     
-                    VStack(alignment: .leading, spacing: 0) {
-                        RunTrackerMetaMetricsView(stopwatch: self.stopwatch, isStopped: self.isStopped, width: geometry.size.width)
-                        
-                        if self.isStopped {
-                            Divider()
-                        }
-                        
-                        HStack {
+                    if self.isStopped {
+                        Divider()
+                    }
+                    
+                    HStack(spacing: 0) {
+                        if !self.isStopped {
                             Spacer()
                             
-                            if !self.isStopped {
-                                Button(action: {
-                                    self.isStopped = true
-                                }) {
-                                    Image(systemName: "stop.circle")
-                                        .font(.largeTitle)
-                                        .foregroundColor(appColor)
-                                }
-                            } else {
-                                Button(action: {
-                                    self.routeState.replaceCurrent(with: .userFeed)
-                                }) {
-                                    Text("Save")
-                                        .foregroundColor(Color.secondary)
-                                        .animation(.none)
-                                }
-                                
-                                Spacer()
-                                Divider()
-                                Spacer()
-                                
-                                Button(action: {
-                                    self.isStopped = false
-                                    UIApplication.shared.endEditing()
-                                }) {
-                                    Text("Resume")
-                                        .foregroundColor(Color.secondary)
-                                        .animation(.none)
-                                }
+                            Button(action: {
+                                self.isStopped = true
+                            }) {
+                                Image(systemName: "stop.circle")
+                                    .font(.largeTitle)
+                                    .foregroundColor(appColor)
                             }
                             
                             Spacer()
+                        } else {
+                            Button(action: {
+                                self.routeState.replaceCurrent(with: .userFeed)
+                            }) {
+                                Text("Save")
+                                    .foregroundColor(Color.secondary)
+                                    .animation(.none)
+                            }
+                            .frame(width: geometry.size.width / 2)
+                            
+                            Divider()
+                            
+                            Button(action: {
+                                self.isStopped = false
+                                UIApplication.shared.endEditing()
+                            }) {
+                                Text("Resume")
+                                    .foregroundColor(Color.secondary)
+                                    .animation(.none)
+                            }
+                            .frame(width: geometry.size.width / 2)
                         }
-                        .padding()
-                        .fixedSize(horizontal: false, vertical: true)
                     }
-                    .background(Color(UIColor.systemBackground))
+                    .padding([.top, .bottom])
+                    .fixedSize(horizontal: false, vertical: true)
                 }
-                .keyboardObserving()
+                .background(Color(UIColor.systemBackground))
             }
-            .edgesIgnoringSafeArea(.top)
+            .keyboardObserving()
         }
+        .edgesIgnoringSafeArea(.top)
     }
 }
 
@@ -145,7 +142,7 @@ public struct RunTrackerMetaMetricsView: View {
                     .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
                     .introspectTextField { (textField: UITextField) in
                         textField.becomeFirstResponder()
-                    }
+                }
                 
                 VStack {
                     HStack(spacing: 0) {
