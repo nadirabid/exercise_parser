@@ -15,8 +15,9 @@ enum WorkoutType {
 }
 
 struct WorkoutTypeSelectorView: View {
-    @State var workoutType: WorkoutType = .workout
-    @State var workoutTypeConfirmed = false
+    @State private var workoutType: WorkoutType = .run
+    @State private var workoutTypeConfirmed = true
+    private var locationManager: RunTrackerLocationManager = RunTrackerLocationManager()
     
     var blurRadius: CGFloat {
         if workoutTypeConfirmed {
@@ -27,6 +28,8 @@ struct WorkoutTypeSelectorView: View {
     }
     
     var body: some View {
+        // TODO: disable locationManager if workout is confirmed?
+        
         ZStack {
             ZStack {
                 if workoutType == .workout {
@@ -37,7 +40,7 @@ struct WorkoutTypeSelectorView: View {
                         )
                         .animation(.default)
                 } else if workoutType == .run {
-                    RunTrackerView()
+                    RunTrackerView(disabled: !workoutTypeConfirmed, locationManager: locationManager)
                         .blur(radius: blurRadius)
                         .transition(
                             .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))

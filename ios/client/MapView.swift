@@ -16,7 +16,7 @@ import SwiftUI
 
 struct RunTrackerMapView: UIViewRepresentable {
     var trackUserPath: Bool
-    @ObservedObject private var locationManager: RunTrackerLocationManager = RunTrackerLocationManager()
+    @ObservedObject var locationManager: RunTrackerLocationManager
     
     func makeUIView(context: Context) -> MKMapView {
         let view = MKMapView()
