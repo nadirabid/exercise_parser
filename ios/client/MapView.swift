@@ -44,12 +44,23 @@ struct RunTrackerMapView: UIViewRepresentable {
             view.removeOverlays(view.overlays)
         }
         
-        let l = MKPolyline(
-            coordinates: locationManager.pathCoordinates,
-            count: locationManager.pathCoordinates.count
-        )
+        var paths: [[CLLocationCoordinate2D]] = [[]]
+        var currentPath: [CLLocationCoordinate2D] = paths.last!
         
-        view.addOverlay(l)
+        for c in locationManager.pathCoordinates {
+            let zero = CLLocationCoordinate2D.zero
+            if c.longitude == zero.longitude && c.latitude == zero.longitude {
+                currentPath = []
+                paths.append(currentPath)
+            } else {
+                currentPath.append(c)
+            }
+        }
+        
+        for p in paths {
+            let l = MKPolyline(coordinates: p, count: p.count)
+            view.addOverlay(l)
+        }
     }
     
     func makeCoordinator() -> Coordinator {
@@ -108,8 +119,17 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
     }
     
     func stopTrackingLocation() {
-        // add a zero coordinate to mark the "do not count" gap between start/stops
         self.trackPath = false
+        
+        // we add a zero coord to mark stop/start
+        if pathCoordinates.count > 0 {
+            let last = self.pathCoordinates.last!
+            
+             if last.latitude != CLLocationCoordinate2D.zero.latitude &&
+                last.longitude != CLLocationCoordinate2D.zero.longitude {
+                self.pathCoordinates.append(CLLocationCoordinate2D.zero)
+            }
+        }
     }
     
     @Published var locationStatus: CLAuthorizationStatus? {
@@ -171,6 +191,15 @@ extension RunTrackerLocationManager: CLLocationManagerDelegate {
         if let handler = self.locationUpdateHandler {
             handler(self.pathCoordinates.count, location.coordinate)
         }
+    }
+}
+
+extension CLLocationCoordinate2D {
+    static var zero: CLLocationCoordinate2D {
+        CLLocationCoordinate2D(
+            latitude: CLLocationDegrees.zero,
+            longitude: CLLocationDegrees.zero
+        )
     }
 }
 

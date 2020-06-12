@@ -26,11 +26,11 @@ struct RunTrackerView: View {
         locationManager.locationUpdateHandler = self.onLocationUpdate
         
         if !disabled {
-            stopwatch.start()
-            
             if !self.isStopped {
+                stopwatch.start()
                 self.locationManager.startTrackingLocation()
             } else {
+                stopwatch.stop()
                 self.locationManager.stopTrackingLocation()
             }
         }
@@ -110,6 +110,7 @@ struct RunTrackerView: View {
                             Button(action: {
                                 self.isStopped = true
                                 self.locationManager.stopTrackingLocation()
+                                self.stopwatch.stop()
                             }) {
                                 Image(systemName: "stop.circle")
                                     .font(.largeTitle)
@@ -132,6 +133,7 @@ struct RunTrackerView: View {
                             Button(action: {
                                 self.isStopped = false
                                 self.locationManager.startTrackingLocation()
+                                self.stopwatch.start()
                                 
                                 UIApplication.shared.endEditing()
                             }) {
@@ -215,8 +217,14 @@ public struct RunTrackerMetaMetricsView: View {
                 VStack {
                     HStack(spacing: 0) {
                         VStack(alignment: .center) {
-                            Text("Time").foregroundColor(Color.secondary)
-                            Text("5m 20s").font(.title).allowsTightening(false).fixedSize()
+                            Text("Time")
+                                .foregroundColor(Color.secondary)
+                                .fixedSize()
+                            
+                            Text(secondsToElapsedTimeString(self.stopwatch.counter))
+                                .font(.title)
+                                .allowsTightening(false)
+                                .fixedSize()
                         }
                         .padding([.leading, .trailing])
                         .frame(width: self.width / 2, alignment: .center)
@@ -235,6 +243,7 @@ public struct RunTrackerMetaMetricsView: View {
                     HStack(spacing: 0) {
                         VStack(alignment: .center) {
                             Text("Distance").foregroundColor(Color.secondary)
+                            
                             Text("3.2 mi").font(.title)
                         }
                         .padding([.leading, .trailing])
@@ -244,6 +253,7 @@ public struct RunTrackerMetaMetricsView: View {
                         
                         VStack(alignment: .center) {
                             Text("Pace").foregroundColor(Color.secondary)
+                            
                             Text("4:37 / mi").font(.title)
                         }
                         .padding([.leading, .trailing])
