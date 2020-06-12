@@ -73,7 +73,7 @@ struct RunTrackerView: View {
             .then { _ in
                 self.locationManager.stopUpdatingLocation()
                 self.routeState.replaceCurrent(with: .userFeed)
-            }
+        }
     }
     
     func onLocationUpdate(index: Int, location: CLLocationCoordinate2D) {
@@ -97,7 +97,13 @@ struct RunTrackerView: View {
                     .animation(.none)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    RunTrackerMetaMetricsView(stopwatch: self.stopwatch, runName: self.$workoutName, isStopped: self.isStopped, width: geometry.size.width)
+                    RunTrackerMetaMetricsView(
+                        locationManager: self.locationManager,
+                        stopwatch: self.stopwatch,
+                        runName: self.$workoutName,
+                        isStopped: self.isStopped,
+                        width: geometry.size.width
+                    )
                     
                     if self.isStopped {
                         Divider()
@@ -166,14 +172,35 @@ extension UIApplication {
 }
 
 public struct RunTrackerMetaMetricsView: View {
+    @ObservedObject var locationManager: RunTrackerLocationManager
     @ObservedObject var stopwatch: Stopwatch
     @Binding var runName: String
     
     var isStopped: Bool = false
     var width: CGFloat = 0
     
-    var totalDistance: Float {
-        return 0
+    var totalDistance: Double {
+        let d = locationManager.currentDistance
+        let m = Measurement(value: d, unit: UnitLength.meters)
+        
+        if m.converted(to: UnitLength.feet).value >= 200 {
+            let v = m.converted(to: UnitLength.miles).value
+            return round(v*100) / 100
+        }
+        
+        let v = m.converted(to: UnitLength.feet).value
+        return round(v*100) / 100
+    }
+    
+    var distanceUnits: String {
+        let d = locationManager.currentDistance
+        let m = Measurement(value: d, unit: UnitLength.meters)
+        
+        if m.converted(to: UnitLength.feet).value >= 200 {
+            return UnitLength.miles.symbol
+        }
+        
+        return UnitLength.feet.symbol
     }
     
     public var body: some View {
@@ -191,7 +218,7 @@ public struct RunTrackerMetaMetricsView: View {
                     
                     WorkoutDetail(
                         name: "Distance",
-                        value: "\(self.totalDistance) mi"
+                        value: "\(self.totalDistance) \(self.distanceUnits)"
                     )
                         .padding([.leading, .trailing])
                         .frame(width: self.width / 2, alignment: .center)
@@ -205,14 +232,14 @@ public struct RunTrackerMetaMetricsView: View {
                     .padding(.bottom, 3)
                     .foregroundColor(Color.gray)
                 
-                TextField("Wednesday workout", text: self.$runName)
+                TextField(dateToWorkoutName(Date()), text: self.$runName)
                     .padding([.leading, .trailing])
                     .padding([.top, .bottom], 12)
                     .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
                     .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
                     .introspectTextField { (textField: UITextField) in
                         textField.becomeFirstResponder()
-                    }
+                }
                 
                 VStack {
                     HStack(spacing: 0) {
@@ -244,7 +271,9 @@ public struct RunTrackerMetaMetricsView: View {
                         VStack(alignment: .center) {
                             Text("Distance").foregroundColor(Color.secondary)
                             
-                            Text("3.2 mi").font(.title)
+                            Text("\(self.totalDistance) \(self.distanceUnits)")
+                                .font(.title)
+                                .fixedSize()
                         }
                         .padding([.leading, .trailing])
                         .frame(width: self.width / 2, alignment: .center)

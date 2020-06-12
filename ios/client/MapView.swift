@@ -126,8 +126,33 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
              if last.latitude != CLLocationCoordinate2D.zero.latitude &&
                 last.longitude != CLLocationCoordinate2D.zero.longitude {
                 self.pathCoordinates.append(CLLocationCoordinate2D.zero)
+                
+                if let handler = self.locationUpdateHandler {
+                    handler(self.pathCoordinates.count, CLLocationCoordinate2D.zero)
+                }
             }
         }
+    }
+    
+    var currentDistance: CLLocationDistance {
+        var distance = CLLocationDistance.zero
+        var last: CLLocation? = nil
+        let zero = CLLocationCoordinate2D.zero
+        
+        for c in self.pathCoordinates {
+            let l = CLLocation(latitude: c.latitude, longitude: c.longitude)
+            
+            if last != nil &&
+                (c.latitude != zero.latitude && c.longitude != zero.longitude) &&
+                (last!.coordinate.latitude != zero.latitude && last!.coordinate.longitude != zero.longitude) {
+                let d = last!.distance(from: l)
+                distance = distance + d
+            }
+            
+            last = l
+        }
+        
+        return distance
     }
     
     @Published var locationStatus: CLAuthorizationStatus? {
