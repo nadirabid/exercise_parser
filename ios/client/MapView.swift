@@ -96,22 +96,19 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
     }
     
     func startUpdatingLocation() {
-        print("loc:updateLocation:true")
         self.locationManager.startUpdatingLocation()
     }
     
     func stopUpdatingLocation() {
-        print("loc:updateLocation:false")
         self.locationManager.stopUpdatingLocation()
     }
     
     func startTrackingLocation() {
-        print("loc:trackPath:true")
         self.trackPath = true
     }
     
     func stopTrackingLocation() {
-        print("loc:trackPath:false")
+        // add a zero coordinate to mark the "do not count" gap between start/stops
         self.trackPath = false
     }
     
