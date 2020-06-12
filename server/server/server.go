@@ -200,6 +200,9 @@ func New(v *viper.Viper) error {
 	apiRoutes.PUT("/exercise/:id", handlePutExercise)
 	apiRoutes.DELETE("/exercise/:id", handleDeleteExercise)
 
+	// returns location
+	apiRoutes.POST("/exercise/:id/location", handlePostLocationForExercise)
+
 	// returns dictionary
 	apiRoutes.GET("/dictionary", MiddlewareRoles(handleGetExerciseDictionaryList, "admin"))
 	apiRoutes.GET("/dictionary/search", MiddlewareRoles(handleGetSearchDictionary, "admin"))
@@ -217,6 +220,7 @@ func New(v *viper.Viper) error {
 	apiRoutes.GET("/workout/:id", handleGetWorkout)
 	apiRoutes.POST("/workout", handlePostWorkout)
 	apiRoutes.PUT("/workout/:id", handlePutWorkout)
+	apiRoutes.PATCH("/workout/:id/complete", handlePatchWorkoutAsComplete)
 	apiRoutes.DELETE("/workout/:id", handleDeleteWorkout)
 
 	// returns metrics

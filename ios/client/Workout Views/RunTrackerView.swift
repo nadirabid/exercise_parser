@@ -11,31 +11,84 @@ import MapKit
 
 struct RunTrackerView: View {
     @EnvironmentObject var routeState: RouteState
+    @EnvironmentObject var workoutAPI: WorkoutAPI
+    @EnvironmentObject var locationAPI: LocationAPI
     
     @State var isStopped: Bool = true
+    @State var workout: Workout? = nil
+    @State var workoutName: String = ""
     
     var locationManager: RunTrackerLocationManager
     var stopwatch: Stopwatch = Stopwatch()
     
     init(disabled: Bool, locationManager _locationManager: RunTrackerLocationManager) {
         locationManager = _locationManager
+        locationManager.locationUpdateHandler = self.onLocationUpdate
         
         if !disabled {
             stopwatch.start()
         }
     }
     
+    func createWorkout() {
+        #if targetEnvironment(simulator)
+        let location = Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
+        #else
+        let coord = locationManager.lastLocation?.coordinate
+        let location = coord != nil ? Location(latitude: coord!.latitude, longitude: coord!.longitude, exerciseID: nil, index: nil) : nil
+        #endif
+        
+        let workout = Workout(
+            name: dateToWorkoutName(Date()),
+            date: Date(),
+            exercises: [Exercise()],
+            location: location,
+            secondsElapsed: stopwatch.counter,
+            inProgress: true
+        )
+        
+        workoutAPI.createWorkout(workout: workout) { (workout) in
+            self.workout = workout
+        }
+    }
+    
+    func completeWorkout() {
+        let workout = Workout(
+            id: self.workout!.id!,
+            name: self.workoutName == "" ? dateToWorkoutName(Date()) : self.workoutName,
+            secondsElapsed: stopwatch.counter,
+            inProgress: false
+        )
+        
+        workoutAPI
+            .updateWorkoutAsComplete(workout)
+            .then { _ in
+                self.routeState.replaceCurrent(with: .userFeed)
+            }
+    }
+    
+    func onLocationUpdate(index: Int, location: CLLocationCoordinate2D) {
+        guard let exercise = self.workout?.exercises.first else { return }
+        guard let coord = locationManager.lastLocation?.coordinate else { return }
+        
+        let location = Location(
+            latitude: coord.latitude,
+            longitude: coord.longitude,
+            exerciseID: exercise.id,
+            index: index
+        )
+        
+        _ = locationAPI.createLocation(location)
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                RunTrackerMapView(
-                    trackUserPath: false,
-                    locationManager: self.locationManager
-                )
+                RunTrackerMapView(locationManager: self.locationManager)
                     .animation(.none)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    RunTrackerMetaMetricsView(stopwatch: self.stopwatch, isStopped: self.isStopped, width: geometry.size.width)
+                    RunTrackerMetaMetricsView(stopwatch: self.stopwatch, runName: self.$workoutName, isStopped: self.isStopped, width: geometry.size.width)
                     
                     if self.isStopped {
                         Divider()
@@ -47,6 +100,7 @@ struct RunTrackerView: View {
                             
                             Button(action: {
                                 self.isStopped = true
+                                self.locationManager.stopUpdatingLocation()
                             }) {
                                 Image(systemName: "stop.circle")
                                     .font(.largeTitle)
@@ -56,7 +110,7 @@ struct RunTrackerView: View {
                             Spacer()
                         } else {
                             Button(action: {
-                                self.routeState.replaceCurrent(with: .userFeed)
+                                self.completeWorkout()
                             }) {
                                 Text("Save")
                                     .foregroundColor(Color.secondary)
@@ -68,6 +122,8 @@ struct RunTrackerView: View {
                             
                             Button(action: {
                                 self.isStopped = false
+                                self.locationManager.stopUpdatingLocation()
+                                
                                 UIApplication.shared.endEditing()
                             }) {
                                 Text("Resume")
@@ -85,6 +141,9 @@ struct RunTrackerView: View {
             .keyboardObserving()
         }
         .edgesIgnoringSafeArea(.top)
+        .onAppear {
+            self.createWorkout()
+        }
     }
 }
 
@@ -97,7 +156,7 @@ extension UIApplication {
 
 public struct RunTrackerMetaMetricsView: View {
     @ObservedObject var stopwatch: Stopwatch
-    @State var runName: String = ""
+    @Binding var runName: String
     
     var isStopped: Bool = false
     var width: CGFloat = 0
@@ -142,7 +201,7 @@ public struct RunTrackerMetaMetricsView: View {
                     .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
                     .introspectTextField { (textField: UITextField) in
                         textField.becomeFirstResponder()
-                }
+                    }
                 
                 VStack {
                     HStack(spacing: 0) {

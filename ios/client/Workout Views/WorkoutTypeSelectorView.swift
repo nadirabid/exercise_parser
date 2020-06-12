@@ -15,15 +15,27 @@ enum WorkoutType {
 }
 
 struct WorkoutTypeSelectorView: View {
+    @ObservedObject var locationManager: RunTrackerLocationManager = RunTrackerLocationManager()
+    
     @State private var workoutType: WorkoutType = .run
     @State private var workoutTypeConfirmed = true
-    private var locationManager: RunTrackerLocationManager = RunTrackerLocationManager()
     
     var blurRadius: CGFloat {
         if workoutTypeConfirmed {
             return 0
         } else {
-            return 2
+            return 3
+        }
+    }
+    
+    var isLocationEnabled: Bool {
+        switch locationManager.locationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            return true
+        case .notDetermined, .restricted, .denied:
+            return false
+        default:
+            return false
         }
     }
     
@@ -87,6 +99,13 @@ struct WorkoutTypeSelectorView: View {
                                 .font(.caption)
                                 .fontWeight(.medium)
                                 .foregroundColor(appColor)
+                            
+                            if !isLocationEnabled {
+                                Text("LOCATION SERVICES REQUIRED")
+                                    .font(.caption)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(appColor)
+                            }
                         }
                         
                         Spacer()
@@ -98,7 +117,8 @@ struct WorkoutTypeSelectorView: View {
             if !workoutTypeConfirmed {
                 WorkoutTypeSelectorButtonsView(
                     workoutType: $workoutType,
-                    workoutTypeConfirmed: $workoutTypeConfirmed
+                    workoutTypeConfirmed: $workoutTypeConfirmed,
+                    isLocationEnabled: isLocationEnabled
                 )
             }
         }
@@ -108,6 +128,16 @@ struct WorkoutTypeSelectorView: View {
 struct WorkoutTypeSelectorButtonsView: View {
     @Binding var workoutType: WorkoutType
     @Binding var workoutTypeConfirmed: Bool
+    
+    let isLocationEnabled: Bool
+    
+    var startButtonColor: Color {
+        if workoutType == .run && !isLocationEnabled {
+            return Color.secondary
+        } else {
+            return appColor
+        }
+    }
     
     var body: some View {
         VStack {
@@ -138,16 +168,6 @@ struct WorkoutTypeSelectorButtonsView: View {
                     }
                     
                     Spacer()
-                    
-//                    Button(action: {
-//                        self.workoutType = .routine
-//                    }) {
-//                        ClipboardIconShape()
-//                            .fill(workoutType == .routine ? appColor : Color.secondary)
-//                            .frame(width: 50, height: 20)
-//                    }
-//
-//                    Spacer()
                 }
                 .fixedSize(horizontal: false, vertical: true)
                 .padding([.bottom, .top])
@@ -166,10 +186,11 @@ struct WorkoutTypeSelectorButtonsView: View {
                             .background(
                                 Circle()
                                     .scaledToFill()
-                                    .foregroundColor(appColor)
+                                    .foregroundColor(startButtonColor)
                             )
                     }
                         .padding([.bottom, .top])
+                        .disabled(!isLocationEnabled)
                     
                     Spacer()
                 }
@@ -196,7 +217,8 @@ struct WorkoutSelectorButtonsView_Previews: PreviewProvider {
         
         return WorkoutTypeSelectorButtonsView(
             workoutType: workoutType,
-            workoutTypeConfirmed: workoutTypeConfirmed
+            workoutTypeConfirmed: workoutTypeConfirmed,
+            isLocationEnabled: true
         ).padding()
     }
 }

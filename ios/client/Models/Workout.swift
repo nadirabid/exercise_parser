@@ -19,6 +19,7 @@ struct Workout: Codable, Identifiable, Hashable {
     let userID: Int
     let location: Location?
     let secondsElapsed: Int
+    let inProgress: Bool
     
     init(
         id: Int? = nil,
@@ -29,7 +30,8 @@ struct Workout: Codable, Identifiable, Hashable {
         exercises: [Exercise] = [],
         userID: Int = 0,
         location: Location? = nil,
-        secondsElapsed: Int = 0
+        secondsElapsed: Int = 0,
+        inProgress: Bool = false
     ) {
         self.id = id
         self.createdAt = createdAt
@@ -40,6 +42,7 @@ struct Workout: Codable, Identifiable, Hashable {
         self.userID = userID
         self.location = location
         self.secondsElapsed = secondsElapsed
+        self.inProgress = false
     }
     
     func hasAtleastOneResolvedExercises() -> Bool {
@@ -59,6 +62,7 @@ struct Workout: Codable, Identifiable, Hashable {
         case updatedAt = "updated_at"
         case userID = "user_id"
         case secondsElapsed = "seconds_elapsed"
+        case inProgress = "in_progress"
         case id, name, date, exercises, location
     }
 }
@@ -66,6 +70,25 @@ struct Workout: Codable, Identifiable, Hashable {
 struct Location: Codable {
     let latitude: Double
     let longitude: Double
+    let exerciseID: Int?
+    let index: Int?
+    
+    init(
+        latitude: Double = 0,
+        longitude: Double = 0,
+        exerciseID: Int? = nil,
+        index: Int? = nil
+    ) {
+        self.latitude = latitude
+        self.longitude = longitude
+        self.exerciseID = exerciseID
+        self.index = index
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case exerciseID = "exercise_id"
+        case latitude, longitude, index
+    }
 }
 
 struct Exercise: Codable, Identifiable {

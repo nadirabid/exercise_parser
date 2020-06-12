@@ -14,7 +14,7 @@ import Promises
 class WorkoutAPI: ObservableObject {
     private var userState: UserState
     private let encoder = JSONEncoder()
-
+    
     init(userState: UserState) {
         self.userState = userState
         self.encoder.dateEncodingStrategy = .iso8601
@@ -50,7 +50,7 @@ class WorkoutAPI: ObservableObject {
                         print("Failed with error message from server", String(data: data, encoding: .utf8)!)
                     }
                 }
-            }
+        }
     }
     
     func getUserSubscriptionWorkouts(page: Int = 0, pageSize: Int = 20, _ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) -> DataRequest? {
@@ -76,7 +76,7 @@ class WorkoutAPI: ObservableObject {
                         print("Failed with error message from server", String(data: data, encoding: .utf8)!)
                     }
                 }
-            }
+        }
     }
     
     func createWorkout(workout: Workout, _ completionHandler: @escaping (Workout) -> Void) {
@@ -96,7 +96,7 @@ class WorkoutAPI: ObservableObject {
                         print("Failed with error message from server", String(data: data, encoding: .utf8)!)
                     }
                 }
-            }
+        }
     }
     
     func updateWorkout(workout: Workout) -> Promise<Workout> {
@@ -121,7 +121,33 @@ class WorkoutAPI: ObservableObject {
                         }
                         reject(error)
                     }
-                }
+            }
+        }
+    }
+    
+    func updateWorkoutAsComplete(_ workout: Workout) -> Promise<Workout> {
+        let url = "\(baseURL)/api/workout/\(workout.id!)/complete"
+        
+        return Promise<Workout> { (fulfill, reject) in
+            AF
+                .request(url, method: .patch, parameters: workout, encoder: JSONParameterEncoder(encoder: self.encoder), headers: self.headers)
+                .validate()
+                .response { (response) in
+                    switch response.result {
+                    case .success(let data):
+                        let decoder = JSONDecoder()
+                        decoder.dateDecodingStrategy = decodeStrategy()
+                        
+                        let result = try! decoder.decode(Workout.self, from: data!)
+                        fulfill(result)
+                    case .failure(let error):
+                        print("Failed to mark workout as complete", error)
+                        if let data = response.data {
+                            print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                        }
+                        reject(error)
+                    }
+            }
         }
     }
     
@@ -143,7 +169,7 @@ class WorkoutAPI: ObservableObject {
                         }
                         reject(error)
                     }
-                }
+            }
         }
     }
 }
@@ -222,7 +248,7 @@ class MockWorkoutAPI: WorkoutAPI {
             )
         ]
     )
-
+    
     override func getUserSubscriptionWorkouts(page: Int = 0, pageSize: Int = 20, _ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) -> DataRequest? {
         completionHandler(self.localFeedData)
         return nil

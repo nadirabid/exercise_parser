@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func handlePostLocation(c echo.Context) error {
+func handlePostLocationForExercise(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.DB()
 

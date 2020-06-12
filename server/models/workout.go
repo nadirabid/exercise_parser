@@ -13,6 +13,7 @@ type Workout struct {
 	Location       *Location  `json:"location"`
 	SecondsElapsed uint       `json:"seconds_elapsed"`
 	Exercises      []Exercise `json:"exercises"`
+	InProgress     bool       `json:"in_progress"`
 }
 
 func (Workout) TableName() string {

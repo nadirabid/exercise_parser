@@ -57,7 +57,7 @@ public struct WorkoutCreateView: View {
         self.location = Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
         #else
         let coord: CLLocationCoordinate2D? = locationManager.lastLocation?.coordinate
-        self.location = coord != nil ? Location(latitude: coord!.latitude, longitude: coord!.longitude) : nil
+        self.location = coord != nil ? Location(latitude: coord!.latitude, longitude: coord!.longitude, exerciseID: nil, index: nil) : nil
         #endif
         
         self.stopwatch.stop()

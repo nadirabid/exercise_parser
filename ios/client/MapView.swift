@@ -22,14 +22,11 @@ func centerMapOnLocation(_ location: CLLocation, mapView: MKMapView) {
 }
 
 struct RunTrackerMapView: UIViewRepresentable {
-    var trackUserPath: Bool
     @ObservedObject var locationManager: RunTrackerLocationManager
     
     func makeUIView(context: Context) -> MKMapView {
         let view = MKMapView()
         view.userTrackingMode = .follow
-        
-        self.locationManager.startUpdatingLocation()
         
         return view
     }
@@ -46,11 +43,9 @@ struct RunTrackerMapView: UIViewRepresentable {
         if !view.overlays.isEmpty {
             view.removeOverlays(view.overlays)
         }
-        
-        if self.trackUserPath {
-            let l = MKPolyline(coordinates: locationManager.pathCoordinates, count: locationManager.pathCoordinates.count)
-            view.addOverlay(l)
-        }
+ 
+        let l = MKPolyline(coordinates: locationManager.pathCoordinates, count: locationManager.pathCoordinates.count)
+        view.addOverlay(l)
     }
     
     func makeCoordinator() -> Coordinator {
@@ -73,19 +68,27 @@ struct RunTrackerMapView: UIViewRepresentable {
     }
 }
 
+typealias LocationUpdateHandler = ((Int, CLLocationCoordinate2D) -> Void)
+
 class RunTrackerLocationManager: NSObject, ObservableObject {
     @Published var pathCoordinates: [CLLocationCoordinate2D] = []
+    
     let objectWillChange = PassthroughSubject<Void, Never>()
+    var locationUpdateHandler: LocationUpdateHandler?
+    
     private let locationManager = CLLocationManager()
     
     override init() {
         super.init()
+        
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         self.locationManager.activityType = .fitness
         self.locationManager.showsBackgroundLocationIndicator = true
-        self.locationManager.distanceFilter = 5
+        self.locationManager.distanceFilter = 6
         self.locationManager.requestAlwaysAuthorization()
+        
+        self.locationUpdateHandler = nil
     }
     
     func startUpdatingLocation() {
@@ -133,6 +136,10 @@ extension RunTrackerLocationManager: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         self.lastLocation = location
         self.pathCoordinates.append(location.coordinate)
+        
+        if let handler = self.locationUpdateHandler {
+            handler(self.pathCoordinates.count, location.coordinate)
+        }
     }
 }
 

@@ -3,6 +3,7 @@ package server
 import (
 	"bytes"
 	"exercise_parser/models"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -19,6 +20,7 @@ func MiddlewareJWTAuth(next echo.HandlerFunc) echo.HandlerFunc {
 
 		if authorization == "" && !ctx.viper.GetBool("middleware.auth") {
 			// when auth is disabled - and there is no token - we'll create one
+			fmt.Println("here1")
 			fakeUser := models.User{}
 			if err := ctx.db.Where("external_user_id = 'fake.user.id'").First(&fakeUser).Error; err != nil {
 				return c.JSON(http.StatusNotFound, newErrorMessage("Seed fake user! Cannot authenticate."))
@@ -26,8 +28,10 @@ func MiddlewareJWTAuth(next echo.HandlerFunc) echo.HandlerFunc {
 
 			ctx.jwt = generateFakeUserJWT(fakeUser)
 
+			fmt.Println("here2")
 			return next(ctx)
 		} else if authorization == "" {
+			fmt.Println("here3")
 			return c.JSON(
 				http.StatusUnauthorized,
 				newErrorMessage("Authorization header is unspecified"),
@@ -37,6 +41,7 @@ func MiddlewareJWTAuth(next echo.HandlerFunc) echo.HandlerFunc {
 		token := strings.Split(authorization, " ")
 
 		if len(token) != 2 {
+			fmt.Println("here4")
 			return c.JSON(
 				http.StatusUnauthorized,
 				newErrorMessage("Authorization should have format: Bearer <token>"),
@@ -49,6 +54,7 @@ func MiddlewareJWTAuth(next echo.HandlerFunc) echo.HandlerFunc {
 		)
 
 		if err != nil {
+			fmt.Println("here5")
 			return c.JSON(
 				http.StatusUnauthorized,
 				newErrorMessage(err.Error()),

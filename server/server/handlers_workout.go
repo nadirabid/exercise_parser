@@ -60,7 +60,7 @@ func handleGetAllUserWorkout(c echo.Context) error {
 		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
-		Where("user_id = ?", userID).
+		Where("user_id = ? AND in_progress = FALSE", userID).
 		Order("created_at desc")
 
 	listResponse, err := paging(q, page, size, &workouts)
@@ -92,6 +92,7 @@ func handleGetUserWorkoutSubscriptionFeed(c echo.Context) error {
 		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
+		Where("in_progress = FALSE").
 		Order("created_at desc")
 
 	listResponse, err := paging(q, page, size, &workouts)
@@ -222,6 +223,61 @@ func handlePutWorkout(c echo.Context) error {
 
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	go func() {
+		ctx.logger.Infof("Compute metrics for workout: %s\n", existingWorkout.ID)
+
+		if err := metrics.ComputeForWorkout(existingWorkout.ID, ctx.db); err != nil {
+			ctx.logger.Error(err.Error())
+		} else {
+			ctx.logger.Infof("Complete metrics for workout: %s\n", existingWorkout.ID)
+		}
+	}()
+
+	return ctx.JSON(http.StatusOK, updatedWorkout)
+}
+
+func handlePatchWorkoutAsComplete(c echo.Context) error {
+	ctx := c.(*Context)
+
+	workoutID, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	updatedWorkout := &models.Workout{}
+
+	if err := ctx.Bind(updatedWorkout); err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	userID := getUserIDFromContext(ctx)
+
+	existingWorkout := &models.Workout{}
+	err = ctx.DB().
+		Preload("Location").
+		Preload("Exercises").
+		Preload("Exercises.ExerciseData").
+		Where("id = ?", uint(workoutID)).
+		Where("user_id = ?", userID).
+		First(existingWorkout).
+		Error
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	updatedWorkout.ID = existingWorkout.ID
+	updatedWorkout.Date = existingWorkout.Date
+	updatedWorkout.SecondsElapsed = existingWorkout.SecondsElapsed
+	updatedWorkout.UserID = existingWorkout.UserID
+	updatedWorkout.Location = existingWorkout.Location
+
+	err = ctx.DB().Set("gorm:association_autoupdate", false).Model(updatedWorkout).Update(*updatedWorkout).Error
+
+	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 	}
 

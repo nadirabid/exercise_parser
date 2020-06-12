@@ -1,7 +1,7 @@
 BEGIN;
 
 ALTER TABLE locations
-ADD COLUMN IF NOT EXISTS index integer DEFAULT -1,
+ADD COLUMN IF NOT EXISTS index integer,
 ADD COLUMN IF NOT EXISTS exercise_id integer REFERENCES exercises(id) ON DELETE CASCADE;
 
 COMMIT;
