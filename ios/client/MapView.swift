@@ -45,15 +45,13 @@ struct RunTrackerMapView: UIViewRepresentable {
         }
         
         var paths: [[CLLocationCoordinate2D]] = [[]]
-        var currentPath: [CLLocationCoordinate2D] = paths.last!
         
         for c in locationManager.pathCoordinates {
             let zero = CLLocationCoordinate2D.zero
             if c.longitude == zero.longitude && c.latitude == zero.longitude {
-                currentPath = []
-                paths.append(currentPath)
+                paths.append([])
             } else {
-                currentPath.append(c)
+                paths[paths.count - 1].append(c)
             }
         }
         
