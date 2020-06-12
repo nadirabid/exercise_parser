@@ -15,27 +15,16 @@ enum WorkoutType {
 }
 
 struct WorkoutTypeSelectorView: View {
-    @ObservedObject var locationManager: RunTrackerLocationManager = RunTrackerLocationManager()
-    
     @State private var workoutType: WorkoutType = .run
     @State private var workoutTypeConfirmed = true
+    
+    private var locationManager: RunTrackerLocationManager = RunTrackerLocationManager()
     
     var blurRadius: CGFloat {
         if workoutTypeConfirmed {
             return 0
         } else {
             return 3
-        }
-    }
-    
-    var isLocationEnabled: Bool {
-        switch locationManager.locationStatus {
-        case .authorizedAlways, .authorizedWhenInUse:
-            return true
-        case .notDetermined, .restricted, .denied:
-            return false
-        default:
-            return false
         }
     }
     
@@ -61,78 +50,90 @@ struct WorkoutTypeSelectorView: View {
                 }
              
                 if !workoutTypeConfirmed {
-                    VStack(spacing: 0) {
-                        Spacer()
-                        
-                        HStack(spacing: 0) {
-                            Spacer()
-                            
-                            Text("00")
-                                .font(.largeTitle)
-                                .foregroundColor(appColor)
-                            Text("h")
-                                .font(.headline)
-                                .foregroundColor(appColor)
-                            Text("00")
-                                .font(.largeTitle)
-                                .foregroundColor(appColor)
-                            Text("m")
-                                .font(.headline)
-                                .foregroundColor(appColor)
-                            Text("00")
-                                .font(.largeTitle)
-                                .foregroundColor(appColor)
-                            Text("s")
-                                .font(.headline)
-                                .foregroundColor(appColor)
-                            
-                            Spacer()
-                        }
-                        
-                        if workoutType == .workout {
-                            Text("WORKOUT")
-                                .font(.caption)
-                                .fontWeight(.medium)
-                                .foregroundColor(appColor)
-                        } else if workoutType == .run {
-                            Text("RUN")
-                                .font(.caption)
-                                .fontWeight(.medium)
-                                .foregroundColor(appColor)
-                            
-                            if !isLocationEnabled {
-                                Text("LOCATION SERVICES REQUIRED")
-                                    .font(.caption)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(appColor)
-                            }
-                        }
-                        
-                        Spacer()
-                        Spacer()
-                    }
+                    WorkoutSelectionInformationOverlay(
+                        locationManager: self.locationManager,
+                        workoutType: self.workoutType
+                    )
                 }
             }
             
             if !workoutTypeConfirmed {
                 WorkoutTypeSelectorButtonsView(
+                    locationManager: locationManager,
                     workoutType: $workoutType,
-                    workoutTypeConfirmed: $workoutTypeConfirmed,
-                    isLocationEnabled: isLocationEnabled
+                    workoutTypeConfirmed: $workoutTypeConfirmed
                 )
             }
         }
     }
 }
 
+struct WorkoutSelectionInformationOverlay: View {
+    @ObservedObject var locationManager: RunTrackerLocationManager
+    var workoutType: WorkoutType
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            Spacer()
+            
+            HStack(spacing: 0) {
+                Spacer()
+                
+                Text("00")
+                    .font(.largeTitle)
+                    .foregroundColor(appColor)
+                Text("h")
+                    .font(.headline)
+                    .foregroundColor(appColor)
+                Text("00")
+                    .font(.largeTitle)
+                    .foregroundColor(appColor)
+                Text("m")
+                    .font(.headline)
+                    .foregroundColor(appColor)
+                Text("00")
+                    .font(.largeTitle)
+                    .foregroundColor(appColor)
+                Text("s")
+                    .font(.headline)
+                    .foregroundColor(appColor)
+                
+                Spacer()
+            }
+            
+            if workoutType == .workout {
+                Text("WORKOUT")
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(appColor)
+            } else if workoutType == .run {
+                Text("RUN")
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(appColor)
+                
+                if !locationManager.isLocationEnabled {
+                    Text("LOCATION SERVICES REQUIRED")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(appColor)
+                }
+            }
+            
+            Spacer()
+            Spacer()
+        }
+    }
+}
+
 struct WorkoutTypeSelectorButtonsView: View {
+    @ObservedObject var locationManager: RunTrackerLocationManager
+    
     @Binding var workoutType: WorkoutType
     @Binding var workoutTypeConfirmed: Bool
     
-    let isLocationEnabled: Bool
-    
     var startButtonColor: Color {
-        if workoutType == .run && !isLocationEnabled {
+        if workoutType == .run && !locationManager.isLocationEnabled {
             return Color.secondary
         } else {
             return appColor
@@ -190,7 +191,7 @@ struct WorkoutTypeSelectorButtonsView: View {
                             )
                     }
                         .padding([.bottom, .top])
-                        .disabled(!isLocationEnabled)
+                        .disabled(!locationManager.isLocationEnabled)
                     
                     Spacer()
                 }
@@ -216,9 +217,9 @@ struct WorkoutSelectorButtonsView_Previews: PreviewProvider {
         )
         
         return WorkoutTypeSelectorButtonsView(
+            locationManager: RunTrackerLocationManager(),
             workoutType: workoutType,
-            workoutTypeConfirmed: workoutTypeConfirmed,
-            isLocationEnabled: true
+            workoutTypeConfirmed: workoutTypeConfirmed
         ).padding()
     }
 }

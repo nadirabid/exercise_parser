@@ -122,7 +122,7 @@ struct RunTrackerView: View {
                             
                             Button(action: {
                                 self.isStopped = false
-                                self.locationManager.stopUpdatingLocation()
+                                self.locationManager.startUpdatingLocation()
                                 
                                 UIApplication.shared.endEditing()
                             }) {
@@ -143,6 +143,12 @@ struct RunTrackerView: View {
         .edgesIgnoringSafeArea(.top)
         .onAppear {
             self.createWorkout()
+            
+            if !self.isStopped {
+                self.locationManager.startUpdatingLocation()
+            } else {
+                self.locationManager.stopUpdatingLocation()
+            }
         }
     }
 }

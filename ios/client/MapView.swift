@@ -33,17 +33,18 @@ struct RunTrackerMapView: UIViewRepresentable {
     
     func updateUIView(_ view: MKMapView, context: Context) {
         view.delegate = context.coordinator
-
+        
         if let currentLocation = locationManager.lastLocation?.coordinate {
+            print("HERE RESET REGION")
             let span = MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)
             let region = MKCoordinateRegion(center: currentLocation, span: span)
             view.setRegion(region, animated: true)
         }
-
+        
         if !view.overlays.isEmpty {
             view.removeOverlays(view.overlays)
         }
- 
+        
         let l = MKPolyline(coordinates: locationManager.pathCoordinates, count: locationManager.pathCoordinates.count)
         view.addOverlay(l)
     }
@@ -98,24 +99,39 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
     func stopUpdatingLocation() {
         self.locationManager.stopUpdatingLocation()
     }
-
+    
     @Published var locationStatus: CLAuthorizationStatus? {
         willSet {
             objectWillChange.send()
         }
     }
-
+    
     @Published var lastLocation: CLLocation? {
         willSet {
             objectWillChange.send()
         }
     }
-
+    
+    var isLocationEnabled: Bool {
+        guard let status = locationStatus else {
+            return false
+        }
+        
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            return true
+        case .notDetermined, .restricted, .denied:
+            return false
+        default:
+            return false
+        }
+    }
+    
     var statusString: String {
         guard let status = locationStatus else {
             return "unknown"
         }
-
+        
         switch status {
         case .notDetermined: return "Can't say"
         case .authorizedWhenInUse: return "While Using"
@@ -131,7 +147,7 @@ extension RunTrackerLocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         self.locationStatus = status
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         self.lastLocation = location
@@ -162,7 +178,7 @@ struct WorkoutMapView: UIViewRepresentable {
         view.isScrollEnabled = false
         view.isUserInteractionEnabled = false
         view.translatesAutoresizingMaskIntoConstraints = false
-
+        
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
         view.addAnnotation(annotation)
@@ -183,24 +199,24 @@ class LocationManager: NSObject, ObservableObject {
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.startUpdatingLocation()
     }
-
+    
     @Published var locationStatus: CLAuthorizationStatus? {
         willSet {
             objectWillChange.send()
         }
     }
-
+    
     @Published var lastLocation: CLLocation? {
         willSet {
             objectWillChange.send()
         }
     }
-
+    
     var statusString: String {
         guard let status = locationStatus else {
             return "unknown"
         }
-
+        
         switch status {
         case .notDetermined: return "Can't say"
         case .authorizedWhenInUse: return "While Using"
@@ -210,9 +226,9 @@ class LocationManager: NSObject, ObservableObject {
         default: return "Weird"
         }
     }
-
+    
     let objectWillChange = PassthroughSubject<Void, Never>()
-
+    
     private let locationManager = CLLocationManager()
 }
 
@@ -220,7 +236,7 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         self.locationStatus = status
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         self.lastLocation = location
