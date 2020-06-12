@@ -35,7 +35,6 @@ struct RunTrackerMapView: UIViewRepresentable {
         view.delegate = context.coordinator
         
         if let currentLocation = locationManager.lastLocation?.coordinate {
-            print("HERE RESET REGION")
             let span = MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)
             let region = MKCoordinateRegion(center: currentLocation, span: span)
             view.setRegion(region, animated: true)
@@ -45,7 +44,11 @@ struct RunTrackerMapView: UIViewRepresentable {
             view.removeOverlays(view.overlays)
         }
         
-        let l = MKPolyline(coordinates: locationManager.pathCoordinates, count: locationManager.pathCoordinates.count)
+        let l = MKPolyline(
+            coordinates: locationManager.pathCoordinates,
+            count: locationManager.pathCoordinates.count
+        )
+        
         view.addOverlay(l)
     }
     
@@ -73,10 +76,10 @@ typealias LocationUpdateHandler = ((Int, CLLocationCoordinate2D) -> Void)
 
 class RunTrackerLocationManager: NSObject, ObservableObject {
     @Published var pathCoordinates: [CLLocationCoordinate2D] = []
-    
-    let objectWillChange = PassthroughSubject<Void, Never>()
     var locationUpdateHandler: LocationUpdateHandler?
+    let objectWillChange = PassthroughSubject<Void, Never>()
     
+    private var trackPath = false
     private let locationManager = CLLocationManager()
     
     override init() {
@@ -93,11 +96,23 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
     }
     
     func startUpdatingLocation() {
+        print("loc:updateLocation:true")
         self.locationManager.startUpdatingLocation()
     }
     
     func stopUpdatingLocation() {
+        print("loc:updateLocation:false")
         self.locationManager.stopUpdatingLocation()
+    }
+    
+    func startTrackingLocation() {
+        print("loc:trackPath:true")
+        self.trackPath = true
+    }
+    
+    func stopTrackingLocation() {
+        print("loc:trackPath:false")
+        self.trackPath = false
     }
     
     @Published var locationStatus: CLAuthorizationStatus? {
@@ -151,7 +166,10 @@ extension RunTrackerLocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         self.lastLocation = location
-        self.pathCoordinates.append(location.coordinate)
+        
+        if self.trackPath {
+            self.pathCoordinates.append(location.coordinate)
+        }
         
         if let handler = self.locationUpdateHandler {
             handler(self.pathCoordinates.count, location.coordinate)

@@ -27,7 +27,15 @@ struct RunTrackerView: View {
         
         if !disabled {
             stopwatch.start()
+            
+            if !self.isStopped {
+                self.locationManager.startTrackingLocation()
+            } else {
+                self.locationManager.stopTrackingLocation()
+            }
         }
+        
+        self.locationManager.startUpdatingLocation()
     }
     
     func createWorkout() {
@@ -63,6 +71,7 @@ struct RunTrackerView: View {
         workoutAPI
             .updateWorkoutAsComplete(workout)
             .then { _ in
+                self.locationManager.stopUpdatingLocation()
                 self.routeState.replaceCurrent(with: .userFeed)
             }
     }
@@ -100,7 +109,7 @@ struct RunTrackerView: View {
                             
                             Button(action: {
                                 self.isStopped = true
-                                self.locationManager.stopUpdatingLocation()
+                                self.locationManager.stopTrackingLocation()
                             }) {
                                 Image(systemName: "stop.circle")
                                     .font(.largeTitle)
@@ -122,7 +131,7 @@ struct RunTrackerView: View {
                             
                             Button(action: {
                                 self.isStopped = false
-                                self.locationManager.startUpdatingLocation()
+                                self.locationManager.startTrackingLocation()
                                 
                                 UIApplication.shared.endEditing()
                             }) {
@@ -143,12 +152,6 @@ struct RunTrackerView: View {
         .edgesIgnoringSafeArea(.top)
         .onAppear {
             self.createWorkout()
-            
-            if !self.isStopped {
-                self.locationManager.startUpdatingLocation()
-            } else {
-                self.locationManager.stopUpdatingLocation()
-            }
         }
     }
 }
