@@ -117,8 +117,6 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
     }
     
     func stopTrackingLocation() {
-        self.trackPath = false
-        
         // we add a zero coord to mark stop/start
         if pathCoordinates.count > 0 {
             let last = self.pathCoordinates.last!
@@ -132,6 +130,12 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
                 }
             }
         }
+        
+        self.trackPath = false // do this AFTER calling updateHnadler
+    }
+    
+    var isTrackingPath: Bool {
+        return self.trackPath
     }
     
     var currentDistance: CLLocationDistance {

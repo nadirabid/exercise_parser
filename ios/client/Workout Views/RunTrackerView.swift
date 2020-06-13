@@ -23,7 +23,6 @@ struct RunTrackerView: View {
     
     init(disabled: Bool, locationManager _locationManager: RunTrackerLocationManager) {
         locationManager = _locationManager
-        locationManager.locationUpdateHandler = self.onLocationUpdate
         
         if !disabled {
             if !self.isStopped {
@@ -57,6 +56,21 @@ struct RunTrackerView: View {
         
         workoutAPI.createWorkout(workout: workout) { (workout) in
             self.workout = workout
+
+            self.locationManager.locationUpdateHandler = { (index, coord) in
+                if !self.locationManager.isTrackingPath { return }
+
+                guard let exercise = workout.exercises.first else { return }
+                
+                let location = Location(
+                    latitude: coord.latitude,
+                    longitude: coord.longitude,
+                    exerciseID: exercise.id,
+                    index: index
+                )
+                
+                _ = self.locationAPI.createLocation(location)
+            }
         }
     }
     
@@ -73,25 +87,11 @@ struct RunTrackerView: View {
             .then { _ in
                 self.locationManager.stopUpdatingLocation()
                 self.routeState.replaceCurrent(with: .userFeed)
-        }
-    }
-    
-    func onLocationUpdate(index: Int, location: CLLocationCoordinate2D) {
-        guard let exercise = self.workout?.exercises.first else { return }
-        guard let coord = locationManager.lastLocation?.coordinate else { return }
-        
-        let location = Location(
-            latitude: coord.latitude,
-            longitude: coord.longitude,
-            exerciseID: exercise.id,
-            index: index
-        )
-        
-        _ = locationAPI.createLocation(location)
+            }
     }
     
     var body: some View {
-        GeometryReader { geometry in
+        return GeometryReader { geometry in
             VStack {
                 RunTrackerMapView(locationManager: self.locationManager)
                     .animation(.none)
@@ -179,28 +179,39 @@ public struct RunTrackerMetaMetricsView: View {
     var isStopped: Bool = false
     var width: CGFloat = 0
     
-    var totalDistance: Double {
+    var totalDistance: String {
         let d = locationManager.currentDistance
         let m = Measurement(value: d, unit: UnitLength.meters)
         
-        if m.converted(to: UnitLength.feet).value >= 200 {
+        if m.converted(to: UnitLength.feet).value >= 500 {
             let v = m.converted(to: UnitLength.miles).value
-            return round(v*100) / 100
+            return String(format: "%.1f", round(v*100) / 100)
         }
         
         let v = m.converted(to: UnitLength.feet).value
-        return round(v*100) / 100
+        return String(format: "%.1f", round(v*100) / 100)
     }
     
     var distanceUnits: String {
         let d = locationManager.currentDistance
         let m = Measurement(value: d, unit: UnitLength.meters)
         
-        if m.converted(to: UnitLength.feet).value >= 200 {
+        if m.converted(to: UnitLength.feet).value >= 500 {
             return UnitLength.miles.symbol
         }
         
         return UnitLength.feet.symbol
+    }
+    
+    var pace: Double {
+        let p = calculatePace(distance: locationManager.currentDistance, seconds: Double(stopwatch.counter))
+    
+        return p
+    }
+    
+    var calories: Double {
+        let met = metFromPace(pace: self.pace)
+        return calculateCalsFromStandardMET(met: met, weightKg: 80, seconds: Double(stopwatch.counter))
     }
     
     public var body: some View {
@@ -260,7 +271,7 @@ public struct RunTrackerMetaMetricsView: View {
                         
                         VStack(alignment: .center) {
                             Text("Calories").foregroundColor(Color.secondary)
-                            Text("238").font(.title)
+                            Text(String(format: "%.0f", self.calories)).font(.title)
                         }
                         .padding([.leading, .trailing])
                         .frame(width: self.width / 2, alignment: .center)
@@ -283,7 +294,7 @@ public struct RunTrackerMetaMetricsView: View {
                         VStack(alignment: .center) {
                             Text("Pace").foregroundColor(Color.secondary)
                             
-                            Text("4:37 / mi").font(.title)
+                            Text("\(String(format: "%.1f", self.pace)) mph").font(.title)
                         }
                         .padding([.leading, .trailing])
                         .frame(width: self.width / 2, alignment: .center)
@@ -294,6 +305,75 @@ public struct RunTrackerMetaMetricsView: View {
             }
         }
     }
+}
+
+func calculatePace(distance: Double, seconds: Double) -> Double {
+    if seconds == 0 {
+        return 0
+    }
+    
+    let dm = Measurement(value: distance, unit: UnitLength.meters)
+    let sm = Measurement(value: seconds, unit: UnitDuration.seconds)
+    
+    let pace = dm.converted(to: UnitLength.miles).value / sm.converted(to: UnitDuration.hours).value
+    
+    return pace
+}
+
+func metFromPace(pace: Double) -> Double {
+    if pace <= 4 {
+        return 6
+    } else if pace <= 5 {
+        return 8.3
+    } else if pace <= 5.2 {
+        return 9.0
+    } else if pace <= 6 {
+        return 9.8
+    } else if pace <= 6.7 {
+        return 10.5
+    } else if pace <= 7 {
+        return 11.0
+    } else if pace <= 7.5 {
+        return 11.5
+    } else if pace <= 8 {
+        return 11.8
+    } else if pace <= 8.6 {
+        return 12.3
+    } else if pace <= 9 {
+        return 12.8
+    } else if pace <= 10 {
+        return 14.5
+    } else if pace <= 11 {
+        return 16.0
+    } else if pace <= 12 {
+        return 19.0
+    } else if pace <= 13 {
+        return 19.8
+    } else if pace <= 14 {
+        return 23
+    } else {
+        return 23 // compendium data maxes out at 23 (14/mph)
+    }
+}
+
+func calculateCalsFromStandardMET(met: Double, weightKg: Double, seconds: Double) -> Double {
+    return met * weightKg * (seconds / (60 * 60))
+}
+
+func calculateCalsFromCorectedMET(met: Double, weightKg: Double, heightCm: Double, ageYr: Double, seconds: Double, male: Bool) -> Double {
+    if male {
+        return met * calculateMaleBMR(weightKg: weightKg, heightCm: heightCm, ageYr: ageYr) * (seconds / (24 * 60 * 60))
+    }
+    
+    return met * calculateFemaleBMR(weightKg: weightKg, heightCm: heightCm, ageYr: ageYr) * (seconds / (24 * 60 * 60))
+}
+
+func calculateMaleBMR(weightKg: Double, heightCm: Double, ageYr: Double) -> Double {
+    return (10 * weightKg) + (6.5 * heightCm) - (5 * ageYr) + 5
+}
+
+func calculateFemaleBMR(weightKg: Double, heightCm: Double, ageYr: Double) -> Double {
+    return (10 * weightKg) + (6.5 * heightCm) - (5 * ageYr) - 161
 }
 
 struct RunTrackerView_Previews: PreviewProvider {
