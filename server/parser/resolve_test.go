@@ -436,6 +436,13 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 			assert.Equal(t, bilateralRaise1, parsed[0].Captures)
 		})
 
+		t.Run("{Exercise:String} {Reps:Number} reps {Weight:Number}{WeightUnits}", func(t *testing.T) {
+			expected := map[string]string{"Exercise": "kettle bell swing", "Reps": "30", "Weight": "40", "WeightUnits": u}
+			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("Kettle bell Swing 30 reps 40%s", u))
+			assert.Len(t, parsed, 1)
+			assert.Equal(t, expected, first(parsed).Captures)
+		})
+
 		t.Run("{Exercise:String} {Sets:Number}x{Reps:Number}x{Weight:Number}{WeightUnits}", func(t *testing.T) {
 			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("tricep curls 3x3x25 %s", u))
 			assert.Equal(t, len(parsed), 1)
