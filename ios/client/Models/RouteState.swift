@@ -14,7 +14,7 @@ class RouteState: ObservableObject {
     @Published var showHelp: Bool
     @Published var editWorkout: Workout?
     
-    init(current: Route = .editor) {
+    init(current: Route = .userFeed) {
         self.routeStack = []
         self.showHelp = false
         self.editWorkout = nil

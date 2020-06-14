@@ -26,6 +26,7 @@ func handleGetWorkout(c echo.Context) error {
 		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
+		Preload("Exercises.Locations").
 		Where("id = ?", id).
 		Where("user_id = ?", userID).
 		First(workout).
@@ -60,6 +61,7 @@ func handleGetAllUserWorkout(c echo.Context) error {
 		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
+		Preload("Exercises.Locations").
 		Where("user_id = ? AND in_progress = FALSE", userID).
 		Order("created_at desc")
 
@@ -88,10 +90,13 @@ func handleGetUserWorkoutSubscriptionFeed(c echo.Context) error {
 
 	workouts := []models.Workout{}
 
+	// TODO: filter out workouts which don't have any "processed/resolved" workouts - we're
+	// currently doing this in the frontend but that means weird pagination bugs
 	q := db.
 		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
+		Preload("Exercises.Locations").
 		Where("in_progress = FALSE").
 		Order("created_at desc")
 
@@ -179,6 +184,7 @@ func handlePutWorkout(c echo.Context) error {
 		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
+		Preload("Exercises.Locations").
 		Where("id = ?", uint(workoutID)).
 		Where("user_id = ?", userID).
 		First(existingWorkout).
@@ -260,6 +266,7 @@ func handlePatchWorkoutAsComplete(c echo.Context) error {
 		Preload("Location").
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
+		Preload("Exercises.Locations").
 		Where("id = ?", uint(workoutID)).
 		Where("user_id = ?", userID).
 		First(existingWorkout).

@@ -77,6 +77,14 @@ struct WorkoutView: View {
         }
     }
     
+    var isRunWorkout: Bool {
+        if workout.exercises.count == 1 && workout.exercises.first!.locations.count > 0 {
+            return true
+        }
+        
+        return false
+    }
+    
     var body: some View {
         if self.showUserInfo &&
             self.user != nil &&
@@ -138,37 +146,42 @@ struct WorkoutView: View {
                 .padding(.leading)
             
             if view == "waveform.path.ecg" {
-                if self.workout.location != nil {
-                    WorkoutMapView(location: self.workout.location!)
-                        .frame(height: CGFloat(130.0))
-                }
-                
-                VStack(spacing: 0) {
-                    ForEach(exercisesToDisplay) { (exercise: Exercise) in
-                        VStack(spacing: 0) {
-                            if self.shouldShowRoundsBeforeExercise(exercise) {
-                                CircuitRoundsButtonView(circuitRounds: exercise.circuitRounds, isActive: false)
-                                    .padding(.leading, -2)
-                                    .padding(.bottom, 3)
-                            }
-                            
-                            if exercise.type != "" {
-                                ExerciseView(exercise: exercise)
-                                    .padding(.leading, exercise.circuitID == nil ? 0 : nil)
-                                    .padding(.bottom, 3)
-                            } else if exercise.correctiveCode > 0 {
-                                CorrectiveExerciseView(exercise: exercise)
-                                    .padding(.leading, exercise.circuitID == nil ? 0 : nil)
-                                    .padding(.bottom, 3)
-                            } else {
-                                ProcessingExerciseView(exercise: exercise)
-                                    .padding(.leading, exercise.circuitID == nil ? 0 : nil)
-                                    .padding(.bottom, 3)
+                if isRunWorkout {
+                    StaticTrackerMapView(path: self.workout.exercises.first!.locations)
+                        .frame(height: UIScreen.main.bounds.width * 0.7)
+                } else {
+                    if self.workout.location != nil {
+                        WorkoutMapView(location: self.workout.location!)
+                            .frame(height: CGFloat(130.0))
+                    }
+                    
+                    VStack(spacing: 0) {
+                        ForEach(exercisesToDisplay) { (exercise: Exercise) in
+                            VStack(spacing: 0) {
+                                if self.shouldShowRoundsBeforeExercise(exercise) {
+                                    CircuitRoundsButtonView(circuitRounds: exercise.circuitRounds, isActive: false)
+                                        .padding(.leading, -2)
+                                        .padding(.bottom, 3)
+                                }
+                                
+                                if exercise.type != "" {
+                                    ExerciseView(exercise: exercise)
+                                        .padding(.leading, exercise.circuitID == nil ? 0 : nil)
+                                        .padding(.bottom, 3)
+                                } else if exercise.correctiveCode > 0 {
+                                    CorrectiveExerciseView(exercise: exercise)
+                                        .padding(.leading, exercise.circuitID == nil ? 0 : nil)
+                                        .padding(.bottom, 3)
+                                } else {
+                                    ProcessingExerciseView(exercise: exercise)
+                                        .padding(.leading, exercise.circuitID == nil ? 0 : nil)
+                                        .padding(.bottom, 3)
+                                }
                             }
                         }
                     }
+                    .padding([.leading, .trailing])
                 }
-                .padding([.leading, .trailing])
             } else {
                 WorkoutMuscleMetricsView(workout: self.workout)
             }
@@ -193,7 +206,14 @@ struct WorkoutView: View {
         }
         .padding([.top, .bottom])
         .actionSheet(isPresented: $showingActionSheet) {
-            ActionSheet(title: Text(workout.name), buttons: [
+            if self.isRunWorkout {
+                return ActionSheet(title: Text(workout.name), buttons: [
+                    .destructive(Text("Delete")) { self.onDelete() },
+                    .cancel()
+                ])
+            }
+            
+            return ActionSheet(title: Text(workout.name), buttons: [
                 .default(Text("Edit")) { self.routeState.editWorkout = self.workout },
                 .destructive(Text("Delete")) { self.onDelete() },
                 .cancel()

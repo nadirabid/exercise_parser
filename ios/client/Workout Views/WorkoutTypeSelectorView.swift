@@ -15,8 +15,8 @@ enum WorkoutType {
 }
 
 struct WorkoutTypeSelectorView: View {
-    @State private var workoutType: WorkoutType = .run
-    @State private var workoutTypeConfirmed = true
+    @State private var workoutType: WorkoutType = .workout
+    @State private var workoutTypeConfirmed = false
     
     private var locationManager: RunTrackerLocationManager = RunTrackerLocationManager()
     

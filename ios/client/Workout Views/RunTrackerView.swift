@@ -14,15 +14,18 @@ struct RunTrackerView: View {
     @EnvironmentObject var workoutAPI: WorkoutAPI
     @EnvironmentObject var locationAPI: LocationAPI
     
-    @State var isStopped: Bool = true
+    @State var isStopped: Bool = false
     @State var workout: Workout? = nil
     @State var workoutName: String = ""
     
     var locationManager: RunTrackerLocationManager
     var stopwatch: Stopwatch = Stopwatch()
     
+    private let isDisabled: Bool
+    
     init(disabled: Bool, locationManager _locationManager: RunTrackerLocationManager) {
         locationManager = _locationManager
+        isDisabled = disabled
         
         if !disabled {
             if !self.isStopped {
@@ -159,7 +162,9 @@ struct RunTrackerView: View {
         }
         .edgesIgnoringSafeArea(.top)
         .onAppear {
-            self.createWorkout()
+            if !self.isDisabled {
+                self.createWorkout()
+            }
         }
     }
 }
@@ -172,6 +177,8 @@ extension UIApplication {
 }
 
 public struct RunTrackerMetaMetricsView: View {
+    @EnvironmentObject var userState: UserState
+    
     @ObservedObject var locationManager: RunTrackerLocationManager
     @ObservedObject var stopwatch: Stopwatch
     @Binding var runName: String
@@ -209,9 +216,21 @@ public struct RunTrackerMetaMetricsView: View {
         return p
     }
     
-    var calories: Double {
+    var userWeight: Double {
+        if self.userState.userInfo.weight > 0 {
+            return Double(self.userState.userInfo.weight)
+        }
+        
+        return 80
+    }
+    
+    var calories: Double {        
         let met = metFromPace(pace: self.pace)
-        return calculateCalsFromStandardMET(met: met, weightKg: 80, seconds: Double(stopwatch.counter))
+        return calculateCalsFromStandardMET(
+            met: met,
+            weightKg: userWeight,
+            seconds: Double(stopwatch.counter)
+        )
     }
     
     public var body: some View {

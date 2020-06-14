@@ -14,11 +14,64 @@ import SwiftUI
 
 // MARK: run tracker view
 
-func centerMapOnLocation(_ location: CLLocation, mapView: MKMapView) {
-    let regionRadius: CLLocationDistance = 1000
-    let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
-                                              latitudinalMeters: regionRadius * 2.0, longitudinalMeters: regionRadius * 2.0)
-    mapView.setRegion(coordinateRegion, animated: true)
+struct StaticTrackerMapView: UIViewRepresentable {
+    var path: [Location] = []
+    
+    func makeUIView(context: Context) -> MKMapView {
+        let view = MKMapView()
+        view.userTrackingMode = .none
+        view.isZoomEnabled = false
+        view.isScrollEnabled = false
+        view.isUserInteractionEnabled = false
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.delegate = context.coordinator
+        
+        let sorted = path.sorted { $0.index! < $1.index! }
+        
+        var pathsCoords: [[CLLocationCoordinate2D]] = [[]]
+        
+        for location in sorted {
+            let zero = CLLocationCoordinate2D.zero
+            let coord = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+            if zero == coord {
+                pathsCoords.append([])
+            } else {
+                pathsCoords[pathsCoords.count - 1].append(coord)
+            }
+        }
+        
+        for p in pathsCoords {
+            let l = MKPolyline(coordinates: p, count: p.count)
+            view.addOverlay(l)
+        }
+        
+        view.setRegionFrom(path: path)
+        
+        return view
+    }
+    
+    func updateUIView(_ view: MKMapView, context: Context) {
+        view.delegate = context.coordinator
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(self)
+    }
+    
+    class Coordinator: NSObject, MKMapViewDelegate {
+        var parent: StaticTrackerMapView
+        
+        init(_ parent: StaticTrackerMapView) {
+            self.parent = parent
+        }
+        
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.strokeColor = secondaryAppColor.uiColor()
+            renderer.lineWidth = 4
+            return renderer
+        }
+    }
 }
 
 struct RunTrackerMapView: UIViewRepresentable {
@@ -121,8 +174,7 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
         if pathCoordinates.count > 0 {
             let last = self.pathCoordinates.last!
             
-             if last.latitude != CLLocationCoordinate2D.zero.latitude &&
-                last.longitude != CLLocationCoordinate2D.zero.longitude {
+            if last != CLLocationCoordinate2D.zero {
                 self.pathCoordinates.append(CLLocationCoordinate2D.zero)
                 
                 if let handler = self.locationUpdateHandler {
@@ -146,9 +198,7 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
         for c in self.pathCoordinates {
             let l = CLLocation(latitude: c.latitude, longitude: c.longitude)
             
-            if last != nil &&
-                (c.latitude != zero.latitude && c.longitude != zero.longitude) &&
-                (last!.coordinate.latitude != zero.latitude && last!.coordinate.longitude != zero.longitude) {
+            if last != nil && c == zero && last!.coordinate != zero {
                 let d = last!.distance(from: l)
                 distance = distance + d
             }
@@ -218,15 +268,6 @@ extension RunTrackerLocationManager: CLLocationManagerDelegate {
         if let handler = self.locationUpdateHandler {
             handler(self.pathCoordinates.count, location.coordinate)
         }
-    }
-}
-
-extension CLLocationCoordinate2D {
-    static var zero: CLLocationCoordinate2D {
-        CLLocationCoordinate2D(
-            latitude: CLLocationDegrees.zero,
-            longitude: CLLocationDegrees.zero
-        )
     }
 }
 
