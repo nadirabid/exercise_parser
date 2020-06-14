@@ -300,6 +300,13 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 			assert.Equal(t, tricepCurls1, parsed[0].Captures)
 		})
 
+		t.Run("{Exercise:String} {Calories:Number} cals {Sets:Number} sets", func(t *testing.T) {
+			expected := map[string]string{"Exercise": "run", "Calories": "30", "Sets": "5"}
+			parsed := resolveAllActivityExpressionsTestUtil("Run 30 cals 5 sets")
+			assert.Len(t, parsed, 1)
+			assert.Equal(t, expected, first(parsed).Captures)
+		})
+
 		for _, u := range units {
 			weightedPullups1 := map[string]string{"Exercise": "weighted pull-ups", "Weight": "25", "WeightUnits": u, "Sets": "2", "Reps": "8"}
 			t.Run("{Exercise:String} (Delimiter) {Weight:Number}{WeightUnits} (Delimiter) {Sets:Number}x{Reps:Number}", func(t *testing.T) {
@@ -337,7 +344,7 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 				assert.Equal(t, expected, parsed[0].Captures)
 			})
 
-			t.Run("pushups 30 5 sets", func(t *testing.T) {
+			t.Run("{Exercise:String} {Reps:Number} (Delimiter) {Sets:Number} sets", func(t *testing.T) {
 				expected := map[string]string{"Exercise": "pushups", "Reps": "30", "Sets": "5"}
 				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("pushups 30%s5 sets", d))
 				assert.Len(t, parsed, 1)

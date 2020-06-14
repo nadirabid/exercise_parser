@@ -1,0 +1,6 @@
+BEGIN;
+
+ALTER TABLE exercise_data
+DROP COLUMN IF EXISTS calories;
+
+COMMIT;

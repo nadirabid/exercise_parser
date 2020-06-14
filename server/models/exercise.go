@@ -207,6 +207,7 @@ type ExerciseData struct {
 	Weight     float32 `json:"weight"`
 	Time       uint    `json:"time"`
 	Distance   float32 `json:"distance"`
+	Calories   int     `json:"calories"`
 	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }
 
