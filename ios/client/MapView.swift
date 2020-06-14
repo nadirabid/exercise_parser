@@ -76,10 +76,11 @@ struct StaticTrackerMapView: UIViewRepresentable {
 
 struct RunTrackerMapView: UIViewRepresentable {
     @ObservedObject var locationManager: RunTrackerLocationManager
+    var userTrackingMode: MKUserTrackingMode
     
     func makeUIView(context: Context) -> MKMapView {
         let view = MKMapView()
-        view.userTrackingMode = .follow
+        view.userTrackingMode = userTrackingMode
         
         return view
     }

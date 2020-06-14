@@ -96,7 +96,7 @@ struct RunTrackerView: View {
     var body: some View {
         return GeometryReader { geometry in
             VStack {
-                RunTrackerMapView(locationManager: self.locationManager)
+                RunTrackerMapView(locationManager: self.locationManager, userTrackingMode: self.isDisabled ? .none : .follow)
                     .animation(.none)
                 
                 VStack(alignment: .leading, spacing: 0) {

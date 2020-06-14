@@ -100,16 +100,17 @@ struct WorkoutSelectionInformationOverlay: View {
                 
                 Spacer()
             }
+            .padding(.bottom, 6)
             
             if workoutType == .workout {
                 Text("WORKOUT")
-                    .font(.caption)
-                    .fontWeight(.medium)
+                    .font(.headline)
+                    .fontWeight(.semibold)
                     .foregroundColor(appColor)
             } else if workoutType == .run {
                 Text("RUN")
-                    .font(.caption)
-                    .fontWeight(.medium)
+                    .font(.headline)
+                    .fontWeight(.semibold)
                     .foregroundColor(appColor)
                 
                 if !locationManager.isLocationEnabled {
