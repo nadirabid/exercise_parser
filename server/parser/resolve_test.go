@@ -336,6 +336,13 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 				assert.Len(t, parsed, 1)
 				assert.Equal(t, expected, parsed[0].Captures)
 			})
+
+			t.Run("pushups 30 5 sets", func(t *testing.T) {
+				expected := map[string]string{"Exercise": "pushups", "Reps": "30", "Sets": "5"}
+				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("pushups 30%s5 sets", d))
+				assert.Len(t, parsed, 1)
+				assert.Equal(t, expected, first(parsed).Captures)
+			})
 		}
 	}
 
