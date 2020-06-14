@@ -15,7 +15,7 @@ func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictio
 	totalCalories := 0.0
 
 	for _, e := range workout.Exercises {
-		if e.ExerciseData.Calories > 0 {
+		if e.ExerciseData.Calories > 0 { // user specifed calories of exercise takes precedence (if specified)
 			totalCalories += float64(e.ExerciseData.Calories)
 			continue
 		}
