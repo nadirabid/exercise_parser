@@ -191,11 +191,17 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 		return err
 	}
 
+	cals, err := evalCalories(res.Captures)
+	if err != nil {
+		return err
+	}
+
 	e.ExerciseData.Sets = sets
 	e.ExerciseData.Reps = reps
 	e.ExerciseData.Weight = weight
 	e.ExerciseData.Distance = distance
 	e.ExerciseData.Time = time
+	e.ExerciseData.Calories = cals
 
 	return nil
 }
@@ -213,6 +219,21 @@ type ExerciseData struct {
 
 func (ExerciseData) TableName() string {
 	return "exercise_data"
+}
+
+// returns 0 if not specified
+func evalCalories(captures map[string]string) (int, error) {
+	calStr, ok := captures["Calories"]
+	if !ok {
+		return 0, nil
+	}
+
+	cals, err := strconv.Atoi(calStr)
+	if err != nil {
+		return 0, nil
+	}
+
+	return cals, nil
 }
 
 // returns 1 if not specified (always has to be greater than zero or metrics are fucked)

@@ -15,6 +15,11 @@ func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictio
 	totalCalories := 0.0
 
 	for _, e := range workout.Exercises {
+		if e.ExerciseData.Calories > 0 {
+			totalCalories += float64(e.ExerciseData.Calories)
+			continue
+		}
+
 		met := float32(0.0)
 
 		if e.ExerciseDictionaryID != nil {
