@@ -304,8 +304,12 @@ struct EditorUserProfileView: View {
                         
                         Spacer()
                         
-                        Text(locationManager.statusString)
-                            .foregroundColor(Color.secondary)
+                        Button(action: {
+                            UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                        }) {
+                            Text(locationManager.statusString)
+                                .foregroundColor(Color.secondary)
+                        }
                     }
                     .animation(.none)
                 }

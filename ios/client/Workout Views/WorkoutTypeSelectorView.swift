@@ -113,10 +113,14 @@ struct WorkoutSelectionInformationOverlay: View {
                     .foregroundColor(appColor)
                 
                 if !locationManager.isLocationEnabled {
-                    Text("LOCATION SERVICES REQUIRED")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                        .foregroundColor(appColor)
+                    Button(action: {
+                        UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                    }) {
+                        Text("LOCATION SERVICES REQUIRED")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundColor(appColor)
+                    }
                 }
             }
             
