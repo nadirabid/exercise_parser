@@ -17,6 +17,7 @@ struct RunTrackerView: View {
     @State var isStopped: Bool = false
     @State var workout: Workout? = nil
     @State var workoutName: String = ""
+    @State var workoutCreated: Bool = false
     
     var locationManager: RunTrackerLocationManager
     var stopwatch: Stopwatch = Stopwatch()
@@ -38,6 +39,7 @@ struct RunTrackerView: View {
         }
         
         self.locationManager.startUpdatingLocation()
+        
     }
     
     func createWorkout() {
@@ -94,7 +96,7 @@ struct RunTrackerView: View {
     }
     
     var body: some View {
-        return GeometryReader { geometry in
+        GeometryReader { geometry in
             VStack {
                 RunTrackerMapView(locationManager: self.locationManager, userTrackingMode: self.isDisabled ? .none : .follow)
                     .animation(.none)
@@ -161,10 +163,8 @@ struct RunTrackerView: View {
             .keyboardObserving()
         }
         .edgesIgnoringSafeArea(.top)
-        .onAppear {
-            if !self.isDisabled {
-                self.createWorkout()
-            }
+        .onAppear  {
+            self.createWorkout()
         }
     }
 }

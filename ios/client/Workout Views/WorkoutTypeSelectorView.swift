@@ -41,12 +41,16 @@ struct WorkoutTypeSelectorView: View {
                         )
                         .animation(.default)
                 } else if workoutType == .run {
-                    RunTrackerView(disabled: !workoutTypeConfirmed, locationManager: locationManager)
-                        .blur(radius: blurRadius)
-                        .transition(
-                            .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
-                        )
-                        .animation(.default)
+                    if !workoutTypeConfirmed {
+                        StaticTrackerMapView(path: [], userTrackingMode: .none)
+                            .blur(radius: blurRadius)
+                            .transition(
+                                .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
+                            )
+                            .animation(.default)
+                    } else  {
+                        RunTrackerView(disabled: !workoutTypeConfirmed, locationManager: locationManager)
+                    }
                 }
              
                 if !workoutTypeConfirmed {

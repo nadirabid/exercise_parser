@@ -16,10 +16,11 @@ import SwiftUI
 
 struct StaticTrackerMapView: UIViewRepresentable {
     var path: [Location] = []
+    var userTrackingMode: MKUserTrackingMode
     
     func makeUIView(context: Context) -> MKMapView {
         let view = MKMapView()
-        view.userTrackingMode = .none
+        view.userTrackingMode = userTrackingMode
         view.isZoomEnabled = false
         view.isScrollEnabled = false
         view.isUserInteractionEnabled = false
@@ -92,7 +93,7 @@ struct RunTrackerMapView: UIViewRepresentable {
         if let currentLocation = locationManager.lastLocation?.coordinate {
             let span = MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)
             let region = MKCoordinateRegion(center: currentLocation, span: span)
-            view.setRegion(region, animated: true)
+            view.setRegion(region, animated: locationManager.pathCoordinates.count == 1)
         }
         
         if !view.overlays.isEmpty {

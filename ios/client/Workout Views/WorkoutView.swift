@@ -131,7 +131,7 @@ struct WorkoutView: View {
             
             if view == "waveform.path.ecg" {
                 if isRunWorkout {
-                    StaticTrackerMapView(path: self.workout.exercises.first!.locations)
+                    StaticTrackerMapView(path: self.workout.exercises.first!.locations, userTrackingMode: .none)
                         .frame(height: UIScreen.main.bounds.width * 0.7)
                 } else {
                     if self.workout.location != nil {
