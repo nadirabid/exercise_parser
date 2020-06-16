@@ -276,6 +276,8 @@ func handlePatchWorkoutAsComplete(c echo.Context) error {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
 
+	// TODO: "resolve exercises here": in tehc ase of run tracker  type - we want to resolve exericse and generate metrics for run
+
 	updatedWorkout.ID = existingWorkout.ID
 	updatedWorkout.Date = existingWorkout.Date
 	updatedWorkout.SecondsElapsed = existingWorkout.SecondsElapsed

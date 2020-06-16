@@ -152,6 +152,18 @@ enum ExerciseCorrectiveCode: Int, CaseIterable {
     case MissingExerciseAndReps = 3
 }
 
+
+enum ExerciseResolutionType: String {
+    case AutoSingleResolutionType = "auto.single"
+    case AutoCompoundResolutionType = "auto.compound"
+    case AutoRunTracker = "auto.run_tracker"
+    case AutoSpecialRestResolutionType = "auto.special.rest"
+    case ManualSingleResolutionType = "manual.single"
+    case FailedPermanentlyResolutionType = "failed.permanently"
+    
+    
+}
+
 extension ExerciseCorrectiveCode {
     var message: String {
         switch self {

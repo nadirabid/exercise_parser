@@ -55,23 +55,7 @@ struct WorkoutView: View {
     
     var exercisesToDisplay: [Exercise] {
         if showUnresolved {
-            return workout.exercises.sorted(by: {
-                if $0.id != nil && $1.id != nil {
-                    return $0.id! < $1.id!
-                } else if $0.circuitID == nil && $1.circuitID != nil {
-                    return false
-                } else if $0.circuitID != nil && $1.circuitID == nil {
-                    return true
-                } else if $0.circuitID != nil && $1.circuitID != nil {
-                    return $0.circuitID! > $1.circuitID!
-                } else if $0.type != $1.type {
-                    return $0.type > $1.type
-                } else if $0.resolutionType != $0.resolutionType {
-                    return $0.type > $1.type
-                } else {
-                    return $0.name < $1.name
-                }
-            })
+            return workout.exercises
         } else {
             return workout.exercises.filter({ $0.type != "" && !$0.resolutionType.contains("failed") })
         }

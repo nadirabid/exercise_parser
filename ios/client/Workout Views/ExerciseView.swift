@@ -12,14 +12,6 @@ enum ExerciseViewDisplayType {
     case primary, secondary, tertiary
 }
 
-enum ExerciseResolutionType: String {
-    case AutoSingleResolutionType = "auto.single"
-    case AutoCompoundResolutionType = "auto.compound"
-    case AutoSpecialRestResolutionType = "auto.special.rest"
-    case ManualSingleResolutionType = "manual.single"
-    case FailedPermanentlyResolutionType = "failed.permanently"
-}
-
 struct ExerciseView : View {
     var exercise: Exercise
     var displayType: ExerciseViewDisplayType = .primary

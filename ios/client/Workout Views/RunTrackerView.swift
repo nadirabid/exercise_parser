@@ -51,7 +51,7 @@ struct RunTrackerView: View {
         let workout = Workout(
             name: dateToWorkoutName(Date()),
             date: Date(),
-            exercises: [Exercise()],
+            exercises: [Exercise(resolutionType: ExerciseResolutionType.AutoRunTracker.rawValue)],
             location: location,
             secondsElapsed: stopwatch.counter,
             inProgress: true
@@ -331,6 +331,10 @@ func calculatePace(distance: Double, seconds: Double) -> Double {
         return 0
     }
     
+    if distance == 0 {
+        return 0
+    }
+    
     let dm = Measurement(value: distance, unit: UnitLength.meters)
     let sm = Measurement(value: seconds, unit: UnitDuration.seconds)
     
@@ -340,7 +344,9 @@ func calculatePace(distance: Double, seconds: Double) -> Double {
 }
 
 func metFromPace(pace: Double) -> Double {
-    if pace <= 4 {
+    if pace == 0 {
+        return 0
+    } else if pace <= 4 {
         return 6
     } else if pace <= 5 {
         return 8.3

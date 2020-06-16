@@ -36,6 +36,7 @@ const (
 	AutoSingleResolutionType        = "auto.single"
 	AutoCompoundResolutionType      = "auto.compound"
 	AutoSpecialRestResolutionType   = "auto.special.rest" // this seems like a bady way of doing things (right now its for the ios client to distinguish this from rest of exericses to display it uniquely)
+	AutoRunTracker                  = "auto.run_tracker"
 	ManualSingleResolutionType      = "manual.single"
 	FailedPermanentlyResolutionType = "failed.permanently"
 )
@@ -44,6 +45,10 @@ const (
 // TODO: this really shouldn't be a method on the struct - frankly bad decisions
 // TODO: this needs some testing BADLY
 func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
+	if e.ResolutionType == AutoRunTracker {
+		return nil
+	}
+
 	parsedExercises, err := parser.Get().ResolveActivity(e.Raw)
 	if err != nil {
 		// try and determine some feedback we can give to the user as to what went wrong

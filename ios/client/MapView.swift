@@ -86,6 +86,7 @@ struct RunTrackerMapView: UIViewRepresentable {
     }
     
     func updateUIView(_ view: MKMapView, context: Context) {
+        view.userTrackingMode = userTrackingMode
         view.delegate = context.coordinator
         
         if let currentLocation = locationManager.lastLocation?.coordinate {
@@ -199,7 +200,7 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
         for c in self.pathCoordinates {
             let l = CLLocation(latitude: c.latitude, longitude: c.longitude)
             
-            if last != nil && c == zero && last!.coordinate != zero {
+            if last != nil && c != zero && last!.coordinate != zero {
                 let d = last!.distance(from: l)
                 distance = distance + d
             }
