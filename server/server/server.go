@@ -215,6 +215,7 @@ func New(v *viper.Viper) error {
 	apiRoutes.GET("/exercise/dictionary/:id/related", MiddlewareRoles(handleGetDictionaryRelatedName, "admin"))
 
 	// returns workout
+	apiRoutes.GET("/workout/feed/global", handleGetGlobalFeed)
 	apiRoutes.GET("/workout/subscribedto", handleGetUserWorkoutSubscriptionFeed)
 	apiRoutes.GET("/workout", handleGetAllUserWorkout)
 	apiRoutes.GET("/workout/:id", handleGetWorkout)

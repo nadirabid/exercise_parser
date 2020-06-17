@@ -50,7 +50,7 @@ struct SubscriptionFeedView: View {
                     return
                 }
                 
-                self.feedDataRequest = self.workoutAPI.getUserSubscriptionWorkouts(page: workoutsPage + 1, pageSize: 20) { (response) in
+                self.feedDataRequest = self.workoutAPI.getWorkoutsFeedGlobal(page: workoutsPage + 1, pageSize: 20) { (response) in
                     self.feedData = response
                     self.workoutsPage = response.page!
                     self.workouts.append(contentsOf: response.results)
@@ -77,7 +77,7 @@ struct SubscriptionFeedView: View {
     }
     
     var feedWorkouts: [Workout] {
-        return self.workouts.filter { $0.hasAtleastOneResolvedExercises() }
+        return self.workouts//.filter { $0.hasAtleastOneResolvedExercises() }
     }
     
     var body: some View {
@@ -149,7 +149,7 @@ struct SubscriptionFeedView: View {
             }
             .background(self.feedData == nil ? Color.white : feedColor)
             .onAppear {
-                self.feedDataRequest = self.workoutAPI.getUserSubscriptionWorkouts(page: 0, pageSize: 20) { (response) in
+                self.feedDataRequest = self.workoutAPI.getWorkoutsFeedGlobal(page: 0, pageSize: 20) { (response) in
                     self.feedDataRequest = nil
                     self.feedData = response
                     self.workoutsPage = response.page!

@@ -46,7 +46,7 @@ struct Workout: Codable, Identifiable, Hashable {
     }
     
     func hasAtleastOneResolvedExercises() -> Bool {
-        return exercises.contains(where: { e in e.type != "" })
+        return exercises.contains(where: { e in ExerciseResolutionType.isConsideredResolved(resolutionType: e.resolutionType) })
     }
     
     func hash(into hasher: inout Hasher) {
@@ -144,15 +144,6 @@ struct Exercise: Codable, Identifiable {
     }
 }
 
-enum ExerciseCorrectiveCode: Int, CaseIterable {
-    case Unknown = -1
-    case None = 0
-    case MissingExercise = 1
-    case MissingQuantity = 2
-    case MissingExerciseAndReps = 3
-}
-
-
 enum ExerciseResolutionType: String {
     case AutoSingleResolutionType = "auto.single"
     case AutoCompoundResolutionType = "auto.compound"
@@ -160,8 +151,29 @@ enum ExerciseResolutionType: String {
     case AutoSpecialRestResolutionType = "auto.special.rest"
     case ManualSingleResolutionType = "manual.single"
     case FailedPermanentlyResolutionType = "failed.permanently"
-    
-    
+}
+
+extension ExerciseResolutionType {
+    static func isConsideredResolved(resolutionType: String) -> Bool {
+        switch resolutionType {
+        case AutoSingleResolutionType.rawValue,
+             AutoCompoundResolutionType.rawValue,
+             AutoRunTracker.rawValue,
+             AutoSpecialRestResolutionType.rawValue,
+             ManualSingleResolutionType.rawValue:
+             return true
+        default:
+            return false
+        }
+    }
+}
+
+enum ExerciseCorrectiveCode: Int, CaseIterable {
+    case Unknown = -1
+    case None = 0
+    case MissingExercise = 1
+    case MissingQuantity = 2
+    case MissingExerciseAndReps = 3
 }
 
 extension ExerciseCorrectiveCode {

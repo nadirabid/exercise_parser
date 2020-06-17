@@ -97,6 +97,46 @@ func handleGetUserWorkoutSubscriptionFeed(c echo.Context) error {
 		Preload("Exercises").
 		Preload("Exercises.ExerciseData").
 		Preload("Exercises.Locations").
+		Where(`
+			in_progress = FALSE AND
+			not exists (SELECT * 
+									FROM exercises
+									WHERE exercises.workout_id = workouts.id AND exercises.resolution_type = 'auto.run_tracker')
+		`).
+		Order("created_at desc")
+
+	listResponse, err := paging(q, page, size, &workouts)
+
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, listResponse)
+}
+
+func handleGetGlobalFeed(c echo.Context) error {
+	ctx := c.(*Context)
+	db := ctx.db
+
+	page, err := strconv.Atoi(utils.GetStringOrDefault(ctx.QueryParam("page"), "0"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	size, err := strconv.Atoi(utils.GetStringOrDefault(ctx.QueryParam("size"), "20"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	workouts := []models.Workout{}
+
+	// TODO: filter out workouts which don't have any "processed/resolved" workouts - we're
+	// currently doing this in the frontend but that means weird pagination bugs
+	q := db.
+		Preload("Location").
+		Preload("Exercises").
+		Preload("Exercises.ExerciseData").
+		Preload("Exercises.Locations").
 		Where("in_progress = FALSE").
 		Order("created_at desc")
 

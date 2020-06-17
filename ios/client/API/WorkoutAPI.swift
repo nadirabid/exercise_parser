@@ -79,6 +79,33 @@ class WorkoutAPI: ObservableObject {
         }
     }
     
+    func getWorkoutsFeedGlobal(page: Int = 0, pageSize: Int = 20, _ completionHandler: @escaping (PaginatedResponse<Workout>) -> Void) -> DataRequest? {
+        let url = "\(baseURL)/api/workout/feed/global"
+        let params: Parameters = [
+            "page": page.description,
+            "size": pageSize.description
+        ]
+        
+        return AF.request(url, method: .get, parameters: params, headers: headers)
+            .validate(statusCode: 200..<300)
+            .response(queue: DispatchQueue.main) { (response) in
+                switch response.result {
+                case .success(let data):
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = decodeStrategy()
+                    
+                    let result = try! decoder.decode(PaginatedResponse<Workout>.self, from: data!)
+                    completionHandler(result)
+                case .failure(let error):
+                    print("Failed to get workouts: ", error)
+                    if let data = response.data {
+                        print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                    }
+                }
+        }
+    }
+    
+    
     func createWorkout(workout: Workout, _ completionHandler: @escaping (Workout) -> Void) {
         AF.request("\(baseURL)/api/workout", method: .post, parameters: workout, encoder: JSONParameterEncoder(encoder: encoder), headers: headers)
             .validate(statusCode: 200..<300)
