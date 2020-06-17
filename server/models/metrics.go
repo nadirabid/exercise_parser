@@ -24,7 +24,7 @@ func (Metric) TableName() string {
 
 type MetricTopLevel struct {
 	HiddenModel
-	Distance       float32 `json:"distance"`
+	Distance       float64 `json:"distance"`
 	Sets           int     `json:"sets"`
 	Reps           int     `json:"reps"`
 	SecondsElapsed uint    `json:"seconds_elapsed"`

@@ -7,7 +7,7 @@ import (
 
 // determine MET from dictionary URL
 // 2011 compendium of activities: https://download.lww.com/wolterskluwer_vitalstream_com/PermaLink/MSS/A/MSS_43_8_2011_06_13_AINSWORTH_202093_SDC1.pdf
-func metFromDictionaryUrl(dictionaryURL string, intensity int) float32 {
+func metFromDictionaryUrl(dictionaryURL string, intensity int) float64 {
 	switch dictionaryURL {
 	case
 		"https://exrx.net/Aerobic/Exercises/UprightCycle",

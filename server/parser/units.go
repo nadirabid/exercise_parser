@@ -37,7 +37,7 @@ func unitClassify(unitStr string) (string, error) {
 	return "", fmt.Errorf("Unknown unit: %s", unitStr)
 }
 
-func UnitStandardize(unitStr string, quantity float32) (float32, error) {
+func UnitStandardize(unitStr string, quantity float64) (float64, error) {
 	unit, err := unitClassify(unitStr)
 	if err != nil {
 		return 0, err

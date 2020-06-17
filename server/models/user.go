@@ -17,8 +17,8 @@ type User struct {
 	ImagePath      string             `json:"-"`
 	Roles          pq.StringArray     `json:"roles"`
 	Birthdate      *time.Time         `json:"birthdate"`
-	Weight         float32            `json:"weight"`
-	Height         float32            `json:"height"`
+	Weight         float64            `json:"weight"`
+	Height         float64            `json:"height"`
 	IsMale         bool               `json:"is_male"`
 }
 

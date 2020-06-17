@@ -20,7 +20,7 @@ func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictio
 			continue
 		}
 
-		met := float32(0.0)
+		met := float64(0.0)
 
 		if e.ExerciseDictionaryID != nil {
 			d, ok := dictionaries[*e.ExerciseDictionaryID]
@@ -31,7 +31,7 @@ func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictio
 			met = metFromDictionaryUrl(d.URL, metIntensityFromExercise(e))
 		}
 
-		time := float32(e.ExerciseData.Time)
+		time := float64(e.ExerciseData.Time)
 
 		if time == 0 {
 			time += calculateSecondsFromDistance(e.ExerciseData.Distance)
@@ -48,9 +48,9 @@ func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictio
 		}
 
 		height := user.Height
-		ageYears := float32(0.0)
+		ageYears := float64(0.0)
 		if user.Birthdate != nil {
-			ageYears = float32(age.Age(*user.Birthdate))
+			ageYears = float64(age.Age(*user.Birthdate))
 		}
 
 		if height != 0 && ageYears != 0 {
@@ -70,11 +70,11 @@ func CalculateFromUserWorkout(user *models.User, workout *models.Workout, dictio
 // 1 MET = 1 kcal/kg/hr - there seem to be other definitions so fuck me - MET maybe useless
 // weight in kg
 // time in hrs
-func calculatedCalsFromStandardMET(met float32, weightKg float32, timeSeconds float32) float32 {
+func calculatedCalsFromStandardMET(met float64, weightKg float64, timeSeconds float64) float64 {
 	return met * weightKg * (timeSeconds / (60 * 60))
 }
 
-func calculateCalsFromCorrectedMET(met, weightKg, heightCm, ageYr, timeSeconds float32, male bool) float32 {
+func calculateCalsFromCorrectedMET(met, weightKg, heightCm, ageYr, timeSeconds float64, male bool) float64 {
 	if male {
 		return met * calculateMaleBMR(weightKg, heightCm, ageYr) * (timeSeconds / (24 * 60 * 60))
 	}
@@ -82,24 +82,24 @@ func calculateCalsFromCorrectedMET(met, weightKg, heightCm, ageYr, timeSeconds f
 	return met * calculateFemaleBMR(weightKg, heightCm, ageYr) * (timeSeconds / (24 * 60 * 60))
 }
 
-func calculateMaleBMR(weightKg float32, heightCm float32, ageYr float32) float32 {
+func calculateMaleBMR(weightKg float64, heightCm float64, ageYr float64) float64 {
 	return (10 * weightKg) + (6.25 * heightCm) - (5 * ageYr) + 5
 }
 
-func calculateFemaleBMR(weightKg float32, heightCm float32, ageYr float32) float32 {
+func calculateFemaleBMR(weightKg float64, heightCm float64, ageYr float64) float64 {
 	return (10 * weightKg) + (6.25 * heightCm) - (5 * ageYr) - 161
 }
 
 // TODO: if we can add a notion of "heigher/lower/average weight used for a given user"  - the time estimate could be better
 // When you don't have time for a given exercise - use this to estimate an on average lower bound time estimate
-func calculateSecondsFromSetsAndReps(sets, reps int, weight float32) float32 {
+func calculateSecondsFromSetsAndReps(sets, reps int, weight float64) float64 {
 	// assume each rep takes 4 seconds
 	// assume eeach break between sets is 90 seconds
 
 	setsMultiplier := int(40 + (weight / 2))
-	return float32((reps * 4) + (sets * setsMultiplier))
+	return float64((reps * 4) + (sets * setsMultiplier))
 }
 
-func calculateSecondsFromDistance(distanceMeters float32) float32 {
+func calculateSecondsFromDistance(distanceMeters float64) float64 {
 	return (60*5 + 37.5) * (distanceMeters / 1000) // assume 9 min mile (5 min 37.5 sec per km)
 }

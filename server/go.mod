@@ -18,6 +18,7 @@ require (
 	github.com/gogap/env_strings v0.0.1 // indirect
 	github.com/golang-migrate/migrate v3.5.4+incompatible
 	github.com/golang-migrate/migrate/v4 v4.11.0
+	github.com/golang/geo v0.0.0-20200319012246-673a6f80352d
 	github.com/heirko/go-contrib v0.0.0-20170921174445-82c95aa7d665 // indirect
 	github.com/heralight/logrus_mate v1.0.1 // indirect
 	github.com/hoisie/redis v0.0.0-20160730154456-b5c6e81454e0 // indirect

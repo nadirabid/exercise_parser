@@ -226,7 +226,6 @@ func New(v *viper.Viper) error {
 
 	// returns metrics
 	apiRoutes.GET("/metric", handleGetMetrics)
-	apiRoutes.GET("/metric/weekly", handleGetWeeklyMetrics) // TODO: remove this dude when everyone is using app 24 build
 
 	return e.Start(fmt.Sprintf("0.0.0.0:%s", v.GetString("server.port")))
 }

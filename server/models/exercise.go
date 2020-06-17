@@ -45,7 +45,16 @@ const (
 // TODO: this really shouldn't be a method on the struct - frankly bad decisions
 // TODO: this needs some testing BADLY
 func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
-	if e.ResolutionType == AutoRunTracker {
+	if e.Type == "skip.run_tracker" {
+		d := &ExerciseDictionary{}
+		if err := db.Where("name = ", "run").First(d).Error; err != nil {
+			return err
+		}
+
+		e.ExerciseDictionaryID = &d.ID
+		e.ResolutionType = AutoRunTracker
+		e.ExerciseData.Distance = calculateTotalDistance(e.Locations)
+
 		return nil
 	}
 
@@ -215,9 +224,9 @@ type ExerciseData struct {
 	HiddenModel
 	Sets       int     `json:"sets"`
 	Reps       int     `json:"reps"`
-	Weight     float32 `json:"weight"`
+	Weight     float64 `json:"weight"`
 	Time       uint    `json:"time"`
-	Distance   float32 `json:"distance"`
+	Distance   float64 `json:"distance"`
 	Calories   int     `json:"calories"`
 	ExerciseID uint    `json:"exercise_id" gorm:"type:int REFERENCES exercises(id) ON DELETE CASCADE"`
 }
@@ -283,7 +292,7 @@ func evalRest(captures map[string]string) (int, error) {
 
 		restPeriod := utils.MaxInt(restPeriod1, restPeriod2)
 
-		standardizedRestPeriod, err := parser.UnitStandardize(restPeriodUnits, float32(restPeriod))
+		standardizedRestPeriod, err := parser.UnitStandardize(restPeriodUnits, float64(restPeriod))
 		if err != nil {
 			return 0, err
 		}
@@ -296,7 +305,7 @@ func evalRest(captures map[string]string) (int, error) {
 		return 0, err
 	}
 
-	standardizedRestPeriod, err := parser.UnitStandardize(restPeriodUnits, float32(restPeriod))
+	standardizedRestPeriod, err := parser.UnitStandardize(restPeriodUnits, float64(restPeriod))
 	if err != nil {
 		return 0, err
 	}
@@ -370,7 +379,7 @@ func evalReps(captures map[string]string) (int, error) {
 }
 
 // returns 0 if not specified
-func evalWeight(captures map[string]string) (float32, error) {
+func evalWeight(captures map[string]string) (float64, error) {
 	weightStr, ok := captures["Weight"]
 	if !ok {
 		return 0, nil
@@ -378,12 +387,12 @@ func evalWeight(captures map[string]string) (float32, error) {
 
 	unit := utils.GetStringOrDefault(captures["WeightUnits"], "pounds")
 
-	weight, err := strconv.ParseFloat(weightStr, 32)
+	weight, err := strconv.ParseFloat(weightStr, 64)
 	if err != nil {
 		return 0, err
 	}
 
-	standardized, err := parser.UnitStandardize(unit, float32(weight))
+	standardized, err := parser.UnitStandardize(unit, weight)
 	if err != nil {
 		return 0, err
 	}
@@ -413,7 +422,7 @@ func evalTime(captures map[string]string) (uint, error) {
 			return 0, err
 		}
 
-		standardizedTime, err := parser.UnitStandardize(timeUnit, float32(utils.MaxInt(time1, time2)))
+		standardizedTime, err := parser.UnitStandardize(timeUnit, float64(utils.MaxInt(time1, time2)))
 
 		if err != nil {
 			return 0, err
@@ -433,8 +442,8 @@ func evalTime(captures map[string]string) (uint, error) {
 			return 0, err
 		}
 
-		standardizedMins, err := parser.UnitStandardize("minutes", float32(mins))
-		standardizedSecs, err := parser.UnitStandardize("seconds", float32(secs))
+		standardizedMins, err := parser.UnitStandardize("minutes", float64(mins))
+		standardizedSecs, err := parser.UnitStandardize("seconds", float64(secs))
 
 		if err != nil {
 			return 0, err
@@ -450,7 +459,7 @@ func evalTime(captures map[string]string) (uint, error) {
 		return 0, err
 	}
 
-	standardizedTime, err := parser.UnitStandardize(timeUnit, float32(time))
+	standardizedTime, err := parser.UnitStandardize(timeUnit, float64(time))
 	if err != nil {
 		return 0, err
 	}
@@ -459,19 +468,19 @@ func evalTime(captures map[string]string) (uint, error) {
 }
 
 // returns 0 if not specified
-func evalDistance(captures map[string]string) (float32, error) {
+func evalDistance(captures map[string]string) (float64, error) {
 	if captures["Distance"] == "" {
 		return 0, nil
 	}
 
 	unit := utils.GetStringOrDefault(captures["DistanceUnits"], "miles")
 
-	distance, err := strconv.ParseFloat(captures["Distance"], 32)
+	distance, err := strconv.ParseFloat(captures["Distance"], 64)
 	if err != nil {
 		return 0, err
 	}
 
-	standardizedDist, err := parser.UnitStandardize(unit, float32(distance))
+	standardizedDist, err := parser.UnitStandardize(unit, distance)
 	if err != nil {
 		return 0, err
 	}

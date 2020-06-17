@@ -82,7 +82,7 @@ func computeMetric(user *models.User, workout *models.Workout, dictionaries []mo
 
 		topLevelMetric.Sets += e.ExerciseData.Sets * circuitRounds
 		topLevelMetric.Reps += e.ExerciseData.Reps * e.ExerciseData.Sets
-		topLevelMetric.Distance += e.ExerciseData.Distance * float32(circuitRounds)
+		topLevelMetric.Distance += e.ExerciseData.Distance * float64(circuitRounds)
 
 		for _, d := range e.ExerciseDictionaries {
 			repsByExerciseDictionary[d.ID] += e.ExerciseData.Reps * e.ExerciseData.Sets * circuitRounds

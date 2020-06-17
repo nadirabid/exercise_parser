@@ -53,7 +53,7 @@ struct RunTrackerView: View {
         let workout = Workout(
             name: dateToWorkoutName(Date()),
             date: Date(),
-            exercises: [Exercise(resolutionType: ExerciseResolutionType.AutoRunTracker.rawValue)],
+            exercises: [Exercise(type: "skip.run_tracker")],
             location: location,
             secondsElapsed: stopwatch.counter,
             inProgress: true
@@ -80,15 +80,29 @@ struct RunTrackerView: View {
     }
     
     func completeWorkout() {
+        let exercise = Exercise(
+            id: self.workout?.exercises.first!.id!,
+            type: "skip.run_tracker",
+            data: ExerciseData(
+                sets: 1,
+                reps: 1,
+                weight: 0,
+                time: stopwatch.counter,
+                distance: Float(locationManager.currentDistance)
+            )
+        )
+        
         let workout = Workout(
             id: self.workout!.id!,
             name: self.workoutName == "" ? dateToWorkoutName(Date()) : self.workoutName,
+            date: Date(),
+            exercises: [exercise],
             secondsElapsed: stopwatch.counter,
             inProgress: false
         )
         
         workoutAPI
-            .updateWorkoutAsComplete(workout)
+            .updateWorkout(workout: workout)
             .then { _ in
                 self.locationManager.stopUpdatingLocation()
                 self.routeState.replaceCurrent(with: .userFeed)
