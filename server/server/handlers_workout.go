@@ -248,6 +248,8 @@ func handlePutWorkout(c echo.Context) error {
 			e.WorkoutID = updatedWorkout.ID  // for security
 			e.ExerciseData.ExerciseID = e.ID // for security
 
+			utils.PrettyPrint(e)
+
 			if err := tx.Set("gorm:association_autoupdate", false).Save(&e).Error; err != nil {
 				ctx.logger.Error(utils.PrettyStringify(e))
 				ctx.logger.Error(err.Error())

@@ -25,3 +25,5 @@ stop
 /arm
 done
 complete
+nightly
+daily

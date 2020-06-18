@@ -232,4 +232,19 @@ struct ExerciseData: Codable {
         
         return Float(round(m.value*100)/100)
     }
+    
+    var pace: Double {
+        if time == 0 {
+            return 0
+        }
+        
+        if distance == 0 {
+            return 0
+        }
+        
+        let distM = Measurement(value: Double(distance) / Double(time), unit: UnitSpeed.metersPerSecond)
+        
+        return distM.value
+    }
 }
+

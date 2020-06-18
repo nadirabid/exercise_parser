@@ -47,13 +47,14 @@ const (
 func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 	if e.Type == "skip.run_tracker" {
 		d := &ExerciseDictionary{}
-		if err := db.Where("name = ", "run").First(d).Error; err != nil {
+		if err := db.Debug().Where("url = ?", "https://exrx.net/Aerobic/Exercises/Run").First(d).Error; err != nil {
 			return err
 		}
 
-		e.ExerciseDictionaryID = &d.ID
+		e.ExerciseDictionaries = []*ExerciseDictionary{d}
 		e.ResolutionType = AutoRunTracker
-		e.ExerciseData.Distance = calculateTotalDistance(e.Locations)
+
+		// TODO:  should we trust client as we currently do for distance/etc??? probably yes - just double  check
 
 		return nil
 	}

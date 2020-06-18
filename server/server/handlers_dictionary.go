@@ -96,7 +96,7 @@ func handleGetWorkoutDictionary(c echo.Context) error {
 
 	dictionaries := []models.ExerciseDictionary{}
 
-	q := db.
+	q := db.Debug().
 		Preload("Muscles").
 		Select("DISTINCT ON (exercise_dictionaries.id) exercise_dictionaries.*").
 		Joins("JOIN resolved_exercise_dictionaries ON resolved_exercise_dictionaries.exercise_dictionary_id = exercise_dictionaries.id").
