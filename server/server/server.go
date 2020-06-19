@@ -202,6 +202,7 @@ func New(v *viper.Viper) error {
 
 	// returns location
 	apiRoutes.POST("/exercise/:id/location", handlePostLocationForExercise)
+	apiRoutes.POST("/exercise/:id/locations", handlePostMultipleLocationsForExercise)
 
 	// returns dictionary
 	apiRoutes.GET("/dictionary", MiddlewareRoles(handleGetExerciseDictionaryList, "admin"))

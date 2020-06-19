@@ -52,4 +52,30 @@ class LocationAPI: ObservableObject {
                 }
         }
     }
+    
+    func createLocations(exerciseID: Int, _ locations: [Location]) -> Promise<PaginatedResponse<Location>> {
+        let url = "\(baseURL)/api/exercise/\(exerciseID)/locations"
+        
+        return Promise<PaginatedResponse<Location>> { (fulfill, reject) in
+            AF
+                .request(url, method: .post, parameters: locations, encoder: JSONParameterEncoder(encoder: self.encoder), headers: self.headers)
+                .validate()
+                .response { (response) in
+                    switch response.result {
+                    case .success(let data):
+                        let decoder = JSONDecoder()
+                        decoder.dateDecodingStrategy = decodeStrategy()
+                        
+                        let result = try! decoder.decode(PaginatedResponse<Location>.self, from: data!)
+                        fulfill(result)
+                    case .failure(let error):
+                        print("Failed to create locations", error)
+                        if let data = response.data {
+                            print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                        }
+                        reject(error)
+                    }
+                }
+        }
+    }
 }
