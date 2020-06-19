@@ -61,14 +61,6 @@ struct WorkoutView: View {
         }
     }
     
-    var isRunWorkout: Bool {
-        if workout.exercises.count == 1 && workout.exercises.first!.locations.count > 0 {
-            return true
-        }
-        
-        return false
-    }
-    
     var body: some View {
         if self.showUserInfo &&
             self.user != nil &&
@@ -130,7 +122,7 @@ struct WorkoutView: View {
                 .padding(.leading)
             
             if view == "waveform.path.ecg" {
-                if isRunWorkout {
+                if workout.isRunWorkout {
                     StaticTrackerMapView(path: self.workout.exercises.first!.locations, userTrackingMode: .none)
                         .frame(height: UIScreen.main.bounds.width * 0.7)
                 } else {
@@ -190,7 +182,7 @@ struct WorkoutView: View {
         }
         .padding([.top, .bottom])
         .actionSheet(isPresented: $showingActionSheet) {
-            if self.isRunWorkout {
+            if self.workout.isRunWorkout {
                 return ActionSheet(title: Text(workout.name), buttons: [
                     .destructive(Text("Delete")) { self.onDelete() },
                     .cancel()
@@ -347,7 +339,19 @@ public struct WorkoutMetaMetricsView: View {
             m = m.converted(to: UnitLength.miles)
         }
         
-        return Float(round(m.value*100)/100)
+        return Float(round(m.value*10)/10)
+    }
+    
+    var pace: Double {
+        if !workout.isRunWorkout {
+            return 0
+        }
+        
+        if let data = workout.exercises.first?.data {
+            return data.pace
+        }
+        
+        return 0
     }
     
     var totalReps: Int {
@@ -376,6 +380,18 @@ public struct WorkoutMetaMetricsView: View {
         return result
     }
     
+    var time: Int {
+        if workout.isRunWorkout {
+            if let data = workout.exercises.first?.data {
+                return data.time
+            } else {
+                return 0
+            }
+        }
+        
+        return workout.secondsElapsed
+    }
+    
     public var body: some View {
         HStack(spacing: 10) {
             WorkoutDetail(
@@ -387,7 +403,7 @@ public struct WorkoutMetaMetricsView: View {
             
             WorkoutDetail(
                 name: "Time",
-                value: secondsToElapsedTimeString(workout.secondsElapsed)
+                value: secondsToElapsedTimeString(time)
             )
             
             if totalSets > 1 {
@@ -406,6 +422,12 @@ public struct WorkoutMetaMetricsView: View {
                 Divider()
                 
                 WorkoutDetail(name: "Distance", value: "\(totalDistance) \(totalDistanceUnits)")
+            }
+            
+            if workout.isRunWorkout && pace > 0 {
+                Divider()
+                
+                WorkoutDetail(name: "Pace", value: "\(String(format: "%.1f", pace)) min/mile")
             }
         }
     }

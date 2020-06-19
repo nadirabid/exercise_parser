@@ -30,7 +30,6 @@ struct WorkoutTypeSelectorView: View {
     
     var body: some View {
         // TODO: disable locationManager if workout is confirmed?
-        
         ZStack {
             ZStack {
                 if workoutType == .workout {
@@ -38,7 +37,7 @@ struct WorkoutTypeSelectorView: View {
                         .blur(radius: blurRadius)
                         .transition(
                             .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
-                        )
+                    )
                         .animation(.default)
                 } else if workoutType == .run {
                     if !workoutTypeConfirmed {
@@ -46,19 +45,34 @@ struct WorkoutTypeSelectorView: View {
                             .blur(radius: blurRadius)
                             .transition(
                                 .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
-                            )
+                        )
                             .animation(.default)
                     } else  {
                         RunTrackerView(disabled: !workoutTypeConfirmed, locationManager: locationManager)
                     }
                 }
-             
+                
                 if !workoutTypeConfirmed {
                     WorkoutSelectionInformationOverlay(
                         locationManager: self.locationManager,
                         workoutType: self.workoutType
                     )
                 }
+            }
+            
+            VStack(spacing: 0) {
+                HStack {
+                    Spacer()
+                    
+                    Button(action: {}) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 24))
+                            .padding([.trailing], 24)
+                    }
+                    .padding(.leading)
+                }
+                
+                Spacer()
             }
             
             if !workoutTypeConfirmed {
@@ -197,17 +211,17 @@ struct WorkoutTypeSelectorButtonsView: View {
                                 Circle()
                                     .scaledToFill()
                                     .foregroundColor(startButtonColor)
-                            )
+                        )
                     }
-                        .padding([.bottom, .top])
-                        .disabled(!locationManager.isLocationEnabled)
+                    .padding([.bottom, .top])
+                    .disabled(!locationManager.isLocationEnabled)
                     
                     Spacer()
                 }
             }
-                .background(Color(UIColor.systemBackground))
-                .padding(.bottom)
-                .padding(.bottom)
+            .background(Color(UIColor.systemBackground))
+            .padding(.bottom)
+            .padding(.bottom)
         }
         .edgesIgnoringSafeArea(.all)
     }

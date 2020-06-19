@@ -42,7 +42,15 @@ struct Workout: Codable, Identifiable, Hashable {
         self.userID = userID
         self.location = location
         self.secondsElapsed = secondsElapsed
-        self.inProgress = false
+        self.inProgress = inProgress
+    }
+    
+    var isRunWorkout: Bool {
+        if exercises.count == 1 && exercises.first!.locations.count > 0 {
+            return true
+        }
+        
+        return false
     }
     
     func hasAtleastOneResolvedExercises() -> Bool {
@@ -242,9 +250,10 @@ struct ExerciseData: Codable {
             return 0
         }
         
-        let distM = Measurement(value: Double(distance) / Double(time), unit: UnitSpeed.metersPerSecond)
+        let durationMeasurement = Measurement(value: Double(time), unit: UnitDuration.seconds).converted(to: UnitDuration.minutes)
+        let distanceMeasurement = Measurement(value: Double(distance), unit: UnitLength.meters).converted(to: UnitLength.miles)
         
-        return distM.value
+        return durationMeasurement.value / distanceMeasurement.value
     }
 }
 

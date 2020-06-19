@@ -10,7 +10,7 @@ import Foundation
 
 #if targetEnvironment(simulator)
 //let baseURL = "http://192.168.1.69:1234"
-let baseURL = "http://192.168.1.129:1234"
+let baseURL = "http://10.0.0.50:1234"
 #else
 let baseURL = "https://api.rydenapp.com"
 #endif
@@ -24,7 +24,6 @@ func decodeStrategy() -> JSONDecoder.DateDecodingStrategy {
     formatter.calendar = Calendar(identifier: .iso8601)
     formatter.locale = Locale(identifier: "en_US_POSIX")
     formatter.timeZone = TimeZone(secondsFromGMT: 0)
-
     
     return .custom({ (decoder) -> Date in
         let container = try decoder.singleValueContainer()

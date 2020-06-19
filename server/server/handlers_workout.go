@@ -161,6 +161,8 @@ func handlePostWorkout(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
+	utils.PrettyPrint(workout)
+
 	workout.UserID = userID // to make sure user isn't overriding this value
 
 	for i, e := range workout.Exercises {
