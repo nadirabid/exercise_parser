@@ -15,6 +15,8 @@ enum WorkoutType {
 }
 
 struct WorkoutTypeSelectorView: View {
+    @EnvironmentObject var routerState: RouteState
+    
     @State private var workoutType: WorkoutType = .workout
     @State private var workoutTypeConfirmed = false
     
@@ -60,22 +62,26 @@ struct WorkoutTypeSelectorView: View {
                 }
             }
             
-            VStack(spacing: 0) {
-                HStack {
-                    Spacer()
-                    
-                    Button(action: {}) {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 24))
-                            .padding([.trailing], 24)
-                    }
-                    .padding(.leading)
-                }
-                
-                Spacer()
-            }
-            
             if !workoutTypeConfirmed {
+                VStack(spacing: 0) {
+                    HStack {
+                        Spacer()
+                        
+                        Button(action: {
+                            self.routerState.pop()
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.system(size: 24))
+                                .padding([.top, .trailing], 24)
+                        }
+                        .padding(.leading)
+                    }
+                    
+                    Spacer()
+                }
+                .statusBar(hidden: true)
+                .edgesIgnoringSafeArea(.all)
+                
                 WorkoutTypeSelectorButtonsView(
                     locationManager: locationManager,
                     workoutType: $workoutType,

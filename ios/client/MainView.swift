@@ -55,7 +55,7 @@ struct MainView: View {
                                 
                                 Button(action: {
                                     if !self.isUserButtonPressed {
-                                        self.route.replaceCurrent(with: .userFeed)
+                                        self.route.clearAndSet(route: .userFeed)
                                     }
                                 }) {
                                     HomeIconShape()
@@ -66,7 +66,7 @@ struct MainView: View {
                                 Spacer()
                                 
                                 Button(action: {
-                                    self.route.replaceCurrent(with: .editor)
+                                    self.route.push(route: .editor)
                                 }) {
                                     ZStack {
                                         Circle()
@@ -85,7 +85,7 @@ struct MainView: View {
                                 
                                 Button(action: {
                                     if !self.isSubscriptionButtonPressed {
-                                        self.route.replaceCurrent(with: .subscriptionFeed)
+                                        self.route.clearAndSet(route: .subscriptionFeed)
                                     }
                                 }) {
                                     StreamIconShape()
@@ -119,7 +119,6 @@ struct MainView: View {
                         
                         Button(action: { self.route.showHelp = false }) {
                             Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(Color.black)
                                 .font(.system(size: 24))
                                 .padding([.top, .trailing], 24)
                         }

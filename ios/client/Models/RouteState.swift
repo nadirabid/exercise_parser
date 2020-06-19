@@ -22,6 +22,14 @@ class RouteState: ObservableObject {
         self.push(route: current)
     }
     
+    func clearAndSet(route: Route) {
+        if !routeStack.isEmpty {
+            routeStack.removeAll()
+        }
+        
+        push(route: route)
+    }
+    
     func replaceCurrent(with route: Route) {
         if !routeStack.isEmpty {
             _ = routeStack.popLast()
