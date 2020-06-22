@@ -14,7 +14,7 @@ const MileUnit = "mile"
 const PoundUnit = "pound"
 const KilogramUnit = "kilogram"
 
-func unitClassify(unitStr string) (string, error) {
+func UnitClassify(unitStr string) (string, error) {
 	switch unitStr {
 	case "s", "sec", "secs", "second", "seconds":
 		return SecondUnit, nil
@@ -38,7 +38,7 @@ func unitClassify(unitStr string) (string, error) {
 }
 
 func UnitStandardize(unitStr string, quantity float64) (float64, error) {
-	unit, err := unitClassify(unitStr)
+	unit, err := UnitClassify(unitStr)
 	if err != nil {
 		return 0, err
 	}

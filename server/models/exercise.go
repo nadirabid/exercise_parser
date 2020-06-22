@@ -443,14 +443,35 @@ func evalTime(captures map[string]string) (uint, error) {
 			return 0, err
 		}
 
-		standardizedMins, err := parser.UnitStandardize("minutes", float64(mins))
-		standardizedSecs, err := parser.UnitStandardize("seconds", float64(secs))
+		standardizedTimeUnits, _ := parser.UnitClassify(timeUnit)
 
-		if err != nil {
-			return 0, err
+		standardizedFirstPart := 0.0
+		standardizedSecondPart := 0.0
+
+		if standardizedTimeUnits == parser.HourUnit {
+			standardizedFirstPart, err = parser.UnitStandardize(parser.HourUnit, float64(mins))
+			standardizedSecondPart, err = parser.UnitStandardize(parser.MinuteUnit, float64(secs))
+
+			if err != nil {
+				return 0, err
+			}
+		} else if standardizedTimeUnits == parser.MinuteUnit {
+			standardizedFirstPart, err = parser.UnitStandardize(parser.MinuteUnit, float64(mins))
+			standardizedSecondPart, err = parser.UnitStandardize(parser.SecondUnit, float64(secs))
+
+			if err != nil {
+				return 0, err
+			}
+		} else {
+			standardizedFirstPart, err = parser.UnitStandardize(parser.MinuteUnit, float64(mins))
+			standardizedSecondPart, err = parser.UnitStandardize(parser.SecondUnit, float64(secs))
+
+			if err != nil {
+				return 0, err
+			}
 		}
 
-		standardizedTime := standardizedMins + standardizedSecs
+		standardizedTime := standardizedFirstPart + standardizedSecondPart
 
 		return uint(standardizedTime), nil
 	}
