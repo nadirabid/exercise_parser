@@ -71,8 +71,8 @@ struct PosteriorShape: Shape {
                 endRadius: endRadius
             )
         case .synergist:
-            let opacity = self.activiation * 0.9
-            let colors = Gradient(colors: [Color.green.opacity(opacity), Color.blue.opacity(opacity), Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)).opacity(opacity)])
+            let opacity = self.activiation * 0.6
+            let colors = Gradient(colors: [secondaryAppColor.opacity(opacity), Color.yellow.opacity(opacity), appColor.opacity(opacity)])
             radial = RadialGradient(
                 gradient: colors,
                 center: radialCenter,
@@ -80,7 +80,7 @@ struct PosteriorShape: Shape {
                 endRadius: endRadius
             )
         case .dynamicArticulation:
-            let opacity = self.activiation * 0.5
+            let opacity = self.activiation * 0.45
             let colors = Gradient(colors: [secondaryAppColor.opacity(opacity), Color.yellow.opacity(opacity), appColor.opacity(opacity)])
             radial = RadialGradient(
                 gradient: colors,

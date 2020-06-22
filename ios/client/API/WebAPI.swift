@@ -9,8 +9,7 @@
 import Foundation
 
 #if targetEnvironment(simulator)
-//let baseURL = "http://192.168.1.69:1234"
-let baseURL = "http://10.0.0.50:1234"
+let baseURL = "http://192.168.1.69:1234"
 #else
 let baseURL = "https://api.rydenapp.com"
 #endif
