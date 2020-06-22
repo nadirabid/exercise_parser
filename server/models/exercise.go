@@ -47,7 +47,7 @@ const (
 func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 	if e.Type == "skip.run_tracker" {
 		d := &ExerciseDictionary{}
-		if err := db.Debug().Where("url = ?", "https://exrx.net/Aerobic/Exercises/Run").First(d).Error; err != nil {
+		if err := db.Where("url = ?", "https://exrx.net/Aerobic/Exercises/Run").First(d).Error; err != nil {
 			return err
 		}
 
