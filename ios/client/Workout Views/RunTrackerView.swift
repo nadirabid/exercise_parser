@@ -19,30 +19,15 @@ struct RunTrackerView: View {
     @State var workoutName: String = ""
     @State var workoutCreated: Bool = false
     
-    var locationManager: RunTrackerLocationManager
     var stopwatch: Stopwatch = Stopwatch()
     
-    private let isDisabled: Bool
-    
-    init(disabled: Bool, locationManager _locationManager: RunTrackerLocationManager) {
-        locationManager = _locationManager
-        isDisabled = disabled
-        
-        if !disabled {
-            if !self.isStopped {
-                stopwatch.start()
-                self.locationManager.startTrackingLocation()
-            } else {
-                stopwatch.stop()
-                self.locationManager.stopTrackingLocation()
-            }
-        }
-        
-        self.locationManager.startUpdatingLocation()
-        
-    }
+    var locationManager: RunTrackerLocationManager
     
     func createWorkout() {
+        self.locationManager.startUpdatingLocation()
+        self.locationManager.startTrackingLocation()
+        stopwatch.start()
+        
         #if targetEnvironment(simulator)
         let location = Location(latitude: 37.34727983131215, longitude: -121.88308869874288)
         #else
@@ -101,10 +86,11 @@ struct RunTrackerView: View {
             inProgress: false
         )
         
+        self.locationManager.stopUpdatingLocation()
+        
         workoutAPI
             .updateWorkout(workout: workout)
             .then { _ in
-                self.locationManager.stopUpdatingLocation()
                 self.routeState.replaceCurrent(with: .userFeed)
             }
     }
@@ -112,7 +98,7 @@ struct RunTrackerView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                RunTrackerMapView(locationManager: self.locationManager, userTrackingMode: self.isDisabled ? .none : .follow)
+                RunTrackerMapView(locationManager: self.locationManager, userTrackingMode: .follow)
                     .animation(.none)
                 
                 VStack(alignment: .leading, spacing: 0) {
@@ -178,7 +164,11 @@ struct RunTrackerView: View {
         }
         .edgesIgnoringSafeArea(.top)
         .onAppear  {
+            print("onAppear")
             self.createWorkout()
+        }
+        .onDisappear {
+            print("onDisappear")
         }
     }
 }
@@ -417,6 +407,6 @@ func calculateFemaleBMR(weightKg: Double, heightCm: Double, ageYr: Double) -> Do
 
 struct RunTrackerView_Previews: PreviewProvider {
     static var previews: some View {
-        RunTrackerView(disabled: true, locationManager: RunTrackerLocationManager())
+        RunTrackerView(locationManager: RunTrackerLocationManager())
     }
 }

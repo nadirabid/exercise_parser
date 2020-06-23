@@ -161,10 +161,12 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
     }
     
     func startUpdatingLocation() {
+        print("locationManager:start")
         self.locationManager.startUpdatingLocation()
     }
     
     func stopUpdatingLocation() {
+        print("locationManager:stop")
         self.locationManager.stopUpdatingLocation()
     }
     

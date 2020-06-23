@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import MapKit
 
 struct Workout: Codable, Identifiable, Hashable {
     let id: Int?
@@ -91,6 +92,13 @@ struct Location: Codable {
         self.longitude = longitude
         self.exerciseID = exerciseID
         self.index = index
+    }
+    
+    init(coordinate: CLLocationCoordinate2D) {
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
+        self.exerciseID = nil
+        self.index = nil
     }
 
     private enum CodingKeys: String, CodingKey {

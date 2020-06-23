@@ -161,8 +161,6 @@ func handlePostWorkout(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	utils.PrettyPrint(workout)
-
 	workout.UserID = userID // to make sure user isn't overriding this value
 
 	for i, e := range workout.Exercises {
@@ -249,8 +247,6 @@ func handlePutWorkout(c echo.Context) error {
 		} else {
 			e.WorkoutID = updatedWorkout.ID  // for security
 			e.ExerciseData.ExerciseID = e.ID // for security
-
-			utils.PrettyPrint(e)
 
 			if err := tx.Set("gorm:association_autoupdate", false).Save(&e).Error; err != nil {
 				ctx.logger.Error(utils.PrettyStringify(e))

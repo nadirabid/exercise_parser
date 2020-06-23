@@ -43,14 +43,12 @@ struct WorkoutTypeSelectorView: View {
                         .animation(.default)
                 } else if workoutType == .run {
                     if !workoutTypeConfirmed {
-                        StaticTrackerMapView(path: [], userTrackingMode: .none)
+                        RunTrackerMapView(locationManager: self.locationManager, userTrackingMode: .none)
                             .blur(radius: blurRadius)
-                            .transition(
-                                .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
-                        )
+                            .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
                             .animation(.default)
                     } else  {
-                        RunTrackerView(disabled: !workoutTypeConfirmed, locationManager: locationManager)
+                        RunTrackerView(locationManager: locationManager)
                     }
                 }
                 
