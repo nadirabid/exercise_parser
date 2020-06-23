@@ -163,6 +163,11 @@ func handlePostWorkout(c echo.Context) error {
 
 	workout.UserID = userID // to make sure user isn't overriding this value
 
+	if workout.InProgress == nil {
+		temp := false
+		workout.InProgress = &temp
+	}
+
 	for i, e := range workout.Exercises {
 		// we stage in two different phases:
 		// 1. parse the user exercise string into parts
