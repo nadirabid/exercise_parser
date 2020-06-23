@@ -77,7 +77,7 @@ struct SubscriptionFeedView: View {
     }
     
     var feedWorkouts: [Workout] {
-        return self.workouts//.filter { $0.hasAtleastOneResolvedExercises() }
+        return self.workouts.filter { $0.hasAtleastOneResolvedExercises() }
     }
     
     var body: some View {

@@ -231,9 +231,10 @@ struct WorkoutTypeSelectorButtonsView: View {
                     Spacer()
                 }
             }
+            .padding(.bottom)
+            .padding(.bottom)
             .background(Color(UIColor.systemBackground))
-            .padding(.bottom)
-            .padding(.bottom)
+            
         }
         .edgesIgnoringSafeArea(.all)
     }
