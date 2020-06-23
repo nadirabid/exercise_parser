@@ -164,11 +164,7 @@ struct RunTrackerView: View {
         }
         .edgesIgnoringSafeArea(.top)
         .onAppear  {
-            print("onAppear")
             self.createWorkout()
-        }
-        .onDisappear {
-            print("onDisappear")
         }
     }
 }

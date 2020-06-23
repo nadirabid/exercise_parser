@@ -47,6 +47,14 @@ struct WorkoutTypeSelectorView: View {
                             .blur(radius: blurRadius)
                             .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
                             .animation(.default)
+                            .onAppear {
+                                self.locationManager.startUpdatingLocation()
+                            }
+                            .onDisappear {
+                                if self.workoutType != .run { // apparently onDisappaer can be called way way AFTER RunTrackerView is shown - so dont wanna stop location manager if run has started
+                                    self.locationManager.stopUpdatingLocation()
+                                }
+                            }
                     } else  {
                         RunTrackerView(locationManager: locationManager)
                     }
