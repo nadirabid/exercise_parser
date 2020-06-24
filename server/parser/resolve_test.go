@@ -16,6 +16,8 @@ func first(p []*ParsedActivity) *ParsedActivity {
 // Corrective
 
 func TestCorrectiveActivityExpressions(t *testing.T) {
+	t.Parallel()
+
 	t.Run("{Sets:Number}x{Reps:Number}", func(t *testing.T) {
 		parsed := resolveAllCorrectiveActivityExpressionsTestUtil("3x35")
 		assert.Len(t, parsed, 1)
@@ -82,6 +84,8 @@ func resolveAllCorrectiveActivityExpressionsTestUtil(exercise string) []*ParsedA
 // Deep Resolve
 
 func TestDeepResolveActivityExpressions(t *testing.T) {
+	t.Parallel()
+
 	// the start of a brave new world
 	t.Run("{MaybeExercise:String} {Sets:Number}x{Reps:Number} {MaybeExercise:String}", func(t *testing.T) {
 		expected1 := map[string]string{"Exercise": "pull-ups", "Sets": "5", "Reps": "4"}
@@ -107,6 +111,8 @@ func TestDeepResolveActivityExpressions(t *testing.T) {
 }
 
 func deepResolveActivityExpressionsTestUtil(t *testing.T, exercise string) []*ParsedActivity {
+	t.Parallel()
+
 	expressions := activityExpressions()
 
 	parsedExercises := deepResolveActivityExpressions(exercise, expressions)
@@ -117,6 +123,8 @@ func deepResolveActivityExpressionsTestUtil(t *testing.T, exercise string) []*Pa
 // Activity Expressions
 
 func TestStrengthActivityFullMatch(t *testing.T) {
+	t.Parallel()
+
 	delimiter := []string{
 		"-", "- ", " -", " - ",
 		",", ", ", " ,", " , ",
@@ -124,22 +132,6 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 	}
 
 	units := []string{"kg", "kilos", "kilogram", "kilograms", "lb", "lbs", "pound", "pounds"}
-
-	kettlebellSwings1 := map[string]string{"Exercise": "kettlebell swings", "Reps": "50"}
-	kettlebellSwings2 := map[string]string{"Exercise": "kettlebell swings", "Reps": "25-50"}
-	kettlebellSwings3 := map[string]string{"Exercise": "kettlebell swings", "Reps": "12", "Weight": "25", "WeightUnits": "lbs"}
-	kettlebellSwings4 := map[string]string{"Exercise": "kettlebell swings", "Reps": "10-12", "Weight": "25", "WeightUnits": "lbs"}
-	squatJumps1 := map[string]string{"Exercise": "squat jumps", "Reps": "20", "Sets": "5"}
-	tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
-	slowFastPushUps1 := map[string]string{"Exercise": "slow/fast push-ups", "Sets": "10", "Reps": "3"}
-
-	t.Run("test test", func(t *testing.T) {
-		expected := map[string]string{"Exercise": "bench press", "Weight": "135", "WeightUnits": "lb", "Reps": "6"}
-		parsed := resolveAllActivityExpressionsTestUtil("Bench press 135lb 6reps")
-
-		assert.Len(t, parsed, 1)
-		assert.Equal(t, expected, first(parsed).Captures)
-	})
 
 	for _, d := range delimiter {
 		t.Run("{Reps:Number} (Delimiter) {Exercise:String}, left wnd right", func(t *testing.T) {
@@ -150,115 +142,177 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 		})
 
 		t.Run("{Reps:Number} (Delimiter) {Exercise:String}", func(t *testing.T) {
+			kettlebellSwings1 := map[string]string{"Exercise": "kettlebell swings", "Reps": "50"}
 			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("50%skettlebell swings", d))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, kettlebellSwings1, parsed[0].Captures)
 		})
 
 		t.Run("{Reps:Number}-{Reps:Number} (Delimiter) {Exercise:String}", func(t *testing.T) {
+			kettlebellSwings2 := map[string]string{"Exercise": "kettlebell swings", "Reps": "25-50"}
 			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("25-50%skettlebell swings", d))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, kettlebellSwings2, parsed[0].Captures)
 		})
 
 		t.Run("{Reps:Number} (Delimiter) {Exercise:String} (Delimiter) {Weight}", func(t *testing.T) {
+			kettlebellSwings3 := map[string]string{"Exercise": "kettlebell swings", "Reps": "12", "Weight": "25", "WeightUnits": "lbs"}
 			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("12%skettlebell swings%s25lbs", d, d))
 			assert.Equal(t, parsed[0].Captures, kettlebellSwings3)
 		})
 
+		t.Run("{Exercise:String} (Delimiter) {Sets:Number} sets (Delimiter) {Weight}{WeightUnits}", func(t *testing.T) {
+			expected := map[string]string{"Exercise": "overhead tricep press", "Sets": "4", "Weight": "15", "WeightUnits": "lbs"}
+			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("Overhead tricep press%s4 sets%s15 lbs", d, d))
+			assert.Len(t, parsed, 1)
+			assert.Equal(t, expected, first(parsed).Captures)
+		})
+
 		t.Run("{Reps:Number}-{Reps:Number} (Delimiter) {Exercise:String} (Delimiter) {Weight}", func(t *testing.T) {
+			kettlebellSwings4 := map[string]string{"Exercise": "kettlebell swings", "Reps": "10-12", "Weight": "25", "WeightUnits": "lbs"}
 			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("10-12%skettlebell swings%s25lbs", d, d))
 			assert.Equal(t, parsed[0].Captures, kettlebellSwings4)
 		})
 
-		for _, d2 := range delimiter {
-			t.Run("{Reps:Number} (Delimiter) {Exercise:String} (Delimiter) {Sets:Number} sets", func(t *testing.T) {
-				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("20%ssquat jumps%s5 sets", d, d2))
-				assert.Equal(t, len(parsed), 1)
-				assert.Equal(t, squatJumps1, parsed[0].Captures)
-			})
-		}
+		t.Run("{Reps:Number} (Delimiter) {Exercise:String} (Delimiter) {Sets:Number} sets", func(t *testing.T) {
+			squatJumps1 := map[string]string{"Exercise": "squat jumps", "Reps": "20", "Sets": "5"}
+			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("20%ssquat jumps%s5 sets", d, d))
+			assert.Equal(t, len(parsed), 1)
+			assert.Equal(t, squatJumps1, parsed[0].Captures)
+		})
+
+		t.Run("{Sets:Number}x{Reps:Number} sets of {Exercise:String} at {Weight:Number}{WeightUnits}", func(t *testing.T) {
+			expected := map[string]string{"Exercise": "benchpress", "Sets": "3", "Reps": "5", "Weight": "165", "WeightUnits": "lbs"}
+			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("3x5 sets of benchpress%sat%s165lbs", d, d))
+
+			assert.Len(t, parsed, 1)
+			assert.Equal(t, expected, first(parsed).Captures)
+		})
+
+		t.Run("{Exercise:String} (Delimiter) {Weight:Number}{WeightUnits} {Reps:Number} reps", func(t *testing.T) {
+			expected := map[string]string{"Exercise": "bench press", "Weight": "135", "WeightUnits": "lb", "Reps": "6"}
+			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("Bench press%s135lb 6reps", d))
+
+			assert.Len(t, parsed, 1)
+			assert.Equal(t, expected, first(parsed).Captures)
+		})
+
+		t.Run("{Exercise:String} (Delimiter) {Weight:Number}{WeightUnits} {Reps:Number}", func(t *testing.T) {
+			expected := map[string]string{"Exercise": "bench press", "Weight": "135", "WeightUnits": "lb", "Reps": "6"}
+			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("Bench press%s135lb 6", d))
+
+			assert.Len(t, parsed, 1)
+			assert.Equal(t, expected, first(parsed).Captures)
+		})
+
+		t.Run("{Exercise:String} {Sets:Number} sets {Reps:Number} reps (Delimiter) {Weight:Number}{WeightUnits}", func(t *testing.T) {
+			expected := map[string]string{"Exercise": "incline bench", "Sets": "2", "Reps": "8", "Weight": "65", "WeightUnits": "lbs"}
+			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("Incline bench 2 sets 8 reps %s 65 lbs", d))
+			assert.Len(t, parsed, 1)
+			assert.Equal(t, expected, first(parsed).Captures)
+		})
+
+		t.Run("{Exercise:String} (Delimiter) {Weight:Number}{WeightUnits} (Delimiter) {Sets:Number} sets {Reps:Number} reps", func(t *testing.T) {
+			expected := map[string]string{"Exercise": "curtsy lunges", "Weight": "45", "WeightUnits": "lbs", "Sets": "4", "Reps": "10"}
+			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("Curtsy lunges%s45 lbs%s4 sets 10 reps", d, d))
+			assert.Len(t, parsed, 1)
+			assert.Equal(t, expected, first(parsed).Captures)
+		})
 	}
 
 	t.Run("{Sets:Number} {Reps:Number} {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3 3 tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Sets:Number} {Reps:Number} of {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3 3 of tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Sets:Number}x{Reps:Number} {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3x3 tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Sets:Number} x {Reps:Number} {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3 x 3 tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Sets:Number}x{Reps:Number} of {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3x3 of tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Sets:Number} x {Reps:Number} of {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3 x 3 of tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Sets:Number} by {Reps:Number} {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3 by 3 tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Sets:Number} by {Reps:Number} of {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3 by 3 of tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Sets:Number} by {Reps:Number} sets of {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3 by 3 sets of tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Sets:Number} sets of {Reps:Number} {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3 sets of 3 tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Sets:Number} sets of {Reps:Number} of {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3 sets of 3 of tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Sets:Number} sets of {Reps:Number} reps {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3 sets of 3 reps tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Sets:number} sets of {Reps:Number} reps of {Exercise:String}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("3 sets of 3 reps of tricep curls")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
 	})
 
 	t.Run("{Exericse:String} {Sets:Number} {Reps:Number}", func(t *testing.T) {
+		tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 		parsed := resolveAllActivityExpressionsTestUtil("tricep curls 3 3")
 		assert.Equal(t, len(parsed), 1)
 		assert.Equal(t, tricepCurls1, parsed[0].Captures)
@@ -266,43 +320,50 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 
 	for _, d := range delimiter {
 		t.Run("{Exericse:String} (Delimiter) {Sets:Number} {Reps:Number}", func(t *testing.T) {
+			tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("tricep curls%s3 3", d))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, tricepCurls1, parsed[0].Captures)
 		})
 
 		t.Run("{Exericse:String} (Delimiter) {Sets:Number}x{Reps:Number}", func(t *testing.T) {
+			tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("tricep curls%s3x3", d))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, tricepCurls1, parsed[0].Captures)
 		})
 
 		t.Run("{Exericse:String} (Delimiter) {Sets:Number}x{Reps:Number}", func(t *testing.T) {
-			// this one tests special characters ARE allows: "/" and "-"
+			// this one tests special characters ARE allowed: "/" and "-"
+			slowFastPushUps1 := map[string]string{"Exercise": "slow/fast push-ups", "Sets": "10", "Reps": "3"}
 			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("slow/fast push-ups%s10x3", d))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, slowFastPushUps1, parsed[0].Captures)
 		})
 
 		t.Run("{Exercise:String} (Delimiter) {Sets:Number} by {Reps:Number}", func(t *testing.T) {
+			tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("tricep curls%s3 by 3", d))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, tricepCurls1, parsed[0].Captures)
 		})
 
 		t.Run("{Exercise:String} (Delimiter) {Sets:Number} sets {Reps:Number} reps", func(t *testing.T) {
+			tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("tricep curls%s3 sets 3 reps", d))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, tricepCurls1, parsed[0].Captures)
 		})
 
 		t.Run("{Exercise:String} (Delimiter) {Sets:Number} sets of {Reps:Number}", func(t *testing.T) {
+			tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("tricep curls%s3 sets of 3", d))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, tricepCurls1, parsed[0].Captures)
 		})
 
 		t.Run("{Exercise:String} (Delimiter) {Sets:Number}, sets of {Reps:Number} reps", func(t *testing.T) {
+			tricepCurls1 := map[string]string{"Exercise": "tricep curls", "Sets": "3", "Reps": "3"}
 			parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("tricep curls%s3 sets of 3 reps", d))
 			assert.Equal(t, len(parsed), 1)
 			assert.Equal(t, tricepCurls1, parsed[0].Captures)
@@ -517,6 +578,8 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 }
 
 func TestAerobicActivityFullMatch(t *testing.T) {
+	t.Parallel()
+
 	delimiter := []string{
 		"-", "- ", " -", " - ",
 		",", ", ", " ,", " , ",

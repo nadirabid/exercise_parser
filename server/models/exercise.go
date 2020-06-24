@@ -119,6 +119,7 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 		parsedExerciseStr := parser.Get().RemoveStopPhrases(res.Captures["Exercise"])
 		exerciseDictionaries := []*ExerciseDictionary{}
 
+		fmt.Println("searching for", parsedExerciseStr)
 		searchResults, err := SearchExerciseDictionaryWithRank(v, db, parsedExerciseStr, 0.05)
 		if err != nil {
 			return err

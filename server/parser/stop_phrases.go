@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"exercise_parser/utils"
 	"os"
+	"sort"
 	"strings"
 
 	"github.com/spf13/viper"
@@ -34,6 +35,8 @@ func newStopPhrases(v *viper.Viper) *stopPhrases {
 
 		phrases = append(phrases, line)
 	}
+
+	sort.Sort(sort.Reverse(sort.StringSlice(phrases))) // so "bigger" words are removed first
 
 	return &stopPhrases{
 		phrases: phrases,
