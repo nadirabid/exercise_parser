@@ -226,7 +226,7 @@ struct WorkoutTypeSelectorButtonsView: View {
                         )
                     }
                     .padding([.bottom, .top])
-                    .disabled(!locationManager.isLocationEnabled)
+                    .disabled(self.workoutType == .run ? !locationManager.isLocationEnabled : false)
                     
                     Spacer()
                 }
