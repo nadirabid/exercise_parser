@@ -151,6 +151,7 @@ class RunTrackerLocationManager: NSObject, ObservableObject {
         super.init()
         
         self.locationManager.delegate = self
+        self.locationManager.allowsBackgroundLocationUpdates = true
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         self.locationManager.activityType = .fitness
         self.locationManager.showsBackgroundLocationIndicator = true
