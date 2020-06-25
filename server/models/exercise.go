@@ -61,6 +61,25 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 
 	parsedExercises, err := parser.Get().ResolveActivity(e.Raw)
 	if err != nil {
+		// as special case - let's check if its AutoSpecialRestResolutionType
+		parsedExerciseStr := parser.Get().RemoveStopPhrases(e.Raw)
+		searchResults, err := SearchExerciseDictionaryWithRank(v, db, parsedExerciseStr, 0.05)
+		if err == nil && len(searchResults) > 0 {
+			if strings.EqualFold(searchResults[0].ExerciseDictionaryName, "Rest") {
+				d := &ExerciseDictionary{}
+				d.ID = searchResults[0].ExerciseDictionaryID
+				d.Name = searchResults[0].ExerciseDictionaryName
+
+				e.ExerciseDictionaries = []*ExerciseDictionary{d}
+				e.ResolutionType = AutoSpecialRestResolutionType
+				e.ExerciseDictionaryID = &d.ID
+				e.Type = parser.ParseTypeFull
+				e.Name = e.Raw
+
+				return nil
+			}
+		}
+
 		// try and determine some feedback we can give to the user as to what went wrong
 		r, err := parser.Get().ResolveCorrective(e.Raw)
 		if err == nil {
@@ -119,7 +138,6 @@ func (e *Exercise) Resolve(v *viper.Viper, db *gorm.DB) error {
 		parsedExerciseStr := parser.Get().RemoveStopPhrases(res.Captures["Exercise"])
 		exerciseDictionaries := []*ExerciseDictionary{}
 
-		fmt.Println("searching for", parsedExerciseStr)
 		searchResults, err := SearchExerciseDictionaryWithRank(v, db, parsedExerciseStr, 0.05)
 		if err != nil {
 			return err
