@@ -55,9 +55,9 @@ struct WorkoutView: View {
     
     var exercisesToDisplay: [Exercise] {
         if showUnresolved {
-            return workout.exercises
+            return workout.exercises.sorted(by: { $0.id! > $1.id! })
         } else {
-            return workout.exercises.filter({ $0.type != "" && !$0.resolutionType.contains("failed") })
+            return workout.exercises.sorted(by: { $0.id! > $1.id! }).filter({ $0.type != "" && !$0.resolutionType.contains("failed") })
         }
     }
     
@@ -73,8 +73,8 @@ struct WorkoutView: View {
         }
         
         return VStack(alignment: .leading) {
-            HStack {
-                if showUserInfo {
+            if showUserInfo {
+                HStack {
                     if self.userImage != nil {
                         userImage!
                             .renderingMode(.original)
@@ -95,27 +95,41 @@ struct WorkoutView: View {
                     VStack(alignment: .leading) {
                         Text(workout.name)
                         
-                        Text(user?.getUserName() ?? "")
-                            .font(.caption)
-                            .foregroundColor(Color.gray)
-                    }
-                } else {
-                    HStack {
-                        Text(workout.name)
-                        
-                        Spacer()
-                        
-                        Button(action: { self.showingActionSheet = true }) {
-                            Image(systemName:"ellipsis")
-                                .background(Color.white)
-                                .font(.headline)
+                        HStack {
+                            Text(user?.getUserName() ?? "Not named")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                            
+                            Text(workout.date.monthDayYearString)
+                                .font(.caption)
                                 .foregroundColor(Color.secondary)
                         }
-                        .padding(.trailing)
                     }
                 }
+                .padding(.leading)
+            } else {
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading) {
+                        Text(workout.name)
+                        
+                        Text(workout.date.monthDayYearString)
+                            .font(.caption)
+                            .foregroundColor(Color.secondary)
+                    }
+                    
+                    Spacer()
+                    
+                    Button(action: { self.showingActionSheet = true }) {
+                        Image(systemName:"ellipsis")
+                            .background(Color.white)
+                            .font(.headline)
+                            .foregroundColor(Color.secondary)
+                    }
+                    .padding(.trailing)
+                }
+                .padding(.leading)
             }
-            .padding(.leading)
+        
             
             WorkoutMetaMetricsView(workout: workout)
                 .fixedSize(horizontal: true, vertical: true)
@@ -395,13 +409,6 @@ public struct WorkoutMetaMetricsView: View {
     public var body: some View {
         HStack(spacing: 10) {
             WorkoutDetail(
-                name: workout.date.abbreviatedMonthString,
-                value: workout.date.dayString
-            )
-            
-            Divider()
-            
-            WorkoutDetail(
                 name: "Time",
                 value: secondsToElapsedTimeString(time)
             )
@@ -427,7 +434,7 @@ public struct WorkoutMetaMetricsView: View {
             if workout.isRunWorkout && pace > 0 {
                 Divider()
                 
-                WorkoutDetail(name: "Pace", value: "\(String(format: "%.1f", pace)) min/mile")
+                WorkoutDetail(name: "Pace", value: "\(String(format: "%.1f", pace)) min/mi")
             }
         }
     }

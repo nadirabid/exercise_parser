@@ -18,6 +18,7 @@ struct WorkoutTypeSelectorView: View {
     @EnvironmentObject var routerState: RouteState
     
     @State private var workoutType: WorkoutType = .workout
+    @State private var previousWorkoutType: WorkoutType = .workout
     @State private var workoutTypeConfirmed = false
     
     private var locationManager: RunTrackerLocationManager = RunTrackerLocationManager()
@@ -30,6 +31,16 @@ struct WorkoutTypeSelectorView: View {
         }
     }
     
+    var runTrackerTransition: AnyTransition {
+        if previousWorkoutType == .workout {
+            return .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
+        } else if previousWorkoutType == .routine {
+            return .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
+        }
+        
+        return AnyTransition.identity
+    }
+    
     var body: some View {
         // TODO: disable locationManager if workout is confirmed?
         ZStack {
@@ -37,15 +48,13 @@ struct WorkoutTypeSelectorView: View {
                 if workoutType == .workout {
                     WorkoutCreateView(disabled: !workoutTypeConfirmed)
                         .blur(radius: blurRadius)
-                        .transition(
-                            .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
-                    )
+                        .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing)))
                         .animation(.default)
                 } else if workoutType == .run {
                     if !workoutTypeConfirmed {
                         RunTrackerMapView(locationManager: self.locationManager, userTrackingMode: .none)
                             .blur(radius: blurRadius)
-                            .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+                            .transition(runTrackerTransition)
                             .animation(.default)
                             .onAppear {
                                 self.locationManager.startUpdatingLocation()
@@ -58,6 +67,11 @@ struct WorkoutTypeSelectorView: View {
                     } else  {
                         RunTrackerView(locationManager: locationManager)
                     }
+                } else if workoutType == .routine {
+                    WorkoutCreateView(disabled: !workoutTypeConfirmed)
+                        .blur(radius: blurRadius)
+                        .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+                        .animation(.default)
                 }
                 
                 if !workoutTypeConfirmed {
@@ -91,6 +105,7 @@ struct WorkoutTypeSelectorView: View {
                 WorkoutTypeSelectorButtonsView(
                     locationManager: locationManager,
                     workoutType: $workoutType,
+                    previousWorkoutType: $previousWorkoutType,
                     workoutTypeConfirmed: $workoutTypeConfirmed
                 )
             }
@@ -165,6 +180,7 @@ struct WorkoutTypeSelectorButtonsView: View {
     @ObservedObject var locationManager: RunTrackerLocationManager
     
     @Binding var workoutType: WorkoutType
+    @Binding var previousWorkoutType: WorkoutType
     @Binding var workoutTypeConfirmed: Bool
     
     var startButtonColor: Color {
@@ -186,6 +202,7 @@ struct WorkoutTypeSelectorButtonsView: View {
                     Spacer()
                     
                     Button(action: {
+                        self.previousWorkoutType = self.workoutType
                         self.workoutType = .workout
                     }) {
                         DumbbellIconShape()
@@ -196,10 +213,22 @@ struct WorkoutTypeSelectorButtonsView: View {
                     Spacer()
                     
                     Button(action: {
+                        self.previousWorkoutType = self.workoutType
                         self.workoutType = .run
                     }) {
                         RunningIconShape()
                             .fill(workoutType == .run ? appColor : Color.secondary)
+                            .frame(width: 50, height: 20)
+                    }
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        self.previousWorkoutType = self.workoutType
+                        self.workoutType = .routine
+                    }) {
+                        ClipboardIconShape()
+                            .fill(workoutType == .routine ? appColor : Color.secondary)
                             .frame(width: 50, height: 20)
                     }
                     
@@ -247,6 +276,11 @@ struct WorkoutSelectorButtonsView_Previews: PreviewProvider {
             set: { _ in }
         )
         
+        let previousWorkoutType = Binding<WorkoutType>(
+            get: { WorkoutType.routine },
+            set: { _ in }
+        )
+        
         let workoutTypeConfirmed = Binding<Bool>(
             get: { false },
             set: { _ in }
@@ -255,6 +289,7 @@ struct WorkoutSelectorButtonsView_Previews: PreviewProvider {
         return WorkoutTypeSelectorButtonsView(
             locationManager: RunTrackerLocationManager(),
             workoutType: workoutType,
+            previousWorkoutType: previousWorkoutType,
             workoutTypeConfirmed: workoutTypeConfirmed
         ).padding()
     }
