@@ -43,7 +43,7 @@ func SearchExerciseDictionaryWithRank(viper *viper.Viper, db *gorm.DB, name stri
 
 // SearchExerciseDictionary will search for ExcerciseDictionary entity from the provided exercise name
 func SearchExerciseDictionary(viper *viper.Viper, db *gorm.DB, name string) ([]*ExerciseDictionarySearchResult, error) {
-	searchTerms := strings.Join(strings.Split(name, " "), " & ")
+	searchTerms := strings.Join(strings.Split(name, " "), " & ") + ":*"
 
 	// TODO: make grabbing the dictionary name optional
 	q := `
