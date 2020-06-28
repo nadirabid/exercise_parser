@@ -218,6 +218,8 @@ func resolveActivityExpressions(activity string, regexpSet []*expression) *Parse
 	}
 }
 
+var deepResolveExp = regexp.MustCompile("[\\s]+")
+
 func deepResolveActivityExpressions(activity string, regexpSet []*expression) []*ParsedActivity {
 	// 1. try and resolve the entire thing
 	parsed := resolveActivityExpressions(activity, regexpSet)
@@ -228,7 +230,7 @@ func deepResolveActivityExpressions(activity string, regexpSet []*expression) []
 	}
 
 	// 2. try and resolve each token seperated by spaces as largest combination (must match to beginning or end - not middle)
-	tokens := regexp.MustCompile("[\\s]+").Split(activity, -1) // move out??
+	tokens := deepResolveExp.Split(activity, -1) // move out??
 	parsedTokens := []*ParsedActivity{}
 
 	for i := len(tokens) - 1; i > 0; i-- { // if we go all the way down to 0 - that would mean we're matching the whole thing which is something that should have happened above
@@ -263,12 +265,10 @@ type Parser struct {
 	exerciseExpressions           []*expression
 }
 
+var extraCommas = regexp.MustCompile(`(,\s*,)+`)
+
 // ResolveActivity returns the captures
 func (p *Parser) ResolveActivity(activity string) ([]*ParsedActivity, error) {
-	// remove stop phrases
-	// exercise = p.stopPhrases.removeStopPhrases(exercise) // I don't think this belongs here - remove at the time we resolve it to a known exercise
-
-	extraCommas := regexp.MustCompile(`(,\s*,)+`)
 	activity = extraCommas.ReplaceAllString(activity, ",")
 
 	// resolve expression
@@ -304,7 +304,6 @@ func (p *Parser) ResolveExercise(exercise string) ([]string, error) {
 }
 
 func (p *Parser) ResolveCorrective(activity string) (*ParsedActivity, error) {
-	extraCommas := regexp.MustCompile(`(,\s*,)+`)
 	activity = extraCommas.ReplaceAllString(activity, ",")
 	activity = strings.Trim(strings.ToLower(activity), " ")
 

@@ -3,8 +3,12 @@ package server
 import (
 	"exercise_parser/models"
 	"exercise_parser/utils"
+	"fmt"
 	"net/http"
+	"net/url"
+	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/labstack/echo"
 )
@@ -85,11 +89,20 @@ func handleGetSearchDictionary(c echo.Context) error {
 	return ctx.JSON(http.StatusOK, r)
 }
 
+var alphanumericExp = regexp.MustCompile(`[^a-zA-Z0-9\s]+`)
+
 func handleGetSearchDictionaryLite(c echo.Context) error {
 	ctx := c.(*Context)
 	db := ctx.db
 
-	exerciseQuery := ctx.QueryParam("query")
+	exerciseQuery, err := url.QueryUnescape(ctx.QueryParam("query"))
+	exerciseQuery = alphanumericExp.ReplaceAllString(exerciseQuery, "")
+	exerciseQuery = strings.TrimSpace(exerciseQuery)
+	fmt.Println(exerciseQuery)
+
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
 
 	if exerciseQuery == "" {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage("You have to specify url query parameter: 'query'"))
