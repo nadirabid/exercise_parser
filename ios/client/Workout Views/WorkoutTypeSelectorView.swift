@@ -17,7 +17,9 @@ enum WorkoutType {
 struct WorkoutTypeSelectorView: View {
     @EnvironmentObject var routerState: RouteState
     
-    @State private var workoutType: WorkoutType = .workout
+    @State var disableCloseButton = true
+    
+    @State private var workoutType: WorkoutType = .routine
     @State private var previousWorkoutType: WorkoutType = .workout
     @State private var workoutTypeConfirmed = false
     
@@ -68,13 +70,12 @@ struct WorkoutTypeSelectorView: View {
                         RunTrackerView(locationManager: locationManager)
                     }
                 } else if workoutType == .routine {
-                    WorkoutCreateView(disabled: !workoutTypeConfirmed)
-                        .blur(radius: blurRadius)
+                    RoutinesViewerView(disableCloseButton: $disableCloseButton)
                         .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
                         .animation(.default)
                 }
                 
-                if !workoutTypeConfirmed {
+                if !workoutTypeConfirmed && workoutType != .routine {
                     WorkoutSelectionInformationOverlay(
                         locationManager: self.locationManager,
                         workoutType: self.workoutType
@@ -82,7 +83,7 @@ struct WorkoutTypeSelectorView: View {
                 }
             }
             
-            if !workoutTypeConfirmed {
+            if !workoutTypeConfirmed && !disableCloseButton {
                 VStack(spacing: 0) {
                     HStack {
                         Spacer()

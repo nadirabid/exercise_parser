@@ -131,7 +131,7 @@ struct SubscriptionFeedView: View {
                                 .animation(.none)
                                 .onAppear {
                                     self.handleWorkoutAppear(workout: workout)
-                            }
+                                }
                         }
                         .listRowInsets(EdgeInsets())
                         .background(self.feedData == nil ? Color.white : feedColor)

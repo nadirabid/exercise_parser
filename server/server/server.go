@@ -207,6 +207,7 @@ func New(v *viper.Viper) error {
 	// returns dictionary
 	apiRoutes.GET("/dictionary", MiddlewareRoles(handleGetExerciseDictionaryList, "admin"))
 	apiRoutes.GET("/dictionary/search", MiddlewareRoles(handleGetSearchDictionary, "admin"))
+	apiRoutes.GET("/dictionary/search/lite", handleGetSearchDictionaryLite)
 	apiRoutes.GET("/dictionary/:id", handleGetDictionary)
 	apiRoutes.GET("/workout/:id/dictionary", handleGetWorkoutDictionary)
 

@@ -55,9 +55,9 @@ struct WorkoutView: View {
     
     var exercisesToDisplay: [Exercise] {
         if showUnresolved {
-            return workout.exercises.sorted(by: { $0.id! > $1.id! })
+            return workout.exercises.sorted(by: { $0.id! < $1.id! })
         } else {
-            return workout.exercises.sorted(by: { $0.id! > $1.id! }).filter({ $0.type != "" && !$0.resolutionType.contains("failed") })
+            return workout.exercises.sorted(by: { $0.id! < $1.id! }).filter({ $0.type != "" && !$0.resolutionType.contains("failed") })
         }
     }
     

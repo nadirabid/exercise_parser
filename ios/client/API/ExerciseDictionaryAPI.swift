@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import JWTDecode
+import Promises
 
 class ExerciseDictionaryAPI: ObservableObject {
     private var userState: UserState
@@ -46,6 +47,58 @@ class ExerciseDictionaryAPI: ObservableObject {
                     }
                 }
             }
+    }
+    
+    func getDictionarySearchLite(query: String) -> Promise<PaginatedResponse<Int>> {
+        let url = "\(baseURL)/api/dictionary/search/lite"
+        
+        let parameters = ["query": query]
+        
+        return Promise<PaginatedResponse<Int>> { (fulfill, reject) in
+            AF
+                .request(url, method: .get, parameters: parameters, headers: self.headers)
+                .validate()
+                .response { (response) in
+                    switch response.result {
+                    case .success(let data):
+                        let decoder = JSONDecoder()
+                        decoder.dateDecodingStrategy = decodeStrategy()
+                        
+                        let result = try! decoder.decode(PaginatedResponse<Int>.self, from: data!)
+                        fulfill(result)
+                    case .failure(let error):
+                        print("Failed to get exercise dictionaries IDs list: ", error)
+                        if let data = response.data {
+                            print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                        }
+                    }
+                }
+        }
+    }
+    
+    func getDictionaryList() -> Promise<PaginatedResponse<ExerciseDictionary>> {
+        let url = "\(baseURL)/api/dictionary?page=0&size=0"
+        
+        return Promise<PaginatedResponse<ExerciseDictionary>> { (fulfill, reject) in
+            AF
+                .request(url, method: .get, headers: self.headers)
+                .validate()
+                .response { (response) in
+                    switch response.result {
+                    case .success(let data):
+                        let decoder = JSONDecoder()
+                        decoder.dateDecodingStrategy = decodeStrategy()
+                        
+                        let result = try! decoder.decode(PaginatedResponse<ExerciseDictionary>.self, from: data!)
+                        fulfill(result)
+                    case .failure(let error):
+                        print("Failed to get exercise dictionaries list: ", error)
+                        if let data = response.data {
+                            print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                        }
+                    }
+                }
+        }
     }
     
     func getWorkoutDictionaries(id: Int, _ completionHandler: @escaping (PaginatedResponse<ExerciseDictionary>) -> Void) {
