@@ -3,7 +3,6 @@ package server
 import (
 	"exercise_parser/models"
 	"exercise_parser/utils"
-	"fmt"
 	"net/http"
 	"net/url"
 	"regexp"
@@ -98,7 +97,6 @@ func handleGetSearchDictionaryLite(c echo.Context) error {
 	exerciseQuery, err := url.QueryUnescape(ctx.QueryParam("query"))
 	exerciseQuery = alphanumericExp.ReplaceAllString(exerciseQuery, "")
 	exerciseQuery = strings.TrimSpace(exerciseQuery)
-	fmt.Println(exerciseQuery)
 
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
