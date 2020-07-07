@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "ASCollectionView",
+        "repositoryURL": "https://github.com/apptekstudios/ASCollectionView.git",
+        "state": {
+          "branch": null,
+          "revision": "4550cd5b5cfc3f437f8ff838939c6be21edfe992",
+          "version": "1.7.1"
+        }
+      },
+      {
         "package": "CwlCatchException",
         "repositoryURL": "https://github.com/mattgallagher/CwlCatchException.git",
         "state": {
@@ -26,6 +35,15 @@
           "branch": null,
           "revision": "c228db5d2ad1b01ebc84435e823e6cca4e3db98b",
           "version": "1.2.0"
+        }
+      },
+      {
+        "package": "DifferenceKit",
+        "repositoryURL": "https://github.com/ra1028/DifferenceKit",
+        "state": {
+          "branch": null,
+          "revision": "14c66681e12a38b81045f44c6c29724a0d4b0e72",
+          "version": "1.1.5"
         }
       },
       {

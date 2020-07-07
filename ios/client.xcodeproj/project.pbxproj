@@ -26,6 +26,7 @@
 		6436BACB2457744C002BFB07 /* ExerciseDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6436BACA2457744C002BFB07 /* ExerciseDictionary.swift */; };
 		6444E163245B59F40000D21D /* AnteriorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6444E162245B59F40000D21D /* AnteriorView.swift */; };
 		644E3364240CE26200458438 /* UserFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E3363240CE26200458438 /* UserFeedView.swift */; };
+		645B42D824B2B96200643525 /* ASCollectionView in Frameworks */ = {isa = PBXBuildFile; productRef = 645B42D724B2B96200643525 /* ASCollectionView */; };
 		64615A95242581AF0098ED5A /* ExerciseEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64615A94242581AF0098ED5A /* ExerciseEditView.swift */; };
 		64615A972425983F0098ED5A /* FancyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64615A962425983F0098ED5A /* FancyLoader.swift */; };
 		646CC2D2248E1442004D5AE3 /* RunTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646CC2D1248E1442004D5AE3 /* RunTrackerView.swift */; };
@@ -194,6 +195,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				645B42D824B2B96200643525 /* ASCollectionView in Frameworks */,
 				64E5D6D52475B35E00E565D4 /* Kingfisher in Frameworks */,
 				64038282241A35BF0000C17C /* Alamofire in Frameworks */,
 				6405131A241635E300DDC3D7 /* MapKit.framework in Frameworks */,
@@ -433,6 +435,7 @@
 				64A9956E241EE3DC006716CA /* JWTDecode */,
 				64E5D6D12475B30B00E565D4 /* Promises */,
 				64E5D6D42475B35E00E565D4 /* Kingfisher */,
+				645B42D724B2B96200643525 /* ASCollectionView */,
 			);
 			productName = client;
 			productReference = 6494A01222B6139900C19543 /* client.app */;
@@ -512,6 +515,7 @@
 				64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
 				64E5D6D02475B30B00E565D4 /* XCRemoteSwiftPackageReference "promises" */,
 				64E5D6D32475B35E00E565D4 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				645B42D624B2B96200643525 /* XCRemoteSwiftPackageReference "ASCollectionView" */,
 			);
 			productRefGroup = 6494A01322B6139900C19543 /* Products */;
 			projectDirPath = "";
@@ -962,6 +966,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		645B42D624B2B96200643525 /* XCRemoteSwiftPackageReference "ASCollectionView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apptekstudios/ASCollectionView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.1;
+			};
+		};
 		64A9956D241EE3DC006716CA /* XCRemoteSwiftPackageReference "JWTDecode.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/auth0/JWTDecode.swift.git";
@@ -1001,6 +1013,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 64038280241A35BF0000C17C /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		645B42D724B2B96200643525 /* ASCollectionView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 645B42D624B2B96200643525 /* XCRemoteSwiftPackageReference "ASCollectionView" */;
+			productName = ASCollectionView;
 		};
 		64A9956E241EE3DC006716CA /* JWTDecode */ = {
 			isa = XCSwiftPackageProductDependency;

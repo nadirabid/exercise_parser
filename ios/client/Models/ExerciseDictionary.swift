@@ -10,6 +10,7 @@ import Foundation
 
 struct ExerciseDictionary: Identifiable, Codable {
     let id: Int?
+    let test: Int?
     let name: String
     let muscles: ExerciseDictionaryMuscles
 }

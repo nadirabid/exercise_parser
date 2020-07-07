@@ -220,7 +220,7 @@ struct WorkoutMuscleMetricsView: View {
     @State private var dictionaries: [ExerciseDictionary]?
     
     func loadWorkoutDictionaries() {
-        _ = exerciseDictionaryAPI.getWorkoutDictionaries(id: workout.id!) { (response) in
+        exerciseDictionaryAPI.getWorkoutDictionaries(id: workout.id!) { (response) in
             self.dictionaries = response.results
         }
     }
