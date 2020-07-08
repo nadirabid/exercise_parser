@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		640093062435CCAF007193B4 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640093052435CCAF007193B4 /* TimerView.swift */; };
+		6402A5BA24B688FE00A87429 /* ExerciseDictionaryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6402A5B924B688FE00A87429 /* ExerciseDictionaryListView.swift */; };
+		6402A5BC24B691BD00A87429 /* ExerciseSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6402A5BB24B691BD00A87429 /* ExerciseSelectionView.swift */; };
 		6402BBBD2414CBD80061FB58 /* WorkoutState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6402BBBC2414CBD80061FB58 /* WorkoutState.swift */; };
 		64038282241A35BF0000C17C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 64038281241A35BF0000C17C /* Alamofire */; };
 		6405131A241635E300DDC3D7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64051319241635E300DDC3D7 /* MapKit.framework */; };
@@ -112,6 +114,8 @@
 
 /* Begin PBXFileReference section */
 		640093052435CCAF007193B4 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		6402A5B924B688FE00A87429 /* ExerciseDictionaryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDictionaryListView.swift; sourceTree = "<group>"; };
+		6402A5BB24B691BD00A87429 /* ExerciseSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSelectionView.swift; sourceTree = "<group>"; };
 		6402BBBC2414CBD80061FB58 /* WorkoutState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutState.swift; sourceTree = "<group>"; };
 		64051319241635E300DDC3D7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		6405131B2416364D00DDC3D7 /* client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = client.entitlements; sourceTree = "<group>"; };
@@ -258,6 +262,8 @@
 			children = (
 				64615A94242581AF0098ED5A /* ExerciseEditView.swift */,
 				649A4916240670BC003206C3 /* ExerciseView.swift */,
+				6402A5B924B688FE00A87429 /* ExerciseDictionaryListView.swift */,
+				6402A5BB24B691BD00A87429 /* ExerciseSelectionView.swift */,
 				64E06CC72352F6E0005AC1D8 /* WorkoutCreateView.swift */,
 				6484887A24786DA10093B3C5 /* WorkoutEditView.swift */,
 				6494A01922B6139900C19543 /* WorkoutView.swift */,
@@ -595,6 +601,7 @@
 				649A4917240670BC003206C3 /* ExerciseView.swift in Sources */,
 				64877727247491C400223A7E /* UIBezierPathExtensions.swift in Sources */,
 				64877725247491A500223A7E /* CGExtensions.swift in Sources */,
+				6402A5BC24B691BD00A87429 /* ExerciseSelectionView.swift in Sources */,
 				64F3DA352495E869003D9699 /* MKMapViewExtensions.swift in Sources */,
 				64F3DA372495E89F003D9699 /* CLLocationCoordinate2DExtensions.swift in Sources */,
 				6498A98D24122355005BB19F /* Config.swift in Sources */,
@@ -639,6 +646,7 @@
 				64F033312465E051009B90E6 /* TrackableScrollView.swift in Sources */,
 				642675AF22C0A44F008E07A1 /* PaginatedResponse.swift in Sources */,
 				64EB72E524692FEE0074A7CC /* Metrics.swift in Sources */,
+				6402A5BA24B688FE00A87429 /* ExerciseDictionaryListView.swift in Sources */,
 				64A93D9524232DA000B73B95 /* ActivityIndicator.swift in Sources */,
 				64F0529D243FBD38004D24E6 /* ViewModifiers.swift in Sources */,
 				6494A01A22B6139900C19543 /* WorkoutView.swift in Sources */,

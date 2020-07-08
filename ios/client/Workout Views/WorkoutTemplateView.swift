@@ -51,7 +51,7 @@ struct WorkoutTemplateView: View {
             if view == "waveform.path.ecg" {
                 VStack(spacing: 0) {
                     ForEach(exercisesToDisplay) { (exercise: Exercise) in
-                        ExerciseTemplateView()
+                        ExerciseTemplateView(exerciseTemplate: ExerciseTemplate())
                             .padding(.top)
                     }
                 }
@@ -92,92 +92,6 @@ struct WorkoutTemplateView: View {
                 .destructive(Text("Delete")) { self.onDelete() },
                 .cancel()
             ])
-        }
-    }
-}
-
-struct ExerciseTemplateView: View {
-    var labelFont: Font {
-        .system(size: 9)
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("Barbell curls")
-            
-            HStack(spacing: 8) {
-                HStack(spacing: 0) {
-                    Text("sets / ".uppercased())
-                        .font(labelFont)
-                        .foregroundColor(Color.secondary)
-                        .fixedSize()
-                    
-                    Text("5")
-                        .font(.callout)
-                        .fontWeight(.semibold)
-                        .fixedSize()
-                }
-                
-                HStack(spacing: 0) {
-                    Text("reps / ".uppercased())
-                        .font(labelFont)
-                        .foregroundColor(Color.secondary)
-                        .fixedSize()
-                    
-                    Text("9")
-                        .font(.callout)
-                        .fontWeight(.semibold)
-                        .fixedSize()
-                }
-                
-                HStack(spacing: 0) {
-                    Text("cals / ".uppercased())
-                        .font(labelFont)
-                        .foregroundColor(Color.secondary)
-                        .fixedSize()
-                    
-                    Text("50")
-                        .font(.callout)
-                        .fontWeight(.semibold)
-                        .fixedSize()
-                }
-                
-                HStack(spacing: 0) {
-                    Text("lbs / ".uppercased())
-                        .font(labelFont)
-                        .foregroundColor(Color.secondary)
-                        .fixedSize()
-                    
-                    Text("135")
-                        .font(.callout)
-                        .fontWeight(.semibold)
-                        .fixedSize()
-                }
-                
-                HStack(spacing: 0) {
-                    Text("mi / ".uppercased())
-                        .font(labelFont)
-                        .foregroundColor(Color.secondary)
-                        .fixedSize()
-                    
-                    Text("2")
-                        .font(.callout)
-                        .fontWeight(.semibold)
-                        .fixedSize()
-                }
-                
-                HStack(spacing: 0) {
-                    Text("time / ".uppercased())
-                        .font(labelFont)
-                        .foregroundColor(Color.secondary)
-                        .fixedSize()
-                    
-                    Text("30s")
-                        .font(.callout)
-                        .fontWeight(.semibold)
-                        .fixedSize()
-                }
-            }
         }
     }
 }
