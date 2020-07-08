@@ -11,14 +11,47 @@ import ASCollectionView
 
 struct ExerciseSelectionView: View {
     let dictionary: ExerciseDictionary
+    @Binding var exercises: [ExerciseTemplate]
+    
+    var onClose: (() -> Void)? = nil
     
     @State private var target: [MuscleActivation] = []
     @State private var synergists: [MuscleActivation] = []
     @State private var dynamic: [MuscleActivation] = []
     
+    @State private var sets: Bool = false
+    @State private var reps: Bool = false
+    @State private var time: Bool = false
+    @State private var distance: Bool = false
+    @State private var weight: Bool = false
+    
+    var mainTitle: String {
+        let tokens = dictionary.name.split(separator: "(")
+        
+        return tokens.first!.description
+    }
+    
+    var subTitle: String? {
+        let tokens = dictionary.name.split(separator: "(")
+        
+        if tokens.count > 1 {
+            var s = tokens.last!.description
+            s.removeLast()
+            return s
+        }
+        
+        return nil
+    }
+    
     var body: some View {
-        VStack {
-            Text(dictionary.name).font(.title)
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading) {
+                Text(mainTitle).font(.title)
+            
+                if subTitle != nil {
+                    Text(subTitle!).foregroundColor(Color.secondary)
+                }
+            }
             
             HStack {
                 AnteriorView(
@@ -33,7 +66,46 @@ struct ExerciseSelectionView: View {
                     activatedDynamicArticulationMuscles: dynamic
                 )
             }
+            .frame(height: 280)
+            
+            VStack(alignment: .leading) {
+                Text("Fields").font(.headline)
+            
+                SelectFieldButtonView(selected: $sets, title: "Sets")
+                SelectFieldButtonView(selected: $reps, title: "Reps")
+                SelectFieldButtonView(selected: $weight, title: "Weight")
+                SelectFieldButtonView(selected: $time, title: "Time")
+                SelectFieldButtonView(selected: $distance, title: "Distance")
+            }
+            
+            Spacer()
+            
+            GeometryReader { geometry in
+                Button(action: {
+                    let template = ExerciseTemplate(
+                        data: ExerciseTemplateDataFields(sets: self.sets, reps: self.reps, weight: self.weight, time: self.time, distance: self.distance),
+                        exerciseDictionaries: [self.dictionary]
+                    )
+                    
+                    self.exercises.append(template)
+                    
+                    if let handleClose = self.onClose {
+                        handleClose()
+                    }
+                }) {
+                    Text("Select")
+                        .font(.headline)
+                        .foregroundColor(Color.white)
+                        .padding()
+                        .frame(width: geometry.size.width)
+                        .background(appColor)
+                        .cornerRadius(6)
+                }
+                .fixedSize(horizontal: false, vertical: true)
+            }
+            .fixedSize(horizontal: false, vertical: true)
         }
+        .padding()
         .onAppear {
             if let target = self.dictionary.muscles.target {
                 self.target = target.compactMap { Muscle.from(name: $0) }.map { MuscleActivation(muscle: $0) }
@@ -52,15 +124,38 @@ struct ExerciseSelectionView: View {
 
 struct ExerciseListItem: View {
     let dictionary: ExerciseDictionary
+    let isSelected: Bool
     
     @State private var target: [MuscleActivation] = []
     @State private var synergists: [MuscleActivation] = []
     @State private var dynamic: [MuscleActivation] = []
     
+    var mainTitle: String {
+        let tokens = dictionary.name.split(separator: "(")
+        
+        return tokens.first!.description
+    }
+    
+    var subTitle: String? {
+        let tokens = dictionary.name.split(separator: "(")
+        
+        if tokens.count > 1 {
+            var s = tokens.last!.description
+            s.removeLast()
+            return s
+        }
+        
+        return nil
+    }
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(dictionary.name).font(.callout)
+                Text(mainTitle).font(.callout).foregroundColor(isSelected ? appColor : Color.primary).fontWeight(isSelected ? .semibold : .regular)
+                
+                if subTitle != nil {
+                    Text(subTitle!).font(.caption).foregroundColor(Color.secondary)
+                }
             }
             
             Spacer()
@@ -99,20 +194,24 @@ struct RoutinesViewerView: View {
     
     @State private var allDictionaries: [ExerciseDictionary] = []
     @State private var allDictionariesByID: [Int:ExerciseDictionary] = [Int:ExerciseDictionary]()
-    @State private var displayDictionaries: [ExerciseDictionary] = []
     @State private var filteredDictionaryIDs: [Int] = []
     
     @State private var workouts: [Workout] = []
     @State private var createRoutine = true
     @State private var searchTerms = ""
     
-    @State private var scrollBufferSize = 50
+    @State private var exerciseSelectionPreview: ExerciseDictionary? = nil
+    @State private var exercises: [ExerciseTemplate] = []
+    
+    func isSelected(exerciseDictionary: ExerciseDictionary) -> Bool {
+        return self.exercises.contains(where: { $0.exerciseDictionaries.contains(where: { $0.id == exerciseDictionary.id }) })
+    }
     
     var userSearchTerm: Binding<String> {
         return Binding<String>(
             get: {
                 self.searchTerms
-        },
+            },
             set: { v in
                 self.searchTerms = v
                 
@@ -129,7 +228,7 @@ struct RoutinesViewerView: View {
                             self.filteredDictionaryIDs = []
                         }
                 }
-        }
+            }
         )
     }
     
@@ -148,21 +247,71 @@ struct RoutinesViewerView: View {
 
         return VStack {
             if createRoutine {
-                SearchBar(text: userSearchTerm)
-            
-                ASTableView(data: self.filteredDictionaries, dataID: \.id) { item, _ in
-                    ExerciseListItem(dictionary: item)
-                        .padding([.leading, .trailing])
-                }
-                .onAppear {
-                    self.dictionariesAPI.getDictionaryList().then(on: DispatchQueue.main) { (paginatedResponse: PaginatedResponse<ExerciseDictionary>) in
-                        let dictionaries = paginatedResponse.results
+                ZStack {
+                    VStack {
+                        SearchBarView(searchText: userSearchTerm)
+                    
+                        ASTableView(data: self.filteredDictionaries, dataID: \.id) { item, _ in
+                            Button(action: {
+                                self.exerciseSelectionPreview = item
+                            }) {
+                                ExerciseListItem(dictionary: item, isSelected: self.isSelected(exerciseDictionary: item))
+                                    .background(Color(UIColor.systemBackground))
+                                    .padding([.leading, .trailing])
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                        .onAppear {
+                            self.dictionariesAPI.getDictionaryList().then(on: DispatchQueue.main) { (paginatedResponse: PaginatedResponse<ExerciseDictionary>) in
+                                let dictionaries = paginatedResponse.results
+                                
+                                self.allDictionaries = dictionaries
+                                self.allDictionariesByID = Dictionary(uniqueKeysWithValues: dictionaries.map { ($0.id!, $0) })
+                            }
+                        }
                         
-                        self.allDictionaries = dictionaries
-                        self.allDictionariesByID = Dictionary(uniqueKeysWithValues: dictionaries.map { ($0.id!, $0) })
+                        GeometryReader { geometry in
+                            Button(action: {}) {
+                                Text("Done")
+                                    .font(.headline)
+                                    .foregroundColor(Color.white)
+                                    .padding([.top, .bottom])
+                                    .frame(width: geometry.size.width)
+                                    .background(appColor)
+                                    .cornerRadius(6)
+                            }
+                        }
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding()
+                    }
+                    
+                    if exerciseSelectionPreview != nil {
+                        VStack {
+                            HStack {
+                                Button(action: { self.exerciseSelectionPreview = nil }) {
+                                    Image(systemName: "chevron.left")
+                                        .font(Font.title.weight(.medium))
+                                    Text("Back")
+                                }
+                                
+                                Spacer()
+                            }
+                            .padding(.leading)
+                            
+                            ExerciseSelectionView(
+                                dictionary: exerciseSelectionPreview!,
+                                exercises: self.$exercises
+                            ) {
+                                print("Here")
+                                self.exerciseSelectionPreview = nil
+                            }
+                                .padding(.bottom)
+                                .padding(.bottom)
+                        }
+                        .background(Color(UIColor.systemBackground))
+                        .edgesIgnoringSafeArea(.bottom)
                     }
                 }
-                .edgesIgnoringSafeArea(.all)
             } else {
                 VStack {
                     HStack(alignment: .top) {
@@ -197,39 +346,6 @@ struct RoutinesViewerView: View {
                     .border(Color.red)
                 }
                 .edgesIgnoringSafeArea(.all)
-            }
-        }
-    }
-}
-
-struct SearchBar: View {
-    @Binding var text: String
-    
-    @State private var isEditing = false
-    
-    var body: some View {
-        HStack {
-            TextField("Search", text: $text)
-                .padding(7)
-                .padding(.horizontal, 25)
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-                .padding(.horizontal, 10)
-                .onTapGesture {
-                    self.isEditing = true
-            }
-            
-            if isEditing {
-                Button(action: {
-                    self.isEditing = false
-                    self.text = ""
-                    
-                }) {
-                    Text("Cancel")
-                }
-                .padding(.trailing, 10)
-                .transition(.move(edge: .trailing))
-                .animation(.default)
             }
         }
     }
