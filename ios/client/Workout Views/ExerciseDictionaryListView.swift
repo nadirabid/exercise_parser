@@ -12,7 +12,7 @@ import ASCollectionView
 struct ExerciseDictionaryListView: View {
     @EnvironmentObject var dictionariesAPI: ExerciseDictionaryAPI
     
-    var onSelectExerciseDictionary: ((ExerciseDictionary) -> Void)? = nil
+    var onSelectExerciseTemplates: (([ExerciseTemplate]) -> Void)? = nil
     var onClose: (() -> Void)? = nil
     
     @State private var allDictionaries: [ExerciseDictionary] = []
@@ -20,12 +20,12 @@ struct ExerciseDictionaryListView: View {
     @State private var filteredDictionaryIDs: [Int] = []
     
     @State private var exerciseSelectionPreview: ExerciseDictionary? = nil
-    @State private var exercises: [ExerciseTemplate] = []
+    @State private var exerciseTemplates: [ExerciseTemplate] = []
     
     @State private var searchTerms = ""
     
     func isSelected(exerciseDictionary: ExerciseDictionary) -> Bool {
-        return self.exercises.contains(where: { $0.exerciseDictionaries.contains(where: { $0.id == exerciseDictionary.id }) })
+        return self.exerciseTemplates.contains(where: { $0.exerciseDictionaries.contains(where: { $0.id == exerciseDictionary.id }) })
     }
     
     var filteredDictionaries: [ExerciseDictionary] {
@@ -89,6 +89,7 @@ struct ExerciseDictionaryListView: View {
                     }
                 }
             }
+            .edgesIgnoringSafeArea(.bottom)
             
             if self.exerciseSelectionPreview != nil {
                 VStack {
@@ -105,10 +106,10 @@ struct ExerciseDictionaryListView: View {
                     
                     ExerciseSelectionView(
                         dictionary: self.exerciseSelectionPreview!,
-                        exercises: self.$exercises
+                        exerciseTemplates: self.$exerciseTemplates
                     ) {
-                        if let handleSelect = self.onSelectExerciseDictionary {
-                            handleSelect(self.exerciseSelectionPreview!)
+                        if let handleSelect = self.onSelectExerciseTemplates {
+                            handleSelect(self.exerciseTemplates)
                         }
                         
                         self.exerciseSelectionPreview = nil

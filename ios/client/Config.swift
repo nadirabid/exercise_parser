@@ -12,5 +12,6 @@ import SwiftUI
 // COLORS: https://colors.lol
 
 let appColor: Color = Color(0xF8481C)
+let appColorDisabled: Color = appColor.opacity(0.5)
 let secondaryAppColor: Color = Color(0xF43605)
 let feedColor: Color = Color(red: 247 / 255, green: 247 / 255, blue: 247 / 255)

@@ -16,9 +16,35 @@ struct ExerciseTemplateView: View {
         .system(size: 9)
     }
     
+    var title: String {
+        let tokens = exerciseTemplate.exerciseDictionaries.first!.name.split(separator: "(")
+        
+        return tokens.first!.description
+    }
+    
+    var subTitle: String? {
+        let tokens = exerciseTemplate.exerciseDictionaries.first!.name.split(separator: "(")
+        
+        if tokens.count > 1 {
+            var s = tokens.last!.description
+            s.removeLast()
+            return s
+        }
+        
+        return nil
+    }
+    
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Barbell curls")
+        return VStack(alignment: .leading) {
+            HStack(spacing: 0) {
+                Text(title)
+                
+                if subTitle != nil {
+                    Text(" - \(subTitle!)")
+                        .font(.caption)
+                        .foregroundColor(Color.secondary)
+                }
+            }
             
             HStack(spacing: 8) {
                 if exerciseTemplate.data.sets {
@@ -97,12 +123,13 @@ struct ExerciseTemplateView: View {
 
 struct RoutineEditorView: View {
     @EnvironmentObject var exerciseDictionaryAPI: ExerciseDictionaryAPI
-    var exerciseTemplates: [ExerciseTemplate] = []
     
-    @State var selectExerciseDictionary: Bool = false
+    @State private var exerciseTemplates: [ExerciseTemplate] = []
+    @State private var selectExerciseDictionary: Bool = false
     
-    func handleSelectExerciseDictionary(exerciseDictionary: ExerciseDictionary) {
-        
+    func handleSelect(exerciseTemplates: [ExerciseTemplate]) {
+        self.exerciseTemplates.append(contentsOf: exerciseTemplates)
+        self.selectExerciseDictionary = false
     }
     
     func handleClose() {
@@ -110,9 +137,19 @@ struct RoutineEditorView: View {
     }
     
     var body: some View {
-        VStack {
-            List(exerciseTemplates) { item in
-                ExerciseTemplateView(exerciseTemplate: item)
+        UITableView.appearance().separatorColor = .clear
+        UITableView.appearance().backgroundColor = UIColor.systemBackground
+        UITableView.appearance().showsVerticalScrollIndicator = false
+        
+        return VStack {
+            ScrollView {
+                ForEach(self.exerciseTemplates, id: \.cid) { item in
+                    HStack {
+                        ExerciseTemplateView(exerciseTemplate: item)
+                        Spacer()
+                    }
+                    .padding([.leading, .bottom])
+                }
             }
             
             Spacer()
@@ -131,7 +168,7 @@ struct RoutineEditorView: View {
             .padding(.leading)
         }
         .sheet(isPresented: self.$selectExerciseDictionary) {
-            ExerciseDictionaryListView(onSelectExerciseDictionary: self.handleSelectExerciseDictionary) {
+            ExerciseDictionaryListView(onSelectExerciseTemplates: self.handleSelect) {
                 self.selectExerciseDictionary = false
             }
             .environmentObject(self.exerciseDictionaryAPI)

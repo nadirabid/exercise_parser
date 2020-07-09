@@ -34,6 +34,7 @@ struct WorkoutTemplate: Codable, Identifiable, Hashable {
 
 struct ExerciseTemplate: Codable, Identifiable {
     let id: Int?
+    let cid: UUID = UUID()
     let createdAt: String?
     let updatedAt: String?
     let name: String

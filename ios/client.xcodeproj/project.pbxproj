@@ -260,17 +260,17 @@
 		6427B321247776A40067B894 /* Workout Views */ = {
 			isa = PBXGroup;
 			children = (
-				64615A94242581AF0098ED5A /* ExerciseEditView.swift */,
-				649A4916240670BC003206C3 /* ExerciseView.swift */,
 				6402A5B924B688FE00A87429 /* ExerciseDictionaryListView.swift */,
+				64615A94242581AF0098ED5A /* ExerciseEditView.swift */,
 				6402A5BB24B691BD00A87429 /* ExerciseSelectionView.swift */,
+				649A4916240670BC003206C3 /* ExerciseView.swift */,
+				642C5E4E24A57E13007EBE38 /* RoutinesViewerView.swift */,
+				646CC2D1248E1442004D5AE3 /* RunTrackerView.swift */,
 				64E06CC72352F6E0005AC1D8 /* WorkoutCreateView.swift */,
 				6484887A24786DA10093B3C5 /* WorkoutEditView.swift */,
-				6494A01922B6139900C19543 /* WorkoutView.swift */,
-				649EF87D248C517F004E02B2 /* WorkoutTypeSelectorView.swift */,
-				646CC2D1248E1442004D5AE3 /* RunTrackerView.swift */,
-				642C5E4E24A57E13007EBE38 /* RoutinesViewerView.swift */,
 				642C5E5024A59138007EBE38 /* WorkoutTemplateView.swift */,
+				649EF87D248C517F004E02B2 /* WorkoutTypeSelectorView.swift */,
+				6494A01922B6139900C19543 /* WorkoutView.swift */,
 			);
 			path = "Workout Views";
 			sourceTree = "<group>";

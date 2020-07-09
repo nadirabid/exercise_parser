@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ExerciseSelectionView: View {
     let dictionary: ExerciseDictionary
-    @Binding var exercises: [ExerciseTemplate]
+    @Binding var exerciseTemplates: [ExerciseTemplate]
     
     var onClose: (() -> Void)? = nil
     
@@ -24,7 +24,7 @@ struct ExerciseSelectionView: View {
     @State private var distance: Bool = false
     @State private var weight: Bool = false
     
-    var mainTitle: String {
+    var title: String {
         let tokens = dictionary.name.split(separator: "(")
         
         return tokens.first!.description
@@ -42,10 +42,14 @@ struct ExerciseSelectionView: View {
         return nil
     }
     
+    var isSelectButtonDisabled: Bool {
+        return !sets && !reps && !time && !distance && !weight
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading) {
-                Text(mainTitle).font(.title)
+                Text(title).font(.title)
             
                 if subTitle != nil {
                     Text(subTitle!).foregroundColor(Color.secondary)
@@ -86,7 +90,7 @@ struct ExerciseSelectionView: View {
                         exerciseDictionaries: [self.dictionary]
                     )
                     
-                    self.exercises.append(template)
+                    self.exerciseTemplates.append(template)
                     
                     if let handleClose = self.onClose {
                         handleClose()
@@ -97,12 +101,12 @@ struct ExerciseSelectionView: View {
                         .foregroundColor(Color.white)
                         .padding()
                         .frame(width: geometry.size.width)
-                        .background(appColor)
+                        .background(self.isSelectButtonDisabled ? appColorDisabled : appColor)
                         .cornerRadius(6)
                 }
-                .fixedSize(horizontal: false, vertical: true)
             }
             .fixedSize(horizontal: false, vertical: true)
+            .disabled(self.isSelectButtonDisabled)
         }
         .padding()
         .onAppear {
