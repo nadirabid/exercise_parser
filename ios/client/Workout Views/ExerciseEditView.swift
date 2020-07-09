@@ -102,7 +102,7 @@ public struct ExerciseEditView: View {
             VStack(alignment: .leading, spacing: 0) {
                 if !workoutState.isStopped {
                     TextField(
-                        exercise?.raw ?? "Enter your exercise",
+                        exercise?.raw ?? "Type your activity",
                         text: $exerciseState.input,
                         onEditingChanged: { changed in
                             self.editingChangedHandler(changed, self.textField)
