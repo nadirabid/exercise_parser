@@ -103,10 +103,11 @@ func newCorrectiveExpression(value string, correctiveMessage string, correctiveM
 }
 
 const (
-	CorrectiveCodeNone                   = 0
-	CorrectiveCodeMissingExercise        = 1
-	CorrectiveCodeMissingQuantity        = 2
-	CorrectiveCodeMissingExerciseAndReps = 3
+	CorrectiveCodeNone                           = 0
+	CorrectiveCodeMissingExercise                = 1
+	CorrectiveCodeMissingQuantity                = 2
+	CorrectiveCodeMissingExerciseAndReps         = 3
+	CorrectiveCodeUndeterminableUnitsSetOrWeight = 4
 )
 
 func DetermineIfHasExerciseFromCorrectiveCode(correctiveCode int) bool {
@@ -120,10 +121,11 @@ func DetermineIfHasExerciseFromCorrectiveCode(correctiveCode int) bool {
 
 func correctiveActivityExpressions() []*expression {
 	expressions := []*expression{
-		newCorrectiveExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, "specify an exercise", CorrectiveCodeMissingExercise),        // {Sets:Number}x{Reps:Number}
-		newCorrectiveExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*reps$`, "specify an exercise", CorrectiveCodeMissingExercise), // {Sets:Number}x{Reps:Number} reps
-		newCorrectiveExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])$`, "specify quantity", CorrectiveCodeMissingQuantity),         // {Exercise:String}
-		newCorrectiveExpression(`^(?P<Sets>\d+)\s+rounds$`, "specify exercise and reps or time", CorrectiveCodeMissingExerciseAndReps),  // {Sets:Number} rounds
+		newCorrectiveExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, "specify an exercise", CorrectiveCodeMissingExercise),                                                                                                                                                     // {Sets:Number}x{Reps:Number}
+		newCorrectiveExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*reps$`, "specify an exercise", CorrectiveCodeMissingExercise),                                                                                                                                              // {Sets:Number}x{Reps:Number} reps
+		newCorrectiveExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])$`, "specify quantity", CorrectiveCodeMissingQuantity),                                                                                                                                                      // {Exercise:String}
+		newCorrectiveExpression(`^(?P<Sets>\d+)\s+rounds$`, "specify exercise and reps or time", CorrectiveCodeMissingExerciseAndReps),                                                                                                                                               // {Sets:Number} rounds
+		newCorrectiveExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<WeightOrSets>\d+)\s*(dumbbell|dumbbells|barbel|barbells)?\s*(?P<Reps>\d+)\s*(:?rep|reps)$`, "can't figure out if you mean sets or reps", CorrectiveCodeUndeterminableUnitsSetOrWeight), // {Exercise:String} {WeightOrSets} {Number} reps
 	}
 
 	return expressions

@@ -53,6 +53,15 @@ func TestCorrectiveActivityExpressions(t *testing.T) {
 		expected := map[string]string{"Sets": "5"}
 		assert.Equal(t, expected, first(parsed).Captures)
 	})
+
+	t.Run("{Exercise:String} {WeightOrSets} {Number} reps", func(t *testing.T) {
+		parsed := resolveAllCorrectiveActivityExpressionsTestUtil("benchpress 10 5 reps")
+		assert.Len(t, parsed, 1)
+		assert.Equal(t, parsed[0].CorrectiveCode, CorrectiveCodeUndeterminableUnitsSetOrWeight)
+
+		expected := map[string]string{"Exercise": "benchpress", "WeightOrSets": "10", "Reps": "5"}
+		assert.Equal(t, expected, first(parsed).Captures)
+	})
 }
 
 func resolveAllCorrectiveActivityExpressionsTestUtil(exercise string) []*ParsedActivity {
@@ -132,20 +141,6 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 	}
 
 	units := []string{"kg", "kilos", "kilogram", "kilograms", "lb", "lbs", "pound", "pounds"}
-
-	t.Run("{Weight:Number}{WeightUnits} {Exercise:String}", func(t *testing.T) {
-		expected := map[string]string{"Exercise": "benchpress", "Weight": "195", "WeightUnits": "lbs"}
-		parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("195lbs benchpress"))
-		assert.Len(t, parsed, 1)
-		assert.Equal(t, expected, parsed[0].Captures)
-	})
-
-	t.Run("{Exercise:String} {Sets:Number} set/sets {Reps:Number} rep/reps {Weight:Number}{Weight:Units}", func(t *testing.T) {
-		expected := map[string]string{"Exercise": "squats", "Sets": "1", "Reps": "10", "Weight": "45", "WeightUnits": "lbs"}
-		parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("Squats 1 set 10 reps 45 lbs "))
-		assert.Len(t, parsed, 1)
-		assert.Equal(t, expected, parsed[0].Captures)
-	})
 
 	for _, d := range delimiter {
 		t.Run("{Reps:Number} (Delimiter) {Exercise:String}, left wnd right", func(t *testing.T) {
@@ -391,6 +386,14 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 		})
 
 		for _, u := range units {
+			// benchpress 5 3 reps
+			t.Run("{Weight:Number}{WeightUnits} (Delimiter) {Exercise:String}", func(t *testing.T) {
+				expected := map[string]string{"Exercise": "benchpress", "Weight": "195", "WeightUnits": u}
+				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("195%s%sbenchpress", u, d))
+				assert.Len(t, parsed, 1)
+				assert.Equal(t, expected, parsed[0].Captures)
+			})
+
 			t.Run("{Exercise:String} (Delimiter) {Weight:Number}{WeightUnits}", func(t *testing.T) {
 				expected := map[string]string{"Exercise": "benchpress", "Weight": "123", "WeightUnits": u}
 				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("benchpress%s123%s", d, u))
@@ -422,6 +425,13 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 			t.Run("{Exercise:String} (Delimiter) {Weight:Number}{WeightUnits} (Delimiter) {Sets:Number}x{Reps:Number}x{IgnoredWeight:Number}", func(t *testing.T) {
 				expected := map[string]string{"Exercise": "weighted pull-ups", "Weight": "25", "WeightUnits": u, "Sets": "2", "Reps": "8"}
 				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("Weighted pull-ups%s25%sdumbbell%s2x8x300", d, u, d)) // 300 should be ignored
+				assert.Len(t, parsed, 1)
+				assert.Equal(t, expected, parsed[0].Captures)
+			})
+
+			t.Run("{Exercise:String} {Sets:Number} (Delimiter) set/sets {Reps:Number} rep/reps {Weight:Number}{Weight:Units}", func(t *testing.T) {
+				expected := map[string]string{"Exercise": "squats", "Sets": "1", "Reps": "10", "Weight": "45", "WeightUnits": u}
+				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("Squats%s1 set 10 reps 45%s", d, u))
 				assert.Len(t, parsed, 1)
 				assert.Equal(t, expected, parsed[0].Captures)
 			})
