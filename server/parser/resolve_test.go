@@ -394,6 +394,20 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 				assert.Equal(t, expected, parsed[0].Captures)
 			})
 
+			t.Run("{Weight}{WeightUnits} (Delimiter) {Exercise:String} (Delimiter) {Reps:Number}", func(t *testing.T) {
+				expected := map[string]string{"Exercise": "deadlifts", "Weight": "75", "WeightUnits": u, "Reps": "5"}
+				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("75%s%sdeadlifts%s5", u, d, d))
+				assert.Len(t, parsed, 1)
+				assert.Equal(t, expected, parsed[0].Captures)
+			})
+
+			t.Run("{Weight}{WeightUnits} (Delimiter) {Exercise:String} (Delimiter) {Reps:Number} reps", func(t *testing.T) {
+				expected := map[string]string{"Exercise": "deadlifts", "Weight": "75", "WeightUnits": u, "Reps": "5"}
+				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("75%s%sdeadlifts%s5 reps", u, d, d))
+				assert.Len(t, parsed, 1)
+				assert.Equal(t, expected, parsed[0].Captures)
+			})
+
 			t.Run("{Exercise:String} (Delimiter) {Weight:Number}{WeightUnits}", func(t *testing.T) {
 				expected := map[string]string{"Exercise": "benchpress", "Weight": "123", "WeightUnits": u}
 				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("benchpress%s123%s", d, u))
@@ -644,6 +658,13 @@ func TestAerobicActivityFullMatch(t *testing.T) {
 		expected := map[string]string{"Exercise": "ran", "Time": "5", "TimeUnits": "mins"}
 		parsed := resolveAllActivityExpressionsTestUtil("ran for 5 mins")
 		assert.Equal(t, len(parsed), 1)
+		assert.Equal(t, expected, parsed[0].Captures)
+	})
+
+	t.Run("{Time}{TimeUnits} {Exercise:String} {Distance}{DistanceUnits}", func(t *testing.T) {
+		expected := map[string]string{"Exercise": "rowing", "Time": "10", "TimeUnits": "min", "Distance": "1.7", "DistanceUnits": "km"}
+		parsed := resolveAllActivityExpressionsTestUtil("10 min rowing 1.7km")
+		assert.Len(t, parsed, 1)
 		assert.Equal(t, expected, parsed[0].Captures)
 	})
 
