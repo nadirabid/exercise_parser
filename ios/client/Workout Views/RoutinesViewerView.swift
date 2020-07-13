@@ -314,7 +314,7 @@ struct RoutineEditorView: View {
                 }
             } else {
                 GeometryReader { geometry in
-                    List {
+                    ScrollView(showsIndicators: false) {
                         ForEach(self.exerciseTemplates, id: \.cid) { item in
                             VStack {
                                 ExerciseFromTemplateView(
