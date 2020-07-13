@@ -190,6 +190,7 @@ enum ExerciseCorrectiveCode: Int, CaseIterable {
     case MissingExercise = 1
     case MissingQuantity = 2
     case MissingExerciseAndReps = 3
+    case UndeterminableUnitsSetOrWeight = 4
 }
 
 extension ExerciseCorrectiveCode {
@@ -199,6 +200,7 @@ extension ExerciseCorrectiveCode {
         case .MissingExercise: return "Add the exercise name"
         case .MissingQuantity: return "Add quantity (eg. time, sets, reps and/or distance)"
         case .MissingExerciseAndReps: return "Add exercise and reps"
+        case .UndeterminableUnitsSetOrWeight: return "Can't figure out if you meant weight or sets"
         case .Unknown: return "No idea"
         }
     }

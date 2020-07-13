@@ -18,11 +18,11 @@ struct ExerciseSelectionView: View {
     @State private var synergists: [MuscleActivation] = []
     @State private var dynamic: [MuscleActivation] = []
     
-    @State private var sets: Bool = false
-    @State private var reps: Bool = false
+    @State private var sets: Bool = true
+    @State private var reps: Bool = true
     @State private var time: Bool = false
     @State private var distance: Bool = false
-    @State private var weight: Bool = false
+    @State private var weight: Bool = true
     
     var title: String {
         let tokens = dictionary.name.split(separator: "(")

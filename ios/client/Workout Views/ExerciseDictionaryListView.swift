@@ -68,6 +68,19 @@ struct ExerciseDictionaryListView: View {
         
         return ZStack {
             VStack {
+                HStack {
+                    Button(action: {
+                        if let handleClose = self.onClose {
+                            handleClose()
+                        }
+                    }) {
+                        Text("Cancel")
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.leading)
+                
                 SearchBarView(searchText: self.userSearchTerm)
             
                 ASTableView(data: self.filteredDictionaries, dataID: \.id) { item, _ in

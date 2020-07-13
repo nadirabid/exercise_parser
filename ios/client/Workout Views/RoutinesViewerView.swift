@@ -9,6 +9,108 @@
 import SwiftUI
 import ASCollectionView
 
+struct ExerciseFromTemplateView: View {
+    var exerciseTemplate: ExerciseTemplate
+    var viewWidth: CGFloat
+    
+    var exerciseFont: Font {
+        .system(size: 20, weight: .medium)
+    }
+    
+    var infoFont: Font {
+        .system(size: 18)
+    }
+    
+    var dictionary: ExerciseDictionary {
+        // technically we allow for multiple exercise dictionaries for a given activity
+        // but right now for routine based workouts we will assume only one exercise dictionary
+        return exerciseTemplate.exerciseDictionaries.first!
+    }
+    
+    var title: String {
+        let tokens = dictionary.name.split(separator: "(")
+        
+        return tokens.first!.description
+    }
+    
+    var subTitle: String? {
+        let tokens = dictionary.name.split(separator: "(")
+        
+        if tokens.count > 1 {
+            var s = tokens.last!.description
+            s.removeLast()
+            return s
+        }
+        
+        return nil
+    }
+    
+    var widthSets: CGFloat {
+        return viewWidth / 3
+    }
+    
+    var widthReps: CGFloat {
+        return viewWidth / 3
+    }
+    
+    var widthWeight: CGFloat {
+        return viewWidth / 3
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack(spacing: 0) {
+                Text(self.title).font(exerciseFont)
+                
+                if self.subTitle != nil {
+                    Text(" - \(self.subTitle!)")
+                        .font(.caption)
+                        .foregroundColor(Color.secondary)
+                }
+            }
+            .padding(.bottom)
+            
+            VStack {
+                HStack(spacing: 0) {
+                    Text("Set")
+                        .font(.headline)
+                        .frame(width: widthSets, alignment: .leading)
+                    
+                    Text("Reps")
+                        .font(.headline)
+                        .frame(width: widthReps, alignment: .leading)
+                    
+                    HStack {
+                        Spacer()
+                        Text("lbs")
+                            .font(.headline)
+                    }
+                }
+                
+                ForEach(1...3, id:\.self) { item in
+                    HStack(spacing: 0) {
+                        Text("\(item)")
+                            .font(self.infoFont)
+                            .frame(width: self.widthSets, alignment: .leading)
+                        
+                        Text("5")
+                            .font(self.infoFont)
+                            .frame(width: self.widthReps, alignment: .leading)
+                        
+                        HStack {
+                            Spacer()
+                            Text("135")
+                                .font(self.infoFont)
+                        }
+                    }
+                }
+            }
+            
+            Text("ADD SET").font(.caption).padding(.top)
+        }
+    }
+}
+
 struct ExerciseTemplateView: View {
     var exerciseTemplate: ExerciseTemplate
     
@@ -35,7 +137,7 @@ struct ExerciseTemplateView: View {
     }
     
     var body: some View {
-        return VStack(alignment: .leading) {
+        VStack(alignment: .leading) {
             HStack(spacing: 0) {
                 Text(title)
                 
@@ -141,38 +243,94 @@ struct RoutineEditorView: View {
         UITableView.appearance().backgroundColor = UIColor.systemBackground
         UITableView.appearance().showsVerticalScrollIndicator = false
         
-        return VStack {
-            ScrollView {
-                ForEach(self.exerciseTemplates, id: \.cid) { item in
-                    HStack {
-                        ExerciseTemplateView(exerciseTemplate: item)
-                        Spacer()
+        return VStack(spacing: 0) {
+            VStack {
+                HStack {
+                    Button(action: {}) {
+                        Text("Cancel")
                     }
-                    .padding([.leading, .bottom])
+                    .frame(width: 100, alignment: .leading)
+                    
+                    Spacer()
+                    Text("New workout").font(.headline)
+                    Spacer()
+                    
+                    Button(action: {}) {
+                        Text("Save")
+                    }
+                    .frame(width: 100, alignment: .trailing)
+                    .disabled(self.exerciseTemplates.isEmpty)
+                }
+                .padding([.leading, .trailing])
+                
+                Divider()
+            }
+            
+            
+            if self.exerciseTemplates.isEmpty {
+                VStack {
+                    Spacer()
+                    Text("No exercises").foregroundColor(Color.secondary)
+                    Spacer()
+                }
+                .onAppear {
+                    self.exerciseDictionaryAPI.getDictionaryList().then(on: DispatchQueue.main) { (paginatedResponse: PaginatedResponse<ExerciseDictionary>) in
+                        let dictionaries = paginatedResponse.results
+                        
+                        self.exerciseTemplates = dictionaries.prefix(7).map { d in
+                            ExerciseTemplate(
+                                data: ExerciseTemplateDataFields(
+                                    sets: true,
+                                    reps: true,
+                                    weight: true,
+                                    time: false,
+                                    distance: false
+                                ),
+                                exerciseDictionaries: [d]
+                            )
+                        }
+                    }
+                }
+            } else {
+                GeometryReader { geometry in
+                    List(self.exerciseTemplates, id: \.cid) { item in
+                        VStack {
+                            ExerciseFromTemplateView(
+                                exerciseTemplate: item,
+                                viewWidth: geometry.size.width
+                            )
+                            
+                            Divider()
+                        }
+                        .listRowInsets(EdgeInsets())
+                    }
                 }
             }
             
             Spacer()
             
             HStack {
+                Spacer()
+                
                 Button(action: { self.selectExerciseDictionary = true }) {
-                    Image(systemName: "plus.circle")
-                        .foregroundColor(appColor)
-                    
                     Text("Add exercise")
                         .foregroundColor(appColor)
+                    
+                    Image(systemName: "plus.circle.fill")
+                        .foregroundColor(appColor)
                 }
-                
-                Spacer()
             }
-            .padding(.leading)
+            .padding([.leading, .trailing])
         }
         .sheet(isPresented: self.$selectExerciseDictionary) {
-            ExerciseDictionaryListView(onSelectExerciseTemplates: self.handleSelect) {
-                self.selectExerciseDictionary = false
+            VStack {
+                ExerciseDictionaryListView(onSelectExerciseTemplates: self.handleSelect) {
+                    self.selectExerciseDictionary = false
+                }
+                .environmentObject(self.exerciseDictionaryAPI)
             }
-            .environmentObject(self.exerciseDictionaryAPI)
             .padding(.top)
+            .animation(.default)
         }
     }
 }
