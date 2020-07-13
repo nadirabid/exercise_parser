@@ -13,6 +13,54 @@ struct ExerciseFromTemplateView: View {
     var exerciseTemplate: ExerciseTemplate
     var viewWidth: CGFloat
     
+    @State private var activeFields: [ExerciseField] = []
+    
+    func calculateWidthFor(field: ExerciseField) -> CGFloat {
+        return viewWidth / CGFloat(activeFields.count)
+    }
+    
+    func createColumnTitleViewFor(field: ExerciseField) -> some View {
+        HStack {
+            if activeFields.last == field {
+                Spacer()
+            }
+            
+            if activeFields.last == field {
+                Text(field.description.uppercased())
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(Color.secondary)
+            } else {
+                Text(field.description.uppercased())
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(Color.secondary)
+                    .frame(width: calculateWidthFor(field: field), alignment: .leading)
+            }
+        }
+    }
+    
+    func createColumnViewFor(field: ExerciseField, _ itemSetIndex: Int) -> some View {
+        HStack {
+            if activeFields.last == field {
+                Spacer()
+            }
+            
+            if field == .sets {
+                Text("\(itemSetIndex)")
+                    .font(self.infoFont)
+                    .frame(width: calculateWidthFor(field: field), alignment: .leading)
+            } else if activeFields.last == field {
+                Text(exerciseTemplate.data.defaultValueFor(field: field))
+                    .font(self.infoFont)
+            } else {
+                Text(exerciseTemplate.data.defaultValueFor(field: field))
+                    .font(self.infoFont)
+                    .frame(width: calculateWidthFor(field: field), alignment: .leading)
+            }
+        }
+    }
+    
     var exerciseFont: Font {
         .system(size: 20, weight: .medium)
     }
@@ -45,25 +93,13 @@ struct ExerciseFromTemplateView: View {
         return nil
     }
     
-    var widthSets: CGFloat {
-        return viewWidth / 3
-    }
-    
-    var widthReps: CGFloat {
-        return viewWidth / 3
-    }
-    
-    var widthWeight: CGFloat {
-        return viewWidth / 3
-    }
-    
     var body: some View {
         VStack(alignment: .leading) {
-            HStack(spacing: 0) {
+            VStack(alignment: .leading) {
                 Text(self.title).font(exerciseFont)
                 
                 if self.subTitle != nil {
-                    Text(" - \(self.subTitle!)")
+                    Text("(\(self.subTitle!))")
                         .font(.caption)
                         .foregroundColor(Color.secondary)
                 }
@@ -72,41 +108,28 @@ struct ExerciseFromTemplateView: View {
             
             VStack {
                 HStack(spacing: 0) {
-                    Text("Set")
-                        .font(.headline)
-                        .frame(width: widthSets, alignment: .leading)
-                    
-                    Text("Reps")
-                        .font(.headline)
-                        .frame(width: widthReps, alignment: .leading)
-                    
-                    HStack {
-                        Spacer()
-                        Text("lbs")
-                            .font(.headline)
+                    ForEach(self.activeFields, id: \.self) { item in
+                        self.createColumnTitleViewFor(field: item)
                     }
                 }
                 
-                ForEach(1...3, id:\.self) { item in
+                ForEach(1...self.exerciseTemplate.data.defaultValueSets, id:\.self) { itemSetIndex in
                     HStack(spacing: 0) {
-                        Text("\(item)")
-                            .font(self.infoFont)
-                            .frame(width: self.widthSets, alignment: .leading)
-                        
-                        Text("5")
-                            .font(self.infoFont)
-                            .frame(width: self.widthReps, alignment: .leading)
-                        
-                        HStack {
-                            Spacer()
-                            Text("135")
-                                .font(self.infoFont)
+                        ForEach(self.activeFields, id: \.self) { item in
+                            self.createColumnViewFor(field: item, itemSetIndex)
                         }
                     }
                 }
             }
             
             Text("ADD SET").font(.caption).padding(.top)
+        }
+        .onAppear {
+            withAnimation(.none) {
+                self.activeFields = [.sets, .reps, .weight, .distance, .time].filter {
+                    self.exerciseTemplate.data.isActive(field: $0)
+                }
+            }
         }
     }
 }
@@ -252,8 +275,6 @@ struct RoutineEditorView: View {
                     .frame(width: 100, alignment: .leading)
                     
                     Spacer()
-                    Text("New workout").font(.headline)
-                    Spacer()
                     
                     Button(action: {}) {
                         Text("Save")
@@ -277,13 +298,13 @@ struct RoutineEditorView: View {
                     self.exerciseDictionaryAPI.getDictionaryList().then(on: DispatchQueue.main) { (paginatedResponse: PaginatedResponse<ExerciseDictionary>) in
                         let dictionaries = paginatedResponse.results
                         
-                        self.exerciseTemplates = dictionaries.prefix(7).map { d in
+                        self.exerciseTemplates = dictionaries.suffix(1000).prefix(7).map { d in
                             ExerciseTemplate(
                                 data: ExerciseTemplateDataFields(
                                     sets: true,
                                     reps: true,
                                     weight: true,
-                                    time: false,
+                                    time: true,
                                     distance: false
                                 ),
                                 exerciseDictionaries: [d]
@@ -293,16 +314,19 @@ struct RoutineEditorView: View {
                 }
             } else {
                 GeometryReader { geometry in
-                    List(self.exerciseTemplates, id: \.cid) { item in
-                        VStack {
-                            ExerciseFromTemplateView(
-                                exerciseTemplate: item,
-                                viewWidth: geometry.size.width
-                            )
-                            
-                            Divider()
+                    List {
+                        ForEach(self.exerciseTemplates, id: \.cid) { item in
+                            VStack {
+                                ExerciseFromTemplateView(
+                                    exerciseTemplate: item,
+                                    viewWidth: geometry.size.width
+                                )
+                                .padding()
+                                
+                                Divider()
+                            }
+                            .listRowInsets(EdgeInsets())
                         }
-                        .listRowInsets(EdgeInsets())
                     }
                 }
             }

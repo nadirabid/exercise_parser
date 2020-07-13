@@ -73,10 +73,79 @@ struct ExerciseTemplate: Codable, Identifiable {
     }
 }
 
+enum ExerciseField: String {
+    case sets
+    case reps
+    case weight
+    case distance
+    case time
+    
+    var description: String {
+        switch self {
+        case .sets: return "sets"
+        case .reps: return "reps"
+        case .weight: return "weight"
+        case .distance: return "distance"
+        case .time: return "time"
+        }
+    }
+}
+
 struct ExerciseTemplateDataFields: Codable {
     let sets: Bool
     let reps: Bool
     let weight: Bool
     let time: Bool
     let distance: Bool
+    
+    let defaultValueSets: Int
+    let defaultValueReps: Int
+    let defaultValueWeight: Float
+    let defaultValueTime: Int
+    let defaultValueDistance: Float
+    
+    init(
+        sets: Bool = false,
+        reps: Bool = false,
+        weight: Bool = false,
+        time: Bool = false,
+        distance: Bool = false
+    ) {
+        self.sets = sets
+        self.reps = reps
+        self.weight = weight
+        self.time = time
+        self.distance = distance
+        
+        self.defaultValueSets = 3
+        self.defaultValueReps = 5
+        self.defaultValueWeight = 25
+        self.defaultValueTime = 0
+        self.defaultValueDistance = 0
+    }
+    
+    func isActive(field: ExerciseField) -> Bool {
+        switch field {
+        case .sets: return sets
+        case .reps: return reps
+        case .weight: return weight
+        case .distance: return distance
+        case .time: return time
+        }
+    }
+    
+    func defaultValueFor(field: ExerciseField) -> String {
+        switch field {
+        case .sets:
+            return "\(defaultValueSets)"
+        case .reps:
+            return "\(defaultValueReps)"
+        case .weight:
+            return "\(defaultValueWeight)"
+        case .distance:
+            return "\(defaultValueDistance)"
+        case .time:
+            return "\(defaultValueTime)"
+        }
+    }
 }
