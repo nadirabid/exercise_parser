@@ -91,18 +91,36 @@ enum ExerciseField: String {
     }
 }
 
-struct ExerciseTemplateDataFields: Codable {
-    let sets: Bool
-    let reps: Bool
-    let weight: Bool
-    let time: Bool
-    let distance: Bool
+class ExerciseTemplateDataFields: ObservableObject, Codable {
+    @Published var sets: Bool = false
+    @Published var reps: Bool = false
+    @Published var weight: Bool = false
+    @Published var time: Bool = false
+    @Published var distance: Bool = false
     
-    let defaultValueSets: Int
-    let defaultValueReps: Int
-    let defaultValueWeight: Float
-    let defaultValueTime: Int
-    let defaultValueDistance: Float
+    @Published var defaultValueSets: Int = 3
+    @Published var defaultValueReps: Int = 5
+    @Published var defaultValueWeight: Float = 25
+    @Published var defaultValueTime: Int = 0
+    @Published var defaultValueDistance: Float = 0
+    
+    @Published var setsDataForReps: [Int] = []
+    @Published var setsDataForWeight: [Float] = []
+    @Published var setsDataForTime: [Int] = []
+    @Published var setsDataForDistance: [Float] = []
+    
+    enum CodingKeys: String, CodingKey {
+        case defaultValueSets = "default_value_sets"
+        case defaultValueReps = "default_value_reps"
+        case defaultValueWeight = "default_value_weight"
+        case defaultValueTime = "default_value_time"
+        case defaultValueDistance = "default_value_distance"
+        case setsDataForReps = "sets_data_for_reps"
+        case setsDataForWeight = "sets_data_for_weight"
+        case setsDataForTime = "sets_data_for_time"
+        case setsDataForDistance = "sets_data_for_distance"
+        case sets, reps, weight, time, distance
+    }
     
     init(
         sets: Bool = false,
@@ -117,11 +135,52 @@ struct ExerciseTemplateDataFields: Codable {
         self.time = time
         self.distance = distance
         
-        self.defaultValueSets = 3
-        self.defaultValueReps = 5
-        self.defaultValueWeight = 25
-        self.defaultValueTime = 0
-        self.defaultValueDistance = 0
+        self.setsDataForReps = [Int](repeating: defaultValueReps, count: defaultValueSets)
+        self.setsDataForWeight = [Float](repeating: defaultValueWeight, count: defaultValueSets)
+        self.setsDataForTime = [Int](repeating: defaultValueTime, count: defaultValueSets)
+        self.setsDataForDistance = [Float](repeating: defaultValueDistance, count: defaultValueSets)
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        sets = try container.decode(Bool.self, forKey: .sets)
+        reps = try container.decode(Bool.self, forKey: .reps)
+        weight = try container.decode(Bool.self, forKey: .weight)
+        time = try container.decode(Bool.self, forKey: .time)
+        distance = try container.decode(Bool.self, forKey: .distance)
+        
+        defaultValueSets = try container.decode(Int.self, forKey: .defaultValueSets)
+        defaultValueReps = try container.decode(Int.self, forKey: .defaultValueReps)
+        defaultValueWeight = try container.decode(Float.self, forKey: .defaultValueWeight)
+        defaultValueTime = try container.decode(Int.self, forKey: .defaultValueTime)
+        defaultValueDistance = try container.decode(Float.self, forKey: .defaultValueDistance)
+        
+        setsDataForReps = try container.decode([Int].self, forKey: .setsDataForReps)
+        setsDataForWeight = try container.decode([Float].self, forKey: .setsDataForWeight)
+        setsDataForTime = try container.decode([Int].self, forKey: .setsDataForTime)
+        setsDataForDistance = try container.decode([Float].self, forKey: .setsDataForDistance)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(sets, forKey: .sets)
+        try container.encode(reps, forKey: .reps)
+        try container.encode(weight, forKey: .weight)
+        try container.encode(time, forKey: .time)
+        try container.encode(distance, forKey: .distance)
+        
+        try container.encode(defaultValueSets, forKey: .defaultValueSets)
+        try container.encode(defaultValueReps, forKey: .defaultValueReps)
+        try container.encode(defaultValueWeight, forKey: .defaultValueWeight)
+        try container.encode(defaultValueTime, forKey: .defaultValueTime)
+        try container.encode(defaultValueDistance, forKey: .defaultValueDistance)
+        
+        try container.encode(setsDataForReps, forKey: .setsDataForReps)
+        try container.encode(setsDataForWeight, forKey: .setsDataForWeight)
+        try container.encode(setsDataForTime, forKey: .setsDataForTime)
+        try container.encode(setsDataForDistance, forKey: .setsDataForDistance)
     }
     
     func isActive(field: ExerciseField) -> Bool {

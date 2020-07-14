@@ -13,7 +13,15 @@ struct ExerciseFromTemplateView: View {
     var exerciseTemplate: ExerciseTemplate
     var viewWidth: CGFloat
     
+    @ObservedObject private var dataFields: ExerciseTemplateDataFields
     @State private var activeFields: [ExerciseField] = []
+    
+    init(exerciseTemplate: ExerciseTemplate, viewWidth: CGFloat) {
+        self.exerciseTemplate = exerciseTemplate
+        self.viewWidth = viewWidth
+        
+        self.dataFields = self.exerciseTemplate.data
+    }
     
     func calculateWidthFor(field: ExerciseField) -> CGFloat {
         return viewWidth / CGFloat(activeFields.count)
@@ -25,39 +33,112 @@ struct ExerciseFromTemplateView: View {
                 Spacer()
             }
             
-            if activeFields.last == field {
-                Text(field.description.uppercased())
-                    .font(.caption)
-                    .fontWeight(.medium)
-                    .foregroundColor(Color.secondary)
-            } else {
+            if activeFields.first == field {
                 Text(field.description.uppercased())
                     .font(.caption)
                     .fontWeight(.medium)
                     .foregroundColor(Color.secondary)
                     .frame(width: calculateWidthFor(field: field), alignment: .leading)
+            } else if field != activeFields.last {
+                Text(field.description.uppercased())
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(Color.secondary)
+                    .frame(width: calculateWidthFor(field: field), alignment: .trailing)
+            } else {
+                Text(field.description.uppercased())
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(Color.secondary)
             }
         }
     }
     
     func createColumnViewFor(field: ExerciseField, _ itemSetIndex: Int) -> some View {
-        HStack {
-            if activeFields.last == field {
+        HStack(alignment: .center) {
+            if field == activeFields.last {
                 Spacer()
             }
             
             if field == .sets {
-                Text("\(itemSetIndex)")
+                Text("\(itemSetIndex + 1)")
                     .font(self.infoFont)
+                    .padding(4)
+                    .frame(width: 30)
+                    .fixedSize()
+                    .background(Circle().fill(Color(UIColor.systemGray6)))
                     .frame(width: calculateWidthFor(field: field), alignment: .leading)
-            } else if activeFields.last == field {
-                Text(exerciseTemplate.data.defaultValueFor(field: field))
-                    .font(self.infoFont)
             } else {
-                Text(exerciseTemplate.data.defaultValueFor(field: field))
+                createTextFieldFor(field: field, itemSetIndex: itemSetIndex)
                     .font(self.infoFont)
-                    .frame(width: calculateWidthFor(field: field), alignment: .leading)
             }
+        }
+        .multilineTextAlignment(.trailing)
+        .padding(.bottom, itemSetIndex == dataFields.defaultValueSets - 1 ? 0 : 5)
+        .frame(width: field == activeFields.last ? nil : calculateWidthFor(field: field))
+    }
+    
+    func createTextFieldFor(field: ExerciseField, itemSetIndex: Int) -> some View {
+        if field == .reps {
+            let b = Binding<String>(
+                get: { () -> String in
+                    "\(self.dataFields.setsDataForReps[itemSetIndex])"
+                },
+                set: { (value) in
+                    self.dataFields.setsDataForReps = self.dataFields.setsDataForReps.map { $0 }
+                    
+                    if let v = Int(value) {
+                        self.dataFields.setsDataForReps[itemSetIndex] = v
+                    }
+                }
+            )
+            
+            return TextField("0", text: b)
+        } else if field == .weight {
+            let b = Binding<String>(
+                get: { () -> String in
+                    "\(self.dataFields.setsDataForWeight[itemSetIndex].format(f: ".0"))"
+                },
+                set: { (value) in
+                    self.dataFields.setsDataForWeight = self.dataFields.setsDataForWeight.map { $0 }
+                    
+                    if let v = Float(value) {
+                        self.dataFields.setsDataForWeight[itemSetIndex] = v
+                    }
+                }
+            )
+            
+            return TextField("0", text: b)
+        } else if field == .distance {
+            let b = Binding<String>(
+                get: { () -> String in
+                    "\(self.dataFields.setsDataForDistance[itemSetIndex].format(f: ".0"))"
+                },
+                set: { (value) in
+                    self.dataFields.setsDataForDistance = self.dataFields.setsDataForDistance.map { $0 }
+                    
+                    if let v = Float(value) {
+                        self.dataFields.setsDataForDistance[itemSetIndex] = v
+                    }
+                }
+            )
+            
+            return TextField("0", text: b)
+        } else {
+            let b = Binding<String>(
+                get: { () -> String in
+                    "\(self.dataFields.setsDataForTime[itemSetIndex])"
+                },
+                set: { (value) in
+                    self.dataFields.setsDataForTime = self.dataFields.setsDataForTime.map { $0 }
+                    
+                    if let v = Int(value) {
+                        self.dataFields.setsDataForTime[itemSetIndex] = v
+                    }
+                }
+            )
+            
+            return TextField("0", text: b)
         }
     }
     
@@ -112,9 +193,10 @@ struct ExerciseFromTemplateView: View {
                         self.createColumnTitleViewFor(field: item)
                     }
                 }
+                .padding(.bottom, 8)
                 
-                ForEach(1...self.exerciseTemplate.data.defaultValueSets, id:\.self) { itemSetIndex in
-                    HStack(spacing: 0) {
+                ForEach(0..<self.dataFields.defaultValueSets, id:\.self) { itemSetIndex in
+                    HStack(alignment: .center, spacing: 0) {
                         ForEach(self.activeFields, id: \.self) { item in
                             self.createColumnViewFor(field: item, itemSetIndex)
                         }
@@ -125,10 +207,8 @@ struct ExerciseFromTemplateView: View {
             Text("ADD SET").font(.caption).padding(.top)
         }
         .onAppear {
-            withAnimation(.none) {
-                self.activeFields = [.sets, .reps, .weight, .distance, .time].filter {
-                    self.exerciseTemplate.data.isActive(field: $0)
-                }
+            self.activeFields = [.sets, .reps, .weight, .distance, .time].filter {
+                self.exerciseTemplate.data.isActive(field: $0)
             }
         }
     }
