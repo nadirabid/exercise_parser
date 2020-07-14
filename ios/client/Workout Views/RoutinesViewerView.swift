@@ -71,6 +71,7 @@ struct ExerciseFromTemplateView: View {
             } else {
                 createTextFieldFor(field: field, itemSetIndex: itemSetIndex)
                     .font(self.infoFont)
+                    .keyboardType(.numberPad)
             }
         }
         .multilineTextAlignment(.trailing)
