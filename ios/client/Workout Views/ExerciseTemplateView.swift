@@ -46,7 +46,7 @@ struct ExerciseTemplateView: View {
             }
             
             HStack(spacing: 8) {
-                if exerciseTemplate.data.sets {
+                if exerciseTemplate.data.isSetsFieldEnabled {
                     HStack(spacing: 0) {
                         Text("sets / ".uppercased())
                             .font(labelFont)
@@ -60,7 +60,7 @@ struct ExerciseTemplateView: View {
                     }
                 }
                 
-                if exerciseTemplate.data.reps {
+                if exerciseTemplate.data.isRepsFieldEnabled {
                     HStack(spacing: 0) {
                         Text("reps / ".uppercased())
                             .font(labelFont)
@@ -74,7 +74,7 @@ struct ExerciseTemplateView: View {
                     }
                 }
                 
-                if exerciseTemplate.data.weight {
+                if exerciseTemplate.data.isWeightFieldEnabled {
                     HStack(spacing: 0) {
                         Text("lbs / ".uppercased())
                             .font(labelFont)
@@ -88,7 +88,7 @@ struct ExerciseTemplateView: View {
                     }
                 }
                 
-                if exerciseTemplate.data.distance {
+                if exerciseTemplate.data.isDistanceField {
                     HStack(spacing: 0) {
                         Text("mi / ".uppercased())
                             .font(labelFont)
@@ -102,7 +102,7 @@ struct ExerciseTemplateView: View {
                     }
                 }
                 
-                if exerciseTemplate.data.time {
+                if exerciseTemplate.data.isTimeFieldEnabled {
                     HStack(spacing: 0) {
                         Text("time / ".uppercased())
                             .font(labelFont)

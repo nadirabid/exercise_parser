@@ -12,7 +12,7 @@ struct ExerciseTemplateEditorView: View {
     var exerciseTemplate: ExerciseTemplate
     var viewWidth: CGFloat
     
-    @ObservedObject private var dataFields: ExerciseTemplateDataFields
+    @ObservedObject private var dataFields: ExerciseTemplateData
     @State private var activeFields: [ExerciseField] = []
     
     init(exerciseTemplate: ExerciseTemplate, viewWidth: CGFloat) {
@@ -83,13 +83,13 @@ struct ExerciseTemplateEditorView: View {
         if field == .reps {
             let b = Binding<String>(
                 get: { () -> String in
-                    "\(self.dataFields.repsValues[itemSetIndex])"
+                    "\(self.dataFields.reps[itemSetIndex])"
                 },
                 set: { (value) in
-                    self.dataFields.repsValues = self.dataFields.repsValues.map { $0 }
+                    self.dataFields.reps = self.dataFields.reps.map { $0 }
                     
                     if let v = Int(value) {
-                        self.dataFields.repsValues[itemSetIndex] = v
+                        self.dataFields.reps[itemSetIndex] = v
                     }
                 }
             )
@@ -98,13 +98,13 @@ struct ExerciseTemplateEditorView: View {
         } else if field == .weight {
             let b = Binding<String>(
                 get: { () -> String in
-                    "\(self.dataFields.weightValues[itemSetIndex].format(f: ".0"))"
+                    "\(self.dataFields.weight[itemSetIndex].format(f: ".0"))"
                 },
                 set: { (value) in
-                    self.dataFields.weightValues = self.dataFields.weightValues.map { $0 }
+                    self.dataFields.weight = self.dataFields.weight.map { $0 }
                     
                     if let v = Float(value) {
-                        self.dataFields.weightValues[itemSetIndex] = v
+                        self.dataFields.weight[itemSetIndex] = v
                     }
                 }
             )
@@ -113,13 +113,13 @@ struct ExerciseTemplateEditorView: View {
         } else if field == .distance {
             let b = Binding<String>(
                 get: { () -> String in
-                    "\(self.dataFields.distanceValues[itemSetIndex].format(f: ".0"))"
+                    "\(self.dataFields.distance[itemSetIndex].format(f: ".0"))"
                 },
                 set: { (value) in
-                    self.dataFields.distanceValues = self.dataFields.distanceValues.map { $0 }
+                    self.dataFields.distance = self.dataFields.distance.map { $0 }
                     
                     if let v = Float(value) {
-                        self.dataFields.distanceValues[itemSetIndex] = v
+                        self.dataFields.distance[itemSetIndex] = v
                     }
                 }
             )
@@ -128,13 +128,13 @@ struct ExerciseTemplateEditorView: View {
         } else {
             let b = Binding<String>(
                 get: { () -> String in
-                    "\(self.dataFields.timeValues[itemSetIndex])"
+                    "\(self.dataFields.time[itemSetIndex])"
                 },
                 set: { (value) in
-                    self.dataFields.timeValues = self.dataFields.timeValues.map { $0 }
+                    self.dataFields.time = self.dataFields.time.map { $0 }
                     
                     if let v = Int(value) {
-                        self.dataFields.timeValues[itemSetIndex] = v
+                        self.dataFields.time[itemSetIndex] = v
                     }
                 }
             )
@@ -144,11 +144,11 @@ struct ExerciseTemplateEditorView: View {
     }
     
     func addSet() {
-        dataFields.setsValue += 1
-        dataFields.repsValues = dataFields.repsValues + [dataFields.defaultValueReps]
-        dataFields.weightValues = dataFields.weightValues + [dataFields.defaultValueWeight]
-        dataFields.timeValues = dataFields.timeValues + [dataFields.defaultValueTime]
-        dataFields.distanceValues = dataFields.distanceValues + [dataFields.defaultValueDistance]
+        dataFields.sets += 1
+        dataFields.reps = dataFields.reps + [dataFields.defaultValueReps]
+        dataFields.weight = dataFields.weight + [dataFields.defaultValueWeight]
+        dataFields.time = dataFields.time + [dataFields.defaultValueTime]
+        dataFields.distance = dataFields.distance + [dataFields.defaultValueDistance]
     }
     
     var exerciseFont: Font {
@@ -204,7 +204,7 @@ struct ExerciseTemplateEditorView: View {
                 }
                 .padding(.bottom, 8)
                 
-                ForEach(0..<self.dataFields.setsValue, id:\.self) { itemSetIndex in
+                ForEach(0..<self.dataFields.sets, id:\.self) { itemSetIndex in
                     HStack(alignment: .center, spacing: 0) {
                         ForEach(self.activeFields, id: \.self) { item in
                             self.createColumnViewFor(field: item, itemSetIndex)

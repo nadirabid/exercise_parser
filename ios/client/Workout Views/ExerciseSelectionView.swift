@@ -18,11 +18,11 @@ struct ExerciseSelectionView: View {
     @State private var synergists: [MuscleActivation] = []
     @State private var dynamic: [MuscleActivation] = []
     
-    @State private var sets: Bool = true
-    @State private var reps: Bool = true
-    @State private var time: Bool = false
-    @State private var distance: Bool = false
-    @State private var weight: Bool = true
+    @State private var isSetsFieldEnabled: Bool = true
+    @State private var isRepsFieldEnabled: Bool = true
+    @State private var isTimeFieldEnabled: Bool = false
+    @State private var isDistanceFieldEnabled: Bool = false
+    @State private var isWeightFieldEnabled: Bool = true
     
     var title: String {
         let tokens = dictionary.name.split(separator: "(")
@@ -43,7 +43,7 @@ struct ExerciseSelectionView: View {
     }
     
     var isSelectButtonDisabled: Bool {
-        return !sets && !reps && !time && !distance && !weight
+        return !isSetsFieldEnabled && !isRepsFieldEnabled && !isTimeFieldEnabled && !isDistanceFieldEnabled && !isWeightFieldEnabled
     }
     
     var body: some View {
@@ -74,11 +74,11 @@ struct ExerciseSelectionView: View {
             VStack(alignment: .leading) {
                 Text("Fields").font(.headline)
             
-                SelectFieldButtonView(selected: $sets, title: "Sets")
-                SelectFieldButtonView(selected: $reps, title: "Reps")
-                SelectFieldButtonView(selected: $weight, title: "Weight")
-                SelectFieldButtonView(selected: $time, title: "Time")
-                SelectFieldButtonView(selected: $distance, title: "Distance")
+                SelectFieldButtonView(selected: $isSetsFieldEnabled, title: "Sets")
+                SelectFieldButtonView(selected: $isRepsFieldEnabled, title: "Reps")
+                SelectFieldButtonView(selected: $isWeightFieldEnabled, title: "Weight")
+                SelectFieldButtonView(selected: $isTimeFieldEnabled, title: "Time")
+                SelectFieldButtonView(selected: $isDistanceFieldEnabled, title: "Distance")
             }
             
             Spacer()
@@ -86,7 +86,13 @@ struct ExerciseSelectionView: View {
             GeometryReader { geometry in
                 Button(action: {
                     let template = ExerciseTemplate(
-                        data: ExerciseTemplateDataFields(sets: self.sets, reps: self.reps, weight: self.weight, time: self.time, distance: self.distance),
+                        data: ExerciseTemplateData(
+                            isSetsFieldEnabled: self.isSetsFieldEnabled,
+                            isRepsFieldEnabled: self.isRepsFieldEnabled,
+                            isWeightFieldEnabled: self.isWeightFieldEnabled,
+                            isTimeFieldEnabled: self.isTimeFieldEnabled,
+                            isDistanceFieldEnabled: self.isDistanceFieldEnabled
+                        ),
                         exerciseDictionaries: [self.dictionary]
                     )
                     

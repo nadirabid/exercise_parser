@@ -62,12 +62,12 @@ struct WorkoutTemplateEditorView: View {
                         
                         self.exerciseTemplates = dictionaries.suffix(1000).prefix(7).map { d in
                             ExerciseTemplate(
-                                data: ExerciseTemplateDataFields(
-                                    sets: true,
-                                    reps: true,
-                                    weight: true,
-                                    time: false,
-                                    distance: false
+                                data: ExerciseTemplateData(
+                                    isSetsFieldEnabled: true,
+                                    isRepsFieldEnabled: true,
+                                    isWeightFieldEnabled: true,
+                                    isTimeFieldEnabled: false,
+                                    isDistanceFieldEnabled: false
                                 ),
                                 exerciseDictionaries: [d]
                             )

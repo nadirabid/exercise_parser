@@ -37,8 +37,7 @@ struct ExerciseTemplate: Codable, Identifiable {
     let cid: UUID = UUID()
     let createdAt: String?
     let updatedAt: String?
-    let name: String
-    let data: ExerciseTemplateDataFields
+    let data: ExerciseTemplateData
     let circuitID: Int?
     let circuitRounds: Int
     let exerciseDictionaries: [ExerciseDictionary]
@@ -47,8 +46,7 @@ struct ExerciseTemplate: Codable, Identifiable {
         id: Int? = nil,
         createdAt: String? = nil,
         updatedAt: String? = nil,
-        name: String = "",
-        data: ExerciseTemplateDataFields = ExerciseTemplateDataFields(sets: false, reps: false, weight: false, time: false, distance: false),
+        data: ExerciseTemplateData = ExerciseTemplateData(isSetsFieldEnabled: false, isRepsFieldEnabled: false, isWeightFieldEnabled: false, isTimeFieldEnabled: false, isDistanceFieldEnabled: false),
         circuitID: Int? = nil,
         circuitRounds: Int = 1,
         exerciseDictionaries: [ExerciseDictionary] = []
@@ -56,7 +54,6 @@ struct ExerciseTemplate: Codable, Identifiable {
         self.id = id
         self.createdAt = createdAt
         self.updatedAt = updatedAt
-        self.name = name
         self.data = data
         self.circuitID = circuitID
         self.circuitRounds = circuitRounds
@@ -69,7 +66,7 @@ struct ExerciseTemplate: Codable, Identifiable {
         case circuitID = "circuit_id"
         case circuitRounds = "circuit_rounds"
         case exerciseDictionaries = "exercise_dictionaries"
-        case id, name, data
+        case id, data
     }
 }
 
@@ -91,12 +88,12 @@ enum ExerciseField: String {
     }
 }
 
-class ExerciseTemplateDataFields: ObservableObject, Codable {
-    @Published var sets: Bool = false
-    @Published var reps: Bool = false
-    @Published var weight: Bool = false
-    @Published var time: Bool = false
-    @Published var distance: Bool = false
+class ExerciseTemplateData: ObservableObject, Codable {
+    @Published var isSetsFieldEnabled: Bool = false
+    @Published var isRepsFieldEnabled: Bool = false
+    @Published var isWeightFieldEnabled: Bool = false
+    @Published var isTimeFieldEnabled: Bool = false
+    @Published var isDistanceField: Bool = false
     
     @Published var defaultValueSets: Int = 3
     @Published var defaultValueReps: Int = 5
@@ -104,11 +101,11 @@ class ExerciseTemplateDataFields: ObservableObject, Codable {
     @Published var defaultValueTime: Int = 0
     @Published var defaultValueDistance: Float = 0
     
-    @Published var setsValue: Int = 0
-    @Published var repsValues: [Int] = []
-    @Published var weightValues: [Float] = []
-    @Published var timeValues: [Int] = []
-    @Published var distanceValues: [Float] = []
+    @Published var sets: Int = 0
+    @Published var reps: [Int] = []
+    @Published var weight: [Float] = []
+    @Published var time: [Int] = []
+    @Published var distance: [Float] = []
     
     enum CodingKeys: String, CodingKey {
         case defaultValueSets = "default_value_sets"
@@ -124,33 +121,33 @@ class ExerciseTemplateDataFields: ObservableObject, Codable {
     }
     
     init(
-        sets: Bool = false,
-        reps: Bool = false,
-        weight: Bool = false,
-        time: Bool = false,
-        distance: Bool = false
+        isSetsFieldEnabled: Bool = false,
+        isRepsFieldEnabled: Bool = false,
+        isWeightFieldEnabled: Bool = false,
+        isTimeFieldEnabled: Bool = false,
+        isDistanceFieldEnabled: Bool = false
     ) {
-        self.sets = sets
-        self.reps = reps
-        self.weight = weight
-        self.time = time
-        self.distance = distance
+        self.isSetsFieldEnabled = isSetsFieldEnabled
+        self.isRepsFieldEnabled = isRepsFieldEnabled
+        self.isWeightFieldEnabled = isWeightFieldEnabled
+        self.isTimeFieldEnabled = isTimeFieldEnabled
+        self.isDistanceField = isDistanceFieldEnabled
         
-        self.setsValue = self.defaultValueSets
-        self.repsValues = [Int](repeating: defaultValueReps, count: defaultValueSets)
-        self.weightValues = [Float](repeating: defaultValueWeight, count: defaultValueSets)
-        self.timeValues = [Int](repeating: defaultValueTime, count: defaultValueSets)
-        self.distanceValues = [Float](repeating: defaultValueDistance, count: defaultValueSets)
+        self.sets = self.defaultValueSets
+        self.reps = [Int](repeating: defaultValueReps, count: defaultValueSets)
+        self.weight = [Float](repeating: defaultValueWeight, count: defaultValueSets)
+        self.time = [Int](repeating: defaultValueTime, count: defaultValueSets)
+        self.distance = [Float](repeating: defaultValueDistance, count: defaultValueSets)
     }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        sets = try container.decode(Bool.self, forKey: .sets)
-        reps = try container.decode(Bool.self, forKey: .reps)
-        weight = try container.decode(Bool.self, forKey: .weight)
-        time = try container.decode(Bool.self, forKey: .time)
-        distance = try container.decode(Bool.self, forKey: .distance)
+        isSetsFieldEnabled = try container.decode(Bool.self, forKey: .sets)
+        isRepsFieldEnabled = try container.decode(Bool.self, forKey: .reps)
+        isWeightFieldEnabled = try container.decode(Bool.self, forKey: .weight)
+        isTimeFieldEnabled = try container.decode(Bool.self, forKey: .time)
+        isDistanceField = try container.decode(Bool.self, forKey: .distance)
         
         defaultValueSets = try container.decode(Int.self, forKey: .defaultValueSets)
         defaultValueReps = try container.decode(Int.self, forKey: .defaultValueReps)
@@ -158,20 +155,20 @@ class ExerciseTemplateDataFields: ObservableObject, Codable {
         defaultValueTime = try container.decode(Int.self, forKey: .defaultValueTime)
         defaultValueDistance = try container.decode(Float.self, forKey: .defaultValueDistance)
         
-        repsValues = try container.decode([Int].self, forKey: .setsDataForReps)
-        weightValues = try container.decode([Float].self, forKey: .setsDataForWeight)
-        timeValues = try container.decode([Int].self, forKey: .setsDataForTime)
-        distanceValues = try container.decode([Float].self, forKey: .setsDataForDistance)
+        reps = try container.decode([Int].self, forKey: .setsDataForReps)
+        weight = try container.decode([Float].self, forKey: .setsDataForWeight)
+        time = try container.decode([Int].self, forKey: .setsDataForTime)
+        distance = try container.decode([Float].self, forKey: .setsDataForDistance)
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        try container.encode(sets, forKey: .sets)
-        try container.encode(reps, forKey: .reps)
-        try container.encode(weight, forKey: .weight)
-        try container.encode(time, forKey: .time)
-        try container.encode(distance, forKey: .distance)
+        try container.encode(isSetsFieldEnabled, forKey: .sets)
+        try container.encode(isRepsFieldEnabled, forKey: .reps)
+        try container.encode(isWeightFieldEnabled, forKey: .weight)
+        try container.encode(isTimeFieldEnabled, forKey: .time)
+        try container.encode(isDistanceField, forKey: .distance)
         
         try container.encode(defaultValueSets, forKey: .defaultValueSets)
         try container.encode(defaultValueReps, forKey: .defaultValueReps)
@@ -179,19 +176,19 @@ class ExerciseTemplateDataFields: ObservableObject, Codable {
         try container.encode(defaultValueTime, forKey: .defaultValueTime)
         try container.encode(defaultValueDistance, forKey: .defaultValueDistance)
         
-        try container.encode(repsValues, forKey: .setsDataForReps)
-        try container.encode(weightValues, forKey: .setsDataForWeight)
-        try container.encode(timeValues, forKey: .setsDataForTime)
-        try container.encode(distanceValues, forKey: .setsDataForDistance)
+        try container.encode(reps, forKey: .setsDataForReps)
+        try container.encode(weight, forKey: .setsDataForWeight)
+        try container.encode(time, forKey: .setsDataForTime)
+        try container.encode(distance, forKey: .setsDataForDistance)
     }
     
     func isActive(field: ExerciseField) -> Bool {
         switch field {
-        case .sets: return sets
-        case .reps: return reps
-        case .weight: return weight
-        case .distance: return distance
-        case .time: return time
+        case .sets: return isSetsFieldEnabled
+        case .reps: return isRepsFieldEnabled
+        case .weight: return isWeightFieldEnabled
+        case .distance: return isDistanceField
+        case .time: return isTimeFieldEnabled
         }
     }
     
