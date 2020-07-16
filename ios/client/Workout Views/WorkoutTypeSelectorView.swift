@@ -70,7 +70,7 @@ struct WorkoutTypeSelectorView: View {
                         RunTrackerView(locationManager: locationManager)
                     }
                 } else if workoutType == .routine {
-                    RoutinesViewerView(disableCloseButton: $disableCloseButton)
+                    WorkoutTemplatesListView(disableCloseButton: $disableCloseButton)
                         .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
                         .animation(.default)
                 }
