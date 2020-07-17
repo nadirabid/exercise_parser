@@ -226,6 +226,11 @@ func New(v *viper.Viper) error {
 	apiRoutes.PATCH("/workout/:id/complete", handlePatchWorkoutAsComplete)
 	apiRoutes.DELETE("/workout/:id", handleDeleteWorkout)
 
+	// returns workout templates
+	apiRoutes.GET("/workout/template/:id", handleGetWorkoutTemplate)
+	apiRoutes.GET("/workout/template", handleGetAllUserWorkoutTemplates)
+	apiRoutes.POST("/workout/template", handlePostWorkoutTemplate)
+
 	// returns metrics
 	apiRoutes.GET("/metric", handleGetMetrics)
 

@@ -24,6 +24,7 @@ type ExerciseTemplateData struct {
 	IsWeightFieldEnabled   bool `json:"is_weight_field_enabled"`
 	IsTimeFieldEnabled     bool `json:"is_time_field_enabled"`
 	IsDistanceFieldEnabled bool `json:"is_distance_field_enabled"`
+	IsCaloriesFieldEnabled bool `json:"is_calories_field_enabled"`
 
 	Sets     int             `json:"sets"`
 	Reps     pq.Int64Array   `json:"reps"`
