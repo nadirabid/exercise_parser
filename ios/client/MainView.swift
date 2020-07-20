@@ -30,11 +30,11 @@ struct MainView: View {
     }
     
     var body: some View {
-        ZStack {
+        return ZStack {
             VStack {
                 if userState.authorization < 1 {
                     SignInView()
-                } else if route.peek() == .editor {
+                } else if RouteEditor.isOneOfEditorRoutes(route: route.peek()) {
                     //WorkoutCreateView()
                     WorkoutTypeSelectorView()
                 } else if route.peek() == .userEdit {
@@ -66,7 +66,7 @@ struct MainView: View {
                                 Spacer()
                                 
                                 Button(action: {
-                                    self.route.push(route: .editor)
+                                    self.route.push(route: .editor(.workout))
                                 }) {
                                     ZStack {
                                         Circle()

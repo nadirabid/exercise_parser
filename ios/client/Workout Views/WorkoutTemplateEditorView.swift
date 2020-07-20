@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct WorkoutTemplateEditorView: View {
+    @EnvironmentObject var routerState: RouteState
     @EnvironmentObject var exerciseDictionaryAPI: ExerciseDictionaryAPI
     
     @State private var exerciseTemplates: [ExerciseTemplate] = []
@@ -28,10 +29,14 @@ struct WorkoutTemplateEditorView: View {
         UITableView.appearance().backgroundColor = UIColor.systemBackground
         UITableView.appearance().showsVerticalScrollIndicator = false
         
+        print("editor(template)", self.routerState.peek())
+        
         return VStack(spacing: 0) {
             VStack {
                 HStack {
-                    Button(action: {}) {
+                    Button(action: {
+                        self.routerState.replaceCurrent(with: .editor(.template(.list)))
+                    }) {
                         Text("Cancel")
                     }
                     .frame(width: 100, alignment: .leading)

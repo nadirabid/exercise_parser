@@ -221,11 +221,6 @@ struct ExerciseTemplateEditorView: View {
             self.activeFields = [.sets, .reps, .weight, .distance, .time].filter {
                 self.exerciseTemplate.data.isActive(field: $0)
             }
-            
-            print(self.exerciseTemplate.exerciseDictionaries.first!.name)
-            print([.sets, .reps, .weight, .distance, .time].filter {
-                self.exerciseTemplate.data.isActive(field: $0)
-            })
         }
     }
 }

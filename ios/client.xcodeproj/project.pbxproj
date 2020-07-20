@@ -60,6 +60,7 @@
 		6494A02222B6139B00C19543 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6494A02022B6139B00C19543 /* LaunchScreen.storyboard */; };
 		6494A02D22B6139B00C19543 /* clientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A02C22B6139B00C19543 /* clientTests.swift */; };
 		6494A03822B6139B00C19543 /* clientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6494A03722B6139B00C19543 /* clientUITests.swift */; };
+		6497B82124C155EA00755805 /* WorkoutTemplateAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6497B82024C155EA00755805 /* WorkoutTemplateAPI.swift */; };
 		6498A98D24122355005BB19F /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6498A98C24122355005BB19F /* Config.swift */; };
 		6499C7EB2417561500743CDD /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6499C7EA2417561500743CDD /* MainView.swift */; };
 		649A4917240670BC003206C3 /* ExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649A4916240670BC003206C3 /* ExerciseView.swift */; };
@@ -174,6 +175,7 @@
 		6494A03322B6139B00C19543 /* clientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = clientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6494A03722B6139B00C19543 /* clientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clientUITests.swift; sourceTree = "<group>"; };
 		6494A03922B6139B00C19543 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6497B82024C155EA00755805 /* WorkoutTemplateAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTemplateAPI.swift; sourceTree = "<group>"; };
 		6498A98C24122355005BB19F /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		6499C7EA2417561500743CDD /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		649A4916240670BC003206C3 /* ExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseView.swift; sourceTree = "<group>"; };
@@ -302,11 +304,12 @@
 				6487770D247489A100223A7E /* AuthAPI.swift */,
 				6487771324748A2100223A7E /* ExerciseAPI.swift */,
 				6487771524748A4F00223A7E /* ExerciseDictionaryAPI.swift */,
+				64B61BFC2492F92B00A2E726 /* LocationAPI.swift */,
 				6487771724748A7E00223A7E /* MetricsAPI.swift */,
 				6487770F247489C800223A7E /* UserAPI.swift */,
 				64FD08252421C5B1000F1479 /* WebAPI.swift */,
 				64877711247489F700223A7E /* WorkoutAPI.swift */,
-				64B61BFC2492F92B00A2E726 /* LocationAPI.swift */,
+				6497B82024C155EA00755805 /* WorkoutTemplateAPI.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -601,6 +604,7 @@
 				64D41A772463E783003D231A /* IconViews.swift in Sources */,
 				644E3364240CE26200458438 /* UserFeedView.swift in Sources */,
 				64B61BFD2492F92B00A2E726 /* LocationAPI.swift in Sources */,
+				6497B82124C155EA00755805 /* WorkoutTemplateAPI.swift in Sources */,
 				649A491924067561003206C3 /* StopWatch.swift in Sources */,
 				649EF87E248C517F004E02B2 /* WorkoutTypeSelectorView.swift in Sources */,
 				64C5D2D424B550A200D5D8A2 /* SelectFieldButtonView.swift in Sources */,

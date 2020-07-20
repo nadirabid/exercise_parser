@@ -686,7 +686,7 @@ struct CreateWorkoutView_Previews : PreviewProvider {
         
         return WorkoutCreateView()
             .environmentObject(workoutEditorState)
-            .environmentObject(RouteState(current: .editor))
+            .environmentObject(RouteState(current: .editor(.workout)))
             .environmentObject(MockWorkoutAPI(userState: UserState()) as WorkoutAPI)
             .environmentObject(MockExerciseAPI(userState: UserState()) as ExerciseAPI)
     }

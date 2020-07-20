@@ -10,27 +10,25 @@ import SwiftUI
 import ASCollectionView
 
 struct WorkoutTemplatesListView: View {
+    @EnvironmentObject var routerState: RouteState
     @EnvironmentObject var workoutAPI: WorkoutAPI
+    @EnvironmentObject var workoutTemplateAPI: WorkoutTemplateAPI
     @EnvironmentObject var dictionariesAPI: ExerciseDictionaryAPI
     
     @Binding var disableCloseButton: Bool
     
-    @State private var workouts: [Workout] = []
-    @State private var createRoutine = true
+    @State private var templates: [WorkoutTemplate] = []
+    @State private var createRoutine = false
     
     var body: some View {
-        UITableView.appearance().separatorColor = .clear
-        UITableView.appearance().backgroundColor = feedColor.uiColor()
-        UITableView.appearance().showsVerticalScrollIndicator = false
-
         return VStack {
-            if createRoutine {
+            if self.routerState.peek() == .editor(.template(.create)) {
                 WorkoutTemplateEditorView()
             } else {
                 VStack {
                     HStack {
                         Button(action: {
-                            self.createRoutine = true
+                            self.routerState.replaceCurrent(with: .editor(.template(.create)))
                         }) {
                             Text("Add")
                         }
@@ -40,8 +38,8 @@ struct WorkoutTemplatesListView: View {
                     .padding(.leading)
                     
                     List {
-                        ForEach(self.workouts, id: \.id) { workout in
-                            WorkoutTemplateView(workout: workout)
+                        ForEach(self.templates, id: \.id) { item in
+                            WorkoutTemplateView(template: item)
                                 .background(Color.white)
                                 .buttonStyle(PlainButtonStyle())
                                 .padding(.top)
@@ -51,13 +49,18 @@ struct WorkoutTemplatesListView: View {
                         .background(feedColor)
                     }
                     .animation(.none)
-                    .onAppear {
-                        _ = self.workoutAPI.getUserWorkouts(page: 0, pageSize: 20) { (response) in
-                            self.workouts.append(contentsOf: response.results)
-                        }
-                    }
                 }
                 .edgesIgnoringSafeArea(.bottom)
+                .onAppear {
+                    UITableView.appearance().separatorColor = .clear
+                    UITableView.appearance().backgroundColor = feedColor.uiColor()
+                    UITableView.appearance().showsVerticalScrollIndicator = false
+                }
+            }
+        }
+        .onAppear {
+            self.workoutTemplateAPI.getAllForMe().then { (response) in
+                self.templates = response.results
             }
         }
     }

@@ -12,7 +12,7 @@ struct WorkoutTemplateView: View {
     @EnvironmentObject var userAPI: UserAPI
     @EnvironmentObject var routeState: RouteState
     
-    var workout: Workout
+    var template: WorkoutTemplate
     var onDelete: () -> Void = {}
     
     var options = [ "waveform.path.ecg", "function" ]
@@ -29,14 +29,14 @@ struct WorkoutTemplateView: View {
         return false
     }
     
-    var exercisesToDisplay: [Exercise] {
-        return workout.exercises.sorted(by: { $0.id! < $1.id! })
+    var exercisesToDisplay: [ExerciseTemplate] {
+        return template.exercises.sorted(by: { $0.id! < $1.id! })
     }
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
-                Text(workout.name)
+                Text(template.name)
                     .fontWeight(.semibold)
                 
                 Spacer()
@@ -44,20 +44,22 @@ struct WorkoutTemplateView: View {
             .padding(.leading)
             
             
-            WorkoutMetaMetricsView(workout: workout)
-                .fixedSize(horizontal: true, vertical: true)
-                .padding(.leading)
+//            WorkoutMetaMetricsView(workout: workout)
+//                .fixedSize(horizontal: true, vertical: true)
+//                .padding(.leading)
+            Text("MetaMetrics")
             
             if view == "waveform.path.ecg" {
                 VStack(spacing: 0) {
-                    ForEach(exercisesToDisplay) { (exercise: Exercise) in
-                        ExerciseTemplateView(exerciseTemplate: ExerciseTemplate())
+                    ForEach(exercisesToDisplay) { item in
+                        ExerciseTemplateView(exerciseTemplate: item)
                             .padding(.top)
                     }
                 }
                 .padding([.leading, .trailing])
             } else {
-                WorkoutMuscleMetricsView(workout: self.workout)
+                Text("MuscleMetrics")
+                //WorkoutMuscleMetricsView(workout: self.workout)
             }
             
             HStack {
@@ -80,42 +82,11 @@ struct WorkoutTemplateView: View {
         }
         .padding([.top, .bottom])
         .actionSheet(isPresented: $showingActionSheet) {
-            if self.workout.isRunWorkout {
-                return ActionSheet(title: Text(workout.name), buttons: [
-                    .destructive(Text("Delete")) { self.onDelete() },
-                    .cancel()
-                ])
-            }
-            
-            return ActionSheet(title: Text(workout.name), buttons: [
-                .default(Text("Edit")) { self.routeState.editWorkout = self.workout },
-                .destructive(Text("Delete")) { self.onDelete() },
+            ActionSheet(title: Text(self.template.name), buttons: [
+                .default(Text("Edit")) { print("Edit" )},
+                .destructive(Text("Delete")) { print("Delete") },
                 .cancel()
             ])
         }
-    }
-}
-
-struct WorkoutTemplateView_Previews: PreviewProvider {
-    static var previews: some View {
-        WorkoutTemplateView(workout: Workout(
-            name: "Leg workout",
-            date: Date(),
-            exercises: [
-                Exercise(name: "Squats", raw: "squats 3x5 150lbs", data: ExerciseData(
-                    sets: 3, reps: 5, weight: 150, time: 0, distance: 0
-                )),
-                Exercise(name: "Squats", raw: "squats 3x5 150lbs", data: ExerciseData(
-                    sets: 3, reps: 5, weight: 150, time: 0, distance: 0
-                )),
-                Exercise(name: "Squats", raw: "squats 3x5 150lbs", data: ExerciseData(
-                    sets: 3, reps: 5, weight: 150, time: 0, distance: 0
-                )),
-                Exercise(name: "Squats", raw: "squats 3x5 150lbs", data: ExerciseData(
-                    sets: 3, reps: 5, weight: 150, time: 0, distance: 0
-                ))
-            ],
-            inProgress: false
-        ))
     }
 }

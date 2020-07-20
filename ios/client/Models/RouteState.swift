@@ -14,7 +14,7 @@ class RouteState: ObservableObject {
     @Published var showHelp: Bool
     @Published var editWorkout: Workout?
     
-    init(current: Route = .editor) {
+    init(current: Route = .editor(.template(.list))) {
         self.routeStack = []
         self.showHelp = false
         self.editWorkout = nil
@@ -53,14 +53,43 @@ class RouteState: ObservableObject {
     func peek() -> Route {
         return routeStack.last!
     }
+}
+
+enum Route: Equatable {
+    case userFeed
+    case userMetrics
+    case userEdit
     
-    enum Route {
-        case userFeed
-        case userMetrics
-        case userEdit
-        
-        case editor
-        
-        case subscriptionFeed
+    case editor(RouteEditor = RouteEditor.workout)
+    
+    case subscriptionFeed
+}
+
+enum RouteEditor: Equatable {
+    case workout
+    case runTracker
+    case template(RouteEditorTemplate = RouteEditorTemplate.list)
+    
+    static func isOneOfEditorRoutes(route: Route) -> Bool {
+        switch route {
+        case .editor(_):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+enum RouteEditorTemplate {
+    case list
+    case create
+    
+    static func isOneOf(route: Route) -> Bool {
+        switch route {
+        case .editor(.template(_)):
+            return true
+        default:
+            return false
+        }
     }
 }

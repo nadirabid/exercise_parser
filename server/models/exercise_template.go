@@ -5,10 +5,13 @@ import "github.com/lib/pq"
 // ExerciseTemplate model
 type ExerciseTemplate struct {
 	Model
-	ExerciseDictionaries []*ExerciseDictionary `json:"exercise_dictionaries" gorm:"many2many:resolved_exercise_dictionaries;"`
+
+	ExerciseDictionaries []*ExerciseDictionary `json:"exercise_dictionaries" gorm:"many2many:exercise_template_to_exercise_dictionaries;"`
 	CircuitID            *int                  `json:"circuit_id"`
 	CircuitRounds        int                   `json:"circuit_rounds"`
 	Data                 ExerciseTemplateData  `json:"data"`
+
+	WorkoutTemplateID uint `json:"workout_template_id"`
 }
 
 func (ExerciseTemplate) TableName() string {
@@ -32,4 +35,6 @@ type ExerciseTemplateData struct {
 	Time     pq.Int64Array   `json:"time"`
 	Distance pq.Float64Array `json:"distance"`
 	Calories pq.Int64Array   `json:"calories"`
+
+	ExerciseTemplateID uint `json:"exercise_template_id"`
 }

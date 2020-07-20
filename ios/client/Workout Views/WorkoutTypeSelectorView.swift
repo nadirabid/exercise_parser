@@ -17,8 +17,9 @@ enum WorkoutType {
 struct WorkoutTypeSelectorView: View {
     @EnvironmentObject var routerState: RouteState
     
-    @State var disableCloseButton = true
+    @State var disableCloseButton = false
     
+    @State private var previousRoute: Route = .editor(.workout)
     @State private var workoutType: WorkoutType = .routine
     @State private var previousWorkoutType: WorkoutType = .workout
     @State private var workoutTypeConfirmed = false
@@ -45,14 +46,15 @@ struct WorkoutTypeSelectorView: View {
     
     var body: some View {
         // TODO: disable locationManager if workout is confirmed?
-        ZStack {
+
+        return ZStack {
             ZStack {
-                if workoutType == .workout {
+                if routerState.peek() == .editor(.workout) {
                     WorkoutCreateView(disabled: !workoutTypeConfirmed)
                         .blur(radius: blurRadius)
                         .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing)))
                         .animation(.default)
-                } else if workoutType == .run {
+                } else if routerState.peek() == .editor(.runTracker) {
                     if !workoutTypeConfirmed {
                         RunTrackerMapView(locationManager: self.locationManager, userTrackingMode: .none)
                             .blur(radius: blurRadius)
@@ -69,27 +71,26 @@ struct WorkoutTypeSelectorView: View {
                     } else  {
                         RunTrackerView(locationManager: locationManager)
                     }
-                } else if workoutType == .routine {
+                } else if RouteEditorTemplate.isOneOf(route: routerState.peek()) {
                     WorkoutTemplatesListView(disableCloseButton: $disableCloseButton)
                         .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
                         .animation(.default)
                 }
                 
-                if !workoutTypeConfirmed && workoutType != .routine {
+                if !workoutTypeConfirmed && !RouteEditorTemplate.isOneOf(route: routerState.peek()) {
                     WorkoutSelectionInformationOverlay(
-                        locationManager: self.locationManager,
-                        workoutType: self.workoutType
+                        locationManager: self.locationManager
                     )
                 }
             }
             
-            if !workoutTypeConfirmed && !disableCloseButton {
+            if !workoutTypeConfirmed && !disableCloseButton && routerState.peek() != .editor(.template(.create)) { // IM HEREE - dont show close button
                 VStack(spacing: 0) {
                     HStack {
                         Spacer()
                         
                         Button(action: {
-                            self.routerState.pop()
+                            self.routerState.clearAndSet(route: .userFeed)
                         }) {
                             Image(systemName: "xmark.circle.fill")
                                 .font(.system(size: 24))
@@ -105,8 +106,7 @@ struct WorkoutTypeSelectorView: View {
                 
                 WorkoutTypeSelectorButtonsView(
                     locationManager: locationManager,
-                    workoutType: $workoutType,
-                    previousWorkoutType: $previousWorkoutType,
+                    previousRoute: $previousRoute,
                     workoutTypeConfirmed: $workoutTypeConfirmed
                 )
             }
@@ -115,8 +115,8 @@ struct WorkoutTypeSelectorView: View {
 }
 
 struct WorkoutSelectionInformationOverlay: View {
+    @EnvironmentObject var routerState: RouteState
     @ObservedObject var locationManager: RunTrackerLocationManager
-    var workoutType: WorkoutType
     
     var body: some View {
         VStack(spacing: 0) {
@@ -148,12 +148,12 @@ struct WorkoutSelectionInformationOverlay: View {
             }
             .padding(.bottom, 6)
             
-            if workoutType == .workout {
+            if routerState.peek() == .editor(.workout) {
                 Text("WORKOUT")
                     .font(.headline)
                     .fontWeight(.semibold)
                     .foregroundColor(appColor)
-            } else if workoutType == .run {
+            } else if routerState.peek() == .editor(.runTracker) {
                 Text("RUN")
                     .font(.headline)
                     .fontWeight(.semibold)
@@ -178,14 +178,14 @@ struct WorkoutSelectionInformationOverlay: View {
 }
 
 struct WorkoutTypeSelectorButtonsView: View {
+    @EnvironmentObject var routerState: RouteState
     @ObservedObject var locationManager: RunTrackerLocationManager
     
-    @Binding var workoutType: WorkoutType
-    @Binding var previousWorkoutType: WorkoutType
+    @Binding var previousRoute: Route
     @Binding var workoutTypeConfirmed: Bool
     
     var startButtonColor: Color {
-        if workoutType == .run && !locationManager.isLocationEnabled {
+        if routerState.peek() == .editor(.runTracker) && !locationManager.isLocationEnabled {
             return Color.secondary
         } else {
             return appColor
@@ -203,33 +203,33 @@ struct WorkoutTypeSelectorButtonsView: View {
                     Spacer()
                     
                     Button(action: {
-                        self.previousWorkoutType = self.workoutType
-                        self.workoutType = .workout
+                        self.previousRoute = self.routerState.peek()
+                        self.routerState.replaceCurrent(with: .editor(.workout))
                     }) {
                         DumbbellIconShape()
-                            .fill(workoutType == .workout ? appColor : Color.secondary)
+                            .fill(self.routerState.peek() == .editor(.workout) ? appColor : Color.secondary)
                             .frame(width: 50, height: 20)
                     }
                     
                     Spacer()
                     
                     Button(action: {
-                        self.previousWorkoutType = self.workoutType
-                        self.workoutType = .run
+                        self.previousRoute = self.routerState.peek()
+                        self.routerState.replaceCurrent(with: .editor(.runTracker))
                     }) {
                         RunningIconShape()
-                            .fill(workoutType == .run ? appColor : Color.secondary)
+                            .fill(self.routerState.peek() == .editor(.runTracker) ? appColor : Color.secondary)
                             .frame(width: 50, height: 20)
                     }
                     
                     Spacer()
                     
                     Button(action: {
-                        self.previousWorkoutType = self.workoutType
-                        self.workoutType = .routine
+                        self.previousRoute = self.routerState.peek()
+                        self.routerState.replaceCurrent(with: .editor(.template(.list)))
                     }) {
                         ClipboardIconShape()
-                            .fill(workoutType == .routine ? appColor : Color.secondary)
+                            .fill(self.routerState.peek() == .editor(.template(.list)) ? appColor : Color.secondary)
                             .frame(width: 50, height: 20)
                     }
                     
@@ -238,27 +238,30 @@ struct WorkoutTypeSelectorButtonsView: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .padding([.bottom, .top])
                 
-                HStack {
-                    Spacer()
-                    
-                    Button(action: {
-                        self.workoutTypeConfirmed = true
-                    }) {
-                        Text("START")
-                            .font(.footnote)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.white)
-                            .padding()
-                            .background(
-                                Circle()
-                                    .scaledToFill()
-                                    .foregroundColor(startButtonColor)
-                        )
+                if self.routerState.peek() != .editor(.template(.create)) {  // This start button should exist in the overlay view
+                    HStack {
+                        Spacer()
+                        
+                        Button(action: {
+                            self.workoutTypeConfirmed = true
+                        }) {
+                            Text("START")
+                                .font(.footnote)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color.white)
+                                .padding()
+                                .background(
+                                    Circle()
+                                        .scaledToFill()
+                                        .foregroundColor(startButtonColor)
+                                )
+                        }
+                        .padding([.bottom, .top])
+                        .disabled(self.routerState.peek() == .editor(.runTracker) ? !locationManager.isLocationEnabled : false)
+                        
+                        Spacer()
                     }
-                    .padding([.bottom, .top])
-                    .disabled(self.workoutType == .run ? !locationManager.isLocationEnabled : false)
-                    
-                    Spacer()
+                    .transition(.scale)
                 }
             }
             .padding(.bottom)
@@ -267,31 +270,5 @@ struct WorkoutTypeSelectorButtonsView: View {
             
         }
         .edgesIgnoringSafeArea(.all)
-    }
-}
-
-struct WorkoutSelectorButtonsView_Previews: PreviewProvider {
-    static var previews: some View {
-        let workoutType = Binding<WorkoutType>(
-            get: { WorkoutType.routine },
-            set: { _ in }
-        )
-        
-        let previousWorkoutType = Binding<WorkoutType>(
-            get: { WorkoutType.routine },
-            set: { _ in }
-        )
-        
-        let workoutTypeConfirmed = Binding<Bool>(
-            get: { false },
-            set: { _ in }
-        )
-        
-        return WorkoutTypeSelectorButtonsView(
-            locationManager: RunTrackerLocationManager(),
-            workoutType: workoutType,
-            previousWorkoutType: previousWorkoutType,
-            workoutTypeConfirmed: workoutTypeConfirmed
-        ).padding()
     }
 }

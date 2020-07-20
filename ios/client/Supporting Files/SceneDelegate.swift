@@ -37,6 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 .environmentObject(AuthAPI())
                 .environmentObject(UserAPI(userState: userState))
                 .environmentObject(WorkoutAPI(userState: userState))
+                .environmentObject(WorkoutTemplateAPI(userState: userState))
                 .environmentObject(ExerciseAPI(userState: userState))
                 .environmentObject(ExerciseDictionaryAPI(userState: userState))
                 .environmentObject(MetricAPI(userState: userState))
