@@ -14,7 +14,7 @@ struct WorkoutTemplate: Codable, Identifiable, Hashable {
     let updatedAt: String?
     let name: String
     let exercises: [ExerciseTemplate]
-    let userID: Int
+    let userID: Int?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.id)
@@ -28,7 +28,8 @@ struct WorkoutTemplate: Codable, Identifiable, Hashable {
         case createdAt = "created_at"
         case updatedAt = "updated_at"
         case userID = "user_id"
-        case id, name, exercises
+        case exercises = "exercise_templates"
+        case id, name
     }
 }
 
@@ -76,6 +77,7 @@ enum ExerciseField: String {
     case weight
     case distance
     case time
+    case calories
     
     var description: String {
         switch self {
@@ -84,6 +86,7 @@ enum ExerciseField: String {
         case .weight: return "weight"
         case .distance: return "distance"
         case .time: return "time"
+        case .calories: return "calories"
         }
     }
 }
@@ -93,19 +96,22 @@ class ExerciseTemplateData: ObservableObject, Codable {
     @Published var isRepsFieldEnabled: Bool = false
     @Published var isWeightFieldEnabled: Bool = false
     @Published var isTimeFieldEnabled: Bool = false
-    @Published var isDistanceField: Bool = false
+    @Published var isDistanceFieldEnabled: Bool = false
+    @Published var isCaloriesFieldEnabled: Bool = false
     
     @Published var defaultValueSets: Int = 3
     @Published var defaultValueReps: Int = 5
     @Published var defaultValueWeight: Float = 25
     @Published var defaultValueTime: Int = 0
     @Published var defaultValueDistance: Float = 0
+    @Published var defaultValueCalories: Int = 0
     
     @Published var sets: Int = 0
     @Published var reps: [Int] = []
     @Published var weight: [Float] = []
     @Published var time: [Int] = []
     @Published var distance: [Float] = []
+    @Published var calories: [Int] = []
     
     enum CodingKeys: String, CodingKey {
         case defaultValueSets = "default_value_sets"
@@ -113,11 +119,14 @@ class ExerciseTemplateData: ObservableObject, Codable {
         case defaultValueWeight = "default_value_weight"
         case defaultValueTime = "default_value_time"
         case defaultValueDistance = "default_value_distance"
-        case setsDataForReps = "sets_data_for_reps"
-        case setsDataForWeight = "sets_data_for_weight"
-        case setsDataForTime = "sets_data_for_time"
-        case setsDataForDistance = "sets_data_for_distance"
-        case sets, reps, weight, time, distance
+        case defaultValueCalories = "default_value_calories"
+        case isSetsFieldEnabled = "is_sets_field_enabled"
+        case isRepsFieldEnabled = "is_reps_field_enabled"
+        case isWeightFieldEnabled = "is_weight_field_enabled"
+        case isTimeFieldEnabled = "is_time_field_enabled"
+        case isDistanceFieldEnabled = "is_distance_field_enabled"
+        case isCaloriesFieldEnabled = "is_calories_field_enabled"
+        case sets, reps, weight, time, distance, calories
     }
     
     init(
@@ -125,61 +134,72 @@ class ExerciseTemplateData: ObservableObject, Codable {
         isRepsFieldEnabled: Bool = false,
         isWeightFieldEnabled: Bool = false,
         isTimeFieldEnabled: Bool = false,
-        isDistanceFieldEnabled: Bool = false
+        isDistanceFieldEnabled: Bool = false,
+        isCaloriesFieldEnabled: Bool = false
     ) {
         self.isSetsFieldEnabled = isSetsFieldEnabled
         self.isRepsFieldEnabled = isRepsFieldEnabled
         self.isWeightFieldEnabled = isWeightFieldEnabled
         self.isTimeFieldEnabled = isTimeFieldEnabled
-        self.isDistanceField = isDistanceFieldEnabled
+        self.isDistanceFieldEnabled = isDistanceFieldEnabled
+        self.isCaloriesFieldEnabled = isCaloriesFieldEnabled
         
         self.sets = self.defaultValueSets
         self.reps = [Int](repeating: defaultValueReps, count: defaultValueSets)
         self.weight = [Float](repeating: defaultValueWeight, count: defaultValueSets)
         self.time = [Int](repeating: defaultValueTime, count: defaultValueSets)
         self.distance = [Float](repeating: defaultValueDistance, count: defaultValueSets)
+        self.calories = [Int](repeating: defaultValueCalories, count: defaultValueSets)
     }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        isSetsFieldEnabled = try container.decode(Bool.self, forKey: .sets)
-        isRepsFieldEnabled = try container.decode(Bool.self, forKey: .reps)
-        isWeightFieldEnabled = try container.decode(Bool.self, forKey: .weight)
-        isTimeFieldEnabled = try container.decode(Bool.self, forKey: .time)
-        isDistanceField = try container.decode(Bool.self, forKey: .distance)
+        isSetsFieldEnabled = try container.decode(Bool.self, forKey: .isSetsFieldEnabled)
+        isRepsFieldEnabled = try container.decode(Bool.self, forKey: .isRepsFieldEnabled)
+        isWeightFieldEnabled = try container.decode(Bool.self, forKey: .isWeightFieldEnabled)
+        isTimeFieldEnabled = try container.decode(Bool.self, forKey: .isTimeFieldEnabled)
+        isDistanceFieldEnabled = try container.decode(Bool.self, forKey: .isDistanceFieldEnabled)
+        isCaloriesFieldEnabled = try container.decode(Bool.self, forKey: .isCaloriesFieldEnabled)
         
-        defaultValueSets = try container.decode(Int.self, forKey: .defaultValueSets)
-        defaultValueReps = try container.decode(Int.self, forKey: .defaultValueReps)
-        defaultValueWeight = try container.decode(Float.self, forKey: .defaultValueWeight)
-        defaultValueTime = try container.decode(Int.self, forKey: .defaultValueTime)
-        defaultValueDistance = try container.decode(Float.self, forKey: .defaultValueDistance)
+//        defaultValueSets = try container.decode(Int.self, forKey: .defaultValueSets)
+//        defaultValueReps = try container.decode(Int.self, forKey: .defaultValueReps)
+//        defaultValueWeight = try container.decode(Float.self, forKey: .defaultValueWeight)
+//        defaultValueTime = try container.decode(Int.self, forKey: .defaultValueTime)
+//        defaultValueDistance = try container.decode(Float.self, forKey: .defaultValueDistance)
+//        defaultValueCalories = try container.decode(Int.self, forKey: .defaultValueCalories)
         
-        reps = try container.decode([Int].self, forKey: .setsDataForReps)
-        weight = try container.decode([Float].self, forKey: .setsDataForWeight)
-        time = try container.decode([Int].self, forKey: .setsDataForTime)
-        distance = try container.decode([Float].self, forKey: .setsDataForDistance)
+        sets = try container.decode(Int.self, forKey: .sets)
+        reps = try container.decode([Int].self, forKey: .reps)
+        weight = try container.decode([Float].self, forKey: .weight)
+        time = try container.decode([Int].self, forKey: .time)
+        distance = try container.decode([Float].self, forKey: .distance)
+        calories = try container.decode([Int].self, forKey: .calories)
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        try container.encode(isSetsFieldEnabled, forKey: .sets)
-        try container.encode(isRepsFieldEnabled, forKey: .reps)
-        try container.encode(isWeightFieldEnabled, forKey: .weight)
-        try container.encode(isTimeFieldEnabled, forKey: .time)
-        try container.encode(isDistanceField, forKey: .distance)
+        try container.encode(isSetsFieldEnabled, forKey: .isSetsFieldEnabled)
+        try container.encode(isRepsFieldEnabled, forKey: .isRepsFieldEnabled)
+        try container.encode(isWeightFieldEnabled, forKey: .isWeightFieldEnabled)
+        try container.encode(isTimeFieldEnabled, forKey: .isTimeFieldEnabled)
+        try container.encode(isDistanceFieldEnabled, forKey: .isDistanceFieldEnabled)
+        try container.encode(isCaloriesFieldEnabled, forKey: .isCaloriesFieldEnabled)
         
-        try container.encode(defaultValueSets, forKey: .defaultValueSets)
-        try container.encode(defaultValueReps, forKey: .defaultValueReps)
-        try container.encode(defaultValueWeight, forKey: .defaultValueWeight)
-        try container.encode(defaultValueTime, forKey: .defaultValueTime)
-        try container.encode(defaultValueDistance, forKey: .defaultValueDistance)
+//        try container.encode(defaultValueSets, forKey: .defaultValueSets)
+//        try container.encode(defaultValueReps, forKey: .defaultValueReps)
+//        try container.encode(defaultValueWeight, forKey: .defaultValueWeight)
+//        try container.encode(defaultValueTime, forKey: .defaultValueTime)
+//        try container.encode(defaultValueDistance, forKey: .defaultValueDistance)
+//        try container.encode(defaultValueCalories, forKey: .defaultValueCalories)
         
-        try container.encode(reps, forKey: .setsDataForReps)
-        try container.encode(weight, forKey: .setsDataForWeight)
-        try container.encode(time, forKey: .setsDataForTime)
-        try container.encode(distance, forKey: .setsDataForDistance)
+        try container.encode(sets, forKey: .sets)
+        try container.encode(reps, forKey: .reps)
+        try container.encode(weight, forKey: .weight)
+        try container.encode(time, forKey: .time)
+        try container.encode(distance, forKey: .distance)
+        try container.encode(calories, forKey: .calories)
     }
     
     func isActive(field: ExerciseField) -> Bool {
@@ -187,8 +207,9 @@ class ExerciseTemplateData: ObservableObject, Codable {
         case .sets: return isSetsFieldEnabled
         case .reps: return isRepsFieldEnabled
         case .weight: return isWeightFieldEnabled
-        case .distance: return isDistanceField
+        case .distance: return isDistanceFieldEnabled
         case .time: return isTimeFieldEnabled
+        case .calories: return isCaloriesFieldEnabled
         }
     }
     
@@ -204,6 +225,8 @@ class ExerciseTemplateData: ObservableObject, Codable {
             return "\(defaultValueDistance)"
         case .time:
             return "\(defaultValueTime)"
+        case .calories:
+            return "\(defaultValueCalories)"
         }
     }
 }

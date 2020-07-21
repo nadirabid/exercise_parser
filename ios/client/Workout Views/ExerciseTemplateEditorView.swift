@@ -11,14 +11,16 @@ import SwiftUI
 struct ExerciseTemplateEditorView: View {
     var exerciseTemplate: ExerciseTemplate
     var viewWidth: CGFloat
+    var onDelete: () -> Void
     
     @ObservedObject private var dataFields: ExerciseTemplateData
     @State private var activeFields: [ExerciseField] = []
+    @State private var showingActionSheet: Bool = false
     
-    init(exerciseTemplate: ExerciseTemplate, viewWidth: CGFloat) {
+    init(exerciseTemplate: ExerciseTemplate, viewWidth: CGFloat, onDelete: @escaping () -> Void = {}) {
         self.exerciseTemplate = exerciseTemplate
         self.viewWidth = viewWidth
-        
+        self.onDelete = onDelete
         self.dataFields = self.exerciseTemplate.data
     }
     
@@ -185,16 +187,27 @@ struct ExerciseTemplateEditorView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            VStack(alignment: .leading) {
-                Text(self.title).font(exerciseFont)
+            HStack(alignment: .top) {
+                VStack(alignment: .leading) {
+                    Text(self.title).font(exerciseFont)
+                    
+                    if self.subTitle != nil {
+                        Text("(\(self.subTitle!))")
+                            .font(.caption)
+                            .foregroundColor(Color.secondary)
+                    }
+                }
+                .padding(.bottom)
                 
-                if self.subTitle != nil {
-                    Text("(\(self.subTitle!))")
-                        .font(.caption)
+                Spacer()
+                
+                Button(action: { self.showingActionSheet = true }) {
+                    Image(systemName:"ellipsis")
+                        .background(Color.white)
+                        .font(.headline)
                         .foregroundColor(Color.secondary)
                 }
             }
-            .padding(.bottom)
             
             VStack {
                 HStack(spacing: 0) {
@@ -221,6 +234,14 @@ struct ExerciseTemplateEditorView: View {
             self.activeFields = [.sets, .reps, .weight, .distance, .time].filter {
                 self.exerciseTemplate.data.isActive(field: $0)
             }
+        }
+        .actionSheet(isPresented: $showingActionSheet) {
+            return ActionSheet(title: Text("Exercise actions"), buttons: [
+                .destructive(Text("Delete")) {
+                    self.onDelete()
+                },
+                .cancel()
+            ])
         }
     }
 }

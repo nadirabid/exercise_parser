@@ -55,12 +55,11 @@ struct WorkoutTemplatesListView: View {
                     UITableView.appearance().separatorColor = .clear
                     UITableView.appearance().backgroundColor = feedColor.uiColor()
                     UITableView.appearance().showsVerticalScrollIndicator = false
+                    
+                    self.workoutTemplateAPI.getAllForMe().then { (response) in
+                        self.templates = response.results
+                    }
                 }
-            }
-        }
-        .onAppear {
-            self.workoutTemplateAPI.getAllForMe().then { (response) in
-                self.templates = response.results
             }
         }
     }

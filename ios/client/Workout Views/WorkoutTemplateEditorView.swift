@@ -11,6 +11,7 @@ import SwiftUI
 struct WorkoutTemplateEditorView: View {
     @EnvironmentObject var routerState: RouteState
     @EnvironmentObject var exerciseDictionaryAPI: ExerciseDictionaryAPI
+    @EnvironmentObject var workoutTemplateAPI: WorkoutTemplateAPI
     
     @State private var exerciseTemplates: [ExerciseTemplate] = []
     @State private var selectExerciseDictionary: Bool = false
@@ -24,12 +25,21 @@ struct WorkoutTemplateEditorView: View {
         selectExerciseDictionary = false
     }
     
+    func handleSave() {
+        let template = WorkoutTemplate(id: nil, createdAt: nil, updatedAt: nil, name: "Workout name", exercises: self.exerciseTemplates, userID: nil)
+        self.workoutTemplateAPI.create(workoutTemplate: template).then { _ in
+            self.routerState.replaceCurrent(with: .editor(.template(.list)))
+        }
+    }
+    
+    func handleDelete(exerciseTemplate: ExerciseTemplate) {
+        self.exerciseTemplates = self.exerciseTemplates.filter({ $0.cid != exerciseTemplate.cid })
+    }
+    
     var body: some View {
         UITableView.appearance().separatorColor = .clear
         UITableView.appearance().backgroundColor = UIColor.systemBackground
         UITableView.appearance().showsVerticalScrollIndicator = false
-        
-        print("editor(template)", self.routerState.peek())
         
         return VStack(spacing: 0) {
             VStack {
@@ -43,7 +53,7 @@ struct WorkoutTemplateEditorView: View {
                     
                     Spacer()
                     
-                    Button(action: {}) {
+                    Button(action: { self.handleSave() }) {
                         Text("Save")
                     }
                     .frame(width: 100, alignment: .trailing)
@@ -86,7 +96,8 @@ struct WorkoutTemplateEditorView: View {
                             VStack {
                                 ExerciseTemplateEditorView(
                                     exerciseTemplate: item,
-                                    viewWidth: geometry.size.width
+                                    viewWidth: geometry.size.width,
+                                    onDelete: { self.handleDelete(exerciseTemplate: item) }
                                 )
                                 .padding()
                                 

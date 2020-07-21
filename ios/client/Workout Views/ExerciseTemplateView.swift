@@ -88,7 +88,7 @@ struct ExerciseTemplateView: View {
                     }
                 }
                 
-                if exerciseTemplate.data.isDistanceField {
+                if exerciseTemplate.data.isDistanceFieldEnabled {
                     HStack(spacing: 0) {
                         Text("mi / ".uppercased())
                             .font(labelFont)
