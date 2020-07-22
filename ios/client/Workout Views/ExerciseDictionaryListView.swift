@@ -87,7 +87,7 @@ struct ExerciseDictionaryListView: View {
                     Button(action: {
                         self.exerciseSelectionPreview = item
                     }) {
-                        ExerciseListItem(dictionary: item, isSelected: self.isSelected(exerciseDictionary: item))
+                        ExerciseDictionaryListItem(dictionary: item, isSelected: self.isSelected(exerciseDictionary: item))
                             .background(Color(UIColor.systemBackground))
                             .padding([.leading, .trailing])
                     }
@@ -117,7 +117,7 @@ struct ExerciseDictionaryListView: View {
                     }
                     .padding(.leading)
                     
-                    ExerciseSelectionView(
+                    ExerciseDictionarySelectionView(
                         dictionary: self.exerciseSelectionPreview!,
                         exerciseTemplates: self.$exerciseTemplates
                     ) {
@@ -137,7 +137,7 @@ struct ExerciseDictionaryListView: View {
     }
 }
 
-struct ExerciseListItem: View {
+struct ExerciseDictionaryListItem: View {
     let dictionary: ExerciseDictionary
     let isSelected: Bool
     

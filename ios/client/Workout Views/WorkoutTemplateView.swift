@@ -43,11 +43,9 @@ struct WorkoutTemplateView: View {
             }
             .padding(.leading)
             
-            
 //            WorkoutMetaMetricsView(workout: workout)
 //                .fixedSize(horizontal: true, vertical: true)
 //                .padding(.leading)
-            Text("MetaMetrics")
             
             if view == "waveform.path.ecg" {
                 VStack(spacing: 0) {

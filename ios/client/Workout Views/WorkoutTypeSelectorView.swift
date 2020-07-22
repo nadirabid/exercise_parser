@@ -238,7 +238,7 @@ struct WorkoutTypeSelectorButtonsView: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .padding([.bottom, .top])
                 
-                if self.routerState.peek() != .editor(.template(.create)) {  // This start button should exist in the overlay view
+                if !RouteEditorTemplate.isOneOf(route: self.routerState.peek()) {  // This start button should exist in the overlay view
                     HStack {
                         Spacer()
                         

@@ -34,7 +34,7 @@ struct MainView: View {
             VStack {
                 if userState.authorization < 1 {
                     SignInView()
-                } else if RouteEditor.isOneOfEditorRoutes(route: route.peek()) {
+                } else if RouteEditor.isOneOf(route: route.peek()) {
                     //WorkoutCreateView()
                     WorkoutTypeSelectorView()
                 } else if route.peek() == .userEdit {

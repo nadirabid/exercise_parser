@@ -25,7 +25,7 @@ struct ExerciseTemplateEditorView: View {
     }
     
     func calculateWidthFor(field: ExerciseField) -> CGFloat {
-        return viewWidth / CGFloat(activeFields.count)
+        return (viewWidth - 40) / CGFloat(activeFields.count)
     }
     
     func createColumnTitleViewFor(field: ExerciseField) -> some View {
@@ -77,7 +77,6 @@ struct ExerciseTemplateEditorView: View {
             }
         }
         .multilineTextAlignment(.trailing)
-        //.padding(.bottom, itemSetIndex == dataFields.defaultValueSets - 1 ? 0 : 5)
         .frame(width: field == activeFields.last ? nil : calculateWidthFor(field: field))
     }
     
@@ -96,7 +95,7 @@ struct ExerciseTemplateEditorView: View {
                 }
             )
             
-            return TextField("0", text: b)
+            return TextField("0", text: b).font(.headline)
         } else if field == .weight {
             let b = Binding<String>(
                 get: { () -> String in
@@ -111,7 +110,7 @@ struct ExerciseTemplateEditorView: View {
                 }
             )
             
-            return TextField("0", text: b)
+            return TextField("0", text: b).font(.headline)
         } else if field == .distance {
             let b = Binding<String>(
                 get: { () -> String in
@@ -126,7 +125,7 @@ struct ExerciseTemplateEditorView: View {
                 }
             )
             
-            return TextField("0", text: b)
+            return TextField("0", text: b).font(.headline)
         } else {
             let b = Binding<String>(
                 get: { () -> String in
@@ -141,7 +140,7 @@ struct ExerciseTemplateEditorView: View {
                 }
             )
             
-            return TextField("0", text: b)
+            return TextField("0", text: b).font(.headline)
         }
     }
     
@@ -151,6 +150,7 @@ struct ExerciseTemplateEditorView: View {
         dataFields.weight = dataFields.weight + [dataFields.defaultValueWeight]
         dataFields.time = dataFields.time + [dataFields.defaultValueTime]
         dataFields.distance = dataFields.distance + [dataFields.defaultValueDistance]
+        dataFields.calories = dataFields.calories + [dataFields.defaultValueCalories]
     }
     
     var exerciseFont: Font {
@@ -189,7 +189,7 @@ struct ExerciseTemplateEditorView: View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    Text(self.title).font(exerciseFont)
+                    Text(self.title).font(.subheadline)
                     
                     if self.subTitle != nil {
                         Text("(\(self.subTitle!))")
@@ -200,7 +200,7 @@ struct ExerciseTemplateEditorView: View {
                 .padding(.bottom)
                 
                 Spacer()
-                
+                    
                 Button(action: { self.showingActionSheet = true }) {
                     Image(systemName:"ellipsis")
                         .background(Color.white)
@@ -214,13 +214,28 @@ struct ExerciseTemplateEditorView: View {
                     ForEach(self.activeFields, id: \.self) { item in
                         self.createColumnTitleViewFor(field: item)
                     }
+                    
+                    HStack(alignment: .center) {
+                        Image(systemName: "multiply")
+                            .font(.caption)
+                            .foregroundColor(Color.init(0, opacity: 0))
+                    }
+                    .padding(.leading)
                 }
-                .padding(.bottom, 8)
                 
                 ForEach(0..<self.dataFields.sets, id:\.self) { itemSetIndex in
                     HStack(alignment: .center, spacing: 0) {
                         ForEach(self.activeFields, id: \.self) { item in
                             self.createColumnViewFor(field: item, itemSetIndex)
+                        }
+                        
+                        Button(action: { self.dataFields.removeSetAt(index: itemSetIndex) }) {
+                            HStack(alignment: .center) {
+                                Image(systemName: "trash.fill")
+                                    .font(.caption)
+                                    .foregroundColor(Color.secondary)
+                            }
+                            .padding(.leading)
                         }
                     }
                 }

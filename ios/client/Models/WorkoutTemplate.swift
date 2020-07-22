@@ -213,6 +213,15 @@ class ExerciseTemplateData: ObservableObject, Codable {
         }
     }
     
+    func removeSetAt(index: Int) {
+        self.sets -= 1
+        self.reps.remove(at: index)
+        self.weight.remove(at: index)
+        self.distance.remove(at: index)
+        self.time.remove(at: index)
+        self.calories.remove(at: index)
+    }
+    
     func defaultValueFor(field: ExerciseField) -> String {
         switch field {
         case .sets:

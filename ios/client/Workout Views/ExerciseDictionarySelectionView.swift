@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ExerciseSelectionView: View {
+struct ExerciseDictionarySelectionView: View {
     let dictionary: ExerciseDictionary
     @Binding var exerciseTemplates: [ExerciseTemplate]
     

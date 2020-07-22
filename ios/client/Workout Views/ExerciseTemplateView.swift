@@ -115,6 +115,8 @@ struct ExerciseTemplateView: View {
                             .fixedSize()
                     }
                 }
+                
+                Spacer()
             }
         }
     }

@@ -14,7 +14,7 @@ class RouteState: ObservableObject {
     @Published var showHelp: Bool
     @Published var editWorkout: Workout?
     
-    init(current: Route = .editor(.template(.list))) {
+    init(current: Route = .editor(.template(.create))) {
         self.routeStack = []
         self.showHelp = false
         self.editWorkout = nil
@@ -70,7 +70,7 @@ enum RouteEditor: Equatable {
     case runTracker
     case template(RouteEditorTemplate = RouteEditorTemplate.list)
     
-    static func isOneOfEditorRoutes(route: Route) -> Bool {
+    static func isOneOf(route: Route) -> Bool {
         switch route {
         case .editor(_):
             return true
