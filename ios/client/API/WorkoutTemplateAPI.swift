@@ -29,7 +29,7 @@ class WorkoutTemplateAPI: ObservableObject {
         ])
     }
     
-    func getAllForMe(page: Int = 0, pageSize: Int = 20) -> Promise<PaginatedResponse<WorkoutTemplate>> {
+    func all(page: Int = 0, pageSize: Int = 20) -> Promise<PaginatedResponse<WorkoutTemplate>> {
         let url = "\(baseURL)/api/workout/template"
         let params: Parameters = [
             "page": page.description,
@@ -76,6 +76,28 @@ class WorkoutTemplateAPI: ObservableObject {
                         if let data = response.data {
                             print("Failed with error message from server", String(data: data, encoding: .utf8)!)
                         }
+                    }
+            }
+        }
+    }
+    
+    func delete(workoutTemplate: WorkoutTemplate) -> Promise<Void> {
+        let url = "\(baseURL)/api/workout/template/\(workoutTemplate.id!)"
+        
+        return Promise<Void> { (fulfill, reject) in
+            AF
+                .request(url, method: .delete, headers: self.headers)
+                .validate(statusCode: 200..<300)
+                .response(queue: DispatchQueue.main) { (response) in
+                    switch response.result {
+                    case .success:
+                        fulfill(())
+                    case .failure(let error):
+                        print("Failed to delete workout template", error)
+                        if let data = response.data {
+                            print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                        }
+                        reject(error)
                     }
             }
         }

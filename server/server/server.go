@@ -230,6 +230,8 @@ func New(v *viper.Viper) error {
 	apiRoutes.GET("/workout/template/:id", handleGetWorkoutTemplate)
 	apiRoutes.GET("/workout/template", handleGetAllUserWorkoutTemplates)
 	apiRoutes.POST("/workout/template", handlePostWorkoutTemplate)
+	apiRoutes.PUT("/workout/template/:id", handlePutWorkoutTemplate)
+	apiRoutes.DELETE("/workout/template/:id", handleDeleteWorkoutTemplate)
 
 	// returns metrics
 	apiRoutes.GET("/metric", handleGetMetrics)

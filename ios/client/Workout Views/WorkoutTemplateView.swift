@@ -11,6 +11,7 @@ import SwiftUI
 struct WorkoutTemplateView: View {
     @EnvironmentObject var userAPI: UserAPI
     @EnvironmentObject var routeState: RouteState
+    @EnvironmentObject var workoutTemplateAPI: WorkoutTemplateAPI
     
     var template: WorkoutTemplate
     var onDelete: () -> Void = {}
@@ -40,8 +41,15 @@ struct WorkoutTemplateView: View {
                     .fontWeight(.semibold)
                 
                 Spacer()
+                    
+                Button(action: { self.showingActionSheet = true }) {
+                    Image(systemName:"ellipsis")
+                        .background(Color.white)
+                        .font(.headline)
+                        .foregroundColor(Color.secondary)
+                }
             }
-            .padding(.leading)
+            .padding([.leading, .trailing])
             
             WorkoutTemplateMetaMetricsView(workoutTemplate: self.template)
                 .fixedSize(horizontal: true, vertical: true)
@@ -82,7 +90,7 @@ struct WorkoutTemplateView: View {
         .actionSheet(isPresented: $showingActionSheet) {
             ActionSheet(title: Text(self.template.name), buttons: [
                 .default(Text("Edit")) { print("Edit" )},
-                .destructive(Text("Delete")) { print("Delete") },
+                .destructive(Text("Delete")) { self.onDelete() },
                 .cancel()
             ])
         }

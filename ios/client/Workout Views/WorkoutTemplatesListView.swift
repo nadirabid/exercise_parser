@@ -20,6 +20,14 @@ struct WorkoutTemplatesListView: View {
     @State private var templates: [WorkoutTemplate] = []
     @State private var createRoutine = false
     
+    func delete(workoutTemplate: WorkoutTemplate) {
+        self.templates = self.templates.filter { $0.id != workoutTemplate.id }
+        
+        workoutTemplateAPI.delete(workoutTemplate: workoutTemplate).catch { _ in
+            print("Failed to delete: ", workoutTemplate)
+        }
+    }
+    
     var isShowingList: Bool {
         self.routerState.peek() == .editor(.template(.list))
     }
@@ -43,7 +51,10 @@ struct WorkoutTemplatesListView: View {
                     
                     List {
                         ForEach(self.templates, id: \.id) { item in
-                            WorkoutTemplateView(template: item)
+                            WorkoutTemplateView(
+                                template: item,
+                                onDelete: { self.delete(workoutTemplate: item) }
+                            )
                                 .background(Color.white)
                                 .buttonStyle(PlainButtonStyle())
                                 .padding(.top)
@@ -60,7 +71,7 @@ struct WorkoutTemplatesListView: View {
                     UITableView.appearance().backgroundColor = feedColor.uiColor()
                     UITableView.appearance().showsVerticalScrollIndicator = false
                     
-                    self.workoutTemplateAPI.getAllForMe().then { (response) in
+                    self.workoutTemplateAPI.all().then { (response) in
                         self.templates = response.results
                     }
                 }

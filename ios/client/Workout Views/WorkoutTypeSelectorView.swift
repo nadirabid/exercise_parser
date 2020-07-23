@@ -107,11 +107,11 @@ struct WorkoutTypeSelectorView: View {
                     }
                 }
                 
-//                if !workoutTypeConfirmed && !RouteEditorTemplate.isOneOf(route: routerState.peek()) {
-//                    WorkoutSelectionInformationOverlay(
-//                        locationManager: self.locationManager
-//                    )
-//                }
+                if !workoutTypeConfirmed && !RouteEditorTemplate.isOneOf(route: routerState.peek()) {
+                    WorkoutSelectionInformationOverlay(
+                        locationManager: self.locationManager
+                    )
+                }
             }
             
             if !workoutTypeConfirmed && !disableCloseButton && routerState.peek() != .editor(.template(.create)) { // IM HEREE - dont show close button

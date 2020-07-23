@@ -90,3 +90,97 @@ func handlePostWorkoutTemplate(c echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, workoutTemplate)
 }
+
+func handlePutWorkoutTemplate(c echo.Context) error {
+	ctx := c.(*Context)
+
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	updated := &models.WorkoutTemplate{}
+	if err := ctx.Bind(updated); err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	userID := getUserIDFromContext(ctx)
+
+	// start tx
+
+	tx := ctx.DB().Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	existing := models.WorkoutTemplate{}
+	err = tx.
+		Preload("ExerciseTemplates").
+		Preload("ExerciseTemplates.Data").
+		Preload("ExerciseTemplates.ExerciseDictionaries").
+		Where("id = ?", id).
+		Where("user_id = ?", userID).
+		First(existing).
+		Error
+
+	if err != nil {
+		tx.Rollback()
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	for _, t := range existing.ExerciseTemplates {
+		tx.Model(&t).Association("ExerciseDictionaries").Clear()
+		tx.Unscoped().Where("exercise_template_id").Delete(&models.ExerciseTemplateData{})
+	}
+
+	for i, t := range updated.ExerciseTemplates {
+		t.WorkoutTemplateID = uint(id)   // for security
+		t.Data.ExerciseTemplateID = t.ID // for security
+
+		if err := tx.Set("gorm:association_autoupdate", false).Save(&t).Error; err != nil {
+			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+		}
+
+		updated.ExerciseTemplates[i] = t
+	}
+
+	updated.ID = existing.ID
+	updated.UserID = existing.UserID
+
+	tx.Set("gorm:association_autoupdate", false).Model(existing).Update(*updated)
+
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, updated)
+}
+
+func handleDeleteWorkoutTemplate(c echo.Context) error {
+	ctx := c.(*Context)
+
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
+	}
+
+	userID := getUserIDFromContext(ctx)
+
+	workoutTemplate := &models.WorkoutTemplate{}
+	workoutTemplate.ID = uint(id)
+
+	q := ctx.DB().
+		Unscoped().
+		Where("user_id = ?", userID).
+		Set("gorm:association_autoupdate", false). // so we don't delete what exactly??
+		Delete(workoutTemplate)
+
+	if err := q.Error; err != nil {
+		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, workoutTemplate)
+}
