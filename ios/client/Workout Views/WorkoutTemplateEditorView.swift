@@ -76,7 +76,7 @@ struct WorkoutTemplateEditorView: View {
         UITableView.appearance().backgroundColor = UIColor.systemBackground
         UITableView.appearance().showsVerticalScrollIndicator = false
         
-        return VStack(spacing: 0) {
+        return VStack {
             VStack(alignment: .leading, spacing: 0) {
                 Text("Workout name")
                     .font(.caption)
@@ -91,14 +91,7 @@ struct WorkoutTemplateEditorView: View {
                     .padding([.top, .bottom], 12)
                     .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
                     .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
-                    .introspectTextField { textField in
-                        if self.workoutNameTextField ==  nil { // only become first responder the first time
-                            textField.becomeFirstResponder()
-                        }
-                        self.workoutNameTextField = textField
-                    }
             }
-            .padding(.bottom)
             
             if self.exerciseTemplates.isEmpty {
                 VStack {
@@ -163,46 +156,42 @@ struct WorkoutTemplateEditorView: View {
             
             Spacer()
             
-            HStack {
-                Spacer()
-
-                Button(action: { self.selectExerciseDictionary = true }) {
-                    Text("Add exercise")
-                        .foregroundColor(appColor)
-
-                    Image(systemName: "plus.circle.fill")
-                        .foregroundColor(appColor)
-                }
-            }
-            .padding()
-            
             VStack(spacing: 0) {
                 Divider()
                 
-                HStack {
-                    Spacer()
-                    
-                    Button(action: {
-                        self.handleSave()
-                    }) {
-                        Text("Create")
-                            .foregroundColor(Color.secondary)
-                            .animation(.none)
+                GeometryReader { geometry in
+                    HStack {
+                        Button(action: {
+                            self.handleSave()
+                        }) {
+                            Text("Save")
+                                .foregroundColor(Color.secondary)
+                                .animation(.none)
+                        }
+                        .frame(width: geometry.size.width / 3)
+                        
+                        Divider()
+                        
+                        Button(action: {
+                            self.routerState.replaceCurrent(with: .editor(.template(.list)))
+                        }) {
+                            Text("Cancel")
+                                .foregroundColor(Color.secondary)
+                                .animation(.none)
+                        }
+                        .frame(width: geometry.size.width / 3)
+                        
+                        Divider()
+                        
+                        Button(action: {
+                            self.selectExerciseDictionary = true
+                        }) {
+                            Text("Add")
+                                .foregroundColor(Color.secondary)
+                                .animation(.none)
+                        }
+                        .frame(width: geometry.size.width / 3)
                     }
-                    
-                    Spacer()
-                    Divider()
-                    Spacer()
-                    
-                    Button(action: {
-                        self.routerState.replaceCurrent(with: .editor(.template(.list)))
-                    }) {
-                        Text("Cancel")
-                            .foregroundColor(Color.secondary)
-                            .animation(.none)
-                    }
-                    
-                    Spacer()
                 }
                 .padding(.all, 13)
                 .fixedSize(horizontal: false, vertical: true)

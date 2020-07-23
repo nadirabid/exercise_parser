@@ -36,7 +36,7 @@ struct ExerciseTemplateView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack(spacing: 0) {
-                Text(title)
+                Text(title).font(.subheadline)
                 
                 if subTitle != nil {
                     Text(" - \(subTitle!)")

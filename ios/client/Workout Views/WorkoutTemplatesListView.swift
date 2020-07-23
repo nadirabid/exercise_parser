@@ -14,11 +14,15 @@ struct WorkoutTemplatesListView: View {
     @EnvironmentObject var workoutAPI: WorkoutAPI
     @EnvironmentObject var workoutTemplateAPI: WorkoutTemplateAPI
     @EnvironmentObject var dictionariesAPI: ExerciseDictionaryAPI
-    
+
     @Binding var disableCloseButton: Bool
     
     @State private var templates: [WorkoutTemplate] = []
     @State private var createRoutine = false
+    
+    var isShowingList: Bool {
+        self.routerState.peek() == .editor(.template(.list))
+    }
     
     var body: some View {
         return VStack {
@@ -62,16 +66,5 @@ struct WorkoutTemplatesListView: View {
                 }
             }
         }
-    }
-}
-
-struct RoutinesViewerView_Previews: PreviewProvider {
-    static var previews: some View {
-        let binding = Binding<Bool>(
-            get: { false },
-            set: { _ in }
-        )
-        
-        return WorkoutTemplatesListView(disableCloseButton: binding)
     }
 }

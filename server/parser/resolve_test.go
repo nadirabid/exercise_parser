@@ -142,6 +142,20 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 
 	units := []string{"kg", "kilos", "kilogram", "kilograms", "lb", "lbs", "pound", "pounds"}
 
+	t.Run("dumbbell presses 10 - 15lbs", func(t *testing.T) {
+		expected := map[string]string{"Exercise": "dumbbell presses", "Reps": "10", "Weight": "15", "WeightUnits": "lbs"}
+		parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("dumbbell presses 10 - 15lbs"))
+		assert.Len(t, parsed, 1)
+		assert.Equal(t, expected, parsed[0].Captures)
+	})
+
+	t.Run("185 benchpress 3 reps", func(t *testing.T) {
+		expected := map[string]string{"Exercise": "benchpress", "Reps": "3", "ProbablyWeight": "185"}
+		parsed := resolveAllActivityExpressionsTestUtil("185 benchpress 3 reps")
+		assert.Len(t, parsed, 1)
+		assert.Equal(t, expected, parsed[0].Captures)
+	})
+
 	for _, d := range delimiter {
 		t.Run("{Reps:Number} (Delimiter) {Exercise:String}, left wnd right", func(t *testing.T) {
 			expected := map[string]string{"Exercise": "walking lunges, left wnd right", "Reps": "12"}

@@ -14,6 +14,10 @@ enum WorkoutType {
     case run
 }
 
+class HackToShareSize: ObservableObject {
+    @Published var size: CGSize = CGSize.zero
+}
+
 struct WorkoutTypeSelectorView: View {
     @EnvironmentObject var routerState: RouteState
     
@@ -23,8 +27,38 @@ struct WorkoutTypeSelectorView: View {
     @State private var workoutType: WorkoutType = .routine
     @State private var previousWorkoutType: WorkoutType = .workout
     @State private var workoutTypeConfirmed = false
+    @State private var bottomButtonsSize: CGSize? = nil
     
     private var locationManager: RunTrackerLocationManager = RunTrackerLocationManager()
+    
+    func createButtons(size: CGSize) -> some View {
+        return VStack(spacing: 0) {
+            VStack(spacing: 0) {
+                HStack {
+                    Spacer()
+                    
+                    Button(action: {
+                        self.routerState.clearAndSet(route: .userFeed)
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 24))
+                            .padding([.top, .trailing], 24)
+                    }
+                    .padding(.leading)
+                }
+                
+                Spacer()
+            }
+            .statusBar(hidden: true)
+            .edgesIgnoringSafeArea(.all)
+            
+            WorkoutTypeSelectorButtonsView(
+                locationManager: self.locationManager,
+                previousRoute: self.$previousRoute,
+                workoutTypeConfirmed: self.$workoutTypeConfirmed
+            )
+        }
+    }
     
     var blurRadius: CGFloat {
         if workoutTypeConfirmed {
@@ -71,20 +105,37 @@ struct WorkoutTypeSelectorView: View {
                     } else  {
                         RunTrackerView(locationManager: locationManager)
                     }
-                } else if RouteEditorTemplate.isOneOf(route: routerState.peek()) {
-                    WorkoutTemplatesListView(disableCloseButton: $disableCloseButton)
-                        .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
-                        .animation(.default)
                 }
                 
-                if !workoutTypeConfirmed && !RouteEditorTemplate.isOneOf(route: routerState.peek()) {
-                    WorkoutSelectionInformationOverlay(
-                        locationManager: self.locationManager
+//                if !workoutTypeConfirmed && !RouteEditorTemplate.isOneOf(route: routerState.peek()) {
+//                    WorkoutSelectionInformationOverlay(
+//                        locationManager: self.locationManager
+//                    )
+//                }
+            }
+            
+            if !workoutTypeConfirmed && !disableCloseButton && routerState.peek() != .editor(.template(.create)) { // IM HEREE - dont show close button
+                VStack(spacing: 0) {
+                    if RouteEditorTemplate.isOneOf(route: routerState.peek()) {
+                        WorkoutTemplatesListView(disableCloseButton: $disableCloseButton)
+                            .transition(.asymmetric(
+                                insertion: .move(edge: .trailing),
+                                removal: .move(edge: .leading))
+                            )
+                            .animation(.default)
+                    } else {
+                        Spacer()
+                    }
+                    
+                    WorkoutTypeSelectorButtonsView(
+                        locationManager: self.locationManager,
+                        previousRoute: self.$previousRoute,
+                        workoutTypeConfirmed: self.$workoutTypeConfirmed
                     )
                 }
             }
             
-            if !workoutTypeConfirmed && !disableCloseButton && routerState.peek() != .editor(.template(.create)) { // IM HEREE - dont show close button
+            if !disableCloseButton {
                 VStack(spacing: 0) {
                     HStack {
                         Spacer()
@@ -103,12 +154,6 @@ struct WorkoutTypeSelectorView: View {
                 }
                 .statusBar(hidden: true)
                 .edgesIgnoringSafeArea(.all)
-                
-                WorkoutTypeSelectorButtonsView(
-                    locationManager: locationManager,
-                    previousRoute: $previousRoute,
-                    workoutTypeConfirmed: $workoutTypeConfirmed
-                )
             }
         }
     }
@@ -194,8 +239,6 @@ struct WorkoutTypeSelectorButtonsView: View {
     
     var body: some View {
         VStack {
-            Spacer()
-            
             VStack {
                 Divider()
                 
@@ -264,10 +307,7 @@ struct WorkoutTypeSelectorButtonsView: View {
                     .transition(.scale)
                 }
             }
-            .padding(.bottom)
-            .padding(.bottom)
             .background(Color(UIColor.systemBackground))
-            
         }
         .edgesIgnoringSafeArea(.all)
     }

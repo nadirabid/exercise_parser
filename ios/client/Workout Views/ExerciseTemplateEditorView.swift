@@ -197,7 +197,6 @@ struct ExerciseTemplateEditorView: View {
                             .foregroundColor(Color.secondary)
                     }
                 }
-                .padding(.bottom)
                 
                 Spacer()
                     
