@@ -63,6 +63,8 @@ func handleGetAllUserWorkoutTemplates(c echo.Context) error {
 
 	listResponse, err := paging(q, page, size, &workoutTemplates)
 
+	utils.PrettyPrint(listResponse)
+
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}
@@ -112,10 +114,11 @@ func handlePutWorkoutTemplate(c echo.Context) error {
 	defer func() {
 		if r := recover(); r != nil {
 			tx.Rollback()
+			panic(r)
 		}
 	}()
 
-	existing := models.WorkoutTemplate{}
+	existing := &models.WorkoutTemplate{}
 	err = tx.
 		Preload("ExerciseTemplates").
 		Preload("ExerciseTemplates.Data").
@@ -132,7 +135,21 @@ func handlePutWorkoutTemplate(c echo.Context) error {
 
 	for _, t := range existing.ExerciseTemplates {
 		tx.Model(&t).Association("ExerciseDictionaries").Clear()
-		tx.Unscoped().Where("exercise_template_id").Delete(&models.ExerciseTemplateData{})
+		tx.Unscoped().Where("exercise_template_id = ?", t.ID).Delete(&models.ExerciseTemplateData{})
+	}
+
+	updatedExerciseTemplatesByID := map[uint]*models.ExerciseTemplate{}
+	for _, t := range updated.ExerciseTemplates {
+		updatedExerciseTemplatesByID[t.ID] = &t
+	}
+
+	for _, t := range existing.ExerciseTemplates {
+		if _, ok := updatedExerciseTemplatesByID[t.ID]; !ok {
+			if err := tx.Delete(&t).Error; err != nil {
+				tx.Rollback()
+				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+			}
+		}
 	}
 
 	for i, t := range updated.ExerciseTemplates {
@@ -140,6 +157,9 @@ func handlePutWorkoutTemplate(c echo.Context) error {
 		t.Data.ExerciseTemplateID = t.ID // for security
 
 		if err := tx.Set("gorm:association_autoupdate", false).Save(&t).Error; err != nil {
+			ctx.logger.Error(utils.PrettyStringify(t))
+			ctx.logger.Error(err.Error())
+			tx.Rollback()
 			return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 		}
 
@@ -149,7 +169,7 @@ func handlePutWorkoutTemplate(c echo.Context) error {
 	updated.ID = existing.ID
 	updated.UserID = existing.UserID
 
-	tx.Set("gorm:association_autoupdate", false).Model(existing).Update(*updated)
+	tx.Set("gorm:association_autoupdate", false).Model(updated).Update(*updated)
 
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()

@@ -14,6 +14,8 @@ struct WorkoutTemplateEditorView: View {
     @EnvironmentObject var exerciseDictionaryAPI: ExerciseDictionaryAPI
     @EnvironmentObject var workoutTemplateAPI: WorkoutTemplateAPI
     
+    @State var workoutTemplate: WorkoutTemplate?
+    
     @State private var exerciseTemplates: [ExerciseTemplate] = []
     @State private var selectExerciseDictionary: Bool = false
     @State private var workoutTemplateName: String = ""
@@ -41,25 +43,44 @@ struct WorkoutTemplateEditorView: View {
                     indicesToRemove.append(i)
                 }
             }
-            
+
             for j in indicesToRemove.reversed() { // do it backwards so we dont fuck up the eelements we intend to remove
                 exerciseTemplate.data.removeSetAt(index: j)
             }
-            
+
             return exerciseTemplate.data.sets > 0
         }
         
-        let template = WorkoutTemplate(
-            id: nil,
-            createdAt: nil,
-            updatedAt: nil,
-            name: self.workoutTemplateName,
-            exercises: exerciseTemplatesToSave,
-            userID: nil
-        )
-        
-        self.workoutTemplateAPI.create(workoutTemplate: template).then { _ in
-            self.routerState.replaceCurrent(with: .editor(.template(.list)))
+        var template: WorkoutTemplate
+
+        if self.workoutTemplate != nil {
+            template = WorkoutTemplate(
+                id: self.workoutTemplate!.id,
+                createdAt: nil,
+                updatedAt: nil,
+                name: self.workoutTemplateName,
+                exercises: exerciseTemplatesToSave,
+                userID: self.workoutTemplate!.userID
+            )
+        } else {
+            template = WorkoutTemplate(
+                id: nil,
+                createdAt: nil,
+                updatedAt: nil,
+                name: self.workoutTemplateName,
+                exercises: exerciseTemplatesToSave,
+                userID: nil
+            )
+        }
+
+        if template.id == nil {
+            self.workoutTemplateAPI.create(workoutTemplate: template).then { _ in
+                self.routerState.replaceCurrent(with: .editor(.template(.list)))
+            }
+        } else {
+            self.workoutTemplateAPI.put(workoutTemplate: template).then { _ in
+                self.routerState.replaceCurrent(with: .editor(.template(.list)))
+            }
         }
     }
     
@@ -98,25 +119,6 @@ struct WorkoutTemplateEditorView: View {
                     Spacer()
                     Text("No exercises").foregroundColor(Color.secondary)
                     Spacer()
-                }
-                .onAppear {
-                    // TODO: remove this code
-                    self.exerciseDictionaryAPI.getDictionaryList().then(on: DispatchQueue.main) { (paginatedResponse: PaginatedResponse<ExerciseDictionary>) in
-                        let dictionaries = paginatedResponse.results
-                        
-                        self.exerciseTemplates = dictionaries.suffix(1000).prefix(3).map { d in
-                            ExerciseTemplate(
-                                data: ExerciseTemplateData(
-                                    isSetsFieldEnabled: true,
-                                    isRepsFieldEnabled: true,
-                                    isWeightFieldEnabled: true,
-                                    isTimeFieldEnabled: false,
-                                    isDistanceFieldEnabled: false
-                                ),
-                                exerciseDictionaries: [d]
-                            )
-                        }
-                    }
                 }
             } else {
                 GeometryReader { geometry in
@@ -197,6 +199,12 @@ struct WorkoutTemplateEditorView: View {
                 .fixedSize(horizontal: false, vertical: true)
             }
         }
+        .onAppear {
+            if let workoutTemplate = self.workoutTemplate {
+                self.workoutTemplateName = workoutTemplate.name
+                self.exerciseTemplates = workoutTemplate.exercises
+            }
+        }
         .sheet(isPresented: self.$selectExerciseDictionary) {
             VStack {
                 ExerciseDictionaryListView(onSelectExerciseTemplates: self.handleSelect) {
@@ -207,11 +215,5 @@ struct WorkoutTemplateEditorView: View {
             .padding(.top)
             .animation(.default)
         }
-    }
-}
-
-struct WorkoutTemplateEditorView_Previews: PreviewProvider {
-    static var previews: some View {
-        WorkoutTemplateEditorView()
     }
 }

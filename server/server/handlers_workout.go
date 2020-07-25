@@ -221,6 +221,7 @@ func handlePutWorkout(c echo.Context) error {
 	defer func() {
 		if r := recover(); r != nil {
 			tx.Rollback()
+			panic(r)
 		}
 	}()
 
@@ -246,6 +247,8 @@ func handlePutWorkout(c echo.Context) error {
 		tx.Unscoped().Where("exercise_id = ?", e.ID).Delete(&models.ExerciseData{})
 	}
 
+	// TODO: FIX THE PROBLEM WHERE WE DONT DELETE EXERCISES THAT ARE REMOVED
+
 	for i, e := range updatedWorkout.Exercises {
 		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
@@ -256,6 +259,7 @@ func handlePutWorkout(c echo.Context) error {
 			if err := tx.Set("gorm:association_autoupdate", false).Save(&e).Error; err != nil {
 				ctx.logger.Error(utils.PrettyStringify(e))
 				ctx.logger.Error(err.Error())
+				tx.Rollback()
 				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
 			}
 		}

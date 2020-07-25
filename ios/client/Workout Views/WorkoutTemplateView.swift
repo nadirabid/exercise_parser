@@ -15,6 +15,7 @@ struct WorkoutTemplateView: View {
     
     var template: WorkoutTemplate
     var onDelete: () -> Void = {}
+    var onEdit: () -> Void = {}
     
     var options = [ "waveform.path.ecg", "function" ]
     
@@ -89,7 +90,7 @@ struct WorkoutTemplateView: View {
         .padding([.top, .bottom])
         .actionSheet(isPresented: $showingActionSheet) {
             ActionSheet(title: Text(self.template.name), buttons: [
-                .default(Text("Edit")) { print("Edit" )},
+                .default(Text("Edit")) { self.onEdit() },
                 .destructive(Text("Delete")) { self.onDelete() },
                 .cancel()
             ])

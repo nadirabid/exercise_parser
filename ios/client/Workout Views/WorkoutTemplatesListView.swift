@@ -14,11 +14,10 @@ struct WorkoutTemplatesListView: View {
     @EnvironmentObject var workoutAPI: WorkoutAPI
     @EnvironmentObject var workoutTemplateAPI: WorkoutTemplateAPI
     @EnvironmentObject var dictionariesAPI: ExerciseDictionaryAPI
-
-    @Binding var disableCloseButton: Bool
     
     @State private var templates: [WorkoutTemplate] = []
     @State private var createRoutine = false
+    @State private var workoutTemplateToEdit: WorkoutTemplate? = nil
     
     func delete(workoutTemplate: WorkoutTemplate) {
         self.templates = self.templates.filter { $0.id != workoutTemplate.id }
@@ -28,14 +27,21 @@ struct WorkoutTemplatesListView: View {
         }
     }
     
+    func edit(workoutTemplate: WorkoutTemplate) {
+        self.workoutTemplateToEdit = workoutTemplate
+        self.routerState.replaceCurrent(with: .editor(.template(.edit)))
+    }
+    
     var isShowingList: Bool {
         self.routerState.peek() == .editor(.template(.list))
     }
     
-    var body: some View {
+    var body: some View {        
         return VStack {
             if self.routerState.peek() == .editor(.template(.create)) {
-                WorkoutTemplateEditorView()
+                WorkoutTemplateEditorView(workoutTemplate: nil)
+            } else if self.routerState.peek() == .editor(.template(.edit)) {
+                WorkoutTemplateEditorView(workoutTemplate: workoutTemplateToEdit!)
             } else {
                 VStack {
                     HStack {
@@ -53,7 +59,8 @@ struct WorkoutTemplatesListView: View {
                         ForEach(self.templates, id: \.id) { item in
                             WorkoutTemplateView(
                                 template: item,
-                                onDelete: { self.delete(workoutTemplate: item) }
+                                onDelete: { self.delete(workoutTemplate: item) },
+                                onEdit: { self.edit(workoutTemplate: item) }
                             )
                                 .background(Color.white)
                                 .buttonStyle(PlainButtonStyle())

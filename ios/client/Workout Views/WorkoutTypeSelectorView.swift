@@ -78,6 +78,10 @@ struct WorkoutTypeSelectorView: View {
         return AnyTransition.identity
     }
     
+    var isCloseButtonDisabled: Bool {
+        return routerState.peek() != .editor(.template(.create)) && routerState.peek() != .editor(.template(.edit))
+    }
+    
     var body: some View {
         // TODO: disable locationManager if workout is confirmed?
 
@@ -86,7 +90,10 @@ struct WorkoutTypeSelectorView: View {
                 if routerState.peek() == .editor(.workout) {
                     WorkoutCreateView(disabled: !workoutTypeConfirmed)
                         .blur(radius: blurRadius)
-                        .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing)))
+                        .transition(.asymmetric(
+                                insertion: .move(edge: .leading),
+                                removal: .move(edge: .trailing)
+                        ))
                         .animation(.default)
                 } else if routerState.peek() == .editor(.runTracker) {
                     if !workoutTypeConfirmed {
@@ -106,7 +113,7 @@ struct WorkoutTypeSelectorView: View {
                         RunTrackerView(locationManager: locationManager)
                     }
                 }
-                
+
                 if !workoutTypeConfirmed && !RouteEditorTemplate.isOneOf(route: routerState.peek()) {
                     WorkoutSelectionInformationOverlay(
                         locationManager: self.locationManager
@@ -114,10 +121,10 @@ struct WorkoutTypeSelectorView: View {
                 }
             }
             
-            if !workoutTypeConfirmed && !disableCloseButton && routerState.peek() != .editor(.template(.create)) { // IM HEREE - dont show close button
+            if !workoutTypeConfirmed {
                 VStack(spacing: 0) {
                     if RouteEditorTemplate.isOneOf(route: routerState.peek()) {
-                        WorkoutTemplatesListView(disableCloseButton: $disableCloseButton)
+                        WorkoutTemplatesListView()
                             .transition(.asymmetric(
                                 insertion: .move(edge: .trailing),
                                 removal: .move(edge: .leading))
@@ -127,19 +134,21 @@ struct WorkoutTypeSelectorView: View {
                         Spacer()
                     }
                     
-                    WorkoutTypeSelectorButtonsView(
-                        locationManager: self.locationManager,
-                        previousRoute: self.$previousRoute,
-                        workoutTypeConfirmed: self.$workoutTypeConfirmed
-                    )
+                    if routerState.peek() != .editor(.template(.create)) && routerState.peek() != .editor(.template(.edit)) {
+                        WorkoutTypeSelectorButtonsView(
+                            locationManager: self.locationManager,
+                            previousRoute: self.$previousRoute,
+                            workoutTypeConfirmed: self.$workoutTypeConfirmed
+                        )
+                    }
                 }
             }
             
-            if !disableCloseButton {
+            if isCloseButtonDisabled {
                 VStack(spacing: 0) {
                     HStack {
                         Spacer()
-                        
+
                         Button(action: {
                             self.routerState.clearAndSet(route: .userFeed)
                         }) {
@@ -149,7 +158,7 @@ struct WorkoutTypeSelectorView: View {
                         }
                         .padding(.leading)
                     }
-                    
+
                     Spacer()
                 }
                 .statusBar(hidden: true)

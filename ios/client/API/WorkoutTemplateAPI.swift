@@ -81,6 +81,30 @@ class WorkoutTemplateAPI: ObservableObject {
         }
     }
     
+    func put(workoutTemplate: WorkoutTemplate) -> Promise<WorkoutTemplate> {
+        let url = "\(baseURL)/api/workout/template/\(workoutTemplate.id!)"
+        
+        return Promise<WorkoutTemplate> { (fulfill, reject) in
+            AF.request(url, method: .put, parameters: workoutTemplate, encoder: JSONParameterEncoder(encoder: self.encoder), headers: self.headers)
+                .validate()
+                .response { (response) in
+                    switch response.result {
+                    case .success(let data):
+                        let decoder = JSONDecoder()
+                        decoder.dateDecodingStrategy = decodeStrategy()
+                        
+                        let result = try! decoder.decode(WorkoutTemplate.self, from: data!)
+                        fulfill(result)
+                    case .failure(let error):
+                        print("Failed to create workout template", error)
+                        if let data = response.data {
+                            print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                        }
+                    }
+            }
+        }
+    }
+    
     func delete(workoutTemplate: WorkoutTemplate) -> Promise<Void> {
         let url = "\(baseURL)/api/workout/template/\(workoutTemplate.id!)"
         

@@ -14,7 +14,7 @@ class RouteState: ObservableObject {
     @Published var showHelp: Bool
     @Published var editWorkout: Workout?
     
-    init(current: Route = .editor(.template(.list))) {
+    init(current: Route = .userFeed) {
         self.routeStack = []
         self.showHelp = false
         self.editWorkout = nil
@@ -83,6 +83,7 @@ enum RouteEditor: Equatable {
 enum RouteEditorTemplate {
     case list
     case create
+    case edit
     
     static func isOneOf(route: Route) -> Bool {
         switch route {
