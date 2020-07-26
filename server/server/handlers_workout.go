@@ -249,6 +249,20 @@ func handlePutWorkout(c echo.Context) error {
 
 	// TODO: FIX THE PROBLEM WHERE WE DONT DELETE EXERCISES THAT ARE REMOVED
 
+	updatedExercisesByID := map[uint]*models.Exercise{}
+	for _, e := range updatedWorkout.Exercises {
+		updatedExercisesByID[e.ID] = &e
+	}
+
+	for _, e := range existingWorkout.Exercises {
+		if _, ok := updatedExercisesByID[e.ID]; !ok {
+			if err := tx.Delete(&e).Error; err != nil {
+				tx.Rollback()
+				return ctx.JSON(http.StatusInternalServerError, newErrorMessage(err.Error()))
+			}
+		}
+	}
+
 	for i, e := range updatedWorkout.Exercises {
 		if err := e.Resolve(ctx.viper, ctx.DB()); err != nil {
 			ctx.logger.Errorf("Failed to resolve \"%s\" with error: %s", e.Raw, err.Error())
