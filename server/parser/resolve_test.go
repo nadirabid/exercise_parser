@@ -129,6 +129,15 @@ func deepResolveActivityExpressionsTestUtil(t *testing.T, exercise string) []*Pa
 	return parsedExercises
 }
 
+func TestYetToSolve(t *testing.T) {
+	// t.Run("360 box jumps 30", func(t *testing.T) {
+	// 	expected := map[string]string{"Exercise": "360 box jumps", "Reps": "30"}
+	// 	parsed := resolveAllActivityExpressionsTestUtil("360 box jumps")
+	// 	assert.Len(t, parsed, 1)
+	// 	assert.Equal(t, expected, parsed[0].Captures)
+	// })
+}
+
 // Activity Expressions
 
 func TestStrengthActivityFullMatch(t *testing.T) {
@@ -141,27 +150,6 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 	}
 
 	units := []string{"kg", "kilos", "kilogram", "kilograms", "lb", "lbs", "pound", "pounds"}
-
-	t.Run("dumbbell presses 10 - 15lbs", func(t *testing.T) {
-		expected := map[string]string{"Exercise": "dumbbell presses", "Reps": "10", "Weight": "15", "WeightUnits": "lbs"}
-		parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("dumbbell presses 10 - 15lbs"))
-		assert.Len(t, parsed, 1)
-		assert.Equal(t, expected, parsed[0].Captures)
-	})
-
-	t.Run("185 benchpress 3 reps", func(t *testing.T) {
-		expected := map[string]string{"Exercise": "benchpress", "Reps": "3", "ProbablyWeight": "185"}
-		parsed := resolveAllActivityExpressionsTestUtil("185 benchpress 3 reps")
-		assert.Len(t, parsed, 1)
-		assert.Equal(t, expected, parsed[0].Captures)
-	})
-
-	t.Run("360 box jumps 30", func(t *testing.T) {
-		expected := map[string]string{"Exercise": "360 box jumps", "Reps"}
-		parsed := resolveAllActivityExpressionsTestUtil("360 box jumps")
-		assert.Len(t, parsed, 1)
-		assert.Equal(t, expected, parsed[0].Captures)
-	})
 
 	for _, d := range delimiter {
 		t.Run("{Reps:Number} (Delimiter) {Exercise:String}, left wnd right", func(t *testing.T) {
@@ -429,9 +417,23 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 				assert.Equal(t, expected, parsed[0].Captures)
 			})
 
+			t.Run("{ProbablyWeight:Number} {Exercise:String} (Delimiter) {Reps:Number} reps", func(t *testing.T) {
+				expected := map[string]string{"Exercise": "benchpress", "Reps": "3", "ProbablyWeight": "185"}
+				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("185 benchpress%s3 reps", d))
+				assert.Len(t, parsed, 1)
+				assert.Equal(t, expected, parsed[0].Captures)
+			})
+
 			t.Run("{Exercise:String} (Delimiter) {Weight:Number}{WeightUnits}", func(t *testing.T) {
 				expected := map[string]string{"Exercise": "benchpress", "Weight": "123", "WeightUnits": u}
 				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("benchpress%s123%s", d, u))
+				assert.Len(t, parsed, 1)
+				assert.Equal(t, expected, parsed[0].Captures)
+			})
+
+			t.Run("{Exercise:String} (Delimiter) {Reps:Number} (Delimiter) {Weight:Number}", func(t *testing.T) {
+				expected := map[string]string{"Exercise": "dumbbell presses", "Reps": "10", "Weight": "15", "WeightUnits": u}
+				parsed := resolveAllActivityExpressionsTestUtil(fmt.Sprintf("dumbbell presses 10%s15%s", d, u))
 				assert.Len(t, parsed, 1)
 				assert.Equal(t, expected, parsed[0].Captures)
 			})

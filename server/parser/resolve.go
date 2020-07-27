@@ -28,7 +28,7 @@ type expression struct {
 	value                 string
 	regexp                *regexp.Regexp
 	assertMissingCaptures []string            // make sure we don't have these captures in expression
-	captureDoesNotContain map[string][]string // what was this for again???
+	captureDoesNotContain map[string][]string // this is if you don't wan't a string to appear in the capture - for example "i don't wanna see 'for' in the `Exercise` capture"
 
 	correctiveMessage     string
 	correctiveMessageCode int // WARNING: do not change these values - the client will use it to show an associated message to the user
@@ -141,9 +141,10 @@ func activityExpressions() []*expression {
 		newExpression(`^(?P<Sets>\d+)\s*(?:x|\s)\s*(?P<Reps>\d+)\s*(?:x|at|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)?\s*(?:of|\s)\s*(?P<Exercise>([a-zA-Z,\/\-\s]+?[a-zA-Z])$)`, nil, nil),                         // {Sets:Number}x{Reps:Number}x{Weight:Number}{WeightUnits} of {Exercise:String}
 		newExpression(`^(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(:?sets of)?\s*(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?:at)?\s*(?:,+|-|\s)?\s*(?P<Weight>\d+)\s*(?P<WeightUnits>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`, nil, nil), // {Sets:Number}x{Reps:Number} (sets of)? {Exercise:String} (Delimiter) at? (Delimiter) {Weight:Number}{WeightUnits}
 
-		newExpression(`^(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])$`, nil, nil),                                                       // {Weight:Number}{WeightUnits} (Delimiter) {Exercise:String}
-		newExpression(`^(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Reps>\d+)\s*(reps|rep)?$`, nil, nil),           // {Weight:Number}{WeightUnits} (Delimiter) {Exercise:String} {Reps:Number} reps
-		newExpression(`^(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, nil, nil), // {Weight:Number}{WeightUnits} (Delimiter) {Exercise:String} {Sets:Number}x{Reps:Number}
+		newExpression(`^(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])$`, nil, nil),                                                                               // {Weight:Number}{WeightUnits} (Delimiter) {Exercise:String}
+		newExpression(`^(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Reps>\d+)\s*(reps|rep)?$`, nil, nil),                                   // {Weight:Number}{WeightUnits} (Delimiter) {Exercise:String} {Reps:Number} reps
+		newExpression(`^(?P<ProbablyWeight>\d+)\s*(?P<NotWeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)?\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Reps>\d+)\s*(reps|rep)$`, nil, []string{"NotWeightUnits"}), // {Weight:Number} (Delimiter) {Exercise:String} {Reps:Number} reps
+		newExpression(`^(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)\s*(?:,+|-|\s)\s*(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+$)`, nil, nil),                         // {Weight:Number}{WeightUnits} (Delimiter) {Exercise:String} {Sets:Number}x{Reps:Number}
 
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Reps>\d+$)`, nil, nil),                                                              // {Exercise:String} (Delimiter) {Reps:Number}
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Reps>\d+)\s*reps$`, nil, nil),                                                       // {Exercise:String} (Delimiter) {Reps:Number} reps
@@ -158,6 +159,7 @@ func activityExpressions() []*expression {
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:sets)\s*(?:of)\s*(?P<Reps>\d+)\s*(?:reps$)`, nil, nil),               // {Exercise:String} (Delimiter) {Sets:Number} sets of {Reps:Number} reps
 
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Reps>\d+)\s*(?:x|reps)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`, nil, nil),                                                // {Exercise:String} (Delimiter) {Reps:Number}x{Weight:Number}{WeightUnits}
+		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Reps>\d+)\s*(?:,+|-|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$`, nil, nil),                                                 // {Exercise:String} (Delimiter) {Reps:Number} (Delimiter) {Weight:Number}
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:x)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`, nil, nil),                             // {Exercise:String} (Delimiter) {Sets:Number}x{Reps:Number}x{Weight:Number}{WeightUnits}
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:x)\s*(?P<Reps>\d+)\s*(?:,+|-|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`, nil, nil),                       // {Exercise:String} (Delimiter) {Sets:Number}x{Reps:Number} (Delimiter) {Weight:Number}{WeightUnits}
 		newExpression(`^(?P<Exercise>[a-zA-Z,\/\-\s]+?[a-zA-Z])\s*(?:,+|-|\s)\s*(?P<Sets>\d+)\s*(?:set|sets)\s*(?:,+|-|\s)\s*(?P<Weight>\d+)\s*(?P<WeightUnits>(kg|kilos|kilogram|kilograms|lb|lbs|pound|pounds)$)`, nil, nil),                                // {Exercise:String} (Delimiter) {Sets:Number} sets (Delimiter) {Weight:Number}{WeightUnits}
