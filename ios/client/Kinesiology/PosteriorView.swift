@@ -205,8 +205,6 @@ struct PosteriorShape: Shape {
         let startRadius = 0.3 * max(bounds.width, bounds.height)
         let endRadius = max(bounds.width, bounds.height)
         
-        print("here", self.muscle, self.usage, self.activiation)
-        
         switch self.usage {
         case .target:
             let opacity = self.activiation

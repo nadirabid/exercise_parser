@@ -71,9 +71,7 @@ struct ExerciseDictionarySelectionView: View {
     }
     
     var body: some View {
-        print("here:posterior", self.posteriorDynamic)
-        
-        return VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading) {
                 Text(title).font(.title)
             

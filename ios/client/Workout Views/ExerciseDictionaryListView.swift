@@ -17,7 +17,7 @@ struct ExerciseDictionaryListView: View {
     
     @State private var allDictionaries: [ExerciseDictionary] = []
     @State private var allDictionariesByID: [Int:ExerciseDictionary] = [Int:ExerciseDictionary]()
-    @State private var filteredDictionaryIDs: [Int] = [2]
+    @State private var filteredDictionaryIDs: [Int] = []
     
     @State private var exerciseSelectionPreview: ExerciseDictionary? = nil
     @State private var exerciseTemplates: [ExerciseTemplate] = []
@@ -74,7 +74,7 @@ struct ExerciseDictionaryListView: View {
                             handleClose()
                         }
                     }) {
-                        Text("Cancel")
+                        Text("Close")
                     }
                     
                     Spacer()
