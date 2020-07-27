@@ -156,6 +156,13 @@ func TestStrengthActivityFullMatch(t *testing.T) {
 		assert.Equal(t, expected, parsed[0].Captures)
 	})
 
+	t.Run("360 box jumps 30", func(t *testing.T) {
+		expected := map[string]string{"Exercise": "360 box jumps", "Reps"}
+		parsed := resolveAllActivityExpressionsTestUtil("360 box jumps")
+		assert.Len(t, parsed, 1)
+		assert.Equal(t, expected, parsed[0].Captures)
+	})
+
 	for _, d := range delimiter {
 		t.Run("{Reps:Number} (Delimiter) {Exercise:String}, left wnd right", func(t *testing.T) {
 			expected := map[string]string{"Exercise": "walking lunges, left wnd right", "Reps": "12"}
