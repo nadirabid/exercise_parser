@@ -247,7 +247,8 @@ func handlePutWorkout(c echo.Context) error {
 		tx.Unscoped().Where("exercise_id = ?", e.ID).Delete(&models.ExerciseData{})
 	}
 
-	// TODO: FIX THE PROBLEM WHERE WE DONT DELETE EXERCISES THAT ARE REMOVED
+	// need to explicitly delete workouts no longer present in
+	// the updated workout
 
 	updatedExercisesByID := map[uint]*models.Exercise{}
 	for _, e := range updatedWorkout.Exercises {

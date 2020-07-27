@@ -359,3 +359,94 @@ extension Muscle {
         }
     }
 }
+
+extension Muscle {
+    var weight: Int {
+        switch self {
+        case .Abductor: return 1
+        case .ExtensorCarpiUlnaris: return 1
+        case .ExtensorPollicisBrevis: return 1
+        case .EntensorPollicisLongus: return 1
+        case .Anconeus: return 1
+        case .Adductor: return 1
+        case .AnteriorDeltoid: return 1
+        case .Biceps: return 1
+        case .BicepsFemoris: return 1
+        case .Brachioradialis: return 1
+        case .Coracobrachialis: return 1
+        case .ExternalOblique: return 1
+        case .FlexorCarpiRadialis: return 1
+        case .FlexorCarpiUlnaris: return 1
+        case .FlexorDigitorumSuperficialis: return 1
+        case .ExtensorDigitorum: return 1
+        case .GastrocnemiusLateralHead: return 1
+        case .GastrocnemiusMedialHead: return 1
+        case .Gastrocnemius: return 1
+        case .GluteusMaximus: return 1
+        case .GluteusMedius: return 1
+        case .GluteusMinimus: return 1
+        case .IliotibialBand: return 1
+        case .Infraspinatus: return 1
+        case .LateralDeltoid: return 1
+        case .LatissimusDorsi: return 1
+        case .LevatorScapulae: return 1
+        case .Peroneus: return 1
+        case .PosteriorDeltoid: return 1
+        case .RectusAbdominis: return 1
+        case .RectusFemoris: return 1
+        case .RhomboidMajor: return 1
+        case .RhomboidMinor: return 1
+        case .Sartorius: return 1
+        case .Semitendinosus: return 1
+        case .SerratusAnterior: return 1
+        case .Soleus: return 1
+        case .Subscapularis: return 1
+        case .Supraspinatus: return 1
+        case .TeresMajor: return 1
+        case .TeresMinor: return 1
+        case .TransversusAbdominis: return 1
+        case .TrapeziusLowerFibers: return 1
+        case .TrapeziusUpperFibers: return 1
+        case .TrapeziusMiddleFibers: return 1
+        case .TricepsSurae: return 1
+        case .VastusinterMedius: return 1
+        case .VastusLateralis: return 1
+        case .VastusMedialis: return 1
+        case .TricepsLongHead: return 1
+        case .TricepsLateralHead: return 1
+        case .Iliocostalis: return 1
+        case .Longissimus: return 1
+        case .Spinalis: return 1
+        case .PectoralisMinor: return 1
+        case .PectoralisMajorClavicular: return 1
+        case .PectoralisMajorSternal: return 1
+        case .PsoasMajor: return 1
+        case .Iliacus: return 1
+        case .Iliopsoas: return 1
+        case .ErectorSpinae: return 1
+        case .LowerBack: return 1
+        case .Forearm: return 1
+        case .MiddleBack: return 1
+        case .Abductors: return 1
+        case .Deltoids: return 1
+        case .Trapezius: return 1
+        case .RotatorCuff: return 1
+        case .Triceps: return 1
+        case .Shoulder: return 1
+        case .Arm: return 1
+        case .Back: return 1
+        case .Glutes: return 1
+        case .Quadriceps: return 1
+        case .Hamstrings: return 1
+        case .Thigh: return 1
+        case .Calves: return 1
+        case .Legs: return 1
+        case .Abdominals: return 1
+        case .PectoralisMajor: return 1
+        case .Pectorals: return 1
+        case .Unknown: return 1
+        case .Body: return 1
+        case .Background: return 1
+        }
+    }
+}

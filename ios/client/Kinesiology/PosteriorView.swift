@@ -8,6 +8,151 @@
 
 import SwiftUI
 
+struct FocusedPosteriorShape: Shape {
+    let muscle: Muscle
+    let usage: MuscleUsage
+    let activiation: Double
+    let path: Path
+    let scaleToSize: CGRect
+    let center: CGPoint
+    
+    static let absoluteSize: CGSize = CGSize(width: 658.16, height: 1125.9)
+    
+    init(_ muscle: Muscle, relativeSize: CGRect, center: CGPoint, _ activation: Double = 0, with usage: MuscleUsage = .none) {
+        self.muscle = muscle
+        self.scaleToSize = relativeSize
+        self.usage = usage
+        self.activiation = activation
+        self.path = PosteriorPath.from(muscle: muscle)
+        self.center = center
+    }
+    
+    func path(in rect: CGRect) -> Path {
+        let scaleX = rect.size.width / scaleToSize.width
+        let scaleY = rect.size.height / scaleToSize.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        let center = self.center
+        
+        var transform  = CGAffineTransform.identity
+        
+        transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
+        transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
+        transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
+        
+        return path.applying(transform)
+    }
+    
+    func setGradient(_ size: CGSize) -> some View {
+        var radial: RadialGradient
+        let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
+        
+        let scaleX = rect.size.width / scaleToSize.width
+        let scaleY = rect.size.height / scaleToSize.height
+        
+        let factor = min(scaleX, max(scaleY, 0.0))
+        let center = self.center
+        
+        var transform  = CGAffineTransform.identity
+        
+        transform = transform.concatenating(CGAffineTransform(translationX: -center.x, y: -center.y))
+        transform = transform.concatenating(CGAffineTransform(scaleX: factor, y: factor))
+        transform = transform.concatenating(CGAffineTransform(translationX: rect.midX, y: rect.midY))
+        
+        let bounds = self.path.boundingRect.applying(transform)
+        let radialCenter = UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height)
+        let startRadius = 0.3 * max(bounds.width, bounds.height)
+        let endRadius = max(bounds.width, bounds.height)
+        
+        switch self.usage {
+        case .target:
+            let opacity = self.activiation
+            let colors = Gradient(colors: [secondaryAppColor.opacity(opacity), Color.yellow.opacity(opacity), appColor.opacity(opacity)])
+            radial = RadialGradient(
+                gradient: colors,
+                center: radialCenter,
+                startRadius: startRadius,
+                endRadius: endRadius
+            )
+        case .synergist:
+            let opacity = self.activiation * 0.6
+            let colors = Gradient(colors: [secondaryAppColor.opacity(opacity), Color.yellow.opacity(opacity), appColor.opacity(opacity)])
+            radial = RadialGradient(
+                gradient: colors,
+                center: radialCenter,
+                startRadius: startRadius,
+                endRadius: endRadius
+            )
+        case .dynamicArticulation:
+            let opacity = self.activiation * 0.5
+            let colors = Gradient(colors: [Color.green.opacity(opacity), Color.blue.opacity(opacity), Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)).opacity(opacity)])
+            radial = RadialGradient(
+                gradient: colors,
+                center: radialCenter,
+                startRadius: startRadius,
+                endRadius: endRadius
+            )
+        case .stabilizer, .dynamicStabilizer, .antagonistStabilizer, .staticArticulation, .none:
+            radial = RadialGradient(gradient: Gradient(colors: [Color.clear]), center: UnitPoint.center, startRadius: 0, endRadius: 0)
+        }
+        
+        return self.fill(radial)
+    }
+}
+
+struct FocusedPosteriorView: View {
+    var activatedTargetMuscles: [MuscleActivation]
+    var activatedSynergistMuscles: [MuscleActivation]
+    var activatedDynamicArticulationMuscles: [MuscleActivation]
+    
+    func muscleUsage(for muscle: Muscle) -> MuscleUsage {
+        if activatedTargetMuscles.contains(where: { $0.muscle == muscle } ) {
+            return .target
+        } else if activatedSynergistMuscles.contains(where: { $0.muscle == muscle } ) {
+            return .synergist
+        } else if activatedDynamicArticulationMuscles.contains(where: { $0.muscle == muscle }) {
+            return .dynamicArticulation
+        }
+
+        return .none
+    }
+    
+    func muscleActivation(for muscle: Muscle) -> Double {
+        if let activation = activatedTargetMuscles.first(where: { $0.muscle == muscle }) {
+            return activation.activation
+        } else if let activation = activatedSynergistMuscles.first(where: { $0.muscle == muscle }) {
+            return activation.activation
+        } else if let activation = activatedDynamicArticulationMuscles.first(where: { $0.muscle == muscle }) {
+            return activation.activation
+        }
+        
+        return 0
+    }
+    
+    var muscleActivations: [MuscleActivation] {
+        return (activatedTargetMuscles + activatedSynergistMuscles + activatedDynamicArticulationMuscles).filter { $0.muscle.orientation == .Posterior }
+    }
+    
+    var rect: (CGRect, CGPoint) {
+        let rect = PosteriorPath.boundingBoxForMuscles(muscles: muscleActivations.map { $0.muscle })
+        
+        return rect
+    }
+    
+    var body: some View {
+        ZStack {
+            FocusedPosteriorShape(.Background, relativeSize: rect.0, center: rect.1).fill(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+            
+            ForEach(muscleActivations, id: \.muscle) { (activation: MuscleActivation) in
+                FocusedPosteriorShape(activation.muscle, relativeSize: self.rect.0, center: self.rect.1, activation.activation, with: self.muscleUsage(for: activation.muscle))
+                    .setGradient(self.rect.0.size)
+            }
+            
+            FocusedPosteriorShape(.Body, relativeSize: rect.0, center: rect.1).stroke(Color(#colorLiteral(red: 0.9134874683, green: 0.9134874683, blue: 0.9134874683, alpha: 1)), lineWidth: 0.7)
+        }
+    }
+}
+
 struct PosteriorShape: Shape {
     let muscle: Muscle
     let usage: MuscleUsage
@@ -59,6 +204,8 @@ struct PosteriorShape: Shape {
         let radialCenter = UnitPoint(x: bounds.midX / size.width, y: bounds.midY / size.height)
         let startRadius = 0.3 * max(bounds.width, bounds.height)
         let endRadius = max(bounds.width, bounds.height)
+        
+        print("here", self.muscle, self.usage, self.activiation)
         
         switch self.usage {
         case .target:
@@ -129,7 +276,7 @@ struct PosteriorView: View {
             return activation.activation
         } else if let activation = activatedSynergistMuscles.first(where: { $0.muscle == muscle }) {
             return activation.activation
-        } else if let activation = activatedSynergistMuscles.first(where: { $0.muscle == muscle }) {
+        } else if let activation = activatedDynamicArticulationMuscles.first(where: { $0.muscle == muscle }) {
             return activation.activation
         }
         
@@ -137,7 +284,7 @@ struct PosteriorView: View {
     }
 
     var body: some View {
-        GeometryReader { geometry in
+        return GeometryReader { geometry in
             ZStack {
                 ZStack {
                     PosteriorShape(.Background)

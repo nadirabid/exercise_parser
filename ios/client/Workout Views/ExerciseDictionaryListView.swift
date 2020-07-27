@@ -17,7 +17,7 @@ struct ExerciseDictionaryListView: View {
     
     @State private var allDictionaries: [ExerciseDictionary] = []
     @State private var allDictionariesByID: [Int:ExerciseDictionary] = [Int:ExerciseDictionary]()
-    @State private var filteredDictionaryIDs: [Int] = []
+    @State private var filteredDictionaryIDs: [Int] = [2]
     
     @State private var exerciseSelectionPreview: ExerciseDictionary? = nil
     @State private var exerciseTemplates: [ExerciseTemplate] = []
@@ -29,7 +29,7 @@ struct ExerciseDictionaryListView: View {
     }
     
     var filteredDictionaries: [ExerciseDictionary] {
-        if filteredDictionaryIDs.isEmpty {
+        if filteredDictionaryIDs.isEmpty || allDictionaries.isEmpty {
             return allDictionaries
         }
         
@@ -83,15 +83,20 @@ struct ExerciseDictionaryListView: View {
                 
                 SearchBarView(searchText: self.userSearchTerm)
             
-                ASTableView(data: self.filteredDictionaries, dataID: \.id) { item, _ in
-                    Button(action: {
-                        self.exerciseSelectionPreview = item
-                    }) {
-                        ExerciseDictionaryListItem(dictionary: item, isSelected: self.isSelected(exerciseDictionary: item))
-                            .background(Color(UIColor.systemBackground))
-                            .padding([.leading, .trailing])
+                ASCollectionView(data: self.filteredDictionaries, dataID: \.id) { item, _ in
+                    VStack {
+                        Button(action: {
+                            self.exerciseSelectionPreview = item
+                        }) {
+                            ExerciseDictionaryListItem(dictionary: item, isSelected: self.isSelected(exerciseDictionary: item))
+                                .background(Color(UIColor.systemBackground))
+                                .padding([.leading, .trailing])
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        Divider()
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .frame(minHeight: 110, maxHeight: 110)
                 }
                 .onAppear {
                     self.dictionariesAPI.getDictionaryList().then(on: DispatchQueue.main) { (paginatedResponse: PaginatedResponse<ExerciseDictionary>) in
@@ -141,9 +146,41 @@ struct ExerciseDictionaryListItem: View {
     let dictionary: ExerciseDictionary
     let isSelected: Bool
     
-    @State private var target: [MuscleActivation] = []
-    @State private var synergists: [MuscleActivation] = []
-    @State private var dynamic: [MuscleActivation] = []
+    @State private var posteriorTarget: [MuscleActivation] = []
+    @State private var posteriorSynergists: [MuscleActivation] = []
+    @State private var posteriorDynamic: [MuscleActivation] = []
+    
+    @State private var anteriorTarget: [MuscleActivation] = []
+    @State private var anteriorSynergists: [MuscleActivation] = []
+    @State private var anteriorDynamic: [MuscleActivation] = []
+    
+    @State private var posteriorTargetWeight: Int = 0
+    @State private var posteriorSynergistsWeight: Int = 0
+    @State private var posteriorDynamicWeight: Int = 0
+    
+    @State private var anteriorTargetWeight: Int = 0
+    @State private var anteriorSynergistsWeight: Int = 0
+    @State private var anteriorDynamicWeight: Int = 0
+    
+    func muscleActiviationsFromFlattened(muscles: [String]?) -> [MuscleActivation]? {
+        if muscles == nil {
+            return nil
+        }
+        
+        let muscleStrings = muscles!.map { s in s.lowercased() }
+        
+        return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
+            if let muscle = Muscle.from(name: muscleString) {
+                if muscle.isMuscleGroup {
+                    return muscle.components.map { MuscleActivation(muscle: $0) }
+                } else {
+                    return [MuscleActivation(muscle: muscle)]
+                }
+            }
+            
+            return []
+        }
+    }
     
     var mainTitle: String {
         let tokens = dictionary.name.split(separator: "(")
@@ -163,8 +200,36 @@ struct ExerciseDictionaryListItem: View {
         return nil
     }
     
+    var orientationToShow: AnatomicalOrientation? {
+        if anteriorTargetWeight != 0 || posteriorTargetWeight != 0 {
+            if anteriorTargetWeight > posteriorTargetWeight {
+                return .Anterior
+            } else {
+                return .Posterior
+            }
+        }
+        
+        if anteriorDynamicWeight != 0 || posteriorDynamicWeight != 0 {
+            if anteriorDynamicWeight > posteriorDynamicWeight {
+                return .Anterior
+            } else {
+                return .Posterior
+            }
+        }
+        
+        if anteriorSynergistsWeight != 0 || posteriorDynamicWeight != 0 {
+            if anteriorSynergistsWeight > posteriorSynergistsWeight {
+                return .Anterior
+            } else {
+                return .Posterior
+            }
+        }
+        
+        return nil
+    }
+
     var body: some View {
-        HStack {
+        return HStack {
             VStack(alignment: .leading) {
                 Text(mainTitle).font(.callout).foregroundColor(isSelected ? appColor : Color.primary).fontWeight(isSelected ? .semibold : .regular)
                 
@@ -175,27 +240,59 @@ struct ExerciseDictionaryListItem: View {
             
             Spacer()
             
-            FocusedAnteriorView(
-                activatedTargetMuscles: self.target,
-                activatedSynergistMuscles: self.synergists,
-                activatedDynamicArticulationMuscles: self.dynamic
-            )
-                .padding()
-                .frame(width: 80, height: 90)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(appColor, lineWidth: 1))
+            if orientationToShow == .Anterior {
+                FocusedAnteriorView(
+                    activatedTargetMuscles: self.anteriorTarget,
+                    activatedSynergistMuscles: self.anteriorSynergists,
+                    activatedDynamicArticulationMuscles: self.anteriorDynamic
+                )
+                    .padding()
+                    .frame(width: 80, height: 90)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(appColor, lineWidth: 1))
+            } else if orientationToShow == .Posterior {
+                FocusedPosteriorView(
+                    activatedTargetMuscles: self.posteriorTarget,
+                    activatedSynergistMuscles: self.posteriorSynergists,
+                    activatedDynamicArticulationMuscles: self.posteriorDynamic
+                )
+                    .padding()
+                    .frame(width: 80, height: 90)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(appColor, lineWidth: 1))
+            } else {
+                Circle().fill(Color.clear).frame(width: 80, height: 80)
+            }
         }
         .onAppear {
-            if let target = self.dictionary.muscles.target {
-                self.target = target.compactMap { Muscle.from(name: $0) }.map { MuscleActivation(muscle: $0) }
+            if let target = self.muscleActiviationsFromFlattened(muscles: self.dictionary.muscles.target) {
+                // posterior
+                self.posteriorTarget = target.filter({ $0.muscle.orientation == .Posterior })
+                self.posteriorTargetWeight = self.posteriorTarget.reduce(0) { $0 + $1.muscle.weight }
+
+                // anterior
+                self.anteriorTarget = target.filter({ $0.muscle.orientation == .Anterior })
+                self.anteriorTargetWeight = self.anteriorTarget.reduce(0) { $0 + $1.muscle.weight }
+            }
+
+            if let synergists = self.muscleActiviationsFromFlattened(muscles: self.dictionary.muscles.synergists) {
+                // posterior
+                self.posteriorSynergists = synergists.filter({ $0.muscle.orientation == .Posterior })
+                self.posteriorSynergistsWeight = self.posteriorSynergists.reduce(0) { $0 + $1.muscle.weight }
+
+                // anterior
+                self.anteriorSynergists = synergists.filter({ $0.muscle.orientation == .Anterior })
+                self.anteriorSynergistsWeight = self.anteriorSynergists.reduce(0) { $0 + $1.muscle.weight }
             }
             
-            if let synergists = self.dictionary.muscles.synergists {
-                self.synergists = synergists.compactMap { Muscle.from(name: $0) }.map { MuscleActivation(muscle: $0) }
-            }
-            
-            if let dynamic = self.dictionary.muscles.dynamicArticulation {
-                self.dynamic = dynamic.compactMap { Muscle.from(name: $0) }.map { MuscleActivation(muscle: $0) }
+            if let dynamic = self.muscleActiviationsFromFlattened(muscles: self.dictionary.muscles.dynamicArticulation) {
+                // posterior
+                self.posteriorDynamic = dynamic.filter({ $0.muscle.orientation == .Posterior })
+                self.posteriorDynamicWeight = self.posteriorDynamic.reduce(0) { $0 + $1.muscle.weight }
+                
+                // anterior
+                self.anteriorDynamic = dynamic.filter({ $0.muscle.orientation == .Anterior })
+                self.anteriorDynamicWeight = self.anteriorDynamic.reduce(0) { $0 + $1.muscle.weight }
             }
         }
     }

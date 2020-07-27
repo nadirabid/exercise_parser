@@ -49,6 +49,55 @@ struct PosteriorPath {
         }
     }
     
+    static func bezierPathFrom(muscle: Muscle) -> UIBezierPath? {
+        switch muscle {
+        case .ExternalOblique: return fma13335Path()
+        case .LatissimusDorsi: return fma13357Path()
+        case .RhomboidMajor: return fma13379Path()
+        case .GluteusMaximus: return fma22314Path()
+        case .GluteusMedius: return fma22315Path()
+        case .BicepsFemoris: return fma22356Path()
+        case .Semitendinosus: return fma22357Path()
+        case .Infraspinatus: return fma32546Path()
+        case .TeresMajor: return fma32549Path()
+        case .TrapeziusLowerFibers: return fma32555Path()
+        case .TrapeziusMiddleFibers: return fma32556Path()
+        case .TrapeziusUpperFibers: return fma32557Path()
+        case .TricepsLongHead: return fma37692Path()
+        case .TricepsLateralHead: return fma37694Path()
+        case .Anconeus: return fma37704Path()
+        case .FlexorCarpiUlnaris: return fma38465Path()
+        case .Brachioradialis: return fma38485Path()
+        case .ExtensorDigitorum: return fma38500Path()
+        case .ExtensorCarpiUlnaris: return fma38506Path()
+        case .ExtensorPollicisBrevis: return fma38518Path()
+        case .EntensorPollicisLongus: return fma38521Path()
+        case .GastrocnemiusMedialHead: return fma45956Path()
+        case .GastrocnemiusLateralHead: return fma45959Path()
+        case .IliotibialBand: return fma51048Path()
+        case .ErectorSpinae: return fma71302Path()
+        case .Abductor: return fma74998Path()
+        case .LateralDeltoid: return fma83006Path()
+        case .PosteriorDeltoid: return fma83007Path()
+        case .Body: return bodyPath()
+        case .Background: return bodybackgroundPath()
+        default:
+            return nil
+        }
+    }
+    
+    static func boundingBoxForMuscles(muscles: [Muscle]) -> (CGRect, CGPoint) {
+        let combined = muscles.reduce(UIBezierPath()) { (combined, m) in
+            if let p = bezierPathFrom(muscle: m) {
+                combined.append(p)
+            }
+            
+            return combined
+        }
+        
+        return (combined.bounds, combined.cgPath.centroid())
+    }
+    
     static func bodybackgroundPath() -> UIBezierPath {
         let bodybackgroundPath = UIBezierPath()
         
