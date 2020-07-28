@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 )
 
@@ -28,7 +29,26 @@ func handleGetExerciseDictionaryList(c echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, newErrorMessage(err.Error()))
 	}
 
-	q := db.Preload("Muscles").Order("name asc")
+	// ids are an optional query parameter
+	idsQuery := strings.TrimSpace(strings.TrimSpace(ctx.QueryParam("ids")))
+	idsTokens := utils.SplitString(idsQuery, ',')
+
+	dictionaryIDs := []uint{}
+	for _, d := range idsTokens {
+		id, err := strconv.Atoi(d)
+		if err != nil {
+			return ctx.JSON(http.StatusBadRequest, newErrorMessage("if ids is specified, must contain valid dictionary ids"))
+		}
+
+		dictionaryIDs = append(dictionaryIDs, uint(id))
+	}
+
+	var q *gorm.DB
+	if len(dictionaryIDs) > 0 {
+		q = db.Where(dictionaryIDs).Preload("Muscles").Order("name asc")
+	} else {
+		q = db.Preload("Muscles").Order("name asc")
+	}
 
 	listResponse, err := paging(q, page, size, &results)
 

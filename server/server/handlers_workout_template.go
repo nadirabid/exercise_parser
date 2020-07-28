@@ -63,8 +63,6 @@ func handleGetAllUserWorkoutTemplates(c echo.Context) error {
 
 	listResponse, err := paging(q, page, size, &workoutTemplates)
 
-	utils.PrettyPrint(listResponse)
-
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, newErrorMessage(err.Error()))
 	}

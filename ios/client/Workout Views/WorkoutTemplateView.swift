@@ -36,7 +36,7 @@ struct WorkoutTemplateView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
+        return VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 Text(template.name)
                     .fontWeight(.semibold)
@@ -65,8 +65,7 @@ struct WorkoutTemplateView: View {
                 }
                 .padding([.leading, .trailing])
             } else {
-                Text("MuscleMetrics")
-                //WorkoutMuscleMetricsView(workout: self.workout)
+                WorkoutTemplateMusclesMetricsView(template: self.template)
             }
             
             HStack {
@@ -215,6 +214,114 @@ public struct WorkoutTemplateMetaMetricsView: View {
                 
                 WorkoutDetail(name: "Distance", value: "\(totalDistance) \(totalDistanceUnits)")
             }
+        }
+    }
+}
+
+struct WorkoutTemplateMusclesMetricsView: View {
+    let template: WorkoutTemplate
+    
+    @EnvironmentObject var exerciseDictionaryAPI: ExerciseDictionaryAPI
+    
+    @State private var posteriorTarget: [MuscleActivation] = []
+    @State private var posteriorSynergists: [MuscleActivation] = []
+    @State private var posteriorDynamic: [MuscleActivation] = []
+    
+    @State private var anteriorTarget: [MuscleActivation] = []
+    @State private var anteriorSynergists: [MuscleActivation] = []
+    @State private var anteriorDynamic: [MuscleActivation] = []
+    
+    func loadDictionaries() {
+        let ids = Set(self.template.exercises.reduce([Int]()) { r, t in
+            r + t.exerciseDictionaries.compactMap({ $0.id })
+        })
+        
+        self.exerciseDictionaryAPI.getListFilteredByIDs(dictionaryIDs: ids).then { r in
+            let dictionaries = r.results
+            
+            // target
+            let target = dictionaries.reduce([String]()) { r, d in
+                if let target = d.muscles.target {
+                    return r + target
+                }
+                
+                return r
+            }
+            
+            if let flattenedTarget = self.muscleActiviationsFromFlattened(muscles: target) {
+                self.posteriorTarget = flattenedTarget.filter({ $0.muscle.orientation == .Posterior })
+                self.anteriorTarget = flattenedTarget.filter({ $0.muscle.orientation == .Anterior })
+            }
+            
+            // synergists
+            let synergists = dictionaries.reduce([String]()) { r, d in
+                if let synergists = d.muscles.synergists {
+                    return r + synergists
+                }
+                
+                return r
+            }
+            
+            if let flattenedSynergists = self.muscleActiviationsFromFlattened(muscles: synergists) {
+                self.posteriorSynergists = flattenedSynergists.filter({ $0.muscle.orientation == .Posterior })
+                self.anteriorSynergists = flattenedSynergists.filter({ $0.muscle.orientation == .Anterior })
+            }
+            
+            // dynamic
+            let dynamic = dictionaries.reduce([String]()) { r, d in
+                if let dynamic = d.muscles.dynamicArticulation {
+                    return r + dynamic
+                }
+                
+                return r
+            }
+            
+            if let flattenedDynamic = self.muscleActiviationsFromFlattened(muscles: dynamic) {
+                self.posteriorDynamic = flattenedDynamic.filter({ $0.muscle.orientation == .Posterior })
+                self.anteriorDynamic = flattenedDynamic.filter({ $0.muscle.orientation == .Anterior })
+            }
+        }
+    }
+    
+    func muscleActiviationsFromFlattened(muscles: [String]?) -> [MuscleActivation]? {
+        if muscles == nil {
+            return nil
+        }
+        
+        let muscleStrings = muscles!.map { s in s.lowercased() }
+        
+        return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
+            if let muscle = Muscle.from(name: muscleString) {
+                if muscle.isMuscleGroup {
+                    return muscle.components.map { MuscleActivation(muscle: $0) }
+                } else {
+                    return [MuscleActivation(muscle: muscle)]
+                }
+            }
+            
+            return []
+        }
+    }
+    
+    var body: some View {
+        return VStack {
+            HStack {
+                AnteriorView(
+                    activatedTargetMuscles: anteriorTarget,
+                    activatedSynergistMuscles: anteriorSynergists,
+                    activatedDynamicArticulationMuscles: anteriorDynamic
+                )
+                
+                PosteriorView(
+                    activatedTargetMuscles: posteriorTarget,
+                    activatedSynergistMuscles: posteriorSynergists,
+                    activatedDynamicArticulationMuscles: posteriorDynamic
+                )
+            }
+            .frame(height: 280)
+        }
+        .onAppear {
+            self.loadDictionaries()
         }
     }
 }

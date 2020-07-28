@@ -33,6 +33,9 @@ struct ExerciseDictionaryListView: View {
             return allDictionaries
         }
         
+        // TODO: this approach is dangerious as filteredDictionariesIDs could include IDs
+        // that are not pressent in allDictionaries - do it the other way around
+        
         return self.filteredDictionaryIDs.map { allDictionariesByID[$0]! }
     }
     

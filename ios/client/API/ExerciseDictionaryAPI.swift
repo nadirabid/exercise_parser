@@ -101,6 +101,35 @@ class ExerciseDictionaryAPI: ObservableObject {
         }
     }
     
+    func getListFilteredByIDs(dictionaryIDs: Set<Int>, page: Int = 0, pageSize: Int = 0) -> Promise<PaginatedResponse<ExerciseDictionary>> {
+        let url = "\(baseURL)/api/dictionary"
+        let params: Parameters = [
+            "ids": dictionaryIDs.map { String($0) }.joined(separator: ","),
+            "page": "\(page)",
+            "size": "\(pageSize)"
+        ]
+        
+        return Promise<PaginatedResponse<ExerciseDictionary>> { (fulfill, reject) in
+            AF.request(url, method: .get, parameters: params, headers: self.headers)
+            .validate()
+            .response(queue: DispatchQueue.main) { (response) in
+                switch response.result {
+                case .success(let data):
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = decodeStrategy()
+                    
+                    let result = try! decoder.decode(PaginatedResponse<ExerciseDictionary>.self, from: data!)
+                    fulfill(result)
+                case .failure(let error):
+                    print("Failed to get exercise dictionaries list: ", error)
+                    if let data = response.data {
+                        print("Failed with error message from server", String(data: data, encoding: .utf8)!)
+                    }
+                }
+            }
+        }
+    }
+    
     func getWorkoutDictionaries(id: Int, _ completionHandler: @escaping (PaginatedResponse<ExerciseDictionary>) -> Void) {
         let url = "\(baseURL)/api/workout/\(id)/dictionary/"
         

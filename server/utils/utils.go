@@ -8,6 +8,7 @@ import (
 	"path"
 	"path/filepath"
 	"runtime"
+	"strings"
 
 	prettyjson "github.com/hokaccha/go-prettyjson"
 )
@@ -99,4 +100,12 @@ func GetAbsolutePath(relativePath string) string {
 	}
 
 	return path.Join(basePath, "..", relativePath)
+}
+
+func SplitString(s string, r rune) []string {
+	splitFn := func(c rune) bool {
+		return c == r
+	}
+
+	return strings.FieldsFunc(s, splitFn)
 }

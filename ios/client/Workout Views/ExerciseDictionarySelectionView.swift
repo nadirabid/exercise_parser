@@ -67,7 +67,12 @@ struct ExerciseDictionarySelectionView: View {
     }
     
     var isSelectButtonDisabled: Bool {
-        return !isSetsFieldEnabled && !isRepsFieldEnabled && !isTimeFieldEnabled && !isDistanceFieldEnabled && !isWeightFieldEnabled
+        return
+            !isSetsFieldEnabled &&
+            !isRepsFieldEnabled &&
+            !isTimeFieldEnabled &&
+            !isDistanceFieldEnabled &&
+            !isWeightFieldEnabled
     }
     
     var body: some View {
