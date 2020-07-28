@@ -238,4 +238,43 @@ class ExerciseTemplateData: ObservableObject, Codable {
             return "\(defaultValueCalories)"
         }
     }
+    
+    var displayWeightUnits: String {
+        return UnitMass.pounds.symbol
+    }
+    
+    var displayWeightValue: Float {
+        if let weight = self.weight.first {
+            let m = Measurement(value: Double(weight), unit: UnitMass.kilograms).converted(to: UnitMass.pounds)
+            return Float(m.value)
+        }
+        
+        return 0
+    }
+    
+    var displayDistanceUnits: String {
+        if let distance = self.distance.first {
+            if distance >= 300 {
+                return UnitLength.miles.symbol
+            }
+        }
+        
+        return UnitLength.feet.symbol
+    }
+    
+    var displayDistanceValue: Float {
+        if let distance = self.distance.first {
+            var m = Measurement(value: Double(distance), unit: UnitLength.meters)
+            
+            if distance <= 300 {
+                m = m.converted(to: UnitLength.feet)
+            } else {
+                m = m.converted(to: UnitLength.miles)
+            }
+            
+            return Float(round(m.value*100)/100)
+        }
+        
+        return 0
+    }
 }

@@ -192,22 +192,11 @@ public struct WorkoutTemplateMetaMetricsView: View {
     
     public var body: some View {
         HStack(spacing: 10) {
-            WorkoutDetail(
-                name: "Time",
-                value: secondsToElapsedTimeString(time)
-            )
+            WorkoutDetail(name: "Sets", value:"\(totalSets.description)")
+        
+            Divider()
             
-            if totalSets > 1 {
-                Divider()
-                
-                WorkoutDetail(name: "Sets", value:"\(totalSets.description)")
-            }
-            
-            if totalReps > 1 {
-                Divider()
-                
-                WorkoutDetail(name: "Reps", value:"\(totalReps.description)")
-            }
+            WorkoutDetail(name: "Reps", value:"\(totalReps.description)")
             
             if totalDistance > 0 {
                 Divider()

@@ -33,6 +33,38 @@ struct ExerciseTemplateView: View {
         return nil
     }
     
+    var showReps: Bool {
+        if !exerciseTemplate.data.isRepsFieldEnabled || exerciseTemplate.data.reps.contains(where: { $0 != exerciseTemplate.data.reps.first! }) {
+            return false
+        }
+        
+        return true
+    }
+    
+    var showWeight: Bool {
+        if !exerciseTemplate.data.isWeightFieldEnabled || exerciseTemplate.data.weight.contains(where: { $0 != exerciseTemplate.data.weight.first! }) {
+            return false
+        }
+        
+        return true
+    }
+    
+    var showDistance: Bool {
+        if !exerciseTemplate.data.isDistanceFieldEnabled || exerciseTemplate.data.distance.contains(where: { $0 != exerciseTemplate.data.distance.first! }) {
+            return false
+        }
+        
+        return true
+    }
+    
+    var showTime: Bool {
+        if !exerciseTemplate.data.isTimeFieldEnabled || exerciseTemplate.data.time.contains(where: { $0 != exerciseTemplate.data.time.first! }) {
+            return false
+        }
+        
+        return true
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack(spacing: 0) {
@@ -60,56 +92,56 @@ struct ExerciseTemplateView: View {
                     }
                 }
                 
-                if exerciseTemplate.data.isRepsFieldEnabled {
+                if showReps {
                     HStack(spacing: 0) {
                         Text("reps / ".uppercased())
                             .font(labelFont)
                             .foregroundColor(Color.secondary)
                             .fixedSize()
                         
-                        Text("9")
+                        Text("\(exerciseTemplate.data.reps.first ?? 0)")
                             .font(.callout)
                             .fontWeight(.semibold)
                             .fixedSize()
                     }
                 }
                 
-                if exerciseTemplate.data.isWeightFieldEnabled {
+                if showWeight {
                     HStack(spacing: 0) {
-                        Text("lbs / ".uppercased())
+                        Text("\(exerciseTemplate.data.displayWeightUnits) / ".uppercased())
                             .font(labelFont)
                             .foregroundColor(Color.secondary)
                             .fixedSize()
                         
-                        Text("135")
+                        Text("\(exerciseTemplate.data.displayWeightValue.format(f: ".0"))")
                             .font(.callout)
                             .fontWeight(.semibold)
                             .fixedSize()
                     }
                 }
                 
-                if exerciseTemplate.data.isDistanceFieldEnabled {
+                if showDistance {
                     HStack(spacing: 0) {
-                        Text("mi / ".uppercased())
+                        Text("\(exerciseTemplate.data.displayDistanceUnits) / ".uppercased())
                             .font(labelFont)
                             .foregroundColor(Color.secondary)
                             .fixedSize()
                         
-                        Text("2")
+                        Text("\(exerciseTemplate.data.displayDistanceValue)")
                             .font(.callout)
                             .fontWeight(.semibold)
                             .fixedSize()
                     }
                 }
                 
-                if exerciseTemplate.data.isTimeFieldEnabled {
+                if showTime {
                     HStack(spacing: 0) {
                         Text("time / ".uppercased())
                             .font(labelFont)
                             .foregroundColor(Color.secondary)
                             .fixedSize()
                         
-                        Text("30s")
+                        Text(secondsToElapsedTimeString(exerciseTemplate.data.time.first ?? 0))
                             .font(.callout)
                             .fontWeight(.semibold)
                             .fixedSize()
