@@ -12,6 +12,7 @@ struct WorkoutTemplateView: View {
     @EnvironmentObject var userAPI: UserAPI
     @EnvironmentObject var routeState: RouteState
     @EnvironmentObject var workoutTemplateAPI: WorkoutTemplateAPI
+    @EnvironmentObject var exerciseDictionaryAPI: ExerciseDictionaryAPI
     
     var template: WorkoutTemplate
     var onDelete: () -> Void = {}
@@ -22,6 +23,86 @@ struct WorkoutTemplateView: View {
     @State private var view = "waveform.path.ecg"
     @State private var showingActionSheet = false
     
+    @State private var posteriorTarget: [MuscleActivation] = []
+    @State private var posteriorSynergists: [MuscleActivation] = []
+    @State private var posteriorDynamic: [MuscleActivation] = []
+    
+    @State private var anteriorTarget: [MuscleActivation] = []
+    @State private var anteriorSynergists: [MuscleActivation] = []
+    @State private var anteriorDynamic: [MuscleActivation] = []
+    
+    func loadDictionaries() {
+        let ids = Set(self.template.exercises.reduce([Int]()) { r, t in
+            r + t.exerciseDictionaries.compactMap({ $0.id })
+        })
+        
+        self.exerciseDictionaryAPI.getListFilteredByIDs(dictionaryIDs: ids).then { r in
+            let dictionaries = r.results
+            
+            // target
+            let target = dictionaries.reduce([String]()) { r, d in
+                if let target = d.muscles.target {
+                    return r + target
+                }
+                
+                return r
+            }
+            
+            if let flattenedTarget = self.muscleActiviationsFromFlattened(muscles: target) {
+                self.posteriorTarget = flattenedTarget.filter({ $0.muscle.orientation == .Posterior })
+                self.anteriorTarget = flattenedTarget.filter({ $0.muscle.orientation == .Anterior })
+            }
+            
+            // synergists
+            let synergists = dictionaries.reduce([String]()) { r, d in
+                if let synergists = d.muscles.synergists {
+                    return r + synergists
+                }
+                
+                return r
+            }
+            
+            if let flattenedSynergists = self.muscleActiviationsFromFlattened(muscles: synergists) {
+                self.posteriorSynergists = flattenedSynergists.filter({ $0.muscle.orientation == .Posterior })
+                self.anteriorSynergists = flattenedSynergists.filter({ $0.muscle.orientation == .Anterior })
+            }
+            
+            // dynamic
+            let dynamic = dictionaries.reduce([String]()) { r, d in
+                if let dynamic = d.muscles.dynamicArticulation {
+                    return r + dynamic
+                }
+                
+                return r
+            }
+            
+            if let flattenedDynamic = self.muscleActiviationsFromFlattened(muscles: dynamic) {
+                self.posteriorDynamic = flattenedDynamic.filter({ $0.muscle.orientation == .Posterior })
+                self.anteriorDynamic = flattenedDynamic.filter({ $0.muscle.orientation == .Anterior })
+            }
+        }
+    }
+    
+    func muscleActiviationsFromFlattened(muscles: [String]?) -> [MuscleActivation]? {
+        if muscles == nil {
+            return nil
+        }
+        
+        let muscleStrings = muscles!.map { s in s.lowercased() }
+        
+        return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
+            if let muscle = Muscle.from(name: muscleString) {
+                if muscle.isMuscleGroup {
+                    return muscle.components.map { MuscleActivation(muscle: $0) }
+                } else {
+                    return [MuscleActivation(muscle: muscle)]
+                }
+            }
+            
+            return []
+        }
+    }
+    
     func shouldShowRoundsBeforeExercise(_ exercise: Exercise) -> Bool {
         let firstExerciseOfCircuitID = exercisesToDisplay.first(where: { $0.circuitID == exercise.circuitID })
         if exercise.circuitID != nil && firstExerciseOfCircuitID != nil && exercise.id == firstExerciseOfCircuitID!.id {
@@ -31,68 +112,52 @@ struct WorkoutTemplateView: View {
         return false
     }
     
+    var dictionary: ExerciseDictionary {
+        return self.template.exercises.first!.exerciseDictionaries.first!
+    }
+    
     var exercisesToDisplay: [ExerciseTemplate] {
         return template.exercises.sorted(by: { $0.id! < $1.id! })
     }
     
     var body: some View {
+        let fade =  Gradient(colors: [Color.clear, Color.black, Color.black])
+
         return VStack(alignment: .leading) {
-            HStack(alignment: .top) {
-                Text(template.name)
-                    .fontWeight(.semibold)
+            HStack(alignment: .center) {
+                VStack(alignment: .leading) {
+                    Text(template.name)
+                        .fontWeight(.semibold)
+                    
+                    WorkoutTemplateMetaMetricsView(workoutTemplate: self.template)
+                        .fixedSize(horizontal: true, vertical: true)
+                }
                 
                 Spacer()
-                    
-                Button(action: { self.showingActionSheet = true }) {
-                    Image(systemName:"ellipsis")
-                        .background(Color.white)
-                        .font(.headline)
-                        .foregroundColor(Color.secondary)
-                }
+                
+                FocusedAnteriorView(
+                    activatedTargetMuscles: anteriorTarget,
+                    activatedSynergistMuscles: anteriorSynergists,
+                    activatedDynamicArticulationMuscles: anteriorDynamic
+                )
+                    .padding(.all, 6)
+                    .frame(width: 60, height: 90)
+                    .clipShape(Rectangle())
+                    .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
             }
             .padding([.leading, .trailing])
             
-            WorkoutTemplateMetaMetricsView(workoutTemplate: self.template)
-                .fixedSize(horizontal: true, vertical: true)
-                .padding(.leading)
-            
-            if view == "waveform.path.ecg" {
-                VStack(spacing: 0) {
-                    ForEach(exercisesToDisplay) { item in
-                        ExerciseTemplateView(exerciseTemplate: item)
-                            .padding(.top)
-                    }
-                }
-                .padding([.leading, .trailing])
-            } else {
-                WorkoutTemplateMusclesMetricsView(template: self.template)
-            }
-            
-            HStack {
-                Spacer()
-                
-                Picker(selection: self.$view, label: Text("View selection")) {
-                    ForEach(options, id: \.self) { o in
-                        VStack {
-                            Image(systemName: o)
-                                .font(.caption)
-                                .tag(o)
-                        }
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .fixedSize()
-                
-                Spacer()
-            }
+            Divider()
         }
-        .padding([.top, .bottom])
         .actionSheet(isPresented: $showingActionSheet) {
             ActionSheet(title: Text(self.template.name), buttons: [
                 .default(Text("Edit")) { self.onEdit() },
                 .destructive(Text("Delete")) { self.onDelete() },
                 .cancel()
             ])
+        }
+        .onAppear {
+            self.loadDictionaries()
         }
     }
 }

@@ -64,7 +64,6 @@ struct WorkoutTemplatesListView: View {
                             )
                                 .background(Color.white)
                                 .buttonStyle(PlainButtonStyle())
-                                .padding(.top)
                         }
                         .listRowInsets(EdgeInsets())
                         .animation(.none)

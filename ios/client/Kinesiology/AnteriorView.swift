@@ -72,6 +72,9 @@ struct FocusedAnteriorShape: Shape {
                 gradient: colors,
                 center: radialCenter,
                 startRadius: startRadius,
+                
+                
+                
                 endRadius: endRadius
             )
         case .synergist:

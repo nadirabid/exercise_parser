@@ -232,6 +232,7 @@ struct ExerciseDictionaryListItem: View {
     }
 
     var body: some View {
+        let fade =  Gradient(colors: [Color.clear, Color.black, Color.black, Color.black, Color.black, Color.clear])
         return HStack {
             VStack(alignment: .leading) {
                 Text(mainTitle).font(.callout).foregroundColor(isSelected ? appColor : Color.primary).fontWeight(isSelected ? .semibold : .regular)
@@ -249,20 +250,22 @@ struct ExerciseDictionaryListItem: View {
                     activatedSynergistMuscles: self.anteriorSynergists,
                     activatedDynamicArticulationMuscles: self.anteriorDynamic
                 )
-                    .padding()
+                    .padding(.all, 8)
                     .frame(width: 80, height: 90)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(appColor, lineWidth: 1))
+                    .clipShape(Rectangle())
+                    .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
+                    .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
             } else if orientationToShow == .Posterior {
                 FocusedPosteriorView(
                     activatedTargetMuscles: self.posteriorTarget,
                     activatedSynergistMuscles: self.posteriorSynergists,
                     activatedDynamicArticulationMuscles: self.posteriorDynamic
                 )
-                    .padding()
+                    .padding(.all, 8)
                     .frame(width: 80, height: 90)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(appColor, lineWidth: 1))
+                    .clipShape(Rectangle())
+                    .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
+                    .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
             } else {
                 Circle().fill(Color.clear).frame(width: 80, height: 80)
             }
