@@ -1,14 +1,14 @@
 //
-//  ExerciseTemplateEditorView.swift
+//  ExerciseCreateFromTemplate.swift
 //  client
 //
-//  Created by Nadir Muzaffar on 7/16/20.
+//  Created by Nadir Muzaffar on 7/30/20.
 //  Copyright © 2020 Nadir Muzaffar. All rights reserved.
 //
 
 import SwiftUI
 
-struct ExerciseTemplateEditorView: View {
+struct ExerciseCreateFromTemplate: View {
     var exerciseTemplate: ExerciseTemplate
     var viewWidth: CGFloat
     var onDelete: () -> Void
@@ -206,9 +206,8 @@ struct ExerciseTemplateEditorView: View {
                     }
                     
                     HStack(alignment: .center) {
-                        Image(systemName: "multiply")
-                            .font(.caption)
-                            .foregroundColor(Color.init(0, opacity: 0))
+                        Image(systemName: "checkmark.circle")
+                            .foregroundColor(Color.clear)
                     }
                     .padding(.leading)
                 }
@@ -219,11 +218,19 @@ struct ExerciseTemplateEditorView: View {
                             self.createColumnViewFor(field: item, itemSetIndex)
                         }
                         
-                        Button(action: { self.dataFields.removeSetAt(index: itemSetIndex) }) {
+                        Button(action: {
+                            var complete = self.dataFields.completedSets.compactMap { $0 }
+                            complete[itemSetIndex] = !complete[itemSetIndex]
+                            self.dataFields.completedSets = complete
+                        }) {
                             HStack(alignment: .center) {
-                                Image(systemName: "trash.fill")
-                                    .font(.caption)
-                                    .foregroundColor(Color.secondary)
+                                if self.dataFields.completedSets[itemSetIndex] {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(appColor)
+                                } else {
+                                    Image(systemName: "checkmark.circle")
+                                        .foregroundColor(Color.secondary)
+                                }
                             }
                             .padding(.leading)
                         }

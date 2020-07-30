@@ -80,14 +80,33 @@ enum RouteEditor: Equatable {
     }
 }
 
-enum RouteEditorTemplate {
+enum RouteEditorTemplate: Equatable {
     case list
     case create
-    case edit
+    case edit(WorkoutTemplate)
+    case start(WorkoutTemplate)
     
     static func isOneOf(route: Route) -> Bool {
         switch route {
         case .editor(.template(_)):
+            return true
+        default:
+            return false
+        }
+    }
+    
+    static func isEditTemplate(route: Route) -> Bool {
+        switch route {
+        case .editor(.template(.edit(_))):
+            return true
+        default:
+            return false
+        }
+    }
+    
+    static func isStartTemplate(route: Route) -> Bool {
+        switch route {
+        case .editor(.template(.start(_))):
             return true
         default:
             return false

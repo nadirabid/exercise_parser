@@ -14,8 +14,6 @@ struct WorkoutTemplateEditorView: View {
     @EnvironmentObject var exerciseDictionaryAPI: ExerciseDictionaryAPI
     @EnvironmentObject var workoutTemplateAPI: WorkoutTemplateAPI
     
-    @State var workoutTemplate: WorkoutTemplate?
-    
     @State private var exerciseTemplates: [ExerciseTemplate] = []
     @State private var selectExerciseDictionary: Bool = false
     @State private var workoutTemplateName: String = ""
@@ -90,6 +88,18 @@ struct WorkoutTemplateEditorView: View {
     
     func isLast(exerciseTemplate: ExerciseTemplate) -> Bool {
         self.exerciseTemplates.last?.cid == exerciseTemplate.cid
+    }
+    
+    var workoutTemplate: WorkoutTemplate? {
+        if self.routerState.peek() == .editor(.template(.create)) {
+            return nil
+        }
+
+        guard case .editor(.template(.edit(let template))) = self.routerState.peek() else {
+            return nil
+        }
+
+        return template
     }
     
     var body: some View {

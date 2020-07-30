@@ -31,6 +31,14 @@ struct WorkoutTemplateView: View {
     @State private var anteriorSynergists: [MuscleActivation] = []
     @State private var anteriorDynamic: [MuscleActivation] = []
     
+    @State private var posteriorTargetWeight: Int = 0
+    @State private var posteriorSynergistsWeight: Int = 0
+    @State private var posteriorDynamicWeight: Int = 0
+    
+    @State private var anteriorTargetWeight: Int = 0
+    @State private var anteriorSynergistsWeight: Int = 0
+    @State private var anteriorDynamicWeight: Int = 0
+    
     func loadDictionaries() {
         let ids = Set(self.template.exercises.reduce([Int]()) { r, t in
             r + t.exerciseDictionaries.compactMap({ $0.id })
@@ -50,7 +58,10 @@ struct WorkoutTemplateView: View {
             
             if let flattenedTarget = self.muscleActiviationsFromFlattened(muscles: target) {
                 self.posteriorTarget = flattenedTarget.filter({ $0.muscle.orientation == .Posterior })
+                self.posteriorTargetWeight = self.posteriorTarget.reduce(0) { $0 + $1.muscle.weight }
+                
                 self.anteriorTarget = flattenedTarget.filter({ $0.muscle.orientation == .Anterior })
+                self.anteriorTargetWeight = self.anteriorTarget.reduce(0) { $0 + $1.muscle.weight }
             }
             
             // synergists
@@ -64,7 +75,10 @@ struct WorkoutTemplateView: View {
             
             if let flattenedSynergists = self.muscleActiviationsFromFlattened(muscles: synergists) {
                 self.posteriorSynergists = flattenedSynergists.filter({ $0.muscle.orientation == .Posterior })
+                self.posteriorSynergistsWeight = self.posteriorSynergists.reduce(0) { $0 + $1.muscle.weight }
+                
                 self.anteriorSynergists = flattenedSynergists.filter({ $0.muscle.orientation == .Anterior })
+                self.anteriorSynergistsWeight = self.anteriorSynergists.reduce(0) { $0 + $1.muscle.weight }
             }
             
             // dynamic
@@ -78,7 +92,10 @@ struct WorkoutTemplateView: View {
             
             if let flattenedDynamic = self.muscleActiviationsFromFlattened(muscles: dynamic) {
                 self.posteriorDynamic = flattenedDynamic.filter({ $0.muscle.orientation == .Posterior })
+                self.posteriorDynamicWeight = self.posteriorDynamic.reduce(0) { $0 + $1.muscle.weight }
+                
                 self.anteriorDynamic = flattenedDynamic.filter({ $0.muscle.orientation == .Anterior })
+                self.anteriorDynamicWeight = self.anteriorDynamic.reduce(0) { $0 + $1.muscle.weight }
             }
         }
     }
@@ -120,13 +137,51 @@ struct WorkoutTemplateView: View {
         return template.exercises.sorted(by: { $0.id! < $1.id! })
     }
     
+    var templateName: String {
+        if template.name.isEmpty {
+            return "Unnamed"
+        }
+        
+        return template.name
+    }
+    
+    var orientationToShow: AnatomicalOrientation? {
+        if anteriorTargetWeight != 0 || posteriorTargetWeight != 0 {
+            if anteriorTargetWeight > posteriorTargetWeight {
+                return .Anterior
+            } else {
+                return .Posterior
+            }
+        }
+        
+        if anteriorDynamicWeight != 0 || posteriorDynamicWeight != 0 {
+            if anteriorDynamicWeight > posteriorDynamicWeight {
+                return .Anterior
+            } else {
+                return .Posterior
+            }
+        }
+        
+        if anteriorSynergistsWeight != 0 || posteriorDynamicWeight != 0 {
+            if anteriorSynergistsWeight > posteriorSynergistsWeight {
+                return .Anterior
+            } else {
+                return .Posterior
+            }
+        }
+        
+        return nil
+    }
+    
+    var fade: Gradient {
+        Gradient(colors: [Color.clear, Color.black, Color.black, Color.black, Color.black, Color.clear])
+    }
+    
     var body: some View {
-        let fade =  Gradient(colors: [Color.clear, Color.black, Color.black])
-
-        return VStack(alignment: .leading) {
+        VStack(alignment: .leading) {
             HStack(alignment: .center) {
                 VStack(alignment: .leading) {
-                    Text(template.name)
+                    Text(templateName)
                         .fontWeight(.semibold)
                     
                     WorkoutTemplateMetaMetricsView(workoutTemplate: self.template)
@@ -135,19 +190,33 @@ struct WorkoutTemplateView: View {
                 
                 Spacer()
                 
-                FocusedAnteriorView(
-                    activatedTargetMuscles: anteriorTarget,
-                    activatedSynergistMuscles: anteriorSynergists,
-                    activatedDynamicArticulationMuscles: anteriorDynamic
-                )
-                    .padding(.all, 6)
-                    .frame(width: 60, height: 90)
-                    .clipShape(Rectangle())
-                    .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
+                if orientationToShow == .Anterior {
+                    FocusedAnteriorView(
+                        activatedTargetMuscles: anteriorTarget,
+                        activatedSynergistMuscles: anteriorSynergists,
+                        activatedDynamicArticulationMuscles: anteriorDynamic
+                    )
+                        .padding(.all, 8)
+                        .frame(width: 60, height: 90)
+                        .clipShape(Rectangle())
+                        .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
+                        .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
+                } else if orientationToShow == .Posterior {
+                    FocusedPosteriorView(
+                        activatedTargetMuscles: self.posteriorTarget,
+                        activatedSynergistMuscles: self.posteriorSynergists,
+                        activatedDynamicArticulationMuscles: self.posteriorDynamic
+                    )
+                        .padding(.all, 8)
+                        .frame(width: 60, height: 90)
+                        .clipShape(Rectangle())
+                        .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
+                        .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
+                } else {
+                    Rectangle().fill(Color.clear).frame(width: 60, height: 90)
+                }
             }
             .padding([.leading, .trailing])
-            
-            Divider()
         }
         .actionSheet(isPresented: $showingActionSheet) {
             ActionSheet(title: Text(self.template.name), buttons: [

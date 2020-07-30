@@ -79,7 +79,9 @@ struct WorkoutTypeSelectorView: View {
     }
     
     var isCloseButtonDisabled: Bool {
-        return routerState.peek() != .editor(.template(.create)) && routerState.peek() != .editor(.template(.edit))
+        return routerState.peek() != .editor(.template(.create)) &&
+            !RouteEditorTemplate.isEditTemplate(route: routerState.peek()) &&
+            !RouteEditorTemplate.isStartTemplate(route: routerState.peek())
     }
     
     var body: some View {
@@ -134,7 +136,10 @@ struct WorkoutTypeSelectorView: View {
                         Spacer()
                     }
                     
-                    if routerState.peek() != .editor(.template(.create)) && routerState.peek() != .editor(.template(.edit)) {
+                    if routerState.peek() != .editor(.template(.create)) &&
+                        !RouteEditorTemplate.isEditTemplate(route: routerState.peek()) &&
+                        !RouteEditorTemplate.isStartTemplate(route: routerState.peek()) {
+                        
                         WorkoutTypeSelectorButtonsView(
                             locationManager: self.locationManager,
                             previousRoute: self.$previousRoute,
