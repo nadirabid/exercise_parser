@@ -81,9 +81,9 @@ enum ExerciseField: String {
     
     var description: String {
         switch self {
-        case .sets: return "sets"
+        case .sets: return ""
         case .reps: return "reps"
-        case .weight: return "weight"
+        case .weight: return "lbs"
         case .distance: return "distance"
         case .time: return "time"
         case .calories: return "calories"

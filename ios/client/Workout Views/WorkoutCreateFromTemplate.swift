@@ -88,7 +88,7 @@ struct WorkoutCreateFromTemplate: View {
     func handleDelete(exerciseTemplate: ExerciseTemplate) {
         self.exerciseTemplates = self.exerciseTemplates.filter({ $0.cid != exerciseTemplate.cid })
     }
-    
+
     func isLast(exerciseTemplate: ExerciseTemplate) -> Bool {
         self.exerciseTemplates.last?.cid == exerciseTemplate.cid
     }
@@ -153,33 +153,18 @@ struct WorkoutCreateFromTemplate: View {
                                         onDelete: { self.handleDelete(exerciseTemplate: item) }
                                     )
                                         .padding()
+                                    
+                                    Divider()
                                 }
                                 .background(Color.white)
-                                .padding(.top)
                                 .buttonStyle(PlainButtonStyle())
                                 .animation(.none)
                             }
                             .listRowInsets(EdgeInsets())
                             .background(feedColor)
                         }
-                        .introspectScrollView { (scrollView: UIScrollView) in
-                            if scrollView != self.scrollView {
-                                self.scrollView = scrollView
-                            }
-                            
-                            if self.newlyAddedExerciseTemplates.count > 0 {
-                                if let scrollView = self.scrollView {
-                                    let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
-                                    scrollView.setContentOffset(bottomOffset, animated: true)
-                                }
-                                
-                                self.newlyAddedExerciseTemplates = []
-                            }
-                        }
                     }
                 }
-                
-                Spacer()
                 
                 VStack(spacing: 0) {
                     Divider()

@@ -201,6 +201,10 @@ struct SignInWithAppleView: UIViewRepresentable {
             return (vc?.view.window!)!
         }
         
+        func calvin(caller callee: Int) {
+            
+        }
+        
         func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
             guard let credentials = authorization.credential as? ASAuthorizationAppleIDCredential else {
                 debugPrint("credentials not found....")

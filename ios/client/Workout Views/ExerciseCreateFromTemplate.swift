@@ -13,15 +13,112 @@ struct ExerciseCreateFromTemplate: View {
     var viewWidth: CGFloat
     var onDelete: () -> Void
     
+    @EnvironmentObject var exerciseDictionaryAPI: ExerciseDictionaryAPI
+    
     @ObservedObject private var dataFields: ExerciseTemplateData
     @State private var activeFields: [ExerciseField] = []
     @State private var showingActionSheet: Bool = false
+    
+    @State private var posteriorTarget: [MuscleActivation] = []
+    @State private var posteriorSynergists: [MuscleActivation] = []
+    @State private var posteriorDynamic: [MuscleActivation] = []
+    
+    @State private var anteriorTarget: [MuscleActivation] = []
+    @State private var anteriorSynergists: [MuscleActivation] = []
+    @State private var anteriorDynamic: [MuscleActivation] = []
+    
+    @State private var posteriorTargetWeight: Int = 0
+    @State private var posteriorSynergistsWeight: Int = 0
+    @State private var posteriorDynamicWeight: Int = 0
+    
+    @State private var anteriorTargetWeight: Int = 0
+    @State private var anteriorSynergistsWeight: Int = 0
+    @State private var anteriorDynamicWeight: Int = 0
     
     init(exerciseTemplate: ExerciseTemplate, viewWidth: CGFloat, onDelete: @escaping () -> Void = {}) {
         self.exerciseTemplate = exerciseTemplate
         self.viewWidth = viewWidth
         self.onDelete = onDelete
         self.dataFields = self.exerciseTemplate.data
+    }
+    
+    func loadDictionaries() {
+        let ids = Set(exerciseTemplate.exerciseDictionaries.compactMap({ $0.id }))
+        
+        self.exerciseDictionaryAPI.getListFilteredByIDs(dictionaryIDs: ids).then { r in
+            let dictionaries = r.results
+            
+            // target
+            let target = dictionaries.reduce([String]()) { r, d in
+                if let target = d.muscles.target {
+                    return r + target
+                }
+                
+                return r
+            }
+            
+            if let flattenedTarget = self.muscleActiviationsFromFlattened(muscles: target) {
+                self.posteriorTarget = flattenedTarget.filter({ $0.muscle.orientation == .Posterior })
+                self.posteriorTargetWeight = self.posteriorTarget.reduce(0) { $0 + $1.muscle.weight }
+                
+                self.anteriorTarget = flattenedTarget.filter({ $0.muscle.orientation == .Anterior })
+                self.anteriorTargetWeight = self.anteriorTarget.reduce(0) { $0 + $1.muscle.weight }
+            }
+            
+            // synergists
+            let synergists = dictionaries.reduce([String]()) { r, d in
+                if let synergists = d.muscles.synergists {
+                    return r + synergists
+                }
+                
+                return r
+            }
+            
+            if let flattenedSynergists = self.muscleActiviationsFromFlattened(muscles: synergists) {
+                self.posteriorSynergists = flattenedSynergists.filter({ $0.muscle.orientation == .Posterior })
+                self.posteriorSynergistsWeight = self.posteriorSynergists.reduce(0) { $0 + $1.muscle.weight }
+                
+                self.anteriorSynergists = flattenedSynergists.filter({ $0.muscle.orientation == .Anterior })
+                self.anteriorSynergistsWeight = self.anteriorSynergists.reduce(0) { $0 + $1.muscle.weight }
+            }
+            
+            // dynamic
+            let dynamic = dictionaries.reduce([String]()) { r, d in
+                if let dynamic = d.muscles.dynamicArticulation {
+                    return r + dynamic
+                }
+                
+                return r
+            }
+            
+            if let flattenedDynamic = self.muscleActiviationsFromFlattened(muscles: dynamic) {
+                self.posteriorDynamic = flattenedDynamic.filter({ $0.muscle.orientation == .Posterior })
+                self.posteriorDynamicWeight = self.posteriorDynamic.reduce(0) { $0 + $1.muscle.weight }
+                
+                self.anteriorDynamic = flattenedDynamic.filter({ $0.muscle.orientation == .Anterior })
+                self.anteriorDynamicWeight = self.anteriorDynamic.reduce(0) { $0 + $1.muscle.weight }
+            }
+        }
+    }
+    
+    func muscleActiviationsFromFlattened(muscles: [String]?) -> [MuscleActivation]? {
+        if muscles == nil {
+            return nil
+        }
+        
+        let muscleStrings = muscles!.map { s in s.lowercased() }
+        
+        return muscleStrings.flatMap { (muscleString) -> [MuscleActivation] in
+            if let muscle = Muscle.from(name: muscleString) {
+                if muscle.isMuscleGroup {
+                    return muscle.components.map { MuscleActivation(muscle: $0) }
+                } else {
+                    return [MuscleActivation(muscle: muscle)]
+                }
+            }
+            
+            return []
+        }
     }
     
     func calculateWidthFor(field: ExerciseField) -> CGFloat {
@@ -36,19 +133,19 @@ struct ExerciseCreateFromTemplate: View {
             
             if activeFields.first == field {
                 Text(field.description.uppercased())
-                    .font(.caption)
+                    .font(.system(size: 8))
                     .fontWeight(.medium)
                     .foregroundColor(Color.secondary)
-                    .frame(width: calculateWidthFor(field: field), alignment: .leading)
+                    .frame(width: calculateWidthFor(field: field), alignment: .trailing)
             } else if field != activeFields.last {
                 Text(field.description.uppercased())
-                    .font(.caption)
+                    .font(.system(size: 8))
                     .fontWeight(.medium)
                     .foregroundColor(Color.secondary)
                     .frame(width: calculateWidthFor(field: field), alignment: .trailing)
             } else {
                 Text(field.description.uppercased())
-                    .font(.caption)
+                    .font(.system(size: 8))
                     .fontWeight(.medium)
                     .foregroundColor(Color.secondary)
             }
@@ -63,20 +160,26 @@ struct ExerciseCreateFromTemplate: View {
             
             if field == .sets {
                 Text("\(itemSetIndex + 1)")
-                    .font(.caption)
+                    .font(.system(size: 12))
                     .fontWeight(.bold)
-                    .padding(4)
-                    .frame(width: 30)
-                    .fixedSize()
-                    .background(Circle().fill(Color(UIColor.systemGray6)))
-                    .frame(width: calculateWidthFor(field: field), alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    .foregroundColor(Color.secondary)
+                
+                Spacer()
             } else {
-                createTextFieldFor(field: field, itemSetIndex: itemSetIndex)
-                    .font(self.infoFont)
-                    .keyboardType(.numberPad)
+                VStack(alignment: .trailing, spacing: 0) {
+                    createTextFieldFor(field: field, itemSetIndex: itemSetIndex)
+                        .font(Font.title.weight(.light))
+                        .keyboardType(.numberPad)
+                        .multilineTextAlignment(.trailing)
+                    
+                    Text(field.description)
+                        .font(.system(size: 10))
+                        .foregroundColor(Color.secondary)
+                        .padding(.top, -4)
+                }
             }
         }
-        .multilineTextAlignment(.trailing)
         .frame(width: field == activeFields.last ? nil : calculateWidthFor(field: field))
     }
     
@@ -95,7 +198,7 @@ struct ExerciseCreateFromTemplate: View {
                 }
             )
             
-            return TextField("0", text: b).font(.headline)
+            return TextField("0", text: b)
         } else if field == .weight {
             let b = Binding<String>(
                 get: { () -> String in
@@ -110,7 +213,7 @@ struct ExerciseCreateFromTemplate: View {
                 }
             )
             
-            return TextField("0", text: b).font(.headline)
+            return TextField("0", text: b)
         } else if field == .distance {
             let b = Binding<String>(
                 get: { () -> String in
@@ -125,7 +228,7 @@ struct ExerciseCreateFromTemplate: View {
                 }
             )
             
-            return TextField("0", text: b).font(.headline)
+            return TextField("0", text: b)
         } else {
             let b = Binding<String>(
                 get: { () -> String in
@@ -140,7 +243,7 @@ struct ExerciseCreateFromTemplate: View {
                 }
             )
             
-            return TextField("0", text: b).font(.headline)
+            return TextField("0", text: b)
         }
     }
     
@@ -176,42 +279,85 @@ struct ExerciseCreateFromTemplate: View {
         return nil
     }
     
+    var orientationToShow: AnatomicalOrientation? {
+        if anteriorTargetWeight != 0 || posteriorTargetWeight != 0 {
+            if anteriorTargetWeight > posteriorTargetWeight {
+                return .Anterior
+            } else {
+                return .Posterior
+            }
+        }
+        
+        if anteriorDynamicWeight != 0 || posteriorDynamicWeight != 0 {
+            if anteriorDynamicWeight > posteriorDynamicWeight {
+                return .Anterior
+            } else {
+                return .Posterior
+            }
+        }
+        
+        if anteriorSynergistsWeight != 0 || posteriorDynamicWeight != 0 {
+            if anteriorSynergistsWeight > posteriorSynergistsWeight {
+                return .Anterior
+            } else {
+                return .Posterior
+            }
+        }
+        
+        return nil
+    }
+    
+    var fade: Gradient {
+        Gradient(colors: [Color.clear, Color.black, Color.black, Color.black, Color.black, Color.clear])
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
-            HStack(alignment: .top) {
+            HStack(alignment: .center) {
                 VStack(alignment: .leading) {
-                    Text(self.title).font(.subheadline)
+                    Text(self.title).fontWeight(.semibold)
                     
                     if self.subTitle != nil {
                         Text("(\(self.subTitle!))")
                             .font(.caption)
                             .foregroundColor(Color.secondary)
+                    } else {
+                        Text("")
                     }
                 }
                 
                 Spacer()
-                    
-                Button(action: { self.showingActionSheet = true }) {
-                    Image(systemName:"ellipsis")
-                        .background(Color.white)
-                        .font(.headline)
-                        .foregroundColor(Color.secondary)
+                
+                if orientationToShow == .Anterior {
+                    FocusedAnteriorView(
+                        activatedTargetMuscles: anteriorTarget,
+                        activatedSynergistMuscles: anteriorSynergists,
+                        activatedDynamicArticulationMuscles: anteriorDynamic
+                    )
+                        .padding(.all, 6)
+                        .frame(width: 25, height: 45)
+                        .clipShape(Rectangle())
+                        .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
+                        .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
+                        .padding(.trailing, -8)
+                } else if orientationToShow == .Posterior {
+                    FocusedPosteriorView(
+                        activatedTargetMuscles: self.posteriorTarget,
+                        activatedSynergistMuscles: self.posteriorSynergists,
+                        activatedDynamicArticulationMuscles: self.posteriorDynamic
+                    )
+                        .padding(.all, 6)
+                        .frame(width: 25, height: 45)
+                        .clipShape(Rectangle())
+                        .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
+                        .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
+                        .padding(.trailing, -8)
+                } else {
+                    Rectangle().fill(Color.clear).frame(width: 25, height: 40)
                 }
             }
             
-            VStack {
-                HStack(spacing: 0) {
-                    ForEach(self.activeFields, id: \.self) { item in
-                        self.createColumnTitleViewFor(field: item)
-                    }
-                    
-                    HStack(alignment: .center) {
-                        Image(systemName: "checkmark.circle")
-                            .foregroundColor(Color.clear)
-                    }
-                    .padding(.leading)
-                }
-                
+            VStack(spacing: 0) {
                 ForEach(0..<self.dataFields.sets, id:\.self) { itemSetIndex in
                     HStack(alignment: .center, spacing: 0) {
                         ForEach(self.activeFields, id: \.self) { item in
@@ -227,25 +373,26 @@ struct ExerciseCreateFromTemplate: View {
                                 if self.dataFields.completedSets[itemSetIndex] {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundColor(appColor)
+                                        .font(.caption)
                                 } else {
                                     Image(systemName: "checkmark.circle")
                                         .foregroundColor(Color.secondary)
+                                        .font(.caption)
                                 }
                             }
                             .padding(.leading)
                         }
                     }
+                    .padding(.top, 6)
                 }
-            }
-            
-            Button(action: { self.exerciseTemplate.data.addSet() }) {
-                Text("ADD SET").font(.caption).padding(.top)
             }
         }
         .onAppear {
             self.activeFields = [.sets, .reps, .weight, .distance, .time].filter {
                 self.exerciseTemplate.data.isActive(field: $0)
             }
+            
+            self.loadDictionaries()
         }
         .actionSheet(isPresented: $showingActionSheet) {
             return ActionSheet(title: Text("Exercise actions"), buttons: [
