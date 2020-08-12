@@ -18,6 +18,7 @@ struct ExerciseCreateFromTemplate: View {
     @ObservedObject private var dataFields: ExerciseTemplateData
     @State private var activeFields: [ExerciseField] = []
     @State private var showingActionSheet: Bool = false
+    @State private var isEditing: Bool = false
     
     @State private var posteriorTarget: [MuscleActivation] = []
     @State private var posteriorSynergists: [MuscleActivation] = []
@@ -152,8 +153,79 @@ struct ExerciseCreateFromTemplate: View {
         }
     }
     
+    func createFakeColumnViewFor(field: ExerciseField) -> some View {
+        return HStack(alignment: .center) {
+            if field == activeFields.last {
+                Spacer()
+            }
+            
+            if field == .sets {
+                Text("\(self.dataFields.sets + 1)")
+                    .font(.system(size: 12))
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.leading)
+                    .foregroundColor(Color.secondary)
+                
+                Spacer()
+            } else {
+                VStack(alignment: .trailing, spacing: 0) {
+                    createFakeTextFieldFor(field: field)
+                        .font(Font.title.italic().weight(.ultraLight))
+                        .keyboardType(.numberPad)
+                        .multilineTextAlignment(.trailing)
+                    
+                    Text(field.description)
+                        .font(.system(size: 10))
+                        .foregroundColor(Color.secondary)
+                        .padding(.top, -4)
+                }
+            }
+        }
+        .frame(width: field == activeFields.last ? nil : calculateWidthFor(field: field))
+    }
+    
+    func createFakeTextFieldFor(field: ExerciseField) -> some View {
+        if field == .reps {
+            let b = Binding<String>(
+                get: { () -> String in
+                    "\(self.dataFields.defaultValueReps)"
+            },
+                set: { (value) in }
+            )
+            
+            return TextField("0", text: b)
+        } else if field == .weight {
+            let b = Binding<String>(
+                get: { () -> String in
+                    "\(self.dataFields.defaultValueWeight.format(f: ".0"))"
+            },
+                set: { (value) in }
+            )
+            
+            return TextField("0", text: b)
+        } else if field == .distance {
+            let b = Binding<String>(
+                get: { () -> String in
+                    "\(self.dataFields.defaultValueDistance.format(f: ".0"))"
+            },
+                set: { (value) in }
+            )
+            
+            return TextField("0", text: b)
+        } else {
+            let b = Binding<String>(
+                get: { () -> String in
+                    "\(self.dataFields.defaultValueTime)"
+            },
+                set: { (value) in }
+            )
+            
+            return TextField("0", text: b)
+        }
+    }
+    
     func createColumnViewFor(field: ExerciseField, _ itemSetIndex: Int) -> some View {
-        HStack(alignment: .center) {
+        return HStack(alignment: .center) {
             if field == activeFields.last {
                 Spacer()
             }
@@ -188,14 +260,14 @@ struct ExerciseCreateFromTemplate: View {
             let b = Binding<String>(
                 get: { () -> String in
                     "\(self.dataFields.reps[itemSetIndex])"
-                },
+            },
                 set: { (value) in
                     self.dataFields.reps = self.dataFields.reps.map { $0 }
                     
                     if let v = Int(value) {
                         self.dataFields.reps[itemSetIndex] = v
                     }
-                }
+            }
             )
             
             return TextField("0", text: b)
@@ -203,14 +275,14 @@ struct ExerciseCreateFromTemplate: View {
             let b = Binding<String>(
                 get: { () -> String in
                     "\(self.dataFields.weight[itemSetIndex].format(f: ".0"))"
-                },
+            },
                 set: { (value) in
                     self.dataFields.weight = self.dataFields.weight.map { $0 }
                     
                     if let v = Float(value) {
                         self.dataFields.weight[itemSetIndex] = v
                     }
-                }
+            }
             )
             
             return TextField("0", text: b)
@@ -218,14 +290,14 @@ struct ExerciseCreateFromTemplate: View {
             let b = Binding<String>(
                 get: { () -> String in
                     "\(self.dataFields.distance[itemSetIndex].format(f: ".0"))"
-                },
+            },
                 set: { (value) in
                     self.dataFields.distance = self.dataFields.distance.map { $0 }
                     
                     if let v = Float(value) {
                         self.dataFields.distance[itemSetIndex] = v
                     }
-                }
+            }
             )
             
             return TextField("0", text: b)
@@ -233,14 +305,14 @@ struct ExerciseCreateFromTemplate: View {
             let b = Binding<String>(
                 get: { () -> String in
                     "\(self.dataFields.time[itemSetIndex])"
-                },
+            },
                 set: { (value) in
                     self.dataFields.time = self.dataFields.time.map { $0 }
                     
                     if let v = Int(value) {
                         self.dataFields.time[itemSetIndex] = v
                     }
-                }
+            }
             )
             
             return TextField("0", text: b)
@@ -339,7 +411,7 @@ struct ExerciseCreateFromTemplate: View {
                         .clipShape(Rectangle())
                         .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
                         .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
-                        .padding(.trailing, -8)
+                    //.padding(.trailing, -8)
                 } else if orientationToShow == .Posterior {
                     FocusedPosteriorView(
                         activatedTargetMuscles: self.posteriorTarget,
@@ -351,9 +423,25 @@ struct ExerciseCreateFromTemplate: View {
                         .clipShape(Rectangle())
                         .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
                         .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
-                        .padding(.trailing, -8)
+                    //.padding(.trailing, -8)
                 } else {
                     Rectangle().fill(Color.clear).frame(width: 25, height: 40)
+                }
+                
+                Button(action: {
+                    withAnimation {
+                        self.isEditing.toggle()
+                    }
+                }) {
+                    if self.isEditing {
+                        Image(systemName: "pencil.circle.fill")
+                            .foregroundColor(appColor)
+                            .font(.system(size: 16))
+                    } else {
+                        Image(systemName: "pencil.circle")
+                            .foregroundColor(Color(UIColor.systemGray4))
+                            .font(.system(size: 16))
+                    }
                 }
             }
             
@@ -363,24 +451,58 @@ struct ExerciseCreateFromTemplate: View {
                         ForEach(self.activeFields, id: \.self) { item in
                             self.createColumnViewFor(field: item, itemSetIndex)
                         }
+                        .disabled(self.isEditing)
+                        .opacity(self.isEditing ? 0.4 : 1)
+                        .padding(.trailing)
                         
-                        Button(action: {
-                            var complete = self.dataFields.completedSets.compactMap { $0 }
-                            complete[itemSetIndex] = !complete[itemSetIndex]
-                            self.dataFields.completedSets = complete
-                        }) {
-                            HStack(alignment: .center) {
-                                if self.dataFields.completedSets[itemSetIndex] {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(appColor)
-                                        .font(.caption)
-                                } else {
-                                    Image(systemName: "checkmark.circle")
-                                        .foregroundColor(Color.secondary)
-                                        .font(.caption)
+                        if !self.isEditing {
+                            Button(action: {
+                                var complete = self.dataFields.completedSets.compactMap { $0 }
+                                complete[itemSetIndex] = !complete[itemSetIndex]
+                                self.dataFields.completedSets = complete
+                            }) {
+                                HStack(alignment: .center) {
+                                    if self.dataFields.completedSets[itemSetIndex] {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .foregroundColor(appColor)
+                                            .font(.system(size: 16))
+                                    } else {
+                                        Image(systemName: "checkmark.circle")
+                                            .foregroundColor(Color(UIColor.systemGray4))
+                                            .font(.system(size: 16))
+                                    }
                                 }
                             }
-                            .padding(.leading)
+                        } else {
+                            Button(action: {
+                                self.dataFields.removeSetAt(index: itemSetIndex)
+                            }) {
+                                Image(systemName: "trash.circle")
+                                    .foregroundColor(appColor)
+                                    .font(.system(size: 16))
+                            }
+                        }
+                    }
+                    .padding(.top, 6)
+                }
+                
+                if self.isEditing {
+                    HStack(alignment: .center, spacing: 0) {
+                        ForEach(self.activeFields, id: \.self) { item in
+                            self.createFakeColumnViewFor(field: item)
+                        }
+                        .disabled(true)
+                        .opacity(0.4)
+                        .padding(.trailing)
+                        
+                        Button(action: {
+                            withAnimation {
+                                self.dataFields.addSet()
+                            }
+                        }) {
+                            Image(systemName: "plus.circle")
+                                .foregroundColor(appColor)
+                                .font(.system(size: 16))
                         }
                     }
                     .padding(.top, 6)
@@ -396,6 +518,11 @@ struct ExerciseCreateFromTemplate: View {
         }
         .actionSheet(isPresented: $showingActionSheet) {
             return ActionSheet(title: Text("Exercise actions"), buttons: [
+                .default(Text("Edit")) {
+                    withAnimation {
+                        self.isEditing = true
+                    }
+                },
                 .destructive(Text("Delete")) {
                     self.onDelete()
                 },
