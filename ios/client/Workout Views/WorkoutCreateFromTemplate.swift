@@ -152,7 +152,6 @@ struct WorkoutCreateFromTemplate: View {
                                         viewWidth: geometry.size.width,
                                         onDelete: { self.handleDelete(exerciseTemplate: item) }
                                     )
-                                        .padding()
                                     
                                     Divider()
                                 }

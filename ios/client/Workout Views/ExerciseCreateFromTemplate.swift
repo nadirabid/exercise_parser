@@ -123,7 +123,7 @@ struct ExerciseCreateFromTemplate: View {
     }
     
     func calculateWidthFor(field: ExerciseField) -> CGFloat {
-        return (viewWidth - 40) / CGFloat(activeFields.count)
+        return (viewWidth - 110) / CGFloat(activeFields.count) // TODO: this is fucked
     }
     
     func createColumnTitleViewFor(field: ExerciseField) -> some View {
@@ -161,7 +161,7 @@ struct ExerciseCreateFromTemplate: View {
             
             if field == .sets {
                 Text("\(self.dataFields.sets + 1)")
-                    .font(.system(size: 12))
+                    .font(Font.system(size: 12).italic().weight(.ultraLight))
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
                     .foregroundColor(Color.secondary)
@@ -384,130 +384,149 @@ struct ExerciseCreateFromTemplate: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack(alignment: .center) {
-                VStack(alignment: .leading) {
-                    Text(self.title).fontWeight(.semibold)
-                    
-                    if self.subTitle != nil {
-                        Text("(\(self.subTitle!))")
-                            .font(.caption)
-                            .foregroundColor(Color.secondary)
-                    } else {
-                        Text("")
-                    }
-                }
-                
-                Spacer()
-                
-                if orientationToShow == .Anterior {
-                    FocusedAnteriorView(
-                        activatedTargetMuscles: anteriorTarget,
-                        activatedSynergistMuscles: anteriorSynergists,
-                        activatedDynamicArticulationMuscles: anteriorDynamic
-                    )
-                        .padding(.all, 6)
-                        .frame(width: 25, height: 45)
-                        .clipShape(Rectangle())
-                        .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
-                        .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
-                    //.padding(.trailing, -8)
-                } else if orientationToShow == .Posterior {
-                    FocusedPosteriorView(
-                        activatedTargetMuscles: self.posteriorTarget,
-                        activatedSynergistMuscles: self.posteriorSynergists,
-                        activatedDynamicArticulationMuscles: self.posteriorDynamic
-                    )
-                        .padding(.all, 6)
-                        .frame(width: 25, height: 45)
-                        .clipShape(Rectangle())
-                        .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
-                        .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
-                    //.padding(.trailing, -8)
-                } else {
-                    Rectangle().fill(Color.clear).frame(width: 25, height: 40)
-                }
-                
-                Button(action: {
-                    withAnimation {
-                        self.isEditing.toggle()
-                    }
-                }) {
+        HStack(spacing: 0) {
+            VStack(alignment: .leading) {
+                HStack(alignment: .center) {
                     if self.isEditing {
-                        Image(systemName: "pencil.circle.fill")
-                            .foregroundColor(appColor)
-                            .font(.system(size: 16))
+                        Button(action: { self.onDelete() }) {
+                            Image(systemName: "trash.circle.fill")
+                                .foregroundColor(appColor)
+                                .font(.system(size: 26))
+                        }
+                    }
+                    
+                    VStack(alignment: .leading) {
+                        Text(self.title).fontWeight(.semibold)
+                        
+                        if self.subTitle != nil {
+                            Text("(\(self.subTitle!))")
+                                .font(.caption)
+                                .foregroundColor(Color.secondary)
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    if orientationToShow == .Anterior {
+                        FocusedAnteriorView(
+                            activatedTargetMuscles: anteriorTarget,
+                            activatedSynergistMuscles: anteriorSynergists,
+                            activatedDynamicArticulationMuscles: anteriorDynamic
+                        )
+                            .padding(.all, 6)
+                            .frame(width: 25, height: 45)
+                            .clipShape(Rectangle())
+                            .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
+                            .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
+                        //.padding(.trailing, -8)
+                    } else if orientationToShow == .Posterior {
+                        FocusedPosteriorView(
+                            activatedTargetMuscles: self.posteriorTarget,
+                            activatedSynergistMuscles: self.posteriorSynergists,
+                            activatedDynamicArticulationMuscles: self.posteriorDynamic
+                        )
+                            .padding(.all, 6)
+                            .frame(width: 25, height: 45)
+                            .clipShape(Rectangle())
+                            .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
+                            .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
+                        //.padding(.trailing, -8)
                     } else {
-                        Image(systemName: "pencil.circle")
-                            .foregroundColor(Color(UIColor.systemGray4))
-                            .font(.system(size: 16))
+                        Rectangle().fill(Color.clear).frame(width: 25, height: 40)
+                    }
+                    
+                    Button(action: {
+                        withAnimation {
+                            self.isEditing.toggle()
+                        }
+                    }) {
+                        if self.isEditing {
+                            Image(systemName: "pencil.circle.fill")
+                                .foregroundColor(appColor)
+                                .font(.system(size: 16))
+                        } else {
+                            Image(systemName: "pencil.circle")
+                                .foregroundColor(Color(UIColor.systemGray4))
+                                .font(.system(size: 16))
+                        }
                     }
                 }
-            }
-            
-            VStack(spacing: 0) {
-                ForEach(0..<self.dataFields.sets, id:\.self) { itemSetIndex in
-                    HStack(alignment: .center, spacing: 0) {
-                        ForEach(self.activeFields, id: \.self) { item in
-                            self.createColumnViewFor(field: item, itemSetIndex)
-                        }
-                        .disabled(self.isEditing)
-                        .opacity(self.isEditing ? 0.4 : 1)
-                        .padding(.trailing)
-                        
-                        if !self.isEditing {
-                            Button(action: {
-                                var complete = self.dataFields.completedSets.compactMap { $0 }
-                                complete[itemSetIndex] = !complete[itemSetIndex]
-                                self.dataFields.completedSets = complete
-                            }) {
-                                HStack(alignment: .center) {
-                                    if self.dataFields.completedSets[itemSetIndex] {
-                                        Image(systemName: "checkmark.circle.fill")
-                                            .foregroundColor(appColor)
-                                            .font(.system(size: 16))
-                                    } else {
-                                        Image(systemName: "checkmark.circle")
-                                            .foregroundColor(Color(UIColor.systemGray4))
-                                            .font(.system(size: 16))
+                
+                VStack(spacing: 0) {
+                    ForEach(0..<self.dataFields.sets, id:\.self) { itemSetIndex in
+                        HStack(alignment: .center, spacing: 0) {
+                            ForEach(self.activeFields, id: \.self) { item in
+                                self.createColumnViewFor(field: item, itemSetIndex)
+                            }
+                            .disabled(self.isEditing)
+                            .opacity(self.isEditing ? 0.4 : 1)
+                            .padding(.trailing)
+                            
+                            if !self.isEditing {
+                                Button(action: {
+                                    var complete = self.dataFields.completedSets.compactMap { $0 }
+                                    complete[itemSetIndex] = !complete[itemSetIndex]
+                                    self.dataFields.completedSets = complete
+                                }) {
+                                    HStack(alignment: .center) {
+                                        if self.dataFields.completedSets[itemSetIndex] {
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .foregroundColor(appColor)
+                                                .font(.system(size: 16))
+                                        } else {
+                                            Image(systemName: "checkmark.circle")
+                                                .foregroundColor(Color(UIColor.systemGray4))
+                                                .font(.system(size: 16))
+                                        }
                                     }
                                 }
+                            } else {
+                                Button(action: {
+                                    self.dataFields.removeSetAt(index: itemSetIndex)
+                                }) {
+                                    Image(systemName: "minus.circle")
+                                        .foregroundColor(appColor)
+                                        .font(.system(size: 16))
+                                }
                             }
-                        } else {
+                        }
+                        .padding(.top, 6)
+                    }
+                    
+                    if self.isEditing {
+                        HStack(alignment: .center, spacing: 0) {
+                            ForEach(self.activeFields, id: \.self) { item in
+                                self.createFakeColumnViewFor(field: item)
+                            }
+                            .disabled(true)
+                            .opacity(0.4)
+                            .padding(.trailing)
+                            
                             Button(action: {
-                                self.dataFields.removeSetAt(index: itemSetIndex)
+                                withAnimation {
+                                    self.dataFields.addSet()
+                                }
                             }) {
-                                Image(systemName: "trash.circle")
+                                Image(systemName: "plus.circle")
                                     .foregroundColor(appColor)
                                     .font(.system(size: 16))
                             }
                         }
+                        .padding(.top, 6)
                     }
-                    .padding(.top, 6)
                 }
-                
-                if self.isEditing {
-                    HStack(alignment: .center, spacing: 0) {
-                        ForEach(self.activeFields, id: \.self) { item in
-                            self.createFakeColumnViewFor(field: item)
-                        }
-                        .disabled(true)
-                        .opacity(0.4)
-                        .padding(.trailing)
-                        
-                        Button(action: {
-                            withAnimation {
-                                self.dataFields.addSet()
-                            }
-                        }) {
-                            Image(systemName: "plus.circle")
-                                .foregroundColor(appColor)
-                                .font(.system(size: 16))
-                        }
-                    }
-                    .padding(.top, 6)
-                }
-            }
+            }.padding(.all)
+            
+//            if self.isEditing {
+//                VStack(alignment: .center) {
+//                    Spacer()
+//                    Image(systemName: "trash.circle.fill")
+//                        .foregroundColor(secondaryAppColor)
+//                        .font(.system(size: 26))
+//                        .padding(14)
+//                    Spacer()
+//                }
+//            }
         }
         .onAppear {
             self.activeFields = [.sets, .reps, .weight, .distance, .time].filter {
