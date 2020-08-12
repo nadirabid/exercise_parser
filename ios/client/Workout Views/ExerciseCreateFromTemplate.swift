@@ -443,11 +443,11 @@ struct ExerciseCreateFromTemplate: View {
                         if self.isEditing {
                             Image(systemName: "pencil.circle.fill")
                                 .foregroundColor(appColor)
-                                .font(.system(size: 16))
+                                .font(Font.system(size: 16))
                         } else {
                             Image(systemName: "pencil.circle")
                                 .foregroundColor(Color(UIColor.systemGray4))
-                                .font(.system(size: 16))
+                                .font(Font.system(size: 16))
                         }
                     }
                 }
