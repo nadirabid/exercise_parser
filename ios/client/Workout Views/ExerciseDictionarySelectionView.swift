@@ -25,8 +25,8 @@ struct ExerciseDictionarySelectionView: View {
     
     @State private var isSetsFieldEnabled: Bool = true
     @State private var isRepsFieldEnabled: Bool = true
-    @State private var isTimeFieldEnabled: Bool = true
-    @State private var isDistanceFieldEnabled: Bool = true
+    @State private var isTimeFieldEnabled: Bool = false
+    @State private var isDistanceFieldEnabled: Bool = false
     @State private var isWeightFieldEnabled: Bool = true
     
     @State private var timeUnits: String = "seconds"

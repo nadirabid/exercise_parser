@@ -161,12 +161,12 @@ class ExerciseTemplateData: ObservableObject, Codable {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        isSetsFieldEnabled = true //try container.decode(Bool.self, forKey: .isSetsFieldEnabled)
-        isRepsFieldEnabled = true //try container.decode(Bool.self, forKey: .isRepsFieldEnabled)
-        isWeightFieldEnabled = true //try container.decode(Bool.self, forKey: .isWeightFieldEnabled)
-        isTimeFieldEnabled = true //try container.decode(Bool.self, forKey: .isTimeFieldEnabled)
-        isDistanceFieldEnabled = true //try container.decode(Bool.self, forKey: .isDistanceFieldEnabled)
-        isCaloriesFieldEnabled = true //try container.decode(Bool.self, forKey: .isCaloriesFieldEnabled)
+        isSetsFieldEnabled = try container.decode(Bool.self, forKey: .isSetsFieldEnabled)
+        isRepsFieldEnabled = try container.decode(Bool.self, forKey: .isRepsFieldEnabled)
+        isWeightFieldEnabled = try container.decode(Bool.self, forKey: .isWeightFieldEnabled)
+        isTimeFieldEnabled = try container.decode(Bool.self, forKey: .isTimeFieldEnabled)
+        isDistanceFieldEnabled = try container.decode(Bool.self, forKey: .isDistanceFieldEnabled)
+        isCaloriesFieldEnabled = try container.decode(Bool.self, forKey: .isCaloriesFieldEnabled)
         
         sets = try container.decode(Int.self, forKey: .sets)
         reps = try container.decode([Int].self, forKey: .reps)
