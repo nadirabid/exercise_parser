@@ -110,38 +110,28 @@ struct ExerciseDictionaryListView: View {
                     }
                 }
             }
+            .padding(.top)
             .edgesIgnoringSafeArea(.bottom)
             
             if self.exerciseSelectionPreview != nil {
-                VStack {
-                    HStack {
-                        Button(action: { self.exerciseSelectionPreview = nil }) {
-                            Image(systemName: "chevron.left")
-                                .font(Font.title.weight(.medium))
-                            Text("Back")
-                        }
-                        
-                        Spacer()
+                ExerciseDictionarySelectionView(
+                    dictionary: self.exerciseSelectionPreview!,
+                    exerciseTemplates: self.$exerciseTemplates,
+                    onClose: { self.exerciseSelectionPreview = nil }
+                ) {
+                    if let handleSelect = self.onSelectExerciseTemplates {
+                        handleSelect(self.exerciseTemplates)
                     }
-                    .padding(.leading)
                     
-                    ExerciseDictionarySelectionView(
-                        dictionary: self.exerciseSelectionPreview!,
-                        exerciseTemplates: self.$exerciseTemplates
-                    ) {
-                        if let handleSelect = self.onSelectExerciseTemplates {
-                            handleSelect(self.exerciseTemplates)
-                        }
-                        
-                        self.exerciseSelectionPreview = nil
-                    }
-                        .padding(.bottom)
-                        .padding(.bottom)
+                    self.exerciseSelectionPreview = nil
                 }
-                .background(Color(UIColor.systemBackground))
-                .edgesIgnoringSafeArea(.bottom)
+                .padding()
+                .padding(.bottom)
+                .background(Color(UIColor.secondarySystemBackground))
             }
         }
+        .edgesIgnoringSafeArea(.all)
+        .background(self.exerciseSelectionPreview == nil ? Color(UIColor.systemBackground) : Color(UIColor.red))
     }
 }
 

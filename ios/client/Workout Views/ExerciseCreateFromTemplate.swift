@@ -12,13 +12,14 @@ struct ExerciseCreateFromTemplate: View {
     var exerciseTemplate: ExerciseTemplate
     var viewWidth: CGFloat
     var onDelete: () -> Void
+    var onEdit: () -> Void
+    var isEditing: Bool
     
     @EnvironmentObject var exerciseDictionaryAPI: ExerciseDictionaryAPI
     
     @ObservedObject private var dataFields: ExerciseTemplateData
     @State private var activeFields: [ExerciseField] = []
     @State private var showingActionSheet: Bool = false
-    @State private var isEditing: Bool = false
     
     @State private var posteriorTarget: [MuscleActivation] = []
     @State private var posteriorSynergists: [MuscleActivation] = []
@@ -36,11 +37,13 @@ struct ExerciseCreateFromTemplate: View {
     @State private var anteriorSynergistsWeight: Int = 0
     @State private var anteriorDynamicWeight: Int = 0
     
-    init(exerciseTemplate: ExerciseTemplate, viewWidth: CGFloat, onDelete: @escaping () -> Void = {}) {
+    init(exerciseTemplate: ExerciseTemplate, viewWidth: CGFloat, onDelete: @escaping () -> Void = {}, onEdit: @escaping () -> Void = {}, isEditing: Bool = true) {
         self.exerciseTemplate = exerciseTemplate
         self.viewWidth = viewWidth
         self.onDelete = onDelete
         self.dataFields = self.exerciseTemplate.data
+        self.onEdit = onEdit
+        self.isEditing = isEditing
     }
     
     func loadDictionaries() {
@@ -435,11 +438,7 @@ struct ExerciseCreateFromTemplate: View {
                         Rectangle().fill(Color.clear).frame(width: 25, height: 40)
                     }
                     
-                    Button(action: {
-                        withAnimation {
-                            self.isEditing.toggle()
-                        }
-                    }) {
+                    Button(action: { self.onEdit() }) {
                         if self.isEditing {
                             Image(systemName: "pencil.circle.fill")
                                 .foregroundColor(appColor)
@@ -516,17 +515,6 @@ struct ExerciseCreateFromTemplate: View {
                     }
                 }
             }.padding(.all)
-            
-//            if self.isEditing {
-//                VStack(alignment: .center) {
-//                    Spacer()
-//                    Image(systemName: "trash.circle.fill")
-//                        .foregroundColor(secondaryAppColor)
-//                        .font(.system(size: 26))
-//                        .padding(14)
-//                    Spacer()
-//                }
-//            }
         }
         .onAppear {
             self.activeFields = [.sets, .reps, .weight, .distance, .time].filter {
@@ -534,19 +522,6 @@ struct ExerciseCreateFromTemplate: View {
             }
             
             self.loadDictionaries()
-        }
-        .actionSheet(isPresented: $showingActionSheet) {
-            return ActionSheet(title: Text("Exercise actions"), buttons: [
-                .default(Text("Edit")) {
-                    withAnimation {
-                        self.isEditing = true
-                    }
-                },
-                .destructive(Text("Delete")) {
-                    self.onDelete()
-                },
-                .cancel()
-            ])
         }
     }
 }

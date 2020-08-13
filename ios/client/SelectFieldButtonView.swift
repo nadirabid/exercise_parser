@@ -23,9 +23,13 @@ struct SelectFieldButtonView: View {
     var body: some View {
         Button(action: { self.selected.toggle() }) {
             HStack {
+                Text(title)
+                    .foregroundColor(Color.primary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Spacer()
+                
                 Image(systemName: imageName).foregroundColor(appColor)
-            
-                Text(title).foregroundColor(Color.primary).frame(maxWidth: .infinity, alignment: .leading)
             }
         }
     }

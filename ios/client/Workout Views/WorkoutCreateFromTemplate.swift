@@ -15,12 +15,13 @@ struct WorkoutCreateFromTemplate: View {
     @EnvironmentObject var workoutTemplateAPI: WorkoutTemplateAPI
     
     @State private var exerciseTemplates: [ExerciseTemplate] = []
-    @State private var selectExerciseDictionary: Bool = false
+    @State private var selectExerciseDictionary: Bool = true
     @State private var workoutTemplateName: String = ""
     @State private var workoutNameTextField: UITextField? = nil
     @State private var scrollView: UIScrollView? = nil
     @State private var newlyAddedExerciseTemplates: [ExerciseTemplate] = []
     @State private var isPaused = false
+    @State private var editingExerciseCID: UUID? = nil
     
     private var stopwatch = Stopwatch()
     
@@ -150,7 +151,15 @@ struct WorkoutCreateFromTemplate: View {
                                     ExerciseCreateFromTemplate(
                                         exerciseTemplate: item,
                                         viewWidth: geometry.size.width,
-                                        onDelete: { self.handleDelete(exerciseTemplate: item) }
+                                        onDelete: { self.handleDelete(exerciseTemplate: item) },
+                                        onEdit: {
+                                            if self.editingExerciseCID == item.cid {
+                                                self.editingExerciseCID = nil
+                                            } else {
+                                                self.editingExerciseCID = item.cid
+                                            }
+                                        },
+                                        isEditing: self.editingExerciseCID == item.cid
                                     )
                                     
                                     Divider()
@@ -219,14 +228,10 @@ struct WorkoutCreateFromTemplate: View {
             self.stopwatch.start()
         }
         .sheet(isPresented: self.$selectExerciseDictionary) {
-            VStack {
-                ExerciseDictionaryListView(onSelectExerciseTemplates: self.handleSelect) {
-                    self.selectExerciseDictionary = false
-                }
-                .environmentObject(self.exerciseDictionaryAPI)
+            ExerciseDictionaryListView(onSelectExerciseTemplates: self.handleSelect) {
+                self.selectExerciseDictionary = false
             }
-            .padding(.top)
-            .animation(.default)
+            .environmentObject(self.exerciseDictionaryAPI)   
         }
     }
 }
