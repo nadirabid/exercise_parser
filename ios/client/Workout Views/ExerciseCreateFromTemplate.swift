@@ -177,10 +177,22 @@ struct ExerciseCreateFromTemplate: View {
                         .keyboardType(.numberPad)
                         .multilineTextAlignment(.trailing)
                     
-                    Text(field.description)
-                        .font(.system(size: 10))
-                        .foregroundColor(Color.secondary)
-                        .padding(.top, -4)
+                    if field == .time {
+                        Text(self.timeUnits)
+                            .font(.system(size: 10))
+                            .foregroundColor(Color.secondary)
+                            .padding(.top, -4)
+                    } else if field == .distance {
+                        Text(self.distanceUnits)
+                            .font(.system(size: 10))
+                            .foregroundColor(Color.secondary)
+                            .padding(.top, -4)
+                    } else {
+                        Text(field.description)
+                            .font(.system(size: 10))
+                            .foregroundColor(Color.secondary)
+                            .padding(.top, -4)
+                    }
                 }
             }
         }
@@ -228,6 +240,7 @@ struct ExerciseCreateFromTemplate: View {
     }
     
     func createColumnViewFor(field: ExerciseField, _ itemSetIndex: Int) -> some View {
+        
         return HStack(alignment: .center) {
             if field == activeFields.last {
                 Spacer()
@@ -248,10 +261,22 @@ struct ExerciseCreateFromTemplate: View {
                         .keyboardType(.numberPad)
                         .multilineTextAlignment(.trailing)
                     
-                    Text(field.description)
-                        .font(.system(size: 10))
-                        .foregroundColor(Color.secondary)
-                        .padding(.top, -4)
+                    if field == .time {
+                        Text(self.timeUnits)
+                            .font(.system(size: 10))
+                            .foregroundColor(Color.secondary)
+                            .padding(.top, -4)
+                    } else if field == .distance {
+                        Text(self.distanceUnits)
+                            .font(.system(size: 10))
+                            .foregroundColor(Color.secondary)
+                            .padding(.top, -4)
+                    } else {
+                        Text(field.description)
+                            .font(.system(size: 10))
+                            .foregroundColor(Color.secondary)
+                            .padding(.top, -4)
+                    }
                 }
             }
         }
@@ -319,6 +344,28 @@ struct ExerciseCreateFromTemplate: View {
             )
             
             return TextField("0", text: b)
+        }
+    }
+    
+    var timeUnits: String {
+        if self.dataFields.fieldTimeUnits == "seconds" {
+            return "sec"
+        } else if self.dataFields.fieldTimeUnits == "minutes" {
+            return "min"
+        } else {
+            return self.dataFields.fieldTimeUnits
+        }
+    }
+    
+    var distanceUnits: String {
+        if self.dataFields.fieldDistanceUnits == "feet" {
+            return "ft"
+        } else if self.dataFields.fieldDistanceUnits == "yards" {
+            return "yd"
+        } else if self.dataFields.fieldDistanceUnits == "miles" {
+            return "mi"
+        } else {
+            return self.dataFields.fieldDistanceUnits
         }
     }
     

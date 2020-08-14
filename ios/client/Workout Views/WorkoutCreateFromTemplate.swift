@@ -15,7 +15,7 @@ struct WorkoutCreateFromTemplate: View {
     @EnvironmentObject var workoutTemplateAPI: WorkoutTemplateAPI
     
     @State private var exerciseTemplates: [ExerciseTemplate] = []
-    @State private var selectExerciseDictionary: Bool = true
+    @State private var selectExerciseDictionary: Bool = false
     @State private var workoutTemplateName: String = ""
     @State private var workoutNameTextField: UITextField? = nil
     @State private var scrollView: UIScrollView? = nil
@@ -107,6 +107,7 @@ struct WorkoutCreateFromTemplate: View {
     }
     
     var body: some View {
+        UITableView.appearance().separatorStyle = .none
         UITableView.appearance().separatorColor = .clear
         UITableView.appearance().backgroundColor = feedColor.uiColor()
         UITableView.appearance().showsVerticalScrollIndicator = false
