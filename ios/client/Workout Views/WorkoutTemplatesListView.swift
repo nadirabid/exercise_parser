@@ -39,18 +39,7 @@ struct WorkoutTemplatesListView: View {
             } else if RouteEditorTemplate.isStartTemplate(route: self.routerState.peek()) {
                 WorkoutCreateFromTemplate()
             } else {
-                VStack {
-                    HStack {
-                        Button(action: {
-                            self.routerState.replaceCurrent(with: .editor(.template(.create)))
-                        }) {
-                            Text("Add")
-                        }
-                        
-                        Spacer()
-                    }
-                    .padding(.leading)
-                    
+                VStack(spacing: 0) {
                     List {
                         ForEach(self.templates, id: \.id) { item in
                             Button(action: {
@@ -62,7 +51,7 @@ struct WorkoutTemplatesListView: View {
                                         onDelete: { self.delete(workoutTemplate: item) },
                                         onEdit: { self.routerState.replaceCurrent(with: .editor(.template(.edit(item)))) }
                                     )
-                                        .padding([.top, .bottom])
+                                        .padding([.top, .leading, .bottom])
                                     
                                     Divider()
                                 }

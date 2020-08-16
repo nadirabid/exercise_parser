@@ -216,7 +216,6 @@ struct WorkoutTemplateView: View {
                     Rectangle().fill(Color.clear).frame(width: 60, height: 90)
                 }
             }
-            .padding([.leading, .trailing])
         }
         .actionSheet(isPresented: $showingActionSheet) {
             ActionSheet(title: Text(self.template.name), buttons: [

@@ -85,24 +85,40 @@ struct WorkoutTypeSelectorView: View {
     }
     
     var body: some View {
-        // TODO: disable locationManager if workout is confirmed?
-
-        return ZStack {
+        VStack(spacing: 0) {
+            VStack(spacing: 0) {
+                HStack(alignment: .center) {
+                    if RouteEditorTemplate.isOneOf(route: routerState.peek()) {
+                        Button(action: {
+                            self.routerState.replaceCurrent(with: .editor(.template(.create)))
+                        }) {
+                            Text("Add").foregroundColor(appColor)
+                        }
+                    } else {
+                        Text("Add").foregroundColor(Color.clear)
+                    }
+                    
+                    Spacer()
+                    
+                    Button(action: {}) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(Color.secondary)
+                    }
+                }
+                .padding([.leading, .trailing, .bottom])
+                
+                Divider()
+            }
+            
             ZStack {
                 if routerState.peek() == .editor(.workout) {
                     WorkoutCreateView(disabled: !workoutTypeConfirmed)
                         .blur(radius: blurRadius)
-                        .transition(.asymmetric(
-                                insertion: .move(edge: .leading),
-                                removal: .move(edge: .trailing)
-                        ))
                         .animation(.default)
                 } else if routerState.peek() == .editor(.runTracker) {
                     if !workoutTypeConfirmed {
                         RunTrackerMapView(locationManager: self.locationManager, userTrackingMode: .none)
                             .blur(radius: blurRadius)
-                            .transition(runTrackerTransition)
-                            .animation(.default)
                             .onAppear {
                                 self.locationManager.startUpdatingLocation()
                             }
@@ -111,11 +127,13 @@ struct WorkoutTypeSelectorView: View {
                                     self.locationManager.stopUpdatingLocation()
                                 }
                             }
-                    } else  {
-                        RunTrackerView(locationManager: locationManager)
+                    } else {
+                        
                     }
+                } else if RouteEditorTemplate.isOneOf(route: routerState.peek()) {
+                    WorkoutTemplatesListView()
                 }
-
+                
                 if !workoutTypeConfirmed && !RouteEditorTemplate.isOneOf(route: routerState.peek()) {
                     WorkoutSelectionInformationOverlay(
                         locationManager: self.locationManager
@@ -123,51 +141,15 @@ struct WorkoutTypeSelectorView: View {
                 }
             }
             
-            if !workoutTypeConfirmed {
-                VStack(spacing: 0) {
-                    if RouteEditorTemplate.isOneOf(route: routerState.peek()) {
-                        WorkoutTemplatesListView()
-                            .transition(.asymmetric(
-                                insertion: .move(edge: .trailing),
-                                removal: .move(edge: .leading))
-                            )
-                            .animation(.default)
-                    } else {
-                        Spacer()
-                    }
-                    
-                    if routerState.peek() != .editor(.template(.create)) &&
-                        !RouteEditorTemplate.isEditTemplate(route: routerState.peek()) &&
-                        !RouteEditorTemplate.isStartTemplate(route: routerState.peek()) {
-                        
-                        WorkoutTypeSelectorButtonsView(
-                            locationManager: self.locationManager,
-                            previousRoute: self.$previousRoute,
-                            workoutTypeConfirmed: self.$workoutTypeConfirmed
-                        )
-                    }
-                }
-            }
-            
-            if isCloseButtonDisabled {
-                VStack(spacing: 0) {
-                    HStack {
-                        Spacer()
-
-                        Button(action: {
-                            self.routerState.clearAndSet(route: .userFeed)
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .font(.system(size: 24))
-                                .padding([.top, .trailing], 24)
-                        }
-                        .padding(.leading)
-                    }
-
-                    Spacer()
-                }
-                .statusBar(hidden: true)
-                .edgesIgnoringSafeArea(.all)
+            if routerState.peek() != .editor(.template(.create)) &&
+                !RouteEditorTemplate.isEditTemplate(route: routerState.peek()) &&
+                !RouteEditorTemplate.isStartTemplate(route: routerState.peek()) {
+                
+                WorkoutTypeSelectorButtonsView(
+                    locationManager: self.locationManager,
+                    previousRoute: self.$previousRoute,
+                    workoutTypeConfirmed: self.$workoutTypeConfirmed
+                )
             }
         }
     }
