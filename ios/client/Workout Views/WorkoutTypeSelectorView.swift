@@ -86,28 +86,37 @@ struct WorkoutTypeSelectorView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            VStack(spacing: 0) {
-                HStack(alignment: .center) {
-                    if RouteEditorTemplate.isOneOf(route: routerState.peek()) {
-                        Button(action: {
-                            self.routerState.replaceCurrent(with: .editor(.template(.create)))
-                        }) {
-                            Text("Add").foregroundColor(appColor)
-                        }
-                    } else {
-                        Text("Add").foregroundColor(Color.clear)
-                    }
-                    
-                    Spacer()
-                    
-                    Button(action: {}) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(Color.secondary)
-                    }
-                }
-                .padding([.leading, .trailing, .bottom])
+            if !workoutTypeConfirmed &&
+                routerState.peek() != .editor(.template(.create)) &&
+                !RouteEditorTemplate.isEditTemplate(route: routerState.peek()) &&
+                !RouteEditorTemplate.isStartTemplate(route: routerState.peek()) {
                 
-                Divider()
+                VStack(spacing: 0) {
+                    HStack(alignment: .center) {
+                        if RouteEditorTemplate.isOneOf(route: routerState.peek()) {
+                            Button(action: {
+                                self.routerState.replaceCurrent(with: .editor(.template(.create)))
+                            }) {
+                                Text("Add").foregroundColor(appColor)
+                            }
+                        } else {
+                            Text("Add").foregroundColor(Color.clear)
+                        }
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            self.routerState.clearAndSet(route: .userFeed)
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(Font.system(size: 22))
+                                .foregroundColor(Color.secondary)
+                        }
+                    }
+                    .padding([.leading, .trailing, .bottom])
+                    
+                    Divider()
+                }.background(Color.clear)
             }
             
             ZStack {
@@ -115,6 +124,7 @@ struct WorkoutTypeSelectorView: View {
                     WorkoutCreateView(disabled: !workoutTypeConfirmed)
                         .blur(radius: blurRadius)
                         .animation(.default)
+                        .padding(.bottom, workoutTypeConfirmed ? 0 : -40)
                 } else if routerState.peek() == .editor(.runTracker) {
                     if !workoutTypeConfirmed {
                         RunTrackerMapView(locationManager: self.locationManager, userTrackingMode: .none)
@@ -128,7 +138,7 @@ struct WorkoutTypeSelectorView: View {
                                 }
                             }
                     } else {
-                        
+                        RunTrackerView(locationManager: locationManager)
                     }
                 } else if RouteEditorTemplate.isOneOf(route: routerState.peek()) {
                     WorkoutTemplatesListView()
@@ -141,7 +151,8 @@ struct WorkoutTypeSelectorView: View {
                 }
             }
             
-            if routerState.peek() != .editor(.template(.create)) &&
+            if !workoutTypeConfirmed &&
+                routerState.peek() != .editor(.template(.create)) &&
                 !RouteEditorTemplate.isEditTemplate(route: routerState.peek()) &&
                 !RouteEditorTemplate.isStartTemplate(route: routerState.peek()) {
                 
@@ -300,6 +311,7 @@ struct WorkoutTypeSelectorButtonsView: View {
                         
                         Spacer()
                     }
+                    .animation(.default)
                     .transition(.scale)
                 }
             }
