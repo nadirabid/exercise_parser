@@ -137,6 +137,7 @@ struct WorkoutCreateFromTemplate: View {
                 WorkoutCreateFromTemplateMetaMetricsView(workoutTemplate: workoutTemplate!, stopwatch: self.stopwatch)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding()
+                    .background(Color.white)
             
                 if self.exerciseTemplates.isEmpty {
                     VStack {
@@ -146,31 +147,33 @@ struct WorkoutCreateFromTemplate: View {
                     }
                 } else {
                     GeometryReader { geometry in
-                        List {
-                            ForEach(self.exerciseTemplates, id: \.cid) { item in
-                                VStack(spacing: 0) {
-                                    ExerciseCreateFromTemplate(
-                                        exerciseTemplate: item,
-                                        viewWidth: geometry.size.width,
-                                        onDelete: { self.handleDelete(exerciseTemplate: item) },
-                                        onEdit: {
-                                            if self.editingExerciseCID == item.cid {
-                                                self.editingExerciseCID = nil
-                                            } else {
-                                                self.editingExerciseCID = item.cid
-                                            }
-                                        },
-                                        isEditing: self.editingExerciseCID == item.cid
-                                    )
-                                    
-                                    Divider()
+                        ScrollView(.vertical, showsIndicators: false) {
+                            VStack(spacing: 0) {
+                                ForEach(self.exerciseTemplates, id: \.cid) { item in
+                                    VStack(spacing: 0) {
+                                        ExerciseCreateFromTemplate(
+                                            exerciseTemplate: item,
+                                            viewWidth: geometry.size.width,
+                                            onDelete: { self.handleDelete(exerciseTemplate: item) },
+                                            onEdit: {
+                                                if self.editingExerciseCID == item.cid {
+                                                    self.editingExerciseCID = nil
+                                                } else {
+                                                    self.editingExerciseCID = item.cid
+                                                }
+                                            },
+                                            isEditing: self.editingExerciseCID == item.cid
+                                        )
+                                        
+                                        Divider()
+                                    }
+                                    .background(Color.white)
+                                    .buttonStyle(PlainButtonStyle())
+                                    .animation(.none)
                                 }
-                                .background(Color.white)
-                                .buttonStyle(PlainButtonStyle())
-                                .animation(.none)
+                                .listRowInsets(EdgeInsets())
+                                .background(feedColor)
                             }
-                            .listRowInsets(EdgeInsets())
-                            .background(feedColor)
                         }
                     }
                 }
@@ -218,8 +221,10 @@ struct WorkoutCreateFromTemplate: View {
                     .padding(.all, 13)
                     .fixedSize(horizontal: false, vertical: true)
                 }
+                .background(Color.white)
             }
         }
+        .background(feedColor)
         .onAppear {
             if let workoutTemplate = self.workoutTemplate {
                 self.workoutTemplateName = workoutTemplate.name

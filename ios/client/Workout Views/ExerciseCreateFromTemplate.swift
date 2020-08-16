@@ -126,34 +126,8 @@ struct ExerciseCreateFromTemplate: View {
     }
     
     func calculateWidthFor(field: ExerciseField) -> CGFloat {
-        return (viewWidth - 110) / CGFloat(activeFields.count) // TODO: this is fucked
-    }
-    
-    func createColumnTitleViewFor(field: ExerciseField) -> some View {
-        HStack {
-            if activeFields.last == field {
-                Spacer()
-            }
-            
-            if activeFields.first == field {
-                Text(field.description.uppercased())
-                    .font(.system(size: 8))
-                    .fontWeight(.medium)
-                    .foregroundColor(Color.secondary)
-                    .frame(width: calculateWidthFor(field: field), alignment: .trailing)
-            } else if field != activeFields.last {
-                Text(field.description.uppercased())
-                    .font(.system(size: 8))
-                    .fontWeight(.medium)
-                    .foregroundColor(Color.secondary)
-                    .frame(width: calculateWidthFor(field: field), alignment: .trailing)
-            } else {
-                Text(field.description.uppercased())
-                    .font(.system(size: 8))
-                    .fontWeight(.medium)
-                    .foregroundColor(Color.secondary)
-            }
-        }
+        let c = self.dataFields.isSetsFieldEnabled ? 1 : 2
+        return (viewWidth) / CGFloat(activeFields.count + c) // TODO: this is fucked
     }
     
     func createFakeColumnViewFor(field: ExerciseField) -> some View {
@@ -178,12 +152,17 @@ struct ExerciseCreateFromTemplate: View {
                         .multilineTextAlignment(.trailing)
                     
                     if field == .time {
-                        Text(self.timeUnits)
+                        Text(self.dataFields.fieldTimeUnits.lowercased())
                             .font(.system(size: 10))
                             .foregroundColor(Color.secondary)
                             .padding(.top, -4)
                     } else if field == .distance {
-                        Text(self.distanceUnits)
+                        Text(self.dataFields.fieldDistanceUnits.lowercased())
+                            .font(.system(size: 10))
+                            .foregroundColor(Color.secondary)
+                            .padding(.top, -4)
+                    } else if field == .weight {
+                        Text(self.dataFields.fieldWeightUnits.lowercased())
                             .font(.system(size: 10))
                             .foregroundColor(Color.secondary)
                             .padding(.top, -4)
@@ -196,7 +175,7 @@ struct ExerciseCreateFromTemplate: View {
                 }
             }
         }
-        .frame(width: field == activeFields.last ? nil : calculateWidthFor(field: field))
+        .frame(width: field == .sets ? nil : calculateWidthFor(field: field))
     }
     
     func createFakeTextFieldFor(field: ExerciseField) -> some View {
@@ -240,12 +219,7 @@ struct ExerciseCreateFromTemplate: View {
     }
     
     func createColumnViewFor(field: ExerciseField, _ itemSetIndex: Int) -> some View {
-        
-        return HStack(alignment: .center) {
-            if field == activeFields.last {
-                Spacer()
-            }
-            
+        HStack(alignment: .center) {
             if field == .sets {
                 Text("\(itemSetIndex + 1)")
                     .font(.system(size: 12))
@@ -262,12 +236,17 @@ struct ExerciseCreateFromTemplate: View {
                         .multilineTextAlignment(.trailing)
                     
                     if field == .time {
-                        Text(self.timeUnits)
+                        Text(self.dataFields.fieldTimeUnits.lowercased())
                             .font(.system(size: 10))
                             .foregroundColor(Color.secondary)
                             .padding(.top, -4)
                     } else if field == .distance {
-                        Text(self.distanceUnits)
+                        Text(self.dataFields.fieldDistanceUnits.lowercased())
+                            .font(.system(size: 10))
+                            .foregroundColor(Color.secondary)
+                            .padding(.top, -4)
+                    } else if field == .weight {
+                        Text(self.dataFields.fieldWeightUnits.lowercased())
                             .font(.system(size: 10))
                             .foregroundColor(Color.secondary)
                             .padding(.top, -4)
@@ -280,7 +259,7 @@ struct ExerciseCreateFromTemplate: View {
                 }
             }
         }
-        .frame(width: field == activeFields.last ? nil : calculateWidthFor(field: field))
+        .frame(width: field == .sets ? nil : calculateWidthFor(field: field))
     }
     
     func createTextFieldFor(field: ExerciseField, itemSetIndex: Int) -> some View {
@@ -333,14 +312,14 @@ struct ExerciseCreateFromTemplate: View {
             let b = Binding<String>(
                 get: { () -> String in
                     "\(self.dataFields.time[itemSetIndex])"
-            },
+                },
                 set: { (value) in
                     self.dataFields.time = self.dataFields.time.map { $0 }
                     
                     if let v = Int(value) {
                         self.dataFields.time[itemSetIndex] = v
                     }
-            }
+                }
             )
             
             return TextField("0", text: b)
@@ -348,23 +327,27 @@ struct ExerciseCreateFromTemplate: View {
     }
     
     var timeUnits: String {
-        if self.dataFields.fieldTimeUnits == "seconds" {
+        let units = self.dataFields.fieldTimeUnits.lowercased()
+        
+        switch units {
+        case "seconds":
             return "sec"
-        } else if self.dataFields.fieldTimeUnits == "minutes" {
+        case "minutes":
             return "min"
-        } else {
+        default:
             return self.dataFields.fieldTimeUnits
         }
     }
     
     var distanceUnits: String {
-        if self.dataFields.fieldDistanceUnits == "feet" {
+        switch self.dataFields.fieldDistanceUnits.lowercased() {
+        case "feet":
             return "ft"
-        } else if self.dataFields.fieldDistanceUnits == "yards" {
+        case "yards":
             return "yd"
-        } else if self.dataFields.fieldDistanceUnits == "miles" {
+        case "miles":
             return "mi"
-        } else {
+        default:
             return self.dataFields.fieldDistanceUnits
         }
     }
@@ -434,7 +417,7 @@ struct ExerciseCreateFromTemplate: View {
     }
     
     var body: some View {
-        HStack(spacing: 0) {
+        return HStack(spacing: 0) {
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
                     if self.isEditing {
@@ -468,7 +451,6 @@ struct ExerciseCreateFromTemplate: View {
                             .clipShape(Rectangle())
                             .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
                             .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
-                        //.padding(.trailing, -8)
                     } else if orientationToShow == .Posterior {
                         FocusedPosteriorView(
                             activatedTargetMuscles: self.posteriorTarget,
@@ -480,7 +462,6 @@ struct ExerciseCreateFromTemplate: View {
                             .clipShape(Rectangle())
                             .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
                             .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
-                        //.padding(.trailing, -8)
                     } else {
                         Rectangle().fill(Color.clear).frame(width: 25, height: 40)
                     }
@@ -501,52 +482,61 @@ struct ExerciseCreateFromTemplate: View {
                 VStack(spacing: 0) {
                     ForEach(0..<self.dataFields.sets, id:\.self) { itemSetIndex in
                         HStack(alignment: .center, spacing: 0) {
+                            if !self.dataFields.isSetsFieldEnabled {
+                                Spacer()
+                            }
+                            
                             ForEach(self.activeFields, id: \.self) { item in
                                 self.createColumnViewFor(field: item, itemSetIndex)
                             }
                             .disabled(self.isEditing)
                             .opacity(self.isEditing ? 0.4 : 1)
-                            .padding(.trailing)
                             
-                            if !self.isEditing {
-                                Button(action: {
-                                    var complete = self.dataFields.completedSets.compactMap { $0 }
-                                    complete[itemSetIndex] = !complete[itemSetIndex]
-                                    self.dataFields.completedSets = complete
-                                }) {
-                                    HStack(alignment: .center) {
-                                        if self.dataFields.completedSets[itemSetIndex] {
-                                            Image(systemName: "checkmark.circle.fill")
-                                                .foregroundColor(appColor)
-                                                .font(.system(size: 16))
-                                        } else {
-                                            Image(systemName: "checkmark.circle")
-                                                .foregroundColor(Color(UIColor.systemGray4))
-                                                .font(.system(size: 16))
+                            HStack(spacing: 0) {
+                                if !self.isEditing {
+                                    Button(action: {
+                                        var complete = self.dataFields.completedSets.compactMap { $0 }
+                                        complete[itemSetIndex] = !complete[itemSetIndex]
+                                        self.dataFields.completedSets = complete
+                                    }) {
+                                        HStack(alignment: .center) {
+                                            if self.dataFields.completedSets[itemSetIndex] {
+                                                Image(systemName: "checkmark.circle.fill")
+                                                    .foregroundColor(appColor)
+                                                    .font(.system(size: 16))
+                                            } else {
+                                                Image(systemName: "checkmark.circle")
+                                                    .foregroundColor(Color(UIColor.systemGray4))
+                                                    .font(.system(size: 16))
+                                            }
                                         }
                                     }
-                                }
-                            } else {
-                                Button(action: {
-                                    self.dataFields.removeSetAt(index: itemSetIndex)
-                                }) {
-                                    Image(systemName: "minus.circle")
-                                        .foregroundColor(appColor)
+                                } else if self.dataFields.isSetsFieldEnabled {
+                                    Button(action: {
+                                        self.dataFields.removeSetAt(index: itemSetIndex)
+                                    }) {
+                                        Image(systemName: "minus.circle")
+                                            .foregroundColor(appColor)
+                                            .font(.system(size: 16))
+                                    }
+                                } else {
+                                    Image(systemName: "checkmark.circle")
                                         .font(.system(size: 16))
+                                        .foregroundColor(Color.clear)
                                 }
                             }
+                            .padding(.leading)
                         }
                         .padding(.top, 6)
                     }
                     
-                    if self.isEditing {
+                    if self.dataFields.isSetsFieldEnabled && self.isEditing {
                         HStack(alignment: .center, spacing: 0) {
                             ForEach(self.activeFields, id: \.self) { item in
                                 self.createFakeColumnViewFor(field: item)
                             }
                             .disabled(true)
                             .opacity(0.4)
-                            .padding(.trailing)
                             
                             Button(action: {
                                 withAnimation {
@@ -557,11 +547,13 @@ struct ExerciseCreateFromTemplate: View {
                                     .foregroundColor(appColor)
                                     .font(.system(size: 16))
                             }
+                            .padding(.leading)
                         }
                         .padding(.top, 6)
                     }
                 }
-            }.padding(.all)
+            }
+            .padding(.all)
         }
         .onAppear {
             self.activeFields = [.sets, .reps, .weight, .distance, .time].filter {

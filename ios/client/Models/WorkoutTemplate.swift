@@ -99,14 +99,15 @@ class ExerciseTemplateData: ObservableObject, Codable {
     @Published var isDistanceFieldEnabled: Bool = false
     @Published var isCaloriesFieldEnabled: Bool = false
     
-    @Published var fieldTimeUnits: String = "Seconds"
-    @Published var fieldDistanceUnits: String = "Feet"
+    @Published var fieldWeightUnits: String = UnitMass.pounds.symbol
+    @Published var fieldTimeUnits: String = UnitDuration.seconds.symbol
+    @Published var fieldDistanceUnits: String = UnitLength.feet.symbol
     
     @Published var defaultValueSets: Int = 3
     @Published var defaultValueReps: Int = 5
-    @Published var defaultValueWeight: Float = 25
-    @Published var defaultValueTime: Int = 0
-    @Published var defaultValueDistance: Float = 0
+    @Published var defaultValueWeight: Float = 25 // units are stored as kilograms
+    @Published var defaultValueTime: Int = 60 // stores as seconds
+    @Published var defaultValueDistance: Float = 0 // stored as meters
     @Published var defaultValueCalories: Int = 0
     @Published var defaultValueComplete: Bool = false
     
@@ -149,7 +150,7 @@ class ExerciseTemplateData: ObservableObject, Codable {
         self.isDistanceFieldEnabled = isDistanceFieldEnabled
         self.isCaloriesFieldEnabled = isCaloriesFieldEnabled
         
-        self.sets = self.defaultValueSets
+        self.sets = self.isSetsFieldEnabled ? self.defaultValueSets : 1
         self.reps = [Int](repeating: defaultValueReps, count: defaultValueSets)
         self.weight = [Float](repeating: defaultValueWeight, count: defaultValueSets)
         self.time = [Int](repeating: defaultValueTime, count: defaultValueSets)
@@ -242,40 +243,49 @@ class ExerciseTemplateData: ObservableObject, Codable {
         }
     }
     
-    var displayWeightUnits: String {
-        return UnitMass.pounds.symbol
+    func displayTimeValue(setIndex: Int) -> Float {
+        let m = Measurement(value: Double(time[setIndex]), unit: UnitDuration.seconds)
+        
+        if self.fieldTimeUnits == UnitDuration.seconds.symbol {
+            return Float(m.value)
+        } else if self.fieldTimeUnits == UnitDuration.minutes.symbol {
+            return Float(m.converted(to: UnitDuration.minutes).value)
+        }
+        
+        return 0
     }
     
-    var displayWeightValue: Float {
-        if let weight = self.weight.first {
-            let m = Measurement(value: Double(weight), unit: UnitMass.kilograms).converted(to: UnitMass.pounds)
+    func displayWeightValue(setIndex: Int) -> Float {
+        let m = Measurement(value: Double(weight[setIndex]), unit: UnitMass.kilograms)
+        
+        if self.fieldWeightUnits == UnitMass.pounds.symbol {
+            return Float(m.converted(to: UnitMass.pounds).value)
+        } else if self.fieldWeightUnits == UnitMass.kilograms.symbol {
             return Float(m.value)
         }
         
         return 0
     }
     
-    var displayDistanceUnits: String {
-        if let distance = self.distance.first {
-            if distance >= 300 {
-                return UnitLength.miles.symbol
-            }
-        }
+    func displayDistanceValue(setIndex: Int) -> Float {
+        let distance = self.distance[setIndex]
+        var m = Measurement(value: Double(distance), unit: UnitLength.meters)
         
-        return UnitLength.feet.symbol
-    }
-    
-    var displayDistanceValue: Float {
-        if let distance = self.distance.first {
-            var m = Measurement(value: Double(distance), unit: UnitLength.meters)
-            
-            if distance <= 300 {
-                m = m.converted(to: UnitLength.feet)
-            } else {
-                m = m.converted(to: UnitLength.miles)
-            }
-            
-            return Float(round(m.value*100)/100)
+        if self.fieldDistanceUnits == UnitLength.feet.symbol {
+            m = m.converted(to: UnitLength.feet)
+            return Float(round(m.value*100) / 200)
+        } else if self.fieldDistanceUnits == UnitLength.yards.symbol {
+            m = m.converted(to: UnitLength.yards)
+            return Float(round(m.value*100) / 200)
+        } else if self.fieldDistanceUnits == UnitLength.miles.symbol {
+            m = m.converted(to: UnitLength.miles)
+            return Float(round(m.value*100) / 200)
+        } else if self.fieldDistanceUnits == UnitLength.meters.symbol {
+            m = m.converted(to: UnitLength.meters)
+            return Float(round(m.value*100) / 200)
+        } else if self.fieldDistanceUnits == UnitLength.kilometers.symbol {
+            m = m.converted(to: UnitLength.kilometers)
+            return Float(round(m.value*100) / 200)
         }
         
         return 0

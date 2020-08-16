@@ -29,8 +29,8 @@ struct ExerciseDictionarySelectionView: View {
     @State private var isDistanceFieldEnabled: Bool = false
     @State private var isWeightFieldEnabled: Bool = true
     
-    @State private var timeUnits: String = "seconds"
-    @State private var distanceUnits: String = "feet"
+    @State private var timeUnits: String = UnitDuration.seconds.symbol
+    @State private var distanceUnits: String = UnitLength.feet.symbol
     
     func muscleActiviationsFromFlattened(muscles: [String]?) -> [MuscleActivation]? {
         if muscles == nil {
@@ -169,19 +169,19 @@ struct ExerciseDictionarySelectionView: View {
                         if self.isDistanceFieldEnabled {
                             Picker(selection: self.$distanceUnits, label: Text("Distance units")) {
                                 VStack {
-                                    Text("Feet")
+                                    Text(UnitLength.feet.symbol)
                                         .fontWeight(.semibold)
-                                }.tag("feet")
+                                }.tag(UnitLength.feet.symbol)
                                 
                                 VStack {
-                                    Text("Yards")
+                                    Text(UnitLength.yards.symbol)
                                         .fontWeight(.semibold)
-                                }.tag("yards")
+                                }.tag(UnitLength.yards.symbol)
                                 
                                 VStack {
-                                    Text("Miles")
+                                    Text(UnitLength.miles.symbol)
                                         .fontWeight(.semibold)
-                                }.tag("miles")
+                                }.tag(UnitLength.miles.symbol)
                             }
                             .pickerStyle(SegmentedPickerStyle())
                         }
@@ -228,7 +228,7 @@ struct ExerciseDictionarySelectionView: View {
                 Spacer()
                 
                 Button(action: {
-                    var data = ExerciseTemplateData(
+                    let data = ExerciseTemplateData(
                         isSetsFieldEnabled: self.isSetsFieldEnabled,
                         isRepsFieldEnabled: self.isRepsFieldEnabled,
                         isWeightFieldEnabled: self.isWeightFieldEnabled,

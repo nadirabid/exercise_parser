@@ -108,12 +108,12 @@ struct ExerciseTemplateView: View {
                 
                 if showWeight {
                     HStack(spacing: 0) {
-                        Text("\(exerciseTemplate.data.displayWeightUnits) / ".uppercased())
+                        Text("\(exerciseTemplate.data.fieldWeightUnits) / ".uppercased())
                             .font(labelFont)
                             .foregroundColor(Color.secondary)
                             .fixedSize()
                         
-                        Text("\(exerciseTemplate.data.displayWeightValue.format(f: ".0"))")
+                        Text("\(exerciseTemplate.data.displayWeightValue(setIndex: 0).format(f: ".0"))")
                             .font(.callout)
                             .fontWeight(.semibold)
                             .fixedSize()
@@ -122,12 +122,12 @@ struct ExerciseTemplateView: View {
                 
                 if showDistance {
                     HStack(spacing: 0) {
-                        Text("\(exerciseTemplate.data.displayDistanceUnits) / ".uppercased())
+                        Text("\(exerciseTemplate.data.fieldDistanceUnits) / ".uppercased())
                             .font(labelFont)
                             .foregroundColor(Color.secondary)
                             .fixedSize()
                         
-                        Text("\(exerciseTemplate.data.displayDistanceValue)")
+                        Text("\(exerciseTemplate.data.displayDistanceValue(setIndex: 0))")
                             .font(.callout)
                             .fontWeight(.semibold)
                             .fixedSize()
