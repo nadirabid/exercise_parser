@@ -20,6 +20,7 @@ struct WorkoutTemplateEditorView: View {
     @State private var workoutNameTextField: UITextField? = nil
     @State private var scrollView: UIScrollView? = nil
     @State private var newlyAddedExerciseTemplates: [ExerciseTemplate] = []
+    @State private var editingExerciseCID: UUID? = nil
     
     func handleSelect(exerciseTemplates: [ExerciseTemplate]) {
         self.exerciseTemplates.append(contentsOf: exerciseTemplates)
@@ -103,13 +104,9 @@ struct WorkoutTemplateEditorView: View {
     }
     
     var body: some View {
-        UITableView.appearance().separatorColor = .clear
-        UITableView.appearance().backgroundColor = UIColor.systemBackground
-        UITableView.appearance().showsVerticalScrollIndicator = false
-        
-        return VStack {
+        VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
-                Text("Workout name")
+                Text("Workout template name")
                     .font(.caption)
                     .padding([.leading, .top])
                     .padding(.bottom, 3)
@@ -132,35 +129,33 @@ struct WorkoutTemplateEditorView: View {
                 }
             } else {
                 GeometryReader { geometry in
-                    ScrollView(showsIndicators: false) {
-                        ForEach(self.exerciseTemplates, id: \.cid) { item in
-                            VStack {
-                                ExerciseTemplateEditorView(
-                                    exerciseTemplate: item,
-                                    viewWidth: geometry.size.width,
-                                    onDelete: { self.handleDelete(exerciseTemplate: item) }
-                                )
-                                    .padding([.leading, .trailing])
-
-                                if !self.isLast(exerciseTemplate: item) {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(spacing: 0) {
+                            ForEach(self.exerciseTemplates, id: \.cid) { item in
+                                VStack(spacing: 0) {
+                                    ExerciseCreateFromTemplate(
+                                        exerciseTemplate: item,
+                                        showCompletionMark: false,
+                                        viewWidth: geometry.size.width,
+                                        onDelete: { self.handleDelete(exerciseTemplate: item) },
+                                        onEdit: {
+                                            if self.editingExerciseCID == item.cid {
+                                                self.editingExerciseCID = nil
+                                            } else {
+                                                self.editingExerciseCID = item.cid
+                                            }
+                                        },
+                                        isEditing: self.editingExerciseCID == item.cid
+                                    )
+                                    
                                     Divider()
                                 }
+                                .background(Color.white)
+                                .buttonStyle(PlainButtonStyle())
+                                .animation(.none)
                             }
                             .listRowInsets(EdgeInsets())
-                        }
-                    }
-                    .introspectScrollView { (scrollView: UIScrollView) in
-                        if scrollView != self.scrollView {
-                            self.scrollView = scrollView
-                        }
-                        
-                        if self.newlyAddedExerciseTemplates.count > 0 {
-                            if let scrollView = self.scrollView {
-                                let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
-                                scrollView.setContentOffset(bottomOffset, animated: true)
-                            }
-                            
-                            self.newlyAddedExerciseTemplates = []
+                            .background(feedColor)
                         }
                     }
                 }

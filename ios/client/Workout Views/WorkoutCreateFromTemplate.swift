@@ -107,12 +107,7 @@ struct WorkoutCreateFromTemplate: View {
     }
     
     var body: some View {
-        UITableView.appearance().separatorStyle = .none
-        UITableView.appearance().separatorColor = .clear
-        UITableView.appearance().backgroundColor = feedColor.uiColor()
-        UITableView.appearance().showsVerticalScrollIndicator = false
-        
-        return VStack(spacing: 0) {
+        VStack(spacing: 0) {
             if isPaused {
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Workout name")
@@ -153,6 +148,7 @@ struct WorkoutCreateFromTemplate: View {
                                     VStack(spacing: 0) {
                                         ExerciseCreateFromTemplate(
                                             exerciseTemplate: item,
+                                            showCompletionMark: false,
                                             viewWidth: geometry.size.width,
                                             onDelete: { self.handleDelete(exerciseTemplate: item) },
                                             onEdit: {
@@ -184,14 +180,14 @@ struct WorkoutCreateFromTemplate: View {
                     GeometryReader { geometry in
                         HStack {
                             Button(action: {
-                                self.routerState.replaceCurrent(with: .editor(.template(.list)))
+                                self.isPaused = true
                             }) {
                                 HStack {
                                     Image(systemName:"stop.circle")
                                         .font(.system(size: 15, weight: .medium, design: .default))
                                         .foregroundColor(Color.secondary)
                                     
-                                    Text("Stop")
+                                    Text("Complete")
                                         .foregroundColor(Color.secondary)
                                         .animation(.none)
                                 }
@@ -209,7 +205,7 @@ struct WorkoutCreateFromTemplate: View {
                                         .font(.system(size: 15, weight: .medium, design: .default))
                                         .foregroundColor(Color.secondary)
                                     
-                                    Text("Add")
+                                    Text("Add Exercise")
                                         .foregroundColor(Color.secondary)
                                         .animation(.none)
                                 }

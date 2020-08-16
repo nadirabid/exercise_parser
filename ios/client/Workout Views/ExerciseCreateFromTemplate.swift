@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ExerciseCreateFromTemplate: View {
     var exerciseTemplate: ExerciseTemplate
+    var showCompletionMark: Bool
     var viewWidth: CGFloat
     var onDelete: () -> Void
     var onEdit: () -> Void
@@ -37,8 +38,16 @@ struct ExerciseCreateFromTemplate: View {
     @State private var anteriorSynergistsWeight: Int = 0
     @State private var anteriorDynamicWeight: Int = 0
     
-    init(exerciseTemplate: ExerciseTemplate, viewWidth: CGFloat, onDelete: @escaping () -> Void = {}, onEdit: @escaping () -> Void = {}, isEditing: Bool = true) {
+    init(
+        exerciseTemplate: ExerciseTemplate,
+        showCompletionMark: Bool,
+        viewWidth: CGFloat,
+        onDelete: @escaping () -> Void = {},
+        onEdit: @escaping () -> Void = {},
+        isEditing: Bool = true
+    ) {
         self.exerciseTemplate = exerciseTemplate
+        self.showCompletionMark = showCompletionMark
         self.viewWidth = viewWidth
         self.onDelete = onDelete
         self.dataFields = self.exerciseTemplate.data
@@ -494,22 +503,28 @@ struct ExerciseCreateFromTemplate: View {
                             
                             HStack(spacing: 0) {
                                 if !self.isEditing {
-                                    Button(action: {
-                                        var complete = self.dataFields.completedSets.compactMap { $0 }
-                                        complete[itemSetIndex] = !complete[itemSetIndex]
-                                        self.dataFields.completedSets = complete
-                                    }) {
-                                        HStack(alignment: .center) {
-                                            if self.dataFields.completedSets[itemSetIndex] {
-                                                Image(systemName: "checkmark.circle.fill")
-                                                    .foregroundColor(appColor)
-                                                    .font(.system(size: 16))
-                                            } else {
-                                                Image(systemName: "checkmark.circle")
-                                                    .foregroundColor(Color(UIColor.systemGray4))
-                                                    .font(.system(size: 16))
+                                    if self.showCompletionMark {
+                                        Button(action: {
+                                            var complete = self.dataFields.completedSets.compactMap { $0 }
+                                            complete[itemSetIndex] = !complete[itemSetIndex]
+                                            self.dataFields.completedSets = complete
+                                        }) {
+                                            HStack(alignment: .center) {
+                                                if self.dataFields.completedSets[itemSetIndex] {
+                                                    Image(systemName: "checkmark.circle.fill")
+                                                        .foregroundColor(appColor)
+                                                        .font(.system(size: 16))
+                                                } else {
+                                                    Image(systemName: "checkmark.circle")
+                                                        .foregroundColor(Color(UIColor.systemGray4))
+                                                        .font(.system(size: 16))
+                                                }
                                             }
                                         }
+                                    } else {
+                                        Image(systemName: "checkmark.circle")
+                                            .foregroundColor(Color.clear)
+                                            .font(.system(size: 16))
                                     }
                                 } else if self.dataFields.isSetsFieldEnabled {
                                     Button(action: {
