@@ -43,7 +43,7 @@ struct WorkoutTemplatesListView: View {
                     List {
                         ForEach(self.templates, id: \.id) { item in
                             Button(action: {
-                                self.routerState.replaceCurrent(with: .editor(.template(.start(item))))
+                                self.routerState.replaceCurrent(with: .editor(.template(.edit(item))))
                             }) {
                                 VStack(spacing: 0) {
                                     WorkoutTemplateView(

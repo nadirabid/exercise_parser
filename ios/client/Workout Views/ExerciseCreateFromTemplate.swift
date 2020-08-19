@@ -15,6 +15,7 @@ struct ExerciseCreateFromTemplate: View {
     var onDelete: () -> Void
     var onEdit: () -> Void
     var isEditing: Bool
+    var showEditingOption: Bool
     
     @EnvironmentObject var exerciseDictionaryAPI: ExerciseDictionaryAPI
     
@@ -44,7 +45,8 @@ struct ExerciseCreateFromTemplate: View {
         viewWidth: CGFloat,
         onDelete: @escaping () -> Void = {},
         onEdit: @escaping () -> Void = {},
-        isEditing: Bool = true
+        isEditing: Bool = true,
+        showEditingOption: Bool = true
     ) {
         self.exerciseTemplate = exerciseTemplate
         self.showCompletionMark = showCompletionMark
@@ -53,6 +55,7 @@ struct ExerciseCreateFromTemplate: View {
         self.dataFields = self.exerciseTemplate.data
         self.onEdit = onEdit
         self.isEditing = isEditing
+        self.showEditingOption = showEditingOption
     }
     
     func loadDictionaries() {
@@ -475,15 +478,17 @@ struct ExerciseCreateFromTemplate: View {
                         Rectangle().fill(Color.clear).frame(width: 25, height: 40)
                     }
                     
-                    Button(action: { self.onEdit() }) {
-                        if self.isEditing {
-                            Image(systemName: "pencil.circle.fill")
-                                .foregroundColor(appColor)
-                                .font(Font.system(size: 16))
-                        } else {
-                            Image(systemName: "pencil.circle")
-                                .foregroundColor(Color(UIColor.systemGray4))
-                                .font(Font.system(size: 16))
+                    if self.showEditingOption {
+                        Button(action: { self.onEdit() }) {
+                            if self.isEditing {
+                                Image(systemName: "pencil.circle.fill")
+                                    .foregroundColor(appColor)
+                                    .font(Font.system(size: 16))
+                            } else {
+                                Image(systemName: "pencil.circle")
+                                    .foregroundColor(Color(UIColor.systemGray4))
+                                    .font(Font.system(size: 16))
+                            }
                         }
                     }
                 }
@@ -501,46 +506,48 @@ struct ExerciseCreateFromTemplate: View {
                             .disabled(self.isEditing)
                             .opacity(self.isEditing ? 0.4 : 1)
                             
-                            HStack(spacing: 0) {
-                                if !self.isEditing {
-                                    if self.showCompletionMark {
-                                        Button(action: {
-                                            var complete = self.dataFields.completedSets.compactMap { $0 }
-                                            complete[itemSetIndex] = !complete[itemSetIndex]
-                                            self.dataFields.completedSets = complete
-                                        }) {
-                                            HStack(alignment: .center) {
-                                                if self.dataFields.completedSets[itemSetIndex] {
-                                                    Image(systemName: "checkmark.circle.fill")
-                                                        .foregroundColor(appColor)
-                                                        .font(.system(size: 16))
-                                                } else {
-                                                    Image(systemName: "checkmark.circle")
-                                                        .foregroundColor(Color(UIColor.systemGray4))
-                                                        .font(.system(size: 16))
+                            if self.showEditingOption {
+                                HStack(spacing: 0) {
+                                    if !self.isEditing {
+                                        if self.showCompletionMark {
+                                            Button(action: {
+                                                var complete = self.dataFields.completedSets.compactMap { $0 }
+                                                complete[itemSetIndex] = !complete[itemSetIndex]
+                                                self.dataFields.completedSets = complete
+                                            }) {
+                                                HStack(alignment: .center) {
+                                                    if self.dataFields.completedSets[itemSetIndex] {
+                                                        Image(systemName: "checkmark.circle.fill")
+                                                            .foregroundColor(appColor)
+                                                            .font(.system(size: 16))
+                                                    } else {
+                                                        Image(systemName: "checkmark.circle")
+                                                            .foregroundColor(Color(UIColor.systemGray4))
+                                                            .font(.system(size: 16))
+                                                    }
                                                 }
                                             }
+                                        } else {
+                                            Image(systemName: "checkmark.circle")
+                                                .foregroundColor(Color.clear)
+                                                .font(.system(size: 16))
+                                        }
+                                    } else if self.dataFields.isSetsFieldEnabled {
+                                        Button(action: {
+                                            self.dataFields.removeSetAt(index: itemSetIndex)
+                                        }) {
+                                            Image(systemName: "minus.circle")
+                                                .foregroundColor(appColor)
+                                                .font(.system(size: 16))
                                         }
                                     } else {
                                         Image(systemName: "checkmark.circle")
+                                            .font(.system(size: 16))
                                             .foregroundColor(Color.clear)
-                                            .font(.system(size: 16))
                                     }
-                                } else if self.dataFields.isSetsFieldEnabled {
-                                    Button(action: {
-                                        self.dataFields.removeSetAt(index: itemSetIndex)
-                                    }) {
-                                        Image(systemName: "minus.circle")
-                                            .foregroundColor(appColor)
-                                            .font(.system(size: 16))
-                                    }
-                                } else {
-                                    Image(systemName: "checkmark.circle")
-                                        .font(.system(size: 16))
-                                        .foregroundColor(Color.clear)
                                 }
+                                .padding(.leading)
                             }
-                            .padding(.leading)
                         }
                         .padding(.top, 6)
                     }
