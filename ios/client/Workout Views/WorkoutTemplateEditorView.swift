@@ -128,7 +128,7 @@ struct WorkoutTemplateEditorView: View {
                         Button(action: {
                             self.selectExerciseDictionary = true
                         }) {
-                            Text("Add")
+                            Text("Add Exercise")
                                 .foregroundColor(appColor)
                         }
                     } else {
@@ -190,7 +190,16 @@ struct WorkoutTemplateEditorView: View {
                     }
                     
                     Spacer()
-                    Text("No exercises").foregroundColor(Color.secondary)
+                    
+                    Text("No exercises").foregroundColor(.secondary).font(.title)
+                    
+                    Button(action: {
+                        self.selectExerciseDictionary = true
+                    }) {
+                        Text("Add Exercise")
+                            .foregroundColor(appColor)
+                    }
+                    
                     Spacer()
                 }
             } else {
@@ -266,8 +275,9 @@ struct WorkoutTemplateEditorView: View {
                                 self.handleSave()
                             }) {
                                 Text("Save")
-                                    .foregroundColor(appColor)
+                                    .foregroundColor(self.exerciseTemplates.isEmpty ? Color.secondary : appColor)
                             }
+                            .disabled(self.exerciseTemplates.isEmpty)
                             .frame(width: geometry.size.width)
                         }
                     } else if self.isEditingWorkout {

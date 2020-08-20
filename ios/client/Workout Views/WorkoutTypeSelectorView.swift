@@ -97,7 +97,7 @@ struct WorkoutTypeSelectorView: View {
                             Button(action: {
                                 self.routerState.replaceCurrent(with: .editor(.template(.create)))
                             }) {
-                                Text("Add").foregroundColor(appColor)
+                                Text("Create Workout").foregroundColor(appColor)
                             }
                         } else {
                             Text("Add").foregroundColor(Color.clear)
