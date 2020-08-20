@@ -43,16 +43,16 @@ struct WorkoutTemplateEditorView: View {
                     indicesToRemove.append(i)
                 }
             }
-
+            
             for j in indicesToRemove.reversed() { // do it backwards so we dont fuck up the eelements we intend to remove
                 exerciseTemplate.data.removeSetAt(index: j)
             }
-
+            
             return exerciseTemplate.data.sets > 0
         }
         
         var template: WorkoutTemplate
-
+        
         if self.workoutTemplate != nil {
             template = WorkoutTemplate(
                 id: self.workoutTemplate!.id,
@@ -72,7 +72,7 @@ struct WorkoutTemplateEditorView: View {
                 userID: nil
             )
         }
-
+        
         if template.id == nil {
             self.workoutTemplateAPI.create(workoutTemplate: template).then { _ in
                 self.routerState.replaceCurrent(with: .editor(.template(.list)))
@@ -88,6 +88,18 @@ struct WorkoutTemplateEditorView: View {
         self.exerciseTemplates = self.exerciseTemplates.filter({ $0.cid != exerciseTemplate.cid })
     }
     
+    func handleDeleteWorkoutTemplate() {
+        if let workoutTemplate = self.workoutTemplate {
+            workoutTemplateAPI.delete(workoutTemplate: workoutTemplate)
+                .then {
+                    self.routerState.pop()
+                }
+                .catch { _ in
+                    print("Failed to delete: ", workoutTemplate)
+                }
+        }
+    }
+    
     func isLast(exerciseTemplate: ExerciseTemplate) -> Bool {
         self.exerciseTemplates.last?.cid == exerciseTemplate.cid
     }
@@ -96,11 +108,11 @@ struct WorkoutTemplateEditorView: View {
         if self.routerState.peek() == .editor(.template(.create)) {
             return nil
         }
-
+        
         guard case .editor(.template(.edit(let template))) = self.routerState.peek() else {
             return nil
         }
-
+        
         return template
     }
     
@@ -110,11 +122,37 @@ struct WorkoutTemplateEditorView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            if self.workoutTemplate != nil {
-                VStack(spacing: 0) {
-                    HStack(alignment: .center) {
-                        Spacer()
-                        
+            VStack(spacing: 0) {
+                HStack(alignment: .center) {
+                    if self.inEditMode {
+                        Button(action: {
+                            self.selectExerciseDictionary = true
+                        }) {
+                            Text("Add")
+                                .foregroundColor(appColor)
+                        }
+                    } else {
+                        Button(action: {
+                            self.routerState.pop()
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .font(Font.system(size: 18))
+                                .foregroundColor(appColor)
+                            
+                            Text("Back")
+                                .foregroundColor(appColor)
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    if self.workoutTemplate == nil {
+                        Button(action: {
+                            self.routerState.replaceCurrent(with: .editor(.template(.list)))
+                        }) {
+                            Text("Cancel").foregroundColor(appColor)
+                        }
+                    } else {
                         Button(action: {
                             self.isEditingWorkout.toggle()
                         }) {
@@ -125,14 +163,32 @@ struct WorkoutTemplateEditorView: View {
                             }
                         }
                     }
-                    .padding([.leading, .trailing, .bottom])
-                    
-                    Divider()
                 }
+                .padding([.leading, .trailing, .bottom])
+                
+                Divider()
             }
             
             if self.exerciseTemplates.isEmpty {
                 VStack {
+                    if self.inEditMode {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("Workout template name")
+                                .font(.caption)
+                                .padding([.leading, .top])
+                                .padding(.bottom, 3)
+                                .foregroundColor(Color.gray)
+                            
+                            TextField("Enter name", text: self.$workoutTemplateName, onCommit: {
+                                self.workoutTemplateName = self.workoutTemplateName.trimmingCharacters(in: .whitespaces)
+                            })
+                                .padding([.leading, .trailing])
+                                .padding([.top, .bottom], 12)
+                                .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
+                                .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
+                        }
+                    }
+                    
                     Spacer()
                     Text("No exercises").foregroundColor(Color.secondary)
                     Spacer()
@@ -159,7 +215,7 @@ struct WorkoutTemplateEditorView: View {
                                 }
                             } else {
                                 HStack {
-                                    Text(self.workoutTemplateName.isEmpty ? "Workout" : self.workoutTemplateName)
+                                    Text(self.workoutTemplateName.isEmpty ? "Unnamed" : self.workoutTemplateName)
                                         .font(.title)
                                     
                                     Spacer()
@@ -180,7 +236,7 @@ struct WorkoutTemplateEditorView: View {
                                             } else {
                                                 self.editingExerciseCID = item.cid
                                             }
-                                        },
+                                    },
                                         isEditing: self.editingExerciseCID == item.cid,
                                         showEditingOption: self.inEditMode
                                     )
@@ -204,38 +260,35 @@ struct WorkoutTemplateEditorView: View {
                 Divider()
                 
                 GeometryReader { geometry in
-                    if self.inEditMode {
+                    if self.workoutTemplate == nil {
                         HStack(spacing: 0) {
                             Button(action: {
                                 self.handleSave()
                             }) {
                                 Text("Save")
-                                    .foregroundColor(Color.secondary)
-                                    .animation(.none)
+                                    .foregroundColor(appColor)
                             }
-                            .frame(width: geometry.size.width / 3)
+                            .frame(width: geometry.size.width)
+                        }
+                    } else if self.isEditingWorkout {
+                        HStack(spacing: 0) {
+                            Button(action: {
+                                self.handleDeleteWorkoutTemplate()
+                            }) {
+                                Text("Delete")
+                                    .foregroundColor(.red)
+                            }
+                            .frame(width: geometry.size.width / 2)
                             
                             Divider()
                             
                             Button(action: {
-                                self.routerState.replaceCurrent(with: .editor(.template(.list)))
+                                self.handleSave()
                             }) {
-                                Text("Cancel")
-                                    .foregroundColor(Color.secondary)
-                                    .animation(.none)
+                                Text("Save")
+                                    .foregroundColor(appColor)
                             }
-                            .frame(width: geometry.size.width / 3)
-                            
-                            Divider()
-                            
-                            Button(action: {
-                                self.selectExerciseDictionary = true
-                            }) {
-                                Text("Add")
-                                    .foregroundColor(Color.secondary)
-                                    .animation(.none)
-                            }
-                            .frame(width: geometry.size.width / 3)
+                            .frame(width: geometry.size.width / 2)
                         }
                     } else if self.workoutTemplate != nil {
                         HStack(spacing: 0) {

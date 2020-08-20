@@ -26,6 +26,20 @@ struct WorkoutTemplatesListView: View {
         }
     }
     
+    func delete(at offset: IndexSet) {
+        for i in 0..<self.templates.count {
+            if offset.contains(i) {
+                let workoutTemplateToDelete = templates[i]
+                
+                workoutTemplateAPI.delete(workoutTemplate: workoutTemplateToDelete).catch { _ in
+                    print("Failed to delete: ", workoutTemplateToDelete)
+                }
+            }
+        }
+        
+        self.templates.remove(atOffsets: offset)
+    }
+    
     var isShowingList: Bool {
         self.routerState.peek() == .editor(.template(.list))
     }
@@ -43,7 +57,7 @@ struct WorkoutTemplatesListView: View {
                     List {
                         ForEach(self.templates, id: \.id) { item in
                             Button(action: {
-                                self.routerState.replaceCurrent(with: .editor(.template(.edit(item))))
+                                self.routerState.push(route: .editor(.template(.edit(item))))
                             }) {
                                 VStack(spacing: 0) {
                                     WorkoutTemplateView(
@@ -58,11 +72,11 @@ struct WorkoutTemplatesListView: View {
                                 .background(Color.white)
                             }
                         }
+                        .onDelete(perform: self.delete)
                         .listRowInsets(EdgeInsets())
                         .animation(.none)
                         .background(feedColor)
                     }
-                    .animation(.none)
                 }
                 .edgesIgnoringSafeArea(.bottom)
                 .onAppear {
@@ -73,6 +87,9 @@ struct WorkoutTemplatesListView: View {
                     self.workoutTemplateAPI.all().then { (response) in
                         self.templates = response.results
                     }
+                }
+                .onDisappear {
+                    self.templates = [] // some weird bug requires me to do this or the new data in onAppear doesn't take effect
                 }
             }
         }
