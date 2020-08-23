@@ -15,6 +15,8 @@ struct WorkoutTemplate: Codable, Identifiable, Hashable {
     let name: String
     let exercises: [ExerciseTemplate]
     let userID: Int?
+    let isNotWorkout: Bool
+    let secondsElapsed: Int
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.id)
@@ -29,6 +31,8 @@ struct WorkoutTemplate: Codable, Identifiable, Hashable {
         case updatedAt = "updated_at"
         case userID = "user_id"
         case exercises = "exercise_templates"
+        case isNotWorkout = "is_not_workout"
+        case secondsElapsed = "seconds_elapsed"
         case id, name
     }
 }

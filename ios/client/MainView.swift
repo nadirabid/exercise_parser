@@ -30,7 +30,7 @@ struct MainView: View {
     }
     
     var body: some View {
-        return ZStack {
+        ZStack {
             VStack {
                 if userState.authorization < 1 {
                     SignInView()
@@ -137,6 +137,7 @@ struct MainView: View {
                 .edgesIgnoringSafeArea(.all)
             }
         }
+        .accentColor(appColor)
     }
 }
 

@@ -7,6 +7,7 @@ const MinuteUnit = "minute"
 const HourUnit = "hour"
 
 const FeetUnit = "feet"
+const YardUnit = "yard"
 const MeterUnit = "meter"
 const KilometerUnit = "kilometer"
 const MileUnit = "mile"
@@ -26,6 +27,8 @@ func UnitClassify(unitStr string) (string, error) {
 		return KilometerUnit, nil
 	case "ft", "foot", "feet":
 		return FeetUnit, nil
+	case "yd", "yard":
+		return YardUnit, nil
 	case "mi", "mils", "mile", "miles":
 		return MileUnit, nil
 	case "lb", "lbs", "pound", "pounds":
@@ -54,6 +57,8 @@ func UnitStandardize(unitStr string, quantity float64) (float64, error) {
 		return quantity * 1000, nil
 	case FeetUnit:
 		return quantity * 0.3048, nil
+	case YardUnit:
+		return quantity * 0.9144, nil
 	case MileUnit:
 		return quantity * 1609.34, nil
 	case PoundUnit:

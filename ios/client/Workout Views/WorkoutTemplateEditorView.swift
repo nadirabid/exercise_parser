@@ -128,8 +128,12 @@ struct WorkoutTemplateEditorView: View {
                         Button(action: {
                             self.selectExerciseDictionary = true
                         }) {
-                            Text("Add Exercise")
-                                .foregroundColor(appColor)
+                            HStack {
+                                Image(systemName: "plus.circle")
+                                    .foregroundColor(appColor)
+                                
+                                Text("Exercise")
+                            }
                         }
                     } else {
                         Button(action: {
@@ -137,10 +141,8 @@ struct WorkoutTemplateEditorView: View {
                         }) {
                             Image(systemName: "chevron.left")
                                 .font(Font.system(size: 18))
-                                .foregroundColor(appColor)
                             
                             Text("Back")
-                                .foregroundColor(appColor)
                         }
                     }
                     
@@ -182,10 +184,10 @@ struct WorkoutTemplateEditorView: View {
                             TextField("Enter name", text: self.$workoutTemplateName, onCommit: {
                                 self.workoutTemplateName = self.workoutTemplateName.trimmingCharacters(in: .whitespaces)
                             })
-                                .padding([.leading, .trailing])
-                                .padding([.top, .bottom], 12)
-                                .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
-                                .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
+                            .padding([.leading, .trailing])
+                            .padding([.top, .bottom], 12)
+                            .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
+                            .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
                         }
                     }
                     
@@ -196,9 +198,14 @@ struct WorkoutTemplateEditorView: View {
                     Button(action: {
                         self.selectExerciseDictionary = true
                     }) {
-                        Text("Add Exercise")
-                            .foregroundColor(appColor)
+                        HStack {
+                            Image(systemName: "plus.circle")
+                                .foregroundColor(appColor)
+                            
+                            Text("Exercise")
+                        }
                     }
+                    .padding()
                     
                     Spacer()
                 }
@@ -217,10 +224,10 @@ struct WorkoutTemplateEditorView: View {
                                     TextField("Enter name", text: self.$workoutTemplateName, onCommit: {
                                         self.workoutTemplateName = self.workoutTemplateName.trimmingCharacters(in: .whitespaces)
                                     })
-                                        .padding([.leading, .trailing])
-                                        .padding([.top, .bottom], 12)
-                                        .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
-                                        .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
+                                    .padding([.leading, .trailing])
+                                    .padding([.top, .bottom], 12)
+                                    .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
+                                    .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
                                 }
                             } else {
                                 HStack {
@@ -245,7 +252,7 @@ struct WorkoutTemplateEditorView: View {
                                             } else {
                                                 self.editingExerciseCID = item.cid
                                             }
-                                    },
+                                        },
                                         isEditing: self.editingExerciseCID == item.cid,
                                         showEditingOption: self.inEditMode
                                     )
@@ -263,8 +270,6 @@ struct WorkoutTemplateEditorView: View {
                 }
             }
             
-            Spacer()
-            
             VStack(spacing: 0) {
                 Divider()
                 
@@ -275,7 +280,6 @@ struct WorkoutTemplateEditorView: View {
                                 self.handleSave()
                             }) {
                                 Text("Save")
-                                    .foregroundColor(self.exerciseTemplates.isEmpty ? Color.secondary : appColor)
                             }
                             .disabled(self.exerciseTemplates.isEmpty)
                             .frame(width: geometry.size.width)
@@ -286,7 +290,6 @@ struct WorkoutTemplateEditorView: View {
                                 self.handleDeleteWorkoutTemplate()
                             }) {
                                 Text("Delete")
-                                    .foregroundColor(.red)
                             }
                             .frame(width: geometry.size.width / 2)
                             
@@ -296,7 +299,6 @@ struct WorkoutTemplateEditorView: View {
                                 self.handleSave()
                             }) {
                                 Text("Save")
-                                    .foregroundColor(appColor)
                             }
                             .frame(width: geometry.size.width / 2)
                         }
@@ -306,7 +308,6 @@ struct WorkoutTemplateEditorView: View {
                                 self.routerState.replaceCurrent(with: .editor(.template(.start(self.workoutTemplate!))))
                             }) {
                                 Text("Start")
-                                    .foregroundColor(appColor)
                             }
                             .frame(width: geometry.size.width)
                         }

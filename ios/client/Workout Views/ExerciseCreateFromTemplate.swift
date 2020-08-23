@@ -160,7 +160,6 @@ struct ExerciseCreateFromTemplate: View {
                 VStack(alignment: .trailing, spacing: 0) {
                     createFakeTextFieldFor(field: field)
                         .font(Font.title.italic().weight(.ultraLight))
-                        .keyboardType(.numberPad)
                         .multilineTextAlignment(.trailing)
                     
                     if field == .time {
@@ -195,7 +194,7 @@ struct ExerciseCreateFromTemplate: View {
             let b = Binding<String>(
                 get: { () -> String in
                     "\(self.dataFields.defaultValueReps)"
-            },
+                },
                 set: { (value) in }
             )
             
@@ -204,7 +203,7 @@ struct ExerciseCreateFromTemplate: View {
             let b = Binding<String>(
                 get: { () -> String in
                     "\(self.dataFields.defaultValueWeight.format(f: ".0"))"
-            },
+                },
                 set: { (value) in }
             )
             
@@ -213,7 +212,7 @@ struct ExerciseCreateFromTemplate: View {
             let b = Binding<String>(
                 get: { () -> String in
                     "\(self.dataFields.defaultValueDistance.format(f: ".0"))"
-            },
+                },
                 set: { (value) in }
             )
             
@@ -222,7 +221,7 @@ struct ExerciseCreateFromTemplate: View {
             let b = Binding<String>(
                 get: { () -> String in
                     "\(self.dataFields.defaultValueTime)"
-            },
+                },
                 set: { (value) in }
             )
             
@@ -279,14 +278,14 @@ struct ExerciseCreateFromTemplate: View {
             let b = Binding<String>(
                 get: { () -> String in
                     "\(self.dataFields.reps[itemSetIndex])"
-            },
+                },
                 set: { (value) in
                     self.dataFields.reps = self.dataFields.reps.map { $0 }
                     
                     if let v = Int(value) {
                         self.dataFields.reps[itemSetIndex] = v
                     }
-            }
+                }
             )
             
             return TextField("0", text: b)
@@ -294,14 +293,14 @@ struct ExerciseCreateFromTemplate: View {
             let b = Binding<String>(
                 get: { () -> String in
                     "\(self.dataFields.weight[itemSetIndex].format(f: ".0"))"
-            },
+                },
                 set: { (value) in
                     self.dataFields.weight = self.dataFields.weight.map { $0 }
                     
                     if let v = Float(value) {
                         self.dataFields.weight[itemSetIndex] = v
                     }
-            }
+                }
             )
             
             return TextField("0", text: b)
@@ -309,14 +308,14 @@ struct ExerciseCreateFromTemplate: View {
             let b = Binding<String>(
                 get: { () -> String in
                     "\(self.dataFields.distance[itemSetIndex].format(f: ".0"))"
-            },
+                },
                 set: { (value) in
                     self.dataFields.distance = self.dataFields.distance.map { $0 }
                     
                     if let v = Float(value) {
                         self.dataFields.distance[itemSetIndex] = v
                     }
-            }
+                }
             )
             
             return TextField("0", text: b)
@@ -429,6 +428,7 @@ struct ExerciseCreateFromTemplate: View {
     }
     
     var body: some View {
+        print(dictionary.name, self.isEditing, !self.showEditingOption)
         return HStack(spacing: 0) {
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
@@ -458,24 +458,26 @@ struct ExerciseCreateFromTemplate: View {
                             activatedSynergistMuscles: anteriorSynergists,
                             activatedDynamicArticulationMuscles: anteriorDynamic
                         )
-                            .padding(.all, 6)
-                            .frame(width: 25, height: 45)
-                            .clipShape(Rectangle())
-                            .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
-                            .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
+                        .padding(.all, 6)
+                        .frame(width: 25, height: 45)
+                        .clipShape(Rectangle())
+                        .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
+                        .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
                     } else if orientationToShow == .Posterior {
                         FocusedPosteriorView(
                             activatedTargetMuscles: self.posteriorTarget,
                             activatedSynergistMuscles: self.posteriorSynergists,
                             activatedDynamicArticulationMuscles: self.posteriorDynamic
                         )
-                            .padding(.all, 6)
-                            .frame(width: 25, height: 45)
-                            .clipShape(Rectangle())
-                            .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
-                            .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
+                        .padding(.all, 6)
+                        .frame(width: 25, height: 45)
+                        .clipShape(Rectangle())
+                        .mask(LinearGradient(gradient: fade, startPoint: .bottom, endPoint: .top))
+                        .mask(LinearGradient(gradient: fade, startPoint: .leading, endPoint: .trailing))
                     } else {
-                        Rectangle().fill(Color.clear).frame(width: 25, height: 40)
+                        Image(systemName: "bolt.heart")
+                            .font(Font.system(size: 20))
+                            .foregroundColor(Color.secondary)
                     }
                     
                     if self.showEditingOption {
@@ -503,8 +505,8 @@ struct ExerciseCreateFromTemplate: View {
                             ForEach(self.activeFields, id: \.self) { item in
                                 self.createColumnViewFor(field: item, itemSetIndex)
                             }
-                            .disabled(self.isEditing)
-                            .opacity(self.isEditing ? 0.4 : 1)
+                            .disabled(self.isEditing || !self.showEditingOption)
+                            .opacity(self.isEditing || !self.showEditingOption ? 0.5 : 1)
                             
                             if self.showEditingOption {
                                 HStack(spacing: 0) {

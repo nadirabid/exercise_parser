@@ -97,7 +97,13 @@ struct WorkoutTypeSelectorView: View {
                             Button(action: {
                                 self.routerState.replaceCurrent(with: .editor(.template(.create)))
                             }) {
-                                Text("Create Workout").foregroundColor(appColor)
+                                HStack {
+                                    Image(systemName: "plus.circle")
+                                        .foregroundColor(appColor)
+                                    
+                                    Text("Workout")
+                                        .foregroundColor(appColor)
+                                }
                             }
                         } else {
                             Text("Add").foregroundColor(Color.clear)
