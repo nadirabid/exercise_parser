@@ -15,7 +15,7 @@ struct WorkoutTemplate: Codable, Identifiable, Hashable {
     let name: String
     let exercises: [ExerciseTemplate]
     let userID: Int?
-    let isNotWorkout: Bool
+    let isNotTemplate: Bool
     let secondsElapsed: Int
     
     func hash(into hasher: inout Hasher) {
@@ -31,7 +31,7 @@ struct WorkoutTemplate: Codable, Identifiable, Hashable {
         case updatedAt = "updated_at"
         case userID = "user_id"
         case exercises = "exercise_templates"
-        case isNotWorkout = "is_not_workout"
+        case isNotTemplate = "is_not_template"
         case secondsElapsed = "seconds_elapsed"
         case id, name
     }

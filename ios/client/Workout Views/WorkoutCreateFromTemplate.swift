@@ -62,7 +62,9 @@ struct WorkoutCreateFromTemplate: View {
                 updatedAt: nil,
                 name: self.workoutTemplateName,
                 exercises: exerciseTemplatesToSave,
-                userID: self.workoutTemplate!.userID
+                userID: self.workoutTemplate!.userID,
+                isNotTemplate: false,
+                secondsElapsed: 0
             )
         } else {
             template = WorkoutTemplate(
@@ -71,7 +73,9 @@ struct WorkoutCreateFromTemplate: View {
                 updatedAt: nil,
                 name: self.workoutTemplateName,
                 exercises: exerciseTemplatesToSave,
-                userID: nil
+                userID: nil,
+                isNotTemplate: false,
+                secondsElapsed: 0
             )
         }
         
@@ -108,6 +112,27 @@ struct WorkoutCreateFromTemplate: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            VStack(spacing: 0) {
+                HStack(alignment: .center) {
+                    Button(action: {
+                        self.selectExerciseDictionary = true
+                    }) {
+                        HStack {
+                            Image(systemName: "plus.circle")
+                                .foregroundColor(appColor)
+                            
+                            Text("Exercise")
+                        }
+                    }
+                    
+                    Spacer()
+                }
+                .padding([.leading, .trailing, .bottom])
+                
+                Divider()
+            }
+            .background(Color.white)
+            
             if isPaused {
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Workout name")
@@ -129,11 +154,17 @@ struct WorkoutCreateFromTemplate: View {
             if self.workoutTemplate == nil {
                 EmptyView() // I guess there's lag in rendering - router can change and subview gets update before the parent view
             } else {
-                WorkoutCreateFromTemplateMetaMetricsView(workoutTemplate: workoutTemplate!, stopwatch: self.stopwatch)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding()
-                    .background(Color.white)
-            
+                HStack {
+                    Spacer()
+                    
+                    Text(stopwatch.convertCountToTimeString())
+                        .foregroundColor(Color.white)
+                    
+                    Spacer()
+                }
+                .padding(10)
+                .background(Color.accentColor)
+                
                 if self.exerciseTemplates.isEmpty {
                     VStack {
                         Spacer()
@@ -182,36 +213,9 @@ struct WorkoutCreateFromTemplate: View {
                             Button(action: {
                                 self.isPaused = true
                             }) {
-                                HStack {
-                                    Image(systemName:"stop.circle")
-                                        .font(.system(size: 15, weight: .medium, design: .default))
-                                        .foregroundColor(Color.secondary)
-                                    
-                                    Text("Complete")
-                                        .foregroundColor(Color.secondary)
-                                        .animation(.none)
-                                }
-                                .padding(.leading)
+                                Text("Finish")
                             }
-                            .frame(width: geometry.size.width / 2)
-                            
-                            Divider()
-                            
-                            Button(action: {
-                                self.selectExerciseDictionary = true
-                            }) {
-                                HStack {
-                                    Image(systemName: "plus.circle")
-                                        .font(.system(size: 15, weight: .medium, design: .default))
-                                        .foregroundColor(Color.secondary)
-                                    
-                                    Text("Add Exercise")
-                                        .foregroundColor(Color.secondary)
-                                        .animation(.none)
-                                }
-                                .padding(.trailing)
-                            }
-                            .frame(width: geometry.size.width / 2)
+                            .frame(width: geometry.size.width)
                         }
                     }
                     .padding(.all, 13)

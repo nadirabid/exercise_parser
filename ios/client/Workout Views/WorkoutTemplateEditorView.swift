@@ -60,7 +60,9 @@ struct WorkoutTemplateEditorView: View {
                 updatedAt: nil,
                 name: self.workoutTemplateName,
                 exercises: exerciseTemplatesToSave,
-                userID: self.workoutTemplate!.userID
+                userID: self.workoutTemplate!.userID,
+                isNotTemplate: false,
+                secondsElapsed: 0
             )
         } else {
             template = WorkoutTemplate(
@@ -69,7 +71,9 @@ struct WorkoutTemplateEditorView: View {
                 updatedAt: nil,
                 name: self.workoutTemplateName,
                 exercises: exerciseTemplatesToSave,
-                userID: nil
+                userID: nil,
+                isNotTemplate: false,
+                secondsElapsed: 0
             )
         }
         
