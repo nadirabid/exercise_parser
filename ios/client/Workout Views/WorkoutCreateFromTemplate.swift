@@ -93,9 +93,15 @@ struct WorkoutCreateFromTemplate: View {
     func handleDelete(exerciseTemplate: ExerciseTemplate) {
         self.exerciseTemplates = self.exerciseTemplates.filter({ $0.cid != exerciseTemplate.cid })
     }
-
-    func isLast(exerciseTemplate: ExerciseTemplate) -> Bool {
-        self.exerciseTemplates.last?.cid == exerciseTemplate.cid
+    
+    func handleFinish() {
+        self.isPaused = true
+        stopwatch.stop()
+    }
+    
+    func handleResume() {
+        self.isPaused = false
+        stopwatch.start()
     }
     
     var workoutTemplate: WorkoutTemplate? {
@@ -113,29 +119,50 @@ struct WorkoutCreateFromTemplate: View {
     var body: some View {
         VStack(spacing: 0) {
             VStack(spacing: 0) {
-                HStack(alignment: .center) {
-                    Button(action: {
-                        self.selectExerciseDictionary = true
-                    }) {
-                        HStack {
-                            Image(systemName: "plus.circle")
-                                .foregroundColor(appColor)
-                            
-                            Text("Exercise")
+                if !self.isPaused {
+                    HStack(alignment: .center) {
+                        Button(action: {
+                            self.selectExerciseDictionary = true
+                        }) {
+                            HStack {
+                                Image(systemName: "plus.circle")
+                                    .foregroundColor(appColor)
+                                
+                                Text("Exercise")
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding([.leading, .trailing, .bottom])
+                } else {
+                    HStack {
+                        Button(action: {
+                            self.routerState.replaceCurrent(with: .editor(.template(.list)))
+                        }) {
+                            Text("Discard")
+                        }
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            self.handleResume()
+                        }) {
+                            Text("Resume")
                         }
                     }
-                    
-                    Spacer()
+                    .padding([.leading, .trailing, .bottom])
                 }
-                .padding([.leading, .trailing, .bottom])
                 
                 Divider()
             }
             .background(Color.white)
             
+            TimerHeader(stopwatch: self.stopwatch)
+            
             if isPaused {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("Workout name")
+                    Text("Workout Name")
                         .font(.caption)
                         .padding([.leading, .top])
                         .padding(.bottom, 3)
@@ -144,27 +171,16 @@ struct WorkoutCreateFromTemplate: View {
                     TextField("Enter name", text: self.$workoutTemplateName, onCommit: {
                         self.workoutTemplateName = self.workoutTemplateName.trimmingCharacters(in: .whitespaces)
                     })
-                        .padding([.leading, .trailing])
-                        .padding([.top, .bottom], 12)
-                        .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
-                        .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
+                    .padding([.leading, .trailing])
+                    .padding([.top, .bottom], 12)
+                    .background(Color(#colorLiteral(red: 0.9813412119, green: 0.9813412119, blue: 0.9813412119, alpha: 1)))
+                    .border(Color(#colorLiteral(red: 0.9160850254, green: 0.9160850254, blue: 0.9160850254, alpha: 1)))
                 }
             }
             
             if self.workoutTemplate == nil {
                 EmptyView() // I guess there's lag in rendering - router can change and subview gets update before the parent view
             } else {
-                HStack {
-                    Spacer()
-                    
-                    Text(stopwatch.convertCountToTimeString())
-                        .foregroundColor(Color.white)
-                    
-                    Spacer()
-                }
-                .padding(10)
-                .background(Color.accentColor)
-                
                 if self.exerciseTemplates.isEmpty {
                     VStack {
                         Spacer()
@@ -179,7 +195,7 @@ struct WorkoutCreateFromTemplate: View {
                                     VStack(spacing: 0) {
                                         ExerciseCreateFromTemplate(
                                             exerciseTemplate: item,
-                                            showCompletionMark: false,
+                                            showCompletionMark: true,
                                             viewWidth: geometry.size.width,
                                             onDelete: { self.handleDelete(exerciseTemplate: item) },
                                             onEdit: {
@@ -189,8 +205,10 @@ struct WorkoutCreateFromTemplate: View {
                                                     self.editingExerciseCID = item.cid
                                                 }
                                             },
-                                            isEditing: self.editingExerciseCID == item.cid
+                                            isEditing: self.editingExerciseCID == item.cid,
+                                            showEditingOption: !self.isPaused
                                         )
+                                        .disabled(self.isPaused)
                                         
                                         Divider()
                                     }
@@ -203,28 +221,39 @@ struct WorkoutCreateFromTemplate: View {
                             }
                         }
                     }
+                    .background(feedColor)
                 }
                 
                 VStack(spacing: 0) {
                     Divider()
                     
                     GeometryReader { geometry in
-                        HStack {
-                            Button(action: {
-                                self.isPaused = true
-                            }) {
-                                Text("Finish")
+                        if !self.isPaused {
+                            HStack {
+                                Button(action: {
+                                    self.handleFinish()
+                                }) {
+                                    Text("Finish")
+                                }
+                                .frame(width: geometry.size.width)
                             }
-                            .frame(width: geometry.size.width)
+                        } else {
+                            HStack {
+                                Button(action: {
+                                    self.handleSave()
+                                }) {
+                                    Text("Save")
+                                        .font(.headline)
+                                }
+                                .frame(width: geometry.size.width)
+                            }
                         }
                     }
                     .padding(.all, 13)
                     .fixedSize(horizontal: false, vertical: true)
                 }
-                .background(Color.white)
             }
         }
-        .background(feedColor)
         .onAppear {
             if let workoutTemplate = self.workoutTemplate {
                 self.workoutTemplateName = workoutTemplate.name
@@ -239,6 +268,23 @@ struct WorkoutCreateFromTemplate: View {
             }
             .environmentObject(self.exerciseDictionaryAPI)   
         }
+    }
+}
+
+struct TimerHeader: View {
+    @ObservedObject var stopwatch: Stopwatch
+    
+    var body: some View {
+        HStack {
+            Spacer()
+
+            Text(stopwatch.convertCountToTimeString())
+            
+            Spacer()
+        }
+        .padding(10)
+        .background(Color.accentColor)
+        .foregroundColor(Color.white)
     }
 }
 

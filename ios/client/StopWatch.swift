@@ -11,7 +11,11 @@ class Stopwatch: ObservableObject {
     @Published var minutes = 0
     @Published var hours = 0
     
-    var timer: Timer? = nil
+    @Published var timer: Timer? = nil
+    
+    var isPaused: Bool {
+        return timer == nil
+    }
     
     var secondsString: String {
         var string = "\(seconds)"
