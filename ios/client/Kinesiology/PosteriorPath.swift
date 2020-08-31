@@ -44,7 +44,7 @@ struct PosteriorPath {
         case .Body: return Path(bodyPath().cgPath)
         case .Background: return Path(bodybackgroundPath().cgPath)
         default:
-            print("Called unknown muscle", muscle)
+            //print("Called unknown muscle", muscle)
             return Path()
         }
     }

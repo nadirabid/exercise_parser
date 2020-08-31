@@ -277,7 +277,11 @@ struct ExerciseCreateFromTemplate: View {
         if field == .reps {
             let b = Binding<String>(
                 get: { () -> String in
-                    "\(self.dataFields.reps[itemSetIndex])"
+                    if itemSetIndex >= self.dataFields.sets {
+                        return ""
+                    }
+                    
+                    return "\(self.dataFields.reps[itemSetIndex])"
                 },
                 set: { (value) in
                     self.dataFields.reps = self.dataFields.reps.map { $0 }
@@ -292,7 +296,11 @@ struct ExerciseCreateFromTemplate: View {
         } else if field == .weight {
             let b = Binding<String>(
                 get: { () -> String in
-                    "\(self.dataFields.weight[itemSetIndex].format(f: ".0"))"
+                    if itemSetIndex >= self.dataFields.sets {
+                        return ""
+                    }
+                    
+                    return "\(self.dataFields.weight[itemSetIndex].format(f: ".0"))"
                 },
                 set: { (value) in
                     self.dataFields.weight = self.dataFields.weight.map { $0 }
@@ -307,7 +315,11 @@ struct ExerciseCreateFromTemplate: View {
         } else if field == .distance {
             let b = Binding<String>(
                 get: { () -> String in
-                    "\(self.dataFields.distance[itemSetIndex].format(f: ".0"))"
+                    if itemSetIndex >= self.dataFields.sets {
+                        return ""
+                    }
+                    
+                    return "\(self.dataFields.distance[itemSetIndex].format(f: ".0"))"
                 },
                 set: { (value) in
                     self.dataFields.distance = self.dataFields.distance.map { $0 }
@@ -322,7 +334,11 @@ struct ExerciseCreateFromTemplate: View {
         } else {
             let b = Binding<String>(
                 get: { () -> String in
-                    "\(self.dataFields.time[itemSetIndex])"
+                    if itemSetIndex >= self.dataFields.sets {
+                        return ""
+                    }
+                    
+                    return "\(self.dataFields.time[itemSetIndex])"
                 },
                 set: { (value) in
                     self.dataFields.time = self.dataFields.time.map { $0 }
@@ -428,15 +444,14 @@ struct ExerciseCreateFromTemplate: View {
     }
     
     var body: some View {
-        print(dictionary.name, self.isEditing, !self.showEditingOption)
-        return HStack(spacing: 0) {
+        HStack(spacing: 0) {
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
                     if self.isEditing {
                         Button(action: { self.onDelete() }) {
                             Image(systemName: "trash.circle.fill")
                                 .foregroundColor(appColor)
-                                .font(.system(size: 26))
+                                .font(.system(size: 22))
                         }
                     }
                     
@@ -585,6 +600,168 @@ struct ExerciseCreateFromTemplate: View {
             }
             
             self.loadDictionaries()
+        }
+    }
+}
+
+// BELOW IS CURRENTLY UNUSED - would be cleaner than whats abvoe probly
+
+struct ExerciseTemplateSetsFieldEditor: View {
+    var setIndex: Int
+    
+    var body: some View {
+        HStack(alignment: .center) {
+            Text("\(setIndex + 1)")
+                .font(.system(size: 12))
+                .fontWeight(.bold)
+                .multilineTextAlignment(.leading)
+                .foregroundColor(Color.secondary)
+            
+            Spacer()
+        }
+    }
+}
+
+struct ExerciseTemplateRepsFieldEditor: View {
+    @State var dataFields: ExerciseTemplateData
+    var setIndex: Int
+        
+    var field: Binding<String> {
+        Binding<String>(
+            get: { () -> String in
+                return "\(self.dataFields.reps[setIndex])"
+            },
+            set: { (value) in
+                self.dataFields.reps = self.dataFields.reps.map { $0 }
+                
+                if let v = Int(value) {
+                    self.dataFields.reps[setIndex] = v
+                }
+            }
+        )
+    }
+    
+    var body: some View {
+        HStack(alignment: .center) {
+            VStack(alignment: .trailing, spacing: 0) {
+                TextField("0", text: field)
+                    .font(Font.title.weight(.light))
+                    .keyboardType(.numberPad)
+                    .multilineTextAlignment(.trailing)
+                
+                Text(ExerciseField.reps.description)
+                    .font(.system(size: 10))
+                    .foregroundColor(Color.secondary)
+                    .padding(.top, -4)
+            }
+        }
+    }
+}
+
+struct ExerciseTemplateWeightFieldEditor: View {
+    @State var dataFields: ExerciseTemplateData
+    var setIndex: Int
+    
+    var field: Binding<String> {
+        Binding<String>(
+            get: { () -> String in
+                return "\(self.dataFields.weight[setIndex].format(f: ".0"))"
+            },
+            set: { (value) in
+                self.dataFields.weight = self.dataFields.weight.map { $0 }
+                
+                if let v = Float(value) {
+                    self.dataFields.weight[setIndex] = v
+                }
+            }
+        )
+    }
+    
+    var body: some View {
+        HStack(alignment: .center) {
+            VStack(alignment: .trailing, spacing: 0) {
+                TextField("0", text: field)
+                    .font(Font.title.weight(.light))
+                    .keyboardType(.numberPad)
+                    .multilineTextAlignment(.trailing)
+                
+                Text(self.dataFields.fieldWeightUnits.lowercased())
+                    .font(.system(size: 10))
+                    .foregroundColor(Color.secondary)
+                    .padding(.top, -4)
+            }
+        }
+    }
+}
+
+struct ExerciseTemplateDistanceFieldEditor: View {
+    @State var dataFields: ExerciseTemplateData
+    var setIndex: Int
+    
+    var field: Binding<String> {
+        Binding<String>(
+            get: { () -> String in
+                "\(self.dataFields.distance[setIndex].format(f: ".0"))"
+            },
+            set: { (value) in
+                self.dataFields.distance = self.dataFields.distance.map { $0 }
+                
+                if let v = Float(value) {
+                    self.dataFields.distance[setIndex] = v
+                }
+            }
+        )
+    }
+    
+    var body: some View {
+        HStack(alignment: .center) {
+            VStack(alignment: .trailing, spacing: 0) {
+                TextField("0", text: field)
+                    .font(Font.title.weight(.light))
+                    .keyboardType(.numberPad)
+                    .multilineTextAlignment(.trailing)
+                
+                Text(self.dataFields.fieldDistanceUnits.lowercased())
+                    .font(.system(size: 10))
+                    .foregroundColor(Color.secondary)
+                    .padding(.top, -4)
+            }
+        }
+    }
+}
+
+struct ExerciseTemplateTimeFieldEditor: View {
+    @State var dataFields: ExerciseTemplateData
+    var setIndex: Int
+    
+    var field: Binding<String> {
+        Binding<String>(
+            get: { () -> String in
+                "\(self.dataFields.time[setIndex])"
+            },
+            set: { (value) in
+                self.dataFields.time = self.dataFields.time.map { $0 }
+                
+                if let v = Int(value) {
+                    self.dataFields.time[setIndex] = v
+                }
+            }
+        )
+    }
+    
+    var body: some View {
+        HStack(alignment: .center) {
+            VStack(alignment: .trailing, spacing: 0) {
+                TextField("0", text: field)
+                    .font(Font.title.weight(.light))
+                    .keyboardType(.numberPad)
+                    .multilineTextAlignment(.trailing)
+                
+                Text(self.dataFields.fieldTimeUnits.lowercased())
+                    .font(.system(size: 10))
+                    .foregroundColor(Color.secondary)
+                    .padding(.top, -4)
+            }
         }
     }
 }

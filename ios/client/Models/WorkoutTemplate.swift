@@ -121,6 +121,7 @@ class ExerciseTemplateData: ObservableObject, Codable {
     @Published var time: [Int] = []
     @Published var distance: [Float] = []
     @Published var calories: [Int] = []
+    
     @Published var completedSets: [Bool] = []
     
     enum CodingKeys: String, CodingKey {
@@ -136,7 +137,7 @@ class ExerciseTemplateData: ObservableObject, Codable {
         case isTimeFieldEnabled = "is_time_field_enabled"
         case isDistanceFieldEnabled = "is_distance_field_enabled"
         case isCaloriesFieldEnabled = "is_calories_field_enabled"
-        case sets, reps, weight, time, distance, calories, complete
+        case sets, reps, weight, time, distance, calories
     }
     
     init(
@@ -213,6 +214,7 @@ class ExerciseTemplateData: ObservableObject, Codable {
     
     func addSet() {
         self.sets += 1
+        
         self.reps.append(self.defaultValueReps)
         self.weight.append(self.defaultValueWeight)
         self.time.append(self.defaultValueTime)
@@ -223,6 +225,7 @@ class ExerciseTemplateData: ObservableObject, Codable {
     
     func removeSetAt(index: Int) {
         self.sets -= 1
+        
         self.reps.remove(at: index)
         self.weight.remove(at: index)
         self.distance.remove(at: index)

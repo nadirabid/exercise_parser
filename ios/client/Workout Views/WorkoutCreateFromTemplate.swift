@@ -16,10 +16,8 @@ struct WorkoutCreateFromTemplate: View {
     
     @State private var exerciseTemplates: [ExerciseTemplate] = []
     @State private var selectExerciseDictionary: Bool = false
-    @State private var workoutTemplateName: String = ""
+    @State private var workoutName: String = ""
     @State private var workoutNameTextField: UITextField? = nil
-    @State private var scrollView: UIScrollView? = nil
-    @State private var newlyAddedExerciseTemplates: [ExerciseTemplate] = []
     @State private var isPaused = false
     @State private var editingExerciseCID: UUID? = nil
     
@@ -28,12 +26,6 @@ struct WorkoutCreateFromTemplate: View {
     func handleSelect(exerciseTemplates: [ExerciseTemplate]) {
         self.exerciseTemplates.append(contentsOf: exerciseTemplates)
         self.selectExerciseDictionary = false
-        
-        self.newlyAddedExerciseTemplates = exerciseTemplates
-    }
-    
-    func handleClose() {
-        selectExerciseDictionary = false
     }
     
     func handleSave() {
@@ -41,7 +33,7 @@ struct WorkoutCreateFromTemplate: View {
         let exerciseTemplatesToSave = self.exerciseTemplates.filter { (exerciseTemplate) -> Bool in
             var indicesToRemove: [Int] = []
             for i in 0..<exerciseTemplate.data.sets {
-                if exerciseTemplate.data.reps[i] == 0 {
+                if !exerciseTemplate.data.completedSets[i] || exerciseTemplate.data.reps[i] == 0 {
                     indicesToRemove.append(i)
                 }
             }
@@ -53,40 +45,25 @@ struct WorkoutCreateFromTemplate: View {
             return exerciseTemplate.data.sets > 0
         }
         
-        var template: WorkoutTemplate
-        
-        if self.workoutTemplate != nil {
-            template = WorkoutTemplate(
-                id: self.workoutTemplate!.id,
-                createdAt: nil,
-                updatedAt: nil,
-                name: self.workoutTemplateName,
-                exercises: exerciseTemplatesToSave,
-                userID: self.workoutTemplate!.userID,
-                isNotTemplate: false,
-                secondsElapsed: 0
-            )
-        } else {
-            template = WorkoutTemplate(
-                id: nil,
-                createdAt: nil,
-                updatedAt: nil,
-                name: self.workoutTemplateName,
-                exercises: exerciseTemplatesToSave,
-                userID: nil,
-                isNotTemplate: false,
-                secondsElapsed: 0
-            )
+        if exerciseTemplatesToSave.isEmpty {
+            self.routerState.replaceCurrent(with: .editor(.template(.list)))
         }
         
-        if template.id == nil {
-            self.workoutTemplateAPI.create(workoutTemplate: template).then { _ in
-                self.routerState.replaceCurrent(with: .editor(.template(.list)))
-            }
-        } else {
-            self.workoutTemplateAPI.put(workoutTemplate: template).then { _ in
-                self.routerState.replaceCurrent(with: .editor(.template(.list)))
-            }
+        let workoutFromTemplate: WorkoutTemplate = WorkoutTemplate(
+            id: nil,
+            createdAt: nil,
+            updatedAt: nil,
+            name: self.workoutName,
+            exercises: exerciseTemplatesToSave,
+            userID: self.workoutTemplate!.userID,
+            isNotTemplate: true, // this flag means its really a workout
+            secondsElapsed: self.stopwatch.counter
+        )
+        
+        print("here:presave")
+        self.workoutTemplateAPI.create(workoutTemplate: workoutFromTemplate).then { _ in
+            print("here:postsave")
+            self.routerState.replaceCurrent(with: .userFeed)
         }
     }
     
@@ -168,8 +145,8 @@ struct WorkoutCreateFromTemplate: View {
                         .padding(.bottom, 3)
                         .foregroundColor(Color.gray)
                     
-                    TextField("Enter name", text: self.$workoutTemplateName, onCommit: {
-                        self.workoutTemplateName = self.workoutTemplateName.trimmingCharacters(in: .whitespaces)
+                    TextField("Enter name", text: self.$workoutName, onCommit: {
+                        self.workoutName = self.workoutName.trimmingCharacters(in: .whitespaces)
                     })
                     .padding([.leading, .trailing])
                     .padding([.top, .bottom], 12)
@@ -256,7 +233,7 @@ struct WorkoutCreateFromTemplate: View {
         }
         .onAppear {
             if let workoutTemplate = self.workoutTemplate {
-                self.workoutTemplateName = workoutTemplate.name
+                self.workoutName = workoutTemplate.name
                 self.exerciseTemplates = workoutTemplate.exercises
             }
             
@@ -277,7 +254,7 @@ struct TimerHeader: View {
     var body: some View {
         HStack {
             Spacer()
-
+            
             Text(stopwatch.convertCountToTimeString())
             
             Spacer()
@@ -314,7 +291,7 @@ struct WorkoutCreateFromTemplateMetaMetricsView: View {
                 name: "Time",
                 value: secondsToElapsedTimeString(self.stopwatch.counter)
             )
-                .fixedSize()
+            .fixedSize()
             
             DividerSpacer()
             

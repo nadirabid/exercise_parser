@@ -44,6 +44,10 @@ struct WorkoutTemplateView: View {
             r + t.exerciseDictionaries.compactMap({ $0.id })
         })
         
+        if ids.isEmpty {
+            return
+        }
+        
         self.exerciseDictionaryAPI.getListFilteredByIDs(dictionaryIDs: ids).then { r in
             let dictionaries = r.results
             
