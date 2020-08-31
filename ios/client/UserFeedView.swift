@@ -79,113 +79,114 @@ struct UserFeedView: View {
         UITableView.appearance().separatorColor = .clear
         UITableView.appearance().backgroundColor = self.workoutsPaginatedResponse == nil ? Color.white.uiColor() : feedColor.uiColor()
         
-        return NavigationView {
-            VStack(spacing: 0) {
-                if self.workoutsPaginatedResponse == nil {
+        return VStack(spacing: 0) {
+            if self.workoutsPaginatedResponse == nil {
+                Spacer()
+                
+                HStack {
                     Spacer()
-                    HStack {
-                        Spacer()
-                        ActivityIndicator(isAnimating: .constant(true), style: .large)
-                        Spacer()
-                    }
+                    ActivityIndicator(isAnimating: .constant(true), style: .large)
                     Spacer()
-                } else if self.workoutsPaginatedResponse != nil {
-                    VStack(alignment: .center) {
-                        ZStack {
-                            HStack {
-                                Spacer()
-                                
-                                Button(action: { self.routeState.push(route: .userEdit) }) {
-                                    Text(self.userState.userInfo.getUserName())
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(.primary)
-                                }
-                                
-                                Spacer()
-                            }
-                            
-                            HStack {
-                                Spacer()
-                                
-                                Button(action: { self.routeState.showHelp = true }) {
-                                    Image(systemName: "questionmark.circle")
-                                        .padding(.trailing)
-                                        .foregroundColor(Color.secondary.opacity(0.2))
-                                        .font(.body)
-                                }
-                            }
-                        }
-                    }
-                    
-                    ZStack(alignment: .top) {
-                        Color.clear // make ZStack expand to fill the content
-                        
-                        UserFeedViewHeader(
-                            height: self.height,
-                            scrollViewContentOffset: routeState.peek() == .userFeed ? self.scrollViewContentOffset : 0,
-                            user: self.userState.userInfo
-                        )
-                            .zIndex(2)
-                            .background(Color.white)
-                        
-                        if self.routeState.peek() == .userFeed {
-                            if self.workouts.count > 0 {
-                                List {
-                                    ForEach(self.feedWorkouts, id: \.id) { workout in
-                                        WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false, onDelete: { self.handleRemove(workout: workout) })
-                                            .background(Color.white)
-                                            .padding(.top)
-                                            .buttonStyle(PlainButtonStyle())
-                                            .animation(.none)
-                                            .onAppear {
-                                                self.handleWorkoutAppear(workout: workout)
-                                            }
-                                    }
-                                    .listRowInsets(EdgeInsets())
-                                    .background(self.workoutsPaginatedResponse == nil ? Color.white : feedColor)
-                                    .animation(.none)
-                                }
-                                .padding(.top, self.height)
-                            } else {
-                                VStack {
-                                    Spacer()
-                                    HStack {
-                                        Spacer()
-                                        Text("There's nothing in your feed!")
-                                        Spacer()
-                                    }
-                                    Spacer()
-                                }
-                                .padding(.top, self.height)
-                            }
-                        } else {
-                            AggregateMuscleMetricsView()
-                                .padding(.top, self.height)
-                        }
-                    }
-                }
-            }
-            .onAppear {
-                // onAppear also happens when user "returns" from NavigationLink
-                if self.feedDataRequest != nil {
-                    return
                 }
                 
-                self.feedDataRequest = self.workoutAPI.getUserWorkouts(page: 0, pageSize: 20) { (response) in
-                    self.feedDataRequest = nil
-                    self.workoutsPaginatedResponse = response
-                    self.workoutsPage = response.page!
-                    
-                    for w in response.results {
-                        self.userFeedState.workouts.update(with: w)
+                Spacer()
+            } else if self.workoutsPaginatedResponse != nil {
+                VStack(alignment: .center) {
+                    ZStack {
+                        HStack {
+                            Spacer()
+                            
+                            Button(action: { self.routeState.push(route: .userEdit) }) {
+                                Text(self.userState.userInfo.getUserName())
+                                    .font(.headline)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.primary)
+                            }
+                            
+                            Spacer()
+                        }
+                        
+                        HStack {
+                            Spacer()
+                            
+                            Button(action: { self.routeState.showHelp = true }) {
+                                Image(systemName: "questionmark.circle")
+                                    .padding(.trailing)
+                                    .foregroundColor(Color.secondary.opacity(0.2))
+                                    .font(.body)
+                            }
+                        }
                     }
+                }
+                
+                ZStack(alignment: .top) {
+                    Color.clear // make ZStack expand to fill the content
                     
-                    self.workouts.append(contentsOf: response.results)
+                    UserFeedViewHeader(
+                        height: self.height,
+                        scrollViewContentOffset: routeState.peek() == .userFeed ? self.scrollViewContentOffset : 0,
+                        user: self.userState.userInfo
+                    )
+                    .zIndex(2)
+                    .background(Color.white)
+                    
+                    if self.routeState.peek() == .userFeed {
+                        if self.workouts.count > 0 {
+                            List {
+                                ForEach(self.feedWorkouts, id: \.id) { workout in
+                                    WorkoutView(user: self.userState.userInfo, workout: workout, showUserInfo: false, onDelete: {
+                                        self.handleRemove(workout: workout)
+                                    })
+                                    .background(Color.white)
+                                    .padding(.top)
+                                    .buttonStyle(PlainButtonStyle())
+                                    .animation(.none)
+                                    .onAppear {
+                                        self.handleWorkoutAppear(workout: workout)
+                                    }
+                                }
+                                .listRowInsets(EdgeInsets())
+                                .background(self.workoutsPaginatedResponse == nil ? Color.white : feedColor)
+                                .animation(.none)
+                                .padding(0)
+                            }
+                            .padding(.top, self.height)
+                        } else {
+                            VStack {
+                                Spacer()
+                                HStack {
+                                    Spacer()
+                                    Text("There's nothing in your feed!")
+                                    Spacer()
+                                }
+                                Spacer()
+                            }
+                            .padding(.top, self.height)
+                        }
+                    } else {
+                        AggregateMuscleMetricsView()
+                            .padding(.top, self.height)
+                    }
                 }
             }
-            .navigationBarTitle("Feed", displayMode: .large)
-            .navigationBarHidden(true)
+        }
+        .onAppear {
+            // onAppear also happens when user "returns" from NavigationLink
+            if self.feedDataRequest != nil {
+                return
+            }
+            
+            self.feedDataRequest = self.workoutAPI.getUserWorkouts(page: 0, pageSize: 20) { (response) in
+                self.feedDataRequest = nil
+                self.workoutsPaginatedResponse = response
+                self.workoutsPage = response.page!
+                
+                for w in response.results {
+                    self.userFeedState.workouts.update(with: w)
+                }
+                
+                self.workouts.append(contentsOf: response.results)
+            }
         }
     }
 }
@@ -256,9 +257,9 @@ struct UserFeedViewHeader: View {
     
     func calculateButtonBarPositionFrom(size: CGSize) -> CGFloat {
         if routeState.peek() == .userFeed {
-            return 0
+            return size.width * (0.25)
         } else {
-            return size.width / 2
+            return size.width * (0.75)
         }
     }
     
@@ -682,16 +683,16 @@ struct AggregateMuscleMetricsView: View {
                         activatedSynergistMuscles: self.synergistMuscles,
                         activatedDynamicArticulationMuscles: self.dynamicArticulationMuscles
                     )
-                        .padding(.leading, 4)
-                        .padding(.trailing, 2)
+                    .padding(.leading, 4)
+                    .padding(.trailing, 2)
                     
                     PosteriorView(
                         activatedTargetMuscles: self.targetMuscles,
                         activatedSynergistMuscles: self.synergistMuscles,
                         activatedDynamicArticulationMuscles: self.dynamicArticulationMuscles
                     )
-                        .padding(.leading, 2)
-                        .padding(.trailing, 4)
+                    .padding(.leading, 2)
+                    .padding(.trailing, 4)
                 }
                 .frame(width: geometry.size.width, height: self.calculateHeight(geometry.size))
                 

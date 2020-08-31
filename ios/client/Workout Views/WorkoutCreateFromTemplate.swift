@@ -60,9 +60,7 @@ struct WorkoutCreateFromTemplate: View {
             secondsElapsed: self.stopwatch.counter
         )
         
-        print("here:presave")
         self.workoutTemplateAPI.create(workoutTemplate: workoutFromTemplate).then { _ in
-            print("here:postsave")
             self.routerState.replaceCurrent(with: .userFeed)
         }
     }

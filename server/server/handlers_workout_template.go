@@ -58,6 +58,7 @@ func handleGetAllUserWorkoutTemplates(c echo.Context) error {
 		Preload("ExerciseTemplates").
 		Preload("ExerciseTemplates.Data").
 		Preload("ExerciseTemplates.ExerciseDictionaries").
+		Where("is_not_template = ?", false).
 		Where("user_id = ?", userID).
 		Order("created_at desc")
 
